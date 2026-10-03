@@ -1,0 +1,555 @@
+{
+  "engine": {
+    "name": "ManimGL (original 3b1b/manim)",
+    "version": "1.7.2",
+    "commit": "fafa083a4fb274bba9cabde0b6e2f50ba6da0622",
+    "repository": "https://github.com/3b1b/manim",
+    "renderer": "wgpu / Metal on Apple M3",
+    "license": "MIT"
+  },
+  "originalScenes": true,
+  "audio": false,
+  "codec": "H.264 / yuv420p",
+  "scenes": [
+    {
+      "id": "jointProbability",
+      "class": "JointProbability",
+      "src": "jointProbability.mp4",
+      "poster": "jointProbability.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 86061,
+      "sha256": "5ec460aa7b5f685b72fc164b90801ae0a18a1d21eea3bc8351945ba8063a7a06",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Probabilidad conjunta",
+          "claim": "Las cuatro barras codifican P(Aᵢ,Bⱼ): 0.1, 0.4, 0.2 y 0.3.",
+          "formula": "P(A,B)=\\begin{pmatrix}0.1&0.4\\\\0.2&0.3\\end{pmatrix}"
+        },
+        {
+          "at": 3,
+          "title": "Sumar para marginalizar",
+          "claim": "Las filas suman 0.5 y 0.5; las columnas suman 0.3 y 0.7.",
+          "formula": "P(A_i)=\\sum_jP(A_i,B_j),\\quad P(B_j)=\\sum_iP(A_i,B_j)"
+        },
+        {
+          "at": 6,
+          "title": "Restringir al dato",
+          "claim": "Condicionar en B₁ conserva únicamente la segunda columna.",
+          "formula": "P(B_1)=0.7"
+        },
+        {
+          "at": 8,
+          "title": "Renormalizar la columna",
+          "claim": "Dividimos las masas 0.4 y 0.3 por 0.7: la distribución condicional suma uno.",
+          "formula": "P(A|B_1)=(4/7,3/7)"
+        }
+      ]
+    },
+    {
+      "id": "setsCartesian",
+      "class": "SetsCartesian",
+      "src": "setsCartesian.mp4",
+      "poster": "setsCartesian.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 82412,
+      "sha256": "2264a651c2624a60744e0e33a43e9ddeaf241143ac11c08a964e5f578e46d0c7",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Dos conjuntos",
+          "claim": "A contiene tres elementos; B contiene dos.",
+          "formula": "A=\\{1,2,3\\},\\;B=\\{a,b\\}"
+        },
+        {
+          "at": 3,
+          "title": "Todas las combinaciones",
+          "claim": "Cada elemento de A se combina con cada elemento de B.",
+          "formula": "A\\times B=\\{(x,y):x\\in A,\\;y\\in B\\}"
+        },
+        {
+          "at": 7,
+          "title": "Pares ordenados",
+          "claim": "La posición dentro del par importa. Hay seis pares posibles.",
+          "formula": "|A\\times B|=|A|\\,|B|=3\\cdot2=6"
+        }
+      ]
+    },
+    {
+      "id": "functionComposition",
+      "class": "FunctionComposition",
+      "src": "functionComposition.mp4",
+      "poster": "functionComposition.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 79962,
+      "sha256": "34d267e8d78ce3da6c4d70ce6d287a603c8cc71e96097f125c6b0a6992c4c298",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Entrada y reglas",
+          "claim": "La primera regla suma uno. La segunda eleva al cuadrado.",
+          "formula": "f(x)=x+1,\\quad g(y)=y^2"
+        },
+        {
+          "at": 3,
+          "title": "Primera transformación",
+          "claim": "La salida de f pasa a ser la entrada de g.",
+          "formula": "-1\\mapsto0,\\quad1\\mapsto2,\\quad2\\mapsto3"
+        },
+        {
+          "at": 6,
+          "title": "Segunda transformación",
+          "claim": "La composición aplica las reglas en este orden.",
+          "formula": "(g\\circ f)(x)=g(f(x))=(x+1)^2"
+        },
+        {
+          "at": 9,
+          "title": "Resultado compuesto",
+          "claim": "Las mismas entradas producen 0, 4 y 9.",
+          "formula": "(g\\circ f)(-1)=0,\\;(g\\circ f)(1)=4,\\;(g\\circ f)(2)=9"
+        }
+      ]
+    },
+    {
+      "id": "derivativeSecantToTangent",
+      "class": "DerivativeSecantToTangent",
+      "src": "derivativeSecantToTangent.mp4",
+      "poster": "derivativeSecantToTangent.jpg",
+      "duration": 13.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 95213,
+      "sha256": "d600882931f33e1cf43af128d133031195e3568675d08b6a84429fd4aa354e1a",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Una curva",
+          "claim": "La altura es f(x)=x²/2. Fijamos el punto x=1.",
+          "formula": "f(x)=x^2/2"
+        },
+        {
+          "at": 2,
+          "title": "Una secante",
+          "claim": "El cociente entre el cambio vertical y el horizontal es la pendiente de la secante.",
+          "formula": "m_h=\\frac{f(1+h)-f(1)}{h}=1+\\frac h2"
+        },
+        {
+          "at": 3,
+          "title": "Reducir la distancia",
+          "claim": "El segundo punto se acerca al primero mientras h permanece positivo.",
+          "formula": "h>0,\\quad h\\to0"
+        },
+        {
+          "at": 7,
+          "title": "La pendiente local",
+          "claim": "La secante converge a la tangente; la derivada en x=1 vale 1.",
+          "formula": "f′(1)=\\lim_{h\\to0}m_h=1"
+        }
+      ]
+    },
+    {
+      "id": "riemannIntegral",
+      "class": "RiemannIntegral",
+      "src": "riemannIntegral.mp4",
+      "poster": "riemannIntegral.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 188548,
+      "sha256": "b581853734ac1d15ccdcc5f486dbc4ec5f919b1567fe96f55aaea6f862bc2c61",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Área bajo la curva",
+          "claim": "Una función continua asigna una altura a cada punto del intervalo.",
+          "formula": "f(x)=1+0.45\\sin(1.6x),\\quad0\\le x\\le4"
+        },
+        {
+          "at": 3,
+          "title": "Rectángulos",
+          "claim": "Cada rectángulo usa la altura del punto medio y el ancho Δx.",
+          "formula": "S_n=\\sum_{i=0}^{n-1} f((i+1/2)\\Delta x)\\Delta x"
+        },
+        {
+          "at": 4,
+          "title": "Refinar la partición",
+          "claim": "Pasamos de 4 a 8, 16 y 32 rectángulos; cada ancho se reduce.",
+          "formula": "\\Delta x=4/n"
+        },
+        {
+          "at": 10,
+          "title": "El límite es la integral",
+          "claim": "Al llevar el ancho a cero, la suma converge al área.",
+          "formula": "\\lim_{n\\to\\infty}S_n=\\int_0^4 f(x)\\,dx"
+        }
+      ]
+    },
+    {
+      "id": "matrixBasisTransform",
+      "class": "MatrixBasisTransform",
+      "src": "matrixBasisTransform.mp4",
+      "poster": "matrixBasisTransform.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 145524,
+      "sha256": "2d33825bbbc73ea13e27114ad5def4c69b8e5e142a4ab9f16bad946acd12f358",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Vectores base",
+          "claim": "Cian y violeta representan e₁ y e₂; ámbar representa su suma.",
+          "formula": "v=e_1+e_2"
+        },
+        {
+          "at": 3,
+          "title": "Transformar el espacio",
+          "claim": "La matriz mantiene e₁ y envía e₂ a e₁+e₂. Toda la cuadrícula sigue la misma regla.",
+          "formula": "A=\\begin{pmatrix}1&1\\\\0&1\\end{pmatrix}"
+        },
+        {
+          "at": 8,
+          "title": "Linealidad visible",
+          "claim": "Transformar una suma da la suma de los vectores transformados.",
+          "formula": "A(e_1+e_2)=Ae_1+Ae_2"
+        }
+      ]
+    },
+    {
+      "id": "bayesianMassNormalization",
+      "class": "BayesianMassNormalization",
+      "src": "bayesianMassNormalization.mp4",
+      "poster": "bayesianMassNormalization.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 82915,
+      "sha256": "fc43c038280bcc81351e291ab6bfb22d2bfc61cf3ac4c14358a8c35f2b51ec47",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Distribución previa",
+          "claim": "Las alturas representan probabilidades 0.5, 0.3 y 0.2.",
+          "formula": "P(H)=(0.5,0.3,0.2)"
+        },
+        {
+          "at": 3,
+          "title": "Compatibilidad con el dato",
+          "claim": "Cada hipótesis se pondera por su verosimilitud: 0.2, 0.8 y 0.5.",
+          "formula": "P(D|H)=(0.2,0.8,0.5)"
+        },
+        {
+          "at": 6,
+          "title": "Masa sin normalizar",
+          "claim": "Multiplicar deja masas 0.10, 0.24 y 0.10.",
+          "formula": "P(D|H)P(H)=(0.10,0.24,0.10)"
+        },
+        {
+          "at": 9,
+          "title": "Normalizar",
+          "claim": "Dividimos por 0.44. Las probabilidades posteriores vuelven a sumar uno.",
+          "formula": "P(H|D)=(5/22,6/11,5/22)"
+        }
+      ]
+    },
+    {
+      "id": "gaussianPrecision",
+      "class": "GaussianPrecision",
+      "src": "gaussianPrecision.mp4",
+      "poster": "gaussianPrecision.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 78644,
+      "sha256": "721f2682482c5432983e5c99a7ffddffaa90aec99c89a87451b0ff534380d4b2",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Precisión e incertidumbre",
+          "claim": "Una distribución normal describe la incertidumbre alrededor de μ=0.",
+          "formula": "p(x)=\\mathcal N(x;0,\\sigma^2)"
+        },
+        {
+          "at": 4,
+          "title": "Aumentar la precisión",
+          "claim": "σ pasa de 1.35 a 0.48. La masa se concentra sin cambiar su total.",
+          "formula": "\\Pi=\\sigma^{-2}"
+        },
+        {
+          "at": 9,
+          "title": "La altura no es probabilidad",
+          "claim": "La curva es una densidad: la probabilidad corresponde a un área.",
+          "formula": "\\int_{-\\infty}^{\\infty}p(x)\\,dx=1"
+        }
+      ]
+    },
+    {
+      "id": "gradientDescentContours",
+      "class": "GradientDescentContours",
+      "src": "gradientDescentContours.mp4",
+      "poster": "gradientDescentContours.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 70271,
+      "sha256": "7e805b4b489367e0a840aff28c4b5ea4ba23b5521fc4f75fccf8e11007b321d9",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Curvas de nivel",
+          "claim": "Cada elipse reúne puntos con la misma energía.",
+          "formula": "E(x,y)=\\tfrac12(x^2+3y^2)"
+        },
+        {
+          "at": 3,
+          "title": "Paso opuesto al gradiente",
+          "claim": "El gradiente apunta al aumento; restarlo lleva a menor energía.",
+          "formula": "\\nabla E=(x,3y)"
+        },
+        {
+          "at": 7,
+          "title": "Iterar la actualización",
+          "claim": "Con η=0.18, ambas coordenadas convergen al mínimo.",
+          "formula": "x_{k+1}=0.82x_k,\\quad y_{k+1}=0.46y_k"
+        },
+        {
+          "at": 10,
+          "title": "Un mínimo estable",
+          "claim": "El objetivo es la energía, no la distancia recorrida.",
+          "formula": "(x_k,y_k)\\to(0,0),\\quad E_k\\to0"
+        }
+      ]
+    },
+    {
+      "id": "entropyInformation",
+      "class": "EntropyInformation",
+      "src": "entropyInformation.mp4",
+      "poster": "entropyInformation.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 68167,
+      "sha256": "efb943acd10f88a24380165efabe45550132e8836d9a03da9126e5339a5b52b1",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Una alternativa domina",
+          "claim": "La distribución (0.8,0.15,0.05) concentra la masa en A.",
+          "formula": "H(p)=-\\sum_i p_i\\log_2p_i"
+        },
+        {
+          "at": 3,
+          "title": "Redistribuir la masa",
+          "claim": "Aumentamos la incertidumbre llevando las tres alternativas a igual probabilidad.",
+          "formula": "p\\to(1/3,1/3,1/3)"
+        },
+        {
+          "at": 7,
+          "title": "Información y entropía",
+          "claim": "Cada resultado uniforme aporta log₂3 bits; su promedio es la entropía.",
+          "formula": "I(i)=-\\log_2p_i,\\quad H=\\log_2 3\\approx1.585"
+        }
+      ]
+    },
+    {
+      "id": "dynamicalAttractor",
+      "class": "DynamicalAttractor",
+      "src": "dynamicalAttractor.mp4",
+      "poster": "dynamicalAttractor.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 94914,
+      "sha256": "de31a21aa1f6a7bf2a63a2f787ae49a34720b79ff57cf7967e932816eddda993",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Un campo dinámico",
+          "claim": "Las flechas muestran la velocidad local de un sistema lineal.",
+          "formula": "\\dot z=(-0.32+1.15i)z"
+        },
+        {
+          "at": 2,
+          "title": "Trayectorias",
+          "claim": "Tres condiciones iniciales recorren espirales distintas bajo la misma regla.",
+          "formula": "z(t)=z(0)e^{(-0.32+1.15i)t}"
+        },
+        {
+          "at": 9,
+          "title": "Un atractor estable",
+          "claim": "La parte real negativa hace que el radio disminuya exponencialmente.",
+          "formula": "|z(t)|=|z(0)|e^{-0.32t}\\to0"
+        }
+      ]
+    },
+    {
+      "id": "variationalPosterior",
+      "class": "VariationalPosterior",
+      "src": "variationalPosterior.mp4",
+      "poster": "variationalPosterior.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 87339,
+      "sha256": "57806d827779e628a36ebe7e2de17a96d5676d14cdcee566d8422abdaecec5f1",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Una posterior objetivo",
+          "claim": "Ámbar representa una posterior gaussiana de media 1.1 y desviación 0.7.",
+          "formula": "p(s|o)=\\mathcal N(s;1.1,0.7^2)"
+        },
+        {
+          "at": 3,
+          "title": "Una aproximación ajustable",
+          "claim": "Cian empieza con otra media y otra dispersión.",
+          "formula": "q(s)=\\mathcal N(s;\\mu,\\sigma^2)"
+        },
+        {
+          "at": 6,
+          "title": "Reducir la divergencia",
+          "claim": "Este caso permite a q coincidir exactamente con la posterior.",
+          "formula": "D_{KL}(q\\|p)=\\int q(s)\\log\\frac{q(s)}{p(s|o)}\\,ds"
+        },
+        {
+          "at": 10,
+          "title": "Límite de la familia",
+          "claim": "Aquí la familia gaussiana contiene la solución; en otros modelos queda una brecha.",
+          "formula": "q=p\\implies D_{KL}(q\\|p)=0"
+        }
+      ]
+    },
+    {
+      "id": "markovMessages",
+      "class": "MarkovMessages",
+      "src": "markovMessages.mp4",
+      "poster": "markovMessages.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 81242,
+      "sha256": "548028b8bb49c763322a965040deed7bc3536345cd94e1531f57603bf26d363b",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Estado oculto",
+          "claim": "La creencia previa sobre dos estados es (0.8,0.2).",
+          "formula": "b_{t-1}=(0.8,0.2)"
+        },
+        {
+          "at": 3,
+          "title": "Mensaje predictivo",
+          "claim": "Una transición simétrica con persistencia 0.85 produce (0.71,0.29).",
+          "formula": "\\bar b_t(s)=\\sum_{s′}T(s|s′)b_{t-1}(s′)"
+        },
+        {
+          "at": 6,
+          "title": "Mensaje del dato",
+          "claim": "La verosimilitud (0.2,0.8) favorece el segundo estado.",
+          "formula": "b_t(s)\\propto P(o_t|s)\\bar b_t(s)"
+        },
+        {
+          "at": 9,
+          "title": "Creencia filtrada",
+          "claim": "La normalización produce aproximadamente (0.380,0.620).",
+          "formula": "b_t=(0.142,0.232)/0.374"
+        }
+      ]
+    },
+    {
+      "id": "policyInformation",
+      "class": "PolicyInformation",
+      "src": "policyInformation.mp4",
+      "poster": "policyInformation.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 86793,
+      "sha256": "4f3da5d0b6520ce582fc7346a8e25b009584021855f9dc12b2a7802590068a5e",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Dos políticas",
+          "claim": "Una opción ofrece recompensa inmediata; la otra obtiene una observación.",
+          "formula": "V(\\pi)=R(\\pi)+\\lambda\\,IG(\\pi)"
+        },
+        {
+          "at": 4,
+          "title": "Actuar para conocer",
+          "claim": "La rama cian muestra un resultado informativo de una política de observación.",
+          "formula": "P(H)=(0.5,0.5)"
+        },
+        {
+          "at": 7,
+          "title": "La posterior se concentra",
+          "claim": "Para este resultado, la creencia cambia a (0.92,0.08) y disminuye la entropía.",
+          "formula": "\\Delta H=H(P(H))-H(P(H|o))>0"
+        },
+        {
+          "at": 10,
+          "title": "Valor epistémico",
+          "claim": "El valor esperado requiere promediar sobre todos los posibles resultados; aquí vemos uno.",
+          "formula": "IG(\\pi)=\\mathbb E_{o|\\pi}[D_{KL}(P(H|o,\\pi)\\|P(H))]"
+        }
+      ]
+    },
+    {
+      "id": "perceptionAction",
+      "class": "PerceptionAction",
+      "src": "perceptionAction.mp4",
+      "poster": "perceptionAction.jpg",
+      "duration": 12.0,
+      "width": 1280,
+      "height": 720,
+      "fps": 30,
+      "bytes": 44205,
+      "sha256": "c01d69ad338c27cfdbef609e39e0ffba81d95e9bc8230f06f8da73c29a4d8999",
+      "stages": [
+        {
+          "at": 0,
+          "title": "Predicción y objetivo",
+          "claim": "La creencia previa tiene media 1.0; la marca ámbar fija el objetivo en 3.0.",
+          "formula": "\\mu_0=1,\\quad\\mu^*=3"
+        },
+        {
+          "at": 2,
+          "title": "Un dato con precisión",
+          "claim": "La observación vale 2.5 y tiene cuatro veces la precisión previa.",
+          "formula": "o=2.5,\\quad\\Pi_0=1,\\quad\\Pi_o=4"
+        },
+        {
+          "at": 4,
+          "title": "Actualizar la percepción",
+          "claim": "La media posterior pondera predicción y observación según sus precisiones.",
+          "formula": "\\mu′=(1+4\\cdot2.5)/5=2.2"
+        },
+        {
+          "at": 7,
+          "title": "Cambiar el entorno",
+          "claim": "Un controlador proporcional actúa sobre el error: a=0.48; el estado pasa de 2.5 a 2.98.",
+          "formula": "a=0.6(3-2.2)=0.48"
+        }
+      ]
+    }
+  ]
+}

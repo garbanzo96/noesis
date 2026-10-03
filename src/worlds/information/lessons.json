@@ -1,0 +1,442 @@
+[
+  {
+    "id": "information-1",
+    "world": "information",
+    "title": "Sorpresa y entropía",
+    "subtitle": "G07 · Información por evento y promedio",
+    "minutes": 7,
+    "visual": "entropy",
+    "intuition": "La sorpresa mide cuánto contradice un evento una predicción; la entropía promedia esa sorpresa antes de observar.",
+    "core": [
+      {
+        "label": "Sorpresa",
+        "body": "Usamos logaritmos naturales: la unidad es nat.",
+        "formula": "I(x)=-\\ln p(x)"
+      },
+      {
+        "label": "Entropía discreta",
+        "body": "Promedio de sorpresa, con convención 0 ln 0=0.",
+        "formula": "H(X)=-\\sum_xp(x)\\ln p(x)"
+      },
+      {
+        "label": "Extremos",
+        "body": "Una distribución categórica uniforme maximiza entropía para soporte finito fijo.",
+        "formula": "0\\le H(X)\\le\\ln n"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p=(1/2,1/2)",
+        "reason": "Dos alternativas equiprobables."
+      },
+      {
+        "formula": "I(1)=I(2)=\\ln2",
+        "reason": "Cada evento tiene la misma sorpresa."
+      },
+      {
+        "formula": "H=\\ln2",
+        "reason": "El promedio conserva ese valor."
+      }
+    ],
+    "example": {
+      "problem": "Una moneda segura y una moneda uniforme: ¿cuál tiene más entropía?",
+      "solution": "La segura tiene 0; la uniforme ln2 nats."
+    },
+    "pitfall": "Mayor entropía predictiva no significa mayor información obtenida: puede ser puro ruido del sensor.",
+    "bridge": "La acción epistémica compara incertidumbre antes y después de observar, restando la ambigüedad.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Evento de probabilidad 1: sorpresa en nats.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "−ln1=0: ocurre lo que era seguro.",
+        "hint": "El logaritmo de uno es cero."
+      },
+      {
+        "type": "choice",
+        "prompt": "Distribución categórica de 4 estados con máxima entropía…",
+        "options": [
+          "(1,0,0,0)",
+          "(0.5,0.5,0,0)",
+          "(0.25,0.25,0.25,0.25)",
+          "Cualquiera con suma uno"
+        ],
+        "answer": 2,
+        "explanation": "La masa uniforme sobre el soporte finito maximiza el promedio de sorpresa.",
+        "hint": "No favorezcas ninguna categoría."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Probabilidad e⁻³: sorpresa.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "−ln(e⁻³)=3 nats.",
+        "hint": "Logaritmo y exponencial se cancelan."
+      },
+      {
+        "type": "choice",
+        "prompt": "Un sensor produce ruido independiente del estado. Su alta entropía…",
+        "options": [
+          "Garantiza aprendizaje",
+          "Implica mayor precisión",
+          "Elimina ambigüedad",
+          "Puede aportar cero información sobre el estado"
+        ],
+        "answer": 3,
+        "explanation": "Variabilidad sin relación con la causa no permite actualizarla.",
+        "hint": "Pregunta si el resultado discrimina estados."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "information-2",
+    "world": "information",
+    "title": "Entropía cruzada y KL",
+    "subtitle": "G07 · Ajuste, soportes y dirección",
+    "minutes": 7,
+    "visual": "entropy",
+    "intuition": "KL mide exceso de sorpresa al usar una distribución de referencia en lugar de la distribución que genera el promedio.",
+    "core": [
+      {
+        "label": "Cruzada",
+        "body": "Promediar sorpresa de p bajo q.",
+        "formula": "H(q,p)=-\\sum_xq(x)\\ln p(x)"
+      },
+      {
+        "label": "KL",
+        "body": "Restar incertidumbre propia de q.",
+        "formula": "D_{KL}(q\\|p)=H(q,p)-H(q)"
+      },
+      {
+        "label": "Soporte",
+        "body": "Si q>0 donde p=0, KL es infinito; no es una distancia simétrica.",
+        "formula": "D_{KL}(q\\|p)=\\sum_xq(x)\\ln\\frac{q(x)}{p(x)}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "H(q,p)=-\\sum_xq(x)\\ln p(x)",
+        "reason": "Costo usando p."
+      },
+      {
+        "formula": "H(q)=-\\sum_xq(x)\\ln q(x)",
+        "reason": "Costo usando q."
+      },
+      {
+        "formula": "H(q,p)-H(q)=\\sum_xq(x)\\ln\\frac{q(x)}{p(x)}",
+        "reason": "Restar término a término."
+      }
+    ],
+    "example": {
+      "problem": "q concentra toda su masa en el primer estado; p=(0.5,0.5). KL.",
+      "solution": "$D_{KL}(q\\|p)=\\ln2$ nats."
+    },
+    "pitfall": "Invertir q y p cambia promedio y soporte; puede cambiar de finito a infinito.",
+    "bridge": "F contiene KL entre creencia y posterior; G puede contener KL entre resultados previstos y preferencias.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "KL(p||p) para cualquier distribución válida.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "Cada razón p/p es uno en su soporte y su log es cero.",
+        "hint": "Compara la distribución consigo misma."
+      },
+      {
+        "type": "choice",
+        "prompt": "Si un estado discreto tiene q(x)>0 y p(x)=0, KL(q||p) es…",
+        "options": ["Negativo", "Infinito", "Cero", "Uno"],
+        "answer": 1,
+        "explanation": "El modelo de referencia atribuye imposibilidad a un resultado con masa bajo q.",
+        "hint": "El logaritmo de q/0 diverge."
+      },
+      {
+        "type": "choice",
+        "prompt": "KL(q||p) es en general…",
+        "options": ["Simétrica", "Una norma euclídea", "No simétrica", "Siempre igual a entropía"],
+        "answer": 2,
+        "explanation": "La distribución del promedio y el denominador intercambian funciones al invertir los argumentos.",
+        "hint": "La dirección importa."
+      },
+      {
+        "type": "numeric",
+        "prompt": "q=(1,0), p=(e⁻²,1−e⁻²): KL.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "Solo contribuye el primer estado y ln(1/e⁻²)=2.",
+        "hint": "La masa cero no aporta término."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "information-3",
+    "world": "information",
+    "title": "Información mutua",
+    "subtitle": "G07 · Dependencia, reducción de entropía y sensores",
+    "minutes": 9,
+    "visual": "entropy",
+    "intuition": "Información mutua cuantifica cuánto una observación reduce, en promedio, incertidumbre sobre otra variable.",
+    "core": [
+      {
+        "label": "Dependencia",
+        "body": "Comparar la conjunta con el producto de marginales.",
+        "formula": "I(S;O)=D_{KL}(p(s,o)\\|p(s)p(o))"
+      },
+      {
+        "label": "Reducción",
+        "body": "La reducción media de entropía define el valor informativo.",
+        "formula": "I(S;O)=H(S)-H(S\\mid O)"
+      },
+      {
+        "label": "Simetría",
+        "body": "También es entropía observacional menos ruido condicionado al estado.",
+        "formula": "I(S;O)=H(O)-H(O\\mid S)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "H(O\\mid S)=\\sum_sp(s)H[p(o\\mid s)]",
+        "reason": "Promediar ambigüedad por estado."
+      },
+      {
+        "formula": "H(O)-H(O\\mid S)=I(S;O)",
+        "reason": "Separar variación informativa de ruido."
+      },
+      {
+        "formula": "O\\perp S\\Rightarrow I(S;O)=0",
+        "reason": "La independencia iguala conjunta y producto."
+      }
+    ],
+    "example": {
+      "problem": "Estado binario uniforme y sensor determinista que lo copia. Información mutua.",
+      "solution": "$H(S)=\\ln2$, $H(S|O)=0$, así que I=ln2."
+    },
+    "pitfall": "I(S;O) es información mutua; la I que condiciona P(A|I) en tus apuntes representa información previa.",
+    "bridge": "La saliencia epistémica de una política es información esperada sobre estados; novedad se refiere a parámetros.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "H(S)=2 nats y H(S|O)=0.5: información mutua.",
+        "answer": 1.5,
+        "tolerance": 0.001,
+        "explanation": "Restar incertidumbre posterior media de la incertidumbre inicial da 1.5 nats.",
+        "hint": "Usa reducción de entropía."
+      },
+      {
+        "type": "choice",
+        "prompt": "Un sensor discreto determinista e invertible tiene…",
+        "options": ["H(O|S)=0", "I(S;O)=0 siempre", "Entropía infinita siempre", "Ruido máximo"],
+        "answer": 0,
+        "explanation": "Conocer el estado determina exactamente la observación y elimina su entropía condicional.",
+        "hint": "Determinista significa una salida por estado."
+      },
+      {
+        "type": "numeric",
+        "prompt": "H(O)=1, H(O|S)=1: información mutua.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "Todo el desorden observacional se explica por ambigüedad; no queda reducción de incertidumbre de estados.",
+        "hint": "Resta ruido a variación."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué observa una política informativa?",
+        "options": [
+          "Cualquier salida impredecible",
+          "Solo salidas preferidas",
+          "Resultados que discriminan hipótesis latentes",
+          "Siempre el estado más probable"
+        ],
+        "answer": 2,
+        "explanation": "El valor informativo depende de cómo cambian las creencias tras cada resultado posible.",
+        "hint": "Compara posterior y prior predictivo."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "information-4",
+    "world": "information",
+    "title": "Jensen y Gibbs",
+    "subtitle": "G07 · Por qué KL nunca es negativa",
+    "minutes": 7,
+    "visual": "entropy",
+    "intuition": "La concavidad del logaritmo hace que promediar antes de tomar log pueda aumentar el resultado; de ahí surge la cota variacional.",
+    "core": [
+      {
+        "label": "Jensen",
+        "body": "Log de la esperanza domina esperanza de log para variable positiva integrable.",
+        "formula": "\\mathbb E[\\ln Z]\\le\\ln\\mathbb E[Z]"
+      },
+      {
+        "label": "Gibbs",
+        "body": "Con soporte compatible, el exceso de sorpresa no puede ser negativo.",
+        "formula": "D_{KL}(q\\|p)\\ge0"
+      },
+      {
+        "label": "Igualdad",
+        "body": "La divergencia se anula solo cuando las distribuciones coinciden casi en todas partes.",
+        "formula": "D_{KL}(q\\|p)=0\\iff q=p"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "D_{KL}(q\\|p)=-\\mathbb E_q\\ln(p/q)",
+        "reason": "Reescribir la razón."
+      },
+      {
+        "formula": "-\\mathbb E_q\\ln(p/q)\\ge-\\ln\\mathbb E_q[p/q]",
+        "reason": "Aplicar Jensen."
+      },
+      {
+        "formula": "\\mathbb E_q[p/q]\\le1\\Rightarrow D_{KL}\\ge0",
+        "reason": "La masa de p sobre el soporte de q no supera uno."
+      }
+    ],
+    "example": {
+      "problem": "Z vale 1 y 9 equiprobablemente. Compara E[lnZ] con lnE[Z].",
+      "solution": "$E[\\ln Z]=\\ln3$ y $\\ln E[Z]=\\ln5$; la segunda cantidad es mayor."
+    },
+    "pitfall": "Intercambiar log y esperanza no es una identidad; su desigualdad determina el sentido de la cota.",
+    "bridge": "Jensen convierte evidencia intractable en ELBO optimizable, manteniendo clara la diferencia entre igualdad y cota.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Para Z>0, Jensen da…",
+        "options": ["E lnZ ≥ lnEZ", "E lnZ ≤ lnEZ", "Siempre igualdad", "Ambas son cero"],
+        "answer": 1,
+        "explanation": "La concavidad del log produce la desigualdad en esa dirección.",
+        "hint": "Visualiza la curva sobre sus cuerdas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Mínimo posible de KL entre distribuciones.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "La desigualdad de Gibbs impide valores negativos y la coincidencia logra cero.",
+        "hint": "Compara p consigo misma."
+      },
+      {
+        "type": "choice",
+        "prompt": "ELBO puede ser mayor que log evidencia?",
+        "options": [
+          "Sí, por definición",
+          "Solo si q es gaussiana",
+          "No bajo el modelo y soporte válidos",
+          "Siempre"
+        ],
+        "answer": 2,
+        "explanation": "La cota inferior proviene de una KL no negativa: log evidencia−ELBO=KL.",
+        "hint": "Una cota inferior no supera lo acotado."
+      },
+      {
+        "type": "choice",
+        "prompt": "Igualdad en F≥−ln p(o) ocurre cuando…",
+        "options": [
+          "q coincide con el posterior exacto",
+          "q es uniforme siempre",
+          "El prior es cero",
+          "El sensor es ruidoso"
+        ],
+        "answer": 0,
+        "explanation": "La brecha es KL(q||posterior), que solo se anula por coincidencia casi en todas partes.",
+        "hint": "Identifica la brecha."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "information-5",
+    "world": "information",
+    "title": "Máxima entropía",
+    "subtitle": "G07 · Cápsula avanzada · inferir con restricciones",
+    "minutes": 7,
+    "visual": "maxent",
+    "intuition": "MaxEnt elige la distribución menos comprometida compatible con la información declarada; las restricciones construyen una familia exponencial.",
+    "core": [
+      {
+        "label": "Problema",
+        "body": "Maximizar entropía discreta sobre un soporte finito fijado.",
+        "formula": "\\max_p-\\sum_ip_i\\ln p_i,\\quad\\sum_ip_i=1"
+      },
+      {
+        "label": "Restricción",
+        "body": "Un promedio conocido añade un multiplicador de Lagrange.",
+        "formula": "\\sum_ip_iE_i=\\bar E"
+      },
+      {
+        "label": "Solución",
+        "body": "Cuando existe solución interior, normalizar pesos exponenciales.",
+        "formula": "p_i=\\frac{e^{-\\beta E_i}}Z,\\quad Z=\\sum_je^{-\\beta E_j}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\mathcal J=-\\sum_ip_i\\ln p_i-\\alpha(\\sum_ip_i-1)-\\beta(\\sum_ip_iE_i-\\bar E)",
+        "reason": "Imponer restricciones."
+      },
+      {
+        "formula": "\\partial_{p_i}\\mathcal J=-(\\ln p_i+1)-\\alpha-\\beta E_i=0",
+        "reason": "Calcular estacionariedad interior."
+      },
+      {
+        "formula": "p_i=e^{-1-\\alpha}e^{-\\beta E_i}=e^{-\\beta E_i}/Z",
+        "reason": "Fijar la constante con normalización."
+      }
+    ],
+    "example": {
+      "problem": "Solo sabes que hay cuatro estados posibles, sin preferencias ni otras restricciones.",
+      "solution": "MaxEnt produce (0.25,0.25,0.25,0.25), entropía ln4."
+    },
+    "pitfall": "En continuo, maximizar entropía diferencial depende de coordenadas; entropía relativa a una medida de referencia explicita esa elección.",
+    "bridge": "Tus apuntes culminan en MaxEnt; la forma exponencial prepara preferencias, softmax y modelos estadísticos.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "MaxEnt con 5 estados y solo normalización: probabilidad de cada uno.",
+        "answer": 0.2,
+        "tolerance": 0.001,
+        "explanation": "La simetría del problema da masa igual 1/5.",
+        "hint": "No se ha declarado otra información."
+      },
+      {
+        "type": "choice",
+        "prompt": "El multiplicador β se determina por…",
+        "options": [
+          "El nombre del mundo",
+          "El máximo de likelihood siempre",
+          "La restricción de promedio",
+          "El color de los datos"
+        ],
+        "answer": 2,
+        "explanation": "Se ajusta para que la distribución exponencial satisfaga el valor esperado prescrito.",
+        "hint": "Una restricción, un multiplicador."
+      },
+      {
+        "type": "numeric",
+        "prompt": "E=(0,1), β=ln3: probabilidad del primer estado.",
+        "answer": 0.75,
+        "tolerance": 0.001,
+        "explanation": "Los pesos son 1 y 1/3; normalizar produce 3/4.",
+        "hint": "Exponentia −βE."
+      },
+      {
+        "type": "choice",
+        "prompt": "MaxEnt permite ignorar restricciones conocidas?",
+        "options": [
+          "Sí para simplificar",
+          "No: la solución debe satisfacerlas",
+          "Solo si hay dos estados",
+          "Siempre produce uniforme"
+        ],
+        "answer": 1,
+        "explanation": "La máxima entropía se busca dentro del conjunto factible; uniformidad solo procede si cumple las restricciones.",
+        "hint": "Lo conocido define el dominio de optimización."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  }
+]

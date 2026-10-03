@@ -1,0 +1,1570 @@
+{
+  "foundations": {
+    "scenario": "Preparas un registro reproducible de señales: cada medición pasa por una calibración y luego entra en un modelo de dos causas posibles.",
+    "objective": "Traducir una regla verbal en una función con dominio, operar índices y normalizar pesos sin perder su significado.",
+    "briefing": "Antes de inferir una causa, hay que declarar qué representa cada objeto. Una letra puede nombrar una medición; un índice elige cuál; una función transforma la medición. Construiremos un circuito de cálculo y seguiremos una entrada hasta su salida.",
+    "teachingStages": [
+      {
+        "id": "foundations-stage-1",
+        "title": "Nombrar antes de operar",
+        "claim": "Un conjunto declara valores permitidos; una variable representa uno de ellos.",
+        "formula": "x\\in X,\\quad X=[0,1]",
+        "explanation": "La ficha x representa una lectura normalizada del sensor. La banda X admite valores entre 0 y 1, incluidos ambos extremos. El signo ∈ significa «pertenece». Una lectura 1.2 exige revisar unidades o ampliar el dominio; no cambia el significado del signo.",
+        "actionLabel": "Ubicar una lectura",
+        "animation": "Una ficha x se desplaza sobre una banda de 0 a 1; 1.2 queda fuera y señala una incompatibilidad."
+      },
+      {
+        "id": "foundations-stage-2",
+        "title": "Una regla, una salida",
+        "claim": "Una función asigna una salida a cada entrada de su dominio; componer respeta el orden.",
+        "formula": "f(x)=2x+1,\\quad g(y)=y^2,\\quad(g\\circ f)(x)=(2x+1)^2",
+        "explanation": "f calibra: duplica la lectura y añade una unidad. g eleva al cuadrado la salida calibrada. Con x=0.5, primero obtenemos 2 y después 4. Cambiar el orden produce f(g(0.5))=1.5. Los dominios deben permitir la entrada de cada operación.",
+        "actionLabel": "Pasar por las dos reglas",
+        "animation": "La ficha entra en f, sale como 2, entra en g y sale como 4; invertir las cajas muestra 1.5."
+      },
+      {
+        "id": "foundations-stage-3",
+        "title": "Muchos datos, una operación",
+        "claim": "El índice selecciona un término; Σ acumula términos y Π los multiplica.",
+        "formula": "\\sum_{i=1}^{3}x_i=x_1+x_2+x_3,\\quad\\prod_{i=1}^{3}x_i=x_1x_2x_3",
+        "explanation": "i recorre los números 1, 2 y 3. Con lecturas 0.2, 0.3 y 0.5, la suma vale 1; el producto, 0.03. No confundas el índice i con el valor x_i. Una suma ponderada multiplica cada lectura por su propio peso antes de acumularla.",
+        "actionLabel": "Expandir los índices",
+        "animation": "Σ se abre en tres fichas; cada índice ilumina una ficha y un acumulador suma. Π cambia el acumulador a multiplicación."
+      },
+      {
+        "id": "foundations-stage-4",
+        "title": "De pesos a probabilidades",
+        "claim": "Normalizar divide cada peso por el total; exige pesos no negativos y un total positivo.",
+        "formula": "p_j=\\frac{w_j}{\\sum_k w_k},\\quad w_j\\geq0,\\quad\\sum_k w_k>0",
+        "explanation": "Los pesos 2 y 3 comparan apoyo relativo a dos causas. Su total es 5; las probabilidades son 0.4 y 0.6. Multiplicar ambos pesos por 10 deja las proporciones intactas. El símbolo ∝ dice «proporcional a» y todavía no garantiza suma uno.",
+        "actionLabel": "Conservar la proporción",
+        "animation": "Dos barras de longitud 2 y 3 se reescalan juntas para llenar una banda unidad; aumentar ambas diez veces conserva sus fracciones."
+      },
+      {
+        "id": "foundations-stage-5",
+        "title": "Un producto puede leerse como suma",
+        "claim": "El logaritmo natural transforma productos positivos en sumas y exp revierte la transformación.",
+        "formula": "\\ln(ab)=\\ln a+\\ln b,\\quad a,b>0;\\qquad e^{\\ln a}=a",
+        "explanation": "exp(x)=eˣ usa la constante e≈2.71828: exp(0)=1 y exp(2)=e². ln responde qué exponente produce una cantidad positiva: ln1=0 y ln(e²)=2. Para factores positivos, ln transforma un producto en suma. ln0 se trata como −∞ en cálculo probabilístico. No vale ln(a+b)=ln a+ln b.",
+        "actionLabel": "Cambiar la escala",
+        "animation": "Tres factores se unen por multiplicación; la misma cadena pasa a una escala logarítmica y las contribuciones se suman."
+      }
+    ],
+    "missions": [
+      {
+        "id": "foundations-mission-1",
+        "title": "Reparar la calibración",
+        "brief": "Una transformación correcta puede dar una respuesta errónea si se invierte su orden.",
+        "setup": "Lectura x=0.5; calibración f(x)=2x+1; energía g(y)=y².",
+        "kind": "numeric",
+        "prompt": "¿Qué energía produce g(f(x))?",
+        "formula": "g(f(0.5))=(2\\cdot0.5+1)^2",
+        "answer": 4,
+        "solution": "Primero f(0.5)=2; después g(2)=4. La composición se lee desde la función interior hacia fuera.",
+        "hint": "Sigue una sola ficha por las dos cajas.",
+        "transfer": "Antes de diferenciar una composición, declara qué salida alimenta a qué función.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "foundations-mission-2",
+        "title": "El denominador perdido",
+        "brief": "Un informe confunde apoyo relativo con probabilidad.",
+        "setup": "Pesos para causas A, B y C: 1, 2 y 5. Solo estas tres causas son posibles.",
+        "kind": "numeric",
+        "prompt": "¿Qué probabilidad normalizada recibe C?",
+        "formula": "p_C=\\frac{5}{1+2+5}",
+        "answer": 0.625,
+        "solution": "La suma de pesos es 8; C recibe 5/8=0.625. Los pesos positivos se convierten en una distribución sobre las tres causas.",
+        "hint": "La suma final de probabilidades debe ser uno.",
+        "transfer": "La evidencia de Bayes cumple precisamente el papel de normalización.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "foundations-mission-3",
+        "title": "Elegir una identidad válida",
+        "brief": "Decide qué transformación conserva el cálculo.",
+        "setup": "Dos factores a=0.2 y b=0.5 son positivos.",
+        "kind": "choice",
+        "prompt": "¿Cómo se expresa correctamente el logaritmo de su producto?",
+        "formula": "\\ln(0.2\\cdot0.5)",
+        "answer": 1,
+        "solution": "La identidad de productos es ln(ab)=ln a+ln b para a,b>0. La suma original no admite esa separación.",
+        "hint": "Comprueba qué operación ocupa el interior de ln.",
+        "transfer": "Las log likelihoods de datos condicionalmente independientes se suman.",
+        "choices": [
+          "ln(0.2)+0.5",
+          "ln(0.2)+ln(0.5)",
+          "ln(0.2+0.5)"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "foundations-1",
+      "foundations-2",
+      "foundations-3",
+      "foundations-4",
+      "foundations-5",
+      "foundations-6",
+      "foundations-7",
+      "foundations-8"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G00_LENGUAJE_MATEMATICO_Y_FUNCIONES.md"
+    ],
+    "scope": "Escena introductoria común. Trigonometría, límites y órdenes de aproximación conservan sus lecciones propias; estas cinco etapas no sustituyen esas extensiones."
+  },
+  "differential": {
+    "scenario": "Ajustas una creencia sobre la intensidad de una señal. Un coste cuantifica el desacuerdo con una medición; quieres saber hacia dónde y cuánto mover la creencia.",
+    "objective": "Construir una derivada desde cambios finitos, interpretar una aproximación local y escoger un paso de descenso estable.",
+    "briefing": "Coloca una creencia μ en una curva de coste L. Mover μ cambia el coste. Primero compararemos dos posiciones; después haremos el desplazamiento cada vez menor hasta obtener una pendiente local.",
+    "teachingStages": [
+      {
+        "id": "differential-stage-1",
+        "title": "Dos posiciones, dos costes",
+        "claim": "Una tasa media divide el cambio de salida por el cambio de entrada.",
+        "formula": "\\frac{\\Delta L}{\\Delta\\mu}=\\frac{L(\\mu+h)-L(\\mu)}{h},\\quad h\\neq0",
+        "explanation": "μ es la intensidad estimada; L(μ) mide su desacuerdo con la señal. h es el desplazamiento de μ, no un coste. La recta que une dos puntos de la curva resume la tasa media entre ellos. Un cociente negativo dice que al aumentar μ el coste disminuye en ese tramo.",
+        "actionLabel": "Mover la segunda posición",
+        "animation": "Dos puntos se unen por una secante; flechas separadas muestran el desplazamiento horizontal h y el cambio vertical ΔL."
+      },
+      {
+        "id": "differential-stage-2",
+        "title": "Acercar sin dividir por cero",
+        "claim": "La derivada es el límite de tasas medias cuando el desplazamiento tiende a cero, si existe.",
+        "formula": "\\frac{(\\mu+h)^2-\\mu^2}{h}=\\frac{2\\mu h+h^2}{h}=2\\mu+h\\;\\longrightarrow\\;2\\mu",
+        "explanation": "Para L(μ)=μ², expandimos el cuadrado y cancelamos h solo mientras h≠0. Luego dejamos que h se acerque a cero. El resultado L′(μ)=2μ es la pendiente tangente. Sustituir h=0 en el cociente original produciría 0/0 y no define la derivada.",
+        "actionLabel": "Acercar la secante",
+        "animation": "h disminuye; la secante converge a la tangente. Los términos algebraicos 2μh+h² se dividen por h antes del límite."
+      },
+      {
+        "id": "differential-stage-3",
+        "title": "Una cadena de sensibilidades",
+        "claim": "La derivada de una composición multiplica la sensibilidad de cada transformación.",
+        "formula": "\\frac{d}{dx}g(f(x))=g^{\\prime}(f(x))f^{\\prime}(x)",
+        "explanation": "Si f(x)=2x+1 y g(y)=y², f′=2 y g′(y)=2y. La sensibilidad total es 4(2x+1). Hay que evaluar g′ en la salida f(x). Esta regla exige que ambas funciones sean diferenciables en los puntos correspondientes.",
+        "actionLabel": "Propagar un pequeño cambio",
+        "animation": "Un cambio δx se duplica en la primera caja y vuelve a multiplicarse por 2y en la segunda; aparece el producto de sensibilidades."
+      },
+      {
+        "id": "differential-stage-4",
+        "title": "Aproximar con un alcance",
+        "claim": "Taylor usa el valor y la pendiente para aproximar cambios cercanos; la curvatura corrige el error.",
+        "formula": "L(a+h)\\approx L(a)+L^{\\prime}(a)h+\\tfrac12L^{\\prime\\prime}(a)h^2",
+        "explanation": "a es el centro de expansión. L″ es la derivada de la pendiente L′: mide cómo cambia esa pendiente. El término lineal predice el cambio local; el cuadrático recoge la curvatura. Para L(μ)=μ², la expansión de segundo orden es exacta. Para una función general suficientemente suave, una aproximación truncada debe comprobarse cerca de a; no garantiza exactitud lejos de allí.",
+        "actionLabel": "Ampliar el radio local",
+        "animation": "Una recta y una parábola se superponen a la curva; al alejar el punto del centro, una etiqueta muestra el error residual."
+      },
+      {
+        "id": "differential-stage-5",
+        "title": "Usar la pendiente para descender",
+        "claim": "Restar una fracción de la pendiente mueve la creencia hacia menor coste con un paso adecuado.",
+        "formula": "L(\\mu)=(\\mu-3)^2,\\quad\\mu_{k+1}=\\mu_k-\\eta\\,2(\\mu_k-3)",
+        "explanation": "η>0 controla la amplitud. Para este coste, el error respecto del mínimo satisface e_{k+1}=(1−2η)e_k; converge desde cualquier inicio si 0<η<1. Con μ₀=0 y η=0.25, μ₁=1.5. Un punto con derivada cero requiere analizar su curvatura para distinguir mínimo, máximo o punto degenerado.",
+        "actionLabel": "Comparar tres pasos",
+        "animation": "Desde μ=0 se muestran trayectorias con η=0.25, 0.75 y 1.1: avance directo, oscilación decreciente y divergencia."
+      }
+    ],
+    "missions": [
+      {
+        "id": "differential-mission-1",
+        "title": "La pendiente de un desacuerdo",
+        "brief": "Comprueba que el signo de la pendiente indica hacia dónde reducir el coste.",
+        "setup": "L(μ)=(μ−3)²; creencia actual μ=1.",
+        "kind": "numeric",
+        "prompt": "¿Cuánto vale L′(1)?",
+        "formula": "L^{\\prime}(\\mu)=2(\\mu-3)",
+        "answer": -4,
+        "solution": "L′(1)=2(1−3)=−4. Aumentar μ un poco reduce el coste; descenso resta un número negativo y por eso aumenta μ.",
+        "hint": "Deriva primero; evalúa después.",
+        "transfer": "El signo del gradiente guía las actualizaciones perceptivas.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "differential-mission-2",
+        "title": "Un paso que puedas justificar",
+        "brief": "Actualiza una creencia usando su pendiente local.",
+        "setup": "L(μ)=(μ−3)², μ₀=1, η=0.25.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es la nueva creencia μ₁?",
+        "formula": "\\mu_1=1-0.25\\,2(1-3)",
+        "answer": 2,
+        "solution": "La pendiente es −4; μ₁=1−0.25(−4)=2. El coste baja de 4 a 1.",
+        "hint": "El signo menos de descenso y la pendiente negativa se cancelan.",
+        "transfer": "Una tasa de aprendizaje importa tanto como la dirección de actualización.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "differential-mission-3",
+        "title": "Diagnosticar la oscilación",
+        "brief": "Un algoritmo alterna indefinidamente alrededor del mínimo.",
+        "setup": "Para L=(μ−3)² se usa η=1 y μ₀≠3. Entonces e_{k+1}=−e_k.",
+        "kind": "choice",
+        "prompt": "¿Qué cambio asegura convergencia en este problema?",
+        "formula": "e_{k+1}=(1-2\\eta)e_k",
+        "answer": 0,
+        "solution": "La contracción requiere |1−2η|<1, es decir 0<η<1. η=0.25 reduce el error a la mitad en cada paso.",
+        "hint": "Compara el valor absoluto del factor de error con uno.",
+        "transfer": "Un modelo continuo estable puede tener una discretización inestable.",
+        "choices": [
+          "Usar η=0.25",
+          "Usar η=1.5",
+          "Cambiar el signo a ascenso"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "differential-1",
+      "differential-2",
+      "differential-3",
+      "differential-4"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md"
+    ],
+    "scope": "Derivación escalar y control de paso; gradiente, Jacobiano y Hessiano se desarrollan en multivariate."
+  },
+  "integral": {
+    "scenario": "Una variable latente representa el retraso continuo de una respuesta. Debes convertir la curva de densidad en probabilidades de intervalos y cambiar de segundos a milisegundos.",
+    "objective": "Acumular densidad sobre intervalos y transformar sus unidades conservando probabilidad.",
+    "briefing": "Imagina una banda de retrasos posibles y una cantidad de probabilidad repartida sobre ella. La altura de la curva indica densidad por unidad de tiempo. La probabilidad de una franja depende tanto de su altura como de su ancho.",
+    "teachingStages": [
+      {
+        "id": "integral-stage-1",
+        "title": "Altura por ancho",
+        "claim": "Una franja pequeña aporta aproximadamente densidad por ancho; una altura sola no es probabilidad.",
+        "formula": "P(x\\leq X\\leq x+\\Delta x)\\approx p_X(x)\\Delta x",
+        "explanation": "X representa un retraso, x una posición concreta y Δx el ancho de una franja. p_X tiene unidades inversas a X. Si el retraso es uniforme entre 0 y 0.5 segundos, la densidad vale 2 por segundo y una franja de 0.1 segundos contiene probabilidad 0.2.",
+        "actionLabel": "Ensanchar una franja",
+        "animation": "Un rectángulo conserva altura 2; su ancho cambia y el producto altura×ancho actualiza la probabilidad."
+      },
+      {
+        "id": "integral-stage-2",
+        "title": "Refinar la acumulación",
+        "claim": "La integral es el límite de sumas de franjas; para una densidad no negativa, el área total es uno.",
+        "formula": "P(a\\leq X\\leq b)=\\int_a^b p_X(x)\\,dx,\\quad\\int p_X(x)\\,dx=1",
+        "explanation": "Σ suma un número finito de contribuciones; ∫ acumula continuamente. La aproximación mejora al refinar una partición para una función integrable. Si X tiene una distribución absolutamente continua, una franja de ancho cero tiene probabilidad cero: P(X=x)=0, aunque p_X(x) pueda ser positiva o mayor que uno.",
+        "actionLabel": "Refinar los rectángulos",
+        "animation": "4, 16 y 64 franjas aproximan una curva; el área acumulada converge, mientras una línea vertical tiene ancho cero."
+      },
+      {
+        "id": "integral-stage-3",
+        "title": "Evaluar con una primitiva",
+        "claim": "Integrar una función continua puede reducirse a restar una primitiva en los extremos.",
+        "formula": "F^{\\prime}(x)=p_X(x)\\;\\Rightarrow\\;\\int_a^b p_X(x)\\,dx=F(b)-F(a)",
+        "explanation": "Una primitiva es una función cuya derivada devuelve el integrando. Para p_X(x)=2x en [0,1], una primitiva es F(x)=x². La probabilidad entre 0 y 0.5 es 0.5²−0²=0.25. La constante de integración se cancela al restar extremos.",
+        "actionLabel": "Restar los extremos",
+        "animation": "La curva 2x forma un triángulo; F(a) y F(b) se iluminan y su diferencia coincide con el área sombreada."
+      },
+      {
+        "id": "integral-stage-4",
+        "title": "Cambiar escala, conservar masa",
+        "claim": "Un cambio invertible transforma el ancho y la densidad en sentidos opuestos.",
+        "formula": "Y=1000X,\\quad p_Y(y)=p_X(y/1000)\\tfrac1{1000}",
+        "explanation": "X mide segundos y Y milisegundos. El intervalo [0,0.5] pasa a [0,500]. Su ancho se multiplica por 1000 y la densidad uniforme baja de 2 a 0.002 por milisegundo. La probabilidad permanece idéntica. Para una transformación diferenciable uno a uno se usa el valor absoluto de la derivada de la inversa.",
+        "actionLabel": "Cambiar a milisegundos",
+        "animation": "La banda se ensancha mil veces; la curva baja en proporción inversa y el área sombreada conserva su valor."
+      },
+      {
+        "id": "integral-stage-5",
+        "title": "Esperar una cantidad continua",
+        "claim": "Una esperanza pondera cada valor por su densidad y acumula; exige integrabilidad de la cantidad.",
+        "formula": "\\mathbb E[X]=\\int x\\,p_X(x)\\,dx,\\qquad\\mathbb E[|X|]<\\infty",
+        "explanation": "Con p_X(x)=2x en [0,1], los retrasos grandes reciben más peso. La media es ∫₀¹2x²dx=2/3. La media no es necesariamente el punto más alto de la densidad. Integrar x·p_X(x) devuelve unidades de X, porque p_X(x)dx es probabilidad sin unidades.",
+        "actionLabel": "Acumular valores ponderados",
+        "animation": "Cada franja carga su posición x multiplicada por su probabilidad; la suma coloca un marcador en 2/3."
+      }
+    ],
+    "missions": [
+      {
+        "id": "integral-mission-1",
+        "title": "La densidad parece imposible",
+        "brief": "Un compañero descarta una densidad porque supera uno.",
+        "setup": "X es uniforme en [0,0.5] segundos; p_X=2 por segundo.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es P(0.1≤X≤0.3)?",
+        "formula": "\\int_{0.1}^{0.3}2\\,dx",
+        "answer": 0.4,
+        "solution": "El ancho es 0.2 segundos; 2×0.2=0.4. La altura 2 es densidad y la probabilidad de intervalo sí está entre cero y uno.",
+        "hint": "Dibuja un rectángulo de ancho 0.2.",
+        "transfer": "La sorpresa basada en densidad depende de las unidades; no confundas densidad con masa puntual.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "integral-mission-2",
+        "title": "Revisar el Jacobiano",
+        "brief": "Una exportación a milisegundos conserva la altura y por eso altera la normalización.",
+        "setup": "X uniforme en [0,0.5] segundos, Y=1000X.",
+        "kind": "numeric",
+        "prompt": "¿Qué densidad constante debe tener Y en [0,500]?",
+        "formula": "p_Y(y)=2/1000",
+        "answer": 0.002,
+        "solution": "El intervalo mide 500 milisegundos. Densidad 0.002 produce área 500×0.002=1. El Jacobiano inverso corrige la expansión de la escala.",
+        "hint": "La densidad uniforme es el inverso del ancho de su soporte.",
+        "transfer": "Cambiar coordenadas de parámetros exige conservar la medida de probabilidad.",
+        "tolerance": 0.00001
+      },
+      {
+        "id": "integral-mission-3",
+        "title": "Un punto no es un intervalo",
+        "brief": "Distingue una medición exacta de una banda con tolerancia.",
+        "setup": "X tiene densidad p_X(x)=2x en [0,1]; no hay átomos de probabilidad.",
+        "kind": "choice",
+        "prompt": "¿Cuál afirmación es correcta?",
+        "formula": "P(X=0.5),\\qquad p_X(0.5)",
+        "answer": 2,
+        "solution": "p_X(0.5)=1 es una densidad, mientras P(X=0.5)=0 para esta distribución continua. Una banda alrededor de 0.5 sí puede tener probabilidad positiva.",
+        "hint": "Una línea vertical tiene ancho cero.",
+        "transfer": "La cápsula de Dirac permite representar masas puntuales; no se aplica a toda densidad continua.",
+        "choices": [
+          "P(X=0.5)=1 porque la densidad vale 1",
+          "P(X=0.5)=0.5 porque coincide con el punto",
+          "P(X=0.5)=0 y p_X(0.5)=1"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "integral-1",
+      "integral-2",
+      "integral-3",
+      "integral-4",
+      "integral-5"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G02_INTEGRACION_CAMBIOS_DE_VARIABLE_Y_DELTAS.md",
+      "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md"
+    ],
+    "scope": "Integración y unidades en una dimensión. Gaussiana y Dirac necesitan las lecciones específicas; cambios multivariados se conectan con multivariate."
+  },
+  "linear": {
+    "scenario": "Tienes dos posibles estados ocultos de un participante y tres respuestas observables. Una matriz describe cómo cada estado puede producir cada respuesta.",
+    "objective": "Declarar dimensiones, construir la predicción matricial y distinguir producto interno, externo y componente a componente.",
+    "briefing": "Una columna de probabilidades guarda cuánto crees en cada estado. Cada columna de la matriz sensorial guarda las respuestas posibles si ese estado fuera cierto. Predecir consiste en combinar esas columnas según tu creencia actual.",
+    "teachingStages": [
+      {
+        "id": "linear-stage-1",
+        "title": "Un vector es una lista ordenada",
+        "claim": "Cada componente tiene un significado; el orden y la dimensión son parte del dato.",
+        "formula": "\\mathbf s=(0.6,0.4)^\\mathsf T\\in\\mathbb R^2",
+        "explanation": "s es una columna con dos entradas: estado 1 y estado 2. T transforma la escritura horizontal en columna. Las entradas son probabilidades no negativas y suman uno. Intercambiar las entradas sin cambiar las etiquetas equivale a otra creencia. Un vector también puede contener medidas; entonces no necesita sumar uno.",
+        "actionLabel": "Etiquetar las componentes",
+        "animation": "Dos casillas verticales se rotulan estado 1 y estado 2; sus barras ocupan 0.6 y 0.4 de una unidad total."
+      },
+      {
+        "id": "linear-stage-2",
+        "title": "Una columna por condición",
+        "claim": "A tiene filas de respuestas y columnas de estados; cada columna condicional suma uno.",
+        "formula": "A=\\begin{bmatrix}0.8&0.2\\\\0.1&0.3\\\\0.1&0.5\\end{bmatrix}\\in\\mathbb R^{3\\times2},\\quad A_{ij}=P(o=i\\mid s=j)",
+        "explanation": "A_{ij} es la entrada en fila i, columna j. La primera columna describe las tres respuestas dado estado 1; la segunda, dado estado 2. Sumar una columna elimina todas las alternativas de respuesta y da uno. No se exige que cada fila sume uno.",
+        "actionLabel": "Inspeccionar una condición",
+        "animation": "Seleccionar un estado ilumina su columna; sus tres entradas se acumulan en una banda unidad."
+      },
+      {
+        "id": "linear-stage-3",
+        "title": "Mezclar predicciones",
+        "claim": "El producto matriz–vector pondera cada columna por la creencia del estado correspondiente.",
+        "formula": "\\mathbf o_{pred}=A\\mathbf s=(0.56,0.18,0.26)^\\mathsf T",
+        "explanation": "La primera respuesta recibe 0.8×0.6 desde estado 1 y 0.2×0.4 desde estado 2: total 0.56. Repetir por filas da tres probabilidades que suman uno. Las dimensiones interiores 2 coinciden y la salida conserva las 3 filas. Esta operación es una marginalización sobre estados.",
+        "actionLabel": "Seguir las contribuciones",
+        "animation": "Cada columna de A se escala por 0.6 o 0.4; barras del mismo color de respuesta se suman en la columna de salida."
+      },
+      {
+        "id": "linear-stage-4",
+        "title": "Tres productos, tres preguntas",
+        "claim": "Un producto interno da un escalar; uno externo da una matriz; el componente a componente conserva la forma.",
+        "formula": "\\mathbf x^\\mathsf T\\mathbf y=\\sum_i x_i y_i;\\quad(\\mathbf o\\mathbf s^\\mathsf T)_{ij}=o_i s_j;\\quad(\\mathbf x\\odot\\mathbf y)_i=x_i y_i",
+        "explanation": "Con o de dimensión 3 y s de dimensión 2, o·sᵀ tiene forma 3×2 y distribuye conteos esperados entre respuesta y estado. El producto interno xᵀy requiere igual dimensión. El producto ⊙ combina probabilidades alineadas por componente; después suele requerir normalización.",
+        "actionLabel": "Comparar las formas de salida",
+        "animation": "Las mismas fichas forman una celda al contraer, una cuadrícula al cruzar y una columna al emparejar componentes."
+      },
+      {
+        "id": "linear-stage-5",
+        "title": "Incertidumbre con dirección",
+        "claim": "La covarianza describe dispersión conjunta; su inversa es precisión cuando es definida positiva.",
+        "formula": "\\Sigma=\\begin{bmatrix}4&0\\\\0&1\\end{bmatrix},\\quad\\Pi=\\Sigma^{-1}=\\begin{bmatrix}1/4&0\\\\0&1\\end{bmatrix}",
+        "explanation": "La varianza es el promedio de desviaciones cuadradas respecto de la media. Desviaciones ±2 equiprobables tienen varianza 4; ±1, varianza 1. Σ guarda varianzas en su diagonal y covarianzas fuera de ella. Aquí es diagonal: Π tiene precisiones 0.25 y 1. Si Σ tiene términos cruzados, invertir no consiste en tomar recíprocos de cada entrada. Se exige Σ definida positiva.",
+        "actionLabel": "Rotar un error sobre la elipse",
+        "animation": "Una elipse larga en la primera dimensión muestra mayor dispersión; errores de igual longitud reciben penalizaciones distintas según su dirección."
+      }
+    ],
+    "missions": [
+      {
+        "id": "linear-mission-1",
+        "title": "Predecir una respuesta",
+        "brief": "Combina causas alternativas, en vez de escoger solo la más probable.",
+        "setup": "A=[[0.8,0.2],[0.1,0.3],[0.1,0.5]], s=(0.6,0.4)ᵀ.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es la probabilidad predicha de la segunda respuesta?",
+        "formula": "(A\\mathbf s)_2=0.1\\cdot0.6+0.3\\cdot0.4",
+        "answer": 0.18,
+        "solution": "La contribución del estado 1 es 0.06 y la del estado 2 es 0.12. Su suma es 0.18; ambos estados podían producir la respuesta.",
+        "hint": "Toma la segunda fila y combina sus entradas con s.",
+        "transfer": "A s es la predicción sensorial del modelo discreto.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "linear-mission-2",
+        "title": "Detectar un error de dimensiones",
+        "brief": "Un código de aprendizaje produce una matriz con ejes invertidos.",
+        "setup": "o tiene 3 entradas, s tiene 2; A tiene forma 3×2.",
+        "kind": "choice",
+        "prompt": "¿Qué incremento tiene la misma orientación que A?",
+        "formula": "\\Delta a_{ij}=o_i s_j",
+        "answer": 1,
+        "solution": "o sᵀ cruza las 3 respuestas con los 2 estados y produce 3×2. s oᵀ da 2×3. oᵀs no está definido con estas dimensiones.",
+        "hint": "El primer vector aporta las filas del producto externo.",
+        "transfer": "Los conteos Dirichlet de A deben acumularse con el mismo orden de ejes.",
+        "choices": [
+          "s oᵀ",
+          "o sᵀ",
+          "oᵀ s"
+        ]
+      },
+      {
+        "id": "linear-mission-3",
+        "title": "Invertir una incertidumbre",
+        "brief": "Lee la confianza de cada dimensión sin confundirla con una probabilidad.",
+        "setup": "Covarianza Σ=diag(4,1).",
+        "kind": "numeric",
+        "prompt": "¿Qué precisión corresponde a la primera dimensión?",
+        "formula": "\\Pi_{11}=1/\\Sigma_{11}",
+        "answer": 0.25,
+        "solution": "Como Σ es diagonal, su inversa tiene recíprocos en la diagonal. 1/4=0.25; mayor varianza implica menor precisión.",
+        "hint": "En este caso los ejes de la elipse están alineados con las dimensiones.",
+        "transfer": "La precisión multiplica el peso de un error; no demuestra que la observación sea verdadera.",
+        "tolerance": 0.001
+      }
+    ],
+    "relatedLessonIds": [
+      "linear-1",
+      "linear-2",
+      "linear-3",
+      "linear-4",
+      "linear-5"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G03_ALGEBRA_LINEAL_Y_TENSORES.md",
+      "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md"
+    ],
+    "scope": "Predicción discreta, dimensiones y precisión. Sistemas lineales, autovectores y determinantes se mantienen como misiones específicas de las lecciones."
+  },
+  "probability": {
+    "scenario": "Dos sensores registran una fuente que puede estar activa o inactiva. Debes reconstruir qué significa «dado que», combinar rutas posibles y evaluar si las señales son independientes.",
+    "objective": "Pasar de eventos y frecuencias a una distribución conjunta, marginalizar y condicionar sin invertir la condición.",
+    "briefing": "Un evento es una condición que un registro cumple o no cumple. Distribuir probabilidad entre registros posibles permite contestar preguntas distintas: ocurrencia conjunta, total de un evento y proporción dentro de un evento conocido.",
+    "teachingStages": [
+      {
+        "id": "probability-stage-1",
+        "title": "De una condición a un indicador",
+        "claim": "El indicador vale uno si el evento ocurre y cero si no; su esperanza es la probabilidad del evento.",
+        "formula": "\\mathbf1_A(\\omega)=\\begin{cases}1&\\omega\\in A\\\\0&\\omega\\notin A\\end{cases},\\quad P(A)=\\mathbb E[\\mathbf1_A]",
+        "explanation": "ω nombra un resultado completo del experimento; A es el conjunto de resultados con señal positiva. Cada registro enciende o apaga una casilla. Con N registros, el promedio de esos ceros y unos es una frecuencia observada; para inferir probabilidad desde ella debes declarar el modelo de muestreo y su incertidumbre.",
+        "actionLabel": "Marcar registros que cumplen",
+        "animation": "Diez registros se convierten en ceros y unos; un promedio de indicadores se conecta con una fracción de casos."
+      },
+      {
+        "id": "probability-stage-2",
+        "title": "Guardar la distribución conjunta",
+        "claim": "Cada celda representa la probabilidad de dos condiciones simultáneas; todas las celdas suman uno.",
+        "formula": "P(S,O)=\\begin{bmatrix}0.18&0.12\\\\0.07&0.63\\end{bmatrix}",
+        "explanation": "Filas: fuente activa, inactiva. Columnas: señal positiva, negativa. La celda 0.18 significa activa y positiva. Las cuatro celdas son eventos mutuamente excluyentes que agotan los casos. Los rótulos de ejes son indispensables para leer la tabla.",
+        "actionLabel": "Recorrer las cuatro celdas",
+        "animation": "Un cuadrado unitario se divide en cuatro áreas; cada fila y columna mantiene etiquetas fijas."
+      },
+      {
+        "id": "probability-stage-3",
+        "title": "Sumar alternativas",
+        "claim": "Una marginal suma la variable que deja de importar; se suman eventos excluyentes.",
+        "formula": "P(O=+)=\\sum_sP(s,+)=0.18+0.07=0.25",
+        "explanation": "La fuente puede estar activa o inactiva. Si solo preguntamos por señal positiva, ambas rutas cuentan. La ley de probabilidad total también escribe esta suma como Σ_s P(+|s)P(s). No multipliques las alternativas; multiplicar corresponde a construir una ruta conjunta condicionada.",
+        "actionLabel": "Colapsar un eje",
+        "animation": "Las dos celdas de señal positiva se apilan en una sola barra de 0.25; el eje de estado desaparece."
+      },
+      {
+        "id": "probability-stage-4",
+        "title": "Cambiar el conjunto de referencia",
+        "claim": "Condicionar restringe la distribución al evento conocido y vuelve a normalizar.",
+        "formula": "P(S=activa\\mid O=+)=\\frac{P(activa,+)}{P(+)}=\\frac{0.18}{0.25}=0.72",
+        "explanation": "El signo | se lee «dado que». Al conocer la señal positiva, solo quedan las celdas de esa columna. La proporción activa dentro de ella es 0.72. En cambio P(+|activa)=0.18/0.30=0.6: invertir la condición cambia el denominador. La condición debe tener probabilidad positiva.",
+        "actionLabel": "Recortar y normalizar",
+        "animation": "La columna positiva se separa y se estira hasta una unidad; las áreas 0.18 y 0.07 pasan a 0.72 y 0.28."
+      },
+      {
+        "id": "probability-stage-5",
+        "title": "Comprobar una dependencia",
+        "claim": "La independencia exige que la distribución conjunta factorice; independencia condicional es otra afirmación.",
+        "formula": "P(A,B)=P(A)P(B),\\qquad P(A,B\\mid S)=P(A\\mid S)P(B\\mid S)",
+        "explanation": "Dos sensores pueden ser independientes una vez fijada la fuente y dependientes al mezclar fuentes. Para la tabla anterior, P(activa,+)=0.18 difiere de P(activa)P(+)=0.30×0.25=0.075: estado y señal son dependientes. Covarianza cero no garantiza independencia en general.",
+        "actionLabel": "Comparar mezcla y condición",
+        "animation": "Dos ramas con causa común se superponen; fijar la causa separa variación compartida de ruido de cada sensor."
+      }
+    ],
+    "missions": [
+      {
+        "id": "probability-mission-1",
+        "title": "Reconstruir el denominador",
+        "brief": "Una probabilidad condicional debe usar todos los casos que satisfacen la condición.",
+        "setup": "Tabla: activa/positiva=0.18, activa/negativa=0.12, inactiva/positiva=0.07, inactiva/negativa=0.63.",
+        "kind": "numeric",
+        "prompt": "¿Cuánto vale P(activa|positiva)?",
+        "formula": "P(activa\\mid+)={0.18}/{(0.18+0.07)}",
+        "answer": 0.72,
+        "solution": "La señal positiva ocupa probabilidad 0.25. Dentro de ella, la masa activa es 0.18: 0.18/0.25=0.72.",
+        "hint": "La condición selecciona una columna, no una fila.",
+        "transfer": "Bayes invierte una condicional usando la conjunta y su marginal.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "probability-mission-2",
+        "title": "Dos sensores, una causa común",
+        "brief": "Comprueba si la independencia condicional sobrevive a una mezcla.",
+        "setup": "S tiene dos valores equiprobables. Dado S=1, cada sensor da + con probabilidad 0.9; dado S=0, con probabilidad 0.1. Los sensores son independientes dado S.",
+        "kind": "numeric",
+        "prompt": "¿Cuánto vale P(A=+,B=+)?",
+        "formula": "P(+,+)=0.5(0.9^2)+0.5(0.1^2)",
+        "answer": 0.41,
+        "solution": "Cada ruta tiene una causa fija y permite multiplicar: 0.81 y 0.01. La mezcla ponderada da 0.41. Cada marginal vale 0.5; su producto sería 0.25, así que no hay independencia marginal.",
+        "hint": "Multiplica dentro de cada causa; suma entre causas.",
+        "transfer": "Una jerarquía puede generar correlaciones por causas compartidas.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "probability-mission-3",
+        "title": "La dirección de la condición",
+        "brief": "Evita atribuir al diagnóstico la fiabilidad del sensor.",
+        "setup": "Para la tabla anterior, P(+|activa)=0.6 y P(activa|+)=0.72.",
+        "kind": "choice",
+        "prompt": "¿Qué expresión responde «si la fuente está activa, qué probabilidad tiene una señal positiva»?",
+        "formula": "P(O=+\\mid S=activa)",
+        "answer": 0,
+        "solution": "La información conocida se escribe a la derecha de |. Saber que la fuente está activa selecciona su fila y normaliza por P(activa)=0.3.",
+        "hint": "Lee primero lo que aparece a la derecha de |.",
+        "transfer": "Sensibilidad del sensor y probabilidad posterior de una causa responden preguntas distintas.",
+        "choices": [
+          "P(+|activa)",
+          "P(activa|+)",
+          "P(activa,+)"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "probability-1",
+      "probability-2",
+      "probability-3",
+      "probability-4",
+      "probability-5",
+      "probability-6"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G04_PROBABILIDAD_COMO_INFERENCIA_RACIONAL.md",
+      "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md"
+    ],
+    "scope": "Probabilidad discreta común. Familias de distribuciones, momentos y convolución tienen escenas y lecciones específicas."
+  },
+  "statistics": {
+    "scenario": "Diseñas una tarea experimental con respuestas binarias y ajustas un parámetro de acierto. Luego compruebas qué significa la incertidumbre de la estimación y si el modelo puede recuperarla.",
+    "objective": "Distinguir datos, parámetro, estimador y distribución de muestreo; evaluar ajuste, predicción e identificabilidad por separado.",
+    "briefing": "Una lista de respuestas es un dato observado. θ representa una propensión desconocida. El estimador es una regla que convierte datos en un número: al repetir el experimento, cambian los datos y también ese número.",
+    "teachingStages": [
+      {
+        "id": "statistics-stage-1",
+        "title": "Datos y parámetro tienen papeles distintos",
+        "claim": "Un modelo fija cómo un parámetro produce datos posibles; el dato observado permanece fijo durante el ajuste.",
+        "formula": "X_i\\in\\{0,1\\},\\quad P(X_i=1\\mid\\theta)=\\theta,\\quad0\\leq\\theta\\leq1",
+        "explanation": "Cada ficha es una respuesta: 1 para acierto, 0 para error. θ no es una ficha observada; es la probabilidad de acierto en el modelo Bernoulli. Al mover θ cambias qué listas serían esperables. Para la likelihood conjunta siguiente suponemos ensayos independientes condicionados a θ.",
+        "actionLabel": "Simular tres propensiones",
+        "animation": "La misma fila de casillas se repuebla usando θ=0.2, 0.5 y 0.8; una marca separa datos simulados de la fila observada."
+      },
+      {
+        "id": "statistics-stage-2",
+        "title": "La likelihood mira hacia el parámetro",
+        "claim": "La likelihood compara parámetros por el apoyo que dan a los datos fijos; no es una distribución normalizada sobre parámetros.",
+        "formula": "L(\\theta;x_{1:n})=\\theta^k(1-\\theta)^{n-k},\\quad\\ell=k\\ln\\theta+(n-k)\\ln(1-\\theta)",
+        "explanation": "n es el número de ensayos y k el número de aciertos. Para una secuencia concreta con 8 aciertos de 10, L(θ)=θ⁸(1−θ)². Si registraras solo el conteo k, aparecería además el factor binomial, constante respecto de θ. La log likelihood conserva los máximos porque ln es creciente.",
+        "actionLabel": "Fijar datos y recorrer θ",
+        "animation": "La fila de 10 respuestas queda inmóvil; un cursor θ dibuja la altura de su likelihood y de su log likelihood."
+      },
+      {
+        "id": "statistics-stage-3",
+        "title": "Un estimador varía entre muestras",
+        "claim": "La media de ensayos Bernoulli es el MLE; su error de muestreo depende de n y de la propensión real.",
+        "formula": "\\hat\\theta=k/n,\\quad\\mathbb E[\\hat\\theta]=\\theta,\\quad\\operatorname{Var}(\\hat\\theta)=\\theta(1-\\theta)/n",
+        "explanation": "El sombrero distingue estimación y parámetro. Para 8 de 10, θ̂=0.8. Bajo ensayos iid Bernoulli, su esperanza es θ y su varianza θ(1−θ)/n. En general, para una media iid: Var(ΣXᵢ/n)=(1/n²)ΣVar(Xᵢ)=σ²/n, porque las covarianzas se anulan. La desviación estándar es raíz de varianza; el error estándar es la desviación estándar del estimador: σ/√n. Son afirmaciones de muestreo, no probabilidades posteriores sobre θ.",
+        "actionLabel": "Repetir el experimento",
+        "animation": "Numerosas muestras del mismo tamaño producen distintos θ̂; aumentar n concentra su histograma alrededor del θ generador."
+      },
+      {
+        "id": "statistics-stage-4",
+        "title": "Ajustar no basta: predecir",
+        "claim": "Una predicción posterior promedia modelos de datos futuros sobre la incertidumbre del parámetro.",
+        "formula": "p(x_{nuevo}\\mid x)=\\int p(x_{nuevo}\\mid\\theta)\\,p(\\theta\\mid x)\\,d\\theta",
+        "explanation": "x es el conjunto de datos ya observado y x_nuevo un dato futuro. El posterior p(θ|x) viene de combinar likelihood y prior. Simular réplicas permite comparar una característica relevante: proporción de aciertos, rachas o dependencia temporal. Reproducir la media no asegura reproducir las rachas.",
+        "actionLabel": "Contrastar una característica",
+        "animation": "Datos reales y réplicas se comparan en dos paneles: misma media, pero distinta longitud de rachas muestra un fallo del modelo iid."
+      },
+      {
+        "id": "statistics-stage-5",
+        "title": "Recuperar lo que el modelo identifica",
+        "claim": "La recuperación usa parámetros conocidos y datos simulados; no resuelve equivalencias estructurales ni demuestra adecuación empírica.",
+        "formula": "\\theta_*\\to x\\sim p(x\\mid\\theta_*)\\to\\hat\\theta(x)",
+        "explanation": "θ_* es la verdad en una simulación controlada. Si el modelo solo observa θ=ab, los pares (a,b)=(0.5,0.4) y (0.4,0.5) generan exactamente la misma θ=0.2. Más datos de ese mismo experimento pueden precisar el producto sin identificar cada factor. Cambiar el diseño puede aportar información adicional.",
+        "actionLabel": "Buscar parámetros equivalentes",
+        "animation": "Una curva ab=0.2 muestra muchas parejas que generan la misma distribución; un segundo experimento añade una restricción que puede separarlas."
+      }
+    ],
+    "missions": [
+      {
+        "id": "statistics-mission-1",
+        "title": "Ajustar una propensión",
+        "brief": "Encuentra el parámetro que maximiza la likelihood Bernoulli iid.",
+        "setup": "8 aciertos y 2 errores en 10 ensayos.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es el estimador de máxima likelihood θ̂?",
+        "formula": "\\hat\\theta=k/n",
+        "answer": 0.8,
+        "solution": "Para k=8 y n=10, θ̂=0.8. La derivada de la log likelihood interior es k/θ−(n−k)/(1−θ); igualarla a cero da k/n.",
+        "hint": "Mantén fijos los conteos al variar θ.",
+        "transfer": "MLE, MAP y media posterior pueden diferir porque responden a criterios distintos.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "statistics-mission-2",
+        "title": "Leer el error de una media",
+        "brief": "Distingue dispersión de observaciones y dispersión del estimador.",
+        "setup": "16 mediciones iid con varianza conocida σ²=4. El estimador es la media muestral.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es el error estándar de la media?",
+        "formula": "\\operatorname{SD}(\\bar X)=\\sigma/\\sqrt n",
+        "answer": 0.5,
+        "solution": "σ=2 y √16=4; el error estándar es 2/4=0.5. Esta relación de varianza no requiere normalidad, pero sí las condiciones iid y varianza finita indicadas.",
+        "hint": "La varianza de la media se divide por n; su desviación por √n.",
+        "transfer": "Confundir ruido sensorial con incertidumbre de una media altera la precisión de la inferencia.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "statistics-mission-3",
+        "title": "Una recuperación que no puede funcionar",
+        "brief": "Decide qué conclusión permite una equivalencia observable.",
+        "setup": "La única observación es Bernoulli con probabilidad ab; a,b∈(0,1). Dos pares diferentes dan el mismo producto.",
+        "kind": "choice",
+        "prompt": "¿Qué permite una cantidad ilimitada de datos de este mismo diseño?",
+        "formula": "p(x\\mid a,b)=p(x\\mid ab)",
+        "answer": 1,
+        "solution": "El modelo identifica el producto ab, pero no a y b por separado. La equivalencia persiste al añadir ensayos del mismo tipo. Un prior puede favorecer un par sin que los datos lo distingan.",
+        "hint": "Compara distribuciones generadoras, no solo estimaciones.",
+        "transfer": "Antes de interpretar parámetros de un agente, valida recuperación y diseño experimental.",
+        "choices": [
+          "Identificar necesariamente a y b por separado",
+          "Precisar ab sin separar necesariamente a y b",
+          "Demostrar que el modelo describe todos los datos reales"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "statistics-1",
+      "statistics-2",
+      "statistics-3",
+      "statistics-4",
+      "statistics-5"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md",
+      "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md",
+      "work/sources/03_guias_nivelacion/guias/G12_IMPLEMENTACION_DE_MODELOS.md"
+    ],
+    "scope": "Muestreo, ajuste y validación básicos. CLT, intervalos y SBC requieren sus supuestos y cápsulas propias."
+  },
+  "multivariate": {
+    "scenario": "Ajustas dos creencias simultáneas: intensidad de una señal y sesgo del sensor. Una superficie de coste permite ver qué cambia al mover una dimensión o una combinación de ambas.",
+    "objective": "Leer parciales, gradiente, Jacobiano y Hessiano como distintas respuestas locales; reconocer restricciones y curvatura posterior.",
+    "briefing": "Un punto ya tiene dos coordenadas. Moverse solo horizontalmente pregunta por una parcial; moverse en cualquier dirección combina parciales. Cuando la salida también es un vector necesitamos una tabla de sensibilidades.",
+    "teachingStages": [
+      {
+        "id": "multivariate-stage-1",
+        "title": "Mover una coordenada y fijar la otra",
+        "claim": "Una derivada parcial mide respuesta a una entrada mientras las restantes se mantienen constantes.",
+        "formula": "L(x,y)=(x-1)^2+2(y+1)^2,\\quad\\partial_xL=2(x-1),\\quad\\partial_yL=4(y+1)",
+        "explanation": "x e y son dos parámetros y L una única salida. Para medir ∂_xL, desplaza x sin cambiar y; para ∂_yL, cambia y sin cambiar x. En (0,0), ambas respuestas son −2 y 4. El subíndice de ∂ dice qué entrada está variando.",
+        "actionLabel": "Recorrer cortes de la superficie",
+        "animation": "Dos líneas cruzan una superficie: un corte horizontal con y fijo y otro con x fijo. Cada corte muestra su pendiente."
+      },
+      {
+        "id": "multivariate-stage-2",
+        "title": "Combinar direcciones",
+        "claim": "El gradiente reúne parciales; su producto interno con un desplazamiento predice el cambio de primer orden.",
+        "formula": "\\nabla L(0,0)=(-2,4)^\\mathsf T,\\quad\\Delta L\\approx\\nabla L^\\mathsf T\\Delta\\mathbf x",
+        "explanation": "∇ se lee «gradiente». Para Δx=(0.1,−0.1)ᵀ, el cambio aproximado es −2×0.1+4×(−0.1)=−0.6. La dirección del gradiente maximiza la tasa local de aumento entre direcciones unitarias de la norma euclidiana. El descenso usa su negativo, con un paso adecuado.",
+        "actionLabel": "Elegir una dirección",
+        "animation": "Una flecha se rota sobre el punto; un medidor muestra el producto interno y se maximiza cuando coincide con el gradiente."
+      },
+      {
+        "id": "multivariate-stage-3",
+        "title": "Varias entradas y varias salidas",
+        "claim": "El Jacobiano guarda una fila por salida y una columna por entrada; transforma pequeños desplazamientos.",
+        "formula": "\\mathbf g(x,y)=(x+y,x-y)^\\mathsf T,\\quad J_g=\\begin{bmatrix}1&1\\\\1&-1\\end{bmatrix},\\quad\\Delta\\mathbf g=J_g\\Delta\\mathbf x",
+        "explanation": "Cada entrada J_{ij} es ∂g_i/∂x_j. Si Δx=(0.1,−0.1), la primera salida no cambia y la segunda aumenta 0.2. Aquí g es lineal, por eso la relación es exacta para cualquier desplazamiento. Para una función diferenciable general es una aproximación local.",
+        "actionLabel": "Propagar un desplazamiento",
+        "animation": "Un vector de entrada atraviesa una cuadrícula de sensibilidades; los productos por filas producen dos desplazamientos de salida."
+      },
+      {
+        "id": "multivariate-stage-4",
+        "title": "Leer curvatura y precisión",
+        "claim": "El Hessiano guarda segundas parciales; en un mínimo no degenerado de energía posterior da precisión gaussiana local.",
+        "formula": "H_L=\\begin{bmatrix}2&0\\\\0&4\\end{bmatrix},\\quad U=-\\ln p(\\mathbf x\\mid o),\\quad\\Pi\\approx H_U(\\mu)",
+        "explanation": "Para L, la curvatura es mayor en y que en x. En Laplace, U es el negativo del log posterior y μ un mínimo interior con Hessiano definido positivo. La aproximación tiene covarianza H_U(μ)⁻¹. Si usamos el Hessiano del log posterior, hay que cambiar el signo. No toda superficie ni todo punto permite esa aproximación.",
+        "actionLabel": "Comparar cortes y elipse",
+        "animation": "El corte más curvo se corresponde con una elipse gaussiana más estrecha; la matriz se invierte para pasar a covarianza."
+      },
+      {
+        "id": "multivariate-stage-5",
+        "title": "Optimizar sobre una restricción",
+        "claim": "Un mínimo restringido no exige gradiente cero en todas las direcciones; solo deben anularse las variaciones factibles.",
+        "formula": "L=x^2+y^2,\\quad x+y=1,\\quad(x_*,y_*)=(1/2,1/2)",
+        "explanation": "La restricción deja una línea de posiciones posibles. En su mínimo, ∇L=(1,1) no es cero, pero todo desplazamiento tangente tiene forma (h,−h) y producto interno cero con ese gradiente. Sustituir y=1−x da L=x²+(1−x)²; derivar da 4x−2=0.",
+        "actionLabel": "Moverse solo sobre la línea",
+        "animation": "El cursor queda limitado a x+y=1; el gradiente es perpendicular a la línea en el mínimo."
+      }
+    ],
+    "missions": [
+      {
+        "id": "multivariate-mission-1",
+        "title": "Predecir un cambio local",
+        "brief": "Combina sensibilidades de dos coordenadas.",
+        "setup": "L=(x−1)²+2(y+1)², punto (0,0), desplazamiento (0.1,−0.1).",
+        "kind": "numeric",
+        "prompt": "¿Qué cambio de L predice la aproximación de primer orden?",
+        "formula": "\\Delta L\\approx(-2,4)\\cdot(0.1,-0.1)",
+        "answer": -0.6,
+        "solution": "Los aportes son −0.2 y −0.4: total −0.6. El cambio exacto es −0.57 porque se agregan términos cuadráticos 0.01+0.02; distinguir aproximación de igualdad importa.",
+        "hint": "Multiplica cada parcial por su propio desplazamiento.",
+        "transfer": "Una actualización multivariada combina errores y sensibilidades locales.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "multivariate-mission-2",
+        "title": "Del Hessiano a la incertidumbre",
+        "brief": "Convierte una curvatura posterior en covarianza local.",
+        "setup": "U es el negativo del log posterior; H_U(μ)=diag(2,4), definido positivo.",
+        "kind": "numeric",
+        "prompt": "¿Qué varianza de Laplace corresponde a la segunda coordenada?",
+        "formula": "\\Sigma\\approx H_U^{-1}",
+        "answer": 0.25,
+        "solution": "En una matriz diagonal, la inversa tiene 1/2 y 1/4 en la diagonal. La segunda varianza es 0.25 y su desviación estándar 0.5.",
+        "hint": "La curvatura es precisión; la varianza es su inversa en este caso diagonal.",
+        "transfer": "La aproximación de Laplace convierte geometría local en incertidumbre modelada.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "multivariate-mission-3",
+        "title": "Un gradiente que no se anula",
+        "brief": "Reconoce un óptimo bajo una restricción.",
+        "setup": "Minimiza x²+y² con x+y=1. En (0.5,0.5), el gradiente es (1,1).",
+        "kind": "choice",
+        "prompt": "¿Por qué este punto puede ser el mínimo restringido?",
+        "formula": "(1,1)\\cdot(h,-h)=0",
+        "answer": 2,
+        "solution": "Los movimientos permitidos son tangentes a x+y=1. El gradiente es perpendicular a ellos; la función restringida tiene segunda derivada 4>0. No se puede seguir −∇L sin salir del conjunto permitido.",
+        "hint": "Separa los movimientos posibles de los imposibles.",
+        "transfer": "Las probabilidades se optimizan sobre un simplex; normalización impone restricciones.",
+        "choices": [
+          "Porque todo gradiente no nulo es un mínimo",
+          "Porque se ignora la restricción al descender",
+          "Porque el cambio de primer orden se anula en todas las direcciones factibles"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "multivariate-1",
+      "multivariate-2",
+      "multivariate-3",
+      "multivariate-4"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md",
+      "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md",
+      "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md"
+    ],
+    "scope": "Sensibilidades, curvatura y restricciones locales. Reparametrización y volumen se desarrollan en la lección de coordenadas."
+  },
+  "information": {
+    "scenario": "Debes elegir entre dos instrumentos para revelar una causa binaria. Ambos generan señales impredecibles; solo uno relaciona su respuesta con la causa.",
+    "objective": "Distinguir sorpresa de un dato, incertidumbre de una distribución y reducción esperada de incertidumbre sobre una causa.",
+    "briefing": "Una respuesta rara puede sorprender sin enseñar nada sobre lo que quieres conocer. Separaremos tres preguntas: cuán inesperado fue el dato, cuánta incertidumbre había antes y cuánto cambió el conocimiento de la causa.",
+    "teachingStages": [
+      {
+        "id": "information-stage-1",
+        "title": "Una respuesta rara cuesta más sorpresa",
+        "claim": "La sorpresa de un resultado con probabilidad positiva es su logaritmo negativo; aquí usamos nats.",
+        "formula": "\\mathcal S(o)=-\\ln p(o),\\quad p(o)>0",
+        "explanation": "o es una respuesta posible. Si p(o)=1, −ln 1=0: era segura. Si p(o)=0.5, la sorpresa es ln 2≈0.693 nats. Una respuesta menos probable tiene mayor sorpresa. «Sorpresa» es una cantidad matemática del modelo; no afirma una experiencia subjetiva.",
+        "actionLabel": "Reducir la probabilidad",
+        "animation": "Una barra de probabilidad se encoge y una barra de sorpresa crece; ambas se conectan con −ln p."
+      },
+      {
+        "id": "information-stage-2",
+        "title": "Promediar antes de observar",
+        "claim": "La entropía es la sorpresa media bajo la propia distribución.",
+        "formula": "H[q]=-\\sum_o q(o)\\ln q(o),\\qquad0\\ln0:=0",
+        "explanation": "q describe respuestas aún no observadas. Para una señal binaria equilibrada, ambos resultados tienen sorpresa ln2 y la entropía también es ln2. Para una señal determinista, H=0. Una distribución discreta finita cumple H≥0; la entropía diferencial de densidades no comparte esa restricción.",
+        "actionLabel": "Comparar certeza y equilibrio",
+        "animation": "Dos barras pasan de (1,0) a (0.5,0.5); cada contribución q·sorpresa forma la altura de entropía."
+      },
+      {
+        "id": "information-stage-3",
+        "title": "Cambiar el modelo usado para puntuar",
+        "claim": "La entropía cruzada puntúa datos de q con p; KL mide el exceso sobre la entropía de q.",
+        "formula": "H(q,p)=-\\sum_o q(o)\\ln p(o),\\quad\\mathrm{KL}(q\\Vert p)=H(q,p)-H[q]",
+        "explanation": "El primer argumento indica cómo se promedian los resultados; el segundo indica qué modelo los puntúa. KL(q‖p)≥0 y se anula si las distribuciones coinciden. En general invertir los argumentos cambia el valor. Si q asigna masa positiva donde p=0, la divergencia es infinita.",
+        "actionLabel": "Cambiar el modelo de puntuación",
+        "animation": "Barras q quedan fijas; mover barras p altera las sorpresas y el exceso de puntuación se separa visualmente."
+      },
+      {
+        "id": "information-stage-4",
+        "title": "Una señal puede ser ruido puro",
+        "claim": "La información mutua cuantifica cuánto reduce observar O la incertidumbre sobre S.",
+        "formula": "I(S;O)=H[S]-H[S\\mid O]=H[O]-H[O\\mid S]",
+        "explanation": "S es la causa y O la señal. H(O|S)=Σₛp(s)H[p(o|s)] promedia incertidumbre de respuestas dentro de cada estado. Con S equilibrada, el sensor perfecto O=S tiene H(O)=ln2 e I=ln2. Una moneda independiente también tiene H(O)=ln2, pero H(O|S)=ln2 e I=0: no cambia creencias sobre S. La entropía predictiva sola no mide valor informativo.",
+        "actionLabel": "Comparar dos instrumentos",
+        "animation": "Ambos instrumentos producen barras iguales de respuestas; tras revelar una respuesta, solo el sensor perfecto concentra la creencia sobre la causa."
+      },
+      {
+        "id": "information-stage-5",
+        "title": "Promediar cuánto podría aprenderse",
+        "claim": "La ganancia de información esperada es la media de la divergencia entre posterior y prior.",
+        "formula": "\\mathbb E_{p(o)}[\\mathrm{KL}(p(s\\mid o)\\Vert p(s))]=I(S;O)",
+        "explanation": "Un dato particular mueve el prior p(s) a p(s|o). Su KL mide la magnitud del cambio; antes de medir, ponderamos esos cambios por la probabilidad de cada dato. La identidad usa las marginales y condicionales de una misma distribución conjunta. Aprender un estado y aprender parámetros de un sensor son objetivos diferentes.",
+        "actionLabel": "Promediar posteriores posibles",
+        "animation": "Cada respuesta abre un posterior con su KL; los valores se ponderan por p(o) y se juntan en una ganancia esperada."
+      }
+    ],
+    "missions": [
+      {
+        "id": "information-mission-1",
+        "title": "Cuánto cuesta el modelo equivocado",
+        "brief": "Calcula el exceso de sorpresa de usar una predicción sesgada.",
+        "setup": "La distribución real q=(0.5,0.5); el modelo de puntuación p=(0.75,0.25). Logs naturales.",
+        "kind": "numeric",
+        "prompt": "¿Cuánto vale KL(q‖p) en nats?",
+        "formula": "\\tfrac12\\ln\\frac{1/2}{3/4}+\\tfrac12\\ln\\frac{1/2}{1/4}",
+        "answer": 0.143841036,
+        "solution": "La suma es (1/2)ln(4/3)≈0.14384 nats. Se pondera por q; invertir q y p sería otro cálculo.",
+        "hint": "Simplifica la suma de logaritmos a un logaritmo de producto.",
+        "transfer": "F compara q con un posterior mediante esta misma orientación de KL.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "information-mission-2",
+        "title": "Dos señales igual de impredecibles",
+        "brief": "Elige el instrumento que reduce incertidumbre sobre la causa.",
+        "setup": "S es binaria equilibrada. Instrumento A informa O=S sin error. Instrumento B devuelve una moneda equilibrada independiente de S. Ambos tienen H(O)=ln2.",
+        "kind": "choice",
+        "prompt": "¿Cuál enseña más sobre S y por qué?",
+        "formula": "I(S;O)=H[S]-H[S\\mid O]",
+        "answer": 0,
+        "solution": "A elimina la incertidumbre de S y gana ln2 nats; B deja H(S|O)=H(S) y gana cero. La impredecibilidad de las respuestas no distingue los instrumentos.",
+        "hint": "Mira qué creencia sobre S queda después de ver O.",
+        "transfer": "El valor epistémico de una política depende de información sobre estados, no solo de variabilidad sensorial.",
+        "choices": [
+          "A: reduce H(S|O) a cero",
+          "B: su moneda es más inesperada",
+          "Ambos: H(O) es idéntica"
+        ]
+      },
+      {
+        "id": "information-mission-3",
+        "title": "Una predicción que prohíbe un dato",
+        "brief": "Comprueba una condición de soporte antes de calcular.",
+        "setup": "q=(0.5,0.5), p=(1,0).",
+        "kind": "choice",
+        "prompt": "¿Qué valor tiene KL(q‖p)?",
+        "formula": "\\mathrm{KL}(q\\Vert p)=\\sum_o q(o)\\ln\\frac{q(o)}{p(o)}",
+        "answer": 2,
+        "solution": "El segundo resultado tiene q=0.5 y p=0: su log cociente diverge a +∞. No se puede ocultar esa incompatibilidad fijando ln0 a cero.",
+        "hint": "El convenio 0 ln0=0 solo sirve para un término cuyo peso es cero.",
+        "transfer": "Las distribuciones aproximadas y las preferencias deben respetar las condiciones de soporte del cálculo.",
+        "choices": [
+          "0 porque p está segura",
+          "ln2 porque q es uniforme",
+          "+∞ porque p prohíbe un resultado con masa positiva en q"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "information-1",
+      "information-2",
+      "information-3",
+      "information-4",
+      "information-5"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md"
+    ],
+    "scope": "Información discreta para F y G. Jensen, Gibbs y MaxEnt conservan lecciones demostrativas específicas."
+  },
+  "dynamics": {
+    "scenario": "Registras una variable que vuelve hacia un nivel de referencia mientras recibe perturbaciones aleatorias. Quieres separar estabilidad del sistema, estabilidad del simulador y variabilidad estacionaria.",
+    "objective": "Interpretar una ecuación de evolución, simular un paso y distinguir trayectorias de distribuciones estacionarias.",
+    "briefing": "Un estado x(t) es una posición de la variable en el instante t. El campo f(x) dice su velocidad local, no su destino final. Añadir ruido cambia la trayectoria y obliga a describir también la distribución de estados.",
+    "teachingStages": [
+      {
+        "id": "dynamics-stage-1",
+        "title": "Estado y velocidad son objetos distintos",
+        "claim": "Una ecuación diferencial prescribe cómo cambia el estado; un punto fijo tiene velocidad cero.",
+        "formula": "\\dot x(t)=f(x(t)),\\quad f(x)=-2x,\\quad f(0)=0",
+        "explanation": "El punto sobre x significa derivada respecto del tiempo. Con x=3, la velocidad es −6 unidades por unidad de tiempo: el estado empieza a bajar. Con x=−3, la velocidad es +6: empieza a subir. El estado x=0 es un punto fijo porque allí la velocidad se anula.",
+        "actionLabel": "Seguir el campo de flechas",
+        "animation": "Sobre una línea, flechas apuntan hacia cero y su longitud crece con |x|; una ficha indica su velocidad al pasar por cada posición."
+      },
+      {
+        "id": "dynamics-stage-2",
+        "title": "Aproximar un intervalo de tiempo",
+        "claim": "Euler suma velocidad actual por duración; no reproduce exactamente toda la trayectoria.",
+        "formula": "x_{n+1}=x_n+\\Delta t\\,f(x_n),\\quad x_0=3,\\;\\Delta t=0.1\\;\\Rightarrow\\;x_1=2.4",
+        "explanation": "n cuenta pasos de simulación y Δt es su duración. El cambio aproximado es 0.1×(−6)=−0.6. El resultado 2.4 difiere de la solución exacta 3e^(−0.2)≈2.456. Bajo condiciones regulares, reducir Δt mejora la aproximación sobre un intervalo fijo.",
+        "actionLabel": "Trazar el paso de Euler",
+        "animation": "La trayectoria curva se superpone a un segmento tangente; el extremo del segmento muestra la aproximación."
+      },
+      {
+        "id": "dynamics-stage-3",
+        "title": "La simulación tiene su propia estabilidad",
+        "claim": "La deriva −kx con k>0 es estable; Euler exige además |1−kΔt|<1.",
+        "formula": "x(t)=x_0e^{-kt},\\qquad x_{n+1}=(1-k\\Delta t)x_n,\\qquad0<k\\Delta t<2",
+        "explanation": "En tiempo continuo, el estado se acerca a cero. En la aproximación, el factor de cada paso determina si disminuye, oscila o diverge. Para k=2 y Δt=1.1, el factor es −1.2 y Euler diverge aunque la ecuación continua sea estable. Es un fallo del paso numérico.",
+        "actionLabel": "Comparar campo y discretización",
+        "animation": "El mismo campo genera una curva estable y tres secuencias Euler; un control de Δt revela el umbral de estabilidad."
+      },
+      {
+        "id": "dynamics-stage-4",
+        "title": "Ruido y retorno compiten",
+        "claim": "En Ornstein–Uhlenbeck, la deriva atrae y la difusión mantiene dispersión; estacionario no significa inmóvil.",
+        "formula": "dX_t=-kX_t\\,dt+\\sqrt{2D}\\,dW_t,\\quad k,D>0,\\qquad X_{ss}\\sim\\mathcal N(0,D/k)",
+        "explanation": "W_t es movimiento browniano: incrementos sobre intervalos no solapados son independientes y ΔW~N(0,Δt). Por eso, el paso Euler–Maruyama usa √(2DΔt)ξ, con ξ~N(0,1). D controla difusión y k retorno. La densidad estacionaria mantiene su forma mientras las trayectorias siguen fluctuando; su varianza es D/k.",
+        "actionLabel": "Superponer trayectorias y densidad",
+        "animation": "Muchas trayectorias cruzan cero; su histograma llega a una campana que conserva ancho aunque cada ficha continúa moviéndose."
+      },
+      {
+        "id": "dynamics-stage-5",
+        "title": "Una descripción temporal local",
+        "claim": "Las coordenadas generalizadas reúnen valor y derivadas en el mismo instante; requieren suficiente suavidad.",
+        "formula": "\\widetilde x=(x,x^{\\prime},x^{\\prime\\prime},\\ldots),\\quad\\mathcal D\\widetilde x=(x^{\\prime},x^{\\prime\\prime},x^{\\prime\\prime\\prime},\\ldots)",
+        "explanation": "x′ es velocidad y x″ aceleración. Estas no son muestras tomadas en tiempos sucesivos. El operador 𝒟 desplaza la lista hacia la siguiente derivada. El filtrado generalizado usa modelos y ruido suficientemente suaves; trayectorias de ruido blanco ideal no admiten esta lista de derivadas ordinarias.",
+        "actionLabel": "Desplazar una lista de derivadas",
+        "animation": "Casillas valor, velocidad y aceleración se desplazan con 𝒟; una línea de muestras temporales aparece separada para mostrar la diferencia."
+      }
+    ],
+    "missions": [
+      {
+        "id": "dynamics-mission-1",
+        "title": "Comprobar el paso",
+        "brief": "Simula una dinámica sin confundir estado y velocidad.",
+        "setup": "ẋ=−2x, x₀=3 y Δt=0.1.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es x₁ por Euler?",
+        "formula": "x_1=3+0.1(-2\\cdot3)",
+        "answer": 2.4,
+        "solution": "La velocidad actual es −6 y el cambio aproximado −0.6. Sumado al estado 3 produce 2.4.",
+        "hint": "Multiplica la velocidad por el intervalo antes de sumarla al estado.",
+        "transfer": "El descenso discreto y la integración Euler comparten un problema de tamaño de paso.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "dynamics-mission-2",
+        "title": "Escalar una fluctuación",
+        "brief": "Verifica cómo cambia el ruido al refinar una simulación.",
+        "setup": "dX=−Xdt+2dW; Euler–Maruyama usa ξ~N(0,1), Δt=0.01.",
+        "kind": "numeric",
+        "prompt": "¿Qué coeficiente multiplica ξ en el incremento?",
+        "formula": "2\\sqrt{\\Delta t}",
+        "answer": 0.2,
+        "solution": "√0.01=0.1 y 2×0.1=0.2. Escalar por Δt daría 0.02 y una varianza de ruido incorrecta.",
+        "hint": "El incremento browniano tiene varianza Δt.",
+        "transfer": "Simular ruido con una escala equivocada cambia el fenómeno que el agente aprende.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "dynamics-mission-3",
+        "title": "Leer una dispersión estacionaria",
+        "brief": "Calcula incertidumbre sin suponer inmovilidad.",
+        "setup": "dX=−2Xdt+√2 dW: k=2, D=1.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es la varianza de su distribución estacionaria?",
+        "formula": "\\operatorname{Var}(X_{ss})=D/k",
+        "answer": 0.5,
+        "solution": "La varianza es 1/2. La distribución estacionaria es N(0,0.5); sus trayectorias siguen moviéndose. No confundir varianza 0.5 con desviación estándar √0.5.",
+        "hint": "Identifica D comparando el coeficiente con √(2D).",
+        "transfer": "El estado estacionario del high road se refiere a distribuciones, no necesariamente a estados inmóviles.",
+        "tolerance": 0.001
+      }
+    ],
+    "relatedLessonIds": [
+      "dynamics-1",
+      "dynamics-2",
+      "dynamics-3",
+      "dynamics-4"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G11_TIEMPO_CONTINUO_Y_DINAMICA_ESTOCASTICA.md",
+      "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md"
+    ],
+    "scope": "Dinámica escalar, ruido y coordenadas. Fokker–Planck y NESS se mantienen como desarrollos propios; esta escena no deriva el high road."
+  },
+  "bayesian": {
+    "scenario": "Interpretas un sensor de una fuente poco frecuente. Después aprendes su propensión de activación y combinas una predicción previa con una medición ruidosa.",
+    "objective": "Actualizar causas mediante evidencia, conservar el papel del prior y fusionar información según precisión bajo modelos explícitos.",
+    "briefing": "Un sensor fiable puede producir muchos positivos sin fuente cuando la fuente es rara. Bayes cuenta todas las rutas que producen el dato: apoyo a cada causa dividido por apoyo total al dato.",
+    "teachingStages": [
+      {
+        "id": "bayesian-stage-1",
+        "title": "Contar antes de invertir",
+        "claim": "El prior distribuye casos entre causas; la likelihood distribuye respuestas dentro de cada causa.",
+        "formula": "P(S)=0.01,\\quad P(+\\mid S)=0.9,\\quad P(+\\mid\\neg S)=0.05",
+        "explanation": "S significa fuente activa. En 10 000 casos esperados bajo el modelo, 100 tienen fuente y 9900 no. El sensor produce 90 positivos con fuente y 495 sin fuente. Los números son frecuencias esperadas del modelo, no garantizan el resultado de una muestra real.",
+        "actionLabel": "Abrir las ramas del sensor",
+        "animation": "10 000 fichas se separan por causa y luego por respuesta; las dos ramas positivas conservan colores diferentes."
+      },
+      {
+        "id": "bayesian-stage-2",
+        "title": "Normalizar las rutas del dato",
+        "claim": "La evidencia suma el apoyo al dato de todas las causas excluyentes.",
+        "formula": "P(+)=0.9(0.01)+0.05(0.99)=0.0585,\\quad P(S\\mid+)={0.009}/{0.0585}=2/13",
+        "explanation": "El posterior responde qué proporción de positivos proviene de S. La evidencia 0.0585 es probabilidad del dato, no del estado. Normalizar los 90 y 495 positivos da 90/585≈0.15385. La sensibilidad 0.9 responde una pregunta distinta; no es el posterior.",
+        "actionLabel": "Reunir solo los positivos",
+        "animation": "Las dos ramas positivas entran en una banda común; 90 de 585 fichas quedan atribuidas a la fuente."
+      },
+      {
+        "id": "bayesian-stage-3",
+        "title": "Comparar apoyo entre dos causas",
+        "claim": "El factor de Bayes entre dos hipótesis multiplica sus odds previas para dar odds posteriores.",
+        "formula": "\\frac{P(S\\mid+)}{P(\\neg S\\mid+)}=\\underbrace{\\frac{P(+\\mid S)}{P(+\\mid\\neg S)}}_{BF=18}\\frac{P(S)}{P(\\neg S)}",
+        "explanation": "Odds son razón de probabilidades, no una probabilidad. La evidence común se cancela al dividir dos posteriores. En los apuntes, P(+|S)/P(+) también aparece como multiplicador de actualización de una hipótesis frente a la mezcla; ese cociente difiere del BF entre dos hipótesis. Declara qué denominador estás usando.",
+        "actionLabel": "Cancelar el denominador común",
+        "animation": "Dos fracciones de Bayes se dividen; la evidencia se cancela y quedan likelihood ratio×odds previas."
+      },
+      {
+        "id": "bayesian-stage-4",
+        "title": "Aprender una propensión",
+        "claim": "Beta–Bernoulli acumula éxitos y fracasos cuando los ensayos son independientes dado una probabilidad constante.",
+        "formula": "\\theta\\sim\\mathrm{Beta}(\\alpha,\\beta),\\quad\\theta\\mid x\\sim\\mathrm{Beta}(\\alpha+k,\\beta+n-k)",
+        "explanation": "θ es una probabilidad desconocida; α y β son parámetros positivos de su prior Beta. Su media es α/(α+β). Con prior Beta(2,2), 3 éxitos y 1 fracaso dan Beta(5,3), media 5/8. Esa media es también la probabilidad predictiva del próximo éxito; difiere del MLE 3/4.",
+        "actionLabel": "Sumar evidencia a cada parámetro",
+        "animation": "Dos depósitos rotulados α y β reciben fichas de éxito y fracaso; la curva Beta cambia y su media se desplaza."
+      },
+      {
+        "id": "bayesian-stage-5",
+        "title": "Fusionar con precisión",
+        "claim": "Un prior gaussiano y ruido gaussiano aditivo independiente producen una media posterior ponderada por precisiones.",
+        "formula": "\\mu_{post}=\\frac{\\lambda_0\\mu_0+\\lambda_y y}{\\lambda_0+\\lambda_y},\\quad\\lambda_{post}=\\lambda_0+\\lambda_y,\\quad\\lambda=1/\\sigma^2",
+        "explanation": "Suponemos s~N(μ₀,σ₀²) y y|s~N(s,σ_y²). Con μ₀=0, σ₀²=4, y=2 y σ_y²=1, λ₀=0.25 y λ_y=1: μ_post=1.6 y varianza posterior 0.8. La medición pesa cuatro veces más que el prior por su precisión modelada; precisión no equivale a verdad.",
+        "actionLabel": "Pesar dos fuentes de información",
+        "animation": "Dos barras aportan λμ a un numerador; la suma de λ normaliza. Aumentar ruido sensorial reduce el peso de y."
+      }
+    ],
+    "missions": [
+      {
+        "id": "bayesian-mission-1",
+        "title": "El positivo de una fuente rara",
+        "brief": "Resuelve el conflicto entre sensibilidad y tasa base.",
+        "setup": "Fuente activa con probabilidad 0.01; P(+|activa)=0.9; P(+|inactiva)=0.05.",
+        "kind": "numeric",
+        "prompt": "¿Qué probabilidad tiene la fuente activa después de un positivo?",
+        "formula": "P(S\\mid+)={0.9\\cdot0.01}/{(0.9\\cdot0.01+0.05\\cdot0.99)}",
+        "answer": 0.153846154,
+        "solution": "Las rutas positivas tienen masas 0.009 y 0.0495. Dividir 0.009 por 0.0585 da 2/13≈0.15385. Un positivo favorece S respecto del prior 0.01, pero no la vuelve la causa mayoritaria.",
+        "hint": "Incluye los falsos positivos de la causa frecuente.",
+        "transfer": "La evidencia impide confundir fiabilidad sensorial con credibilidad de una causa.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "bayesian-mission-2",
+        "title": "Predicción después de aprender",
+        "brief": "Integra el prior en la predicción del siguiente ensayo.",
+        "setup": "θ~Beta(2,2); observas 3 éxitos y 1 fracaso condicionalmente independientes dado θ.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es la probabilidad predictiva de un éxito nuevo?",
+        "formula": "P(X_{nuevo}=1\\mid x)={2+3}/{(2+2+4)}",
+        "answer": 0.625,
+        "solution": "El posterior es Beta(5,3); su media 5/8=0.625 predice el próximo éxito. Usar solo 3/4 sería la estimación MLE sin este prior.",
+        "hint": "Actualiza ambos parámetros antes de normalizarlos.",
+        "transfer": "El aprendizaje de A y B usa la misma lógica con Dirichlet y categorías múltiples.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "bayesian-mission-3",
+        "title": "Un sensor cuatro veces más preciso",
+        "brief": "Combina una expectativa previa y una lectura bajo un modelo gaussiano.",
+        "setup": "Prior s~N(0,4); lectura y=2 con ruido N(0,1) independiente de s.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es la media posterior de s?",
+        "formula": "\\mu_{post}={0.25\\cdot0+1\\cdot2}/{1.25}",
+        "answer": 1.6,
+        "solution": "Las precisiones son 0.25 y 1. La suma de contribuciones es 2 y la precisión total 1.25, dando 1.6. La varianza posterior es 1/1.25=0.8.",
+        "hint": "Invierte varianzas antes de ponderar medias.",
+        "transfer": "El peso de un error de predicción depende de su incertidumbre asumida.",
+        "tolerance": 0.001
+      }
+    ],
+    "relatedLessonIds": [
+      "bayesian-1",
+      "bayesian-2",
+      "bayesian-3",
+      "bayesian-4",
+      "bayesian-5",
+      "bayesian-6"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md",
+      "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md",
+      "work/sources/03_guias_nivelacion/guias/G04_PROBABILIDAD_COMO_INFERENCIA_RACIONAL.md"
+    ],
+    "scope": "Actualización, aprendizaje conjugado y fusión gaussiana. Jerarquías, filtrado, evidencia de modelos y Jeffreys tienen lecciones específicas."
+  },
+  "variational": {
+    "scenario": "Conoces el modelo que relaciona una observación fija con dos causas, pero quieres ajustar una distribución de creencias mediante un objetivo calculable; después limitarás la forma de esa aproximación.",
+    "objective": "Derivar F y ELBO, interpretar su diferencia respecto de la sorpresa y reconocer el coste de restringir una familia variacional.",
+    "briefing": "El modelo p ya está definido y la observación o ya ocurrió. q representa las creencias que ajustamos. Cambiar q no cambia el dato ni la evidencia del modelo; cambia cuánto se aproxima q al posterior que ese modelo implica.",
+    "teachingStages": [
+      {
+        "id": "variational-stage-1",
+        "title": "Separar modelo y creencia",
+        "claim": "p(o,z) asigna apoyo conjunto; q(z) es una distribución normalizada de creencias sobre las causas.",
+        "formula": "p(o,z_1)=0.3,\\quad p(o,z_2)=0.1,\\quad q(z)=(\\phi,1-\\phi)",
+        "explanation": "z₁ y z₂ son dos causas excluyentes. o nombra el dato observado y queda fijo. Los pesos conjuntos suman 0.4, la evidencia de ese dato; no tienen por qué sumar uno al fijar o. q sí suma uno porque reparte creencia entre causas. φ es su primer peso y se puede ajustar entre cero y uno.",
+        "actionLabel": "Mover la creencia con el dato fijo",
+        "animation": "La observación queda fijada; dos barras de p(o,z) conservan alturas 0.3 y 0.1 mientras q se mueve sin cambiar su suma."
+      },
+      {
+        "id": "variational-stage-2",
+        "title": "Construir un objetivo para q",
+        "claim": "F promedia la diferencia entre log creencia y log apoyo conjunto usando la propia q.",
+        "formula": "F[q]=\\mathbb E_q[\\ln q(z)-\\ln p(o,z)]=\\phi\\ln\\frac{\\phi}{0.3}+(1-\\phi)\\ln\\frac{1-\\phi}{0.1}",
+        "explanation": "Para φ=0.5, los dos aportes son 0.5ln(0.5/0.3) y 0.5ln(0.5/0.1); juntos dan F≈1.06013 nats. F recibe una distribución q y devuelve un número: es un funcional. Si q da masa positiva a una causa con p(o,z)=0, este objetivo resulta infinito.",
+        "actionLabel": "Acumular los dos aportes",
+        "animation": "Cada causa aporta q·ln(q/p_conjunta); sus barras con signo se suman al valor de F."
+      },
+      {
+        "id": "variational-stage-3",
+        "title": "Derivar la cota, no memorizarla",
+        "claim": "Bayes separa F en divergencia al posterior y sorpresa fija del dato.",
+        "formula": "\\ln p(o,z)=\\ln p(z\\mid o)+\\ln p(o)\\Rightarrow F[q]=\\mathrm{KL}(q\\Vert p(z\\mid o))-\\ln p(o)",
+        "explanation": "p(o)>0 y se usan distribuciones con soporte y expectativas compatibles. Como KL≥0, F≥−ln p(o); la igualdad ocurre si q coincide con el posterior. Aquí p(z|o)=(0.75,0.25) y la sorpresa es −ln0.4≈0.91629. Para datos continuos p(o) es densidad: F y sorpresa pueden ser negativas.",
+        "actionLabel": "Separar base y exceso",
+        "animation": "Una base inmóvil −ln p(o) y una barra de KL componen F; mover q al posterior elimina solo el exceso."
+      },
+      {
+        "id": "variational-stage-4",
+        "title": "Leer dos descomposiciones del mismo cálculo",
+        "claim": "F es complejidad menos exactitud y ELBO es −F; exactitud significa log likelihood esperada.",
+        "formula": "F=\\mathrm{KL}(q\\Vert p(z))-\\mathbb E_q\\ln p(o\\mid z),\\quad\\mathrm{ELBO}=-F\\leq\\ln p(o)",
+        "explanation": "Usando prior (0.5,0.5) y likelihood del dato (0.6,0.2), obtenemos la conjunta (0.3,0.1). Con q igual al prior, la complejidad es cero y la exactitud es 0.5ln0.6+0.5ln0.2≈−1.06013. Restar esa exactitud produce F positivo. Exactitud no es porcentaje de aciertos; F no es energía metabólica.",
+        "actionLabel": "Reagrupar los términos logarítmicos",
+        "animation": "ln p(o,z) se abre como ln likelihood+ln prior; los términos se reúnen en complejidad y exactitud con sus signos."
+      },
+      {
+        "id": "variational-stage-5",
+        "title": "Restringir q tiene consecuencias",
+        "claim": "Mean-field elimina dependencias entre factores; Laplace aproxima un modo mediante curvatura gaussiana local.",
+        "formula": "q(z_1,z_2)=q_1(z_1)q_2(z_2),\\qquad q_{Laplace}\\approx\\mathcal N(\\mu,H_U(\\mu)^{-1}),\\quad U=-\\ln p(o,z)",
+        "explanation": "Una tabla correlacionada puede quedar fuera de la familia de productos y dejar KL mínima positiva. Mean-field es una restricción sobre q; no prueba independencia del modelo p. Laplace supone un modo interior no degenerado y Hessiano H_U definido positivo; una sola gaussiana puede perder modos separados.",
+        "actionLabel": "Comparar tabla y aproximaciones",
+        "animation": "Una tabla con masa diagonal se compara con un producto; dos picos posteriores se comparan con una campana local alrededor de uno."
+      }
+    ],
+    "missions": [
+      {
+        "id": "variational-mission-1",
+        "title": "Cerrar la cota",
+        "brief": "Ajusta q para que no quede divergencia al posterior.",
+        "setup": "Dato fijo o: p(o,z₁)=0.3, p(o,z₂)=0.1; q=(φ,1−φ) sin otra restricción.",
+        "kind": "numeric",
+        "prompt": "¿Qué φ minimiza F?",
+        "formula": "\\phi_*={0.3}/{(0.3+0.1)}",
+        "answer": 0.75,
+        "solution": "La evidencia es 0.4. El posterior asigna 0.75 a z₁; pertenece a la familia q y hace KL cero, alcanzando F=−ln0.4.",
+        "hint": "Minimizar F equivale aquí a igualar q con el posterior.",
+        "transfer": "La inferencia variacional ajusta creencias; no necesita reinterpretar F como una fuerza física.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "variational-mission-2",
+        "title": "Cuánto sobra en F",
+        "brief": "Mide el error de la aproximación en el mismo ejemplo.",
+        "setup": "q=(0.5,0.5), p(z|o)=(0.75,0.25), p(o)=0.4.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es F[q]−(−ln p(o)), en nats?",
+        "formula": "F+\\ln p(o)=\\mathrm{KL}((.5,.5)\\Vert(.75,.25))",
+        "answer": 0.143841036,
+        "solution": "El exceso es KL≈0.14384; F≈1.06013 y sorpresa≈0.91629. Reducir este exceso mejora la aproximación sin cambiar la evidencia del modelo fijo.",
+        "hint": "Resta la base fija o calcula directamente la KL.",
+        "transfer": "ELBO también queda por debajo de log evidencia por exactamente la misma KL.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "variational-mission-3",
+        "title": "Una familia que pierde dependencias",
+        "brief": "Comprueba qué puede representar una aproximación mean-field.",
+        "setup": "Posterior sobre dos variables binarias: tabla [[0.4,0.1],[0.1,0.4]]. Sus marginales son uniformes. Se impone q(z₁,z₂)=q₁q₂.",
+        "kind": "choice",
+        "prompt": "¿Puede esta familia alcanzar KL(q‖posterior)=0?",
+        "formula": "q(z_1,z_2)=q_1(z_1)q_2(z_2)",
+        "answer": 0,
+        "solution": "No: KL cero exige igualdad con el posterior. Si fuera un producto, sus marginales uniformes darían cuatro celdas de 0.25, distintas de 0.4 y 0.1. El posterior correlacionado queda fuera de la familia.",
+        "hint": "Compara el producto de las marginales con la tabla conjunta.",
+        "transfer": "La calidad de inferencia depende de la expresividad de q, además de la optimización.",
+        "choices": [
+          "No, porque el posterior no factoriza",
+          "Sí, porque ambas marginales suman uno",
+          "Sí, todo posterior admite cualquier familia normalizada"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "variational-1",
+      "variational-2",
+      "variational-3",
+      "variational-4"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md",
+      "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md",
+      "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md",
+      "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md"
+    ],
+    "scope": "F, ELBO y límites de aproximación. Actualizaciones mean-field y errores gaussianos requieren sus derivaciones específicas; la escena no afirma convergencia universal."
+  },
+  "generative": {
+    "scenario": "Construyes un modelo de una fuente que cambia de lugar después de una acción y genera respuestas sensoriales. Debes distinguir el proceso generador, la inferencia y la estructura de dependencias.",
+    "objective": "Factorizar un modelo pequeño, orientar A y B, separar D/C/E y reconocer cómo condicionar cambia una dependencia.",
+    "briefing": "Primero dibuja qué variables existen y cuáles registras. Una flecha declara qué condicional necesita el modelo. Construirlo permite simular datos; observar esos datos y estimar causas requiere otro paso de inferencia.",
+    "teachingStages": [
+      {
+        "id": "generative-stage-1",
+        "title": "Generar y luego inferir",
+        "claim": "Un modelo generativo asigna una distribución conjunta a observaciones y causas; la inferencia condiciona en el dato.",
+        "formula": "p(o,s)=p(o\\mid s)p(s),\\quad s\\sim p(s),\\quad o\\sim p(o\\mid s)",
+        "explanation": "s es una causa oculta y o una respuesta observable. Para simular, primero sortea s y después sortea o en su distribución condicional. En inferencia, o queda fijado y calculas p(s|o). p representa el modelo; q puede representar una aproximación al posterior. No son sinónimos.",
+        "actionLabel": "Invertir el recorrido con el dato fijo",
+        "animation": "Una simulación recorre s→o; al fijar o, el flujo de evidencia regresa hacia una distribución sobre s."
+      },
+      {
+        "id": "generative-stage-2",
+        "title": "A describe respuestas bajo cada estado",
+        "claim": "A_{ij} es la probabilidad de respuesta i dado estado j; las columnas son distribuciones.",
+        "formula": "A=\\begin{bmatrix}0.8&0.2\\\\0.2&0.8\\end{bmatrix},\\quad A_{ij}=P(o=i\\mid s=j),\\quad\\sum_iA_{ij}=1",
+        "explanation": "Filas: respuesta positiva y negativa. Columnas: fuente izquierda y derecha. Si la fuente está izquierda, la respuesta positiva tiene probabilidad 0.8. Si la creencia es (0.6,0.4), A s predice respuesta positiva 0.56. La tabla no contiene automáticamente el posterior del estado dado respuesta.",
+        "actionLabel": "Seleccionar un estado oculto",
+        "animation": "Cada columna despliega su distribución de respuestas; mezclar columnas produce la predicción de observaciones."
+      },
+      {
+        "id": "generative-stage-3",
+        "title": "B y D dan estructura temporal",
+        "claim": "D fija el prior inicial; B^u describe el siguiente estado condicionado al actual y a una acción.",
+        "formula": "B^u_{ij}=P(s_{t+1}=i\\mid s_t=j,u_t=u),\\quad p(o_{1:2},s_{1:2}\\mid u)=D_{s_1}A_{o_1s_1}B^u_{s_2s_1}A_{o_2s_2},\\quad m(s^{\\prime})=\\sum_s B^u_{s^{\\prime}s}q(s)",
+        "explanation": "La factorización supone transiciones Markov y observaciones condicionadas solo al estado contemporáneo. B tiene filas de estados siguientes y columnas de actuales; cada columna suma uno. El mensaje m(s′)=ΣₛBᵘ_{s′s}q(s) transmite la predicción al siguiente estado: multiplica por cada estado actual y suma alternativas. D es distribución del primer estado; no es el operador temporal 𝒟.",
+        "actionLabel": "Desplegar dos instantes",
+        "animation": "Dos estados unidos por B^u generan dos observaciones con A; D alimenta solo el primer estado y las probabilidades se multiplican a lo largo de la ruta."
+      },
+      {
+        "id": "generative-stage-4",
+        "title": "Preferencia y hábito tienen otros dominios",
+        "claim": "C puntúa resultados y E distribuye prior entre políticas; ninguno reemplaza el prior inicial D.",
+        "formula": "P_C(o)=\\operatorname{softmax}(C)_o,\\quad\\sum_\\pi E(\\pi)=1,\\quad\\sum_sD(s)=1",
+        "explanation": "D responde «qué estado espero al inicio». P_C responde «qué resultado prefiero». E responde «qué secuencia suelo realizar antes de esta evidencia». Son distribuciones sobre objetos diferentes. Aquí C son logits; para comparar con ecuaciones del libro que usan C como probabilidad, traduce C↔P_C explícitamente.",
+        "actionLabel": "Asignar cada prior a su objeto",
+        "animation": "Tres cajones se conectan a estados iniciales, resultados y políticas; una etiqueta rechaza conexiones que cambian el dominio."
+      },
+      {
+        "id": "generative-stage-5",
+        "title": "La estructura decide qué se puede separar",
+        "claim": "En un DAG, cadenas y causas comunes permiten independencia al fijar el nodo intermedio; un efecto común puede crear dependencia al observarlo.",
+        "formula": "X\\to Z\\to Y:\\ X\\perp Y\\mid Z;\\qquad X\\to Z\\leftarrow Y",
+        "explanation": "DAG significa grafo dirigido sin ciclos. Fijar el nodo intermedio separa una cadena o causa común; observar un efecto común puede crear dependencia. Con raíces independientes y Z=X∨Y (∨ significa «o»), saber Z=1 y X=0 obliga Y=1. La cobija incluye padres, hijos y otros padres de hijos. Una placa es un marco de repetición indexada, i=1,…,N; no afirma independencia marginal. Los mensajes sum-product son exactos en árboles; con ciclos no hay garantía general de convergencia.",
+        "actionLabel": "Abrir y cerrar una dependencia",
+        "animation": "Tres motivos de grafo se comparan; el efecto común sombreado abre una dependencia entre sus causas y se resaltan los vecinos de la cobija."
+      }
+    ],
+    "missions": [
+      {
+        "id": "generative-mission-1",
+        "title": "Inferir sin transponer A",
+        "brief": "Usa la fila del dato observado y el prior sobre estados.",
+        "setup": "A=[[0.8,0.2],[0.2,0.8]], D=(0.6,0.4). Observas la primera respuesta.",
+        "kind": "numeric",
+        "prompt": "¿Qué posterior recibe el primer estado?",
+        "formula": "q(s_1)={0.8\\cdot0.6}/{(0.8\\cdot0.6+0.2\\cdot0.4)}",
+        "answer": 0.857142857,
+        "solution": "La likelihood de esa respuesta es la primera fila (0.8,0.2). Producto por D da (0.48,0.08); normalizar divide por 0.56 y da 6/7 al primer estado.",
+        "hint": "La respuesta conocida elige una fila; las causas recorren columnas.",
+        "transfer": "La corrección de un HMM es producto componente a componente y normalización.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "generative-mission-2",
+        "title": "Predecir después de una acción",
+        "brief": "Propaga la creencia sin convertir una transición en likelihood sensorial.",
+        "setup": "B^u=[[0.9,0.2],[0.1,0.8]], q(s_t)=(0.6,0.4).",
+        "kind": "numeric",
+        "prompt": "¿Qué probabilidad predices para el primer estado siguiente?",
+        "formula": "(B^u q)_1=0.9\\cdot0.6+0.2\\cdot0.4",
+        "answer": 0.62,
+        "solution": "La predicción combina estados actuales: 0.54+0.08=0.62. El segundo estado recibe 0.38 y las probabilidades suman uno.",
+        "hint": "Las filas de B corresponden al estado siguiente.",
+        "transfer": "Primero predice con B, luego corrige con una observación usando A.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "generative-mission-3",
+        "title": "El efecto común observado",
+        "brief": "Detecta una dependencia que aparece al seleccionar casos.",
+        "setup": "X e Y son binarias independientes y equilibradas; Z=1 si X=1 o Y=1. Sabes Z=1 y X=0.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es P(Y=1|Z=1,X=0)?",
+        "formula": "Z=X\\lor Y",
+        "answer": 1,
+        "solution": "Si Z=1 y X=0, el único caso compatible es Y=1. Antes de observar Z, P(Y=1|X=0)=0.5. Condicionar en el efecto común cambia la relación.",
+        "hint": "Enumera las combinaciones compatibles con las dos condiciones.",
+        "transfer": "Selección de participantes y variables efecto pueden introducir dependencias en análisis experimentales.",
+        "tolerance": 0.001
+      }
+    ],
+    "relatedLessonIds": [
+      "generative-1",
+      "generative-2",
+      "generative-3",
+      "generative-4"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G09_MODELOS_GENERATIVOS_GRAFICOS_Y_MENSAJES.md",
+      "work/sources/03_guias_nivelacion/guias/G10_TIEMPO_DISCRETO_MARKOV_MDP_Y_POMDP.md",
+      "work/sources/03_guias_nivelacion/guias/G03_ALGEBRA_LINEAL_Y_TENSORES.md",
+      "work/sources/03_guias_nivelacion/guias/G12_IMPLEMENTACION_DE_MODELOS.md"
+    ],
+    "scope": "Modelo discreto y topología básica, con introducción breve de placas y mensajes. El desarrollo de sum-product está en la fuente G09 enlazada; una cobija estadística no demuestra por sí sola una frontera biológica."
+  },
+  "decision": {
+    "scenario": "Planificas una secuencia corta de mediciones para localizar una señal y alcanzar un resultado preferido. Una política puede enseñar sobre la causa o producir resultados deseables; ambas consecuencias deben modelarse.",
+    "objective": "Predecir consecuencias de políticas, puntuar G bajo una convención explícita y seleccionar políticas considerando preferencias, información y evidencia disponible.",
+    "briefing": "Una acción es una operación ahora; una política es una secuencia de acciones. Para compararlas todavía no observadas, el agente imagina estados y respuestas futuros con su modelo. No confundiremos esas predicciones con los datos ya recibidos.",
+    "teachingStages": [
+      {
+        "id": "decision-stage-1",
+        "title": "Una política extiende la acción en el tiempo",
+        "claim": "La política π especifica una secuencia; el estado oculto y la observación siguen siendo variables diferentes.",
+        "formula": "\\pi=(u_t,u_{t+1}),\\quad q(s_\\tau\\mid\\pi),\\quad\\tau>t",
+        "explanation": "u_t puede ser «mirar izquierda» y u_{t+1} «acercarse». s_τ representa dónde estará la fuente; o_τ lo que registrará el sensor. La política no revela el estado por sí sola. Sus consecuencias se predicen usando una creencia inicial y modelos de transición y observación.",
+        "actionLabel": "Comparar dos secuencias",
+        "animation": "Dos caminos de acciones se abren sobre una misma creencia inicial; cada uno termina en una distribución de estados."
+      },
+      {
+        "id": "decision-stage-2",
+        "title": "Imaginar antes de ver",
+        "claim": "Las respuestas futuras se obtienen marginalizando estados predichos bajo la política.",
+        "formula": "q(o_\\tau\\mid\\pi)=\\sum_s p(o_\\tau\\mid s)q(s_\\tau=s\\mid\\pi)",
+        "explanation": "La conjunta predictiva es q(s,o|π)=q(s|π)p(o|s). Con estados equiprobables y un sensor perfecto, las dos respuestas también son equiprobables. Un sensor de moneda independiente produce la misma marginal de respuestas, pero una conjunta diferente. Esa diferencia determina lo que podría aprenderse.",
+        "actionLabel": "Construir la conjunta predictiva",
+        "animation": "Cada estado envía su peso a respuestas mediante A; se muestran la tabla conjunta y sus marginales."
+      },
+      {
+        "id": "decision-stage-3",
+        "title": "Declarar las preferencias",
+        "claim": "Los valores C son logits de preferencia; normalizarlos define una distribución positiva de resultados preferidos.",
+        "formula": "P_C(o)=\\frac{e^{C_o}}{\\sum_j e^{C_j}},\\quad C=(\\ln3,0)\\Rightarrow P_C=(0.75,0.25)",
+        "explanation": "P_C describe qué resultados se prefieren; no es la predicción q(o|π). C solo tiene diferencias relativas: sumar la misma constante a ambos valores no cambia P_C. Algunas ecuaciones del libro llaman C directamente a la distribución de preferencias; aquí reservamos C para logits y P_C para probabilidades.",
+        "actionLabel": "Convertir valores en proporciones",
+        "animation": "Dos logits pasan por exp, dan pesos 3 y 1 y se normalizan en preferencias 0.75 y 0.25."
+      },
+      {
+        "id": "decision-stage-4",
+        "title": "Separar discrepancia y ambigüedad",
+        "claim": "Con preferencias sobre observaciones, definimos G como riesgo más ambigüedad; equivale a coste preferencial menos información.",
+        "formula": "G_\\tau(\\pi)=\\mathrm{KL}(q(o\\mid\\pi)\\Vert P_C(o))+\\mathbb E_{q(s\\mid\\pi)}H[p(o\\mid s)]=-I_q(S;O\\mid\\pi)-\\mathbb E_{q(o\\mid\\pi)}\\ln P_C(o)",
+        "explanation": "Usamos la misma conjunta q(s,o|π)=q(s|π)p(o|s) y preferencias positivas. Expande riesgo: KL(q(o)‖P_C)=−H(O)−E lnP_C. La ambigüedad es H(O|S); sumando, H(O|S)−H(O)=−I(S;O), lo que da la segunda expresión. Señales independientes del estado no aportan información. Otras convenciones de G requieren traducir supuestos antes de igualar expresiones.",
+        "actionLabel": "Descomponer el mismo valor de G",
+        "animation": "Dos barras riesgo+ambigüedad se transforman algebraicamente en coste preferencial−información sin cambiar el total."
+      },
+      {
+        "id": "decision-stage-5",
+        "title": "De puntuaciones a elección",
+        "claim": "Un posterior de políticas puede combinar hábito E, ajuste de datos F y predicción futura G; softmax normaliza los pesos.",
+        "formula": "q(\\pi)=\\operatorname{softmax}(\\ln E(\\pi)-F(\\pi)-G(\\pi))",
+        "explanation": "Esta forma usa precisión de G igual a uno. F(π) evalúa cómo la política explica datos observados; G puntúa consecuencias futuras; E es el prior habitual. Si F es igual entre políticas, se cancela al normalizar. Entonces una regla simplificada usa softmax(ln E−γG), con γ explícita. Elegir una acción requiere sumar políticas que comparten esa acción.",
+        "actionLabel": "Normalizar puntuaciones de políticas",
+        "animation": "Tres contribuciones se suman por política; exp genera pesos y una división por el total produce q(π)."
+      }
+    ],
+    "missions": [
+      {
+        "id": "decision-mission-1",
+        "title": "Información con preferencias iguales",
+        "brief": "Compara estrategias que predicen las mismas respuestas.",
+        "setup": "S binaria equiprobable; P_C=(0.5,0.5). A observa O=S perfectamente; B genera O como moneda independiente. Ambas q(O) son uniformes.",
+        "kind": "numeric",
+        "prompt": "¿Cuánto mayor es G(B) que G(A), en nats?",
+        "formula": "\\Delta G=\\Delta H(O\\mid S)=\\ln2",
+        "answer": 0.693147181,
+        "solution": "El riesgo es cero para ambas. A tiene ambigüedad cero; B tiene ambigüedad ln2. La diferencia es ln2≈0.69315. Igual entropía predictiva no significa igual información sobre S.",
+        "hint": "Con preferencias iguales y predicción uniforme, solo cambia la ambigüedad.",
+        "transfer": "La exploración epistémica busca observaciones que puedan distinguir causas.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "decision-mission-2",
+        "title": "Normalizar dos políticas",
+        "brief": "Convierte una diferencia de G en una probabilidad de elección.",
+        "setup": "Dos políticas con E iguales y F iguales. G₁=0, G₂=ln3. Usa γ=1.",
+        "kind": "numeric",
+        "prompt": "¿Qué probabilidad recibe la primera política?",
+        "formula": "q(\\pi_1)=\\frac{e^0}{e^0+e^{-\\ln3}}",
+        "answer": 0.75,
+        "solution": "Los pesos son 1 y 1/3. Normalizando, q(π₁)=1/(1+1/3)=3/4=0.75. Es la regla simplificada justificada porque E y F coinciden.",
+        "hint": "Exponencia las puntuaciones negativas antes de dividir.",
+        "transfer": "Una política mejor puntuada puede compartir la misma acción inicial con otra; la acción se marginaliza.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "decision-mission-3",
+        "title": "Cuándo importa la evidencia pasada",
+        "brief": "Una política atractiva para el futuro contradice las observaciones ya recibidas.",
+        "setup": "π₁ tiene G menor que π₂, pero F(π₁) es mayor. E es igual.",
+        "kind": "choice",
+        "prompt": "¿Qué cantidad determina la preferencia en la forma completa escrita aquí?",
+        "formula": "q(\\pi)=\\operatorname{softmax}(\\ln E-F-G)",
+        "answer": 1,
+        "solution": "Con E igual, el peso favorece menor F+G. Conocer solo cuál tiene menor G no basta cuando F difiere. F y G se refieren a datos observados y futuros respectivamente.",
+        "hint": "Ambos términos llevan signo menos en la puntuación.",
+        "transfer": "Al leer el posterior de políticas del libro, declara qué términos se igualaron u omitieron.",
+        "choices": [
+          "Solo G, siempre",
+          "La suma F+G, en esta convención",
+          "Solo el número de acciones"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "decision-1",
+      "decision-2",
+      "decision-3",
+      "decision-4"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G10_TIEMPO_DISCRETO_MARKOV_MDP_Y_POMDP.md",
+      "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md",
+      "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md"
+    ],
+    "scope": "Decisión discreta introductoria. Saliencia sobre estados, novedad sobre parámetros y horizontes largos requieren sus lecciones particulares."
+  },
+  "active": {
+    "scenario": "Integras un agente que busca una fuente a izquierda o derecha: recibe un indicio, actualiza creencias, elige si medir otra vez o desplazarse, y aprende la fiabilidad de su sensor.",
+    "objective": "Ejecutar y explicar un ciclo de percepción, selección y aprendizaje; diferenciar un objetivo formal, una hipótesis de mecanismo y su prueba empírica.",
+    "briefing": "El mundo produce datos; el agente mantiene creencias sobre sus causas. Una acción cambia qué datos recibirá. Al cerrar el ciclo podemos comprobar sus cálculos en un mundo simulado y preguntar qué evidencia haría falta para aplicar el modelo a participantes.",
+    "teachingStages": [
+      {
+        "id": "active-stage-1",
+        "title": "Cerrar el circuito sin confundir variables",
+        "claim": "Percepción cambia creencias; acción modifica el proceso y con ello datos posteriores.",
+        "formula": "q(s)\\xrightarrow{\\;o\\;}q(s\\mid o)\\xrightarrow{\\;\\pi\\;}u\\xrightarrow{\\;proceso\\;}o_{nuevo}",
+        "explanation": "s es ubicación de la fuente, o una lectura y u una acción física o experimental. Con prior (0.5,0.5) y likelihood positiva (0.8,0.2), un positivo lleva a posterior (0.8,0.2). Esa creencia no mueve la fuente por sí sola. Para simular la acción, el proceso necesita una transición dependiente de u.",
+        "actionLabel": "Recorrer un ciclo completo",
+        "animation": "Cajas de proceso, sensor, creencia y acción se activan en secuencia; datos y creencias tienen colores distintos."
+      },
+      {
+        "id": "active-stage-2",
+        "title": "Explicar el presente, evaluar el futuro",
+        "claim": "F se calcula para datos observados; G puntúa consecuencias futuras de políticas bajo supuestos declarados.",
+        "formula": "F[q]=\\mathrm{KL}(q(s)\\Vert p(s\\mid o))-\\ln p(o),\\quad G_\\tau(\\pi)=\\mathrm{KL}(q(o_\\tau\\mid\\pi)\\Vert P_C)+\\mathbb E_{q(s_\\tau\\mid\\pi)}H[p(o_\\tau\\mid s_\\tau)]",
+        "explanation": "El dato o ya recibido queda fijo mientras ajustamos q. Los o_τ futuros todavía no existen para el agente: se promedian usando predicciones. Aquí G usa preferencias sobre observaciones. F y G no son intercambiables ni equivalen a energía metabólica. La regla completa de políticas puede incluir E, F(π) y G(π).",
+        "actionLabel": "Separar observado y prospectivo",
+        "animation": "Una línea temporal fija el dato actual a la izquierda y abre distribuciones de resultados a la derecha; F y G quedan en sus lados respectivos."
+      },
+      {
+        "id": "active-stage-3",
+        "title": "Medir para reducir incertidumbre relevante",
+        "claim": "La ganancia epistémica sobre estados es información mutua; la novedad se refiere a parámetros desconocidos.",
+        "formula": "I(S;O\\mid\\pi)=H(S\\mid\\pi)-H(S\\mid O,\\pi)",
+        "explanation": "Una medición puede resolver la ubicación de la fuente aunque no dé un resultado preferido inmediato. Si el sensor también es desconocido, la misma medición puede enseñar sus parámetros. Saliencia se refiere aquí a información sobre estados; novedad, a información sobre parámetros. No basta elegir la señal más variable.",
+        "actionLabel": "Elegir qué desconocido aprender",
+        "animation": "Dos barras de incertidumbre, ubicación y fiabilidad, se actualizan por separado tras una medición."
+      },
+      {
+        "id": "active-stage-4",
+        "title": "Aprender un modelo de observación",
+        "claim": "Los parámetros Dirichlet de cada columna de A acumulan conteos de respuestas; si el estado es incierto se usan conteos esperados en una actualización aproximada.",
+        "formula": "a^{nuevo}_{ij}=a_{ij}+o_iq(s=j\\mid o),\\quad\\mathbb E[A_{ij}]={a_{ij}}/{\\sum_k a_{kj}}",
+        "explanation": "Dirichlet extiende Beta a probabilidades de varias categorías; a son sus parámetros positivos por columna. o es one-hot: una entrada 1 y las demás 0; primera respuesta da o=(1,0). Con estado conocido y prior a=(2,2), esa respuesta da (3,2), media (0.6,0.4). Con estado incierto se reparte el conteo según q(s|o). Actualizar una sola Dirichlet con esos recuentos esperados es una aproximación variacional; el posterior exacto puede ser una mezcla.",
+        "actionLabel": "Depositar conteos con responsabilidad",
+        "animation": "Una ficha de respuesta se distribuye entre columnas según q(s|o); cada columna se normaliza para actualizar su A media."
+      },
+      {
+        "id": "active-stage-5",
+        "title": "Del principio al experimento",
+        "claim": "Una identidad matemática, un algoritmo de proceso y una afirmación empírica tienen criterios de validación diferentes.",
+        "formula": "\\text{objetivo formal}\\ \\to\\ \\text{modelo de proceso}\\ \\to\\ \\text{predicciones contrastables}",
+        "explanation": "La identidad F=KL−ln evidencia es un resultado formal con condiciones. Un algoritmo que actualiza mediante errores precisados es una propuesta de proceso. Afirmar que un circuito neural implementa ese algoritmo requiere datos y predicciones que lo distingan de alternativas. Simulación, recuperación de parámetros y chequeos predictivos prueban aspectos diferentes.",
+        "actionLabel": "Comparar tipos de evidencia",
+        "animation": "Tres columnas conectan afirmaciones con pruebas: derivación, simulación/recuperación y observaciones empíricas; ninguna se sustituye por otra."
+      }
+    ],
+    "missions": [
+      {
+        "id": "active-mission-1",
+        "title": "Actualizar una ubicación",
+        "brief": "Haz el primer paso de percepción del agente.",
+        "setup": "Fuente izquierda/derecha equiprobables. P(+|izquierda)=0.8 y P(+|derecha)=0.2. Observas +.",
+        "kind": "numeric",
+        "prompt": "¿Cuál es q(izquierda|+)?",
+        "formula": "q(izquierda\\mid+)={0.8\\cdot0.5}/{(0.8\\cdot0.5+0.2\\cdot0.5)}",
+        "answer": 0.8,
+        "solution": "Los pesos son 0.4 y 0.1; la evidencia 0.5. Normalizar da (0.8,0.2). El dato concentra la creencia sin cambiar el estado físico.",
+        "hint": "Mantén la distinción entre distribución sobre estados y ubicación real.",
+        "transfer": "Este mismo posterior puede servir de responsabilidad en aprendizaje o de inicio para predecir políticas.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "active-mission-2",
+        "title": "Aprender una columna del sensor",
+        "brief": "Una observación cambia parámetros, no solo creencias de estado.",
+        "setup": "El estado es conocido; prior Dirichlet para sus dos respuestas a=(2,2). Observas la primera respuesta una vez.",
+        "kind": "numeric",
+        "prompt": "¿Qué probabilidad media tiene ahora esa respuesta en la columna de A?",
+        "formula": "\\mathbb E[A_{1j}]={2+1}/{(2+2+1)}",
+        "answer": 0.6,
+        "solution": "El conteo actualiza a=(3,2), cuya media es (3/5,2/5). Con estado conocido, esta actualización conjugada es exacta bajo el modelo categórico iid condicional.",
+        "hint": "La normalización ocurre dentro de la columna correspondiente al estado conocido.",
+        "transfer": "Aprender estados, parámetros y políticas son operaciones distintas dentro del mismo agente.",
+        "tolerance": 0.001
+      },
+      {
+        "id": "active-mission-3",
+        "title": "Qué demuestra una simulación",
+        "brief": "Evalúa una conclusión del grupo de lectura.",
+        "setup": "Un algoritmo minimiza F y recupera un parámetro con datos que él mismo simula. No se recogieron datos neurales.",
+        "kind": "choice",
+        "prompt": "¿Qué conclusión está sustentada por esa prueba?",
+        "formula": "\\theta_*\\to x_{sim}\\to p(\\theta\\mid x_{sim})",
+        "answer": 1,
+        "solution": "La simulación comprueba aspectos computacionales y recuperación bajo el modelo usado. No demuestra una implementación neural ni adecuación universal a participantes. Para esos pasos hay que derivar predicciones y contrastarlas con datos apropiados.",
+        "hint": "Identifica qué se observó y qué solo se supuso al generar datos.",
+        "transfer": "Una lectura crítica del libro separa principio normativo, modelo de proceso y evidencia empírica.",
+        "choices": [
+          "Que el cerebro implementa exactamente el algoritmo",
+          "Que el algoritmo puede recuperar el parámetro bajo ese modelo y diseño",
+          "Que el modelo explica cualquier conducta humana"
+        ]
+      }
+    ],
+    "relatedLessonIds": [
+      "active-1",
+      "active-2",
+      "active-3",
+      "active-4",
+      "active-5",
+      "active-6"
+    ],
+    "sources": [
+      "work/sources/03_guias_nivelacion/guias/G10_TIEMPO_DISCRETO_MARKOV_MDP_Y_POMDP.md",
+      "work/sources/03_guias_nivelacion/guias/G12_IMPLEMENTACION_DE_MODELOS.md",
+      "work/sources/03_guias_nivelacion/guias/G13_PUENTE_CONCEPTUAL.md",
+      "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md",
+      "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md"
+    ],
+    "scope": "Integración mínima comprobable. Percepción/acción continuas, PEB/BMR, jerarquías y evidencia biológica son extensiones explícitas, no resultados demostrados por estas tres misiones."
+  }
+}

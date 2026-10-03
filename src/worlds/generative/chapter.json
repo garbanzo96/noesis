@@ -1,0 +1,104 @@
+{
+  "scenario": "Construyes un modelo de una fuente que cambia de lugar después de una acción y genera respuestas sensoriales. Debes distinguir el proceso generador, la inferencia y la estructura de dependencias.",
+  "objective": "Factorizar un modelo pequeño, orientar A y B, separar D/C/E y reconocer cómo condicionar cambia una dependencia.",
+  "briefing": "Primero dibuja qué variables existen y cuáles registras. Una flecha declara qué condicional necesita el modelo. Construirlo permite simular datos; observar esos datos y estimar causas requiere otro paso de inferencia.",
+  "teachingStages": [
+    {
+      "id": "generative-stage-1",
+      "title": "Generar y luego inferir",
+      "claim": "Un modelo generativo asigna una distribución conjunta a observaciones y causas; la inferencia condiciona en el dato.",
+      "formula": "p(o,s)=p(o\\mid s)p(s),\\quad s\\sim p(s),\\quad o\\sim p(o\\mid s)",
+      "explanation": "s es una causa oculta y o una respuesta observable. Para simular, primero sortea s y después sortea o en su distribución condicional. En inferencia, o queda fijado y calculas p(s|o). p representa el modelo; q puede representar una aproximación al posterior. No son sinónimos.",
+      "actionLabel": "Invertir el recorrido con el dato fijo",
+      "animation": "Una simulación recorre s→o; al fijar o, el flujo de evidencia regresa hacia una distribución sobre s."
+    },
+    {
+      "id": "generative-stage-2",
+      "title": "A describe respuestas bajo cada estado",
+      "claim": "A_{ij} es la probabilidad de respuesta i dado estado j; las columnas son distribuciones.",
+      "formula": "A=\\begin{bmatrix}0.8&0.2\\\\0.2&0.8\\end{bmatrix},\\quad A_{ij}=P(o=i\\mid s=j),\\quad\\sum_iA_{ij}=1",
+      "explanation": "Filas: respuesta positiva y negativa. Columnas: fuente izquierda y derecha. Si la fuente está izquierda, la respuesta positiva tiene probabilidad 0.8. Si la creencia es (0.6,0.4), A s predice respuesta positiva 0.56. La tabla no contiene automáticamente el posterior del estado dado respuesta.",
+      "actionLabel": "Seleccionar un estado oculto",
+      "animation": "Cada columna despliega su distribución de respuestas; mezclar columnas produce la predicción de observaciones."
+    },
+    {
+      "id": "generative-stage-3",
+      "title": "B y D dan estructura temporal",
+      "claim": "D fija el prior inicial; B^u describe el siguiente estado condicionado al actual y a una acción.",
+      "formula": "B^u_{ij}=P(s_{t+1}=i\\mid s_t=j,u_t=u),\\quad p(o_{1:2},s_{1:2}\\mid u)=D_{s_1}A_{o_1s_1}B^u_{s_2s_1}A_{o_2s_2},\\quad m(s^{\\prime})=\\sum_s B^u_{s^{\\prime}s}q(s)",
+      "explanation": "La factorización supone transiciones Markov y observaciones condicionadas solo al estado contemporáneo. B tiene filas de estados siguientes y columnas de actuales; cada columna suma uno. El mensaje m(s′)=ΣₛBᵘ_{s′s}q(s) transmite la predicción al siguiente estado: multiplica por cada estado actual y suma alternativas. D es distribución del primer estado; no es el operador temporal 𝒟.",
+      "actionLabel": "Desplegar dos instantes",
+      "animation": "Dos estados unidos por B^u generan dos observaciones con A; D alimenta solo el primer estado y las probabilidades se multiplican a lo largo de la ruta."
+    },
+    {
+      "id": "generative-stage-4",
+      "title": "Preferencia y hábito tienen otros dominios",
+      "claim": "C puntúa resultados y E distribuye prior entre políticas; ninguno reemplaza el prior inicial D.",
+      "formula": "P_C(o)=\\operatorname{softmax}(C)_o,\\quad\\sum_\\pi E(\\pi)=1,\\quad\\sum_sD(s)=1",
+      "explanation": "D responde «qué estado espero al inicio». P_C responde «qué resultado prefiero». E responde «qué secuencia suelo realizar antes de esta evidencia». Son distribuciones sobre objetos diferentes. Aquí C son logits; para comparar con ecuaciones del libro que usan C como probabilidad, traduce C↔P_C explícitamente.",
+      "actionLabel": "Asignar cada prior a su objeto",
+      "animation": "Tres cajones se conectan a estados iniciales, resultados y políticas; una etiqueta rechaza conexiones que cambian el dominio."
+    },
+    {
+      "id": "generative-stage-5",
+      "title": "La estructura decide qué se puede separar",
+      "claim": "En un DAG, cadenas y causas comunes permiten independencia al fijar el nodo intermedio; un efecto común puede crear dependencia al observarlo.",
+      "formula": "X\\to Z\\to Y:\\ X\\perp Y\\mid Z;\\qquad X\\to Z\\leftarrow Y",
+      "explanation": "DAG significa grafo dirigido sin ciclos. Fijar el nodo intermedio separa una cadena o causa común; observar un efecto común puede crear dependencia. Con raíces independientes y Z=X∨Y (∨ significa «o»), saber Z=1 y X=0 obliga Y=1. La cobija incluye padres, hijos y otros padres de hijos. Una placa es un marco de repetición indexada, i=1,…,N; no afirma independencia marginal. Los mensajes sum-product son exactos en árboles; con ciclos no hay garantía general de convergencia.",
+      "actionLabel": "Abrir y cerrar una dependencia",
+      "animation": "Tres motivos de grafo se comparan; el efecto común sombreado abre una dependencia entre sus causas y se resaltan los vecinos de la cobija."
+    }
+  ],
+  "missions": [
+    {
+      "id": "generative-mission-1",
+      "title": "Inferir sin transponer A",
+      "brief": "Usa la fila del dato observado y el prior sobre estados.",
+      "setup": "A=[[0.8,0.2],[0.2,0.8]], D=(0.6,0.4). Observas la primera respuesta.",
+      "kind": "numeric",
+      "prompt": "¿Qué posterior recibe el primer estado?",
+      "formula": "q(s_1)={0.8\\cdot0.6}/{(0.8\\cdot0.6+0.2\\cdot0.4)}",
+      "answer": 0.857142857,
+      "solution": "La likelihood de esa respuesta es la primera fila (0.8,0.2). Producto por D da (0.48,0.08); normalizar divide por 0.56 y da 6/7 al primer estado.",
+      "hint": "La respuesta conocida elige una fila; las causas recorren columnas.",
+      "transfer": "La corrección de un HMM es producto componente a componente y normalización.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "generative-mission-2",
+      "title": "Predecir después de una acción",
+      "brief": "Propaga la creencia sin convertir una transición en likelihood sensorial.",
+      "setup": "B^u=[[0.9,0.2],[0.1,0.8]], q(s_t)=(0.6,0.4).",
+      "kind": "numeric",
+      "prompt": "¿Qué probabilidad predices para el primer estado siguiente?",
+      "formula": "(B^u q)_1=0.9\\cdot0.6+0.2\\cdot0.4",
+      "answer": 0.62,
+      "solution": "La predicción combina estados actuales: 0.54+0.08=0.62. El segundo estado recibe 0.38 y las probabilidades suman uno.",
+      "hint": "Las filas de B corresponden al estado siguiente.",
+      "transfer": "Primero predice con B, luego corrige con una observación usando A.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "generative-mission-3",
+      "title": "El efecto común observado",
+      "brief": "Detecta una dependencia que aparece al seleccionar casos.",
+      "setup": "X e Y son binarias independientes y equilibradas; Z=1 si X=1 o Y=1. Sabes Z=1 y X=0.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es P(Y=1|Z=1,X=0)?",
+      "formula": "Z=X\\lor Y",
+      "answer": 1,
+      "solution": "Si Z=1 y X=0, el único caso compatible es Y=1. Antes de observar Z, P(Y=1|X=0)=0.5. Condicionar en el efecto común cambia la relación.",
+      "hint": "Enumera las combinaciones compatibles con las dos condiciones.",
+      "transfer": "Selección de participantes y variables efecto pueden introducir dependencias en análisis experimentales.",
+      "tolerance": 0.001
+    }
+  ],
+  "relatedLessonIds": ["generative-1", "generative-2", "generative-3", "generative-4"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G09_MODELOS_GENERATIVOS_GRAFICOS_Y_MENSAJES.md",
+    "work/sources/03_guias_nivelacion/guias/G10_TIEMPO_DISCRETO_MARKOV_MDP_Y_POMDP.md",
+    "work/sources/03_guias_nivelacion/guias/G03_ALGEBRA_LINEAL_Y_TENSORES.md",
+    "work/sources/03_guias_nivelacion/guias/G12_IMPLEMENTACION_DE_MODELOS.md"
+  ],
+  "scope": "Modelo discreto y topología básica, con introducción breve de placas y mensajes. El desarrollo de sum-product está en la fuente G09 enlazada; una cobija estadística no demuestra por sí sola una frontera biológica."
+}

@@ -1,0 +1,108 @@
+{
+  "scenario": "Preparas un registro reproducible de señales: cada medición pasa por una calibración y luego entra en un modelo de dos causas posibles.",
+  "objective": "Traducir una regla verbal en una función con dominio, operar índices y normalizar pesos sin perder su significado.",
+  "briefing": "Antes de inferir una causa, hay que declarar qué representa cada objeto. Una letra puede nombrar una medición; un índice elige cuál; una función transforma la medición. Construiremos un circuito de cálculo y seguiremos una entrada hasta su salida.",
+  "teachingStages": [
+    {
+      "id": "foundations-stage-1",
+      "title": "Nombrar antes de operar",
+      "claim": "Un conjunto declara valores permitidos; una variable representa uno de ellos.",
+      "formula": "x\\in X,\\quad X=[0,1]",
+      "explanation": "La ficha x representa una lectura normalizada del sensor. La banda X admite valores entre 0 y 1, incluidos ambos extremos. El signo ∈ significa «pertenece». Una lectura 1.2 exige revisar unidades o ampliar el dominio; no cambia el significado del signo.",
+      "actionLabel": "Ubicar una lectura",
+      "animation": "Una ficha x se desplaza sobre una banda de 0 a 1; 1.2 queda fuera y señala una incompatibilidad."
+    },
+    {
+      "id": "foundations-stage-2",
+      "title": "Una regla, una salida",
+      "claim": "Una función asigna una salida a cada entrada de su dominio; componer respeta el orden.",
+      "formula": "f(x)=2x+1,\\quad g(y)=y^2,\\quad(g\\circ f)(x)=(2x+1)^2",
+      "explanation": "f calibra: duplica la lectura y añade una unidad. g eleva al cuadrado la salida calibrada. Con x=0.5, primero obtenemos 2 y después 4. Cambiar el orden produce f(g(0.5))=1.5. Los dominios deben permitir la entrada de cada operación.",
+      "actionLabel": "Pasar por las dos reglas",
+      "animation": "La ficha entra en f, sale como 2, entra en g y sale como 4; invertir las cajas muestra 1.5."
+    },
+    {
+      "id": "foundations-stage-3",
+      "title": "Muchos datos, una operación",
+      "claim": "El índice selecciona un término; Σ acumula términos y Π los multiplica.",
+      "formula": "\\sum_{i=1}^{3}x_i=x_1+x_2+x_3,\\quad\\prod_{i=1}^{3}x_i=x_1x_2x_3",
+      "explanation": "i recorre los números 1, 2 y 3. Con lecturas 0.2, 0.3 y 0.5, la suma vale 1; el producto, 0.03. No confundas el índice i con el valor x_i. Una suma ponderada multiplica cada lectura por su propio peso antes de acumularla.",
+      "actionLabel": "Expandir los índices",
+      "animation": "Σ se abre en tres fichas; cada índice ilumina una ficha y un acumulador suma. Π cambia el acumulador a multiplicación."
+    },
+    {
+      "id": "foundations-stage-4",
+      "title": "De pesos a probabilidades",
+      "claim": "Normalizar divide cada peso por el total; exige pesos no negativos y un total positivo.",
+      "formula": "p_j=\\frac{w_j}{\\sum_k w_k},\\quad w_j\\geq0,\\quad\\sum_k w_k>0",
+      "explanation": "Los pesos 2 y 3 comparan apoyo relativo a dos causas. Su total es 5; las probabilidades son 0.4 y 0.6. Multiplicar ambos pesos por 10 deja las proporciones intactas. El símbolo ∝ dice «proporcional a» y todavía no garantiza suma uno.",
+      "actionLabel": "Conservar la proporción",
+      "animation": "Dos barras de longitud 2 y 3 se reescalan juntas para llenar una banda unidad; aumentar ambas diez veces conserva sus fracciones."
+    },
+    {
+      "id": "foundations-stage-5",
+      "title": "Un producto puede leerse como suma",
+      "claim": "El logaritmo natural transforma productos positivos en sumas y exp revierte la transformación.",
+      "formula": "\\ln(ab)=\\ln a+\\ln b,\\quad a,b>0;\\qquad e^{\\ln a}=a",
+      "explanation": "exp(x)=eˣ usa la constante e≈2.71828: exp(0)=1 y exp(2)=e². ln responde qué exponente produce una cantidad positiva: ln1=0 y ln(e²)=2. Para factores positivos, ln transforma un producto en suma. ln0 se trata como −∞ en cálculo probabilístico. No vale ln(a+b)=ln a+ln b.",
+      "actionLabel": "Cambiar la escala",
+      "animation": "Tres factores se unen por multiplicación; la misma cadena pasa a una escala logarítmica y las contribuciones se suman."
+    }
+  ],
+  "missions": [
+    {
+      "id": "foundations-mission-1",
+      "title": "Reparar la calibración",
+      "brief": "Una transformación correcta puede dar una respuesta errónea si se invierte su orden.",
+      "setup": "Lectura x=0.5; calibración f(x)=2x+1; energía g(y)=y².",
+      "kind": "numeric",
+      "prompt": "¿Qué energía produce g(f(x))?",
+      "formula": "g(f(0.5))=(2\\cdot0.5+1)^2",
+      "answer": 4,
+      "solution": "Primero f(0.5)=2; después g(2)=4. La composición se lee desde la función interior hacia fuera.",
+      "hint": "Sigue una sola ficha por las dos cajas.",
+      "transfer": "Antes de diferenciar una composición, declara qué salida alimenta a qué función.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "foundations-mission-2",
+      "title": "El denominador perdido",
+      "brief": "Un informe confunde apoyo relativo con probabilidad.",
+      "setup": "Pesos para causas A, B y C: 1, 2 y 5. Solo estas tres causas son posibles.",
+      "kind": "numeric",
+      "prompt": "¿Qué probabilidad normalizada recibe C?",
+      "formula": "p_C=\\frac{5}{1+2+5}",
+      "answer": 0.625,
+      "solution": "La suma de pesos es 8; C recibe 5/8=0.625. Los pesos positivos se convierten en una distribución sobre las tres causas.",
+      "hint": "La suma final de probabilidades debe ser uno.",
+      "transfer": "La evidencia de Bayes cumple precisamente el papel de normalización.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "foundations-mission-3",
+      "title": "Elegir una identidad válida",
+      "brief": "Decide qué transformación conserva el cálculo.",
+      "setup": "Dos factores a=0.2 y b=0.5 son positivos.",
+      "kind": "choice",
+      "prompt": "¿Cómo se expresa correctamente el logaritmo de su producto?",
+      "formula": "\\ln(0.2\\cdot0.5)",
+      "answer": 1,
+      "solution": "La identidad de productos es ln(ab)=ln a+ln b para a,b>0. La suma original no admite esa separación.",
+      "hint": "Comprueba qué operación ocupa el interior de ln.",
+      "transfer": "Las log likelihoods de datos condicionalmente independientes se suman.",
+      "choices": ["ln(0.2)+0.5", "ln(0.2)+ln(0.5)", "ln(0.2+0.5)"]
+    }
+  ],
+  "relatedLessonIds": [
+    "foundations-1",
+    "foundations-2",
+    "foundations-3",
+    "foundations-4",
+    "foundations-5",
+    "foundations-6",
+    "foundations-7",
+    "foundations-8"
+  ],
+  "sources": ["work/sources/03_guias_nivelacion/guias/G00_LENGUAJE_MATEMATICO_Y_FUNCIONES.md"],
+  "scope": "Escena introductoria común. Trigonometría, límites y órdenes de aproximación conservan sus lecciones propias; estas cinco etapas no sustituyen esas extensiones."
+}

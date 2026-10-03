@@ -1,0 +1,106 @@
+{
+  "scenario": "Una variable latente representa el retraso continuo de una respuesta. Debes convertir la curva de densidad en probabilidades de intervalos y cambiar de segundos a milisegundos.",
+  "objective": "Acumular densidad sobre intervalos y transformar sus unidades conservando probabilidad.",
+  "briefing": "Imagina una banda de retrasos posibles y una cantidad de probabilidad repartida sobre ella. La altura de la curva indica densidad por unidad de tiempo. La probabilidad de una franja depende tanto de su altura como de su ancho.",
+  "teachingStages": [
+    {
+      "id": "integral-stage-1",
+      "title": "Altura por ancho",
+      "claim": "Una franja pequeña aporta aproximadamente densidad por ancho; una altura sola no es probabilidad.",
+      "formula": "P(x\\leq X\\leq x+\\Delta x)\\approx p_X(x)\\Delta x",
+      "explanation": "X representa un retraso, x una posición concreta y Δx el ancho de una franja. p_X tiene unidades inversas a X. Si el retraso es uniforme entre 0 y 0.5 segundos, la densidad vale 2 por segundo y una franja de 0.1 segundos contiene probabilidad 0.2.",
+      "actionLabel": "Ensanchar una franja",
+      "animation": "Un rectángulo conserva altura 2; su ancho cambia y el producto altura×ancho actualiza la probabilidad."
+    },
+    {
+      "id": "integral-stage-2",
+      "title": "Refinar la acumulación",
+      "claim": "La integral es el límite de sumas de franjas; para una densidad no negativa, el área total es uno.",
+      "formula": "P(a\\leq X\\leq b)=\\int_a^b p_X(x)\\,dx,\\quad\\int p_X(x)\\,dx=1",
+      "explanation": "Σ suma un número finito de contribuciones; ∫ acumula continuamente. La aproximación mejora al refinar una partición para una función integrable. Si X tiene una distribución absolutamente continua, una franja de ancho cero tiene probabilidad cero: P(X=x)=0, aunque p_X(x) pueda ser positiva o mayor que uno.",
+      "actionLabel": "Refinar los rectángulos",
+      "animation": "4, 16 y 64 franjas aproximan una curva; el área acumulada converge, mientras una línea vertical tiene ancho cero."
+    },
+    {
+      "id": "integral-stage-3",
+      "title": "Evaluar con una primitiva",
+      "claim": "Integrar una función continua puede reducirse a restar una primitiva en los extremos.",
+      "formula": "F^{\\prime}(x)=p_X(x)\\;\\Rightarrow\\;\\int_a^b p_X(x)\\,dx=F(b)-F(a)",
+      "explanation": "Una primitiva es una función cuya derivada devuelve el integrando. Para p_X(x)=2x en [0,1], una primitiva es F(x)=x². La probabilidad entre 0 y 0.5 es 0.5²−0²=0.25. La constante de integración se cancela al restar extremos.",
+      "actionLabel": "Restar los extremos",
+      "animation": "La curva 2x forma un triángulo; F(a) y F(b) se iluminan y su diferencia coincide con el área sombreada."
+    },
+    {
+      "id": "integral-stage-4",
+      "title": "Cambiar escala, conservar masa",
+      "claim": "Un cambio invertible transforma el ancho y la densidad en sentidos opuestos.",
+      "formula": "Y=1000X,\\quad p_Y(y)=p_X(y/1000)\\tfrac1{1000}",
+      "explanation": "X mide segundos y Y milisegundos. El intervalo [0,0.5] pasa a [0,500]. Su ancho se multiplica por 1000 y la densidad uniforme baja de 2 a 0.002 por milisegundo. La probabilidad permanece idéntica. Para una transformación diferenciable uno a uno se usa el valor absoluto de la derivada de la inversa.",
+      "actionLabel": "Cambiar a milisegundos",
+      "animation": "La banda se ensancha mil veces; la curva baja en proporción inversa y el área sombreada conserva su valor."
+    },
+    {
+      "id": "integral-stage-5",
+      "title": "Esperar una cantidad continua",
+      "claim": "Una esperanza pondera cada valor por su densidad y acumula; exige integrabilidad de la cantidad.",
+      "formula": "\\mathbb E[X]=\\int x\\,p_X(x)\\,dx,\\qquad\\mathbb E[|X|]<\\infty",
+      "explanation": "Con p_X(x)=2x en [0,1], los retrasos grandes reciben más peso. La media es ∫₀¹2x²dx=2/3. La media no es necesariamente el punto más alto de la densidad. Integrar x·p_X(x) devuelve unidades de X, porque p_X(x)dx es probabilidad sin unidades.",
+      "actionLabel": "Acumular valores ponderados",
+      "animation": "Cada franja carga su posición x multiplicada por su probabilidad; la suma coloca un marcador en 2/3."
+    }
+  ],
+  "missions": [
+    {
+      "id": "integral-mission-1",
+      "title": "La densidad parece imposible",
+      "brief": "Un compañero descarta una densidad porque supera uno.",
+      "setup": "X es uniforme en [0,0.5] segundos; p_X=2 por segundo.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es P(0.1≤X≤0.3)?",
+      "formula": "\\int_{0.1}^{0.3}2\\,dx",
+      "answer": 0.4,
+      "solution": "El ancho es 0.2 segundos; 2×0.2=0.4. La altura 2 es densidad y la probabilidad de intervalo sí está entre cero y uno.",
+      "hint": "Dibuja un rectángulo de ancho 0.2.",
+      "transfer": "La sorpresa basada en densidad depende de las unidades; no confundas densidad con masa puntual.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "integral-mission-2",
+      "title": "Revisar el Jacobiano",
+      "brief": "Una exportación a milisegundos conserva la altura y por eso altera la normalización.",
+      "setup": "X uniforme en [0,0.5] segundos, Y=1000X.",
+      "kind": "numeric",
+      "prompt": "¿Qué densidad constante debe tener Y en [0,500]?",
+      "formula": "p_Y(y)=2/1000",
+      "answer": 0.002,
+      "solution": "El intervalo mide 500 milisegundos. Densidad 0.002 produce área 500×0.002=1. El Jacobiano inverso corrige la expansión de la escala.",
+      "hint": "La densidad uniforme es el inverso del ancho de su soporte.",
+      "transfer": "Cambiar coordenadas de parámetros exige conservar la medida de probabilidad.",
+      "tolerance": 1e-5
+    },
+    {
+      "id": "integral-mission-3",
+      "title": "Un punto no es un intervalo",
+      "brief": "Distingue una medición exacta de una banda con tolerancia.",
+      "setup": "X tiene densidad p_X(x)=2x en [0,1]; no hay átomos de probabilidad.",
+      "kind": "choice",
+      "prompt": "¿Cuál afirmación es correcta?",
+      "formula": "P(X=0.5),\\qquad p_X(0.5)",
+      "answer": 2,
+      "solution": "p_X(0.5)=1 es una densidad, mientras P(X=0.5)=0 para esta distribución continua. Una banda alrededor de 0.5 sí puede tener probabilidad positiva.",
+      "hint": "Una línea vertical tiene ancho cero.",
+      "transfer": "La cápsula de Dirac permite representar masas puntuales; no se aplica a toda densidad continua.",
+      "choices": [
+        "P(X=0.5)=1 porque la densidad vale 1",
+        "P(X=0.5)=0.5 porque coincide con el punto",
+        "P(X=0.5)=0 y p_X(0.5)=1"
+      ]
+    }
+  ],
+  "relatedLessonIds": ["integral-1", "integral-2", "integral-3", "integral-4", "integral-5"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G02_INTEGRACION_CAMBIOS_DE_VARIABLE_Y_DELTAS.md",
+    "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md"
+  ],
+  "scope": "Integración y unidades en una dimensión. Gaussiana y Dirac necesitan las lecciones específicas; cambios multivariados se conectan con multivariate."
+}

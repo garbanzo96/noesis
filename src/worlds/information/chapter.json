@@ -1,0 +1,115 @@
+{
+  "scenario": "Debes elegir entre dos instrumentos para revelar una causa binaria. Ambos generan señales impredecibles; solo uno relaciona su respuesta con la causa.",
+  "objective": "Distinguir sorpresa de un dato, incertidumbre de una distribución y reducción esperada de incertidumbre sobre una causa.",
+  "briefing": "Una respuesta rara puede sorprender sin enseñar nada sobre lo que quieres conocer. Separaremos tres preguntas: cuán inesperado fue el dato, cuánta incertidumbre había antes y cuánto cambió el conocimiento de la causa.",
+  "teachingStages": [
+    {
+      "id": "information-stage-1",
+      "title": "Una respuesta rara cuesta más sorpresa",
+      "claim": "La sorpresa de un resultado con probabilidad positiva es su logaritmo negativo; aquí usamos nats.",
+      "formula": "\\mathcal S(o)=-\\ln p(o),\\quad p(o)>0",
+      "explanation": "o es una respuesta posible. Si p(o)=1, −ln 1=0: era segura. Si p(o)=0.5, la sorpresa es ln 2≈0.693 nats. Una respuesta menos probable tiene mayor sorpresa. «Sorpresa» es una cantidad matemática del modelo; no afirma una experiencia subjetiva.",
+      "actionLabel": "Reducir la probabilidad",
+      "animation": "Una barra de probabilidad se encoge y una barra de sorpresa crece; ambas se conectan con −ln p."
+    },
+    {
+      "id": "information-stage-2",
+      "title": "Promediar antes de observar",
+      "claim": "La entropía es la sorpresa media bajo la propia distribución.",
+      "formula": "H[q]=-\\sum_o q(o)\\ln q(o),\\qquad0\\ln0:=0",
+      "explanation": "q describe respuestas aún no observadas. Para una señal binaria equilibrada, ambos resultados tienen sorpresa ln2 y la entropía también es ln2. Para una señal determinista, H=0. Una distribución discreta finita cumple H≥0; la entropía diferencial de densidades no comparte esa restricción.",
+      "actionLabel": "Comparar certeza y equilibrio",
+      "animation": "Dos barras pasan de (1,0) a (0.5,0.5); cada contribución q·sorpresa forma la altura de entropía."
+    },
+    {
+      "id": "information-stage-3",
+      "title": "Cambiar el modelo usado para puntuar",
+      "claim": "La entropía cruzada puntúa datos de q con p; KL mide el exceso sobre la entropía de q.",
+      "formula": "H(q,p)=-\\sum_o q(o)\\ln p(o),\\quad\\mathrm{KL}(q\\Vert p)=H(q,p)-H[q]",
+      "explanation": "El primer argumento indica cómo se promedian los resultados; el segundo indica qué modelo los puntúa. KL(q‖p)≥0 y se anula si las distribuciones coinciden. En general invertir los argumentos cambia el valor. Si q asigna masa positiva donde p=0, la divergencia es infinita.",
+      "actionLabel": "Cambiar el modelo de puntuación",
+      "animation": "Barras q quedan fijas; mover barras p altera las sorpresas y el exceso de puntuación se separa visualmente."
+    },
+    {
+      "id": "information-stage-4",
+      "title": "Una señal puede ser ruido puro",
+      "claim": "La información mutua cuantifica cuánto reduce observar O la incertidumbre sobre S.",
+      "formula": "I(S;O)=H[S]-H[S\\mid O]=H[O]-H[O\\mid S]",
+      "explanation": "S es la causa y O la señal. H(O|S)=Σₛp(s)H[p(o|s)] promedia incertidumbre de respuestas dentro de cada estado. Con S equilibrada, el sensor perfecto O=S tiene H(O)=ln2 e I=ln2. Una moneda independiente también tiene H(O)=ln2, pero H(O|S)=ln2 e I=0: no cambia creencias sobre S. La entropía predictiva sola no mide valor informativo.",
+      "actionLabel": "Comparar dos instrumentos",
+      "animation": "Ambos instrumentos producen barras iguales de respuestas; tras revelar una respuesta, solo el sensor perfecto concentra la creencia sobre la causa."
+    },
+    {
+      "id": "information-stage-5",
+      "title": "Promediar cuánto podría aprenderse",
+      "claim": "La ganancia de información esperada es la media de la divergencia entre posterior y prior.",
+      "formula": "\\mathbb E_{p(o)}[\\mathrm{KL}(p(s\\mid o)\\Vert p(s))]=I(S;O)",
+      "explanation": "Un dato particular mueve el prior p(s) a p(s|o). Su KL mide la magnitud del cambio; antes de medir, ponderamos esos cambios por la probabilidad de cada dato. La identidad usa las marginales y condicionales de una misma distribución conjunta. Aprender un estado y aprender parámetros de un sensor son objetivos diferentes.",
+      "actionLabel": "Promediar posteriores posibles",
+      "animation": "Cada respuesta abre un posterior con su KL; los valores se ponderan por p(o) y se juntan en una ganancia esperada."
+    }
+  ],
+  "missions": [
+    {
+      "id": "information-mission-1",
+      "title": "Cuánto cuesta el modelo equivocado",
+      "brief": "Calcula el exceso de sorpresa de usar una predicción sesgada.",
+      "setup": "La distribución real q=(0.5,0.5); el modelo de puntuación p=(0.75,0.25). Logs naturales.",
+      "kind": "numeric",
+      "prompt": "¿Cuánto vale KL(q‖p) en nats?",
+      "formula": "\\tfrac12\\ln\\frac{1/2}{3/4}+\\tfrac12\\ln\\frac{1/2}{1/4}",
+      "answer": 0.143841036,
+      "solution": "La suma es (1/2)ln(4/3)≈0.14384 nats. Se pondera por q; invertir q y p sería otro cálculo.",
+      "hint": "Simplifica la suma de logaritmos a un logaritmo de producto.",
+      "transfer": "F compara q con un posterior mediante esta misma orientación de KL.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "information-mission-2",
+      "title": "Dos señales igual de impredecibles",
+      "brief": "Elige el instrumento que reduce incertidumbre sobre la causa.",
+      "setup": "S es binaria equilibrada. Instrumento A informa O=S sin error. Instrumento B devuelve una moneda equilibrada independiente de S. Ambos tienen H(O)=ln2.",
+      "kind": "choice",
+      "prompt": "¿Cuál enseña más sobre S y por qué?",
+      "formula": "I(S;O)=H[S]-H[S\\mid O]",
+      "answer": 0,
+      "solution": "A elimina la incertidumbre de S y gana ln2 nats; B deja H(S|O)=H(S) y gana cero. La impredecibilidad de las respuestas no distingue los instrumentos.",
+      "hint": "Mira qué creencia sobre S queda después de ver O.",
+      "transfer": "El valor epistémico de una política depende de información sobre estados, no solo de variabilidad sensorial.",
+      "choices": [
+        "A: reduce H(S|O) a cero",
+        "B: su moneda es más inesperada",
+        "Ambos: H(O) es idéntica"
+      ]
+    },
+    {
+      "id": "information-mission-3",
+      "title": "Una predicción que prohíbe un dato",
+      "brief": "Comprueba una condición de soporte antes de calcular.",
+      "setup": "q=(0.5,0.5), p=(1,0).",
+      "kind": "choice",
+      "prompt": "¿Qué valor tiene KL(q‖p)?",
+      "formula": "\\mathrm{KL}(q\\Vert p)=\\sum_o q(o)\\ln\\frac{q(o)}{p(o)}",
+      "answer": 2,
+      "solution": "El segundo resultado tiene q=0.5 y p=0: su log cociente diverge a +∞. No se puede ocultar esa incompatibilidad fijando ln0 a cero.",
+      "hint": "El convenio 0 ln0=0 solo sirve para un término cuyo peso es cero.",
+      "transfer": "Las distribuciones aproximadas y las preferencias deben respetar las condiciones de soporte del cálculo.",
+      "choices": [
+        "0 porque p está segura",
+        "ln2 porque q es uniforme",
+        "+∞ porque p prohíbe un resultado con masa positiva en q"
+      ]
+    }
+  ],
+  "relatedLessonIds": [
+    "information-1",
+    "information-2",
+    "information-3",
+    "information-4",
+    "information-5"
+  ],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md"
+  ],
+  "scope": "Información discreta para F y G. Jensen, Gibbs y MaxEnt conservan lecciones demostrativas específicas."
+}

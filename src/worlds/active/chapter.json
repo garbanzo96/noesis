@@ -1,0 +1,109 @@
+{
+  "scenario": "Integras un agente que busca una fuente a izquierda o derecha: recibe un indicio, actualiza creencias, elige si medir otra vez o desplazarse, y aprende la fiabilidad de su sensor.",
+  "objective": "Ejecutar y explicar un ciclo de percepción, selección y aprendizaje; diferenciar un objetivo formal, una hipótesis de mecanismo y su prueba empírica.",
+  "briefing": "El mundo produce datos; el agente mantiene creencias sobre sus causas. Una acción cambia qué datos recibirá. Al cerrar el ciclo podemos comprobar sus cálculos en un mundo simulado y preguntar qué evidencia haría falta para aplicar el modelo a participantes.",
+  "teachingStages": [
+    {
+      "id": "active-stage-1",
+      "title": "Cerrar el circuito sin confundir variables",
+      "claim": "Percepción cambia creencias; acción modifica el proceso y con ello datos posteriores.",
+      "formula": "q(s)\\xrightarrow{\\;o\\;}q(s\\mid o)\\xrightarrow{\\;\\pi\\;}u\\xrightarrow{\\;proceso\\;}o_{nuevo}",
+      "explanation": "s es ubicación de la fuente, o una lectura y u una acción física o experimental. Con prior (0.5,0.5) y likelihood positiva (0.8,0.2), un positivo lleva a posterior (0.8,0.2). Esa creencia no mueve la fuente por sí sola. Para simular la acción, el proceso necesita una transición dependiente de u.",
+      "actionLabel": "Recorrer un ciclo completo",
+      "animation": "Cajas de proceso, sensor, creencia y acción se activan en secuencia; datos y creencias tienen colores distintos."
+    },
+    {
+      "id": "active-stage-2",
+      "title": "Explicar el presente, evaluar el futuro",
+      "claim": "F se calcula para datos observados; G puntúa consecuencias futuras de políticas bajo supuestos declarados.",
+      "formula": "F[q]=\\mathrm{KL}(q(s)\\Vert p(s\\mid o))-\\ln p(o),\\quad G_\\tau(\\pi)=\\mathrm{KL}(q(o_\\tau\\mid\\pi)\\Vert P_C)+\\mathbb E_{q(s_\\tau\\mid\\pi)}H[p(o_\\tau\\mid s_\\tau)]",
+      "explanation": "El dato o ya recibido queda fijo mientras ajustamos q. Los o_τ futuros todavía no existen para el agente: se promedian usando predicciones. Aquí G usa preferencias sobre observaciones. F y G no son intercambiables ni equivalen a energía metabólica. La regla completa de políticas puede incluir E, F(π) y G(π).",
+      "actionLabel": "Separar observado y prospectivo",
+      "animation": "Una línea temporal fija el dato actual a la izquierda y abre distribuciones de resultados a la derecha; F y G quedan en sus lados respectivos."
+    },
+    {
+      "id": "active-stage-3",
+      "title": "Medir para reducir incertidumbre relevante",
+      "claim": "La ganancia epistémica sobre estados es información mutua; la novedad se refiere a parámetros desconocidos.",
+      "formula": "I(S;O\\mid\\pi)=H(S\\mid\\pi)-H(S\\mid O,\\pi)",
+      "explanation": "Una medición puede resolver la ubicación de la fuente aunque no dé un resultado preferido inmediato. Si el sensor también es desconocido, la misma medición puede enseñar sus parámetros. Saliencia se refiere aquí a información sobre estados; novedad, a información sobre parámetros. No basta elegir la señal más variable.",
+      "actionLabel": "Elegir qué desconocido aprender",
+      "animation": "Dos barras de incertidumbre, ubicación y fiabilidad, se actualizan por separado tras una medición."
+    },
+    {
+      "id": "active-stage-4",
+      "title": "Aprender un modelo de observación",
+      "claim": "Los parámetros Dirichlet de cada columna de A acumulan conteos de respuestas; si el estado es incierto se usan conteos esperados en una actualización aproximada.",
+      "formula": "a^{nuevo}_{ij}=a_{ij}+o_iq(s=j\\mid o),\\quad\\mathbb E[A_{ij}]={a_{ij}}/{\\sum_k a_{kj}}",
+      "explanation": "Dirichlet extiende Beta a probabilidades de varias categorías; a son sus parámetros positivos por columna. o es one-hot: una entrada 1 y las demás 0; primera respuesta da o=(1,0). Con estado conocido y prior a=(2,2), esa respuesta da (3,2), media (0.6,0.4). Con estado incierto se reparte el conteo según q(s|o). Actualizar una sola Dirichlet con esos recuentos esperados es una aproximación variacional; el posterior exacto puede ser una mezcla.",
+      "actionLabel": "Depositar conteos con responsabilidad",
+      "animation": "Una ficha de respuesta se distribuye entre columnas según q(s|o); cada columna se normaliza para actualizar su A media."
+    },
+    {
+      "id": "active-stage-5",
+      "title": "Del principio al experimento",
+      "claim": "Una identidad matemática, un algoritmo de proceso y una afirmación empírica tienen criterios de validación diferentes.",
+      "formula": "\\text{objetivo formal}\\ \\to\\ \\text{modelo de proceso}\\ \\to\\ \\text{predicciones contrastables}",
+      "explanation": "La identidad F=KL−ln evidencia es un resultado formal con condiciones. Un algoritmo que actualiza mediante errores precisados es una propuesta de proceso. Afirmar que un circuito neural implementa ese algoritmo requiere datos y predicciones que lo distingan de alternativas. Simulación, recuperación de parámetros y chequeos predictivos prueban aspectos diferentes.",
+      "actionLabel": "Comparar tipos de evidencia",
+      "animation": "Tres columnas conectan afirmaciones con pruebas: derivación, simulación/recuperación y observaciones empíricas; ninguna se sustituye por otra."
+    }
+  ],
+  "missions": [
+    {
+      "id": "active-mission-1",
+      "title": "Actualizar una ubicación",
+      "brief": "Haz el primer paso de percepción del agente.",
+      "setup": "Fuente izquierda/derecha equiprobables. P(+|izquierda)=0.8 y P(+|derecha)=0.2. Observas +.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es q(izquierda|+)?",
+      "formula": "q(izquierda\\mid+)={0.8\\cdot0.5}/{(0.8\\cdot0.5+0.2\\cdot0.5)}",
+      "answer": 0.8,
+      "solution": "Los pesos son 0.4 y 0.1; la evidencia 0.5. Normalizar da (0.8,0.2). El dato concentra la creencia sin cambiar el estado físico.",
+      "hint": "Mantén la distinción entre distribución sobre estados y ubicación real.",
+      "transfer": "Este mismo posterior puede servir de responsabilidad en aprendizaje o de inicio para predecir políticas.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "active-mission-2",
+      "title": "Aprender una columna del sensor",
+      "brief": "Una observación cambia parámetros, no solo creencias de estado.",
+      "setup": "El estado es conocido; prior Dirichlet para sus dos respuestas a=(2,2). Observas la primera respuesta una vez.",
+      "kind": "numeric",
+      "prompt": "¿Qué probabilidad media tiene ahora esa respuesta en la columna de A?",
+      "formula": "\\mathbb E[A_{1j}]={2+1}/{(2+2+1)}",
+      "answer": 0.6,
+      "solution": "El conteo actualiza a=(3,2), cuya media es (3/5,2/5). Con estado conocido, esta actualización conjugada es exacta bajo el modelo categórico iid condicional.",
+      "hint": "La normalización ocurre dentro de la columna correspondiente al estado conocido.",
+      "transfer": "Aprender estados, parámetros y políticas son operaciones distintas dentro del mismo agente.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "active-mission-3",
+      "title": "Qué demuestra una simulación",
+      "brief": "Evalúa una conclusión del grupo de lectura.",
+      "setup": "Un algoritmo minimiza F y recupera un parámetro con datos que él mismo simula. No se recogieron datos neurales.",
+      "kind": "choice",
+      "prompt": "¿Qué conclusión está sustentada por esa prueba?",
+      "formula": "\\theta_*\\to x_{sim}\\to p(\\theta\\mid x_{sim})",
+      "answer": 1,
+      "solution": "La simulación comprueba aspectos computacionales y recuperación bajo el modelo usado. No demuestra una implementación neural ni adecuación universal a participantes. Para esos pasos hay que derivar predicciones y contrastarlas con datos apropiados.",
+      "hint": "Identifica qué se observó y qué solo se supuso al generar datos.",
+      "transfer": "Una lectura crítica del libro separa principio normativo, modelo de proceso y evidencia empírica.",
+      "choices": [
+        "Que el cerebro implementa exactamente el algoritmo",
+        "Que el algoritmo puede recuperar el parámetro bajo ese modelo y diseño",
+        "Que el modelo explica cualquier conducta humana"
+      ]
+    }
+  ],
+  "relatedLessonIds": ["active-1", "active-2", "active-3", "active-4", "active-5", "active-6"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G10_TIEMPO_DISCRETO_MARKOV_MDP_Y_POMDP.md",
+    "work/sources/03_guias_nivelacion/guias/G12_IMPLEMENTACION_DE_MODELOS.md",
+    "work/sources/03_guias_nivelacion/guias/G13_PUENTE_CONCEPTUAL.md",
+    "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md",
+    "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md"
+  ],
+  "scope": "Integración mínima comprobable. Percepción/acción continuas, PEB/BMR, jerarquías y evidencia biológica son extensiones explícitas, no resultados demostrados por estas tres misiones."
+}

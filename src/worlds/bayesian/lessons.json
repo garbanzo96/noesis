@@ -1,0 +1,548 @@
+[
+  {
+    "id": "bayesian-1",
+    "world": "bayesian",
+    "title": "Conjugación Beta–Bernoulli",
+    "subtitle": "G06 · Aprender una probabilidad sin perder incertidumbre",
+    "minutes": 7,
+    "visual": "bayes",
+    "intuition": "La conjugación conserva una familia posterior y actualiza sus parámetros con evidencia suficiente.",
+    "core": [
+      {
+        "label": "Prior",
+        "body": "Los parámetros positivos gobiernan centro y concentración.",
+        "formula": "\\theta\\sim\\operatorname{Beta}(\\alpha,\\beta)"
+      },
+      {
+        "label": "Posterior",
+        "body": "Con k éxitos en n ensayos independientes.",
+        "formula": "\\theta\\mid x\\sim\\operatorname{Beta}(\\alpha+k,\\beta+n-k)"
+      },
+      {
+        "label": "Predictiva",
+        "body": "La probabilidad del próximo éxito integra la posterior.",
+        "formula": "P(x_{new}=1\\mid x)=\\frac{\\alpha+k}{\\alpha+\\beta+n}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p(\\theta)\\propto\\theta^{\\alpha-1}(1-\\theta)^{\\beta-1}",
+        "reason": "Escribir prior."
+      },
+      {
+        "formula": "p(x\\mid\\theta)\\propto\\theta^k(1-\\theta)^{n-k}",
+        "reason": "Escribir likelihood."
+      },
+      {
+        "formula": "p(\\theta\\mid x)\\propto\\theta^{\\alpha+k-1}(1-\\theta)^{\\beta+n-k-1}",
+        "reason": "Sumar exponentes y reconocer Beta."
+      }
+    ],
+    "example": {
+      "problem": "Prior Beta(2,2), tres éxitos y un fallo. Posterior y predictiva.",
+      "solution": "Posterior Beta(5,3); siguiente éxito tiene probabilidad 5/8=0.625."
+    },
+    "pitfall": "Media posterior, MAP y MLE generalmente difieren; no sustituir una por otra silenciosamente.",
+    "bridge": "Las matrices categóricas se aprenden de modo análogo mediante Dirichlet.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Beta(1,1), 4 éxitos y 2 fallos: parámetro α posterior.",
+        "answer": 5,
+        "tolerance": 0.001,
+        "explanation": "Sumar los cuatro éxitos a α=1 produce cinco.",
+        "hint": "α acumula éxitos."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Posterior Beta(5,3): predictiva de éxito.",
+        "answer": 0.625,
+        "tolerance": 0.001,
+        "explanation": "La predictiva integra θ y equivale a su media 5/8.",
+        "hint": "Usa media, no modo."
+      },
+      {
+        "type": "choice",
+        "prompt": "Más observaciones consistentes suelen…",
+        "options": [
+          "Cambiar el parámetro a entero observado",
+          "Aumentar concentración posterior",
+          "Eliminar la necesidad de soporte",
+          "Hacer negativa la varianza"
+        ],
+        "answer": 1,
+        "explanation": "Crece α+β y se estrecha la incertidumbre relativa, con modelo y muestreo adecuados.",
+        "hint": "Distingue centro y concentración."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué conserva la actualización conjugada?",
+        "options": [
+          "La familia de distribuciones",
+          "El valor exacto del prior",
+          "Toda la incertidumbre inicial",
+          "La likelihood como posterior"
+        ],
+        "answer": 0,
+        "explanation": "Cambian parámetros pero la posterior pertenece a la misma familia que el prior.",
+        "hint": "Conjugación es cierre algebraico."
+      }
+    ],
+    "references": ["bayes-notes", "guide", "parr"]
+  },
+  {
+    "id": "bayesian-2",
+    "world": "bayesian",
+    "title": "Fusión gaussiana",
+    "subtitle": "G06 · Precisión y errores ponderados",
+    "minutes": 7,
+    "visual": "bayes",
+    "intuition": "Fuentes gaussianas independientes combinan sus precisiones; cada media pesa según su confianza.",
+    "core": [
+      {
+        "label": "Modelo",
+        "body": "Prior y observación gaussiana del mismo estado, con varianzas conocidas positivas.",
+        "formula": "s\\sim\\mathcal N(\\mu_0,\\sigma_0^2),\\quad o\\mid s\\sim\\mathcal N(s,\\sigma_o^2)"
+      },
+      {
+        "label": "Precisión",
+        "body": "La precisión posterior suma contribuciones.",
+        "formula": "\\Pi_{post}=\\Pi_0+\\Pi_o"
+      },
+      {
+        "label": "Media",
+        "body": "Normalizar la suma ponderada de medias.",
+        "formula": "\\mu_{post}=\\frac{\\Pi_0\\mu_0+\\Pi_oo}{\\Pi_0+\\Pi_o}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "-\\ln p(s,o)=\\tfrac12\\Pi_0(s-\\mu_0)^2+\\tfrac12\\Pi_o(o-s)^2+const",
+        "reason": "Sumar log factores gaussianos."
+      },
+      {
+        "formula": "\\partial_s=\\Pi_0(s-\\mu_0)+\\Pi_o(s-o)=0",
+        "reason": "El modo coincide con la media."
+      },
+      {
+        "formula": "s=\\frac{\\Pi_0\\mu_0+\\Pi_oo}{\\Pi_0+\\Pi_o}",
+        "reason": "Resolver la condición estacionaria."
+      }
+    ],
+    "example": {
+      "problem": "Prior μ0=0, varianza 4; dato o=2, varianza 1. Posterior.",
+      "solution": "Precisión 1.25, media 1.6 y varianza 0.8."
+    },
+    "pitfall": "Sumar precisiones presupone información condicionalmente independiente y parámetros compatibles.",
+    "bridge": "Predictive coding gaussian usa errores ponderados por precisión: esta regla ofrece un caso verificable exacto.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Precisión prior 2 y sensorial 3: precisión posterior.",
+        "answer": 5,
+        "tolerance": 0.001,
+        "explanation": "Las cuadráticas independientes suman sus coeficientes de precisión.",
+        "hint": "No sumes varianzas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "μ₀=0, o=4, precisiones iguales: media posterior.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "Con pesos iguales, la media queda a mitad de camino.",
+        "hint": "Normaliza la suma ponderada."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una observación con varianza muy alta recibe…",
+        "options": [
+          "Peso muy alto",
+          "Peso bajo por precisión baja",
+          "Probabilidad siempre cero",
+          "Peso negativo"
+        ],
+        "answer": 1,
+        "explanation": "La precisión es inversa de varianza y reduce el peso de un dato ruidoso.",
+        "hint": "Confianza y ruido son inversos."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Precisión posterior 4: varianza posterior.",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "Invertir precisión positiva da 1/4.",
+        "hint": "Usa Σ=Π⁻¹."
+      }
+    ],
+    "references": ["bayes-notes", "guide", "parr"]
+  },
+  {
+    "id": "bayesian-3",
+    "world": "bayesian",
+    "title": "Jerarquías y causas compartidas",
+    "subtitle": "G06 · Modelos por niveles y partial pooling",
+    "minutes": 9,
+    "visual": "bayes",
+    "intuition": "Una jerarquía representa parámetros locales vinculados por causas comunes; permite compartir evidencia sin igualar todos los casos.",
+    "core": [
+      {
+        "label": "Factoración",
+        "body": "Un hiperparámetro gobierna parámetros individuales que gobiernan datos.",
+        "formula": "p(x,\\theta,\\eta)=p(\\eta)\\prod_jp(\\theta_j\\mid\\eta)p(x_j\\mid\\theta_j)"
+      },
+      {
+        "label": "Pooling",
+        "body": "La posterior local combina datos propios y estructura grupal.",
+        "formula": "p(\\theta_j\\mid x_{1:J})"
+      },
+      {
+        "label": "Hiperincertidumbre",
+        "body": "Predicciones deben integrar parámetros e hiperparámetros cuando no se conocen.",
+        "formula": "p(x_{new}\\mid x)=\\iint p(x_{new}\\mid\\theta,\\eta)p(\\theta,\\eta\\mid x)d\\theta d\\eta"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\theta_j\\mid\\mu\\sim\\mathcal N(\\mu,\\tau^2)",
+        "reason": "Compartir centro, permitir variación."
+      },
+      {
+        "formula": "\\bar x_j\\mid\\theta_j\\sim\\mathcal N(\\theta_j,\\sigma^2/n_j)",
+        "reason": "Datos locales con precisión n_j/σ²."
+      },
+      {
+        "formula": "\\mathbb E[\\theta_j\\mid\\bar x_j,\\mu]=\\frac{\\mu/\\tau^2+n_j\\bar x_j/\\sigma^2}{1/\\tau^2+n_j/\\sigma^2}",
+        "reason": "Con μ conocido, fusión produce shrinkage."
+      }
+    ],
+    "example": {
+      "problem": "Dos sujetos tienen pocos datos; ¿por qué usar una jerarquía?",
+      "solution": "La estructura común regulariza estimaciones locales y cuantifica diferencias; su pertinencia debe verificarse predictivamente."
+    },
+    "pitfall": "Empirical Bayes estima hiperparámetros; Bayes jerárquico completo propaga su incertidumbre.",
+    "bridge": "La inferencia activa jerárquica conecta escalas temporales y niveles de causas, además de aprendizaje de grupo.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Partial pooling significa…",
+        "options": [
+          "Forzar parámetros idénticos",
+          "Ignorar todos los datos locales",
+          "Compartir información conservando diferencias",
+          "Promediar observaciones sin modelo"
+        ],
+        "answer": 2,
+        "explanation": "La distribución grupal vincula parámetros, pero permite variación individual.",
+        "hint": "Entre independencia total e igualdad total."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Centro grupal 0 y dato 6 con precisiones iguales: media local condicionada al centro.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "El promedio ponderado con pesos iguales es tres.",
+        "hint": "Es la misma fusión gaussiana."
+      },
+      {
+        "type": "choice",
+        "prompt": "Con más datos locales confiables, shrinkage suele…",
+        "options": [
+          "Disminuir",
+          "Aumentar sin límite",
+          "Ser completo siempre",
+          "Volver nula la likelihood"
+        ],
+        "answer": 0,
+        "explanation": "La precisión de datos crece y su peso relativo frente al grupo aumenta.",
+        "hint": "Compara precisiones."
+      },
+      {
+        "type": "choice",
+        "prompt": "Bayes jerárquico completo integra incertidumbre de…",
+        "options": [
+          "Solo resultados observados",
+          "Solo la media muestral",
+          "Ningún hiperparámetro",
+          "Parámetros e hiperparámetros"
+        ],
+        "answer": 3,
+        "explanation": "La estructura superior también se infiere y afecta las predicciones.",
+        "hint": "Cada nivel incierto entra en la posterior."
+      }
+    ],
+    "references": ["bayes-notes", "guide", "parr"]
+  },
+  {
+    "id": "bayesian-4",
+    "world": "bayesian",
+    "title": "Filtrar estados en el tiempo",
+    "subtitle": "G06 · Predicción y corrección recursivas",
+    "minutes": 7,
+    "visual": "bayes",
+    "intuition": "Un filtro alterna propagar creencias por la dinámica y corregirlas con el nuevo dato.",
+    "core": [
+      {
+        "label": "Predicción",
+        "body": "Sumar las posibles causas del estado siguiente.",
+        "formula": "p(s_t\\mid o_{1:t-1})=\\sum_{s_{t-1}}p(s_t\\mid s_{t-1})p(s_{t-1}\\mid o_{1:t-1})"
+      },
+      {
+        "label": "Corrección",
+        "body": "Ponderar el prior predictivo por likelihood actual.",
+        "formula": "p(s_t\\mid o_{1:t})\\propto p(o_t\\mid s_t)p(s_t\\mid o_{1:t-1})"
+      },
+      {
+        "label": "Distinción",
+        "body": "Filtrar usa pasado y presente; suavizar incorpora datos futuros.",
+        "formula": "p(s_t\\mid o_{1:T}),\\quad T>t"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "q_{t-1}=(0.6,0.4)^\\top,\\quad B=\\begin{pmatrix}0.8&0.2\\\\0.2&0.8\\end{pmatrix}",
+        "reason": "Dinámica de dos estados."
+      },
+      {
+        "formula": "q^-_t=Bq_{t-1}=(0.56,0.44)^\\top",
+        "reason": "Propagar el estado anterior."
+      },
+      {
+        "formula": "\\ell=(0.75,0.25)\\Rightarrow q_t=(0.42,0.11)^\\top/0.53",
+        "reason": "Aplicar el dato y normalizar."
+      }
+    ],
+    "example": {
+      "problem": "Prior predictivo (0.5,0.5), likelihood (0.8,0.2). Posterior.",
+      "solution": "Los pesos 0.4 y 0.1 se normalizan a (0.8,0.2)."
+    },
+    "pitfall": "No volver a incorporar el mismo dato como independiente en cada actualización.",
+    "bridge": "Los modelos discretos de inferencia activa usan HMM controlados; la política decide qué B se aplica.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "El paso predictivo usa principalmente…",
+        "options": [
+          "El dato futuro ya observado",
+          "La transición y posterior anterior",
+          "Solo preferencias",
+          "La evidencia total de otro modelo"
+        ],
+        "answer": 1,
+        "explanation": "La dinámica transporta la creencia antes de recibir el dato actual.",
+        "hint": "Primero propagar, después corregir."
+      },
+      {
+        "type": "numeric",
+        "prompt": "B=[[0.9,0.1],[0.1,0.9]], q=(1,0): primer componente de Bq.",
+        "answer": 0.9,
+        "tolerance": 0.001,
+        "explanation": "El estado inicial cierto selecciona la primera columna de B.",
+        "hint": "Multiplica matriz por vector."
+      },
+      {
+        "type": "choice",
+        "prompt": "Suavizar se diferencia de filtrar porque…",
+        "options": [
+          "Ignora pasado",
+          "Usa únicamente acciones",
+          "Puede usar observaciones posteriores al estado inferido",
+          "Siempre es menos exacto"
+        ],
+        "answer": 2,
+        "explanation": "Datos futuros también informan acerca de causas pasadas en la cadena temporal.",
+        "hint": "Distingue tiempo del estado y tiempo de la evidencia."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Pesos posteriores sin normalizar 0.3 y 0.2: primer componente.",
+        "answer": 0.6,
+        "tolerance": 0.001,
+        "explanation": "La masa total es 0.5; dividir 0.3 por ella da 0.6.",
+        "hint": "Normaliza luego de multiplicar."
+      }
+    ],
+    "references": ["bayes-notes", "guide", "parr"]
+  },
+  {
+    "id": "bayesian-5",
+    "world": "bayesian",
+    "title": "Evidencia y comparación",
+    "subtitle": "G06 · Occam probabilístico y factores de Bayes",
+    "minutes": 7,
+    "visual": "bayes",
+    "intuition": "La evidencia promedia ajuste sobre el prior, por eso un modelo flexible paga por asignar masa a datos que no ocurrieron.",
+    "core": [
+      {
+        "label": "Evidencia",
+        "body": "Integrar parámetros en lugar de elegir solo el mejor.",
+        "formula": "p(x\\mid M)=\\int p(x\\mid\\theta,M)p(\\theta\\mid M)d\\theta"
+      },
+      {
+        "label": "Bayes factor",
+        "body": "Compara evidencias de dos modelos.",
+        "formula": "BF_{12}=p(x\\mid M_1)/p(x\\mid M_2)"
+      },
+      {
+        "label": "Odds",
+        "body": "La evidencia relativa multiplica odds previas.",
+        "formula": "\\frac{p(M_1\\mid x)}{p(M_2\\mid x)}=BF_{12}\\frac{p(M_1)}{p(M_2)}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p(x\\mid M_1)=0.3,\\quad p(x\\mid M_2)=0.1",
+        "reason": "Dos predicciones marginales."
+      },
+      {
+        "formula": "BF_{12}=3",
+        "reason": "La observación favorece M1 tres a uno."
+      },
+      {
+        "formula": "\\text{odds previas}=1/2\\Rightarrow\\text{odds posteriores}=3/2",
+        "reason": "Actualizar odds, no probabilidades directamente."
+      }
+    ],
+    "example": {
+      "problem": "Dos únicos modelos con priors iguales y BF12=4. Posterior de M1.",
+      "solution": "Odds 4 a 1; probabilidad $4/(4+1)=0.8$."
+    },
+    "pitfall": "El máximo de likelihood no equivale a evidencia; priors impropios pueden impedir comparación de modelos.",
+    "bridge": "Tus apuntes llaman factor a R(T;E)=P(E|T)/P(E), actualización contra una mezcla; BF12 compara dos modelos y multiplica sus odds.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Evidencias 0.2 y 0.05: BF₁₂.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "Dividir ambas predicciones marginales da cuatro.",
+        "hint": "Mismo dato, distintos modelos."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Odds previas 2 y BF=3: odds posteriores.",
+        "answer": 6,
+        "tolerance": 0.001,
+        "explanation": "La actualización multiplica odds por evidencia relativa.",
+        "hint": "No sumes odds."
+      },
+      {
+        "type": "choice",
+        "prompt": "La evidencia integra…",
+        "options": [
+          "Solo el máximo",
+          "Likelihood sobre el prior de parámetros",
+          "Únicamente la posterior normalizada",
+          "Siempre un parámetro fijo"
+        ],
+        "answer": 1,
+        "explanation": "Es la probabilidad predictiva previa del dato bajo todas las hipótesis parametrizadas del modelo.",
+        "hint": "Promedio de ajuste, no mejor ajuste."
+      },
+      {
+        "type": "choice",
+        "prompt": "Un prior impropio puede afectar evidencia porque…",
+        "options": [
+          "La media siempre es cero",
+          "Impide toda inferencia condicional",
+          "La constante de normalización arbitraria no se cancela entre modelos",
+          "Hace positiva la KL siempre"
+        ],
+        "answer": 2,
+        "explanation": "Las comparaciones marginales requieren probabilidades normalizadas y escalas comparables.",
+        "hint": "La constante multiplicativa importa al comparar modelos."
+      }
+    ],
+    "references": ["bayes-notes", "guide", "parr"]
+  },
+  {
+    "id": "bayesian-6",
+    "world": "bayesian",
+    "title": "Jeffreys e invariancia",
+    "subtitle": "G06 · Cápsula avanzada · prior y parametrización",
+    "minutes": 9,
+    "visual": "bayes",
+    "intuition": "Una probabilidad es invariante al cambiar coordenadas; su densidad cambia con el Jacobiano. Jeffreys usa la geometría informativa para mantener esa coherencia.",
+    "core": [
+      {
+        "label": "Fisher",
+        "body": "Para un parámetro escalar regular, promediar el cuadrado del score.",
+        "formula": "\\mathcal I(\\theta)=\\mathbb E_{x\\mid\\theta}[(\\partial_\\theta\\ln p(x\\mid\\theta))^2]"
+      },
+      {
+        "label": "Jeffreys",
+        "body": "El prior proporcional a raíz de Fisher transforma como una densidad.",
+        "formula": "p_J(\\theta)\\propto\\sqrt{\\mathcal I(\\theta)}"
+      },
+      {
+        "label": "Bernoulli",
+        "body": "La geometría del parámetro produce un prior Beta de medias simétricas.",
+        "formula": "\\mathcal I(\\theta)=\\frac1{\\theta(1-\\theta)},\\quad p_J=\\operatorname{Beta}(1/2,1/2)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\partial_\\theta\\ln p(x\\mid\\theta)=\\frac{x-\\theta}{\\theta(1-\\theta)}",
+        "reason": "Score Bernoulli."
+      },
+      {
+        "formula": "\\mathbb E[(x-\\theta)^2]=\\theta(1-\\theta)",
+        "reason": "Usar su varianza."
+      },
+      {
+        "formula": "\\mathcal I=\\frac1{\\theta(1-\\theta)}",
+        "reason": "Dividir por el denominador cuadrado."
+      }
+    ],
+    "example": {
+      "problem": "Un ensayo Bernoulli con θ=0.5. ¿Información de Fisher?",
+      "solution": "$1/(0.5\\cdot0.5)=4$."
+    },
+    "pitfall": "Jeffreys puede ser impropio en otros modelos; invariancia de la medida no vuelve invariante cualquier modo MAP ni garantiza neutralidad absoluta.",
+    "bridge": "Tus apuntes discuten MLE/MAP y Jeffreys; esta extensión aclara cómo depende una densidad de su parametrización.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Fisher Bernoulli en θ=0.5.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "El producto θ(1−θ)=0.25 y su recíproco es cuatro.",
+        "hint": "Usa un único ensayo."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Media del prior Jeffreys Bernoulli Beta(0.5,0.5).",
+        "answer": 0.5,
+        "tolerance": 0.001,
+        "explanation": "Parámetros simétricos producen media 0.5/(0.5+0.5).",
+        "hint": "Normaliza parámetros."
+      },
+      {
+        "type": "choice",
+        "prompt": "Al cambiar coordenadas, la densidad…",
+        "options": [
+          "Permanece numéricamente igual siempre",
+          "Se transforma con Jacobiano conservando masa",
+          "Se vuelve uniforme siempre",
+          "Pierde normalización necesariamente"
+        ],
+        "answer": 1,
+        "explanation": "La conservación corresponde a probabilidades integradas, no a alturas puntuales de densidad.",
+        "hint": "Masa es densidad por volumen."
+      },
+      {
+        "type": "choice",
+        "prompt": "Un prior Jeffreys…",
+        "options": [
+          "Siempre es propio",
+          "Siempre es plano",
+          "Puede ser impropio y exige revisar normalización",
+          "Elimina todos los supuestos"
+        ],
+        "answer": 2,
+        "explanation": "Su forma geométrica no asegura integral finita sobre un dominio no acotado.",
+        "hint": "Verifica soporte e integral."
+      }
+    ],
+    "references": ["guide", "bayes-notes"]
+  }
+]

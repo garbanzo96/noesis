@@ -1,0 +1,341 @@
+[
+  {
+    "id": "multivariate-1",
+    "world": "multivariate",
+    "title": "Gradiente y direcciones",
+    "subtitle": "G01–G02 · Parciales como mapa de sensibilidad",
+    "minutes": 7,
+    "visual": "gradient",
+    "intuition": "El gradiente reúne pendientes por coordenada; su producto con una dirección predice el cambio en esa dirección.",
+    "core": [
+      {
+        "label": "Parcial",
+        "body": "Variar una coordenada manteniendo las demás fijas.",
+        "formula": "\\partial_i f=\\frac{\\partial f}{\\partial x_i}"
+      },
+      {
+        "label": "Gradiente",
+        "body": "Por convención es vector columna de parciales.",
+        "formula": "\\nabla f=(\\partial_1f,\\ldots,\\partial_nf)^\\top"
+      },
+      {
+        "label": "Direccional",
+        "body": "Para dirección unitaria, proyectar el gradiente mide pendiente.",
+        "formula": "D_v f=\\nabla f^\\top v"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "f(x,y)=x^2+3y^2",
+        "reason": "Objetivo escalar de dos entradas."
+      },
+      {
+        "formula": "\\nabla f=(2x,6y)^\\top",
+        "reason": "Derivar cada coordenada."
+      },
+      {
+        "formula": "\\nabla f(1,1)=(2,6)^\\top",
+        "reason": "La segunda dirección es localmente más sensible."
+      }
+    ],
+    "example": {
+      "problem": "En (1,1), desplázate h=(0.01,−0.01). Estima Δf.",
+      "solution": "$\\nabla f^\\top h=2(0.01)+6(-0.01)=-0.04$."
+    },
+    "pitfall": "El gradiente depende de escala y coordenadas; la dirección más empinada usa una métrica declarada.",
+    "bridge": "La actualización de creencias minimiza F por gradientes sobre múltiples estados y parámetros.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "f=x²+3y²: parcial respecto a y en y=2.",
+        "answer": 12,
+        "tolerance": 0.001,
+        "explanation": "Derivar 3y² da 6y; en dos vale doce.",
+        "hint": "Trata x como constante."
+      },
+      {
+        "type": "choice",
+        "prompt": "El gradiente de una función escalar de n entradas tiene…",
+        "options": ["n componentes", "n² componentes", "Un solo valor siempre", "Shape n×n"],
+        "answer": 0,
+        "explanation": "Hay una parcial por coordenada; el vector resume n sensibilidades.",
+        "hint": "Cuenta entradas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Gradiente (2,6), dirección (1,0): derivada direccional.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "El producto interno selecciona la sensibilidad de la primera coordenada.",
+        "hint": "Proyecta el gradiente."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para reducir un objetivo con paso pequeño euclídeo, usar…",
+        "options": [
+          "+∇f",
+          "Una dirección perpendicular siempre",
+          "−∇f",
+          "Cualquier dirección positiva"
+        ],
+        "answer": 2,
+        "explanation": "El cambio de primer orden en −∇f es −||∇f||², no positivo.",
+        "hint": "Calcula ∇fᵀ(−∇f)."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  },
+  {
+    "id": "multivariate-2",
+    "world": "multivariate",
+    "title": "Jacobiano y cadena",
+    "subtitle": "G01–G02 · De estados múltiples a sensores múltiples",
+    "minutes": 7,
+    "visual": "gradient",
+    "intuition": "El Jacobiano es el mapa lineal que aproxima una transformación vectorial cerca de un punto.",
+    "core": [
+      {
+        "label": "Shape",
+        "body": "Una salida de m componentes y entrada de n tiene Jacobiano m×n.",
+        "formula": "J_{ij}=\\frac{\\partial g_i}{\\partial x_j}"
+      },
+      {
+        "label": "Linealización",
+        "body": "Transformar perturbaciones pequeñas mediante J.",
+        "formula": "g(x+h)\\approx g(x)+J_g(x)h"
+      },
+      {
+        "label": "Cadena",
+        "body": "La composición multiplica Jacobianos en orden de funciones.",
+        "formula": "J_{f\\circ g}=J_f(g(x))J_g(x)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "g(x,y)=(x+y,x^2)^\\top",
+        "reason": "Dos salidas de dos entradas."
+      },
+      {
+        "formula": "J_g=\\begin{pmatrix}1&1\\\\2x&0\\end{pmatrix}",
+        "reason": "Cada fila deriva una salida."
+      },
+      {
+        "formula": "J_g(1,0)\\binom{0.1}{0.2}=\\binom{0.3}{0.2}",
+        "reason": "Propagar una perturbación."
+      }
+    ],
+    "example": {
+      "problem": "Un modelo g:R³→R² predice dos sensores. ¿Shape del Jacobiano?",
+      "solution": "2×3: una fila por sensor, una columna por coordenada latente."
+    },
+    "pitfall": "Transponer por intuición sin comprobar shapes produce gradientes incorrectos.",
+    "bridge": "El gradiente de un error sensorial contiene Jgᵀ: retropropaga error desde observaciones hacia causas.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "g tiene 5 salidas y 3 entradas. Número de entradas del Jacobiano.",
+        "answer": 15,
+        "tolerance": 0.001,
+        "explanation": "Cinco filas por tres columnas produce quince parciales.",
+        "hint": "Multiplica los shapes."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuál aproxima el cambio de g por h?",
+        "options": ["Jᵀh siempre", "det J", "g(x)h", "Jh"],
+        "answer": 3,
+        "explanation": "J m×n multiplica la perturbación de n componentes para producir m cambios.",
+        "hint": "Comprueba dimensiones."
+      },
+      {
+        "type": "numeric",
+        "prompt": "g₁=x+y, h=(0.2,0.3): cambio de primer orden de g₁.",
+        "answer": 0.5,
+        "tolerance": 0.001,
+        "explanation": "Su fila Jacobiana es (1,1); la proyección suma ambos desplazamientos.",
+        "hint": "La transformación ya es lineal."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para una pérdida escalar L(g(x)), ∇ₓL es…",
+        "options": ["Jgᵀ∇gL", "Jg∇gL siempre", "∇gL sin cambio", "det Jg"],
+        "answer": 0,
+        "explanation": "El Jacobiano transpuesto transporta el gradiente de salida al espacio de entrada.",
+        "hint": "El resultado necesita n componentes."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  },
+  {
+    "id": "multivariate-3",
+    "world": "multivariate",
+    "title": "Hessiano y geometría posterior",
+    "subtitle": "G01–G02 · Curvatura, sillas y Laplace",
+    "minutes": 9,
+    "visual": "gradient",
+    "intuition": "El Hessiano mide cómo cambia el gradiente; cerca de un mínimo transforma el objetivo en una cuadrática.",
+    "core": [
+      {
+        "label": "Segundas parciales",
+        "body": "Suavidad suficiente hace simétricas las parciales mixtas.",
+        "formula": "H_{ij}=\\frac{\\partial^2 f}{\\partial x_i\\partial x_j}"
+      },
+      {
+        "label": "Taylor",
+        "body": "La curvatura añade interacciones entre desplazamientos.",
+        "formula": "f(x+h)\\approx f(x)+\\nabla f^\\top h+\\frac12h^\\top Hh"
+      },
+      {
+        "label": "Laplace",
+        "body": "En un modo interior con Hessiano definido positivo del negativo log posterior, la covarianza aproximada es su inversa.",
+        "formula": "\\Sigma_{Lap}\\approx H^{-1}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "f(x,y)=x^2+2y^2",
+        "reason": "Definir una cuadrática convexa."
+      },
+      {
+        "formula": "H=\\operatorname{diag}(2,4)",
+        "reason": "Calcular curvaturas."
+      },
+      {
+        "formula": "\\Sigma_{Lap}=\\operatorname{diag}(1/2,1/4)",
+        "reason": "La dirección más curva es menos incierta."
+      }
+    ],
+    "example": {
+      "problem": "H tiene autovalores 2 y −1 en un punto estacionario. ¿Qué es?",
+      "solution": "Una silla: existe una dirección de subida y otra de bajada."
+    },
+    "pitfall": "Laplace local puede ocultar modos adicionales y falla si el Hessiano no define una gaussiana normalizable.",
+    "bridge": "La precisión posterior es curvatura local de energía, bajo los supuestos de la aproximación.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "f=3x²+2y²: entrada H₁₁.",
+        "answer": 6,
+        "tolerance": 0.001,
+        "explanation": "Derivar 3x² dos veces da seis.",
+        "hint": "La segunda parcial elimina x."
+      },
+      {
+        "type": "choice",
+        "prompt": "H definido positivo en un punto crítico implica…",
+        "options": ["Máximo local", "Silla", "Mínimo local estricto", "Independencia universal"],
+        "answer": 2,
+        "explanation": "Toda perturbación pequeña no nula aumenta la cuadrática local.",
+        "hint": "Observa hᵀHh."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Curvatura escalar H=5: varianza de Laplace.",
+        "answer": 0.2,
+        "tolerance": 0.001,
+        "explanation": "La varianza aproxima el inverso de la precisión local: 1/5.",
+        "hint": "Invierte la curvatura positiva."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una posterior con dos modos distantes exige cautela porque…",
+        "options": [
+          "Una gaussiana local puede omitir uno de los modos",
+          "No tiene evidencia",
+          "No admite probabilidades",
+          "Siempre tiene media cero"
+        ],
+        "answer": 0,
+        "explanation": "La expansión alrededor de un modo representa solo su vecindad y no la estructura global.",
+        "hint": "Local no significa exhaustivo."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  },
+  {
+    "id": "multivariate-4",
+    "world": "multivariate",
+    "title": "Restricciones y coordenadas",
+    "subtitle": "G01–G02 · Lagrange, simplex y Jacobiano de densidad",
+    "minutes": 7,
+    "visual": "gradient",
+    "intuition": "Las restricciones cambian las direcciones permitidas; una parametrización puede satisfacerlas automáticamente.",
+    "core": [
+      {
+        "label": "Lagrange",
+        "body": "En un extremo diferenciable con restricción regular ∇g≠0, los gradientes son paralelos.",
+        "formula": "\\nabla f=\\lambda\\nabla g,\\quad g(x)=c"
+      },
+      {
+        "label": "Simplex",
+        "body": "Softmax convierte parámetros libres en probabilidades interiores.",
+        "formula": "q_i=\\frac{e^{z_i}}{\\sum_j e^{z_j}}"
+      },
+      {
+        "label": "Cambio de densidad",
+        "body": "Para transformación biyectiva con mapa e inversa diferenciables, usar determinante absoluto del inverso.",
+        "formula": "p_Y(y)=p_X(g^{-1}(y))|\\det J_{g^{-1}}(y)|"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\min_{x+y=1}(x^2+y^2)",
+        "reason": "Objetivo con restricción lineal."
+      },
+      {
+        "formula": "2x=\\lambda,\\quad2y=\\lambda",
+        "reason": "Igualar sensibilidades restringidas."
+      },
+      {
+        "formula": "x=y=1/2",
+        "reason": "Imponer la suma uno."
+      }
+    ],
+    "example": {
+      "problem": "Y=(2X₁,3X₂): factor de densidad frente a pX(y₁/2,y₂/3).",
+      "solution": "El volumen se multiplica por 6; la densidad usa factor $1/6$."
+    },
+    "pitfall": "Softmax no es biyectiva de Rⁿ al simplex: sumar una constante a logits no cambia q.",
+    "bridge": "MaxEnt usa restricciones; normalizar creencias impone una geometría distinta de parámetros libres.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Minimiza x²+y² con x+y=2: x.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Por simetría y Lagrange x=y; la restricción da ambos uno.",
+        "hint": "Iguala las parciales."
+      },
+      {
+        "type": "choice",
+        "prompt": "El simplex de n probabilidades tiene cuántos grados de libertad?",
+        "options": ["n", "n−1", "n²", "Uno siempre"],
+        "answer": 1,
+        "explanation": "La suma uno elimina una libertad independiente.",
+        "hint": "Una coordenada se determina por las demás."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Y=(2X₁,5X₂): factor Jacobiano inverso.",
+        "answer": 0.1,
+        "tolerance": 0.001,
+        "explanation": "El estiramiento de área es diez y la densidad se divide por diez.",
+        "hint": "Multiplica escalas y luego invierte."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Por qué sumar constante a logits conserva q?",
+        "options": [
+          "Porque exp es lineal",
+          "Porque la restricción desaparece",
+          "Porque el gradiente es cero siempre",
+          "Porque el factor común se cancela"
+        ],
+        "answer": 3,
+        "explanation": "La exponencial de la constante multiplica todos los pesos por igual.",
+        "hint": "Observa numerador y denominador."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  }
+]

@@ -1,0 +1,102 @@
+{
+  "scenario": "Tienes dos posibles estados ocultos de un participante y tres respuestas observables. Una matriz describe cómo cada estado puede producir cada respuesta.",
+  "objective": "Declarar dimensiones, construir la predicción matricial y distinguir producto interno, externo y componente a componente.",
+  "briefing": "Una columna de probabilidades guarda cuánto crees en cada estado. Cada columna de la matriz sensorial guarda las respuestas posibles si ese estado fuera cierto. Predecir consiste en combinar esas columnas según tu creencia actual.",
+  "teachingStages": [
+    {
+      "id": "linear-stage-1",
+      "title": "Un vector es una lista ordenada",
+      "claim": "Cada componente tiene un significado; el orden y la dimensión son parte del dato.",
+      "formula": "\\mathbf s=(0.6,0.4)^\\mathsf T\\in\\mathbb R^2",
+      "explanation": "s es una columna con dos entradas: estado 1 y estado 2. T transforma la escritura horizontal en columna. Las entradas son probabilidades no negativas y suman uno. Intercambiar las entradas sin cambiar las etiquetas equivale a otra creencia. Un vector también puede contener medidas; entonces no necesita sumar uno.",
+      "actionLabel": "Etiquetar las componentes",
+      "animation": "Dos casillas verticales se rotulan estado 1 y estado 2; sus barras ocupan 0.6 y 0.4 de una unidad total."
+    },
+    {
+      "id": "linear-stage-2",
+      "title": "Una columna por condición",
+      "claim": "A tiene filas de respuestas y columnas de estados; cada columna condicional suma uno.",
+      "formula": "A=\\begin{bmatrix}0.8&0.2\\\\0.1&0.3\\\\0.1&0.5\\end{bmatrix}\\in\\mathbb R^{3\\times2},\\quad A_{ij}=P(o=i\\mid s=j)",
+      "explanation": "A_{ij} es la entrada en fila i, columna j. La primera columna describe las tres respuestas dado estado 1; la segunda, dado estado 2. Sumar una columna elimina todas las alternativas de respuesta y da uno. No se exige que cada fila sume uno.",
+      "actionLabel": "Inspeccionar una condición",
+      "animation": "Seleccionar un estado ilumina su columna; sus tres entradas se acumulan en una banda unidad."
+    },
+    {
+      "id": "linear-stage-3",
+      "title": "Mezclar predicciones",
+      "claim": "El producto matriz–vector pondera cada columna por la creencia del estado correspondiente.",
+      "formula": "\\mathbf o_{pred}=A\\mathbf s=(0.56,0.18,0.26)^\\mathsf T",
+      "explanation": "La primera respuesta recibe 0.8×0.6 desde estado 1 y 0.2×0.4 desde estado 2: total 0.56. Repetir por filas da tres probabilidades que suman uno. Las dimensiones interiores 2 coinciden y la salida conserva las 3 filas. Esta operación es una marginalización sobre estados.",
+      "actionLabel": "Seguir las contribuciones",
+      "animation": "Cada columna de A se escala por 0.6 o 0.4; barras del mismo color de respuesta se suman en la columna de salida."
+    },
+    {
+      "id": "linear-stage-4",
+      "title": "Tres productos, tres preguntas",
+      "claim": "Un producto interno da un escalar; uno externo da una matriz; el componente a componente conserva la forma.",
+      "formula": "\\mathbf x^\\mathsf T\\mathbf y=\\sum_i x_i y_i;\\quad(\\mathbf o\\mathbf s^\\mathsf T)_{ij}=o_i s_j;\\quad(\\mathbf x\\odot\\mathbf y)_i=x_i y_i",
+      "explanation": "Con o de dimensión 3 y s de dimensión 2, o·sᵀ tiene forma 3×2 y distribuye conteos esperados entre respuesta y estado. El producto interno xᵀy requiere igual dimensión. El producto ⊙ combina probabilidades alineadas por componente; después suele requerir normalización.",
+      "actionLabel": "Comparar las formas de salida",
+      "animation": "Las mismas fichas forman una celda al contraer, una cuadrícula al cruzar y una columna al emparejar componentes."
+    },
+    {
+      "id": "linear-stage-5",
+      "title": "Incertidumbre con dirección",
+      "claim": "La covarianza describe dispersión conjunta; su inversa es precisión cuando es definida positiva.",
+      "formula": "\\Sigma=\\begin{bmatrix}4&0\\\\0&1\\end{bmatrix},\\quad\\Pi=\\Sigma^{-1}=\\begin{bmatrix}1/4&0\\\\0&1\\end{bmatrix}",
+      "explanation": "La varianza es el promedio de desviaciones cuadradas respecto de la media. Desviaciones ±2 equiprobables tienen varianza 4; ±1, varianza 1. Σ guarda varianzas en su diagonal y covarianzas fuera de ella. Aquí es diagonal: Π tiene precisiones 0.25 y 1. Si Σ tiene términos cruzados, invertir no consiste en tomar recíprocos de cada entrada. Se exige Σ definida positiva.",
+      "actionLabel": "Rotar un error sobre la elipse",
+      "animation": "Una elipse larga en la primera dimensión muestra mayor dispersión; errores de igual longitud reciben penalizaciones distintas según su dirección."
+    }
+  ],
+  "missions": [
+    {
+      "id": "linear-mission-1",
+      "title": "Predecir una respuesta",
+      "brief": "Combina causas alternativas, en vez de escoger solo la más probable.",
+      "setup": "A=[[0.8,0.2],[0.1,0.3],[0.1,0.5]], s=(0.6,0.4)ᵀ.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es la probabilidad predicha de la segunda respuesta?",
+      "formula": "(A\\mathbf s)_2=0.1\\cdot0.6+0.3\\cdot0.4",
+      "answer": 0.18,
+      "solution": "La contribución del estado 1 es 0.06 y la del estado 2 es 0.12. Su suma es 0.18; ambos estados podían producir la respuesta.",
+      "hint": "Toma la segunda fila y combina sus entradas con s.",
+      "transfer": "A s es la predicción sensorial del modelo discreto.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "linear-mission-2",
+      "title": "Detectar un error de dimensiones",
+      "brief": "Un código de aprendizaje produce una matriz con ejes invertidos.",
+      "setup": "o tiene 3 entradas, s tiene 2; A tiene forma 3×2.",
+      "kind": "choice",
+      "prompt": "¿Qué incremento tiene la misma orientación que A?",
+      "formula": "\\Delta a_{ij}=o_i s_j",
+      "answer": 1,
+      "solution": "o sᵀ cruza las 3 respuestas con los 2 estados y produce 3×2. s oᵀ da 2×3. oᵀs no está definido con estas dimensiones.",
+      "hint": "El primer vector aporta las filas del producto externo.",
+      "transfer": "Los conteos Dirichlet de A deben acumularse con el mismo orden de ejes.",
+      "choices": ["s oᵀ", "o sᵀ", "oᵀ s"]
+    },
+    {
+      "id": "linear-mission-3",
+      "title": "Invertir una incertidumbre",
+      "brief": "Lee la confianza de cada dimensión sin confundirla con una probabilidad.",
+      "setup": "Covarianza Σ=diag(4,1).",
+      "kind": "numeric",
+      "prompt": "¿Qué precisión corresponde a la primera dimensión?",
+      "formula": "\\Pi_{11}=1/\\Sigma_{11}",
+      "answer": 0.25,
+      "solution": "Como Σ es diagonal, su inversa tiene recíprocos en la diagonal. 1/4=0.25; mayor varianza implica menor precisión.",
+      "hint": "En este caso los ejes de la elipse están alineados con las dimensiones.",
+      "transfer": "La precisión multiplica el peso de un error; no demuestra que la observación sea verdadera.",
+      "tolerance": 0.001
+    }
+  ],
+  "relatedLessonIds": ["linear-1", "linear-2", "linear-3", "linear-4", "linear-5"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G03_ALGEBRA_LINEAL_Y_TENSORES.md",
+    "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md"
+  ],
+  "scope": "Predicción discreta, dimensiones y precisión. Sistemas lineales, autovectores y determinantes se mantienen como misiones específicas de las lecciones."
+}

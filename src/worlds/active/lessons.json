@@ -1,0 +1,558 @@
+[
+  {
+    "id": "active-1",
+    "world": "active",
+    "title": "El ciclo completo",
+    "subtitle": "G10–G13 · Observar, inferir, prever, actuar y aprender",
+    "minutes": 7,
+    "visual": "agent",
+    "intuition": "Un agente mantiene creencias, actualiza con datos, simula consecuencias de planes y usa esas consecuencias para elegir acciones.",
+    "core": [
+      {
+        "label": "Percepción",
+        "body": "Actualizar causas con likelihood y prior predictivo.",
+        "formula": "q_t(s)\\propto P(o_t\\mid s)\\,(B^{u_{t-1}}q_{t-1})_s"
+      },
+      {
+        "label": "Planificación",
+        "body": "Prever observaciones desde estados predichos por cada política.",
+        "formula": "q_\\tau(o\\mid\\pi)=Aq_\\tau(s\\mid\\pi)"
+      },
+      {
+        "label": "Selección",
+        "body": "Combinar pasado, futuro y hábitos; después marginalizar la acción actual.",
+        "formula": "q(\\pi)\\propto E_\\pi e^{-F(\\pi)-\\gamma G(\\pi)}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "q^-(s)=(0.5,0.5),\\quad\\ell=(0.8,0.2)",
+        "reason": "Inicio de un ciclo."
+      },
+      {
+        "formula": "q(s\\mid o)=(0.8,0.2)",
+        "reason": "Multiplicar y normalizar."
+      },
+      {
+        "formula": "q_\\tau(s\\mid\\pi)=B^{u}\\,q(s\\mid o),\\quad q_\\tau(o\\mid\\pi)=Aq_\\tau(s\\mid\\pi)",
+        "reason": "Construir consecuencias antes de evaluar G."
+      }
+    ],
+    "example": {
+      "problem": "¿En qué punto se incorpora el dato actual a la creencia?",
+      "solution": "En percepción; las evaluaciones futuras usan predicciones, no observaciones que todavía no existen."
+    },
+    "pitfall": "Un ejemplo de dos estados verifica el álgebra; sistemas grandes requieren factoración, aproximaciones y control de complejidad.",
+    "bridge": "Esta arquitectura integra Bayes, álgebra lineal, información y variación; es el destino principal de la ruta discreta.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Tras recibir un dato nuevo, el primer trabajo inferencial es…",
+        "options": [
+          "Cambiar C arbitrariamente",
+          "Actualizar estados compatibles con el dato",
+          "Elegir el color del mapa",
+          "Dar por cierto un estado"
+        ],
+        "answer": 1,
+        "explanation": "La likelihood repondera la creencia predictiva antes de planificar con ella.",
+        "hint": "Dato actual y futuro tienen papeles distintos."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Prior 0.5/0.5 y likelihood 0.6/0.4: posterior del primer estado.",
+        "answer": 0.6,
+        "tolerance": 0.001,
+        "explanation": "Los pesos 0.3 y 0.2 normalizan a 0.6.",
+        "hint": "Usa Bayes."
+      },
+      {
+        "type": "choice",
+        "prompt": "Las observaciones futuras durante planificación son…",
+        "options": [
+          "Predicciones distribuidas",
+          "Datos ya registrados",
+          "Siempre ciertas",
+          "Preferencias exclusivamente"
+        ],
+        "answer": 0,
+        "explanation": "El modelo integra posibles estados y resultados bajo cada política.",
+        "hint": "Todavía no ha ocurrido el futuro."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué operación convierte creencias de estados en observaciones predichas?",
+        "options": ["Σ⁻¹ siempre", "Derivar C", "Aq(s)", "Sumar F y posterior"],
+        "answer": 2,
+        "explanation": "La matriz sensorial marginaliza estados para producir resultados posibles.",
+        "hint": "Comprueba A: observaciones por estados."
+      }
+    ],
+    "references": ["guide", "parr", "friston", "bogacz"]
+  },
+  {
+    "id": "active-2",
+    "world": "active",
+    "title": "Un experimento epistémico",
+    "subtitle": "G10–G13 · Comparar sensor útil y ruido",
+    "minutes": 7,
+    "visual": "agent",
+    "intuition": "Dos acciones pueden producir la misma diversidad de resultados y tener valores informativos radicalmente distintos.",
+    "core": [
+      {
+        "label": "Sensor claro",
+        "body": "Un estado binario uniforme con copia determinista.",
+        "formula": "A_{claro}=\\begin{pmatrix}1&0\\\\0&1\\end{pmatrix}"
+      },
+      {
+        "label": "Sensor ruido",
+        "body": "Ambas columnas idénticas impiden distinguir causas.",
+        "formula": "A_{ruido}=\\begin{pmatrix}1/2&1/2\\\\1/2&1/2\\end{pmatrix}"
+      },
+      {
+        "label": "Preferencia neutral",
+        "body": "Con P_C uniforme, riesgo es cero en ambos si q(o) es uniforme.",
+        "formula": "G_{RA}=H(O\\mid S)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "q(s)=(1/2,1/2)\\Rightarrow q(o)=(1/2,1/2)",
+        "reason": "Ambos canales predicen igual marginal."
+      },
+      {
+        "formula": "H(O\\mid S)_{claro}=0,\\quad H(O\\mid S)_{ruido}=\\ln2",
+        "reason": "Su diferencia reside en el condicionamiento."
+      },
+      {
+        "formula": "G_{claro}=0<G_{ruido}=\\ln2",
+        "reason": "El criterio favorece observar información útil."
+      }
+    ],
+    "example": {
+      "problem": "Si el estado ya es conocido y el sensor claro lo copia, ¿cuánta información adicional aporta?",
+      "solution": "Cero: H(S)=0; la política epistémica cambia con la incertidumbre actual."
+    },
+    "pitfall": "Confundir entropía sensorial con ganancia informativa premia ruido en lugar de aprendizaje.",
+    "bridge": "Este test mínimo comprueba el término epistémico de una implementación categórica.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Sensor claro, estado binario uniforme: ambigüedad.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "Cada estado determina una observación; no queda incertidumbre condicionada.",
+        "hint": "Condiciona antes de promediar."
+      },
+      {
+        "type": "choice",
+        "prompt": "Columnas sensoriales idénticas significan…",
+        "options": [
+          "Perfecta identificación",
+          "Que el resultado no discrimina estados",
+          "Preferencias fuertes",
+          "Ausencia de observaciones"
+        ],
+        "answer": 1,
+        "explanation": "Todos los estados predicen la misma distribución; Bayes no cambia sus proporciones.",
+        "hint": "Compara likelihoods entre causas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Estado seguro: máxima información adicional sobre ese estado.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "Ya no hay entropía que reducir, por lo que I(S;O)=0.",
+        "hint": "La información no puede superar H(S)."
+      },
+      {
+        "type": "choice",
+        "prompt": "Con misma q(o) y mismas preferencias, G distingue canales por…",
+        "options": [
+          "Su color",
+          "El número de nombres",
+          "Ambigüedad condicionada al estado",
+          "La probabilidad inicial exclusivamente"
+        ],
+        "answer": 2,
+        "explanation": "El término restante evalúa ruido intrínseco del canal bajo los estados previstos.",
+        "hint": "El riesgo coincide en este experimento."
+      }
+    ],
+    "references": ["guide", "parr", "friston", "bogacz"]
+  },
+  {
+    "id": "active-3",
+    "world": "active",
+    "title": "Aprender A y B",
+    "subtitle": "G10–G13 · Dirichlet, recuentos esperados y novedad",
+    "minutes": 9,
+    "visual": "agent",
+    "intuition": "El agente puede inferir no solo dónde está sino también cómo funciona su mundo.",
+    "core": [
+      {
+        "label": "Parámetros",
+        "body": "Asignar Dirichlet a cada columna de A.",
+        "formula": "A_{:s}\\sim\\operatorname{Dir}(a_{:s}),\\quad a_{os}>0"
+      },
+      {
+        "label": "Media",
+        "body": "Los recuentos de concentración normalizados dan media de likelihood.",
+        "formula": "\\mathbb E[A_{os}]=a_{os}/\\sum_{o\\prime}a_{o\\prime s}"
+      },
+      {
+        "label": "Actualización",
+        "body": "Con estados inciertos, una actualización variacional usa recuentos esperados conjuntos.",
+        "formula": "a_{os}\\leftarrow a_{os}+\\mathbb E_q[\\mathbf1_{o_t=o}\\mathbf1_{s_t=s}]"
+      },
+      {
+        "label": "Transiciones B",
+        "body": "Cada columna de B también admite prior Dirichlet; con acción conocida acumula recuentos conjuntos esperados de origen y destino.",
+        "formula": "b^u_{ij}\\leftarrow b^u_{ij}+\\mathbf1_{u_t=u}\\,q(s_{t+1}=i,s_t=j)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "a_{:s}=(1,1)",
+        "reason": "Prior simétrico de una columna."
+      },
+      {
+        "formula": "\\text{observar }o_1\\text{ con }s\\text{ conocido}\\Rightarrow a_{:s}=(2,1)",
+        "reason": "Conjugación exacta con causa conocida."
+      },
+      {
+        "formula": "\\mathbb E[A_{:s}]=(2/3,1/3)",
+        "reason": "Normalizar concentración posterior."
+      }
+    ],
+    "example": {
+      "problem": "Observación o1 y q(s)=(0.7,0.3). ¿Incrementos de la primera fila bajo recuentos esperados?",
+      "solution": "0.7 y 0.3; el total es una observación repartida entre hipótesis de estado."
+    },
+    "pitfall": "Con causas inciertas, una sola Dirichlet de recuentos esperados es aproximación variacional; la posterior exacta puede ser una mezcla.",
+    "bridge": "La novedad epistémica evalúa información sobre estos parámetros, distinta de saliencia sobre estados.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Columna a=(2,3): media de su primer elemento.",
+        "answer": 0.4,
+        "tolerance": 0.001,
+        "explanation": "Los parámetros positivos se normalizan: 2/5.",
+        "hint": "Usa la concentración total."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Estado conocido y una observación nueva: incremento del recuento correspondiente.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Una ocurrencia aporta una unidad a la celda observada.",
+        "hint": "Cuenta evidencia nueva."
+      },
+      {
+        "type": "choice",
+        "prompt": "Con estado incierto, los recuentos esperados…",
+        "options": [
+          "Declaran un estado seguro",
+          "Ignoran la posterior",
+          "Distribuyen la actualización según creencias conjuntas",
+          "Siempre son enteros"
+        ],
+        "answer": 2,
+        "explanation": "Los indicadores se promedian sobre la posterior aproximada de causas relevantes.",
+        "hint": "La evidencia puede repartirse fraccionalmente."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para evaluar novedad hay que mantener…",
+        "options": [
+          "Incertidumbre sobre parámetros",
+          "Solo valores fijos de A",
+          "Únicamente estados conocidos",
+          "Preferencias uniformes necesariamente"
+        ],
+        "answer": 0,
+        "explanation": "Sin posterior parametrizada no existe aprendizaje sobre el mecanismo del modelo.",
+        "hint": "Diferencia estado del mecanismo."
+      }
+    ],
+    "references": ["guide", "parr", "friston", "bogacz"]
+  },
+  {
+    "id": "active-4",
+    "world": "active",
+    "title": "Percepción y acción continuas",
+    "subtitle": "G10–G13 · Gradientes sensoriales y movimiento",
+    "minutes": 7,
+    "visual": "agent",
+    "intuition": "Percepción cambia la explicación del dato; acción cambia el dato futuro mediante el acoplamiento con el entorno.",
+    "core": [
+      {
+        "label": "Percepción",
+        "body": "En coordenadas simples, corregir media por descenso de F.",
+        "formula": "\\dot\\mu=-\\kappa_\\mu\\nabla_\\mu F"
+      },
+      {
+        "label": "Acción",
+        "body": "Una acción debe tener una vía causal hacia los datos para cambiar el desajuste.",
+        "formula": "\\dot a=-\\kappa_a\\nabla_a F"
+      },
+      {
+        "label": "Cadena",
+        "body": "En un ejemplo sensorial estático y precisión fija, derivar datos respecto a acción.",
+        "formula": "\\nabla_aF=J_{o(a)}^\\top\\Pi_o(o(a)-g(\\mu))"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "o(a)=a,\\quad g(\\mu)=\\mu,\\quad F=\\tfrac12(a-\\mu)^2",
+        "reason": "Caso didáctico de acoplamiento directo."
+      },
+      {
+        "formula": "\\partial_aF=a-\\mu",
+        "reason": "Derivar manteniendo μ fija durante esta actualización."
+      },
+      {
+        "formula": "\\dot a=\\kappa_a(\\mu-a)",
+        "reason": "La acción aproxima observación a predicción."
+      }
+    ],
+    "example": {
+      "problem": "μ fija en 2, a=0, κa=0.5. Velocidad inicial de acción.",
+      "solution": "$\\dot a=0.5(2-0)=1$; esto no es todavía el siguiente estado sin elegir Δt."
+    },
+    "pitfall": "La cadena sensorial depende del acoplamiento ambiental; una ecuación de gradiente aislada no proporciona un controlador universal.",
+    "bridge": "El capítulo continuo añade dinámica y coordenadas generalizadas; planificar explícitamente G es otra escala de descripción.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "F=0.5(a−μ)², a=1 y μ=3: gradiente respecto a a.",
+        "answer": -2,
+        "tolerance": 0.001,
+        "explanation": "La derivada a−μ es −2.",
+        "hint": "μ se mantiene fija aquí."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Gradiente de acción −2 y κ=0.5: velocidad de descenso.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "−κ∂aF=−0.5(−2)=1.",
+        "hint": "Distingue velocidad y posición."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para que la acción cambie observaciones se necesita…",
+        "options": [
+          "Que C sea un número negativo",
+          "Que μ desaparezca",
+          "Un acoplamiento causal sensor–entorno–acción",
+          "Una entropía exactamente cero"
+        ],
+        "answer": 2,
+        "explanation": "La regla de cadena exige sensibilidad de las observaciones a la acción.",
+        "hint": "Sin vía causal, el Jacobiano relevante es cero."
+      },
+      {
+        "type": "choice",
+        "prompt": "En modelos continuos dinámicos, percepción generalizada incluye…",
+        "options": [
+          "Desplazamiento temporal y corrección de F",
+          "Solo un argmax discreto",
+          "Solo preferencias de políticas",
+          "El valor de datos futuros conocidos"
+        ],
+        "answer": 0,
+        "explanation": "La representación avanza por Dμ̃ y corrige desajustes por el gradiente, bajo su formulación.",
+        "hint": "Recuerda la torre de derivadas."
+      }
+    ],
+    "references": ["guide", "parr", "friston", "bogacz"]
+  },
+  {
+    "id": "active-5",
+    "world": "active",
+    "title": "Qué afirma cada framework",
+    "subtitle": "G10–G13 · Bayes brain, predictive coding, FEP e inferencia activa",
+    "minutes": 7,
+    "visual": "agent",
+    "intuition": "La arquitectura inferencial, el algoritmo de mensajes y la teoría dinámica responden preguntas relacionadas pero diferentes.",
+    "core": [
+      {
+        "label": "Bayes brain",
+        "body": "Una hipótesis de inferencia cerebral mediante modelos probabilísticos.",
+        "formula": "p(s\\mid o)\\propto p(o\\mid s)p(s)"
+      },
+      {
+        "label": "Predictive coding",
+        "body": "Una familia de implementaciones mediante errores de predicción, a menudo con supuestos gaussianos.",
+        "formula": "\\epsilon=o-g(\\mu)"
+      },
+      {
+        "label": "FEP y acción",
+        "body": "FEP relaciona dinámica y densidades bajo hipótesis; inferencia activa formaliza percepción y selección de acción.",
+        "formula": "F[q]\\ge-\\ln p(o),\\quad q(\\pi)\\propto E_\\pi e^{-F(\\pi)-\\gamma G(\\pi)}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\text{modelo}\\to\\text{posterior}\\to\\text{aproximación}",
+        "reason": "Distinguir qué se infiere de cómo se computa."
+      },
+      {
+        "formula": "\\text{dinámica}+\\text{hipótesis estacionarias}\\to\\text{relaciones FEP}",
+        "reason": "El alcance teórico depende de supuestos demostrados."
+      },
+      {
+        "formula": "\\text{predicciones por política}+\\text{preferencias}\\to\\text{acción}",
+        "reason": "Agregar decisiones futuras exige objetos adicionales."
+      }
+    ],
+    "example": {
+      "problem": "¿Validar Bayes en un ejemplo prueba una teoría completa del cerebro?",
+      "solution": "No: verifica una inferencia del modelo. Implementación neural, adecuación empírica y supuestos dinámicos requieren evidencias separadas."
+    },
+    "pitfall": "No presentar identidades matemáticas, aproximaciones algorítmicas e hipótesis empíricas como la misma clase de afirmación.",
+    "bridge": "Este cierre prepara lectura crítica del libro y distingue ecuaciones dominadas de afirmaciones que aún deben evaluarse.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Predictive coding describe principalmente…",
+        "options": [
+          "Un prior categórico único",
+          "Una forma de implementación por errores de predicción",
+          "Toda dinámica física sin condiciones",
+          "Solo la evidencia de un modelo"
+        ],
+        "answer": 1,
+        "explanation": "Es una familia algorítmica y mecanística con versiones y supuestos específicos.",
+        "hint": "Distingue algoritmo y teoría general."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una identidad F=KL−ln evidencia es…",
+        "options": [
+          "Una hipótesis empírica cerebral",
+          "Una promesa de convergencia global",
+          "Una relación matemática bajo sus definiciones",
+          "Una observación clínica"
+        ],
+        "answer": 2,
+        "explanation": "Se deriva algebraicamente de Bayes y q normalizada; no identifica por sí sola el sistema que la computa.",
+        "hint": "Pregunta qué se ha demostrado."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Error variacional KL=0 y sorpresa 2: F.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "Si q coincide con posterior, la brecha desaparece y F es la sorpresa.",
+        "hint": "Usa la identidad."
+      },
+      {
+        "type": "choice",
+        "prompt": "Leer el framework con rigor exige…",
+        "options": [
+          "Distinguir supuestos, identidades, aproximaciones y evidencia empírica",
+          "Aceptar cualquier minimización como explicación completa",
+          "Ignorar los soportes",
+          "Confundir F con G"
+        ],
+        "answer": 0,
+        "explanation": "Cada afirmación tiene condiciones y un tipo de validación distinto.",
+        "hint": "La precisión conceptual completa la matemática."
+      }
+    ],
+    "references": ["guide", "parr", "friston", "bogacz"]
+  },
+  {
+    "id": "active-6",
+    "world": "active",
+    "title": "PEB y reducción de modelos",
+    "subtitle": "G10–G13 · Cápsula avanzada · grupos, submodelos y evidencia",
+    "minutes": 9,
+    "visual": "agent",
+    "intuition": "La inferencia de grupo puede usar estimaciones individuales con incertidumbre; la reducción de modelos compara restricciones mediante cambios de prior.",
+    "core": [
+      {
+        "label": "PEB",
+        "body": "Parametric empirical Bayes ajusta estructura grupal usando información e incertidumbre del nivel individual.",
+        "formula": "\\theta_j=X_j\\beta+\\varepsilon_j"
+      },
+      {
+        "label": "BMR",
+        "body": "Bayesian model reduction compara modelos con likelihood compartida y priors distintos.",
+        "formula": "\\frac{p(x\\mid M_r)}{p(x\\mid M_f)}=\\mathbb E_{p(\\theta\\mid x,M_f)}\\left[\\frac{p(\\theta\\mid M_r)}{p(\\theta\\mid M_f)}\\right]"
+      },
+      {
+        "label": "Condiciones",
+        "body": "La identidad exige priors propios y soporte compatible; aproximaciones gaussianas facilitan cómputo.",
+        "formula": "p(\\theta\\mid M_r)\\ll p(\\theta\\mid M_f)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p(x\\mid M_r)=\\int p(x\\mid\\theta)p(\\theta\\mid M_r)d\\theta",
+        "reason": "Mismo modelo de observación."
+      },
+      {
+        "formula": "p(x\\mid\\theta)=\\frac{p(\\theta\\mid x,M_f)p(x\\mid M_f)}{p(\\theta\\mid M_f)}",
+        "reason": "Reusar Bayes del modelo completo."
+      },
+      {
+        "formula": "p(x\\mid M_r)/p(x\\mid M_f)=\\mathbb E_{post,f}[p_r/p_f]",
+        "reason": "Sustituir, cancelar evidencia e integrar."
+      }
+    ],
+    "example": {
+      "problem": "Evidencia reducida 0.12 y completa 0.08, priors de modelos iguales y solo estos dos candidatos.",
+      "solution": "BF reducida/completa=1.5; posterior del reducido=0.6."
+    },
+    "pitfall": "No comparar likelihoods diferentes usando la identidad de cambio de prior; restricciones puntuales necesitan tratamiento de medidas o límites adecuados.",
+    "bridge": "Los capítulos aplicados requieren selección, recuperación y jerarquías: estas herramientas extienden el juego hacia análisis de agentes reales.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Evidencias 0.12 y 0.08: razón reducida/completa.",
+        "answer": 1.5,
+        "tolerance": 0.001,
+        "explanation": "0.12/0.08=1.5.",
+        "hint": "Mantén el orden de modelos."
+      },
+      {
+        "type": "choice",
+        "prompt": "BMR de esta identidad comparte…",
+        "options": [
+          "El prior obligatoriamente",
+          "La likelihood entre modelos",
+          "Solo el nombre del parámetro",
+          "La posterior siempre"
+        ],
+        "answer": 1,
+        "explanation": "La reducción cambia restricciones previas y reutiliza la misma relación entre parámetros y datos.",
+        "hint": "Comprueba la derivación."
+      },
+      {
+        "type": "choice",
+        "prompt": "PEB debe tener en cuenta…",
+        "options": [
+          "Solo medias individuales sin incertidumbre",
+          "Solo cantidad de sujetos",
+          "Incertidumbre de estimaciones individuales y estructura grupal",
+          "Únicamente C de cada sujeto"
+        ],
+        "answer": 2,
+        "explanation": "La precisión individual afecta cuánto informa cada estimación al nivel grupal.",
+        "hint": "Diferentes sujetos pueden aportar diferente confianza."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Dos modelos equiprobables, BF reducida/completa=1.5: posterior del reducido.",
+        "answer": 0.6,
+        "tolerance": 0.001,
+        "explanation": "Odds 1.5 a 1 se convierten a probabilidad 1.5/2.5=0.6.",
+        "hint": "Normaliza los dos pesos."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  }
+]

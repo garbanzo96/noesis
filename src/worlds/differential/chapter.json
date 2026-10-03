@@ -1,0 +1,101 @@
+{
+  "scenario": "Ajustas una creencia sobre la intensidad de una señal. Un coste cuantifica el desacuerdo con una medición; quieres saber hacia dónde y cuánto mover la creencia.",
+  "objective": "Construir una derivada desde cambios finitos, interpretar una aproximación local y escoger un paso de descenso estable.",
+  "briefing": "Coloca una creencia μ en una curva de coste L. Mover μ cambia el coste. Primero compararemos dos posiciones; después haremos el desplazamiento cada vez menor hasta obtener una pendiente local.",
+  "teachingStages": [
+    {
+      "id": "differential-stage-1",
+      "title": "Dos posiciones, dos costes",
+      "claim": "Una tasa media divide el cambio de salida por el cambio de entrada.",
+      "formula": "\\frac{\\Delta L}{\\Delta\\mu}=\\frac{L(\\mu+h)-L(\\mu)}{h},\\quad h\\neq0",
+      "explanation": "μ es la intensidad estimada; L(μ) mide su desacuerdo con la señal. h es el desplazamiento de μ, no un coste. La recta que une dos puntos de la curva resume la tasa media entre ellos. Un cociente negativo dice que al aumentar μ el coste disminuye en ese tramo.",
+      "actionLabel": "Mover la segunda posición",
+      "animation": "Dos puntos se unen por una secante; flechas separadas muestran el desplazamiento horizontal h y el cambio vertical ΔL."
+    },
+    {
+      "id": "differential-stage-2",
+      "title": "Acercar sin dividir por cero",
+      "claim": "La derivada es el límite de tasas medias cuando el desplazamiento tiende a cero, si existe.",
+      "formula": "\\frac{(\\mu+h)^2-\\mu^2}{h}=\\frac{2\\mu h+h^2}{h}=2\\mu+h\\;\\longrightarrow\\;2\\mu",
+      "explanation": "Para L(μ)=μ², expandimos el cuadrado y cancelamos h solo mientras h≠0. Luego dejamos que h se acerque a cero. El resultado L′(μ)=2μ es la pendiente tangente. Sustituir h=0 en el cociente original produciría 0/0 y no define la derivada.",
+      "actionLabel": "Acercar la secante",
+      "animation": "h disminuye; la secante converge a la tangente. Los términos algebraicos 2μh+h² se dividen por h antes del límite."
+    },
+    {
+      "id": "differential-stage-3",
+      "title": "Una cadena de sensibilidades",
+      "claim": "La derivada de una composición multiplica la sensibilidad de cada transformación.",
+      "formula": "\\frac{d}{dx}g(f(x))=g^{\\prime}(f(x))f^{\\prime}(x)",
+      "explanation": "Si f(x)=2x+1 y g(y)=y², f′=2 y g′(y)=2y. La sensibilidad total es 4(2x+1). Hay que evaluar g′ en la salida f(x). Esta regla exige que ambas funciones sean diferenciables en los puntos correspondientes.",
+      "actionLabel": "Propagar un pequeño cambio",
+      "animation": "Un cambio δx se duplica en la primera caja y vuelve a multiplicarse por 2y en la segunda; aparece el producto de sensibilidades."
+    },
+    {
+      "id": "differential-stage-4",
+      "title": "Aproximar con un alcance",
+      "claim": "Taylor usa el valor y la pendiente para aproximar cambios cercanos; la curvatura corrige el error.",
+      "formula": "L(a+h)\\approx L(a)+L^{\\prime}(a)h+\\tfrac12L^{\\prime\\prime}(a)h^2",
+      "explanation": "a es el centro de expansión. L″ es la derivada de la pendiente L′: mide cómo cambia esa pendiente. El término lineal predice el cambio local; el cuadrático recoge la curvatura. Para L(μ)=μ², la expansión de segundo orden es exacta. Para una función general suficientemente suave, una aproximación truncada debe comprobarse cerca de a; no garantiza exactitud lejos de allí.",
+      "actionLabel": "Ampliar el radio local",
+      "animation": "Una recta y una parábola se superponen a la curva; al alejar el punto del centro, una etiqueta muestra el error residual."
+    },
+    {
+      "id": "differential-stage-5",
+      "title": "Usar la pendiente para descender",
+      "claim": "Restar una fracción de la pendiente mueve la creencia hacia menor coste con un paso adecuado.",
+      "formula": "L(\\mu)=(\\mu-3)^2,\\quad\\mu_{k+1}=\\mu_k-\\eta\\,2(\\mu_k-3)",
+      "explanation": "η>0 controla la amplitud. Para este coste, el error respecto del mínimo satisface e_{k+1}=(1−2η)e_k; converge desde cualquier inicio si 0<η<1. Con μ₀=0 y η=0.25, μ₁=1.5. Un punto con derivada cero requiere analizar su curvatura para distinguir mínimo, máximo o punto degenerado.",
+      "actionLabel": "Comparar tres pasos",
+      "animation": "Desde μ=0 se muestran trayectorias con η=0.25, 0.75 y 1.1: avance directo, oscilación decreciente y divergencia."
+    }
+  ],
+  "missions": [
+    {
+      "id": "differential-mission-1",
+      "title": "La pendiente de un desacuerdo",
+      "brief": "Comprueba que el signo de la pendiente indica hacia dónde reducir el coste.",
+      "setup": "L(μ)=(μ−3)²; creencia actual μ=1.",
+      "kind": "numeric",
+      "prompt": "¿Cuánto vale L′(1)?",
+      "formula": "L^{\\prime}(\\mu)=2(\\mu-3)",
+      "answer": -4,
+      "solution": "L′(1)=2(1−3)=−4. Aumentar μ un poco reduce el coste; descenso resta un número negativo y por eso aumenta μ.",
+      "hint": "Deriva primero; evalúa después.",
+      "transfer": "El signo del gradiente guía las actualizaciones perceptivas.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "differential-mission-2",
+      "title": "Un paso que puedas justificar",
+      "brief": "Actualiza una creencia usando su pendiente local.",
+      "setup": "L(μ)=(μ−3)², μ₀=1, η=0.25.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es la nueva creencia μ₁?",
+      "formula": "\\mu_1=1-0.25\\,2(1-3)",
+      "answer": 2,
+      "solution": "La pendiente es −4; μ₁=1−0.25(−4)=2. El coste baja de 4 a 1.",
+      "hint": "El signo menos de descenso y la pendiente negativa se cancelan.",
+      "transfer": "Una tasa de aprendizaje importa tanto como la dirección de actualización.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "differential-mission-3",
+      "title": "Diagnosticar la oscilación",
+      "brief": "Un algoritmo alterna indefinidamente alrededor del mínimo.",
+      "setup": "Para L=(μ−3)² se usa η=1 y μ₀≠3. Entonces e_{k+1}=−e_k.",
+      "kind": "choice",
+      "prompt": "¿Qué cambio asegura convergencia en este problema?",
+      "formula": "e_{k+1}=(1-2\\eta)e_k",
+      "answer": 0,
+      "solution": "La contracción requiere |1−2η|<1, es decir 0<η<1. η=0.25 reduce el error a la mitad en cada paso.",
+      "hint": "Compara el valor absoluto del factor de error con uno.",
+      "transfer": "Un modelo continuo estable puede tener una discretización inestable.",
+      "choices": ["Usar η=0.25", "Usar η=1.5", "Cambiar el signo a ascenso"]
+    }
+  ],
+  "relatedLessonIds": ["differential-1", "differential-2", "differential-3", "differential-4"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md"
+  ],
+  "scope": "Derivación escalar y control de paso; gradiente, Jacobiano y Hessiano se desarrollan en multivariate."
+}

@@ -1,0 +1,157 @@
+{
+  "passed": 15,
+  "total": 15,
+  "videoBytes": 1372210,
+  "checks": [
+    {
+      "id": "jointProbability",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "setsCartesian",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "functionComposition",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "derivativeSecantToTangent",
+      "duration": 13.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "riemannIntegral",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "matrixBasisTransform",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "bayesianMassNormalization",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "gaussianPrecision",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "gradientDescentContours",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "entropyInformation",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "dynamicalAttractor",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "variationalPosterior",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "markovMessages",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "policyInformation",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    },
+    {
+      "id": "perceptionAction",
+      "duration": 12.0,
+      "decode": "ok",
+      "geometryDevelops": true,
+      "codec": "h264",
+      "pixelFormat": "yuv420p",
+      "resolution": "1280x720",
+      "fps": 30
+    }
+  ]
+}

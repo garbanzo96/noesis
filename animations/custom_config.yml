@@ -1,0 +1,17 @@
+directories:
+  subdirs:
+    output: "raw"
+  cache: "cache"
+  temporary_storage: "tmp"
+camera:
+  resolution: (1280, 720)
+  background_color: "#070613"
+  fps: 30
+file_writer:
+  video_codec: "libx264"
+  pixel_format: "yuv420p"
+  crf: 24
+text:
+  font: "Arial"
+scene:
+  show_animation_progress: False

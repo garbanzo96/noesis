@@ -1,0 +1,107 @@
+{
+  "scenario": "Planificas una secuencia corta de mediciones para localizar una señal y alcanzar un resultado preferido. Una política puede enseñar sobre la causa o producir resultados deseables; ambas consecuencias deben modelarse.",
+  "objective": "Predecir consecuencias de políticas, puntuar G bajo una convención explícita y seleccionar políticas considerando preferencias, información y evidencia disponible.",
+  "briefing": "Una acción es una operación ahora; una política es una secuencia de acciones. Para compararlas todavía no observadas, el agente imagina estados y respuestas futuros con su modelo. No confundiremos esas predicciones con los datos ya recibidos.",
+  "teachingStages": [
+    {
+      "id": "decision-stage-1",
+      "title": "Una política extiende la acción en el tiempo",
+      "claim": "La política π especifica una secuencia; el estado oculto y la observación siguen siendo variables diferentes.",
+      "formula": "\\pi=(u_t,u_{t+1}),\\quad q(s_\\tau\\mid\\pi),\\quad\\tau>t",
+      "explanation": "u_t puede ser «mirar izquierda» y u_{t+1} «acercarse». s_τ representa dónde estará la fuente; o_τ lo que registrará el sensor. La política no revela el estado por sí sola. Sus consecuencias se predicen usando una creencia inicial y modelos de transición y observación.",
+      "actionLabel": "Comparar dos secuencias",
+      "animation": "Dos caminos de acciones se abren sobre una misma creencia inicial; cada uno termina en una distribución de estados."
+    },
+    {
+      "id": "decision-stage-2",
+      "title": "Imaginar antes de ver",
+      "claim": "Las respuestas futuras se obtienen marginalizando estados predichos bajo la política.",
+      "formula": "q(o_\\tau\\mid\\pi)=\\sum_s p(o_\\tau\\mid s)q(s_\\tau=s\\mid\\pi)",
+      "explanation": "La conjunta predictiva es q(s,o|π)=q(s|π)p(o|s). Con estados equiprobables y un sensor perfecto, las dos respuestas también son equiprobables. Un sensor de moneda independiente produce la misma marginal de respuestas, pero una conjunta diferente. Esa diferencia determina lo que podría aprenderse.",
+      "actionLabel": "Construir la conjunta predictiva",
+      "animation": "Cada estado envía su peso a respuestas mediante A; se muestran la tabla conjunta y sus marginales."
+    },
+    {
+      "id": "decision-stage-3",
+      "title": "Declarar las preferencias",
+      "claim": "Los valores C son logits de preferencia; normalizarlos define una distribución positiva de resultados preferidos.",
+      "formula": "P_C(o)=\\frac{e^{C_o}}{\\sum_j e^{C_j}},\\quad C=(\\ln3,0)\\Rightarrow P_C=(0.75,0.25)",
+      "explanation": "P_C describe qué resultados se prefieren; no es la predicción q(o|π). C solo tiene diferencias relativas: sumar la misma constante a ambos valores no cambia P_C. Algunas ecuaciones del libro llaman C directamente a la distribución de preferencias; aquí reservamos C para logits y P_C para probabilidades.",
+      "actionLabel": "Convertir valores en proporciones",
+      "animation": "Dos logits pasan por exp, dan pesos 3 y 1 y se normalizan en preferencias 0.75 y 0.25."
+    },
+    {
+      "id": "decision-stage-4",
+      "title": "Separar discrepancia y ambigüedad",
+      "claim": "Con preferencias sobre observaciones, definimos G como riesgo más ambigüedad; equivale a coste preferencial menos información.",
+      "formula": "G_\\tau(\\pi)=\\mathrm{KL}(q(o\\mid\\pi)\\Vert P_C(o))+\\mathbb E_{q(s\\mid\\pi)}H[p(o\\mid s)]=-I_q(S;O\\mid\\pi)-\\mathbb E_{q(o\\mid\\pi)}\\ln P_C(o)",
+      "explanation": "Usamos la misma conjunta q(s,o|π)=q(s|π)p(o|s) y preferencias positivas. Expande riesgo: KL(q(o)‖P_C)=−H(O)−E lnP_C. La ambigüedad es H(O|S); sumando, H(O|S)−H(O)=−I(S;O), lo que da la segunda expresión. Señales independientes del estado no aportan información. Otras convenciones de G requieren traducir supuestos antes de igualar expresiones.",
+      "actionLabel": "Descomponer el mismo valor de G",
+      "animation": "Dos barras riesgo+ambigüedad se transforman algebraicamente en coste preferencial−información sin cambiar el total."
+    },
+    {
+      "id": "decision-stage-5",
+      "title": "De puntuaciones a elección",
+      "claim": "Un posterior de políticas puede combinar hábito E, ajuste de datos F y predicción futura G; softmax normaliza los pesos.",
+      "formula": "q(\\pi)=\\operatorname{softmax}(\\ln E(\\pi)-F(\\pi)-G(\\pi))",
+      "explanation": "Esta forma usa precisión de G igual a uno. F(π) evalúa cómo la política explica datos observados; G puntúa consecuencias futuras; E es el prior habitual. Si F es igual entre políticas, se cancela al normalizar. Entonces una regla simplificada usa softmax(ln E−γG), con γ explícita. Elegir una acción requiere sumar políticas que comparten esa acción.",
+      "actionLabel": "Normalizar puntuaciones de políticas",
+      "animation": "Tres contribuciones se suman por política; exp genera pesos y una división por el total produce q(π)."
+    }
+  ],
+  "missions": [
+    {
+      "id": "decision-mission-1",
+      "title": "Información con preferencias iguales",
+      "brief": "Compara estrategias que predicen las mismas respuestas.",
+      "setup": "S binaria equiprobable; P_C=(0.5,0.5). A observa O=S perfectamente; B genera O como moneda independiente. Ambas q(O) son uniformes.",
+      "kind": "numeric",
+      "prompt": "¿Cuánto mayor es G(B) que G(A), en nats?",
+      "formula": "\\Delta G=\\Delta H(O\\mid S)=\\ln2",
+      "answer": 0.693147181,
+      "solution": "El riesgo es cero para ambas. A tiene ambigüedad cero; B tiene ambigüedad ln2. La diferencia es ln2≈0.69315. Igual entropía predictiva no significa igual información sobre S.",
+      "hint": "Con preferencias iguales y predicción uniforme, solo cambia la ambigüedad.",
+      "transfer": "La exploración epistémica busca observaciones que puedan distinguir causas.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "decision-mission-2",
+      "title": "Normalizar dos políticas",
+      "brief": "Convierte una diferencia de G en una probabilidad de elección.",
+      "setup": "Dos políticas con E iguales y F iguales. G₁=0, G₂=ln3. Usa γ=1.",
+      "kind": "numeric",
+      "prompt": "¿Qué probabilidad recibe la primera política?",
+      "formula": "q(\\pi_1)=\\frac{e^0}{e^0+e^{-\\ln3}}",
+      "answer": 0.75,
+      "solution": "Los pesos son 1 y 1/3. Normalizando, q(π₁)=1/(1+1/3)=3/4=0.75. Es la regla simplificada justificada porque E y F coinciden.",
+      "hint": "Exponencia las puntuaciones negativas antes de dividir.",
+      "transfer": "Una política mejor puntuada puede compartir la misma acción inicial con otra; la acción se marginaliza.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "decision-mission-3",
+      "title": "Cuándo importa la evidencia pasada",
+      "brief": "Una política atractiva para el futuro contradice las observaciones ya recibidas.",
+      "setup": "π₁ tiene G menor que π₂, pero F(π₁) es mayor. E es igual.",
+      "kind": "choice",
+      "prompt": "¿Qué cantidad determina la preferencia en la forma completa escrita aquí?",
+      "formula": "q(\\pi)=\\operatorname{softmax}(\\ln E-F-G)",
+      "answer": 1,
+      "solution": "Con E igual, el peso favorece menor F+G. Conocer solo cuál tiene menor G no basta cuando F difiere. F y G se refieren a datos observados y futuros respectivamente.",
+      "hint": "Ambos términos llevan signo menos en la puntuación.",
+      "transfer": "Al leer el posterior de políticas del libro, declara qué términos se igualaron u omitieron.",
+      "choices": [
+        "Solo G, siempre",
+        "La suma F+G, en esta convención",
+        "Solo el número de acciones"
+      ]
+    }
+  ],
+  "relatedLessonIds": ["decision-1", "decision-2", "decision-3", "decision-4"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G10_TIEMPO_DISCRETO_MARKOV_MDP_Y_POMDP.md",
+    "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md",
+    "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md"
+  ],
+  "scope": "Decisión discreta introductoria. Saliencia sobre estados, novedad sobre parámetros y horizontes largos requieren sus lecciones particulares."
+}

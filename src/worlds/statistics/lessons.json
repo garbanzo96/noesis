@@ -1,0 +1,457 @@
+[
+  {
+    "id": "statistics-1",
+    "world": "statistics",
+    "title": "Verosimilitud y estimación",
+    "subtitle": "G05–G06 · MLE, MAP y objetivos logarítmicos",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Un parámetro se evalúa por su capacidad de explicar datos; el prior añade estructura a esa evaluación.",
+    "core": [
+      {
+        "label": "MLE",
+        "body": "Seleccionar el parámetro que maximiza la verosimilitud observada.",
+        "formula": "\\hat\\theta_{ML}=\\arg\\max_\\theta p(x\\mid\\theta)"
+      },
+      {
+        "label": "Log",
+        "body": "El log conserva el máximo y convierte productos independientes en sumas.",
+        "formula": "\\ln p(x_{1:n}\\mid\\theta)=\\sum_i\\ln p(x_i\\mid\\theta)"
+      },
+      {
+        "label": "MAP",
+        "body": "Agregar log prior antes de maximizar.",
+        "formula": "\\hat\\theta_{MAP}=\\arg\\max_\\theta[\\ln p(x\\mid\\theta)+\\ln p(\\theta)]"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\ell(\\theta)=k\\ln\\theta+(n-k)\\ln(1-\\theta)",
+        "reason": "Datos Bernoulli independientes."
+      },
+      {
+        "formula": "\\ell^{\\prime}(\\theta)=k/\\theta-(n-k)/(1-\\theta)",
+        "reason": "Derivar en 0<θ<1."
+      },
+      {
+        "formula": "\\ell^{\\prime}=0\\Rightarrow\\hat\\theta_{ML}=k/n",
+        "reason": "Resolver; los casos extremos usan frontera."
+      }
+    ],
+    "example": {
+      "problem": "Hay 7 éxitos en 10 ensayos. MLE de θ.",
+      "solution": "$7/10=0.7$; no expresa por sí sola toda la incertidumbre sobre θ."
+    },
+    "pitfall": "La verosimilitud no es una distribución normalizada sobre parámetros.",
+    "bridge": "MLE y MAP son estimadores puntuales; la inferencia variacional aproxima una distribución posterior.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "12 éxitos en 20 ensayos: MLE.",
+        "answer": 0.6,
+        "tolerance": 0.001,
+        "explanation": "La frecuencia empírica maximiza la verosimilitud Bernoulli: 12/20.",
+        "hint": "Cuenta éxitos sobre total."
+      },
+      {
+        "type": "choice",
+        "prompt": "MAP se diferencia de MLE por…",
+        "options": [
+          "Ignorar los datos",
+          "Cambiar siempre el soporte",
+          "Incluir el prior del parámetro",
+          "Usar únicamente la media"
+        ],
+        "answer": 2,
+        "explanation": "El log prior agrega una contribución que puede desplazar el máximo.",
+        "hint": "Es maximización de posterior."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Por qué maximizar log verosimilitud preserva MLE?",
+        "options": [
+          "Porque ln es estrictamente creciente en argumentos positivos",
+          "Porque ln es lineal",
+          "Porque las muestras son gaussianas",
+          "Porque elimina todo error"
+        ],
+        "answer": 0,
+        "explanation": "Una transformación estrictamente creciente mantiene el orden de valores y su máximo.",
+        "hint": "Compara orden antes y después."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Beta(2,2) y 3 éxitos, 1 fallo: MAP de θ.",
+        "answer": 0.6666666666666666,
+        "tolerance": 0.001,
+        "explanation": "Posterior Beta(5,3), modo (5−1)/(5+3−2)=4/6.",
+        "hint": "El modo Beta interior usa α−1 y β−1."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "statistics-2",
+    "world": "statistics",
+    "title": "Estimadores y muestreo",
+    "subtitle": "G05–G06 · Sesgo, varianza y error estándar",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Un estimador cambia entre muestras: su incertidumbre es distinta de la variación de cada dato.",
+    "core": [
+      {
+        "label": "Media muestral",
+        "body": "Promediar datos produce un estimador de la media poblacional.",
+        "formula": "\\bar X=\\frac1n\\sum_i X_i"
+      },
+      {
+        "label": "Insesgadez",
+        "body": "Con expectativas iguales a μ, la media muestral tiene esperanza μ.",
+        "formula": "\\mathbb E[\\bar X]=\\mu"
+      },
+      {
+        "label": "Escala",
+        "body": "Para muestras independientes de varianza σ², el error estándar baja como raíz de n.",
+        "formula": "\\operatorname{Var}(\\bar X)=\\sigma^2/n"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\operatorname{Var}(\\sum_iX_i)=n\\sigma^2",
+        "reason": "Independencia elimina covarianzas."
+      },
+      {
+        "formula": "\\operatorname{Var}(\\bar X)=n\\sigma^2/n^2",
+        "reason": "Escalar por 1/n eleva el factor al cuadrado."
+      },
+      {
+        "formula": "SE(\\bar X)=\\sigma/\\sqrt n",
+        "reason": "Tomar raíz de la varianza."
+      }
+    ],
+    "example": {
+      "problem": "σ=6 y n=9 independientes: error estándar de la media.",
+      "solution": "$6/\\sqrt9=2$."
+    },
+    "pitfall": "Dependencia entre muestras añade covarianzas y rompe σ²/n; tamaño nominal no equivale a información independiente.",
+    "bridge": "La precisión aumenta con evidencia independiente; datos redundantes no deben contarse como nuevos.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Datos 2,4,6: media muestral.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "La suma doce dividida por tres produce cuatro.",
+        "hint": "Promedia observaciones."
+      },
+      {
+        "type": "numeric",
+        "prompt": "σ=8, n=16 independientes: error estándar.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "8/√16=2.",
+        "hint": "Usa raíz del tamaño."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para reducir SE a la mitad con σ fijo necesitas…",
+        "options": [
+          "La mitad de muestras",
+          "El doble",
+          "El mismo número",
+          "Cuatro veces las muestras independientes"
+        ],
+        "answer": 3,
+        "explanation": "La raíz cuadrada implica que multiplicar n por cuatro divide SE por dos.",
+        "hint": "Resuelve 1/√n."
+      },
+      {
+        "type": "choice",
+        "prompt": "Contar cien copias del mismo dato como independientes…",
+        "options": [
+          "Sobreestima la información",
+          "Siempre mejora calibración",
+          "Reduce realmente el ruido cien veces",
+          "Equivale a cien experimentos"
+        ],
+        "answer": 0,
+        "explanation": "Las copias comparten toda su variación; la factorización independiente es falsa.",
+        "hint": "La evidencia nueva debe aportar variación independiente."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "statistics-3",
+    "world": "statistics",
+    "title": "Límite central e intervalos",
+    "subtitle": "G05–G06 · Aproximación normal y cobertura",
+    "minutes": 9,
+    "visual": "clt",
+    "intuition": "Bajo condiciones adecuadas, muchas contribuciones independientes hacen normal la media, aunque el dato no sea normal.",
+    "core": [
+      {
+        "label": "CLT",
+        "body": "Para datos iid con 0<σ²<∞, la media estandarizada converge en distribución a normal.",
+        "formula": "\\frac{\\sqrt n(\\bar X-\\mu)}\\sigma\\Rightarrow\\mathcal N(0,1)"
+      },
+      {
+        "label": "Intervalo",
+        "body": "Con σ conocido y aproximación normal, un intervalo 95% usa aproximadamente 1.96 errores estándar.",
+        "formula": "\\bar x\\pm1.96\\sigma/\\sqrt n"
+      },
+      {
+        "label": "Cobertura",
+        "body": "La garantía frecuentista pertenece al procedimiento bajo repetición de muestras.",
+        "formula": "P_\\mu(\\mu\\in C(X))\\approx0.95"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\sigma=10,\\quad n=100",
+        "reason": "Fijar escala y cantidad."
+      },
+      {
+        "formula": "SE=10/10=1",
+        "reason": "Calcular incertidumbre de la media."
+      },
+      {
+        "formula": "\\bar x=20\\Rightarrow C\\approx[18.04,21.96]",
+        "reason": "Aplicar margen normal."
+      }
+    ],
+    "example": {
+      "problem": "¿Asegura el CLT que cada observación se vuelva normal?",
+      "solution": "No: aproxima la distribución del promedio estandarizado al aumentar n."
+    },
+    "pitfall": "Un intervalo frecuentista realizado no asigna por sí solo probabilidad posterior 95% al parámetro fijo.",
+    "bridge": "Separar incertidumbre de datos, estimadores y posterior impide interpretar mal la precisión de creencias.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "σ=4, n=16: error estándar.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "4/4=1 bajo independencia.",
+        "hint": "La raíz de n es cuatro."
+      },
+      {
+        "type": "choice",
+        "prompt": "El CLT descrito requiere…",
+        "options": [
+          "Solo muestras numerosas, sin más",
+          "Datos iid y varianza positiva finita",
+          "Datos exactamente gaussianos",
+          "Una posterior uniforme"
+        ],
+        "answer": 1,
+        "explanation": "Las condiciones iid y 0<σ²<∞ permiten estandarizar y sustentan esta forma del CLT.",
+        "hint": "El tamaño no compensa cualquier dependencia o cola."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué tiene cobertura 95%?",
+        "options": [
+          "Cada dato",
+          "La verosimilitud",
+          "El procedimiento de intervalos bajo repetición",
+          "Cualquier prior"
+        ],
+        "answer": 2,
+        "explanation": "Entre muchas muestras, aproximadamente 95% de los intervalos construidos así contienen μ.",
+        "hint": "La aleatoriedad está en los datos."
+      },
+      {
+        "type": "numeric",
+        "prompt": "SE=2: margen de un intervalo usando coeficiente 2.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "El margen especificado es 2×2=4.",
+        "hint": "Usa el coeficiente indicado, no 1.96."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "statistics-4",
+    "world": "statistics",
+    "title": "Comprobar predicciones",
+    "subtitle": "G05–G06 · Calibración, puntuación y diagnóstico",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Un modelo útil no solo ajusta el pasado: sus probabilidades futuras deben corresponder a resultados observables.",
+    "core": [
+      {
+        "label": "Calibración",
+        "body": "Entre predicciones con probabilidad r, la frecuencia del evento debería aproximarse a r.",
+        "formula": "P(Y=1\\mid\\hat p=r)\\approx r"
+      },
+      {
+        "label": "Brier",
+        "body": "Penaliza el error probabilístico cuadrático en eventos binarios.",
+        "formula": "BS=\\frac1n\\sum_i(\\hat p_i-y_i)^2"
+      },
+      {
+        "label": "Predictiva",
+        "body": "Promediar incertidumbre de parámetros produce predicciones.",
+        "formula": "p(x_{new}\\mid x)=\\int p(x_{new}\\mid\\theta)p(\\theta\\mid x)d\\theta"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\hat p=0.8,\\quad y=1",
+        "reason": "Una predicción y su resultado."
+      },
+      {
+        "formula": "(\\hat p-y)^2=(0.8-1)^2=0.04",
+        "reason": "Medir error de Brier."
+      },
+      {
+        "formula": "y=0\\Rightarrow BS=0.64",
+        "reason": "Una predicción confiada incorrecta cuesta más."
+      }
+    ],
+    "example": {
+      "problem": "Un agente predice probabilidad 0.9 cien veces y el evento ocurre cincuenta.",
+      "solution": "Esa región está mal calibrada: confianza 0.9 frente a frecuencia empírica 0.5; revisar modelo y datos."
+    },
+    "pitfall": "Buena exactitud de clasificación no garantiza calibración ni buen modelo generativo.",
+    "bridge": "La predictiva posterior verifica modelos y distingue reducción legítima de incertidumbre de confianza excesiva.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Predicción 0.7 y resultado 1: Brier de ese caso.",
+        "answer": 0.09,
+        "tolerance": 0.001,
+        "explanation": "El error es −0.3 y su cuadrado es 0.09.",
+        "hint": "Eleva la diferencia al cuadrado."
+      },
+      {
+        "type": "choice",
+        "prompt": "Probabilidad 0.8 bien calibrada significa…",
+        "options": [
+          "Acertar siempre",
+          "Evento en aproximadamente 80% de casos comparables",
+          "Elegir siempre esa acción",
+          "Posterior idéntica al prior"
+        ],
+        "answer": 1,
+        "explanation": "Calibración compara probabilidades emitidas con frecuencias condicionales de resultados.",
+        "hint": "Agrupa predicciones semejantes."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Probabilidad 0.2 y resultado 0: Brier.",
+        "answer": 0.04,
+        "tolerance": 0.001,
+        "explanation": "0.2²=0.04.",
+        "hint": "Un fallo del evento puede estar bien predicho."
+      },
+      {
+        "type": "choice",
+        "prompt": "La predictiva posterior integra…",
+        "options": [
+          "Solo acciones",
+          "Solo datos pasados",
+          "Incertidumbre de parámetros o estados relevantes",
+          "El máximo de likelihood siempre"
+        ],
+        "answer": 2,
+        "explanation": "Promedia la distribución de nuevos datos sobre la posterior, en lugar de usar un solo parámetro.",
+        "hint": "Predice usando todas las hipótesis ponderadas."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "statistics-5",
+    "world": "statistics",
+    "title": "Recuperación de parámetros",
+    "subtitle": "G05–G06 · Cápsula avanzada · validar lo que realmente se infiere",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Simular un mundo conocido permite separar un algoritmo que falla de un modelo que no identifica sus parámetros.",
+    "core": [
+      {
+        "label": "Recuperación",
+        "body": "Generar datos desde θ verdadero y comparar estimaciones o posteriores.",
+        "formula": "\\theta_*\\to x\\sim p(x\\mid\\theta_*)\\to p(\\theta\\mid x)"
+      },
+      {
+        "label": "Identificación",
+        "body": "Parámetros diferentes pueden generar las mismas distribuciones.",
+        "formula": "p(x\\mid\\theta_1)=p(x\\mid\\theta_2)\\Rightarrow\\text{no identificación entre ambos}"
+      },
+      {
+        "label": "SBC",
+        "body": "SBC con parámetro escalar posterior continuo, sin empates, y draws iid exactos produce ranks uniformes; en discreto hay que randomizar empates.",
+        "formula": "\\theta_*\\sim p(\\theta),\\quad x\\sim p(x\\mid\\theta_*),\\quad r=\\sum_{l=1}^L\\mathbf1_{\\theta_l<\\theta_*}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\theta_*\\sim p(\\theta),\\ x\\sim p(x\\mid\\theta_*)",
+        "reason": "Reproducir el modelo conjunto."
+      },
+      {
+        "formula": "\\theta_*,\\theta_1,\\ldots,\\theta_L\\mid x\\ \\text{son intercambiables}",
+        "reason": "Posterior escalar continuo correcto y draws iid: intercambiabilidad sin empates."
+      },
+      {
+        "formula": "r\\sim\\operatorname{Uniforme}\\{0,\\ldots,L\\}",
+        "reason": "Los ranks diagnostican calibración del algoritmo bajo ese modelo."
+      }
+    ],
+    "example": {
+      "problem": "En 200 simulaciones, 180 intervalos posteriores de 90% incluyen θ*. ¿Cobertura empírica?",
+      "solution": "180/200=0.9. Con simulación desde el prior, es un diagnóstico de calibración, sujeto a variación Monte Carlo."
+    },
+    "pitfall": "Buena recuperación en datos simulados del propio modelo no prueba adecuación a datos reales; agregar chequeos predictivos e identificación.",
+    "bridge": "Una app profesional verifica inferencia y aprendizaje con mundos sintéticos antes de interpretar parámetros de un agente.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "180 de 200 intervalos contienen θ*: cobertura empírica.",
+        "answer": 0.9,
+        "tolerance": 0.001,
+        "explanation": "Dividir éxitos de cobertura por simulaciones produce 0.9.",
+        "hint": "No confundas cobertura con precisión puntual."
+      },
+      {
+        "type": "choice",
+        "prompt": "Si dos parámetros producen la misma distribución observable…",
+        "options": [
+          "Se identifican siempre con más datos",
+          "La evidencia fuerza uno de ellos",
+          "Existe no identificación entre ellos",
+          "El modelo no puede simular"
+        ],
+        "answer": 2,
+        "explanation": "Los datos por sí solos no distinguen hipótesis observacionalmente equivalentes.",
+        "hint": "La equivalencia pertenece al modelo."
+      },
+      {
+        "type": "numeric",
+        "prompt": "SBC con L=4 draws posteriores: número de ranks posibles.",
+        "answer": 5,
+        "tolerance": 0.001,
+        "explanation": "El rango cuenta de cero a cuatro: cinco valores posibles.",
+        "hint": "Incluye el rango cero."
+      },
+      {
+        "type": "choice",
+        "prompt": "SBC comprueba principalmente…",
+        "options": [
+          "La verdad física del modelo",
+          "Calibración del cómputo posterior bajo el modelo simulado",
+          "Que todos los priors sean objetivos",
+          "Que toda acción sea óptima"
+        ],
+        "answer": 1,
+        "explanation": "El experimento conoce la distribución generadora y prueba coherencia del algoritmo respecto a ella.",
+        "hint": "Validez computacional y empírica son distintas."
+      }
+    ],
+    "references": ["guide", "parr"]
+  }
+]

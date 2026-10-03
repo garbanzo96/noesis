@@ -1,0 +1,366 @@
+[
+  {
+    "id": "generative-1",
+    "world": "generative",
+    "title": "A: el mundo sensorial",
+    "subtitle": "G09–G10 · Likelihood categórica y observaciones",
+    "minutes": 7,
+    "visual": "markov",
+    "intuition": "Cada columna de A describe qué observaciones predice un estado; observar selecciona una fila como likelihood sobre estados.",
+    "core": [
+      {
+        "label": "Convención",
+        "body": "A tiene observaciones en filas y estados en columnas.",
+        "formula": "A_{os}=P(o\\mid s),\\quad A\\in\\mathbb R^{N_o\\times N_s}"
+      },
+      {
+        "label": "Normalización",
+        "body": "Cada estado define una distribución de observaciones.",
+        "formula": "\\sum_oA_{os}=1"
+      },
+      {
+        "label": "Predicción",
+        "body": "Una creencia sobre estados produce una distribución de observaciones.",
+        "formula": "q(o)=Aq(s)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "A=\\begin{pmatrix}0.9&0.2\\\\0.1&0.8\\end{pmatrix},\\quad q(s)=\\binom{0.5}{0.5}",
+        "reason": "Dos causas y dos resultados."
+      },
+      {
+        "formula": "q(o)=\\binom{0.55}{0.45}",
+        "reason": "Multiplicar A por la creencia."
+      },
+      {
+        "formula": "o=1\\Rightarrow q(s\\mid o)\\propto\\binom{0.9}{0.2}\\odot\\binom{0.5}{0.5}",
+        "reason": "La fila observada aporta evidencia para cada estado."
+      }
+    ],
+    "example": {
+      "problem": "A con columnas (0.8,0.2) y (0.3,0.7), q=(1,0). Predicción.",
+      "solution": "La primera columna: (0.8,0.2)."
+    },
+    "pitfall": "La fila de likelihood sobre estados no tiene por qué sumar uno; las columnas condicionales sí.",
+    "bridge": "A representa el canal que hace posible percepción y determina la ambigüedad epistemológica de los sensores.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "A tiene 3 observaciones y 5 estados: número de columnas.",
+        "answer": 5,
+        "tolerance": 0.001,
+        "explanation": "Cada columna condiciona a uno de los cinco estados.",
+        "hint": "La condición es el estado."
+      },
+      {
+        "type": "choice",
+        "prompt": "Las columnas de A deben sumar…",
+        "options": ["0", "El número de estados", "1", "La entropía"],
+        "answer": 2,
+        "explanation": "Cada columna es una distribución de resultados para un estado fijo.",
+        "hint": "Suma sobre o."
+      },
+      {
+        "type": "numeric",
+        "prompt": "A=[[0.8,0.2],[0.2,0.8]], q=(0.75,0.25): P(o₁).",
+        "answer": 0.65,
+        "tolerance": 0.001,
+        "explanation": "0.8×0.75+0.2×0.25=0.65.",
+        "hint": "Marginaliza estados."
+      },
+      {
+        "type": "choice",
+        "prompt": "Al observar o, la likelihood sobre s es…",
+        "options": [
+          "La fila A[o,:]",
+          "La columna A[:,o] siempre",
+          "El determinante de A",
+          "El prior inicial"
+        ],
+        "answer": 0,
+        "explanation": "Fijar la observación y recorrer estados corresponde a una fila.",
+        "hint": "Fija el índice de fila."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  },
+  {
+    "id": "generative-2",
+    "world": "generative",
+    "title": "B: dinámica controlada",
+    "subtitle": "G09–G10 · Acciones y transiciones de creencias",
+    "minutes": 7,
+    "visual": "markov",
+    "intuition": "Cada acción selecciona un mapa probabilístico entre estados; una política ordena esos mapas en el tiempo.",
+    "core": [
+      {
+        "label": "Transición",
+        "body": "El estado siguiente ocupa filas y el actual, columnas.",
+        "formula": "B^u_{s\\prime s}=P(s_{t+1}=s\\prime\\mid s_t=s,u_t=u)"
+      },
+      {
+        "label": "Propagación",
+        "body": "Multiplicar una creencia por la transición.",
+        "formula": "q(s_{t+1}\\mid u)=B^uq(s_t)"
+      },
+      {
+        "label": "Política",
+        "body": "Una política es una secuencia de acciones, no un único estado deseado.",
+        "formula": "\\pi=(u_t,u_{t+1},\\ldots,u_{T-1})"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "B^{stay}=I,\\quad B^{swap}=\\begin{pmatrix}0&1\\\\1&0\\end{pmatrix}",
+        "reason": "Dos acciones deterministas."
+      },
+      {
+        "formula": "q_t=\\binom{0.8}{0.2}\\Rightarrow B^{swap}q_t=\\binom{0.2}{0.8}",
+        "reason": "Cambiar posiciones intercambia creencias."
+      },
+      {
+        "formula": "B^{swap}B^{swap}q_t=q_t",
+        "reason": "Dos intercambios restauran el estado."
+      }
+    ],
+    "example": {
+      "problem": "En tres estados, una acción dirige todo al tercero. ¿Columnas de B?",
+      "solution": "Cada columna es (0,0,1): sin importar origen, el destino es el tercero."
+    },
+    "pitfall": "Con vectores columna, se normalizan columnas; bibliotecas que usan filas requieren transponer la convención.",
+    "bridge": "La acción transforma futuras causas y observaciones, por eso G se evalúa bajo cada política.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Bᵘ condiciona principalmente a…",
+        "options": [
+          "Observación futura únicamente",
+          "Estado actual y acción",
+          "Preferencia C",
+          "Posterior de modelos"
+        ],
+        "answer": 1,
+        "explanation": "La transición predice el siguiente estado dados estado presente y control.",
+        "hint": "Es dinámica controlada."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Swap en dos estados, q=(0.3,0.7): primera componente siguiente.",
+        "answer": 0.7,
+        "tolerance": 0.001,
+        "explanation": "La matriz intercambia las dos componentes.",
+        "hint": "El segundo estado pasa al primero."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una política es…",
+        "options": [
+          "Una única likelihood",
+          "Una distribución inicial solamente",
+          "Una secuencia o regla de acciones en un horizonte",
+          "La entropía del sensor"
+        ],
+        "answer": 2,
+        "explanation": "Planificar evalúa trayectorias de acciones y sus consecuencias posibles.",
+        "hint": "Distingue acción actual y plan."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Aplicar swap tres veces a q=(1,0): probabilidad del segundo estado.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Un número impar de intercambios lleva toda la masa al segundo estado.",
+        "hint": "Dos swaps se cancelan."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  },
+  {
+    "id": "generative-3",
+    "world": "generative",
+    "title": "D, C y E: contexto y metas",
+    "subtitle": "G09–G10 · Prior inicial, preferencias y hábitos",
+    "minutes": 9,
+    "visual": "markov",
+    "intuition": "Estos objetos responden preguntas distintas: dónde creo empezar, qué resultados prefiero y qué políticas espero a priori.",
+    "core": [
+      {
+        "label": "D",
+        "body": "Prior sobre estado inicial, normalizado.",
+        "formula": "D_s=P(s_1=s)"
+      },
+      {
+        "label": "C",
+        "body": "Aquí C son logits relativos de preferencias; el libro puede usar C para probabilidades.",
+        "formula": "P_C(o)=\\operatorname{softmax}(C)_o"
+      },
+      {
+        "label": "E",
+        "body": "Prior habitual normalizado sobre políticas.",
+        "formula": "E_\\pi=P_{habit}(\\pi)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "C=(\\ln3,\\ln1)",
+        "reason": "Preferencia relativa tres a uno."
+      },
+      {
+        "formula": "P_C=(0.75,0.25)",
+        "reason": "Normalizar exponenciales."
+      },
+      {
+        "formula": "-\\ln P_C(o_1)<-\\ln P_C(o_2)",
+        "reason": "El primer resultado tiene menor costo preferencial."
+      }
+    ],
+    "example": {
+      "problem": "E=(0.8,0.2): ¿significa que la primera política sea óptima?",
+      "solution": "No: expresa hábito previo; evidencia F y evaluación futura G pueden cambiar su posterior."
+    },
+    "pitfall": "Preferencias no son una likelihood empírica del sensor; no se debe sustituir A por C.",
+    "bridge": "A–E permiten separar percepción, dinámica, metas y hábitos antes de derivar selección de acción.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "D representa…",
+        "options": [
+          "Deseabilidad de observaciones",
+          "Prior del estado inicial",
+          "Derivada temporal siempre",
+          "Matriz de likelihood"
+        ],
+        "answer": 1,
+        "explanation": "D inicia la distribución sobre causas antes de datos temporales.",
+        "hint": "Cada símbolo tiene un tipo."
+      },
+      {
+        "type": "numeric",
+        "prompt": "C=(ln4,ln1): preferencia del primer resultado.",
+        "answer": 0.8,
+        "tolerance": 0.001,
+        "explanation": "Los pesos 4 y 1 se normalizan a 4/5.",
+        "hint": "Aplica softmax."
+      },
+      {
+        "type": "choice",
+        "prompt": "E fuerte a favor de una política indica…",
+        "options": [
+          "Hábito o prior sobre políticas",
+          "Certeza de recompensa máxima",
+          "Estado inicial conocido",
+          "Sensor infalible"
+        ],
+        "answer": 0,
+        "explanation": "La inclinación previa puede ser superada por evidencia y valoración futura.",
+        "hint": "Prior no es garantía."
+      },
+      {
+        "type": "choice",
+        "prompt": "En esta app C es…",
+        "options": [
+          "Una matriz de transición",
+          "Un dato observado",
+          "Una covarianza siempre",
+          "Un vector de logits de preferencias"
+        ],
+        "answer": 3,
+        "explanation": "Se declara esta convención para evitar mezclar logits con probabilidades preferenciales del libro.",
+        "hint": "P_C es la distribución normalizada."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  },
+  {
+    "id": "generative-4",
+    "world": "generative",
+    "title": "Gráficos y Markov blankets",
+    "subtitle": "G09–G10 · Factoración, mensajes y separación condicional",
+    "minutes": 7,
+    "visual": "markov",
+    "intuition": "Un grafo expresa qué condiciona a qué; un blanket separa una variable del resto mediante información local.",
+    "core": [
+      {
+        "label": "Modelo temporal",
+        "body": "Con política fijada, una cadena factoriza causas y observaciones.",
+        "formula": "p(o_{1:T},s_{1:T}\\mid\\pi)=D(s_1)\\prod_tA(o_t\\mid s_t)\\prod_{t=1}^{T-1}B^{u_t}(s_{t+1}\\mid s_t)"
+      },
+      {
+        "label": "Blanket gráfico",
+        "body": "En un DAG, padres, hijos y otros padres de los hijos forman un Markov blanket.",
+        "formula": "X\\perp\\text{resto}\\mid MB(X)"
+      },
+      {
+        "label": "Blanket FEP",
+        "body": "La separación interna–externa se formula condicionando estados sensoriales y activos.",
+        "formula": "\\mu\\perp\\eta\\mid(s,a)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\eta\\to s\\to\\mu\\to a\\to\\eta",
+        "reason": "Esquema causal orientativo de acoplamiento."
+      },
+      {
+        "formula": "b=(s,a)",
+        "reason": "Agrupar la interfaz o blanket."
+      },
+      {
+        "formula": "p(\\mu,\\eta\\mid b)=p(\\mu\\mid b)p(\\eta\\mid b)",
+        "reason": "La independencia condicional es la afirmación que hay que establecer, no asumir por dibujo."
+      }
+    ],
+    "example": {
+      "problem": "En X→Y→Z, ¿X y Z son independientes marginalmente?",
+      "solution": "No en general. Condicionadas a Y, quedan separadas en esta cadena."
+    },
+    "pitfall": "Un blanket estadístico no demuestra por sí solo una frontera física, un agente cognitivo ni una optimización particular.",
+    "bridge": "La factoración local hace tratable inferencia; el FEP añade hipótesis dinámicas al concepto de separación.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "En X→Y→Z, ¿qué nodo intermedio bloquea el camino entre X y Z al condicionarlo?",
+        "options": ["Nada", "Un parámetro desconectado", "Y", "La entropía"],
+        "answer": 2,
+        "explanation": "Y bloquea el camino de la cadena causal bajo su factoración.",
+        "hint": "Identifica el nodo intermedio."
+      },
+      {
+        "type": "choice",
+        "prompt": "El blanket de un nodo DAG incluye…",
+        "options": [
+          "Padres, hijos y copadres de hijos",
+          "Solo padres",
+          "Todos los nodos sin excepción",
+          "Solo descendientes remotos"
+        ],
+        "answer": 0,
+        "explanation": "La información de esos vecinos basta para separar el nodo del resto en el grafo.",
+        "hint": "Los hijos pueden informar sobre copadres."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Horizon T=4: número de factores de transición B en la cadena.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "Hay una transición entre cada par de tiempos consecutivos: T−1.",
+        "hint": "Cuenta enlaces, no estados."
+      },
+      {
+        "type": "choice",
+        "prompt": "Dibujar una frontera interna–externa…",
+        "options": [
+          "Prueba automáticamente independencia",
+          "No sustituye verificar la separación condicional",
+          "Demuestra toda hipótesis FEP",
+          "Garantiza gradientes descendentes"
+        ],
+        "answer": 1,
+        "explanation": "La propiedad probabilística depende del modelo y distribución, no solo del dibujo conceptual.",
+        "hint": "Una notación no es una prueba."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  }
+]

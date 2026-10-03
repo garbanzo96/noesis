@@ -1,0 +1,108 @@
+{
+  "scenario": "Conoces el modelo que relaciona una observación fija con dos causas, pero quieres ajustar una distribución de creencias mediante un objetivo calculable; después limitarás la forma de esa aproximación.",
+  "objective": "Derivar F y ELBO, interpretar su diferencia respecto de la sorpresa y reconocer el coste de restringir una familia variacional.",
+  "briefing": "El modelo p ya está definido y la observación o ya ocurrió. q representa las creencias que ajustamos. Cambiar q no cambia el dato ni la evidencia del modelo; cambia cuánto se aproxima q al posterior que ese modelo implica.",
+  "teachingStages": [
+    {
+      "id": "variational-stage-1",
+      "title": "Separar modelo y creencia",
+      "claim": "p(o,z) asigna apoyo conjunto; q(z) es una distribución normalizada de creencias sobre las causas.",
+      "formula": "p(o,z_1)=0.3,\\quad p(o,z_2)=0.1,\\quad q(z)=(\\phi,1-\\phi)",
+      "explanation": "z₁ y z₂ son dos causas excluyentes. o nombra el dato observado y queda fijo. Los pesos conjuntos suman 0.4, la evidencia de ese dato; no tienen por qué sumar uno al fijar o. q sí suma uno porque reparte creencia entre causas. φ es su primer peso y se puede ajustar entre cero y uno.",
+      "actionLabel": "Mover la creencia con el dato fijo",
+      "animation": "La observación queda fijada; dos barras de p(o,z) conservan alturas 0.3 y 0.1 mientras q se mueve sin cambiar su suma."
+    },
+    {
+      "id": "variational-stage-2",
+      "title": "Construir un objetivo para q",
+      "claim": "F promedia la diferencia entre log creencia y log apoyo conjunto usando la propia q.",
+      "formula": "F[q]=\\mathbb E_q[\\ln q(z)-\\ln p(o,z)]=\\phi\\ln\\frac{\\phi}{0.3}+(1-\\phi)\\ln\\frac{1-\\phi}{0.1}",
+      "explanation": "Para φ=0.5, los dos aportes son 0.5ln(0.5/0.3) y 0.5ln(0.5/0.1); juntos dan F≈1.06013 nats. F recibe una distribución q y devuelve un número: es un funcional. Si q da masa positiva a una causa con p(o,z)=0, este objetivo resulta infinito.",
+      "actionLabel": "Acumular los dos aportes",
+      "animation": "Cada causa aporta q·ln(q/p_conjunta); sus barras con signo se suman al valor de F."
+    },
+    {
+      "id": "variational-stage-3",
+      "title": "Derivar la cota, no memorizarla",
+      "claim": "Bayes separa F en divergencia al posterior y sorpresa fija del dato.",
+      "formula": "\\ln p(o,z)=\\ln p(z\\mid o)+\\ln p(o)\\Rightarrow F[q]=\\mathrm{KL}(q\\Vert p(z\\mid o))-\\ln p(o)",
+      "explanation": "p(o)>0 y se usan distribuciones con soporte y expectativas compatibles. Como KL≥0, F≥−ln p(o); la igualdad ocurre si q coincide con el posterior. Aquí p(z|o)=(0.75,0.25) y la sorpresa es −ln0.4≈0.91629. Para datos continuos p(o) es densidad: F y sorpresa pueden ser negativas.",
+      "actionLabel": "Separar base y exceso",
+      "animation": "Una base inmóvil −ln p(o) y una barra de KL componen F; mover q al posterior elimina solo el exceso."
+    },
+    {
+      "id": "variational-stage-4",
+      "title": "Leer dos descomposiciones del mismo cálculo",
+      "claim": "F es complejidad menos exactitud y ELBO es −F; exactitud significa log likelihood esperada.",
+      "formula": "F=\\mathrm{KL}(q\\Vert p(z))-\\mathbb E_q\\ln p(o\\mid z),\\quad\\mathrm{ELBO}=-F\\leq\\ln p(o)",
+      "explanation": "Usando prior (0.5,0.5) y likelihood del dato (0.6,0.2), obtenemos la conjunta (0.3,0.1). Con q igual al prior, la complejidad es cero y la exactitud es 0.5ln0.6+0.5ln0.2≈−1.06013. Restar esa exactitud produce F positivo. Exactitud no es porcentaje de aciertos; F no es energía metabólica.",
+      "actionLabel": "Reagrupar los términos logarítmicos",
+      "animation": "ln p(o,z) se abre como ln likelihood+ln prior; los términos se reúnen en complejidad y exactitud con sus signos."
+    },
+    {
+      "id": "variational-stage-5",
+      "title": "Restringir q tiene consecuencias",
+      "claim": "Mean-field elimina dependencias entre factores; Laplace aproxima un modo mediante curvatura gaussiana local.",
+      "formula": "q(z_1,z_2)=q_1(z_1)q_2(z_2),\\qquad q_{Laplace}\\approx\\mathcal N(\\mu,H_U(\\mu)^{-1}),\\quad U=-\\ln p(o,z)",
+      "explanation": "Una tabla correlacionada puede quedar fuera de la familia de productos y dejar KL mínima positiva. Mean-field es una restricción sobre q; no prueba independencia del modelo p. Laplace supone un modo interior no degenerado y Hessiano H_U definido positivo; una sola gaussiana puede perder modos separados.",
+      "actionLabel": "Comparar tabla y aproximaciones",
+      "animation": "Una tabla con masa diagonal se compara con un producto; dos picos posteriores se comparan con una campana local alrededor de uno."
+    }
+  ],
+  "missions": [
+    {
+      "id": "variational-mission-1",
+      "title": "Cerrar la cota",
+      "brief": "Ajusta q para que no quede divergencia al posterior.",
+      "setup": "Dato fijo o: p(o,z₁)=0.3, p(o,z₂)=0.1; q=(φ,1−φ) sin otra restricción.",
+      "kind": "numeric",
+      "prompt": "¿Qué φ minimiza F?",
+      "formula": "\\phi_*={0.3}/{(0.3+0.1)}",
+      "answer": 0.75,
+      "solution": "La evidencia es 0.4. El posterior asigna 0.75 a z₁; pertenece a la familia q y hace KL cero, alcanzando F=−ln0.4.",
+      "hint": "Minimizar F equivale aquí a igualar q con el posterior.",
+      "transfer": "La inferencia variacional ajusta creencias; no necesita reinterpretar F como una fuerza física.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "variational-mission-2",
+      "title": "Cuánto sobra en F",
+      "brief": "Mide el error de la aproximación en el mismo ejemplo.",
+      "setup": "q=(0.5,0.5), p(z|o)=(0.75,0.25), p(o)=0.4.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es F[q]−(−ln p(o)), en nats?",
+      "formula": "F+\\ln p(o)=\\mathrm{KL}((.5,.5)\\Vert(.75,.25))",
+      "answer": 0.143841036,
+      "solution": "El exceso es KL≈0.14384; F≈1.06013 y sorpresa≈0.91629. Reducir este exceso mejora la aproximación sin cambiar la evidencia del modelo fijo.",
+      "hint": "Resta la base fija o calcula directamente la KL.",
+      "transfer": "ELBO también queda por debajo de log evidencia por exactamente la misma KL.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "variational-mission-3",
+      "title": "Una familia que pierde dependencias",
+      "brief": "Comprueba qué puede representar una aproximación mean-field.",
+      "setup": "Posterior sobre dos variables binarias: tabla [[0.4,0.1],[0.1,0.4]]. Sus marginales son uniformes. Se impone q(z₁,z₂)=q₁q₂.",
+      "kind": "choice",
+      "prompt": "¿Puede esta familia alcanzar KL(q‖posterior)=0?",
+      "formula": "q(z_1,z_2)=q_1(z_1)q_2(z_2)",
+      "answer": 0,
+      "solution": "No: KL cero exige igualdad con el posterior. Si fuera un producto, sus marginales uniformes darían cuatro celdas de 0.25, distintas de 0.4 y 0.1. El posterior correlacionado queda fuera de la familia.",
+      "hint": "Compara el producto de las marginales con la tabla conjunta.",
+      "transfer": "La calidad de inferencia depende de la expresividad de q, además de la optimización.",
+      "choices": [
+        "No, porque el posterior no factoriza",
+        "Sí, porque ambas marginales suman uno",
+        "Sí, todo posterior admite cualquier familia normalizada"
+      ]
+    }
+  ],
+  "relatedLessonIds": ["variational-1", "variational-2", "variational-3", "variational-4"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md",
+    "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md",
+    "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md",
+    "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md"
+  ],
+  "scope": "F, ELBO y límites de aproximación. Actualizaciones mean-field y errores gaussianos requieren sus derivaciones específicas; la escena no afirma convergencia universal."
+}

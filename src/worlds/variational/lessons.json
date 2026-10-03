@@ -1,0 +1,351 @@
+[
+  {
+    "id": "variational-1",
+    "world": "variational",
+    "title": "F y ELBO: la identidad central",
+    "subtitle": "G08 · Posterior aproximado y brecha de inferencia",
+    "minutes": 7,
+    "visual": "clt",
+    "intuition": "F evalúa una creencia q frente al modelo y datos presentes; su exceso sobre sorpresa es exactamente el error variacional KL.",
+    "core": [
+      {
+        "label": "Definición",
+        "body": "q es una distribución normalizada sobre z con soporte compatible con la conjunta.",
+        "formula": "F[q]=\\mathbb E_q[\\ln q(z)-\\ln p(o,z)]"
+      },
+      {
+        "label": "Identidad",
+        "body": "La evidencia no depende de q cuando el modelo y el dato están fijos.",
+        "formula": "F[q]=D_{KL}(q(z)\\|p(z\\mid o))-\\ln p(o)"
+      },
+      {
+        "label": "Cota",
+        "body": "ELBO es −F y alcanza log evidencia solo con posterior exacto.",
+        "formula": "\\mathcal L[q]=-F[q]\\le\\ln p(o)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p(o,z)=p(z\\mid o)p(o)",
+        "reason": "Factorizar por definición de condicional."
+      },
+      {
+        "formula": "\\ln q-\\ln p(o,z)=\\ln(q/p(z\\mid o))-\\ln p(o)",
+        "reason": "Separar término dependiente de z y constante."
+      },
+      {
+        "formula": "F=D_{KL}(q\\|posterior)-\\ln p(o)",
+        "reason": "Tomar expectativa normalizada."
+      }
+    ],
+    "example": {
+      "problem": "Evidencia p(o)=e⁻² y KL(q||posterior)=0.3. Calcula F y ELBO.",
+      "solution": "F=2.3; ELBO=−2.3; log evidencia=−2, con brecha 0.3."
+    },
+    "pitfall": "F no es universalmente no negativa: densidades continuas pueden superar uno. F y G tienen variables y horizontes diferentes.",
+    "bridge": "La identidad conecta percepción aproximada, sorpresa y evidencia; es el núcleo matemático previo a acción futura.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "p(o)=e⁻³ y KL=0.5: F.",
+        "answer": 3.5,
+        "tolerance": 0.001,
+        "explanation": "La sorpresa es tres y la brecha variacional añade 0.5.",
+        "hint": "F=KL−ln evidencia."
+      },
+      {
+        "type": "numeric",
+        "prompt": "F=2.4: ELBO.",
+        "answer": -2.4,
+        "tolerance": 0.001,
+        "explanation": "La convención fija ELBO=−F.",
+        "hint": "Cambia signo."
+      },
+      {
+        "type": "choice",
+        "prompt": "Al optimizar q con modelo y dato fijos, −ln p(o)…",
+        "options": ["Cambia con cada q", "Es una constante", "Es siempre cero", "Es la KL"],
+        "answer": 1,
+        "explanation": "La evidencia marginal pertenece al modelo, no a la familia aproximante q.",
+        "hint": "Qué objetos dependen de q?"
+      },
+      {
+        "type": "choice",
+        "prompt": "F alcanza la sorpresa cuando…",
+        "options": [
+          "q es uniforme",
+          "Se ignora el dato",
+          "q coincide con el posterior exacto",
+          "G es mínima"
+        ],
+        "answer": 2,
+        "explanation": "La brecha KL se anula exactamente por coincidencia de distribuciones.",
+        "hint": "Usa la identidad central."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  },
+  {
+    "id": "variational-2",
+    "world": "variational",
+    "title": "Complejidad menos exactitud",
+    "subtitle": "G08 · Un prior penaliza desplazamiento justificado",
+    "minutes": 7,
+    "visual": "variational",
+    "intuition": "F combina ajuste a datos con cuánto se aleja la posterior aproximada de la estructura previa.",
+    "core": [
+      {
+        "label": "Factoración",
+        "body": "El modelo separa prior y verosimilitud.",
+        "formula": "p(o,z)=p(o\\mid z)p(z)"
+      },
+      {
+        "label": "Complejidad",
+        "body": "KL(q||prior) cuantifica cambio de creencia respecto a lo previo.",
+        "formula": "\\mathrm{complejidad}=D_{KL}(q(z)\\|p(z))"
+      },
+      {
+        "label": "Exactitud",
+        "body": "Log likelihood esperada recompensa explicaciones de datos.",
+        "formula": "F=D_{KL}(q\\|p(z))-\\mathbb E_q\\ln p(o\\mid z)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "F=\\mathbb E_q[\\ln q-\\ln p(z)-\\ln p(o\\mid z)]",
+        "reason": "Sustituir la factoración."
+      },
+      {
+        "formula": "\\mathbb E_q[\\ln q-\\ln p(z)]=D_{KL}(q\\|p(z))",
+        "reason": "Reconocer complejidad."
+      },
+      {
+        "formula": "F=\\mathrm{complejidad}-\\mathrm{exactitud}",
+        "reason": "Separar costo y ajuste."
+      }
+    ],
+    "example": {
+      "problem": "Complejidad 1.2 y exactitud esperada −2.0. Calcula F.",
+      "solution": "F=1.2−(−2)=3.2. Una exactitud logarítmica negativa sigue siendo una recompensa relativa."
+    },
+    "pitfall": "Complejidad no es número de parámetros; es divergencia de q respecto al prior para el dato actual.",
+    "bridge": "Aprender requiere pagar un cambio de creencia con mejor explicación; la formulación protege contra ajuste sin estructura.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Complejidad=0.4 y exactitud=−1.5: F.",
+        "answer": 1.9,
+        "tolerance": 0.001,
+        "explanation": "Restar una exactitud negativa añade 1.5 al costo 0.4.",
+        "hint": "Respeta el signo de la exactitud."
+      },
+      {
+        "type": "choice",
+        "prompt": "La complejidad variacional mide…",
+        "options": [
+          "Solo dimensión del modelo",
+          "Solo entropía del sensor",
+          "Cambio q respecto al prior",
+          "Siempre cantidad de muestras"
+        ],
+        "answer": 2,
+        "explanation": "La KL depende de distribuciones, no solo de cuántos parámetros se escriben.",
+        "hint": "Observa sus dos argumentos."
+      },
+      {
+        "type": "choice",
+        "prompt": "Si q=prior, la complejidad es…",
+        "options": ["0", "1", "Infinita", "La evidencia"],
+        "answer": 0,
+        "explanation": "Una distribución coincide consigo misma y su KL es cero.",
+        "hint": "Las razones son uno."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Complejidad fija 1: mejorar exactitud de −4 a −3 reduce F en cuánto?",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "F pasa de cinco a cuatro; una unidad de mejor ajuste reduce una unidad el objetivo.",
+        "hint": "Calcula ambas F."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  },
+  {
+    "id": "variational-3",
+    "world": "variational",
+    "title": "Mean-field y mensajes",
+    "subtitle": "G08 · Optimización por factores sin fingir independencia real",
+    "minutes": 9,
+    "visual": "variational",
+    "intuition": "Mean-field restringe q a productos para hacer cómputo manejable; el modelo original puede mantener dependencias.",
+    "core": [
+      {
+        "label": "Familia",
+        "body": "Separar factores aproximantes, no necesariamente causas independientes.",
+        "formula": "q(z)=\\prod_iq_i(z_i)"
+      },
+      {
+        "label": "Coordenada",
+        "body": "El factor óptimo exponentia la log conjunta esperada sobre los otros factores.",
+        "formula": "\\ln q_i^*(z_i)=\\mathbb E_{q_{-i}}\\ln p(o,z)+const"
+      },
+      {
+        "label": "Iteración",
+        "body": "Actualizar y normalizar cada factor hasta estabilizar el objetivo.",
+        "formula": "q_i^*\\propto\\exp(\\mathbb E_{q_{-i}}\\ln p(o,z))"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "F=\\mathbb E_{q_i}\\ln q_i-\\mathbb E_{q_i}\\mathbb E_{q_{-i}}\\ln p(o,z)+const",
+        "reason": "Aislar términos de la coordenada."
+      },
+      {
+        "formula": "\\delta[F+\\lambda(\\int q_i-1)]/\\delta q_i=0",
+        "reason": "Imponer normalización con Lagrange."
+      },
+      {
+        "formula": "\\ln q_i=\\mathbb E_{q_{-i}}\\ln p(o,z)+const",
+        "reason": "Resolver y reconocer la actualización."
+      }
+    ],
+    "example": {
+      "problem": "Energías log esperadas (ln2,ln6). ¿Nuevo factor categórico?",
+      "solution": "Exponentiar da pesos (2,6); normalizar produce (0.25,0.75)."
+    },
+    "pitfall": "Mean-field puede perder correlaciones y subestimar incertidumbre; una convergencia local no garantiza solución global.",
+    "bridge": "Los mensajes de los modelos categóricos surgen de estas expectativas de log factores.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "El producto mean-field declara independencia en…",
+        "options": [
+          "La distribución aproximante q",
+          "Todo el mundo real",
+          "La likelihood necesariamente",
+          "Los datos siempre"
+        ],
+        "answer": 0,
+        "explanation": "La restricción pertenece al algoritmo de aproximación y no elimina dependencias del modelo generativo.",
+        "hint": "Distingue p y q."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Log pesos (ln1,ln3): segundo componente del nuevo factor.",
+        "answer": 0.75,
+        "tolerance": 0.001,
+        "explanation": "Exponentiar y normalizar da 3/(1+3).",
+        "hint": "Aplica softmax."
+      },
+      {
+        "type": "choice",
+        "prompt": "La actualización de qᵢ promedia sobre…",
+        "options": [
+          "qᵢ solamente",
+          "La evidencia cero",
+          "Los demás factores q₋ᵢ",
+          "Solo el prior uniforme"
+        ],
+        "answer": 2,
+        "explanation": "El resto de las variables aporta mensajes mediante expectativas con sus factores actuales.",
+        "hint": "La coordenada optimizada queda libre."
+      },
+      {
+        "type": "choice",
+        "prompt": "Convergencia de mean-field garantiza posterior exacto?",
+        "options": ["Siempre", "No en general", "Solo por normalizar", "Solo porque F baja"],
+        "answer": 1,
+        "explanation": "La familia restringida y objetivos no convexos pueden dejar una brecha y mínimos locales.",
+        "hint": "Convergencia es una propiedad algorítmica limitada."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  },
+  {
+    "id": "variational-4",
+    "world": "variational",
+    "title": "Laplace y errores de predicción",
+    "subtitle": "G08 · Inferencia gaussiana local",
+    "minutes": 7,
+    "visual": "variational",
+    "intuition": "Si los desajustes son gaussianos, el negativo log conjunto suma errores cuadrados ponderados y términos de normalización.",
+    "core": [
+      {
+        "label": "Modelo sensorial",
+        "body": "Observaciones gaussianas alrededor de una predicción g(μ).",
+        "formula": "\\epsilon_o=o-g(\\mu)"
+      },
+      {
+        "label": "Objetivo",
+        "body": "Estas cuadráticas son energía MAP exacta con covarianzas fijas; aproximan F si las contribuciones variacionales omitidas son constantes o se fijan localmente.",
+        "formula": "F(\\mu)\\approx\\frac12\\epsilon_o^\\top\\Pi_o\\epsilon_o+\\frac12(\\mu-\\mu_0)^\\top\\Pi_0(\\mu-\\mu_0)+const"
+      },
+      {
+        "label": "Gradiente",
+        "body": "La señal sensorial retropropaga por Jacobiano transpuesto.",
+        "formula": "\\nabla_\\mu F=-J_g^\\top\\Pi_o\\epsilon_o+\\Pi_0(\\mu-\\mu_0)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "g(\\mu)=\\mu,\\quad\\Pi_o=\\Pi_0=1",
+        "reason": "Caso escalar lineal."
+      },
+      {
+        "formula": "\\partial_\\mu F=-(o-\\mu)+(\\mu-\\mu_0)",
+        "reason": "Sumar corrección sensorial y prior."
+      },
+      {
+        "formula": "\\partial_\\mu F=0\\Rightarrow\\mu=(o+\\mu_0)/2",
+        "reason": "Recuperar Bayes gaussiano exacto en este caso."
+      }
+    ],
+    "example": {
+      "problem": "μ=0, μ0=0, o=2, precisiones 1: gradiente y paso η=0.1.",
+      "solution": "Gradiente −2; la media se mueve a 0.2."
+    },
+    "pitfall": "Si se aprenden precisiones, los log determinantes y normalizadores no son constantes; omitirlos altera el aprendizaje.",
+    "bridge": "Predictive coding es una implementación bajo supuestos gaussianos/locales; FEP es una formulación de alcance diferente.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "μ=1, μ₀=0, o=3, g=identidad, precisiones 1: gradiente.",
+        "answer": -1,
+        "tolerance": 0.001,
+        "explanation": "−(3−1)+(1−0)=−2+1=−1.",
+        "hint": "Suma error sensorial y prior."
+      },
+      {
+        "type": "choice",
+        "prompt": "Jgᵀ en el gradiente…",
+        "options": [
+          "Normaliza la evidencia",
+          "Lleva errores sensoriales a coordenadas latentes",
+          "Es siempre identidad",
+          "Sustituye el prior"
+        ],
+        "answer": 1,
+        "explanation": "La regla de la cadena transporta sensibilidad a las causas que generan la observación.",
+        "hint": "Comprueba shapes."
+      },
+      {
+        "type": "numeric",
+        "prompt": "μ=0, gradiente −4, η=0.25: nueva μ.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Descenso resta 0.25×(−4), moviendo μ a uno.",
+        "hint": "Un gradiente negativo implica incremento."
+      },
+      {
+        "type": "choice",
+        "prompt": "Al aprender Π, se pueden omitir normalizadores gaussianos?",
+        "options": ["Sí siempre", "Solo si aumenta F", "No en general", "Porque no dependen de Π"],
+        "answer": 2,
+        "explanation": "El log determinante depende de precisión y evita soluciones de confianza arbitraria.",
+        "hint": "Comprueba qué parámetros están siendo optimizados."
+      }
+    ],
+    "references": ["guide", "parr", "bogacz"]
+  }
+]

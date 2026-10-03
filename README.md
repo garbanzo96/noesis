@@ -1,45 +1,46 @@
-# NÓESIS
+# NÓESIS · ENIGMA
 
-Juego matemático intensivo para adultos: desde primeros principios hasta las ecuaciones de Active Inference. Basado en las guías de nivelación ENIGMA, los apuntes de Inferencia Estadística Bayesiana y Parr, Pezzulo y Friston (2022).
+Videojuego de investigación matemática para llegar desde primeros principios a active inference. Diseñado en español para investigadores de postgrado: exposición comprimida, representaciones visuales, modelos manipulables y problemas de aplicación.
 
-## Jugar
+- 14 mundos numerados y acceso por prerrequisitos explícitos.
+- 15 animaciones originales, renderizadas con el ManimGL de 3Blue1Brown.
+- Cine guiado: subtítulos sincronizados, pausa, velocidad, etapas y fotogramas.
+- 14 laboratorios con objetivo verificable y lecturas en tiempo real.
+- 70 secuencias de fundamentos, 42 misiones y variantes numéricas.
+- Cuaderno con 70 cápsulas: definiciones, identidades, derivación, ejemplo, advertencia, puente y 280 ejercicios.
+- XP por resolver, inventario de herramientas y recompensas sin repetición ilimitada.
+- Arena de sensor incierto y simulador de agente activo discreto.
+- Progreso local con importación, exportación y migración de la versión anterior.
 
-Abre `dist/index.html` en tu navegador. Todo el contenido, las ecuaciones y los laboratorios están incluidos: no requiere instalación ni conexión. Si tu navegador limita archivos locales, desde esta carpeta ejecuta:
+## Ejecutar
+
+Con Node 22+:
 
 ```sh
-python3 -m http.server 8876 --bind 127.0.0.1 --directory dist
+npm ci
+npm run dev
 ```
 
-Abre `http://127.0.0.1:8876/`. El origen del navegador determina dónde queda tu progreso. Usa Bitácora → Exportar/Importar para trasladarlo entre la copia local y la versión alojada.
+Abre http://127.0.0.1:8765. Para distribución:
 
-## Qué incluye
+```sh
+npm test
+npm run build
+npm run preview
+```
 
-- 14 mundos y 70 misiones: precálculo, cálculo diferencial/integral, álgebra lineal, probabilidad, estadística, varias variables, información, dinámica, Bayes, inferencia variacional, modelos generativos, POMDP e inferencia activa.
-- 280 desafíos con cálculo y comprensión, feedback razonado, pistas y pruebas de salto.
-- 20 laboratorios originales en SVG con objetivos verificables: conjuntos, funciones, sumas, rotación, límites, tangentes, integral, transformaciones lineales, Bayes, Gaussianas, gradiente, entropía/KL, OU, F/ELBO, Markov, políticas, agente con sensor ruidoso, convolución, CLT y MaxEnt.
-- Fichas compactas: definición → supuestos → derivación → ejemplo → aplicación.
-- Atlas de 30 ecuaciones y distinciones; ruta discreta/continua y bibliografía.
-- Progreso local, XP sin acumulación por repetir preguntas, repaso espaciado y respaldos JSON.
+La versión compilada está incluida en `dist/`. También puede servirse con `python3 -m http.server 8080 --directory dist` y abrir http://localhost:8080. No requiere conexión después de tener los archivos: videos, tipografías y fórmulas se sirven localmente. Abrir index.html con doble clic no sustituye el servidor HTTP.
 
-## Ruta sugerida
+## Recorrido
 
-Lenguaje → probabilidad → distribuciones → Bayes → información → álgebra lineal → cápsula de cálculo/gradiente → variacional → modelos generativos. Luego:
+Campaña → Observar → Manipular → Resolver. Ver contenido no entrega XP. Cada herramienta exige tres problemas resueltos sin ayuda y un objetivo de campo verificado. Puedes saltar la exposición si ya sabes resolver el mundo, o explorar las escenas de mundos futuros antes de acreditar sus prerrequisitos. Las pistas permiten estudiar y los casos nuevos permiten volver a intentarlo con otros valores.
 
-- Discreto: POMDP → políticas y G → aprendizaje de A/B → agente.
-- Continuo: derivadas → integrales → multivariado → dinámica y precisión → percepción/acción continuas.
+La ruta al agente discreto está indicada en el mapa. La rama continua añade cálculo integral, varias variables y dinámica. El cuaderno conserva extensiones como coordenadas generalizadas, Dirac, convolución, MaxEnt, Jeffreys, SBC y PEB/BMR; su lectura no implica que una escena corta certifique dominio de esos temas.
 
-Los mundos están abiertos: la recomendación orienta, no bloquea. Las pruebas de salto acreditan con 85% sin pistas; las misiones con 3/4 sin ayuda. El repaso empieza al día siguiente y duplica su intervalo una vez por misión hasta 60 días. Errores y respuestas asistidas se reactivan hoy. Este banco reutiliza preguntas; el indicador de dominio es apoyo al estudio, no una certificación externa.
+## Fuentes y alcance
 
-## Cobertura y límites
+Basado en las guías G00–G13 del grupo ENIGMA, apuntes bayesianos y Parr, Pezzulo y Friston (2022). El contenido es una adaptación didáctica original; no distribuye los PDFs de estudio. `docs/FUENTES.md`, `docs/ARQUITECTURA.md` y `docs/VALIDACION_V2.md` describen procedencia, estructura y comprobaciones.
 
-La ruta cubre las herramientas centrales de los capítulos 1–10 y apéndices matemáticos del libro. Los temas especializados —coordenadas generalizadas, Fokker–Planck, Fourier, Jeffreys, SBC y PEB/BMR— tienen cápsulas introductorias con supuestos explícitos. No incluye una implementación completa de DCM/PEB, inferencia neural experimental ni el código MATLAB del libro.
+Motor visual: https://github.com/3b1b/manim, ManimGL 1.7.2, commit `fafa083a4fb274bba9cabde0b6e2f50ba6da0622`, MIT. Escenas Python propias en `animations/`. Se revisaron https://github.com/3b1b/videos y https://github.com/3b1b/3Blue1Brown.com como referencias; no se copió código de escenas bajo CC BY-NC-SA ni código web con derechos reservados. El repositorio de lógica del usuario sirvió de referencia de progresión, no de contenido matemático.
 
-F y G mantienen contextos diferentes. Los laboratorios de G declaran preferencias sobre observaciones. El posterior de políticas completo conserva F(π); la demostración simplificada señala cuándo se omite. C son logits en la app; A y B tienen columnas normalizadas. El atlas traduce las convenciones ambiguas de los apuntes sin propagar sus ambigüedades.
-
-## Fuentes y código
-
-`docs/FUENTES.md` registra la investigación y las anclas verificadas. `docs/AUDITORIA_MATEMATICA.md` registra la revisión independiente de 70 misiones/280 preguntas. `docs/VALIDACION.md` registra pruebas de funcionamiento y alcance.
-
-El código de la app está en `dist/`; contenido en `dist/data/`. No hay servidor de aplicación ni API de pago. No se transmite progreso al servidor. La copia publicada tiene acceso privado por defecto.
-
-Las visualizaciones son originales e interactivas; no ejecutan Manim ni copian escenas de 3Blue1Brown. Su geometría sirve como referencia pedagógica. KaTeX se incluye con su licencia MIT en `dist/vendor/KATEX-LICENSE.txt`. El repositorio logica-advance propuesto como referencia no pudo consultarse, y no se reutilizó su código.
+Esta entrega es una campaña completa de sus 14 herramientas y un recurso de estudio extensible. La acreditación registra casos concretos resueltos; no afirma dominio permanente ni sustituye la lectura crítica del libro o validación empírica de modelos.

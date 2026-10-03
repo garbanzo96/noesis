@@ -1,0 +1,10 @@
+import worldData from './worlds.json';
+import lessonData from './lessons.json';
+import chapterData from './chapters.json';
+import type { World, Lesson, Chapter, WorldId } from '../domain/types';
+export const worlds = worldData as World[];
+export const lessons = lessonData as Lesson[];
+export const chapters = chapterData as Partial<Record<WorldId, Chapter>>;
+export const getWorld = (id: WorldId) => worlds.find((w) => w.id === id)!;
+export const getLesson = (id: string) => lessons.find((l) => l.id === id);
+export const worldLessons = (id: WorldId) => lessons.filter((l) => l.world === id);

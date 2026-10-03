@@ -1,0 +1,102 @@
+{
+  "scenario": "Registras una variable que vuelve hacia un nivel de referencia mientras recibe perturbaciones aleatorias. Quieres separar estabilidad del sistema, estabilidad del simulador y variabilidad estacionaria.",
+  "objective": "Interpretar una ecuación de evolución, simular un paso y distinguir trayectorias de distribuciones estacionarias.",
+  "briefing": "Un estado x(t) es una posición de la variable en el instante t. El campo f(x) dice su velocidad local, no su destino final. Añadir ruido cambia la trayectoria y obliga a describir también la distribución de estados.",
+  "teachingStages": [
+    {
+      "id": "dynamics-stage-1",
+      "title": "Estado y velocidad son objetos distintos",
+      "claim": "Una ecuación diferencial prescribe cómo cambia el estado; un punto fijo tiene velocidad cero.",
+      "formula": "\\dot x(t)=f(x(t)),\\quad f(x)=-2x,\\quad f(0)=0",
+      "explanation": "El punto sobre x significa derivada respecto del tiempo. Con x=3, la velocidad es −6 unidades por unidad de tiempo: el estado empieza a bajar. Con x=−3, la velocidad es +6: empieza a subir. El estado x=0 es un punto fijo porque allí la velocidad se anula.",
+      "actionLabel": "Seguir el campo de flechas",
+      "animation": "Sobre una línea, flechas apuntan hacia cero y su longitud crece con |x|; una ficha indica su velocidad al pasar por cada posición."
+    },
+    {
+      "id": "dynamics-stage-2",
+      "title": "Aproximar un intervalo de tiempo",
+      "claim": "Euler suma velocidad actual por duración; no reproduce exactamente toda la trayectoria.",
+      "formula": "x_{n+1}=x_n+\\Delta t\\,f(x_n),\\quad x_0=3,\\;\\Delta t=0.1\\;\\Rightarrow\\;x_1=2.4",
+      "explanation": "n cuenta pasos de simulación y Δt es su duración. El cambio aproximado es 0.1×(−6)=−0.6. El resultado 2.4 difiere de la solución exacta 3e^(−0.2)≈2.456. Bajo condiciones regulares, reducir Δt mejora la aproximación sobre un intervalo fijo.",
+      "actionLabel": "Trazar el paso de Euler",
+      "animation": "La trayectoria curva se superpone a un segmento tangente; el extremo del segmento muestra la aproximación."
+    },
+    {
+      "id": "dynamics-stage-3",
+      "title": "La simulación tiene su propia estabilidad",
+      "claim": "La deriva −kx con k>0 es estable; Euler exige además |1−kΔt|<1.",
+      "formula": "x(t)=x_0e^{-kt},\\qquad x_{n+1}=(1-k\\Delta t)x_n,\\qquad0<k\\Delta t<2",
+      "explanation": "En tiempo continuo, el estado se acerca a cero. En la aproximación, el factor de cada paso determina si disminuye, oscila o diverge. Para k=2 y Δt=1.1, el factor es −1.2 y Euler diverge aunque la ecuación continua sea estable. Es un fallo del paso numérico.",
+      "actionLabel": "Comparar campo y discretización",
+      "animation": "El mismo campo genera una curva estable y tres secuencias Euler; un control de Δt revela el umbral de estabilidad."
+    },
+    {
+      "id": "dynamics-stage-4",
+      "title": "Ruido y retorno compiten",
+      "claim": "En Ornstein–Uhlenbeck, la deriva atrae y la difusión mantiene dispersión; estacionario no significa inmóvil.",
+      "formula": "dX_t=-kX_t\\,dt+\\sqrt{2D}\\,dW_t,\\quad k,D>0,\\qquad X_{ss}\\sim\\mathcal N(0,D/k)",
+      "explanation": "W_t es movimiento browniano: incrementos sobre intervalos no solapados son independientes y ΔW~N(0,Δt). Por eso, el paso Euler–Maruyama usa √(2DΔt)ξ, con ξ~N(0,1). D controla difusión y k retorno. La densidad estacionaria mantiene su forma mientras las trayectorias siguen fluctuando; su varianza es D/k.",
+      "actionLabel": "Superponer trayectorias y densidad",
+      "animation": "Muchas trayectorias cruzan cero; su histograma llega a una campana que conserva ancho aunque cada ficha continúa moviéndose."
+    },
+    {
+      "id": "dynamics-stage-5",
+      "title": "Una descripción temporal local",
+      "claim": "Las coordenadas generalizadas reúnen valor y derivadas en el mismo instante; requieren suficiente suavidad.",
+      "formula": "\\widetilde x=(x,x^{\\prime},x^{\\prime\\prime},\\ldots),\\quad\\mathcal D\\widetilde x=(x^{\\prime},x^{\\prime\\prime},x^{\\prime\\prime\\prime},\\ldots)",
+      "explanation": "x′ es velocidad y x″ aceleración. Estas no son muestras tomadas en tiempos sucesivos. El operador 𝒟 desplaza la lista hacia la siguiente derivada. El filtrado generalizado usa modelos y ruido suficientemente suaves; trayectorias de ruido blanco ideal no admiten esta lista de derivadas ordinarias.",
+      "actionLabel": "Desplazar una lista de derivadas",
+      "animation": "Casillas valor, velocidad y aceleración se desplazan con 𝒟; una línea de muestras temporales aparece separada para mostrar la diferencia."
+    }
+  ],
+  "missions": [
+    {
+      "id": "dynamics-mission-1",
+      "title": "Comprobar el paso",
+      "brief": "Simula una dinámica sin confundir estado y velocidad.",
+      "setup": "ẋ=−2x, x₀=3 y Δt=0.1.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es x₁ por Euler?",
+      "formula": "x_1=3+0.1(-2\\cdot3)",
+      "answer": 2.4,
+      "solution": "La velocidad actual es −6 y el cambio aproximado −0.6. Sumado al estado 3 produce 2.4.",
+      "hint": "Multiplica la velocidad por el intervalo antes de sumarla al estado.",
+      "transfer": "El descenso discreto y la integración Euler comparten un problema de tamaño de paso.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "dynamics-mission-2",
+      "title": "Escalar una fluctuación",
+      "brief": "Verifica cómo cambia el ruido al refinar una simulación.",
+      "setup": "dX=−Xdt+2dW; Euler–Maruyama usa ξ~N(0,1), Δt=0.01.",
+      "kind": "numeric",
+      "prompt": "¿Qué coeficiente multiplica ξ en el incremento?",
+      "formula": "2\\sqrt{\\Delta t}",
+      "answer": 0.2,
+      "solution": "√0.01=0.1 y 2×0.1=0.2. Escalar por Δt daría 0.02 y una varianza de ruido incorrecta.",
+      "hint": "El incremento browniano tiene varianza Δt.",
+      "transfer": "Simular ruido con una escala equivocada cambia el fenómeno que el agente aprende.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "dynamics-mission-3",
+      "title": "Leer una dispersión estacionaria",
+      "brief": "Calcula incertidumbre sin suponer inmovilidad.",
+      "setup": "dX=−2Xdt+√2 dW: k=2, D=1.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es la varianza de su distribución estacionaria?",
+      "formula": "\\operatorname{Var}(X_{ss})=D/k",
+      "answer": 0.5,
+      "solution": "La varianza es 1/2. La distribución estacionaria es N(0,0.5); sus trayectorias siguen moviéndose. No confundir varianza 0.5 con desviación estándar √0.5.",
+      "hint": "Identifica D comparando el coeficiente con √(2D).",
+      "transfer": "El estado estacionario del high road se refiere a distribuciones, no necesariamente a estados inmóviles.",
+      "tolerance": 0.001
+    }
+  ],
+  "relatedLessonIds": ["dynamics-1", "dynamics-2", "dynamics-3", "dynamics-4"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G11_TIEMPO_CONTINUO_Y_DINAMICA_ESTOCASTICA.md",
+    "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md"
+  ],
+  "scope": "Dinámica escalar, ruido y coordenadas. Fokker–Planck y NESS se mantienen como desarrollos propios; esta escena no deriva el high road."
+}

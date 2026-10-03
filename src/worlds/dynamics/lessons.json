@@ -1,0 +1,366 @@
+[
+  {
+    "id": "dynamics-1",
+    "world": "dynamics",
+    "title": "Flujos y estabilidad",
+    "subtitle": "G11 · EDO, equilibrio y Euler",
+    "minutes": 7,
+    "visual": "dynamics",
+    "intuition": "Una ecuación diferencial declara la velocidad del estado; integrar el flujo construye una trayectoria.",
+    "core": [
+      {
+        "label": "Flujo",
+        "body": "La dinámica determinista puede depender del estado y del tiempo.",
+        "formula": "\\dot x=f(x,t)"
+      },
+      {
+        "label": "Equilibrio",
+        "body": "En un sistema autónomo, un punto fijo tiene flujo nulo; estabilidad pregunta si las perturbaciones regresan.",
+        "formula": "f(x_*)=0"
+      },
+      {
+        "label": "Euler",
+        "body": "Aproximar una trayectoria mediante pasos pequeños.",
+        "formula": "x_{k+1}=x_k+\\Delta t\\,f(x_k,t_k)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\dot x=-kx,\\quad k>0",
+        "reason": "Una fuerza restauradora lineal."
+      },
+      {
+        "formula": "x(t)=x(0)e^{-kt}",
+        "reason": "La solución contrae amplitud."
+      },
+      {
+        "formula": "x_{k+1}=(1-k\\Delta t)x_k",
+        "reason": "Euler es estable si |1−kΔt|<1."
+      }
+    ],
+    "example": {
+      "problem": "k=2, Δt=0.1, x=5. Un paso de Euler.",
+      "solution": "$x_{new}=5+0.1(-10)=4$."
+    },
+    "pitfall": "Un sistema continuo estable puede volverse numéricamente inestable con pasos demasiado grandes.",
+    "bridge": "La rama continua modela evolución de estados, creencias y acción; no es requisito para Bayes categórico.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "ẋ=−3x, x=2: velocidad.",
+        "answer": -6,
+        "tolerance": 0.001,
+        "explanation": "Sustituir dos en −3x da −6.",
+        "hint": "Velocidad no es estado siguiente."
+      },
+      {
+        "type": "choice",
+        "prompt": "Equilibrio requiere…",
+        "options": ["x=0 siempre", "Flujo nulo", "Velocidad máxima", "Ruido cero siempre"],
+        "answer": 1,
+        "explanation": "El punto no cambia si el campo de velocidades vale cero allí.",
+        "hint": "Evalúa f(x*)."
+      },
+      {
+        "type": "numeric",
+        "prompt": "ẋ=−x, x=4, Δt=0.25: Euler siguiente.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "4+0.25(−4)=3.",
+        "hint": "Suma velocidad por intervalo."
+      },
+      {
+        "type": "choice",
+        "prompt": "Euler para ẋ=−kx, k>0, es estable cuando…",
+        "options": ["kΔt>2", "Cualquier Δt", "0<kΔt<2", "Δt<0"],
+        "answer": 2,
+        "explanation": "La magnitud del factor 1−kΔt debe ser menor que uno.",
+        "hint": "Resuelve |1−kΔt|<1."
+      }
+    ],
+    "references": ["guide", "parr", "fep-math", "friston"]
+  },
+  {
+    "id": "dynamics-2",
+    "world": "dynamics",
+    "title": "Ruido y Langevin",
+    "subtitle": "G11 · EDE y proceso Ornstein–Uhlenbeck",
+    "minutes": 7,
+    "visual": "dynamics",
+    "intuition": "Una trayectoria estocástica combina deriva predecible e incrementos aleatorios; el ruido puede sostener dispersión estacionaria.",
+    "core": [
+      {
+        "label": "EDE",
+        "body": "El proceso de Wiener aporta incrementos de varianza proporcional al tiempo.",
+        "formula": "dX=f(X)dt+\\sigma dW"
+      },
+      {
+        "label": "Escala",
+        "body": "El ruido de un paso tiene desviación proporcional a raíz del paso.",
+        "formula": "\\Delta W\\sim\\mathcal N(0,\\Delta t)"
+      },
+      {
+        "label": "OU",
+        "body": "Para k>0 y σ constante, la deriva OU restauradora tiene distribución estacionaria normal.",
+        "formula": "dX=-kXdt+\\sigma dW,\\quad\\operatorname{Var}_{st}=\\sigma^2/(2k)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "X_{n+1}=X_n-kX_n\\Delta t+\\sigma\\sqrt{\\Delta t}\\xi_n",
+        "reason": "Euler–Maruyama, ξ normales estándar independientes."
+      },
+      {
+        "formula": "\\frac{d}{dt}\\mathbb E[X^2]=-2k\\mathbb E[X^2]+\\sigma^2",
+        "reason": "Evolución de segundo momento en OU centrado."
+      },
+      {
+        "formula": "0=-2kV+\\sigma^2\\Rightarrow V=\\sigma^2/(2k)",
+        "reason": "Equilibrar contracción y ruido."
+      }
+    ],
+    "example": {
+      "problem": "OU con k=2 y σ=2: varianza estacionaria.",
+      "solution": "$4/(2\\cdot2)=1$."
+    },
+    "pitfall": "Un incremento Wiener no escala como Δt sino como √Δt; tratarlo como ruido ordinario cambia la dinámica.",
+    "bridge": "Los estados estacionarios del FEP se describen con flujos estocásticos, bajo supuestos explícitos de existencia.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Δt=0.04: desviación estándar de ΔW.",
+        "answer": 0.2,
+        "tolerance": 0.001,
+        "explanation": "La varianza es 0.04 y la desviación es su raíz 0.2.",
+        "hint": "No uses Δt directamente."
+      },
+      {
+        "type": "numeric",
+        "prompt": "OU k=1, σ=2: varianza estacionaria.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "σ²/(2k)=4/2=2.",
+        "hint": "Equilibra deriva y difusión."
+      },
+      {
+        "type": "choice",
+        "prompt": "En OU, aumentar k con σ fijo…",
+        "options": [
+          "Aumenta dispersión",
+          "Elimina el ruido instantáneo",
+          "Reduce varianza estacionaria",
+          "Hace imposible todo equilibrio"
+        ],
+        "answer": 2,
+        "explanation": "La fuerza restauradora más intensa compensa el ruido con menor dispersión.",
+        "hint": "k está en el denominador."
+      },
+      {
+        "type": "choice",
+        "prompt": "Las EDE describen…",
+        "options": [
+          "Solo una curva determinista",
+          "Distribuciones de trayectorias aleatorias",
+          "Probabilidades negativas",
+          "Únicamente matrices discretas"
+        ],
+        "answer": 1,
+        "explanation": "Distintas realizaciones del ruido generan distintas trayectorias sobre la misma ley dinámica.",
+        "hint": "La ley y la muestra no son lo mismo."
+      }
+    ],
+    "references": ["guide", "parr", "fep-math", "friston"]
+  },
+  {
+    "id": "dynamics-3",
+    "world": "dynamics",
+    "title": "Fokker–Planck y estado estacionario",
+    "subtitle": "G11 · De trayectorias a flujo de probabilidad",
+    "minutes": 9,
+    "visual": "dynamics",
+    "intuition": "La misma dinámica estocástica puede verse como evolución de una densidad: deriva transporta masa y difusión la dispersa.",
+    "core": [
+      {
+        "label": "Evolución",
+        "body": "Para difusión constante σ², la densidad obedece Fokker–Planck unidimensional.",
+        "formula": "\\partial_t p=-\\partial_x(fp)+\\frac{\\sigma^2}{2}\\partial_x^2p"
+      },
+      {
+        "label": "Corriente",
+        "body": "La corriente reúne transporte y difusión.",
+        "formula": "J=fp-\\frac{\\sigma^2}{2}\\partial_xp"
+      },
+      {
+        "label": "Estacionario",
+        "body": "Densidad estacionaria exige corriente sin divergencia; no siempre corriente nula.",
+        "formula": "\\partial_tp=0\\Rightarrow\\partial_xJ=0"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "J=0\\Rightarrow f=\\frac{\\sigma^2}{2}\\partial_x\\ln p",
+        "reason": "Añadir equilibrio detallado y p>0."
+      },
+      {
+        "formula": "\\Phi=-\\ln p\\Rightarrow f=-\\frac{\\sigma^2}{2}\\partial_x\\Phi",
+        "reason": "Expresar deriva como descenso de potencial."
+      },
+      {
+        "formula": "f=-kx\\Rightarrow p\\propto e^{-kx^2/\\sigma^2}",
+        "reason": "Integrar el caso OU y normalizar."
+      }
+    ],
+    "example": {
+      "problem": "¿Un estado estacionario implica que cada partícula deja de moverse?",
+      "solution": "No: la densidad puede permanecer fija mientras sus trayectorias y corrientes continúan."
+    },
+    "pitfall": "La forma de gradiente puro requiere condiciones extra; flujos estacionarios pueden incluir componentes circulatorias.",
+    "bridge": "El FEP conecta densidad estacionaria y sorpresa bajo hipótesis dinámicas; no identifica automáticamente toda dinámica con descenso puro.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Densidad estacionaria significa…",
+        "options": [
+          "Cada trayectoria es constante",
+          "La densidad no cambia con el tiempo",
+          "El ruido desaparece",
+          "La corriente siempre es cero"
+        ],
+        "answer": 1,
+        "explanation": "Puede haber movimientos microscópicos y corrientes aunque la distribución global permanezca fija.",
+        "hint": "Distingue distribución y realización."
+      },
+      {
+        "type": "numeric",
+        "prompt": "En Fokker–Planck, σ=2: coeficiente de ∂²p.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "El coeficiente de difusión de la ecuación es σ²/2=2.",
+        "hint": "No confundas σ con σ²/2."
+      },
+      {
+        "type": "choice",
+        "prompt": "Deriva proporcional a ∂lnp equivale a…",
+        "options": [
+          "Ascender sorpresa",
+          "Mantener p uniforme siempre",
+          "Descender sorpresa −lnp",
+          "Ignorar la densidad"
+        ],
+        "answer": 2,
+        "explanation": "Como sorpresa es −lnp, su gradiente tiene signo opuesto.",
+        "hint": "Sustituye Φ=−lnp."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué condición adicional produce J=0?",
+        "options": [
+          "Equilibrio detallado con condiciones apropiadas",
+          "Solo estacionariedad en general",
+          "Un prior uniforme cualquiera",
+          "Más dimensiones"
+        ],
+        "answer": 0,
+        "explanation": "Estacionariedad exige divergencia nula; equilibrio detallado elimina corriente neta.",
+        "hint": "No confundas las dos afirmaciones."
+      }
+    ],
+    "references": ["guide", "parr", "fep-math", "friston"]
+  },
+  {
+    "id": "dynamics-4",
+    "world": "dynamics",
+    "title": "Coordenadas generalizadas",
+    "subtitle": "G11 · Velocidad, aceleración y error dinámico",
+    "minutes": 7,
+    "visual": "dynamics",
+    "intuition": "Un estado generalizado incluye cambios del estado: predecir movimiento requiere consistencia entre niveles temporales.",
+    "core": [
+      {
+        "label": "Torre",
+        "body": "Reunir posición y derivadas temporales; en práctica se trunca.",
+        "formula": "\\tilde x=(x,x^{\\prime},x^{\\prime\\prime},\\ldots)"
+      },
+      {
+        "label": "Desplazamiento",
+        "body": "El operador D desplaza componentes al siguiente orden temporal.",
+        "formula": "D\\tilde x=(x^{\\prime},x^{\\prime\\prime},x^{\\prime\\prime\\prime},\\ldots)"
+      },
+      {
+        "label": "Error",
+        "body": "Comparar la derivada representada con el flujo previsto.",
+        "formula": "\\epsilon_x=D\\tilde\\mu-\\tilde f(\\tilde\\mu)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\tilde\\mu=(\\mu,\\mu^{\\prime})",
+        "reason": "Retener dos órdenes por claridad."
+      },
+      {
+        "formula": "\\epsilon=\\mu^{\\prime}-f(\\mu)",
+        "reason": "Comparar velocidad representada con predicha."
+      },
+      {
+        "formula": "\\dot{\\tilde\\mu}=D\\tilde\\mu-\\kappa\\nabla_{\\tilde\\mu}F",
+        "reason": "La inferencia combina desplazamiento temporal y corrección, bajo la formulación continua."
+      }
+    ],
+    "example": {
+      "problem": "μ=2, μ′=−1 y f(μ)=−2μ. Calcula el error de velocidad.",
+      "solution": "$-1-(-4)=3$."
+    },
+    "pitfall": "Las derivadas generalizadas no se presuponen para ruido blanco no diferenciable; hacen falta modelos de suavidad y truncación.",
+    "bridge": "El capítulo continuo usa movimiento generalizado y errores ponderados; esta cápsula prepara esa extensión técnica.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "μ′=3 y flujo previsto f=1: error dinámico.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "Restar predicción a velocidad representada produce 3−1=2.",
+        "hint": "Usa μ′−f."
+      },
+      {
+        "type": "choice",
+        "prompt": "D en coordenadas generalizadas…",
+        "options": [
+          "Es la distribución inicial",
+          "Desplaza a la derivada siguiente",
+          "Es siempre una diagonal",
+          "Es el determinante"
+        ],
+        "answer": 1,
+        "explanation": "Su acción conecta posición con velocidad y velocidad con aceleración.",
+        "hint": "La misma letra puede tener otro significado en modelos discretos."
+      },
+      {
+        "type": "choice",
+        "prompt": "La corrección inferencial continua se añade a…",
+        "options": [
+          "Una trayectoria sin tiempo",
+          "La entropía exclusivamente",
+          "El desplazamiento temporal Dμ̃",
+          "Una matriz de preferencias"
+        ],
+        "answer": 2,
+        "explanation": "Mover la representación y corregir desajustes son contribuciones distintas de la ecuación.",
+        "hint": "La creencia también debe avanzar temporalmente."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para usar derivadas temporales de alto orden se requiere…",
+        "options": [
+          "Cualquier Wiener sin restricciones",
+          "Solo enteros positivos",
+          "Un prior nulo",
+          "Supuestos de suavidad adecuados"
+        ],
+        "answer": 3,
+        "explanation": "Las trayectorias de ruido blanco no admiten la torre de derivadas ordinarias.",
+        "hint": "Comprueba regularidad temporal."
+      }
+    ],
+    "references": ["guide", "parr", "fep-math", "friston"]
+  }
+]

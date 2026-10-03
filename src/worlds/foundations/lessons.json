@@ -1,0 +1,690 @@
+[
+  {
+    "id": "foundations-1",
+    "world": "foundations",
+    "title": "El lenguaje de los estados",
+    "subtitle": "G00 · Conjuntos, pertenencia y tipos",
+    "minutes": 7,
+    "visual": "sets",
+    "intuition": "Un conjunto declara qué situaciones son posibles; una función declara qué operaciones tienen sentido.",
+    "core": [
+      {
+        "label": "Universo",
+        "body": "Cada variable tiene un dominio; el símbolo pertenece a ese dominio.",
+        "formula": "x\\in X"
+      },
+      {
+        "label": "Intersección",
+        "body": "Las condiciones simultáneas conservan solo los elementos compartidos.",
+        "formula": "A\\cap B=\\{x:x\\in A\\land x\\in B\\}"
+      },
+      {
+        "label": "Producto",
+        "body": "Un estado compuesto combina coordenadas, no las suma.",
+        "formula": "X\\times Y=\\{(x,y):x\\in X,y\\in Y\\}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "A=\\{1,2\\},\\ B=\\{2,3\\}",
+        "reason": "Declarar objetos evita ambigüedad."
+      },
+      {
+        "formula": "A\\cap B=\\{2\\}",
+        "reason": "Exigir las dos condiciones."
+      },
+      {
+        "formula": "|A\\times B|=|A||B|=4",
+        "reason": "Cada primera coordenada admite dos segundas coordenadas."
+      }
+    ],
+    "example": {
+      "problem": "Si un agente tiene 3 posiciones y 2 orientaciones, ¿cuántos estados conjuntos existen?",
+      "solution": "Hay $3\\cdot2=6$ estados; posición y orientación son coordenadas distintas."
+    },
+    "pitfall": "Pertenencia $x\\in X$ y inclusión $A\\subseteq X$ relacionan objetos de tipos diferentes.",
+    "bridge": "Los espacios de estados, observaciones y acciones fijan las dimensiones del modelo generativo.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "¿Qué expresa x ∈ X?",
+        "options": [
+          "X es un número",
+          "x es un elemento de X",
+          "x contiene a X",
+          "x es una función"
+        ],
+        "answer": 1,
+        "explanation": "La pertenencia relaciona un elemento con su conjunto de valores posibles.",
+        "hint": "Distingue elemento y conjunto."
+      },
+      {
+        "type": "numeric",
+        "prompt": "A tiene 4 elementos y B tiene 3. ¿Cuántos pares contiene A × B?",
+        "answer": 12,
+        "tolerance": 0.001,
+        "explanation": "Cada uno de los cuatro primeros elementos admite tres segundos: 4 × 3.",
+        "hint": "Cuenta combinaciones."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuál es A ∩ B si A={1,2,3} y B={3,4}?",
+        "options": ["{1,2,3,4}", "{1,2}", "{3}", "{4}"],
+        "answer": 2,
+        "explanation": "La intersección exige pertenecer a ambos conjuntos; solo 3 cumple.",
+        "hint": "Busca lo compartido."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una variable oculta toma uno de cinco estados. ¿Qué especificación sirve?",
+        "options": [
+          "s ∈ {1,…,5}",
+          "s ⊆ 5",
+          "s = todos los estados",
+          "s ∈ observaciones, necesariamente"
+        ],
+        "answer": 0,
+        "explanation": "Declarar cinco posibilidades permite asignarles probabilidades y construir un vector de longitud cinco.",
+        "hint": "Un valor realizado pertenece al espacio de estados."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-2",
+    "world": "foundations",
+    "title": "Índices y compresión",
+    "subtitle": "G00 · Sumas, productos y marginalización",
+    "minutes": 7,
+    "visual": "sums",
+    "intuition": "Un índice recorre posibilidades; la suma comprime alternativas y el producto reúne factores.",
+    "core": [
+      {
+        "label": "Suma",
+        "body": "El índice ligado desaparece al terminar la operación.",
+        "formula": "\\sum_{i=1}^{n}a_i=a_1+\\cdots+a_n"
+      },
+      {
+        "label": "Producto",
+        "body": "Multiplicar factores positivos se convierte en sumar sus logaritmos.",
+        "formula": "\\ln\\prod_i a_i=\\sum_i\\ln a_i"
+      },
+      {
+        "label": "Doble índice",
+        "body": "El orden de sumas finitas puede intercambiarse.",
+        "formula": "\\sum_i\\sum_j a_{ij}=\\sum_j\\sum_i a_{ij}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "a=(2,3,5)",
+        "reason": "Separar componentes y vector."
+      },
+      {
+        "formula": "\\sum_{i=1}^{3}a_i=10",
+        "reason": "Expandir la notación."
+      },
+      {
+        "formula": "\\prod_{i=1}^{3}a_i=30",
+        "reason": "La misma familia admite otra operación."
+      }
+    ],
+    "example": {
+      "problem": "Una tabla conjunta tiene filas (0.1,0.2) y (0.3,0.4). Obtén la primera marginal de fila.",
+      "solution": "Sumar la primera fila elimina la columna: $0.1+0.2=0.3$."
+    },
+    "pitfall": "No confundas un índice libre, que permanece en el resultado, con uno sumado.",
+    "bridge": "La marginalización elimina estados ocultos: sumas para estados discretos, integrales para continuos; las verosimilitudes se combinan con productos.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "En b_j=Σ_i a_ij, ¿qué índice queda libre?",
+        "options": ["i", "Ambos", "Ninguno", "j"],
+        "answer": 3,
+        "explanation": "Se suma sobre i; j identifica cada componente del resultado.",
+        "hint": "Observa qué índice aparece bajo Σ."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Calcula Σ de i=1 a 4 de i.",
+        "answer": 10,
+        "tolerance": 0.001,
+        "explanation": "La expansión es 1+2+3+4=10.",
+        "hint": "Escribe cuatro términos."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Calcula el producto de 2, 3 y 4.",
+        "answer": 24,
+        "tolerance": 0.001,
+        "explanation": "El producto reúne factores: 2 × 3 × 4 = 24.",
+        "hint": "Multiplica, no sumes."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para obtener p(o) de p(o,s) con s discreto, ¿qué operación necesitas?",
+        "options": ["Maximizar sobre s", "Sumar sobre s", "Multiplicar todos los s", "Restar p(s)"],
+        "answer": 1,
+        "explanation": "Las alternativas de estados ocultos son exhaustivas y mutuamente excluyentes; sus masas se suman.",
+        "hint": "Eliminar una variable discreta significa sumar sus posibilidades."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-3",
+    "world": "foundations",
+    "title": "Funciones y composición",
+    "subtitle": "G00 · Entrada, salida, inversa y cambio de representación",
+    "minutes": 9,
+    "visual": "function",
+    "intuition": "Una función es una máquina tipada: composición significa pasar la salida de una máquina a la siguiente.",
+    "core": [
+      {
+        "label": "Aplicación",
+        "body": "El codominio declara salidas permitidas; la imagen son las efectivamente alcanzadas.",
+        "formula": "f:X\\to Y"
+      },
+      {
+        "label": "Composición",
+        "body": "La salida interior debe pertenecer al dominio exterior.",
+        "formula": "(g\\circ f)(x)=g(f(x))"
+      },
+      {
+        "label": "Inversa",
+        "body": "Una inversa global requiere biyectividad entre dominio y codominio.",
+        "formula": "f^{-1}(f(x))=x"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "f(x)=2x+1,\\quad g(y)=y^2",
+        "reason": "Declarar las dos máquinas."
+      },
+      {
+        "formula": "(g\\circ f)(x)=(2x+1)^2",
+        "reason": "Sustituir la salida de f en g."
+      },
+      {
+        "formula": "f^{-1}(y)=(y-1)/2",
+        "reason": "Deshacer operaciones en orden inverso."
+      }
+    ],
+    "example": {
+      "problem": "¿Tiene f(x)=x² una inversa en todo ℝ?",
+      "solution": "No: $f(2)=f(-2)$. Restringida a $[0,\\infty)$, su inversa es $\\sqrt y$."
+    },
+    "pitfall": "Una función inversa $f^{-1}$ no es el recíproco $1/f$.",
+    "bridge": "Un modelo generativo transforma causas latentes en predicciones sensoriales; inferir requiere resolver la dirección inversa.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "¿Cuál es g∘f si f(x)=x+1 y g(x)=2x?",
+        "options": ["2x+1", "x+3", "2x+2", "2x²"],
+        "answer": 2,
+        "explanation": "Primero sumar uno, después duplicar: 2(x+1).",
+        "hint": "La función de la derecha actúa primero."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Si f(x)=3x−2, calcula f⁻¹(10).",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "Resolver 3x−2=10 da x=4.",
+        "hint": "Deshaz resta y multiplicación."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Por qué x² no es inyectiva en ℝ?",
+        "options": [
+          "Dos entradas distintas pueden producir la misma salida",
+          "No tiene derivada",
+          "Su salida es siempre negativa",
+          "No es continua"
+        ],
+        "answer": 0,
+        "explanation": "Las entradas x y −x tienen el mismo cuadrado; se pierde información de signo.",
+        "hint": "Prueba 2 y −2."
+      },
+      {
+        "type": "choice",
+        "prompt": "Si dos estados producen idénticas observaciones, ¿qué problema aparece?",
+        "options": [
+          "Normalización imposible",
+          "Derivadas inexistentes",
+          "Probabilidades negativas",
+          "Identificación ambigua de la causa"
+        ],
+        "answer": 3,
+        "explanation": "La observación por sí sola no distingue esas causas; hacen falta priors u observaciones adicionales.",
+        "hint": "La inversión no puede recuperar información eliminada."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-4",
+    "world": "foundations",
+    "title": "Álgebra como conservación",
+    "subtitle": "G00 · Ecuaciones, fracciones, potencias y unidades",
+    "minutes": 7,
+    "visual": "function",
+    "intuition": "Resolver una ecuación es transformar ambos lados conservando sus soluciones y vigilando el dominio.",
+    "core": [
+      {
+        "label": "Equivalencia",
+        "body": "Sumar lo mismo o multiplicar por un número no nulo preserva la igualdad.",
+        "formula": "a=b\\Rightarrow a+c=b+c"
+      },
+      {
+        "label": "Potencias",
+        "body": "Para bases positivas, los exponentes reales se combinan coherentemente.",
+        "formula": "x^a x^b=x^{a+b}\\quad(x>0)"
+      },
+      {
+        "label": "Restricciones",
+        "body": "Dividir exige denominador no nulo; una raíz real exige radicando no negativo.",
+        "formula": "\\frac{x^2-1}{x-1}=x+1\\quad(x\\ne1)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "3x+2=11",
+        "reason": "Ecuación inicial."
+      },
+      {
+        "formula": "3x=9",
+        "reason": "Restar dos en ambos lados."
+      },
+      {
+        "formula": "x=3",
+        "reason": "Dividir por tres, que no es cero."
+      }
+    ],
+    "example": {
+      "problem": "Simplifica (x²−4)/(x−2).",
+      "solution": "Factorizar da $(x-2)(x+2)/(x-2)=x+2$, conservando $x\\ne2$."
+    },
+    "pitfall": "Cancelar factores no reintroduce valores excluidos del dominio original.",
+    "bridge": "Las derivaciones de Bayes y energía libre dependen de igualdades legítimas, soportes y normalizadores.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Resuelve 4x−3=13.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "Sumar tres produce 4x=16 y dividir por cuatro produce x=4.",
+        "hint": "Conserva la igualdad."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuál es la restricción al cancelar (x²−1)/(x−1)?",
+        "options": ["x ≥ 0", "x ≠ 1", "x ≠ −1", "Ninguna"],
+        "answer": 1,
+        "explanation": "El denominador original se anula en 1, aunque la expresión simplificada esté definida allí.",
+        "hint": "Mira el denominador original."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Para x=2, calcula x³x².",
+        "answer": 32,
+        "tolerance": 0.001,
+        "explanation": "Sumar exponentes da x⁵; 2⁵=32.",
+        "hint": "Las bases deben coincidir."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una densidad de distancia p(x) tiene qué unidades?",
+        "options": ["Metros", "Metros cuadrados", "Adimensional siempre", "Inverso de metros"],
+        "answer": 3,
+        "explanation": "La integral p(x)dx es probabilidad adimensional, por lo que la densidad compensa las unidades de dx.",
+        "hint": "La masa bajo la curva no tiene unidades."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-5",
+    "world": "foundations",
+    "title": "Exponenciales y logaritmos",
+    "subtitle": "G00 · Productos, razones y escalas de evidencia",
+    "minutes": 7,
+    "visual": "function",
+    "intuition": "El logaritmo convierte acumulación multiplicativa en acumulación aditiva; la exponencial reconstruye pesos positivos.",
+    "core": [
+      {
+        "label": "Inversión",
+        "body": "El logaritmo natural solo admite argumentos positivos.",
+        "formula": "\\ln(e^x)=x,\\quad e^{\\ln y}=y\\ (y>0)"
+      },
+      {
+        "label": "Reglas",
+        "body": "Logaritmos de productos y cocientes son sumas y diferencias.",
+        "formula": "\\ln(ab)=\\ln a+\\ln b,\\quad\\ln(a/b)=\\ln a-\\ln b"
+      },
+      {
+        "label": "Softmax",
+        "body": "Normalizar exponenciales produce probabilidades positivas que suman uno.",
+        "formula": "p_i=\\frac{e^{z_i}}{\\sum_j e^{z_j}}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "w=(1,3)",
+        "reason": "Pesos positivos aún sin normalizar."
+      },
+      {
+        "formula": "z=(\\ln1,\\ln3)",
+        "reason": "Representarlos en logaritmos."
+      },
+      {
+        "formula": "\\operatorname{softmax}(z)=(1/4,3/4)",
+        "reason": "Exponentiar y dividir por la suma."
+      }
+    ],
+    "example": {
+      "problem": "¿Qué ocurre al sumar 100 a todos los logits?",
+      "solution": "Nada: el factor común $e^{100}$ se cancela entre numerador y denominador."
+    },
+    "pitfall": "$\\ln(a+b)$ no equivale a $\\ln a+\\ln b$.",
+    "bridge": "Los logaritmos definen sorpresa, log evidencia y energía libre; softmax traduce preferencias y valores de políticas.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "¿Qué igualdad es válida para a,b>0?",
+        "options": ["ln(a+b)=ln a+ln b", "ln(ab)=a+b", "ln(ab)=ln a+ln b", "ln a=a⁻¹"],
+        "answer": 2,
+        "explanation": "El logaritmo es el inverso de la exponencial, cuya multiplicación suma exponentes.",
+        "hint": "Piensa en eᵘeᵛ."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Calcula ln(e³).",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "Logaritmo y exponencial naturales se cancelan.",
+        "hint": "Son funciones inversas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Pesos 2 y 6: probabilidad normalizada del segundo.",
+        "answer": 0.75,
+        "tolerance": 0.001,
+        "explanation": "La suma es ocho; 6/8=0.75.",
+        "hint": "Divide el peso por el total."
+      },
+      {
+        "type": "choice",
+        "prompt": "Al sumar una constante a todos los logits, softmax…",
+        "options": ["No cambia", "Se hace uniforme", "Invierte el orden", "Deja de sumar uno"],
+        "answer": 0,
+        "explanation": "La constante aporta el mismo factor exponencial a todos los pesos y este se cancela.",
+        "hint": "Factoriza el denominador."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-6",
+    "world": "foundations",
+    "title": "Trigonometría geométrica",
+    "subtitle": "G00 · Círculo unitario, ángulos y proyecciones",
+    "minutes": 9,
+    "visual": "trig",
+    "intuition": "Seno y coseno son coordenadas de un vector unitario que gira; las identidades expresan geometría.",
+    "core": [
+      {
+        "label": "Radianes",
+        "body": "El ángulo mide longitud de arco dividida por radio.",
+        "formula": "\\theta=s/r"
+      },
+      {
+        "label": "Círculo",
+        "body": "Las coordenadas de un vector unitario satisfacen Pitágoras.",
+        "formula": "(x,y)=(\\cos\\theta,\\sin\\theta),\\quad\\cos^2\\theta+\\sin^2\\theta=1"
+      },
+      {
+        "label": "Proyección",
+        "body": "El producto interno detecta alineación entre vectores.",
+        "formula": "u^\\top v=\\|u\\|\\|v\\|\\cos\\theta"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "u=(1,0),\\quad v=(\\cos\\theta,\\sin\\theta)",
+        "reason": "Colocar un vector sobre el eje horizontal."
+      },
+      {
+        "formula": "u^\\top v=\\cos\\theta",
+        "reason": "La proyección extrae la primera coordenada."
+      },
+      {
+        "formula": "\\theta=\\pi/2\\Rightarrow u^\\top v=0",
+        "reason": "Un cuarto de vuelta produce ortogonalidad."
+      }
+    ],
+    "example": {
+      "problem": "Un vector de norma 5 forma ángulo π/3 con el eje x. ¿Su componente x?",
+      "solution": "$5\\cos(\\pi/3)=2.5$."
+    },
+    "pitfall": "Las derivadas trigonométricas estándar presuponen ángulos en radianes.",
+    "bridge": "La proyección y ortogonalidad preparan gradientes, autovectores y modos dinámicos; esta rama amplía la geometría.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Convierte media vuelta a radianes, como múltiplo de π: escribe el coeficiente.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Una vuelta es 2π; media vuelta es π.",
+        "hint": "Divide una vuelta por dos."
+      },
+      {
+        "type": "choice",
+        "prompt": "Dos vectores no nulos ortogonales tienen producto interno…",
+        "options": ["1", "−1", "Igual a sus normas", "0"],
+        "answer": 3,
+        "explanation": "El coseno del ángulo recto es cero y anula la proyección.",
+        "hint": "Usa θ=π/2."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Si sin²θ=0.36, calcula cos²θ.",
+        "answer": 0.64,
+        "tolerance": 0.001,
+        "explanation": "La suma de los cuadrados es uno: 1−0.36=0.64.",
+        "hint": "Usa la identidad del círculo."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué representa cosθ para dos vectores unitarios?",
+        "options": [
+          "Su suma",
+          "Su alineación mediante producto interno",
+          "Su probabilidad conjunta",
+          "Su distancia siempre"
+        ],
+        "answer": 1,
+        "explanation": "El producto interno de vectores unitarios es exactamente el coseno de su ángulo.",
+        "hint": "Proyección y alineación son la misma geometría."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-7",
+    "world": "foundations",
+    "title": "Límites y continuidad",
+    "subtitle": "G00 · Aproximarse sin sustituir prematuramente",
+    "minutes": 7,
+    "visual": "limits",
+    "intuition": "Un límite describe el comportamiento alrededor de un punto; continuidad conecta ese comportamiento con el valor puntual.",
+    "core": [
+      {
+        "label": "Límite",
+        "body": "El acercamiento puede excluir el punto de destino.",
+        "formula": "\\lim_{x\\to a}f(x)=L"
+      },
+      {
+        "label": "Continuidad",
+        "body": "Una función continua coincide con su límite en el punto.",
+        "formula": "\\lim_{x\\to a}f(x)=f(a)"
+      },
+      {
+        "label": "Cociente removible",
+        "body": "Factorizar revela el comportamiento aunque el cociente original no esté definido.",
+        "formula": "\\lim_{x\\to1}\\frac{x^2-1}{x-1}=2"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "x^2-1=(x-1)(x+1)",
+        "reason": "Factorizar el numerador."
+      },
+      {
+        "formula": "\\frac{x^2-1}{x-1}=x+1\\ (x\\ne1)",
+        "reason": "Cancelar solo fuera del punto excluido."
+      },
+      {
+        "formula": "\\lim_{x\\to1}(x+1)=2",
+        "reason": "Evaluar el comportamiento de la expresión continua."
+      }
+    ],
+    "example": {
+      "problem": "f(x)=1 si x<0 y f(x)=2 si x≥0. ¿Existe su límite en cero?",
+      "solution": "No: los límites izquierdo y derecho son 1 y 2; discrepan."
+    },
+    "pitfall": "Que f(a) exista no garantiza que el límite exista ni que coincida con f(a).",
+    "bridge": "Derivadas y flujos continuos se construyen con límites; no hacen falta para comenzar Bayes discreto.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Calcula lim de x→2 de (x²−4)/(x−2).",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "Para x≠2 el cociente es x+2; su límite es cuatro.",
+        "hint": "Factoriza diferencia de cuadrados."
+      },
+      {
+        "type": "choice",
+        "prompt": "Si los límites laterales son distintos, el límite bilateral…",
+        "options": [
+          "Es su promedio",
+          "Es infinito siempre",
+          "No existe",
+          "Es el valor de la función"
+        ],
+        "answer": 2,
+        "explanation": "Un único límite debe describir acercamientos desde ambos lados; valores distintos lo impiden.",
+        "hint": "Debe haber un único destino."
+      },
+      {
+        "type": "choice",
+        "prompt": "La continuidad en a exige…",
+        "options": [
+          "Límite igual a f(a)",
+          "Solo f(a) definido",
+          "Una derivada positiva",
+          "Que f sea lineal"
+        ],
+        "answer": 0,
+        "explanation": "Existencia del valor y coincidencia con el límite constituyen continuidad puntual.",
+        "hint": "Conecta entorno y punto."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Calcula lim de x→0 de eˣ.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "La exponencial es continua y e⁰=1.",
+        "hint": "Aquí sí puedes sustituir."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "foundations-8",
+    "world": "foundations",
+    "title": "Aproximación y órdenes",
+    "subtitle": "G00 · Series, errores y escala local",
+    "minutes": 7,
+    "visual": "function",
+    "intuition": "Una aproximación útil declara cuánto error pierde al descartar términos; el orden importa más que memorizar expansiones.",
+    "core": [
+      {
+        "label": "Secuencia",
+        "body": "Convergencia significa acercarse a un valor al aumentar el índice.",
+        "formula": "a_n\\to a"
+      },
+      {
+        "label": "Orden",
+        "body": "O(h²) acota el error por una constante multiplicada por h² cerca de cero.",
+        "formula": "r(h)=O(h^2)"
+      },
+      {
+        "label": "Linealización",
+        "body": "La exponencial es casi una recta en un entorno pequeño de cero.",
+        "formula": "e^h=1+h+O(h^2)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "e^h=1+h+h^2/2+\\cdots",
+        "reason": "Separar los primeros órdenes."
+      },
+      {
+        "formula": "e^h-(1+h)=h^2/2+\\cdots",
+        "reason": "Identificar lo descartado."
+      },
+      {
+        "formula": "r(h/2)\\approx r(h)/4",
+        "reason": "El término dominante cuadrático escala por un cuarto."
+      }
+    ],
+    "example": {
+      "problem": "Usa la aproximación lineal para e⁰·⁰².",
+      "solution": "Resultado $1.02$; el primer término descartado es aproximadamente $0.0002$."
+    },
+    "pitfall": "Una expansión local no promete exactitud lejos del punto de referencia.",
+    "bridge": "Laplace y predictive coding usan aproximaciones locales; reconocer su error evita tratarlas como identidades globales.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Aproxima e⁰·⁰³ usando 1+h.",
+        "answer": 1.03,
+        "tolerance": 0.001,
+        "explanation": "Sustituir h=0.03 en el primer orden da 1.03.",
+        "hint": "Solo conserva constante y término lineal."
+      },
+      {
+        "type": "choice",
+        "prompt": "Si el error dominante es h², al reducir h a la mitad queda aproximadamente…",
+        "options": ["La mitad", "El doble", "Igual", "Un cuarto"],
+        "answer": 3,
+        "explanation": "(h/2)²=h²/4; la escala del error es cuadrática.",
+        "hint": "Eleva el factor de escala al cuadrado."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Para a_n=1/n, ¿cuál es su límite?",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "El denominador crece sin cota y su recíproco se aproxima a cero.",
+        "hint": "Piensa en n muy grande."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuándo confiar en una linealización?",
+        "options": [
+          "Para todo valor por definición",
+          "En un entorno donde los términos descartados sean pequeños",
+          "Solo para enteros",
+          "Cuando no existe derivada"
+        ],
+        "answer": 1,
+        "explanation": "La precisión depende de escala local y curvatura, no de la etiqueta de la aproximación.",
+        "hint": "Compara órdenes conservados y descartados."
+      }
+    ],
+    "references": ["guide", "parr"]
+  }
+]

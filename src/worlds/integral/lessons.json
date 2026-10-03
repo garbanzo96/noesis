@@ -1,0 +1,437 @@
+[
+  {
+    "id": "integral-1",
+    "world": "integral",
+    "title": "Integrar es acumular",
+    "subtitle": "G02 · Sumas finas y teorema fundamental",
+    "minutes": 7,
+    "visual": "integral",
+    "intuition": "La integral acumula contribuciones locales; la derivada recupera la contribución instantánea.",
+    "core": [
+      {
+        "label": "Riemann",
+        "body": "Dividir un intervalo y sumar altura por anchura.",
+        "formula": "\\int_a^b f(x)dx=\\lim\\sum_i f(\\xi_i)\\Delta x_i"
+      },
+      {
+        "label": "Primitiva",
+        "body": "Una primitiva deriva a la función original.",
+        "formula": "F^{\\prime}=f"
+      },
+      {
+        "label": "Fundamental",
+        "body": "Para f continua en [a,b] y una primitiva F, acumular equivale a restar valores extremos.",
+        "formula": "\\int_a^b f(x)dx=F(b)-F(a)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "f(x)=2x",
+        "reason": "Tasa local."
+      },
+      {
+        "formula": "F(x)=x^2",
+        "reason": "Encontrar una función con esa derivada."
+      },
+      {
+        "formula": "\\int_0^3 2x\\,dx=9-0=9",
+        "reason": "Evaluar límites."
+      }
+    ],
+    "example": {
+      "problem": "Integra la tasa constante 4 entre t=1 y t=3.",
+      "solution": "Área rectangular: $4(3-1)=8$."
+    },
+    "pitfall": "Una integral con signo puede cancelar áreas; área geométrica usa valor absoluto.",
+    "bridge": "En variables continuas, sumar probabilidades y esperanzas se convierte en integrar densidades.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Calcula ∫₀² x dx.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "La primitiva x²/2 evaluada entre cero y dos da dos.",
+        "hint": "Usa la regla inversa de potencias."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué recupera la derivada de ∫₀ˣ f(t)dt para f continua?",
+        "options": ["La integral de f²", "Cero", "f(x)", "f(0)"],
+        "answer": 2,
+        "explanation": "El teorema fundamental conecta acumulación y tasa en el extremo variable.",
+        "hint": "Añadir una franja pequeña cambia el área por f(x)dx."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Integral de 3 en el intervalo [2,6].",
+        "answer": 12,
+        "tolerance": 0.001,
+        "explanation": "Altura tres por anchura cuatro produce doce.",
+        "hint": "Es un rectángulo."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué operación sustituye Σ en una esperanza continua?",
+        "options": [
+          "Una integral ponderada por la densidad",
+          "Un máximo",
+          "Una derivada",
+          "Un determinante"
+        ],
+        "answer": 0,
+        "explanation": "La acumulación de contribuciones posibles requiere integrar función por densidad.",
+        "hint": "Continuo significa intervalos infinitesimales."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "integral-2",
+    "world": "integral",
+    "title": "Cambiar variable",
+    "subtitle": "G02 · Sustitución y conservación de masa",
+    "minutes": 7,
+    "visual": "integral",
+    "intuition": "Al cambiar coordenadas, cambian las anchuras: la integral debe compensarlo.",
+    "core": [
+      {
+        "label": "Sustitución",
+        "body": "La diferencial registra cómo se estira el eje.",
+        "formula": "u=g(x),\\quad du=g^{\\prime}(x)dx"
+      },
+      {
+        "label": "Densidad",
+        "body": "Una transformación biyectiva diferenciable con inversa diferenciable transporta densidad con escala absoluta.",
+        "formula": "p_Y(y)=p_X(g^{-1}(y))\\left|\\frac{d g^{-1}}{dy}\\right|"
+      },
+      {
+        "label": "Partes",
+        "body": "La regla del producto produce una identidad de integración.",
+        "formula": "\\int u\\,dv=uv-\\int v\\,du"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "y=2x,\\quad dx=dy/2",
+        "reason": "La nueva coordenada duplica anchuras."
+      },
+      {
+        "formula": "p_Y(y)=p_X(y/2)/2",
+        "reason": "Reducir altura conserva masa."
+      },
+      {
+        "formula": "\\int_0^2 p_Y(y)dy=\\int_0^1p_X(x)dx",
+        "reason": "Verificar normalización."
+      }
+    ],
+    "example": {
+      "problem": "X uniforme en [0,1] y Y=3X. ¿Cuál es pY dentro de [0,3]?",
+      "solution": "La anchura se triplica; la densidad baja a $1/3$."
+    },
+    "pitfall": "Transformar solo el argumento sin el Jacobiano cambia la masa total.",
+    "bridge": "Las guías usan sustitución para densidades; en varias variables aparece el determinante del Jacobiano.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "X uniforme [0,1], Y=4X: densidad interior de Y.",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "La masa uno se reparte sobre longitud cuatro; el factor inverso es 1/4.",
+        "hint": "Conserva área uno."
+      },
+      {
+        "type": "choice",
+        "prompt": "En u=x², ¿qué diferencial es correcto?",
+        "options": ["du=x dx", "du=dx²", "du=2x dx", "du=2 dx"],
+        "answer": 2,
+        "explanation": "La diferencial multiplica dx por la derivada de x².",
+        "hint": "Deriva el cambio de coordenadas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Para ∫₀¹ 2x exp(x²) dx, el resultado es un múltiplo de e−1. Escribe ese coeficiente.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Con u=x², du=2x dx; los límites van de cero a uno y la integral es e−1.",
+        "hint": "La derivada interior ya aparece."
+      },
+      {
+        "type": "choice",
+        "prompt": "El valor absoluto del Jacobiano en una densidad garantiza…",
+        "options": [
+          "Curvatura positiva",
+          "Probabilidad siempre uniforme",
+          "Que no exista inversa",
+          "Masa no negativa aunque se invierta orientación"
+        ],
+        "answer": 3,
+        "explanation": "Una transformación decreciente cambia el signo de orientación, pero la densidad debe permanecer no negativa.",
+        "hint": "La anchura geométrica es positiva."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "integral-3",
+    "world": "integral",
+    "title": "Densidad no es masa puntual",
+    "subtitle": "G02 · PDF, CDF y esperanzas",
+    "minutes": 9,
+    "visual": "integral",
+    "intuition": "La probabilidad continua vive en áreas; la altura de una densidad por sí sola no es una probabilidad.",
+    "core": [
+      {
+        "label": "Normalización",
+        "body": "Una densidad es no negativa y su área total es uno.",
+        "formula": "p(x)\\ge0,\\quad\\int p(x)dx=1"
+      },
+      {
+        "label": "Intervalo",
+        "body": "La CDF acumula probabilidad hasta un umbral.",
+        "formula": "F_X(a)=\\int_{-\\infty}^a p_X(x)dx"
+      },
+      {
+        "label": "Esperanza",
+        "body": "Ponderar una función por densidad construye su promedio.",
+        "formula": "\\mathbb E[g(X)]=\\int g(x)p_X(x)dx"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p(x)=2x\\quad(0\\le x\\le1)",
+        "reason": "Definir soporte y altura."
+      },
+      {
+        "formula": "P(X\\le a)=\\int_0^a2x\\,dx=a^2",
+        "reason": "Integrar en 0≤a≤1."
+      },
+      {
+        "formula": "\\mathbb E[X]=\\int_0^1 2x^2dx=2/3",
+        "reason": "Acumular valor por densidad."
+      }
+    ],
+    "example": {
+      "problem": "Para X uniforme en [0,0.5], ¿puede pX valer 2?",
+      "solution": "Sí: altura 2 por anchura 0.5 da masa 1; cualquier punto aislado tiene probabilidad 0."
+    },
+    "pitfall": "Los apuntes usan a veces P(X=x) para una densidad: aquí distinguimos pX(x) de P(X=x)=0 en un continuo ordinario.",
+    "bridge": "Esta traducción permite pasar de la notación de tus apuntes a verosimilitudes continuas sin errores de unidades.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "X uniforme en [0,2]: P(0≤X≤0.5).",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "Densidad 1/2 por longitud 1/2 produce 1/4.",
+        "hint": "Integra sobre el intervalo."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para una variable con densidad ordinaria, P(X=x₀) es…",
+        "options": ["p(x₀)", "1", "Siempre desconocida", "0"],
+        "answer": 3,
+        "explanation": "Un punto tiene anchura cero, así que su masa integrada es cero.",
+        "hint": "Una altura no es un área."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Para p(x)=2x en [0,1], calcula P(X≤0.5).",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "La CDF interior es x² y (0.5)²=0.25.",
+        "hint": "Integra 2x desde cero."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una densidad puede superar uno porque…",
+        "options": [
+          "Está mal normalizada",
+          "Sus unidades y anchuras compensan la altura",
+          "Es una probabilidad negativa",
+          "La CDF también supera uno"
+        ],
+        "answer": 1,
+        "explanation": "Solo la integral sobre un conjunto está limitada entre cero y uno.",
+        "hint": "Distingue altura de masa."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "integral-4",
+    "world": "integral",
+    "title": "La campana gaussiana",
+    "subtitle": "G02 · Normalización y momentos",
+    "minutes": 7,
+    "visual": "integral",
+    "intuition": "Una gaussiana concentra masa cerca de su centro; la varianza establece una escala de distancia.",
+    "core": [
+      {
+        "label": "Densidad",
+        "body": "La constante normaliza un perfil exponencial cuadrático.",
+        "formula": "p(x)=\\frac1{\\sqrt{2\\pi\\sigma^2}}e^{-(x-\\mu)^2/(2\\sigma^2)}"
+      },
+      {
+        "label": "Estándar",
+        "body": "Restar centro y dividir por desviación produce coordenadas adimensionales.",
+        "formula": "Z=(X-\\mu)/\\sigma"
+      },
+      {
+        "label": "Momentos",
+        "body": "Centro y anchura son esperanza y varianza.",
+        "formula": "\\mathbb E[X]=\\mu,\\quad\\operatorname{Var}(X)=\\sigma^2"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "X=\\mu+\\sigma Z,\\quad Z\\sim\\mathcal N(0,1)",
+        "reason": "Separar ubicación y escala."
+      },
+      {
+        "formula": "\\mathbb E[X]=\\mu+\\sigma\\mathbb E[Z]=\\mu",
+        "reason": "Usar simetría de Z."
+      },
+      {
+        "formula": "\\operatorname{Var}(X)=\\sigma^2\\operatorname{Var}(Z)=\\sigma^2",
+        "reason": "La varianza escala cuadráticamente."
+      }
+    ],
+    "example": {
+      "problem": "X tiene media 10 y varianza 4. Estandariza x=13.",
+      "solution": "La desviación es 2; $z=(13-10)/2=1.5$."
+    },
+    "pitfall": "La varianza σ² y la desviación σ no son intercambiables; tienen unidades distintas.",
+    "bridge": "Los modelos continuos y Laplace usan gaussianas porque productos y cuadráticas admiten cálculo cerrado.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Media 4, varianza 9: desviación estándar.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "La desviación es la raíz positiva de la varianza: √9=3.",
+        "hint": "La densidad usa σ²; estandarizar usa σ."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Media 2, desviación 4: z de x=6.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "Restar dos y dividir por cuatro produce uno.",
+        "hint": "Usa (x−μ)/σ."
+      },
+      {
+        "type": "choice",
+        "prompt": "Duplicar σ mantiene la masa uno y…",
+        "options": [
+          "Duplica la altura central",
+          "Reduce a la mitad la altura central",
+          "Elimina el centro",
+          "Hace negativa la varianza"
+        ],
+        "answer": 1,
+        "explanation": "El normalizador es inversamente proporcional a σ y la curva se ensancha.",
+        "hint": "Altura y anchura compensan."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué hace gaussiana la aproximación de Laplace?",
+        "options": [
+          "Un término cuadrático en log densidad",
+          "La simetría de cualquier distribución",
+          "El nombre del modelo",
+          "Una densidad constante"
+        ],
+        "answer": 0,
+        "explanation": "Exponentiar un log perfil cuadrático negativo produce una campana gaussiana.",
+        "hint": "Conecta Taylor con exponenciales."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "integral-5",
+    "world": "integral",
+    "title": "Dirac y masas puntuales",
+    "subtitle": "G02 · Cápsula avanzada · de sumas a distribuciones",
+    "minutes": 7,
+    "visual": "integral",
+    "intuition": "Una masa puntual concentra probabilidad en un valor; Dirac representa esa masa al integrar, sin ser una densidad ordinaria.",
+    "core": [
+      {
+        "label": "Kronecker",
+        "body": "Un selector discreto vale uno solo cuando coinciden los índices.",
+        "formula": "\\delta_{ij}=\\begin{cases}1&i=j\\\\0&i\\ne j\\end{cases}"
+      },
+      {
+        "label": "Dirac",
+        "body": "La delta es una distribución generalizada con propiedad de evaluación.",
+        "formula": "\\int f(x)\\delta(x-a)dx=f(a)"
+      },
+      {
+        "label": "Medida",
+        "body": "Una masa puntual puede tener probabilidad uno en un punto.",
+        "formula": "P_X(dx)=\\delta_a(dx)\\Rightarrow P(X=a)=1"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "p_\\sigma(x)=\\mathcal N(x;a,\\sigma^2)",
+        "reason": "Una familia de densidades ordinarias."
+      },
+      {
+        "formula": "\\int f(x)p_\\sigma(x)dx\\to f(a)",
+        "reason": "Con σ→0, para funciones de prueba adecuadas."
+      },
+      {
+        "formula": "p_\\sigma\\Rightarrow\\delta_a",
+        "reason": "La convergencia es de medidas, no a una densidad ordinaria finita."
+      }
+    ],
+    "example": {
+      "problem": "Evalúa ∫ x²δ(x−2)dx sobre todo ℝ.",
+      "solution": "La propiedad de selección da $2^2=4$."
+    },
+    "pitfall": "Dirac no es una función ordinaria que pueda manipularse puntualmente como cualquier PDF; declarar el sentido de integración.",
+    "bridge": "Tus apuntes usan Dirac para conectar formulaciones discretas y continuas; esta cápsula fija la traducción rigurosa.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "δ₂₃ de Kronecker.",
+        "answer": 0,
+        "tolerance": 0.001,
+        "explanation": "Los índices son diferentes y el selector vale cero.",
+        "hint": "Compara índices."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Integral de x δ(x−3) sobre ℝ.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "La delta evalúa la función x en tres.",
+        "hint": "Usa la propiedad de selección."
+      },
+      {
+        "type": "choice",
+        "prompt": "Dirac es…",
+        "options": [
+          "Una PDF ordinaria acotada",
+          "Una distribución generalizada o representación de masa puntual",
+          "Una matriz de transición",
+          "Una probabilidad negativa"
+        ],
+        "answer": 1,
+        "explanation": "Su acción sobre funciones bajo integración define el objeto.",
+        "hint": "La definición es operacional mediante integrales."
+      },
+      {
+        "type": "choice",
+        "prompt": "Para una masa puntual en a, P(X=a) es…",
+        "options": ["0 siempre", "La densidad gaussiana", "1", "Indefinida siempre"],
+        "answer": 2,
+        "explanation": "El teorema de masa cero puntual pertenece a distribuciones con densidad ordinaria, no a una medida atómica.",
+        "hint": "Distingue continuo ordinario y átomo."
+      }
+    ],
+    "references": ["guide", "bayes-notes"]
+  }
+]

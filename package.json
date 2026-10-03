@@ -1,0 +1,35 @@
+{
+  "name": "noesis-active-inference",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 8765",
+    "build": "npm run content:build && tsc -b && vite build",
+    "test": "vitest run",
+    "preview": "vite preview --host 127.0.0.1 --port 8876",
+    "format": "prettier --write src tests scripts vite.config.ts tsconfig.json",
+    "check:assets": "node scripts/verify-assets.mjs",
+    "content:build": "node scripts/build-content.mjs"
+  },
+  "dependencies": {
+    "@fontsource/ibm-plex-mono": "5.2.6",
+    "@fontsource/orbitron": "5.2.6",
+    "@fontsource/space-grotesk": "5.2.9",
+    "katex": "0.16.22",
+    "lucide-react": "0.468.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@types/katex": "0.16.7",
+    "@types/react": "19.1.13",
+    "@types/react-dom": "19.1.9",
+    "@vitejs/plugin-react": "4.7.0",
+    "jsdom": "26.1.0",
+    "prettier": "3.6.2",
+    "typescript": "5.9.2",
+    "vite": "6.4.3",
+    "vitest": "4.1.11"
+  }
+}

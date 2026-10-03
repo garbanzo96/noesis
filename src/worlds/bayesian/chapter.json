@@ -1,0 +1,110 @@
+{
+  "scenario": "Interpretas un sensor de una fuente poco frecuente. Después aprendes su propensión de activación y combinas una predicción previa con una medición ruidosa.",
+  "objective": "Actualizar causas mediante evidencia, conservar el papel del prior y fusionar información según precisión bajo modelos explícitos.",
+  "briefing": "Un sensor fiable puede producir muchos positivos sin fuente cuando la fuente es rara. Bayes cuenta todas las rutas que producen el dato: apoyo a cada causa dividido por apoyo total al dato.",
+  "teachingStages": [
+    {
+      "id": "bayesian-stage-1",
+      "title": "Contar antes de invertir",
+      "claim": "El prior distribuye casos entre causas; la likelihood distribuye respuestas dentro de cada causa.",
+      "formula": "P(S)=0.01,\\quad P(+\\mid S)=0.9,\\quad P(+\\mid\\neg S)=0.05",
+      "explanation": "S significa fuente activa. En 10 000 casos esperados bajo el modelo, 100 tienen fuente y 9900 no. El sensor produce 90 positivos con fuente y 495 sin fuente. Los números son frecuencias esperadas del modelo, no garantizan el resultado de una muestra real.",
+      "actionLabel": "Abrir las ramas del sensor",
+      "animation": "10 000 fichas se separan por causa y luego por respuesta; las dos ramas positivas conservan colores diferentes."
+    },
+    {
+      "id": "bayesian-stage-2",
+      "title": "Normalizar las rutas del dato",
+      "claim": "La evidencia suma el apoyo al dato de todas las causas excluyentes.",
+      "formula": "P(+)=0.9(0.01)+0.05(0.99)=0.0585,\\quad P(S\\mid+)={0.009}/{0.0585}=2/13",
+      "explanation": "El posterior responde qué proporción de positivos proviene de S. La evidencia 0.0585 es probabilidad del dato, no del estado. Normalizar los 90 y 495 positivos da 90/585≈0.15385. La sensibilidad 0.9 responde una pregunta distinta; no es el posterior.",
+      "actionLabel": "Reunir solo los positivos",
+      "animation": "Las dos ramas positivas entran en una banda común; 90 de 585 fichas quedan atribuidas a la fuente."
+    },
+    {
+      "id": "bayesian-stage-3",
+      "title": "Comparar apoyo entre dos causas",
+      "claim": "El factor de Bayes entre dos hipótesis multiplica sus odds previas para dar odds posteriores.",
+      "formula": "\\frac{P(S\\mid+)}{P(\\neg S\\mid+)}=\\underbrace{\\frac{P(+\\mid S)}{P(+\\mid\\neg S)}}_{BF=18}\\frac{P(S)}{P(\\neg S)}",
+      "explanation": "Odds son razón de probabilidades, no una probabilidad. La evidence común se cancela al dividir dos posteriores. En los apuntes, P(+|S)/P(+) también aparece como multiplicador de actualización de una hipótesis frente a la mezcla; ese cociente difiere del BF entre dos hipótesis. Declara qué denominador estás usando.",
+      "actionLabel": "Cancelar el denominador común",
+      "animation": "Dos fracciones de Bayes se dividen; la evidencia se cancela y quedan likelihood ratio×odds previas."
+    },
+    {
+      "id": "bayesian-stage-4",
+      "title": "Aprender una propensión",
+      "claim": "Beta–Bernoulli acumula éxitos y fracasos cuando los ensayos son independientes dado una probabilidad constante.",
+      "formula": "\\theta\\sim\\mathrm{Beta}(\\alpha,\\beta),\\quad\\theta\\mid x\\sim\\mathrm{Beta}(\\alpha+k,\\beta+n-k)",
+      "explanation": "θ es una probabilidad desconocida; α y β son parámetros positivos de su prior Beta. Su media es α/(α+β). Con prior Beta(2,2), 3 éxitos y 1 fracaso dan Beta(5,3), media 5/8. Esa media es también la probabilidad predictiva del próximo éxito; difiere del MLE 3/4.",
+      "actionLabel": "Sumar evidencia a cada parámetro",
+      "animation": "Dos depósitos rotulados α y β reciben fichas de éxito y fracaso; la curva Beta cambia y su media se desplaza."
+    },
+    {
+      "id": "bayesian-stage-5",
+      "title": "Fusionar con precisión",
+      "claim": "Un prior gaussiano y ruido gaussiano aditivo independiente producen una media posterior ponderada por precisiones.",
+      "formula": "\\mu_{post}=\\frac{\\lambda_0\\mu_0+\\lambda_y y}{\\lambda_0+\\lambda_y},\\quad\\lambda_{post}=\\lambda_0+\\lambda_y,\\quad\\lambda=1/\\sigma^2",
+      "explanation": "Suponemos s~N(μ₀,σ₀²) y y|s~N(s,σ_y²). Con μ₀=0, σ₀²=4, y=2 y σ_y²=1, λ₀=0.25 y λ_y=1: μ_post=1.6 y varianza posterior 0.8. La medición pesa cuatro veces más que el prior por su precisión modelada; precisión no equivale a verdad.",
+      "actionLabel": "Pesar dos fuentes de información",
+      "animation": "Dos barras aportan λμ a un numerador; la suma de λ normaliza. Aumentar ruido sensorial reduce el peso de y."
+    }
+  ],
+  "missions": [
+    {
+      "id": "bayesian-mission-1",
+      "title": "El positivo de una fuente rara",
+      "brief": "Resuelve el conflicto entre sensibilidad y tasa base.",
+      "setup": "Fuente activa con probabilidad 0.01; P(+|activa)=0.9; P(+|inactiva)=0.05.",
+      "kind": "numeric",
+      "prompt": "¿Qué probabilidad tiene la fuente activa después de un positivo?",
+      "formula": "P(S\\mid+)={0.9\\cdot0.01}/{(0.9\\cdot0.01+0.05\\cdot0.99)}",
+      "answer": 0.153846154,
+      "solution": "Las rutas positivas tienen masas 0.009 y 0.0495. Dividir 0.009 por 0.0585 da 2/13≈0.15385. Un positivo favorece S respecto del prior 0.01, pero no la vuelve la causa mayoritaria.",
+      "hint": "Incluye los falsos positivos de la causa frecuente.",
+      "transfer": "La evidencia impide confundir fiabilidad sensorial con credibilidad de una causa.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "bayesian-mission-2",
+      "title": "Predicción después de aprender",
+      "brief": "Integra el prior en la predicción del siguiente ensayo.",
+      "setup": "θ~Beta(2,2); observas 3 éxitos y 1 fracaso condicionalmente independientes dado θ.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es la probabilidad predictiva de un éxito nuevo?",
+      "formula": "P(X_{nuevo}=1\\mid x)={2+3}/{(2+2+4)}",
+      "answer": 0.625,
+      "solution": "El posterior es Beta(5,3); su media 5/8=0.625 predice el próximo éxito. Usar solo 3/4 sería la estimación MLE sin este prior.",
+      "hint": "Actualiza ambos parámetros antes de normalizarlos.",
+      "transfer": "El aprendizaje de A y B usa la misma lógica con Dirichlet y categorías múltiples.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "bayesian-mission-3",
+      "title": "Un sensor cuatro veces más preciso",
+      "brief": "Combina una expectativa previa y una lectura bajo un modelo gaussiano.",
+      "setup": "Prior s~N(0,4); lectura y=2 con ruido N(0,1) independiente de s.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es la media posterior de s?",
+      "formula": "\\mu_{post}={0.25\\cdot0+1\\cdot2}/{1.25}",
+      "answer": 1.6,
+      "solution": "Las precisiones son 0.25 y 1. La suma de contribuciones es 2 y la precisión total 1.25, dando 1.6. La varianza posterior es 1/1.25=0.8.",
+      "hint": "Invierte varianzas antes de ponderar medias.",
+      "transfer": "El peso de un error de predicción depende de su incertidumbre asumida.",
+      "tolerance": 0.001
+    }
+  ],
+  "relatedLessonIds": [
+    "bayesian-1",
+    "bayesian-2",
+    "bayesian-3",
+    "bayesian-4",
+    "bayesian-5",
+    "bayesian-6"
+  ],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md",
+    "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md",
+    "work/sources/03_guias_nivelacion/guias/G04_PROBABILIDAD_COMO_INFERENCIA_RACIONAL.md"
+  ],
+  "scope": "Actualización, aprendizaje conjugado y fusión gaussiana. Jerarquías, filtrado, evidencia de modelos y Jeffreys tienen lecciones específicas."
+}

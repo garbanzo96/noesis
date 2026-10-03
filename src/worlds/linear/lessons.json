@@ -1,0 +1,437 @@
+[
+  {
+    "id": "linear-1",
+    "world": "linear",
+    "title": "Vectores y alineación",
+    "subtitle": "G03 · Componentes, normas y producto interno",
+    "minutes": 7,
+    "visual": "matrix",
+    "intuition": "Un vector reúne coordenadas; el producto interno mide cuánto una dirección se proyecta sobre otra.",
+    "core": [
+      {
+        "label": "Convención",
+        "body": "Usamos vectores columna y transposición para filas.",
+        "formula": "v\\in\\mathbb R^n,\\quad v^\\top\\in\\mathbb R^{1\\times n}"
+      },
+      {
+        "label": "Producto interno",
+        "body": "Multiplicar componentes correspondientes y acumular.",
+        "formula": "u^\\top v=\\sum_i u_i v_i"
+      },
+      {
+        "label": "Norma",
+        "body": "La longitud euclídea nace del producto consigo mismo.",
+        "formula": "\\|v\\|=\\sqrt{v^\\top v}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "v=(3,4)^\\top",
+        "reason": "Elegir dos coordenadas."
+      },
+      {
+        "formula": "v^\\top v=3^2+4^2=25",
+        "reason": "Calcular longitud al cuadrado."
+      },
+      {
+        "formula": "\\|v\\|=5",
+        "reason": "Tomar raíz positiva."
+      }
+    ],
+    "example": {
+      "problem": "u=(1,2) y v=(3,−1): producto interno.",
+      "solution": "$1\\cdot3+2(-1)=1$."
+    },
+    "pitfall": "Un vector de probabilidades exige componentes no negativas y suma uno; un vector genérico no.",
+    "bridge": "Los mensajes de creencias categóricas son vectores; sus componentes codifican masa por estado.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Producto interno de (2,1) y (3,4).",
+        "answer": 10,
+        "tolerance": 0.001,
+        "explanation": "Multiplicar coordenadas y sumar da 6+4=10.",
+        "hint": "No multipliques cruzado."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Norma de (6,8).",
+        "answer": 10,
+        "tolerance": 0.001,
+        "explanation": "√(36+64)=10.",
+        "hint": "Usa Pitágoras."
+      },
+      {
+        "type": "choice",
+        "prompt": "Un vector de probabilidades válido es…",
+        "options": ["(−0.2,1.2)", "(2,3)", "(0.2,0.8)", "(0.2,0.2)"],
+        "answer": 2,
+        "explanation": "Ambas componentes son no negativas y su suma es uno.",
+        "hint": "Comprueba signo y total."
+      },
+      {
+        "type": "choice",
+        "prompt": "uᵀv=0 con vectores no nulos expresa…",
+        "options": ["Ortogonalidad", "Igualdad", "Probabilidad nula de ambos", "Paralelismo"],
+        "answer": 0,
+        "explanation": "El producto interno nulo indica proyección cero y ángulo recto.",
+        "hint": "Piensa en dos ejes perpendiculares."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "linear-2",
+    "world": "linear",
+    "title": "Matrices como transformaciones",
+    "subtitle": "G03 · Shapes y combinación de columnas",
+    "minutes": 7,
+    "visual": "matrix",
+    "intuition": "Una matriz transforma coordenadas: cada columna muestra qué ocurre con un vector base.",
+    "core": [
+      {
+        "label": "Dimensiones",
+        "body": "Las dimensiones interiores deben coincidir.",
+        "formula": "A\\in\\mathbb R^{m\\times n},\\ x\\in\\mathbb R^n\\Rightarrow Ax\\in\\mathbb R^m"
+      },
+      {
+        "label": "Combinación",
+        "body": "La salida pondera columnas por componentes de entrada.",
+        "formula": "Ax=\\sum_j x_j A_{:j}"
+      },
+      {
+        "label": "Composición",
+        "body": "El producto matricial encadena transformaciones; el orden importa.",
+        "formula": "(AB)x=A(Bx)"
+      },
+      {
+        "label": "Productos distintos",
+        "body": "Hadamard combina componentes; producto externo crea una matriz; Kronecker crea bloques y permite factorizar espacios compuestos.",
+        "formula": "(u\\odot v)_i=u_iv_i,\\quad(uv^\\top)_{ij}=u_iv_j,\\quad(A\\otimes B)_{ij}=A_{ij}B\\ \\text{como bloque}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "A=\\begin{pmatrix}1&2\\\\3&4\\end{pmatrix},\\quad x=\\binom10",
+        "reason": "Activar la primera coordenada."
+      },
+      {
+        "formula": "Ax=\\binom13",
+        "reason": "Leer la primera columna."
+      },
+      {
+        "formula": "A\\binom11=\\binom37",
+        "reason": "Sumar columnas cuando ambos pesos valen uno."
+      }
+    ],
+    "example": {
+      "problem": "Una matriz A de 3×2 transforma un vector de dos estados. ¿Qué shape tiene la salida?",
+      "solution": "Un vector columna de 3 componentes; en un modelo sensorial pueden ser tres observaciones."
+    },
+    "pitfall": "AB y BA pueden diferir o no estar ambos definidos.",
+    "bridge": "A mapea creencias sobre estados a predicciones sobre observaciones; B propaga creencias entre estados.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "A tiene shape 4×3 y x tiene longitud 3. ¿Longitud de Ax?",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "Cada una de las cuatro filas produce una componente de salida.",
+        "hint": "Las dimensiones externas permanecen."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué representa A e₂?",
+        "options": ["La segunda fila", "La diagonal", "La segunda columna", "El determinante"],
+        "answer": 2,
+        "explanation": "El vector base e₂ tiene un uno en la segunda posición y selecciona esa columna.",
+        "hint": "Expande la combinación de columnas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "A=[[1,2],[0,3]], x=(2,1): primera componente de Ax.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "La primera fila produce 1×2+2×1=4.",
+        "hint": "Multiplica fila por vector."
+      },
+      {
+        "type": "choice",
+        "prompt": "En una matriz A de observaciones por estados, las columnas…",
+        "options": [
+          "Son distribuciones de observaciones condicionadas a cada estado",
+          "Son necesariamente autovectores",
+          "Deben sumar cero",
+          "Representan acciones siempre"
+        ],
+        "answer": 0,
+        "explanation": "Fijar un estado selecciona una columna con probabilidades sobre las observaciones.",
+        "hint": "La condición se coloca en la columna."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "linear-3",
+    "world": "linear",
+    "title": "Resolver e identificar",
+    "subtitle": "G03 · Sistemas, rango e inversa",
+    "minutes": 9,
+    "visual": "matrix",
+    "intuition": "Resolver Ax=b recupera causas cuando la transformación conserva suficiente información.",
+    "core": [
+      {
+        "label": "Sistema",
+        "body": "Cada fila impone una restricción lineal.",
+        "formula": "Ax=b"
+      },
+      {
+        "label": "Rango",
+        "body": "El rango cuenta direcciones independientes conservadas.",
+        "formula": "\\operatorname{rank}(A)"
+      },
+      {
+        "label": "Inversa",
+        "body": "Una matriz cuadrada de rango completo tiene inversa única.",
+        "formula": "x=A^{-1}b"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "x+y=3,\\quad x-y=1",
+        "reason": "Dos restricciones independientes."
+      },
+      {
+        "formula": "2x=4\\Rightarrow x=2",
+        "reason": "Sumar ecuaciones elimina y."
+      },
+      {
+        "formula": "y=1",
+        "reason": "Sustituir para recuperar la otra coordenada."
+      }
+    ],
+    "example": {
+      "problem": "A=[[1,1],[2,2]]: ¿se pueden identificar x e y por separado?",
+      "solution": "No: solo se observa x+y; las filas son dependientes y el rango es uno."
+    },
+    "pitfall": "En cómputo suele ser mejor resolver el sistema que construir explícitamente A⁻¹.",
+    "bridge": "Una verosimilitud con columnas idénticas no identifica los estados; priors y nuevas observaciones reducen la ambigüedad.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Resuelve x+y=5 y x−y=1: valor de x.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "Sumar ecuaciones da 2x=6.",
+        "hint": "Elimina y."
+      },
+      {
+        "type": "choice",
+        "prompt": "Filas (1,2) y (2,4) tienen rango…",
+        "options": ["2", "0", "4", "1"],
+        "answer": 3,
+        "explanation": "La segunda fila es dos veces la primera; aporta la misma dirección.",
+        "hint": "Busca dependencia lineal."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuándo existe inversa de una matriz cuadrada n×n?",
+        "options": [
+          "Cuando tiene entradas positivas",
+          "Cuando tiene rango n",
+          "Cuando sus filas suman uno",
+          "Siempre"
+        ],
+        "answer": 1,
+        "explanation": "Rango completo significa que ninguna dirección se pierde y cada salida tiene una preimagen única.",
+        "hint": "La transformación debe ser biyectiva."
+      },
+      {
+        "type": "numeric",
+        "prompt": "A=diag(2,4), b=(6,8): segunda componente de solución.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "La segunda ecuación es 4y=8 y por tanto y=2.",
+        "hint": "Resuelve por coordenadas."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "linear-4",
+    "world": "linear",
+    "title": "Autovectores y modos",
+    "subtitle": "G03 · Direcciones que una matriz solo escala",
+    "minutes": 7,
+    "visual": "matrix",
+    "intuition": "Un autovector revela una dirección natural del sistema; el autovalor describe amplificación, contracción o inversión.",
+    "core": [
+      {
+        "label": "Autopar",
+        "body": "La transformación mantiene la dirección de un vector no nulo.",
+        "formula": "Av=\\lambda v,\\quad v\\ne0"
+      },
+      {
+        "label": "Diagonal",
+        "body": "En una base de autovectores, la matriz escala cada coordenada.",
+        "formula": "A=V\\Lambda V^{-1}"
+      },
+      {
+        "label": "Simetría",
+        "body": "Una matriz real simétrica admite base ortonormal de autovectores.",
+        "formula": "A=Q\\Lambda Q^\\top"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "A=\\operatorname{diag}(2,1/2)",
+        "reason": "Dos modos separados."
+      },
+      {
+        "formula": "Ae_1=2e_1,\\quad Ae_2=e_2/2",
+        "reason": "Leer autovalores."
+      },
+      {
+        "formula": "A^k e_2=2^{-k}e_2",
+        "reason": "Iterar el modo contractivo."
+      }
+    ],
+    "example": {
+      "problem": "Un modo discreto con λ=0.8 se itera dos veces desde amplitud 10.",
+      "solution": "La amplitud queda $10\\cdot0.8^2=6.4$."
+    },
+    "pitfall": "Autovalores complejos de matrices reales pueden representar rotaciones; no todo sistema tiene base real diagonal.",
+    "bridge": "Los modos describen estabilidad, dinámica de creencias y geometría de covarianzas.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "A=diag(3,5): autovalor asociado a (1,0).",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "La primera dirección se escala por tres.",
+        "hint": "Multiplica A por el vector."
+      },
+      {
+        "type": "choice",
+        "prompt": "En xₖ₊₁=Axₖ, un modo con |λ|<1…",
+        "options": ["Crece sin cota", "Se contrae", "Es siempre cero", "No cambia"],
+        "answer": 1,
+        "explanation": "Cada paso multiplica su amplitud por un factor de magnitud menor que uno.",
+        "hint": "Itera λᵏ."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Amplitud inicial 8, λ=0.5, tres iteraciones.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "8×(0.5)³=1.",
+        "hint": "La escala se multiplica en cada paso."
+      },
+      {
+        "type": "choice",
+        "prompt": "Los autovectores de una matriz simétrica pueden elegirse…",
+        "options": [
+          "Con suma uno siempre",
+          "Idénticos entre sí",
+          "Como probabilidades siempre",
+          "Ortonormales"
+        ],
+        "answer": 3,
+        "explanation": "El teorema espectral permite una base de vectores unitarios perpendiculares.",
+        "hint": "Simetría simplifica la geometría."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "linear-5",
+    "world": "linear",
+    "title": "Covarianza y precisión",
+    "subtitle": "G03 · Elipses, cuadráticas y confianza",
+    "minutes": 7,
+    "visual": "matrix",
+    "intuition": "La covarianza describe dispersión; su inversa penaliza errores más fuertemente en direcciones confiables.",
+    "core": [
+      {
+        "label": "Covarianza",
+        "body": "Promedia productos de desviaciones; es simétrica semidefinida positiva.",
+        "formula": "\\Sigma=\\mathbb E[(X-\\mu)(X-\\mu)^\\top]"
+      },
+      {
+        "label": "Precisión",
+        "body": "La inversa exige covarianza definida positiva.",
+        "formula": "\\Pi=\\Sigma^{-1}"
+      },
+      {
+        "label": "Mahalanobis",
+        "body": "La cuadrática mide error en unidades de incertidumbre.",
+        "formula": "d^2=(x-\\mu)^\\top\\Pi(x-\\mu)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\Sigma=\\operatorname{diag}(4,1)",
+        "reason": "La primera dirección es más incierta."
+      },
+      {
+        "formula": "\\Pi=\\operatorname{diag}(1/4,1)",
+        "reason": "Invertir escalas de varianza."
+      },
+      {
+        "formula": "\\epsilon=(2,1)^\\top\\Rightarrow \\epsilon^\\top\\Pi\\epsilon=2",
+        "reason": "Cada error equivale a una desviación estándar."
+      }
+    ],
+    "example": {
+      "problem": "Dos sensores tienen varianzas 1 y 4. ¿Cuál aporta más precisión?",
+      "solution": "El primero: precisiones 1 y 0.25, razón 4 a 1."
+    },
+    "pitfall": "Covarianza cero implica independencia solo bajo condiciones adicionales, como gaussianidad conjunta.",
+    "bridge": "Los errores de predicción en modelos continuos se ponderan por precisión, no por sorpresa subjetiva arbitraria.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Varianza escalar 0.25: precisión.",
+        "answer": 4,
+        "tolerance": 0.001,
+        "explanation": "La precisión es el recíproco de la varianza positiva.",
+        "hint": "Invierte σ²."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Σ=diag(4,1), error (2,0): distancia Mahalanobis al cuadrado.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "El primer error aporta 2²/4=1 y el segundo aporta cero.",
+        "hint": "Pondera por precisión."
+      },
+      {
+        "type": "choice",
+        "prompt": "Aumentar precisión de un error fijo…",
+        "options": [
+          "Reduce su penalización",
+          "Aumenta su penalización cuadrática",
+          "Lo elimina",
+          "Cambia siempre su signo"
+        ],
+        "answer": 1,
+        "explanation": "Un coeficiente mayor en εᵀΠε atribuye más costo al mismo desajuste.",
+        "hint": "Mayor confianza exige mayor ajuste."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una covarianza singular…",
+        "options": [
+          "Siempre es inválida",
+          "Tiene inversa ordinaria siempre",
+          "Puede representar una distribución concentrada en un subespacio",
+          "Implica medias negativas"
+        ],
+        "answer": 2,
+        "explanation": "Es semidefinida positiva pero algunas direcciones tienen varianza nula; no admite inversa ordinaria.",
+        "hint": "Distingue semidefinida y definida positiva."
+      }
+    ],
+    "references": ["guide", "parr"]
+  }
+]

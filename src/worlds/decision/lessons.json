@@ -1,0 +1,366 @@
+[
+  {
+    "id": "decision-1",
+    "world": "decision",
+    "title": "Decidir bajo incertidumbre",
+    "subtitle": "G10 · Utilidad esperada, log preferencias y softmax",
+    "minutes": 7,
+    "visual": "policy",
+    "intuition": "Una decisión evalúa distribuciones de consecuencias, no solo un resultado representativo.",
+    "core": [
+      {
+        "label": "Utilidad",
+        "body": "Un criterio clásico promedia valor de resultados previstos.",
+        "formula": "EU(\\pi)=\\sum_oq(o\\mid\\pi)U(o)"
+      },
+      {
+        "label": "Log preferencia",
+        "body": "Un costo preferencial usa resultados deseados normalizados.",
+        "formula": "\\mathrm{costo}(\\pi)=-\\mathbb E_{q(o\\mid\\pi)}\\ln P_C(o)"
+      },
+      {
+        "label": "Selección suave",
+        "body": "β es precisión o inversa de temperatura: mayor β concentra pesos en utilidades altas; para β>0, T=1/β.",
+        "formula": "q(\\pi)\\propto e^{\\beta EU(\\pi)},\\quad\\beta\\ge0"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "U=(4,0),\\quad q(o\\mid\\pi)=(0.75,0.25)",
+        "reason": "Dos consecuencias con valores distintos."
+      },
+      {
+        "formula": "EU(\\pi)=0.75\\cdot4+0.25\\cdot0=3",
+        "reason": "Promediar consecuencias."
+      },
+      {
+        "formula": "\\beta=0\\Rightarrow q(\\pi)=1/N_\\pi",
+        "reason": "Sin diferencias de peso previo, sensibilidad nula produce uniformidad."
+      }
+    ],
+    "example": {
+      "problem": "Una acción da 10 con probabilidad 0.2 y 0 en otro caso; otra da 3 con certeza. Bajo utilidad lineal.",
+      "solution": "Utilidades esperadas 2 y 3; se prefiere la segunda. La elección cambia con otra utilidad o valor informativo."
+    },
+    "pitfall": "Utilidad esperada, riesgo KL y G no son idénticos; G incorpora información y una distribución de preferencias explícita.",
+    "bridge": "Este baseline permite ver qué aporta el término epistémico de inferencia activa.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Valor 6 con probabilidad 0.5 y 0 con 0.5: utilidad esperada.",
+        "answer": 3,
+        "tolerance": 0.001,
+        "explanation": "El promedio ponderado es 0.5×6=3.",
+        "hint": "Pondera por probabilidades."
+      },
+      {
+        "type": "choice",
+        "prompt": "Con logits de políticas idénticos y sin hábito desigual, softmax da…",
+        "options": [
+          "Una política cierta",
+          "Probabilidades uniformes",
+          "Probabilidades negativas",
+          "Evidencia cero"
+        ],
+        "answer": 1,
+        "explanation": "Todos los pesos exponenciales son iguales.",
+        "hint": "Normaliza pesos iguales."
+      },
+      {
+        "type": "choice",
+        "prompt": "Aumentar β para valores distintos hace la distribución…",
+        "options": [
+          "Más uniforme",
+          "Independiente de valores",
+          "Más concentrada en valores altos",
+          "Siempre idéntica"
+        ],
+        "answer": 2,
+        "explanation": "Las diferencias de exponentes se amplifican y favorecen la utilidad mayor.",
+        "hint": "β multiplica diferencias de valor."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Resultados 2 y 8 con probabilidades 0.75 y 0.25: EU.",
+        "answer": 3.5,
+        "tolerance": 0.001,
+        "explanation": "1.5+2=3.5.",
+        "hint": "Calcula dos contribuciones."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  },
+  {
+    "id": "decision-2",
+    "world": "decision",
+    "title": "G: riesgo más ambigüedad",
+    "subtitle": "G10 · Identidad operativa con preferencias futuras",
+    "minutes": 7,
+    "visual": "policy",
+    "intuition": "Bajo una política, predecimos estados y observaciones; el criterio riesgo+ambigüedad combina metas y discriminación de causas.",
+    "core": [
+      {
+        "label": "Distribución prevista",
+        "body": "Fijamos q(s,o|π)=q(s|π)P(o|s) y preferencias P_C(o)>0.",
+        "formula": "q(o\\mid\\pi)=\\sum_sq(s\\mid\\pi)P(o\\mid s)"
+      },
+      {
+        "label": "Forma operativa",
+        "body": "Riesgo acerca resultados previstos a preferencias; ambigüedad mide ruido del canal.",
+        "formula": "G_{RA}(\\pi)=D_{KL}(q(o\\mid\\pi)\\|P_C(o))+\\mathbb E_{q(s\\mid\\pi)}H[P(o\\mid s)]"
+      },
+      {
+        "label": "Identidad",
+        "body": "Con esa misma conjunta, la descomposición es algebraicamente exacta.",
+        "formula": "G_{RA}(\\pi)=-I_q(S;O\\mid\\pi)-\\mathbb E_{q(o\\mid\\pi)}\\ln P_C(o)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "D_{KL}(q(o)\\|P_C)=-H_q(O)-\\mathbb E_q\\ln P_C",
+        "reason": "Expandir la KL."
+      },
+      {
+        "formula": "\\mathbb E_{q(s)}H[P(o\\mid s)]=H_q(O\\mid S)",
+        "reason": "Reconocer ambigüedad."
+      },
+      {
+        "formula": "-H_q(O)+H_q(O\\mid S)=-I_q(S;O)",
+        "reason": "Agrupar el término informativo."
+      }
+    ],
+    "example": {
+      "problem": "Riesgo 0.4 nats y ambigüedad 0.3 nats. G_RA.",
+      "solution": "Total 0.7 nats. Esta forma tiene dos términos no negativos."
+    },
+    "pitfall": "La EFE general del libro incluye elecciones de distribución futura y aproximaciones; no toda descomposición de G es idéntica sin esos supuestos.",
+    "bridge": "El laboratorio usa esta convención verificable; F evalúa datos presentes, G_RA distribuciones de resultados futuros.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Riesgo 0.2 y ambigüedad 0.6: G_RA.",
+        "answer": 0.8,
+        "tolerance": 0.001,
+        "explanation": "Ambos términos se suman: 0.2+0.6.",
+        "hint": "El subíndice explicita la forma operativa."
+      },
+      {
+        "type": "choice",
+        "prompt": "La ambigüedad es…",
+        "options": [
+          "H(q(s))",
+          "H de preferencias siempre",
+          "Entropía de observaciones condicionada al estado, promediada",
+          "Solo sorpresa del resultado observado"
+        ],
+        "answer": 2,
+        "explanation": "Mide ruido inherente al canal A después de conocer la causa.",
+        "hint": "Condiciona a s antes de promediar."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Costo preferencial 2 e información mutua 0.5: G_RA.",
+        "answer": 1.5,
+        "tolerance": 0.001,
+        "explanation": "La identidad da costo menos información: 2−0.5=1.5.",
+        "hint": "Información reduce el criterio."
+      },
+      {
+        "type": "choice",
+        "prompt": "La identidad riesgo+ambigüedad=−MI−E ln P_C necesita…",
+        "options": [
+          "La misma conjunta predictiva y preferencias declaradas",
+          "Solo cualquier posterior",
+          "Que F=0",
+          "Un sensor determinista siempre"
+        ],
+        "answer": 0,
+        "explanation": "Los términos deben calcularse sobre el mismo q(s)P(o|s), con soportes y convenciones compatibles.",
+        "hint": "No mezcles distribuciones distintas."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  },
+  {
+    "id": "decision-3",
+    "world": "decision",
+    "title": "Explorar: saliencia y novedad",
+    "subtitle": "G10 · Informarse sobre estados o sobre parámetros",
+    "minutes": 9,
+    "visual": "policy",
+    "intuition": "Una acción vale epistémicamente por lo que permite aprender, no por generar sensaciones impredecibles.",
+    "core": [
+      {
+        "label": "Estados",
+        "body": "Saliencia cuantifica información esperada sobre causas actuales o futuras.",
+        "formula": "I(S;O\\mid\\pi)=\\mathbb E_{q(o\\mid\\pi)}D_{KL}(q(s\\mid o,\\pi)\\|q(s\\mid\\pi))"
+      },
+      {
+        "label": "Parámetros",
+        "body": "Novedad cuantifica aprendizaje de regularidades del modelo.",
+        "formula": "I(\\Theta;O\\mid\\pi)"
+      },
+      {
+        "label": "Balance",
+        "body": "Metas e información pueden favorecer acciones diferentes y cambiar con la creencia.",
+        "formula": "G_{RA}=\\mathrm{costo\\ preferencial}-I(S;O\\mid\\pi)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "H_q(O)=\\ln2",
+        "reason": "Dos sensores tienen salidas equiprobables."
+      },
+      {
+        "formula": "\\text{sensor útil}:H_q(O\\mid S)=0\\Rightarrow I=\\ln2",
+        "reason": "Cada salida discrimina el estado."
+      },
+      {
+        "formula": "\\text{sensor ruido}:H_q(O\\mid S)=\\ln2\\Rightarrow I=0",
+        "reason": "La misma variación no discrimina causas."
+      }
+    ],
+    "example": {
+      "problem": "Dos acciones producen igual utilidad esperada. Una observa con precisión el estado antes de una decisión posterior.",
+      "solution": "Su información puede mejorar el plan y reducir G; hay que calcular la ganancia esperada, no solo el ruido."
+    },
+    "pitfall": "Aprender parámetros exige incluir su incertidumbre; no basta tratar A y B como conocidas.",
+    "bridge": "El capítulo de exploración distingue saliencia y novedad; ambos son epistemología de acción con objetivos latentes diferentes.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Saliencia se refiere principalmente a aprender…",
+        "options": ["La tipografía", "Estados latentes", "Solo hábitos", "Parámetros siempre"],
+        "answer": 1,
+        "explanation": "Se evalúa reducción de incertidumbre sobre causas ocultas relevantes al estado.",
+        "hint": "La novedad se dirige a regularidades."
+      },
+      {
+        "type": "numeric",
+        "prompt": "H(O)=1.2 y H(O|S)=0.9: valor informativo.",
+        "answer": 0.3,
+        "tolerance": 0.001,
+        "explanation": "La diferencia 0.3 es la variación que discrimina estados.",
+        "hint": "Resta ambigüedad."
+      },
+      {
+        "type": "choice",
+        "prompt": "Un sensor con máxima variación pero independiente de S tiene…",
+        "options": [
+          "Información máxima sobre S",
+          "Precisión infinita",
+          "Información cero sobre S",
+          "Ambigüedad cero"
+        ],
+        "answer": 2,
+        "explanation": "Su posterior de S no cambia con las observaciones, aunque estas varíen.",
+        "hint": "Dependencia es necesaria para aprender."
+      },
+      {
+        "type": "choice",
+        "prompt": "Novedad exige representar incertidumbre sobre…",
+        "options": [
+          "Los parámetros del modelo",
+          "Solo el dato ya conocido",
+          "Únicamente C fija",
+          "El color de la interfaz"
+        ],
+        "answer": 0,
+        "explanation": "La información sobre parámetros necesita una distribución que pueda actualizarse.",
+        "hint": "Θ debe ser una variable incierta."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  },
+  {
+    "id": "decision-4",
+    "world": "decision",
+    "title": "Políticas, evidencia y horizonte",
+    "subtitle": "G10 · POMDP y posterior de planes",
+    "minutes": 7,
+    "visual": "policy",
+    "intuition": "Planificar propaga estados y sensores bajo secuencias de acciones, evalúa el futuro y combina esa evaluación con evidencia pasada y hábitos.",
+    "core": [
+      {
+        "label": "Posterior",
+        "body": "Convención categórica habitual con energía libre por política y precisión γ del futuro.",
+        "formula": "q(\\pi)=\\operatorname{softmax}(\\ln E_\\pi-F(\\pi)-\\gamma G(\\pi))"
+      },
+      {
+        "label": "Caso reducido",
+        "body": "Omitir F requiere evidencia pasada igual entre políticas o una simplificación declarada.",
+        "formula": "q(\\pi)\\propto E_\\pi e^{-\\gamma G(\\pi)}\\quad\\text{si }F(\\pi)=const"
+      },
+      {
+        "label": "Acción",
+        "body": "Marginalizar planes que comparten su acción inicial.",
+        "formula": "q(u_t)=\\sum_{\\pi:u_t(\\pi)=u_t}q(\\pi)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "E=(0.5,0.5),\\quad F=(1,1),\\quad G=(0,\\ln3),\\quad\\gamma=1",
+        "reason": "Especificar dos planes comparables."
+      },
+      {
+        "formula": "w=(e^{-1}/2,e^{-1}/6)",
+        "reason": "Exponentiar log pesos."
+      },
+      {
+        "formula": "q(\\pi)=(0.75,0.25)",
+        "reason": "Cancelar el factor compartido y normalizar."
+      }
+    ],
+    "example": {
+      "problem": "Tres políticas tienen masas 0.2,0.3,0.5. Las dos primeras empiezan con izquierda.",
+      "solution": "Probabilidad de izquierda 0.5; derecha 0.5."
+    },
+    "pitfall": "Softmax de −G por sí sola omite hábitos, precisión y evidencia por política; usarla solo con simplificación explícita.",
+    "bridge": "Un POMDP organiza estados ocultos, A, B, preferencias y políticas en una arquitectura ejecutable.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Masas 0.1,0.4,0.5: las dos primeras inician u=a. P(a).",
+        "answer": 0.5,
+        "tolerance": 0.001,
+        "explanation": "Sumar políticas con la misma primera acción produce 0.1+0.4.",
+        "hint": "Marginaliza planes."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuándo puede cancelarse F(π) en softmax?",
+        "options": [
+          "Siempre",
+          "Cuando todas las F son iguales",
+          "Cuando γ>0",
+          "Solo si A es cuadrada"
+        ],
+        "answer": 1,
+        "explanation": "Una constante común multiplica todos los pesos igualmente y desaparece en la normalización.",
+        "hint": "Importan diferencias entre políticas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "E iguales, F iguales, γ=1, G=(0,ln3): probabilidad de primera política.",
+        "answer": 0.75,
+        "tolerance": 0.001,
+        "explanation": "Los pesos relativos son 1 y 1/3; normalizar da 3/4.",
+        "hint": "Exponentia −G."
+      },
+      {
+        "type": "choice",
+        "prompt": "Mayor γ, con G distintos y demás términos fijos, expresa…",
+        "options": [
+          "Más ruido del sensor",
+          "Mayor varianza de estados necesariamente",
+          "Mayor sensibilidad a diferencias de evaluación futura",
+          "Eliminación del prior habitual"
+        ],
+        "answer": 2,
+        "explanation": "γ escala la influencia relativa de los costos futuros en el posterior de políticas.",
+        "hint": "Precisión de selección no es precisión sensorial."
+      }
+    ],
+    "references": ["guide", "parr", "friston"]
+  }
+]

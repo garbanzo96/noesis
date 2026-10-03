@@ -1,0 +1,528 @@
+[
+  {
+    "id": "probability-1",
+    "world": "probability",
+    "title": "Probabilidad desde indicadores",
+    "subtitle": "G04–G05 · Lógica, expectativa y medida",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Un indicador traduce un evento verdadero o falso a 1 o 0; su expectativa es la probabilidad.",
+    "core": [
+      {
+        "label": "Traducción",
+        "body": "Tus apuntes Q(A) se escriben aquí como indicador; I es información condicionante.",
+        "formula": "Q(A)=\\mathbf1_A,\\quad P(A\\mid I)=\\mathbb E[\\mathbf1_A\\mid I]"
+      },
+      {
+        "label": "Normalización",
+        "body": "Un evento seguro tiene probabilidad uno y uno imposible, cero.",
+        "formula": "P(\\Omega)=1,\\quad P(\\varnothing)=0"
+      },
+      {
+        "label": "Unión",
+        "body": "Sumar indicadores de eventos solapados cuenta dos veces su intersección.",
+        "formula": "P(A\\cup B)=P(A)+P(B)-P(A\\cap B)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\mathbf1_{A\\cup B}=\\mathbf1_A+\\mathbf1_B-\\mathbf1_{A\\cap B}",
+        "reason": "Identidad lógica comprobable caso por caso."
+      },
+      {
+        "formula": "\\mathbb E[\\mathbf1_{A\\cup B}]=\\mathbb E[\\mathbf1_A]+\\mathbb E[\\mathbf1_B]-\\mathbb E[\\mathbf1_{A\\cap B}]",
+        "reason": "Aplicar linealidad de expectativa."
+      },
+      {
+        "formula": "P(A\\cup B)=P(A)+P(B)-P(A\\cap B)",
+        "reason": "Traducir expectativas a probabilidades."
+      }
+    ],
+    "example": {
+      "problem": "P(A)=0.4, P(B)=0.5, P(A∩B)=0.2. Calcula P(A∪B).",
+      "solution": "Resultado $0.4+0.5-0.2=0.7$."
+    },
+    "pitfall": "Eventos mutuamente excluyentes e independientes son propiedades diferentes.",
+    "bridge": "Esta entrada reproduce la cadena de tus apuntes: lógica → indicadores → linealidad → probabilidades.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "P(A)=0.3: expectativa de 1_A.",
+        "answer": 0.3,
+        "tolerance": 0.001,
+        "explanation": "El indicador vale uno justo cuando A ocurre; su promedio es la frecuencia probabilística de A.",
+        "hint": "Un indicador solo tiene valores cero y uno."
+      },
+      {
+        "type": "numeric",
+        "prompt": "P(A)=0.4, P(B)=0.4, intersección=0.1: unión.",
+        "answer": 0.7,
+        "tolerance": 0.001,
+        "explanation": "Sumar y restar el solapamiento: 0.4+0.4−0.1=0.7.",
+        "hint": "Evita contar dos veces."
+      },
+      {
+        "type": "choice",
+        "prompt": "Dos eventos disjuntos de probabilidad positiva…",
+        "options": [
+          "Son siempre independientes",
+          "Tienen intersección de probabilidad uno",
+          "No son independientes",
+          "Son iguales"
+        ],
+        "answer": 2,
+        "explanation": "Su intersección es cero mientras el producto de sus probabilidades es positivo.",
+        "hint": "Compara P(A∩B) con P(A)P(B)."
+      },
+      {
+        "type": "choice",
+        "prompt": "La linealidad de expectativa requiere independencia?",
+        "options": ["Sí, siempre", "Solo para indicadores", "Solo para normales", "No"],
+        "answer": 3,
+        "explanation": "E[X+Y]=E[X]+E[Y] con esperanzas existentes, incluso si X e Y dependen.",
+        "hint": "Linealidad y factorización son reglas distintas."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "probability-2",
+    "world": "probability",
+    "title": "Condicionar y actualizar",
+    "subtitle": "G04–G05 · Regla del producto y Bayes",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Condicionar restringe el universo de comparación; Bayes invierte la dirección informativa de una relación.",
+    "core": [
+      {
+        "label": "Condicional",
+        "body": "Solo se define esta razón cuando el evento condicionante tiene masa positiva.",
+        "formula": "P(A\\mid B)=P(A\\cap B)/P(B)"
+      },
+      {
+        "label": "Producto",
+        "body": "La conjunta se construye con marginal y condicional.",
+        "formula": "P(A,B)=P(A\\mid B)P(B)"
+      },
+      {
+        "label": "Bayes",
+        "body": "La evidencia normaliza verosimilitud por prior.",
+        "formula": "P(s\\mid o)=\\frac{P(o\\mid s)P(s)}{P(o)}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "P(s=1)=0.2,\\quad P(o=1\\mid s=1)=0.8",
+        "reason": "Especificar prior y sensibilidad."
+      },
+      {
+        "formula": "P(o=1\\mid s=0)=0.1\\Rightarrow P(o=1)=0.24",
+        "reason": "Sumar 0.8×0.2 y 0.1×0.8."
+      },
+      {
+        "formula": "P(s=1\\mid o=1)=0.16/0.24=2/3",
+        "reason": "Dividir la conjunta por evidencia."
+      }
+    ],
+    "example": {
+      "problem": "Dos causas equiprobables generan o con probabilidades 0.9 y 0.3. Posterior de la primera.",
+      "solution": "Pesos 0.45 y 0.15: posterior $0.45/0.6=0.75$."
+    },
+    "pitfall": "P(s|o) y P(o|s) no son intercambiables; ignoran diferentes tasas base.",
+    "bridge": "La percepción es inversión del modelo sensorial: de causas que generan datos a datos que actualizan causas.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "¿Qué es la verosimilitud al inferir s tras observar o?",
+        "options": ["P(s|o)", "P(s)", "P(o|s)", "P(o) siempre"],
+        "answer": 2,
+        "explanation": "Se evalúa cuánto predice cada estado candidato el dato ya observado.",
+        "hint": "Mantén el dato fijo y compara causas."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Prior 0.5 para dos estados; verosimilitudes 0.8 y 0.2: posterior del primero.",
+        "answer": 0.8,
+        "tolerance": 0.001,
+        "explanation": "Los pesos son 0.4 y 0.1; normalizar produce 0.8.",
+        "hint": "Multiplica antes de normalizar."
+      },
+      {
+        "type": "numeric",
+        "prompt": "P(A∩B)=0.15 y P(B)=0.5: P(A|B).",
+        "answer": 0.3,
+        "tolerance": 0.001,
+        "explanation": "La restricción a B divide la masa conjunta por 0.5.",
+        "hint": "Usa la definición condicional."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una observación imposible bajo todas las causas del modelo…",
+        "options": [
+          "Produce posterior uniforme por Bayes",
+          "Tiene evidencia cero y no permite esta actualización",
+          "Confirma todas las causas",
+          "No necesita normalización"
+        ],
+        "answer": 1,
+        "explanation": "Bayes divide por evidencia; si es cero, el modelo no proporciona un posterior para ese dato.",
+        "hint": "Comprueba el denominador."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "probability-3",
+    "world": "probability",
+    "title": "Marginales y estructura",
+    "subtitle": "G04–G05 · Independencia y dependencia condicional",
+    "minutes": 9,
+    "visual": "distribution",
+    "intuition": "Una conjunta contiene todas las relaciones; marginalizar elimina una variable, condicionar conserva información sobre ella.",
+    "core": [
+      {
+        "label": "Marginal",
+        "body": "Sumar estados discretos; integrar si son continuos.",
+        "formula": "P(o)=\\sum_s P(o,s)"
+      },
+      {
+        "label": "Independencia",
+        "body": "La conjunta factoriza cuando conocer una variable no cambia la otra.",
+        "formula": "P(X,Y)=P(X)P(Y)"
+      },
+      {
+        "label": "Condicional",
+        "body": "Una causa común puede explicar la dependencia de dos observaciones.",
+        "formula": "P(o_1,o_2\\mid s)=P(o_1\\mid s)P(o_2\\mid s)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "P(s,o_1,o_2)=P(s)P(o_1\\mid s)P(o_2\\mid s)",
+        "reason": "Suponer observaciones independientes dado s."
+      },
+      {
+        "formula": "P(o_1,o_2)=\\sum_sP(s)P(o_1\\mid s)P(o_2\\mid s)",
+        "reason": "Eliminar la causa común."
+      },
+      {
+        "formula": "P(o_1,o_2)\\ne P(o_1)P(o_2)\\ \\text{en general}",
+        "reason": "La dependencia reaparece al desconocer s."
+      }
+    ],
+    "example": {
+      "problem": "Dos sensores observan el mismo estado con ruidos independientes. ¿Son independientes sus salidas sin conocer el estado?",
+      "solution": "No necesariamente: el estado compartido introduce dependencia marginal."
+    },
+    "pitfall": "Independencia condicional no implica independencia marginal, ni viceversa.",
+    "bridge": "Las factoraciones gráficas reducen cómputo y especifican cuáles mensajes bastan para inferir estados.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Tabla conjunta fila de s=1: (0.2,0.3). Marginal P(s=1).",
+        "answer": 0.5,
+        "tolerance": 0.001,
+        "explanation": "Sumar las dos observaciones posibles elimina o: 0.2+0.3.",
+        "hint": "No normalices la fila de nuevo."
+      },
+      {
+        "type": "choice",
+        "prompt": "X ⫫ Y | Z significa…",
+        "options": [
+          "X e Y son iguales",
+          "Son independientes sin saber Z",
+          "Su conjunta condicionada a Z factoriza",
+          "Z no influye en nadie"
+        ],
+        "answer": 2,
+        "explanation": "La independencia se afirma dentro de cada condición Z relevante.",
+        "hint": "La barra vertical importa."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Eventos independientes con probabilidades 0.4 y 0.5: intersección.",
+        "answer": 0.2,
+        "tolerance": 0.001,
+        "explanation": "La independencia permite multiplicar marginales: 0.4×0.5.",
+        "hint": "Usa producto solo porque se declaró independencia."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué elimina una variable continua de una conjunta?",
+        "options": [
+          "Una integral sobre su dominio",
+          "Una transposición",
+          "El máximo de densidad",
+          "Una derivada parcial"
+        ],
+        "answer": 0,
+        "explanation": "La masa de todas sus posibilidades se acumula mediante una integral.",
+        "hint": "La suma es el caso discreto."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "probability-4",
+    "world": "probability",
+    "title": "Distribuciones y momentos",
+    "subtitle": "G04–G05 · PMF, PDF, CDF y dispersión",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Una distribución asigna peso a posibilidades; los momentos resumen aspectos de ella sin reemplazarla.",
+    "core": [
+      {
+        "label": "Masa y densidad",
+        "body": "PMF asigna masa a puntos; PDF asigna masa a intervalos por integración.",
+        "formula": "P(X=x)=p_x\\ \\text{discreto};\\quad P(a<X<b)=\\int_a^b p(x)dx"
+      },
+      {
+        "label": "Promedio",
+        "body": "Esperanza discreta es una suma ponderada.",
+        "formula": "\\mathbb E[X]=\\sum_x xp_x"
+      },
+      {
+        "label": "Varianza",
+        "body": "El segundo momento menos la media al cuadrado mide dispersión.",
+        "formula": "\\operatorname{Var}(X)=\\mathbb E[X^2]-\\mathbb E[X]^2"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "X\\sim\\operatorname{Bernoulli}(\\theta)",
+        "reason": "X vale cero o uno."
+      },
+      {
+        "formula": "\\mathbb E[X]=\\theta,\\quad\\mathbb E[X^2]=\\theta",
+        "reason": "El cuadrado no cambia esos valores."
+      },
+      {
+        "formula": "\\operatorname{Var}(X)=\\theta(1-\\theta)",
+        "reason": "Aplicar identidad de varianza."
+      }
+    ],
+    "example": {
+      "problem": "X vale 0 y 2 con probabilidades 0.5 y 0.5. Media y varianza.",
+      "solution": "$E[X]=1$, $E[X^2]=2$, varianza 1."
+    },
+    "pitfall": "Dos distribuciones pueden compartir media y varianza y diferir radicalmente en colas o multimodalidad.",
+    "bridge": "Las creencias categóricas mantienen distribución completa; Laplace aproxima con pocos momentos locales.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Bernoulli con θ=0.25: esperanza.",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "La esperanza de un indicador coincide con la probabilidad de éxito.",
+        "hint": "X solo toma cero o uno."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Bernoulli θ=0.5: varianza.",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "θ(1−θ)=0.5×0.5=0.25.",
+        "hint": "Usa el segundo momento."
+      },
+      {
+        "type": "choice",
+        "prompt": "Una CDF válida es…",
+        "options": [
+          "Decreciente siempre",
+          "No decreciente, con valores entre cero y uno",
+          "Una densidad mayor que cero siempre",
+          "Igual al logaritmo del prior"
+        ],
+        "answer": 1,
+        "explanation": "Acumular probabilidad al aumentar el umbral no puede retirar masa.",
+        "hint": "Cada intervalo añadido aporta masa no negativa."
+      },
+      {
+        "type": "choice",
+        "prompt": "Media y varianza determinan por completo…",
+        "options": [
+          "Cualquier distribución",
+          "Solo distribuciones discretas",
+          "Una gaussiana cuando se sabe que es gaussiana",
+          "Una posterior multimodal siempre"
+        ],
+        "answer": 2,
+        "explanation": "Dentro de la familia normal esos dos parámetros fijan la distribución; fuera de ella no basta.",
+        "hint": "La familia forma parte de la hipótesis."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "probability-5",
+    "world": "probability",
+    "title": "Familias y parámetros",
+    "subtitle": "G04–G05 · Bernoulli, binomial, Beta y Dirichlet",
+    "minutes": 7,
+    "visual": "distribution",
+    "intuition": "Una familia liga posibilidades observables con parámetros inciertos; un prior vive en el espacio de esos parámetros.",
+    "core": [
+      {
+        "label": "Binomial",
+        "body": "Contar éxitos independientes con una misma probabilidad.",
+        "formula": "P(K=k)=\\binom nk\\theta^k(1-\\theta)^{n-k}"
+      },
+      {
+        "label": "Beta",
+        "body": "Una densidad sobre probabilidades entre cero y uno.",
+        "formula": "p(\\theta)\\propto\\theta^{\\alpha-1}(1-\\theta)^{\\beta-1},\\quad\\alpha,\\beta>0"
+      },
+      {
+        "label": "Dirichlet",
+        "body": "Generaliza Beta a un vector categórico sobre el simplex.",
+        "formula": "p(\\theta)\\propto\\prod_i\\theta_i^{\\alpha_i-1},\\quad\\alpha_i>0,\\ \\theta_i\\ge0,\\ \\sum_i\\theta_i=1"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\theta\\sim\\operatorname{Beta}(2,3)",
+        "reason": "Cinco unidades de concentración total."
+      },
+      {
+        "formula": "\\mathbb E[\\theta]=\\alpha/(\\alpha+\\beta)=2/5",
+        "reason": "La razón de parámetros da la media."
+      },
+      {
+        "formula": "\\theta\\sim\\operatorname{Dir}(2,3,5)\\Rightarrow\\mathbb E[\\theta]=(0.2,0.3,0.5)",
+        "reason": "Normalizar los parámetros positivos."
+      }
+    ],
+    "example": {
+      "problem": "Cuatro ensayos Bernoulli independientes con θ=0.5: probabilidad de exactamente dos éxitos.",
+      "solution": "$\\binom42(0.5)^4=6/16=0.375$."
+    },
+    "pitfall": "Una Beta es incertidumbre sobre θ; una Bernoulli es incertidumbre sobre un resultado binario dado θ.",
+    "bridge": "El aprendizaje de matrices A y B usa parámetros Dirichlet y recuentos esperados.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Beta(3,7): media de θ.",
+        "answer": 0.3,
+        "tolerance": 0.001,
+        "explanation": "La media es 3/(3+7)=0.3.",
+        "hint": "Normaliza concentración."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Cuál modela un único resultado de dos categorías?",
+        "options": ["Beta", "Dirichlet", "Gaussiana multivariada necesariamente", "Bernoulli"],
+        "answer": 3,
+        "explanation": "Bernoulli asigna masa a cero y uno; Beta asigna densidad al parámetro de probabilidad.",
+        "hint": "Distingue observación y parámetro."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Dos Bernoulli independientes, θ=0.5: probabilidad de dos éxitos.",
+        "answer": 0.25,
+        "tolerance": 0.001,
+        "explanation": "El caso requiere éxito en ambos: 0.5×0.5=0.25.",
+        "hint": "No hay multiplicidad para dos de dos."
+      },
+      {
+        "type": "choice",
+        "prompt": "Dirichlet es un prior sobre…",
+        "options": [
+          "Vectores de probabilidades categóricas",
+          "Números enteros observados",
+          "Trayectorias continuas solamente",
+          "Matrices sin restricciones"
+        ],
+        "answer": 0,
+        "explanation": "Cada realización está en un simplex de componentes no negativas que suman uno.",
+        "hint": "Generaliza incertidumbre sobre θ."
+      }
+    ],
+    "references": ["guide", "bayes-notes", "parr"]
+  },
+  {
+    "id": "probability-6",
+    "world": "probability",
+    "title": "Convolución y Fourier",
+    "subtitle": "G04–G05 · Cápsula avanzada · sumar fuentes independientes",
+    "minutes": 9,
+    "visual": "convolution",
+    "intuition": "La distribución de una suma combina todas las parejas de valores que producen el mismo resultado; Fourier transforma esa combinación en un producto.",
+    "core": [
+      {
+        "label": "Convolución discreta",
+        "body": "Para variables enteras independientes, sumar las parejas compatibles.",
+        "formula": "p_{X+Y}(z)=\\sum_xp_X(x)p_Y(z-x)"
+      },
+      {
+        "label": "Continua",
+        "body": "La misma regla usa integral para densidades independientes.",
+        "formula": "p_{X+Y}(z)=\\int p_X(x)p_Y(z-x)dx"
+      },
+      {
+        "label": "Característica",
+        "body": "La esperanza de la exponencial compleja caracteriza una distribución.",
+        "formula": "\\phi_X(t)=\\mathbb E[e^{itX}],\\quad\\phi_{X+Y}=\\phi_X\\phi_Y"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "X,Y\\sim\\operatorname{Bernoulli}(1/2)\\ \\text{independientes}",
+        "reason": "Dos contribuciones binarias."
+      },
+      {
+        "formula": "P(X+Y=1)=P(0,1)+P(1,0)=1/2",
+        "reason": "Reunir parejas con igual suma."
+      },
+      {
+        "formula": "p_{X+Y}=(1/4,1/2,1/4)",
+        "reason": "Añadir los extremos 0 y 2."
+      }
+    ],
+    "example": {
+      "problem": "Suma de dos gaussianas independientes: medias 1 y 2; varianzas 3 y 4.",
+      "solution": "Es normal con media 3 y varianza 7; independencia permite sumar varianzas."
+    },
+    "pitfall": "Sin independencia, el producto de marginales no describe la conjunta; convolution estándar deja de aplicar.",
+    "bridge": "Los apuntes extienden suma de variables y CLT mediante Fourier; esta rama conecta ruido compuesto y representación espectral.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Dos monedas justas independientes: P(suma=1).",
+        "answer": 0.5,
+        "tolerance": 0.001,
+        "explanation": "Hay dos parejas equiprobables, (0,1) y (1,0), cada una con masa 0.25.",
+        "hint": "Cuenta todas las parejas compatibles."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Varianzas 2 y 5 independientes: varianza de la suma.",
+        "answer": 7,
+        "tolerance": 0.001,
+        "explanation": "La covarianza es cero por independencia y las varianzas se suman.",
+        "hint": "Usa Var(X+Y)=VarX+VarY."
+      },
+      {
+        "type": "choice",
+        "prompt": "Convolución se convierte en Fourier en…",
+        "options": ["Suma de CDF siempre", "Producto", "Derivada parcial", "KL"],
+        "answer": 1,
+        "explanation": "La exponencial de X+Y se factoriza y la independencia separa la esperanza.",
+        "hint": "eⁱᵗ⁽ˣ⁺ʸ⁾=eⁱᵗˣeⁱᵗʸ."
+      },
+      {
+        "type": "choice",
+        "prompt": "Convolution de marginales para una suma requiere…",
+        "options": [
+          "Independencia de las variables",
+          "Variables idénticas",
+          "Media cero siempre",
+          "Varianza uno"
+        ],
+        "answer": 0,
+        "explanation": "La regla estándar reemplaza conjunta por producto de marginales; esa factorización es la condición clave.",
+        "hint": "Comprueba la conjunta."
+      }
+    ],
+    "references": ["guide", "bayes-notes"]
+  }
+]

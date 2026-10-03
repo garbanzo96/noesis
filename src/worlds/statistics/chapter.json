@@ -1,0 +1,113 @@
+{
+  "scenario": "Diseñas una tarea experimental con respuestas binarias y ajustas un parámetro de acierto. Luego compruebas qué significa la incertidumbre de la estimación y si el modelo puede recuperarla.",
+  "objective": "Distinguir datos, parámetro, estimador y distribución de muestreo; evaluar ajuste, predicción e identificabilidad por separado.",
+  "briefing": "Una lista de respuestas es un dato observado. θ representa una propensión desconocida. El estimador es una regla que convierte datos en un número: al repetir el experimento, cambian los datos y también ese número.",
+  "teachingStages": [
+    {
+      "id": "statistics-stage-1",
+      "title": "Datos y parámetro tienen papeles distintos",
+      "claim": "Un modelo fija cómo un parámetro produce datos posibles; el dato observado permanece fijo durante el ajuste.",
+      "formula": "X_i\\in\\{0,1\\},\\quad P(X_i=1\\mid\\theta)=\\theta,\\quad0\\leq\\theta\\leq1",
+      "explanation": "Cada ficha es una respuesta: 1 para acierto, 0 para error. θ no es una ficha observada; es la probabilidad de acierto en el modelo Bernoulli. Al mover θ cambias qué listas serían esperables. Para la likelihood conjunta siguiente suponemos ensayos independientes condicionados a θ.",
+      "actionLabel": "Simular tres propensiones",
+      "animation": "La misma fila de casillas se repuebla usando θ=0.2, 0.5 y 0.8; una marca separa datos simulados de la fila observada."
+    },
+    {
+      "id": "statistics-stage-2",
+      "title": "La likelihood mira hacia el parámetro",
+      "claim": "La likelihood compara parámetros por el apoyo que dan a los datos fijos; no es una distribución normalizada sobre parámetros.",
+      "formula": "L(\\theta;x_{1:n})=\\theta^k(1-\\theta)^{n-k},\\quad\\ell=k\\ln\\theta+(n-k)\\ln(1-\\theta)",
+      "explanation": "n es el número de ensayos y k el número de aciertos. Para una secuencia concreta con 8 aciertos de 10, L(θ)=θ⁸(1−θ)². Si registraras solo el conteo k, aparecería además el factor binomial, constante respecto de θ. La log likelihood conserva los máximos porque ln es creciente.",
+      "actionLabel": "Fijar datos y recorrer θ",
+      "animation": "La fila de 10 respuestas queda inmóvil; un cursor θ dibuja la altura de su likelihood y de su log likelihood."
+    },
+    {
+      "id": "statistics-stage-3",
+      "title": "Un estimador varía entre muestras",
+      "claim": "La media de ensayos Bernoulli es el MLE; su error de muestreo depende de n y de la propensión real.",
+      "formula": "\\hat\\theta=k/n,\\quad\\mathbb E[\\hat\\theta]=\\theta,\\quad\\operatorname{Var}(\\hat\\theta)=\\theta(1-\\theta)/n",
+      "explanation": "El sombrero distingue estimación y parámetro. Para 8 de 10, θ̂=0.8. Bajo ensayos iid Bernoulli, su esperanza es θ y su varianza θ(1−θ)/n. En general, para una media iid: Var(ΣXᵢ/n)=(1/n²)ΣVar(Xᵢ)=σ²/n, porque las covarianzas se anulan. La desviación estándar es raíz de varianza; el error estándar es la desviación estándar del estimador: σ/√n. Son afirmaciones de muestreo, no probabilidades posteriores sobre θ.",
+      "actionLabel": "Repetir el experimento",
+      "animation": "Numerosas muestras del mismo tamaño producen distintos θ̂; aumentar n concentra su histograma alrededor del θ generador."
+    },
+    {
+      "id": "statistics-stage-4",
+      "title": "Ajustar no basta: predecir",
+      "claim": "Una predicción posterior promedia modelos de datos futuros sobre la incertidumbre del parámetro.",
+      "formula": "p(x_{nuevo}\\mid x)=\\int p(x_{nuevo}\\mid\\theta)\\,p(\\theta\\mid x)\\,d\\theta",
+      "explanation": "x es el conjunto de datos ya observado y x_nuevo un dato futuro. El posterior p(θ|x) viene de combinar likelihood y prior. Simular réplicas permite comparar una característica relevante: proporción de aciertos, rachas o dependencia temporal. Reproducir la media no asegura reproducir las rachas.",
+      "actionLabel": "Contrastar una característica",
+      "animation": "Datos reales y réplicas se comparan en dos paneles: misma media, pero distinta longitud de rachas muestra un fallo del modelo iid."
+    },
+    {
+      "id": "statistics-stage-5",
+      "title": "Recuperar lo que el modelo identifica",
+      "claim": "La recuperación usa parámetros conocidos y datos simulados; no resuelve equivalencias estructurales ni demuestra adecuación empírica.",
+      "formula": "\\theta_*\\to x\\sim p(x\\mid\\theta_*)\\to\\hat\\theta(x)",
+      "explanation": "θ_* es la verdad en una simulación controlada. Si el modelo solo observa θ=ab, los pares (a,b)=(0.5,0.4) y (0.4,0.5) generan exactamente la misma θ=0.2. Más datos de ese mismo experimento pueden precisar el producto sin identificar cada factor. Cambiar el diseño puede aportar información adicional.",
+      "actionLabel": "Buscar parámetros equivalentes",
+      "animation": "Una curva ab=0.2 muestra muchas parejas que generan la misma distribución; un segundo experimento añade una restricción que puede separarlas."
+    }
+  ],
+  "missions": [
+    {
+      "id": "statistics-mission-1",
+      "title": "Ajustar una propensión",
+      "brief": "Encuentra el parámetro que maximiza la likelihood Bernoulli iid.",
+      "setup": "8 aciertos y 2 errores en 10 ensayos.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es el estimador de máxima likelihood θ̂?",
+      "formula": "\\hat\\theta=k/n",
+      "answer": 0.8,
+      "solution": "Para k=8 y n=10, θ̂=0.8. La derivada de la log likelihood interior es k/θ−(n−k)/(1−θ); igualarla a cero da k/n.",
+      "hint": "Mantén fijos los conteos al variar θ.",
+      "transfer": "MLE, MAP y media posterior pueden diferir porque responden a criterios distintos.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "statistics-mission-2",
+      "title": "Leer el error de una media",
+      "brief": "Distingue dispersión de observaciones y dispersión del estimador.",
+      "setup": "16 mediciones iid con varianza conocida σ²=4. El estimador es la media muestral.",
+      "kind": "numeric",
+      "prompt": "¿Cuál es el error estándar de la media?",
+      "formula": "\\operatorname{SD}(\\bar X)=\\sigma/\\sqrt n",
+      "answer": 0.5,
+      "solution": "σ=2 y √16=4; el error estándar es 2/4=0.5. Esta relación de varianza no requiere normalidad, pero sí las condiciones iid y varianza finita indicadas.",
+      "hint": "La varianza de la media se divide por n; su desviación por √n.",
+      "transfer": "Confundir ruido sensorial con incertidumbre de una media altera la precisión de la inferencia.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "statistics-mission-3",
+      "title": "Una recuperación que no puede funcionar",
+      "brief": "Decide qué conclusión permite una equivalencia observable.",
+      "setup": "La única observación es Bernoulli con probabilidad ab; a,b∈(0,1). Dos pares diferentes dan el mismo producto.",
+      "kind": "choice",
+      "prompt": "¿Qué permite una cantidad ilimitada de datos de este mismo diseño?",
+      "formula": "p(x\\mid a,b)=p(x\\mid ab)",
+      "answer": 1,
+      "solution": "El modelo identifica el producto ab, pero no a y b por separado. La equivalencia persiste al añadir ensayos del mismo tipo. Un prior puede favorecer un par sin que los datos lo distingan.",
+      "hint": "Compara distribuciones generadoras, no solo estimaciones.",
+      "transfer": "Antes de interpretar parámetros de un agente, valida recuperación y diseño experimental.",
+      "choices": [
+        "Identificar necesariamente a y b por separado",
+        "Precisar ab sin separar necesariamente a y b",
+        "Demostrar que el modelo describe todos los datos reales"
+      ]
+    }
+  ],
+  "relatedLessonIds": [
+    "statistics-1",
+    "statistics-2",
+    "statistics-3",
+    "statistics-4",
+    "statistics-5"
+  ],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md",
+    "work/sources/03_guias_nivelacion/guias/G06_INFERENCIA_BAYESIANA_Y_EVIDENCIA.md",
+    "work/sources/03_guias_nivelacion/guias/G12_IMPLEMENTACION_DE_MODELOS.md"
+  ],
+  "scope": "Muestreo, ajuste y validación básicos. CLT, intervalos y SBC requieren sus supuestos y cápsulas propias."
+}

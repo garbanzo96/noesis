@@ -1,0 +1,107 @@
+{
+  "scenario": "Ajustas dos creencias simultáneas: intensidad de una señal y sesgo del sensor. Una superficie de coste permite ver qué cambia al mover una dimensión o una combinación de ambas.",
+  "objective": "Leer parciales, gradiente, Jacobiano y Hessiano como distintas respuestas locales; reconocer restricciones y curvatura posterior.",
+  "briefing": "Un punto ya tiene dos coordenadas. Moverse solo horizontalmente pregunta por una parcial; moverse en cualquier dirección combina parciales. Cuando la salida también es un vector necesitamos una tabla de sensibilidades.",
+  "teachingStages": [
+    {
+      "id": "multivariate-stage-1",
+      "title": "Mover una coordenada y fijar la otra",
+      "claim": "Una derivada parcial mide respuesta a una entrada mientras las restantes se mantienen constantes.",
+      "formula": "L(x,y)=(x-1)^2+2(y+1)^2,\\quad\\partial_xL=2(x-1),\\quad\\partial_yL=4(y+1)",
+      "explanation": "x e y son dos parámetros y L una única salida. Para medir ∂_xL, desplaza x sin cambiar y; para ∂_yL, cambia y sin cambiar x. En (0,0), ambas respuestas son −2 y 4. El subíndice de ∂ dice qué entrada está variando.",
+      "actionLabel": "Recorrer cortes de la superficie",
+      "animation": "Dos líneas cruzan una superficie: un corte horizontal con y fijo y otro con x fijo. Cada corte muestra su pendiente."
+    },
+    {
+      "id": "multivariate-stage-2",
+      "title": "Combinar direcciones",
+      "claim": "El gradiente reúne parciales; su producto interno con un desplazamiento predice el cambio de primer orden.",
+      "formula": "\\nabla L(0,0)=(-2,4)^\\mathsf T,\\quad\\Delta L\\approx\\nabla L^\\mathsf T\\Delta\\mathbf x",
+      "explanation": "∇ se lee «gradiente». Para Δx=(0.1,−0.1)ᵀ, el cambio aproximado es −2×0.1+4×(−0.1)=−0.6. La dirección del gradiente maximiza la tasa local de aumento entre direcciones unitarias de la norma euclidiana. El descenso usa su negativo, con un paso adecuado.",
+      "actionLabel": "Elegir una dirección",
+      "animation": "Una flecha se rota sobre el punto; un medidor muestra el producto interno y se maximiza cuando coincide con el gradiente."
+    },
+    {
+      "id": "multivariate-stage-3",
+      "title": "Varias entradas y varias salidas",
+      "claim": "El Jacobiano guarda una fila por salida y una columna por entrada; transforma pequeños desplazamientos.",
+      "formula": "\\mathbf g(x,y)=(x+y,x-y)^\\mathsf T,\\quad J_g=\\begin{bmatrix}1&1\\\\1&-1\\end{bmatrix},\\quad\\Delta\\mathbf g=J_g\\Delta\\mathbf x",
+      "explanation": "Cada entrada J_{ij} es ∂g_i/∂x_j. Si Δx=(0.1,−0.1), la primera salida no cambia y la segunda aumenta 0.2. Aquí g es lineal, por eso la relación es exacta para cualquier desplazamiento. Para una función diferenciable general es una aproximación local.",
+      "actionLabel": "Propagar un desplazamiento",
+      "animation": "Un vector de entrada atraviesa una cuadrícula de sensibilidades; los productos por filas producen dos desplazamientos de salida."
+    },
+    {
+      "id": "multivariate-stage-4",
+      "title": "Leer curvatura y precisión",
+      "claim": "El Hessiano guarda segundas parciales; en un mínimo no degenerado de energía posterior da precisión gaussiana local.",
+      "formula": "H_L=\\begin{bmatrix}2&0\\\\0&4\\end{bmatrix},\\quad U=-\\ln p(\\mathbf x\\mid o),\\quad\\Pi\\approx H_U(\\mu)",
+      "explanation": "Para L, la curvatura es mayor en y que en x. En Laplace, U es el negativo del log posterior y μ un mínimo interior con Hessiano definido positivo. La aproximación tiene covarianza H_U(μ)⁻¹. Si usamos el Hessiano del log posterior, hay que cambiar el signo. No toda superficie ni todo punto permite esa aproximación.",
+      "actionLabel": "Comparar cortes y elipse",
+      "animation": "El corte más curvo se corresponde con una elipse gaussiana más estrecha; la matriz se invierte para pasar a covarianza."
+    },
+    {
+      "id": "multivariate-stage-5",
+      "title": "Optimizar sobre una restricción",
+      "claim": "Un mínimo restringido no exige gradiente cero en todas las direcciones; solo deben anularse las variaciones factibles.",
+      "formula": "L=x^2+y^2,\\quad x+y=1,\\quad(x_*,y_*)=(1/2,1/2)",
+      "explanation": "La restricción deja una línea de posiciones posibles. En su mínimo, ∇L=(1,1) no es cero, pero todo desplazamiento tangente tiene forma (h,−h) y producto interno cero con ese gradiente. Sustituir y=1−x da L=x²+(1−x)²; derivar da 4x−2=0.",
+      "actionLabel": "Moverse solo sobre la línea",
+      "animation": "El cursor queda limitado a x+y=1; el gradiente es perpendicular a la línea en el mínimo."
+    }
+  ],
+  "missions": [
+    {
+      "id": "multivariate-mission-1",
+      "title": "Predecir un cambio local",
+      "brief": "Combina sensibilidades de dos coordenadas.",
+      "setup": "L=(x−1)²+2(y+1)², punto (0,0), desplazamiento (0.1,−0.1).",
+      "kind": "numeric",
+      "prompt": "¿Qué cambio de L predice la aproximación de primer orden?",
+      "formula": "\\Delta L\\approx(-2,4)\\cdot(0.1,-0.1)",
+      "answer": -0.6,
+      "solution": "Los aportes son −0.2 y −0.4: total −0.6. El cambio exacto es −0.57 porque se agregan términos cuadráticos 0.01+0.02; distinguir aproximación de igualdad importa.",
+      "hint": "Multiplica cada parcial por su propio desplazamiento.",
+      "transfer": "Una actualización multivariada combina errores y sensibilidades locales.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "multivariate-mission-2",
+      "title": "Del Hessiano a la incertidumbre",
+      "brief": "Convierte una curvatura posterior en covarianza local.",
+      "setup": "U es el negativo del log posterior; H_U(μ)=diag(2,4), definido positivo.",
+      "kind": "numeric",
+      "prompt": "¿Qué varianza de Laplace corresponde a la segunda coordenada?",
+      "formula": "\\Sigma\\approx H_U^{-1}",
+      "answer": 0.25,
+      "solution": "En una matriz diagonal, la inversa tiene 1/2 y 1/4 en la diagonal. La segunda varianza es 0.25 y su desviación estándar 0.5.",
+      "hint": "La curvatura es precisión; la varianza es su inversa en este caso diagonal.",
+      "transfer": "La aproximación de Laplace convierte geometría local en incertidumbre modelada.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "multivariate-mission-3",
+      "title": "Un gradiente que no se anula",
+      "brief": "Reconoce un óptimo bajo una restricción.",
+      "setup": "Minimiza x²+y² con x+y=1. En (0.5,0.5), el gradiente es (1,1).",
+      "kind": "choice",
+      "prompt": "¿Por qué este punto puede ser el mínimo restringido?",
+      "formula": "(1,1)\\cdot(h,-h)=0",
+      "answer": 2,
+      "solution": "Los movimientos permitidos son tangentes a x+y=1. El gradiente es perpendicular a ellos; la función restringida tiene segunda derivada 4>0. No se puede seguir −∇L sin salir del conjunto permitido.",
+      "hint": "Separa los movimientos posibles de los imposibles.",
+      "transfer": "Las probabilidades se optimizan sobre un simplex; normalización impone restricciones.",
+      "choices": [
+        "Porque todo gradiente no nulo es un mínimo",
+        "Porque se ignora la restricción al descender",
+        "Porque el cambio de primer orden se anula en todas las direcciones factibles"
+      ]
+    }
+  ],
+  "relatedLessonIds": ["multivariate-1", "multivariate-2", "multivariate-3", "multivariate-4"],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G01_CALCULO_DIFERENCIAL_Y_APROXIMACION_LOCAL.md",
+    "work/sources/03_guias_nivelacion/guias/G07_INFORMACION_ENTROPIA_Y_MAXIMA_ENTROPIA.md",
+    "work/sources/03_guias_nivelacion/guias/G08_INFERENCIA_VARIACIONAL_Y_ENERGIA_LIBRE.md"
+  ],
+  "scope": "Sensibilidades, curvatura y restricciones locales. Reparametrización y volumen se desarrollan en la lección de coordenadas."
+}

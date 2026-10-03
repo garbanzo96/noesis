@@ -1,0 +1,341 @@
+[
+  {
+    "id": "differential-1",
+    "world": "differential",
+    "title": "Derivar es medir respuesta",
+    "subtitle": "G01 · Pendiente local y unidades",
+    "minutes": 7,
+    "visual": "derivative",
+    "intuition": "Una derivada mide cuánto cambia una salida por una pequeña perturbación de su entrada.",
+    "core": [
+      {
+        "label": "Cociente",
+        "body": "Comparar cambios antes de tomar el límite.",
+        "formula": "f^{\\prime}(x)=\\lim_{h\\to0}\\frac{f(x+h)-f(x)}h"
+      },
+      {
+        "label": "Localidad",
+        "body": "La pendiente define la mejor predicción de primer orden.",
+        "formula": "f(x+h)\\approx f(x)+f^{\\prime}(x)h"
+      },
+      {
+        "label": "Sensibilidad",
+        "body": "La derivada lleva unidades de salida divididas por unidades de entrada.",
+        "formula": "\\frac{dy}{dx}"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "\\frac{(x+h)^2-x^2}{h}=2x+h",
+        "reason": "Expandir y cancelar h≠0."
+      },
+      {
+        "formula": "\\lim_{h\\to0}(2x+h)=2x",
+        "reason": "Tomar el límite después de simplificar."
+      },
+      {
+        "formula": "f^{\\prime}(3)=6",
+        "reason": "Evaluar la sensibilidad en un punto."
+      }
+    ],
+    "example": {
+      "problem": "Para f(x)=x² y x=3, estima el cambio al aumentar x en 0.01.",
+      "solution": "El cambio aproximado es $f^{\\prime}(3)\\cdot0.01=0.06$; el exacto es 0.0601."
+    },
+    "pitfall": "La derivada es una tasa local, no un cambio finito sin multiplicar por el desplazamiento.",
+    "bridge": "La inferencia continua ajusta creencias siguiendo sensibilidad de la energía libre.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Derivada de x² evaluada en x=4.",
+        "answer": 8,
+        "tolerance": 0.001,
+        "explanation": "La pendiente 2x vale ocho en x=4.",
+        "hint": "Usa el cociente límite o la regla de potencias."
+      },
+      {
+        "type": "choice",
+        "prompt": "La derivada negativa significa que localmente f…",
+        "options": ["Es negativa", "Se anula", "Disminuye al aumentar x", "Es constante"],
+        "answer": 2,
+        "explanation": "El signo describe el cambio, no el valor de la función.",
+        "hint": "Distingue altura y pendiente."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Pendiente 5, desplazamiento 0.02: cambio de primer orden.",
+        "answer": 0.1,
+        "tolerance": 0.001,
+        "explanation": "La respuesta local es pendiente por desplazamiento: 5 × 0.02.",
+        "hint": "Usa Δf≈f′Δx."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué cantidad requiere unidades salida/entrada?",
+        "options": ["f(x)", "x²", "Un ángulo siempre", "f′(x)"],
+        "answer": 3,
+        "explanation": "El cociente de cambios divide unidades de salida por unidades de entrada.",
+        "hint": "Mira el cociente incremental."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "differential-2",
+    "world": "differential",
+    "title": "Reglas de transformación",
+    "subtitle": "G01 · Potencias, producto y cadena",
+    "minutes": 7,
+    "visual": "derivative",
+    "intuition": "La regla de la cadena transmite sensibilidad a través de máquinas compuestas.",
+    "core": [
+      {
+        "label": "Potencia",
+        "body": "En el dominio donde la función es diferenciable, cada potencia baja un grado.",
+        "formula": "\\frac{d}{dx}x^n=nx^{n-1}"
+      },
+      {
+        "label": "Producto",
+        "body": "Ambos factores cambian y aportan términos.",
+        "formula": "(uv)\\prime=u^{\\prime} v+uv^{\\prime}"
+      },
+      {
+        "label": "Cadena",
+        "body": "Multiplicar sensibilidades locales a lo largo de la composición.",
+        "formula": "\\frac{d}{dx}f(g(x))=f^{\\prime}(g(x))g^{\\prime}(x)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "y=e^{x^2}",
+        "reason": "Identificar función interior y exterior."
+      },
+      {
+        "formula": "\\frac{dy}{du}=e^u,\\quad\\frac{du}{dx}=2x",
+        "reason": "Derivar cada transformación."
+      },
+      {
+        "formula": "\\frac{dy}{dx}=2xe^{x^2}",
+        "reason": "Multiplicar sensibilidades."
+      }
+    ],
+    "example": {
+      "problem": "Deriva ln(3x) para x>0.",
+      "solution": "La cadena da $(1/(3x))\\cdot3=1/x$."
+    },
+    "pitfall": "Derivar un producto no produce solamente el producto de las derivadas.",
+    "bridge": "Backpropagation y gradientes de modelos generativos son aplicaciones sistemáticas de la regla de la cadena.",
+    "questions": [
+      {
+        "type": "choice",
+        "prompt": "Derivada de (3x+1)².",
+        "options": ["2(3x+1)", "6(3x+1)", "3x²", "9x²+1"],
+        "answer": 1,
+        "explanation": "La derivada exterior es 2(3x+1) y la interior es 3.",
+        "hint": "No olvides la función interior."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Derivada de x³ en x=2.",
+        "answer": 12,
+        "tolerance": 0.001,
+        "explanation": "3x² evaluada en dos da doce.",
+        "hint": "Baja el exponente y resta uno."
+      },
+      {
+        "type": "choice",
+        "prompt": "Derivada de ln x, x>0.",
+        "options": ["ln x", "eˣ", "−1/x²", "1/x"],
+        "answer": 3,
+        "explanation": "El logaritmo responde a cambios relativos: una perturbación h produce aproximadamente h/x.",
+        "hint": "Piensa en sensibilidad relativa."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Derivada de e²ˣ en x=0.",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "La cadena da 2e²ˣ; en cero vale dos.",
+        "hint": "Deriva también 2x."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "differential-3",
+    "world": "differential",
+    "title": "Taylor: mapa local",
+    "subtitle": "G01 · Curvatura y aproximación cuadrática",
+    "minutes": 9,
+    "visual": "derivative",
+    "intuition": "La pendiente predice dirección; la curvatura predice cuánto cambia esa dirección.",
+    "core": [
+      {
+        "label": "Segundo orden",
+        "body": "La segunda derivada cuantifica curvatura local.",
+        "formula": "f(x+h)\\approx f(x)+f^{\\prime}(x)h+\\frac12f^{\\prime\\prime}(x)h^2"
+      },
+      {
+        "label": "Convexidad",
+        "body": "Segunda derivada no negativa en un intervalo implica convexidad allí.",
+        "formula": "f^{\\prime\\prime}(x)\\ge0"
+      },
+      {
+        "label": "Resto",
+        "body": "La precisión depende de suavidad y tamaño del desplazamiento.",
+        "formula": "R_3(h)=O(h^3)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "f(x)=e^x,\\quad f(0)=f^{\\prime}(0)=f^{\\prime\\prime}(0)=1",
+        "reason": "Calcular datos locales."
+      },
+      {
+        "formula": "e^h\\approx1+h+h^2/2",
+        "reason": "Construir el polinomio cuadrático."
+      },
+      {
+        "formula": "h=0.1\\Rightarrow e^h\\approx1.105",
+        "reason": "Evaluar sin la función completa."
+      }
+    ],
+    "example": {
+      "problem": "Aproxima ln(1+h) a segundo orden para h=0.1.",
+      "solution": "En cero, la expansión es $h-h^2/2$: 0.095; exige 1+h>0 y pequeño h."
+    },
+    "pitfall": "Curvatura positiva en un punto no garantiza convexidad global.",
+    "bridge": "La aproximación de Laplace convierte la curvatura de log posterior en precisión gaussiana.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Para f(x)=x², calcula f″(x).",
+        "answer": 2,
+        "tolerance": 0.001,
+        "explanation": "La primera derivada es 2x y la segunda es dos.",
+        "hint": "Deriva dos veces."
+      },
+      {
+        "type": "numeric",
+        "prompt": "Aproxima e⁰·² con 1+h+h²/2.",
+        "answer": 1.22,
+        "tolerance": 0.001,
+        "explanation": "1+0.2+0.02=1.22; se han descartado órdenes tercero y superiores.",
+        "hint": "Calcula primero h²/2."
+      },
+      {
+        "type": "choice",
+        "prompt": "Curvatura positiva significa que la pendiente…",
+        "options": ["Aumenta con x", "Es cero", "Es negativa siempre", "Disminuye con x"],
+        "answer": 0,
+        "explanation": "La segunda derivada es la tasa de cambio de la primera.",
+        "hint": "La curvatura deriva la pendiente."
+      },
+      {
+        "type": "choice",
+        "prompt": "La precisión de Laplace depende principalmente de…",
+        "options": [
+          "La longitud del nombre del modelo",
+          "El valor absoluto del estado",
+          "La curvatura negativa de log posterior en el modo",
+          "Solo la evidencia"
+        ],
+        "answer": 2,
+        "explanation": "La expansión cuadrática alrededor del modo determina la concentración gaussiana.",
+        "hint": "Una cima más estrecha produce mayor precisión."
+      }
+    ],
+    "references": ["guide", "parr"]
+  },
+  {
+    "id": "differential-4",
+    "world": "differential",
+    "title": "Optimizar con criterio",
+    "subtitle": "G01 · Puntos críticos, convexidad y descenso",
+    "minutes": 7,
+    "visual": "derivative",
+    "intuition": "Una actualización útil reduce un objetivo; un punto estacionario necesita diagnóstico de curvatura.",
+    "core": [
+      {
+        "label": "Estacionariedad",
+        "body": "Un extremo interior diferenciable debe tener pendiente nula.",
+        "formula": "f^{\\prime}(x_*)=0"
+      },
+      {
+        "label": "Clasificación",
+        "body": "Curvatura positiva en un punto crítico implica mínimo local.",
+        "formula": "f^{\\prime\\prime}(x_*)>0"
+      },
+      {
+        "label": "Descenso",
+        "body": "Un paso pequeño en dirección opuesta al gradiente reduce el objetivo.",
+        "formula": "x_{k+1}=x_k-\\eta f^{\\prime}(x_k)"
+      }
+    ],
+    "derivation": [
+      {
+        "formula": "f(x)=(x-3)^2",
+        "reason": "Definir un objetivo convexo."
+      },
+      {
+        "formula": "f^{\\prime}(x)=2(x-3)=0\\Rightarrow x_*=3",
+        "reason": "Encontrar el punto crítico."
+      },
+      {
+        "formula": "f^{\\prime\\prime}(3)=2>0",
+        "reason": "Confirmar mínimo; convexidad lo hace global."
+      }
+    ],
+    "example": {
+      "problem": "Desde x=0, usa η=0.1 para minimizar (x−3)².",
+      "solution": "La derivada es −6; el siguiente punto es $0-0.1(-6)=0.6$."
+    },
+    "pitfall": "Gradiente cero puede indicar máximo o silla; un paso excesivo puede divergir.",
+    "bridge": "Minimizar F implementa inferencia aproximada; escoger el optimizador no cambia el significado probabilístico del objetivo.",
+    "questions": [
+      {
+        "type": "numeric",
+        "prompt": "Mínimo de (x−5)²: valor de x.",
+        "answer": 5,
+        "tolerance": 0.001,
+        "explanation": "La derivada 2(x−5) se anula en cinco y la curvatura es positiva.",
+        "hint": "El cuadrado mínimo es cero."
+      },
+      {
+        "type": "choice",
+        "prompt": "f′=0 y f″<0 indican…",
+        "options": [
+          "Mínimo local",
+          "Máximo local",
+          "Ausencia de punto crítico",
+          "Convexidad global"
+        ],
+        "answer": 1,
+        "explanation": "La curva cae a ambos lados del punto estacionario.",
+        "hint": "Visualiza una cima."
+      },
+      {
+        "type": "numeric",
+        "prompt": "x=2, gradiente=4, η=0.25: siguiente x.",
+        "answer": 1,
+        "tolerance": 0.001,
+        "explanation": "La actualización resta 0.25×4=1 al valor dos.",
+        "hint": "Aplica x−ηg."
+      },
+      {
+        "type": "choice",
+        "prompt": "¿Qué hace peligroso un paso de descenso muy grande?",
+        "options": [
+          "Puede aumentar el objetivo o divergir",
+          "Vuelve negativas las derivadas siempre",
+          "Elimina los parámetros",
+          "Garantiza el óptimo global"
+        ],
+        "answer": 0,
+        "explanation": "La garantía local depende de curvatura y escala; saltar demasiado puede atravesar el valle.",
+        "hint": "Un gradiente describe el entorno local."
+      }
+    ],
+    "references": ["guide", "parr"]
+  }
+]

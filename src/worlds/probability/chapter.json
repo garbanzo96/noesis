@@ -1,0 +1,109 @@
+{
+  "scenario": "Dos sensores registran una fuente que puede estar activa o inactiva. Debes reconstruir qué significa «dado que», combinar rutas posibles y evaluar si las señales son independientes.",
+  "objective": "Pasar de eventos y frecuencias a una distribución conjunta, marginalizar y condicionar sin invertir la condición.",
+  "briefing": "Un evento es una condición que un registro cumple o no cumple. Distribuir probabilidad entre registros posibles permite contestar preguntas distintas: ocurrencia conjunta, total de un evento y proporción dentro de un evento conocido.",
+  "teachingStages": [
+    {
+      "id": "probability-stage-1",
+      "title": "De una condición a un indicador",
+      "claim": "El indicador vale uno si el evento ocurre y cero si no; su esperanza es la probabilidad del evento.",
+      "formula": "\\mathbf1_A(\\omega)=\\begin{cases}1&\\omega\\in A\\\\0&\\omega\\notin A\\end{cases},\\quad P(A)=\\mathbb E[\\mathbf1_A]",
+      "explanation": "ω nombra un resultado completo del experimento; A es el conjunto de resultados con señal positiva. Cada registro enciende o apaga una casilla. Con N registros, el promedio de esos ceros y unos es una frecuencia observada; para inferir probabilidad desde ella debes declarar el modelo de muestreo y su incertidumbre.",
+      "actionLabel": "Marcar registros que cumplen",
+      "animation": "Diez registros se convierten en ceros y unos; un promedio de indicadores se conecta con una fracción de casos."
+    },
+    {
+      "id": "probability-stage-2",
+      "title": "Guardar la distribución conjunta",
+      "claim": "Cada celda representa la probabilidad de dos condiciones simultáneas; todas las celdas suman uno.",
+      "formula": "P(S,O)=\\begin{bmatrix}0.18&0.12\\\\0.07&0.63\\end{bmatrix}",
+      "explanation": "Filas: fuente activa, inactiva. Columnas: señal positiva, negativa. La celda 0.18 significa activa y positiva. Las cuatro celdas son eventos mutuamente excluyentes que agotan los casos. Los rótulos de ejes son indispensables para leer la tabla.",
+      "actionLabel": "Recorrer las cuatro celdas",
+      "animation": "Un cuadrado unitario se divide en cuatro áreas; cada fila y columna mantiene etiquetas fijas."
+    },
+    {
+      "id": "probability-stage-3",
+      "title": "Sumar alternativas",
+      "claim": "Una marginal suma la variable que deja de importar; se suman eventos excluyentes.",
+      "formula": "P(O=+)=\\sum_sP(s,+)=0.18+0.07=0.25",
+      "explanation": "La fuente puede estar activa o inactiva. Si solo preguntamos por señal positiva, ambas rutas cuentan. La ley de probabilidad total también escribe esta suma como Σ_s P(+|s)P(s). No multipliques las alternativas; multiplicar corresponde a construir una ruta conjunta condicionada.",
+      "actionLabel": "Colapsar un eje",
+      "animation": "Las dos celdas de señal positiva se apilan en una sola barra de 0.25; el eje de estado desaparece."
+    },
+    {
+      "id": "probability-stage-4",
+      "title": "Cambiar el conjunto de referencia",
+      "claim": "Condicionar restringe la distribución al evento conocido y vuelve a normalizar.",
+      "formula": "P(S=activa\\mid O=+)=\\frac{P(activa,+)}{P(+)}=\\frac{0.18}{0.25}=0.72",
+      "explanation": "El signo | se lee «dado que». Al conocer la señal positiva, solo quedan las celdas de esa columna. La proporción activa dentro de ella es 0.72. En cambio P(+|activa)=0.18/0.30=0.6: invertir la condición cambia el denominador. La condición debe tener probabilidad positiva.",
+      "actionLabel": "Recortar y normalizar",
+      "animation": "La columna positiva se separa y se estira hasta una unidad; las áreas 0.18 y 0.07 pasan a 0.72 y 0.28."
+    },
+    {
+      "id": "probability-stage-5",
+      "title": "Comprobar una dependencia",
+      "claim": "La independencia exige que la distribución conjunta factorice; independencia condicional es otra afirmación.",
+      "formula": "P(A,B)=P(A)P(B),\\qquad P(A,B\\mid S)=P(A\\mid S)P(B\\mid S)",
+      "explanation": "Dos sensores pueden ser independientes una vez fijada la fuente y dependientes al mezclar fuentes. Para la tabla anterior, P(activa,+)=0.18 difiere de P(activa)P(+)=0.30×0.25=0.075: estado y señal son dependientes. Covarianza cero no garantiza independencia en general.",
+      "actionLabel": "Comparar mezcla y condición",
+      "animation": "Dos ramas con causa común se superponen; fijar la causa separa variación compartida de ruido de cada sensor."
+    }
+  ],
+  "missions": [
+    {
+      "id": "probability-mission-1",
+      "title": "Reconstruir el denominador",
+      "brief": "Una probabilidad condicional debe usar todos los casos que satisfacen la condición.",
+      "setup": "Tabla: activa/positiva=0.18, activa/negativa=0.12, inactiva/positiva=0.07, inactiva/negativa=0.63.",
+      "kind": "numeric",
+      "prompt": "¿Cuánto vale P(activa|positiva)?",
+      "formula": "P(activa\\mid+)={0.18}/{(0.18+0.07)}",
+      "answer": 0.72,
+      "solution": "La señal positiva ocupa probabilidad 0.25. Dentro de ella, la masa activa es 0.18: 0.18/0.25=0.72.",
+      "hint": "La condición selecciona una columna, no una fila.",
+      "transfer": "Bayes invierte una condicional usando la conjunta y su marginal.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "probability-mission-2",
+      "title": "Dos sensores, una causa común",
+      "brief": "Comprueba si la independencia condicional sobrevive a una mezcla.",
+      "setup": "S tiene dos valores equiprobables. Dado S=1, cada sensor da + con probabilidad 0.9; dado S=0, con probabilidad 0.1. Los sensores son independientes dado S.",
+      "kind": "numeric",
+      "prompt": "¿Cuánto vale P(A=+,B=+)?",
+      "formula": "P(+,+)=0.5(0.9^2)+0.5(0.1^2)",
+      "answer": 0.41,
+      "solution": "Cada ruta tiene una causa fija y permite multiplicar: 0.81 y 0.01. La mezcla ponderada da 0.41. Cada marginal vale 0.5; su producto sería 0.25, así que no hay independencia marginal.",
+      "hint": "Multiplica dentro de cada causa; suma entre causas.",
+      "transfer": "Una jerarquía puede generar correlaciones por causas compartidas.",
+      "tolerance": 0.001
+    },
+    {
+      "id": "probability-mission-3",
+      "title": "La dirección de la condición",
+      "brief": "Evita atribuir al diagnóstico la fiabilidad del sensor.",
+      "setup": "Para la tabla anterior, P(+|activa)=0.6 y P(activa|+)=0.72.",
+      "kind": "choice",
+      "prompt": "¿Qué expresión responde «si la fuente está activa, qué probabilidad tiene una señal positiva»?",
+      "formula": "P(O=+\\mid S=activa)",
+      "answer": 0,
+      "solution": "La información conocida se escribe a la derecha de |. Saber que la fuente está activa selecciona su fila y normaliza por P(activa)=0.3.",
+      "hint": "Lee primero lo que aparece a la derecha de |.",
+      "transfer": "Sensibilidad del sensor y probabilidad posterior de una causa responden preguntas distintas.",
+      "choices": ["P(+|activa)", "P(activa|+)", "P(activa,+)"]
+    }
+  ],
+  "relatedLessonIds": [
+    "probability-1",
+    "probability-2",
+    "probability-3",
+    "probability-4",
+    "probability-5",
+    "probability-6"
+  ],
+  "sources": [
+    "work/sources/03_guias_nivelacion/guias/G04_PROBABILIDAD_COMO_INFERENCIA_RACIONAL.md",
+    "work/sources/03_guias_nivelacion/guias/G05_VARIABLES_ALEATORIAS_Y_DISTRIBUCIONES.md"
+  ],
+  "scope": "Probabilidad discreta común. Familias de distribuciones, momentos y convolución tienen escenas y lecciones específicas."
+}

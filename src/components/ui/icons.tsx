@@ -1,0 +1,26 @@
+// Selective Lucide imports keep the build independent of the full icon catalogue.
+export { default as Accessibility } from 'lucide-react/dist/esm/icons/accessibility.js';
+export { default as ArrowLeft } from 'lucide-react/dist/esm/icons/arrow-left.js';
+export { default as ArrowRight } from 'lucide-react/dist/esm/icons/arrow-right.js';
+export { default as BookOpen } from 'lucide-react/dist/esm/icons/book-open.js';
+export { default as BrainCircuit } from 'lucide-react/dist/esm/icons/brain-circuit.js';
+export { default as Check } from 'lucide-react/dist/esm/icons/check.js';
+export { default as CheckCircle2 } from 'lucide-react/dist/esm/icons/check-circle-2.js';
+export { default as ChevronLeft } from 'lucide-react/dist/esm/icons/chevron-left.js';
+export { default as ChevronRight } from 'lucide-react/dist/esm/icons/chevron-right.js';
+export { default as Download } from 'lucide-react/dist/esm/icons/download.js';
+export { default as Eye } from 'lucide-react/dist/esm/icons/eye.js';
+export { default as Lock } from 'lucide-react/dist/esm/icons/lock.js';
+export { default as Map } from 'lucide-react/dist/esm/icons/map.js';
+export { default as Package } from 'lucide-react/dist/esm/icons/package.js';
+export { default as Pause } from 'lucide-react/dist/esm/icons/pause.js';
+export { default as Play } from 'lucide-react/dist/esm/icons/play.js';
+export { default as Radar } from 'lucide-react/dist/esm/icons/radar.js';
+export { default as Radio } from 'lucide-react/dist/esm/icons/radio.js';
+export { default as RotateCcw } from 'lucide-react/dist/esm/icons/rotate-ccw.js';
+export { default as Settings2 } from 'lucide-react/dist/esm/icons/settings-2.js';
+export { default as SlidersHorizontal } from 'lucide-react/dist/esm/icons/sliders-horizontal.js';
+export { default as Target } from 'lucide-react/dist/esm/icons/target.js';
+export { default as Upload } from 'lucide-react/dist/esm/icons/upload.js';
+export { default as Volume2 } from 'lucide-react/dist/esm/icons/volume-2.js';
+export { default as VolumeX } from 'lucide-react/dist/esm/icons/volume-x.js';
