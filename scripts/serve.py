@@ -31,8 +31,8 @@ for port in range(args.port, args.port + 10):
         continue
 if server is None:
     raise SystemExit('No hay un puerto local disponible. Cierra una instancia anterior e inténtalo de nuevo.')
-url = f'http://127.0.0.1:{server.server_port}/#map'
-print('NÓESIS · base de campaña para revisión', flush=True)
+url = f'http://127.0.0.1:{server.server_port}/'
+print('NÓESIS v3 · el juego está en tu navegador', flush=True)
 print(url, flush=True)
 print('Mantén esta ventana abierta. Ctrl+C detiene el servidor.', flush=True)
 if not args.no_browser:

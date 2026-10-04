@@ -1670,7 +1670,7 @@ strong {
 }
 .lex {
   display: grid;
-  grid-template-columns: 70px 1fr;
+  grid-template-columns: 104px 1fr;
   gap: 12px;
   border: 1px solid var(--line);
   padding: 10px;
@@ -1683,8 +1683,11 @@ strong {
 .lex-sym {
   display: grid;
   place-items: center;
-  font-size: 24px;
+  font-size: 19px;
   background: #0006;
+  overflow: hidden;
+  padding: 4px;
+  text-align: center;
 }
 .lex-body b {
   display: block;
