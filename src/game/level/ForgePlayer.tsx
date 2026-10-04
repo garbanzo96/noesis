@@ -232,7 +232,7 @@ export function ForgePlayer({ step }: { step: ForgeStep }) {
             </p>
           </div>
           <div className="forge-goal">
-            <span>OBJETIVO</span>
+            <span className="forge-goal-label">OBJETIVO</span>
             <Tex tex={toTex(loaded.goal)} display />
           </div>
         </div>

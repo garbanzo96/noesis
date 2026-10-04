@@ -160,19 +160,24 @@ export function Curve({
     P.yr[0] - margin,
     P.yr[1] + margin,
   ]);
+  const clipAttr = clip ? 'url(#plane-clip)' : undefined;
+  // Glow is a translucent wide halo stroke (no SVG filter: cheap, and never collapses on
+  // flat or vertical geometry whose bounding box has zero width or height).
   return (
-    <path
-      d={d}
-      fill="none"
-      stroke={color}
-      strokeWidth={width}
-      strokeLinecap="round"
-      strokeLinejoin="round"
-      opacity={opacity}
-      strokeDasharray={dashed ? '10 10' : undefined}
-      filter={glow ? 'url(#glow)' : undefined}
-      clipPath={clip ? 'url(#plane-clip)' : undefined}
-    />
+    <g opacity={opacity} clipPath={clipAttr}>
+      {glow && (
+        <path d={d} fill="none" stroke={color} strokeWidth={width * 3.2} strokeLinecap="round" strokeLinejoin="round" opacity={0.16} />
+      )}
+      <path
+        d={d}
+        fill="none"
+        stroke={color}
+        strokeWidth={width}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeDasharray={dashed ? '10 10' : undefined}
+      />
+    </g>
   );
 }
 
@@ -278,19 +283,22 @@ export function Line({
 }) {
   if (opacity <= 0 || progress <= 0) return null;
   const t = clamp(progress, 0, 1);
+  const x2 = a[0] + (b[0] - a[0]) * t;
+  const y2 = a[1] + (b[1] - a[1]) * t;
   return (
-    <line
-      x1={a[0]}
-      y1={a[1]}
-      x2={a[0] + (b[0] - a[0]) * t}
-      y2={a[1] + (b[1] - a[1]) * t}
-      stroke={color}
-      strokeWidth={width}
-      opacity={opacity}
-      strokeDasharray={dashed ? '8 8' : undefined}
-      strokeLinecap="round"
-      filter={glow ? 'url(#glow)' : undefined}
-    />
+    <g opacity={opacity}>
+      {glow && <line x1={a[0]} y1={a[1]} x2={x2} y2={y2} stroke={color} strokeWidth={width * 3.2} strokeLinecap="round" opacity={0.18} />}
+      <line
+        x1={a[0]}
+        y1={a[1]}
+        x2={x2}
+        y2={y2}
+        stroke={color}
+        strokeWidth={width}
+        strokeDasharray={dashed ? '8 8' : undefined}
+        strokeLinecap="round"
+      />
+    </g>
   );
 }
 

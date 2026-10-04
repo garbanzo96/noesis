@@ -56,7 +56,7 @@ export function BriefPlayer({ step }: { step: BriefStep }) {
         </div>
         {last && typed && (
           <div className="brief-objective">
-            <span>OBJETIVO</span>
+            <span className="brief-objective-label">OBJETIVO</span>
             <Rich text={run.level.objective} />
           </div>
         )}
