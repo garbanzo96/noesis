@@ -2085,3 +2085,40 @@ strong {
 .noesis-eye.still * {
   animation: none !important;
 }
+
+/* ---------- boss oracle ---------- */
+.oracle {
+  display: flex;
+  align-items: center;
+  gap: 0.8em;
+  border: 1px solid #ff3ba7aa;
+  background: #ff3ba714;
+  padding: 0.5em 0.9em;
+  box-shadow: 0 0 18px #ff3ba733;
+  animation: oracle-flicker 3.5s steps(1) infinite;
+}
+.oracle-tag {
+  font-family: var(--mono);
+  font-size: 0.75em;
+  letter-spacing: 0.2em;
+  color: var(--magenta);
+}
+.oracle-text {
+  color: #ffd3ec;
+}
+@keyframes oracle-flicker {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+  93% {
+    opacity: 0.55;
+  }
+  95% {
+    opacity: 0.9;
+  }
+  96% {
+    opacity: 0.4;
+  }
+}
