@@ -3,6 +3,8 @@ import { useKey, useTween } from '../../engine/hooks';
 import { Tex } from '../../engine/Tex';
 import { GLYPHS } from '../../content/registry';
 import { sfx } from '../audio';
+import { NoesisEye } from '../ui/NoesisEye';
+import { useGame } from '../state';
 import type { LevelDef } from './types';
 
 export interface ResultsData {
@@ -24,6 +26,7 @@ export function Results({
   onNext,
   nextLabel,
   reduced,
+  module,
 }: {
   level: LevelDef;
   data: ResultsData;
@@ -32,7 +35,9 @@ export function Results({
   onNext?: () => void;
   nextLabel?: string;
   reduced: boolean;
+  module?: { name: string; description: string };
 }) {
+  const game = useGame();
   const [revealed, setRevealed] = useState(reduced ? 3 : 0);
   useEffect(() => {
     sfx.complete();
@@ -92,6 +97,16 @@ export function Results({
             <span>tiempo</span>
           </div>
         </div>
+        {level.kind === 'boss' && module && (
+          <div className="results-module">
+            <NoesisEye size={120} mood="ok" modules={game.modules.length} reduced={reduced} />
+            <div>
+              <span>MÓDULO RESTAURADO · {game.modules.length}/14</span>
+              <b>{module.name}</b>
+              <p>{module.description}</p>
+            </div>
+          </div>
+        )}
         {level.glyphs.length > 0 && (
           <div className="results-glyphs">
             <span>NOTACIÓN ADQUIRIDA</span>

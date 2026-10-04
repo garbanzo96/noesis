@@ -1,7 +1,10 @@
 import { defineConfig } from 'vitest/config';
 import react from '@vitejs/plugin-react';
+
 export default defineConfig({
   plugins: [react()],
+  // relative base: the built game runs from any folder or static host
+  base: './',
   build: {
     outDir: 'dist',
     emptyOutDir: true,
@@ -11,7 +14,6 @@ export default defineConfig({
         manualChunks: {
           framework: ['react', 'react-dom'],
           math: ['katex'],
-          curriculum: ['./src/content/lessons.json'],
         },
       },
     },

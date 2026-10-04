@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useClock } from '../../engine/hooks';
+import { useClock, useKey } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { Rich, Tex } from '../../engine/Tex';
@@ -49,6 +49,8 @@ export function SectorMap({
     sfx.select();
     onPlay(l);
   };
+
+  useKey('Enter', () => recommended && play(recommended));
 
   return (
     <div className="sector" style={{ ['--accent' as string]: sector.accent }}>
@@ -151,6 +153,15 @@ export function SectorMap({
           SECTOR {String(sector.number).padStart(2, '0')} · {sector.tag.toUpperCase()}
         </span>
         <h2>{sector.name}</h2>
+        {stars.done === 0 && (
+          <div className="sector-intro">
+            {sector.intro.map((l, i) => (
+              <p key={i}>
+                <span>›</span> <Rich text={l} />
+              </p>
+            ))}
+          </div>
+        )}
         <div className="sector-progress">
           <span>
             {stars.done}/{stars.total} protocolos
@@ -183,7 +194,7 @@ export function SectorMap({
             </p>
           ) : (
             <button className="btn primary" onClick={() => play(focus)}>
-              {rec?.done ? 'Repetir' : 'Iniciar'} {focus.code} ▸
+              {rec?.done ? 'Repetir' : 'Iniciar'} {focus.code} ▸ {focus.id === recommended?.id && <kbd>Enter</kbd>}
             </button>
           )}
           {rec?.done && (

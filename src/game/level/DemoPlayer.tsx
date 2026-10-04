@@ -58,6 +58,12 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
     setUnlocked((u) => u.map((v, k) => (k === beats.beat ? true : v)));
   };
 
+  // dev-only hook for automated walkthroughs (QA screenshots)
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    (window as unknown as { __demo: unknown }).__demo = { unlock, beat: beats.beat, count: n, answer };
+  });
+
   useKey([' ', 'Enter', 'ArrowRight'], (e) => {
     e.preventDefault();
     advance();

@@ -230,6 +230,7 @@ export function LevelRunner({
             onNext={onNext}
             nextLabel={nextLabel}
             reduced={reduced}
+            module={sector.module}
           />
         )}
       </div>

@@ -1495,13 +1495,25 @@ strong {
   margin: 0 0 14px;
 }
 .codex-blocks {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 12px;
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid var(--line);
 }
 .codex-block {
-  border-left: 2px solid var(--line2);
-  padding: 4px 0 4px 14px;
+  display: grid;
+  grid-template-columns: 190px minmax(0, 1fr);
+  gap: 4px 18px;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line);
+}
+.codex-block > h4 {
+  grid-row: span 2;
+  align-self: start;
+  padding-top: 6px;
+}
+.codex-block > p {
+  grid-column: 2;
 }
 .codex-block h4,
 .codex-pitfalls h4,
@@ -1514,13 +1526,22 @@ strong {
   text-transform: uppercase;
 }
 .codex-block p {
-  margin: 6px 0 0;
+  margin: 2px 0 0;
   color: #cfc8e6;
   line-height: 1.45;
 }
 .codex-tex {
+  grid-column: 2;
   font-size: 18px;
   overflow-x: auto;
+  overflow-y: hidden;
+  text-align: left;
+}
+.codex-tex .katex-display {
+  text-align: left;
+}
+.codex-tex .katex-display > .katex {
+  text-align: left;
 }
 .codex-pitfalls {
   margin-top: 16px;
@@ -1948,4 +1969,48 @@ strong {
   .title-eye {
     display: none;
   }
+}
+
+/* ---------- sector intro & module ceremony ---------- */
+.sector-intro {
+  border-left: 2px solid var(--accent);
+  padding: 4px 0 4px 12px;
+  margin: 0 0 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  color: #d6d0ec;
+}
+.sector-intro p {
+  margin: 0 0 8px;
+}
+.sector-intro p > span {
+  color: var(--accent);
+  font-family: var(--mono);
+}
+.results-module {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  text-align: left;
+  border: 1px solid #ff3ba788;
+  background: #ff3ba70f;
+  padding: 14px 18px;
+  margin: 0 0 18px;
+  animation: shard 0.8s cubic-bezier(0.2, 0.9, 0.2, 1);
+}
+.results-module span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  color: var(--magenta);
+}
+.results-module b {
+  display: block;
+  font-family: var(--display);
+  font-size: 20px;
+  margin: 4px 0;
+}
+.results-module p {
+  margin: 0;
+  color: var(--muted);
 }

@@ -1,16 +1,15 @@
 {
   "name": "noesis-active-inference",
-  "version": "2.0.0",
+  "version": "3.0.0",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 8765",
-    "build": "npm run content:build && tsc -b && vite build",
+    "build": "tsc -b && vite build",
     "test": "vitest run",
     "preview": "vite preview --host 127.0.0.1 --port 8876",
-    "format": "prettier --write src tests scripts vite.config.ts tsconfig.json",
-    "check:assets": "node scripts/verify-assets.mjs",
-    "content:build": "node scripts/build-content.mjs"
+    "format": "prettier --write src tests vite.config.ts tsconfig.json",
+    "check": "tsc --noEmit -p tsconfig.json && vitest run"
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "5.2.6",
