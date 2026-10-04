@@ -372,6 +372,21 @@ export const RULES: Rule[] = [
     apply: (e) => (e.k === 'div' && e.n.k === 'add' ? ok(add(...e.n.xs.map((t) => div(t, e.d)))) : null),
   },
   {
+    id: 'frac-norm',
+    name: 'Dividir por el numerador',
+    schema: '\\frac{a}{a+b}=\\frac{1}{1+b/a}',
+    cond: 'a\\neq0',
+    apply: (e) => {
+      if (e.k !== 'div' || e.d.k !== 'add') return null;
+      const a = e.n;
+      const j = e.d.xs.findIndex((t) => key(t) === key(a));
+      if (j < 0) return null;
+      if (!isNonzero(a)) return blocked(`No puedo garantizar que $${T(a)}\\neq0$.`);
+      const rest = e.d.xs.filter((_, k) => k !== j).map((t) => div(t, a));
+      return ok(div(num(1), add(num(1), ...rest)));
+    },
+  },
+  {
     id: 'calc',
     name: 'Calcular',
     schema: '2\\cdot3=6',

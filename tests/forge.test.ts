@@ -132,3 +132,12 @@ describe('alpha-equivalence and new rules', () => {
     expect(d && d.ok && same(d.expr, parse('e^(a - b)'))).toBe(true);
   });
 });
+
+describe('frac-norm', () => {
+  it('two-option softmax becomes the logistic form', () => {
+    let e = tidy(parse('e^(z_1) / (e^(z_1) + e^(z_2))'));
+    e = step(e, (x) => x.k === 'div', 'frac-norm');
+    e = step(e, (x) => x.k === 'div' && x.n.k === 'exp', 'exp-div');
+    expect(key(e)).toBe(key(tidy(parse('1 / (1 + e^(z_2 - z_1))'))));
+  });
+});
