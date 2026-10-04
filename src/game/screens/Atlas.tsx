@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { useClock } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { SECTORS, SECTOR_BY_ID, sectorStars, sectorState } from '../../content/registry';
@@ -10,7 +9,6 @@ import { useGame } from '../state';
 /** The atlas of NOESIS's mind: 14 sectors wired by mathematical dependency. */
 export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduced: boolean }) {
   const game = useGame();
-  const t = useClock(!reduced);
   const [hover, setHover] = useState<WorldId | null>(null);
   const [toast, setToast] = useState<string | null>(null);
   const focus = hover ?? 'foundations';
@@ -58,8 +56,7 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                     stroke={from.accent}
                     strokeWidth={3}
                     strokeDasharray="6 60"
-                    strokeDashoffset={-((t * 40) % 66)}
-                    filter="url(#glow)"
+                    className="flow flow-66"
                   />
                 )}
               </g>
@@ -74,7 +71,6 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
               return `${x + r * Math.cos(a)},${y + r * Math.sin(a)}`;
             }).join(' ');
             const col = state === 'sealed' ? C.dim : s.accent;
-            const pulse = state === 'open' ? 0.5 + 0.5 * Math.sin(t * 3) : 0;
             const ss = sectorStars(game, s.world);
             return (
               <g
@@ -88,8 +84,8 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                 onClick={() => click(s.world)}
                 style={{ cursor: 'pointer' }}
               >
-                {state === 'open' && (
-                  <circle cx={x} cy={y} r={r + 14 + pulse * 8} fill="none" stroke={col} opacity={0.35 - pulse * 0.25} strokeWidth={2} />
+                {state === 'open' && !reduced && (
+                  <circle cx={x} cy={y} r={r + 14} fill="none" stroke={col} strokeWidth={2} className="pulse-ring" />
                 )}
                 <polygon
                   points={hex}

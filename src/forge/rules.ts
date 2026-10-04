@@ -301,6 +301,53 @@ export const RULES: Rule[] = [
     },
   },
   {
+    id: 'add-cancel',
+    name: 'Cancelar opuestos',
+    schema: 'a+b-b=a',
+    apply: (e) => {
+      if (e.k !== 'add') return null;
+      const xs = e.xs.slice();
+      for (let i = 0; i < xs.length; i++) {
+        const opp = key(negate(xs[i]));
+        const j = xs.findIndex((y, m) => m !== i && key(y) === opp);
+        if (j >= 0) {
+          const rest = xs.filter((_, m) => m !== i && m !== j);
+          return ok(sumOf(rest));
+        }
+      }
+      return null;
+    },
+  },
+  {
+    id: 'add-collect',
+    name: 'Agrupar términos iguales',
+    schema: 'a+a+a=3a',
+    apply: (e) => {
+      if (e.k !== 'add') return null;
+      const coef = (x: Expr): [number, Expr] =>
+        x.k === 'mul' && x.xs[0].k === 'num' ? [x.xs[0].v, product(x.xs.slice(1))] : x.k === 'neg' ? [-coef(x.x)[0], coef(x.x)[1]] : [1, x];
+      for (let i = 0; i < e.xs.length; i++) {
+        const [, base] = coef(e.xs[i]);
+        const kb = key(base);
+        const group = e.xs.filter((x) => key(coef(x)[1]) === kb);
+        if (group.length >= 2) {
+          const c = group.reduce((s, x) => s + coef(x)[0], 0);
+          const rest = e.xs.filter((x) => !group.includes(x));
+          const term = c === 0 ? num(0) : c === 1 ? base : mul(num(c), base);
+          return ok(sumOf([...rest, term]));
+        }
+      }
+      return null;
+    },
+  },
+  {
+    id: 'exp-div',
+    name: 'Cociente de exponenciales',
+    schema: '\\frac{e^{a}}{e^{b}}=e^{a-b}',
+    apply: (e) =>
+      e.k === 'div' && e.n.k === 'exp' && e.d.k === 'exp' ? ok(exp(add(e.n.x, negate(e.d.x)))) : null,
+  },
+  {
     id: 'neg-add',
     name: 'Repartir el signo',
     schema: '-(a+b)=-a-b',

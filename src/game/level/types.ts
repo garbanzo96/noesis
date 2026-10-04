@@ -50,6 +50,8 @@ export interface LevelDef {
   codex: string[];
   /** module granted (bosses) */
   module?: string;
+  /** under construction: shown on the map but not playable; does not block dependents */
+  wip?: boolean;
   steps: Step[];
 }
 

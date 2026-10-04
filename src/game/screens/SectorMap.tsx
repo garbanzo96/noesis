@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useClock, useKey } from '../../engine/hooks';
+import { useKey } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { Rich, Tex } from '../../engine/Tex';
@@ -30,7 +30,6 @@ export function SectorMap({
   reduced: boolean;
 }) {
   const game = useGame();
-  const t = useClock(!reduced);
   const [hover, setHover] = useState<string | null>(null);
   const recommended = nextLevel(game, sector.world);
   const focusId = hover ?? recommended?.id ?? sector.levels[0].id;
@@ -41,7 +40,8 @@ export function SectorMap({
   const byId = Object.fromEntries(sector.levels.map((l) => [l.id, l]));
 
   const play = (l: LevelDef) => {
-    if (levelState(game, l) === 'locked') {
+    const st = levelState(game, l);
+    if (st === 'locked' || st === 'wip') {
       sfx.bad();
       setHover(l.id);
       return;
@@ -77,8 +77,7 @@ export function SectorMap({
                       stroke={sector.accent}
                       strokeWidth={3.5}
                       strokeDasharray="4 46"
-                      strokeDashoffset={-((t * 50) % 50)}
-                      filter="url(#glow)"
+                      className="flow flow-50"
                     />
                   )}
                 </g>
@@ -92,7 +91,6 @@ export function SectorMap({
             const [x, y] = l.pos;
             const col = boss ? C.magenta : sector.accent;
             const isRec = recommended?.id === l.id;
-            const pulse = 0.5 + 0.5 * Math.sin(t * 3.2);
             const got = game.levels[l.id]?.stars ?? [false, false, false];
             return (
               <g
@@ -103,15 +101,23 @@ export function SectorMap({
                 }}
                 onMouseLeave={() => setHover(null)}
                 onClick={() => play(l)}
-                style={{ cursor: st === 'locked' ? 'not-allowed' : 'pointer' }}
+                style={{ cursor: st === 'locked' || st === 'wip' ? 'not-allowed' : 'pointer' }}
               >
-                {isRec && (
-                  <circle cx={x} cy={y} r={r + 12 + pulse * 6} fill="none" stroke={col} strokeWidth={2} opacity={0.6 - pulse * 0.4} />
+                {isRec && !reduced && (
+                  <circle cx={x} cy={y} r={r + 12} fill="none" stroke={col} strokeWidth={2} className="pulse-ring" />
                 )}
                 {boss && (
-                  <g transform={`rotate(${reduced ? 0 : (t * 20) % 360} ${x} ${y})`}>
-                    <circle cx={x} cy={y} r={r + 10} fill="none" stroke={col} strokeWidth={2} strokeDasharray="14 10" opacity={0.6} />
-                  </g>
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={r + 10}
+                    fill="none"
+                    stroke={col}
+                    strokeWidth={2}
+                    strokeDasharray="14 10"
+                    opacity={0.6}
+                    className={reduced ? undefined : 'spin-slow'}
+                  />
                 )}
                 <circle
                   cx={x}
@@ -121,13 +127,14 @@ export function SectorMap({
                   fillOpacity={st === 'done' ? 0.16 : 1}
                   stroke={col}
                   strokeWidth={hover === l.id ? 4 : 2.5}
-                  opacity={st === 'locked' ? 0.4 : 1}
-                  filter={st !== 'locked' ? 'url(#glow)' : undefined}
+                  opacity={st === 'locked' || st === 'wip' ? 0.4 : 1}
+                  strokeDasharray={st === 'wip' ? '6 7' : undefined}
+                  filter={st === 'open' || st === 'done' ? 'url(#glow)' : undefined}
                 />
-                <Html x={x} y={y} size={boss ? 34 : 28} color={st === 'locked' ? C.dim : C.text}>
+                <Html x={x} y={y} size={boss ? 34 : 28} color={st === 'locked' || st === 'wip' ? C.dim : C.text}>
                   <Tex tex={l.glyph} />
                 </Html>
-                <Html x={x} y={y + r + 10} size={15} anchor="top" color={st === 'locked' ? C.dim : C.muted}>
+                <Html x={x} y={y + r + 10} size={15} anchor="top" color={st === 'locked' || st === 'wip' ? C.dim : C.muted}>
                   <span className="node-label">
                     {l.code} · {l.title}
                   </span>
@@ -188,7 +195,9 @@ export function SectorMap({
               ))}
             </div>
           )}
-          {fstate === 'locked' ? (
+          {fstate === 'wip' ? (
+            <p className="level-card-lock">◇ En construcción</p>
+          ) : fstate === 'locked' ? (
             <p className="level-card-lock">
               ⌁ Requiere {focus.requires.map((r) => byId[r]?.code).join(', ')}
             </p>

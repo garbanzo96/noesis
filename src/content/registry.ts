@@ -17,10 +17,12 @@ export const CODEX_LIST: CodexEntry[] = W01_CODEX;
 export const GLYPH_LIST: Glyph[] = W01_GLYPHS;
 
 // ---------- gating ----------
-export function levelState(s: GameState, l: LevelDef): 'done' | 'open' | 'locked' {
+export function levelState(s: GameState, l: LevelDef): 'done' | 'open' | 'locked' | 'wip' {
+  if (l.wip) return 'wip';
   if (s.levels[l.id]?.done) return 'done';
   if (s.settings.freeMode) return 'open';
-  return l.requires.every((r) => s.levels[r]?.done) ? 'open' : 'locked';
+  // a dependency still under construction does not block its dependents
+  return l.requires.every((r) => s.levels[r]?.done || LEVELS[r]?.wip) ? 'open' : 'locked';
 }
 
 export function sectorState(s: GameState, w: WorldId): 'done' | 'open' | 'locked' | 'sealed' {

@@ -111,3 +111,24 @@ describe('rules and side conditions', () => {
     expect(applyAt(parse('ln(x)'), [], 'calc')).toBeNull();
   });
 });
+
+describe('alpha-equivalence and new rules', () => {
+  it('bound index names do not matter', () => {
+    expect(same(parse('sum(j, 1, n, w_j)'), parse('sum(k, 1, n, w_k)'))).toBe(true);
+    expect(same(parse('sum(j, 1, n, w_j)'), parse('sum(k, 1, n, v_k)'))).toBe(false);
+  });
+  it('normalized weights sum to one in two moves', () => {
+    const w = { w: { tex: 'w', pos: true } };
+    let e = tidy(parse('sum(j, 1, n, w_j / sum(k, 1, n, w_k))', w));
+    e = step(e, (x) => x.k === 'big' && x.body.k === 'div', 'big-factor');
+    e = step(e, (x) => x.k === 'div', 'cancel');
+    expect(key(e)).toBe(key(parse('1')));
+  });
+  it('add-cancel, add-collect, exp-div', () => {
+    expect(applyAt(parse('a + b - b'), [], 'add-cancel')).toMatchObject({ ok: true });
+    const m = applyAt(parse('x + x + x'), [], 'add-collect');
+    expect(m && m.ok && same(m.expr, parse('3*x'))).toBe(true);
+    const d = applyAt(parse('e^(a) / e^(b)'), [], 'exp-div');
+    expect(d && d.ok && same(d.expr, parse('e^(a - b)'))).toBe(true);
+  });
+});

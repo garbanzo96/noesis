@@ -107,32 +107,36 @@ function numKey(v: number) {
   const r = Math.round(v * 1e9) / 1e9;
   return String(Object.is(r, -0) ? 0 : r);
 }
-export function key(e: Expr): string {
+export function key(e: Expr, env: Record<string, string> = {}, depth = 0): string {
+  const k = (x: Expr) => key(x, env, depth);
   switch (e.k) {
     case 'num':
       return 'n' + numKey(e.v);
     case 'sym':
-      return 's:' + e.id;
+      return env[e.id] ?? 's:' + e.id;
     case 'idx':
-      return `i:${e.base}[${key(e.i)}]`;
+      return `i:${e.base}[${k(e.i)}]`;
     case 'add':
-      return 'add(' + e.xs.map(key).sort().join(',') + ')';
+      return 'add(' + e.xs.map(k).sort().join(',') + ')';
     case 'mul':
-      return 'mul(' + e.xs.map(key).sort().join(',') + ')';
+      return 'mul(' + e.xs.map(k).sort().join(',') + ')';
     case 'neg':
-      return 'neg(' + key(e.x) + ')';
+      return 'neg(' + k(e.x) + ')';
     case 'div':
-      return 'div(' + key(e.n) + ',' + key(e.d) + ')';
+      return 'div(' + k(e.n) + ',' + k(e.d) + ')';
     case 'pow':
-      return 'pow(' + key(e.b) + ',' + key(e.e) + ')';
+      return 'pow(' + k(e.b) + ',' + k(e.e) + ')';
     case 'ln':
-      return 'ln(' + key(e.x) + ')';
+      return 'ln(' + k(e.x) + ')';
     case 'exp':
-      return 'exp(' + key(e.x) + ')';
-    case 'big':
-      return `${e.op}[${e.i}:${key(e.lo)}..${key(e.hi)}](${key(e.body)})`;
+      return 'exp(' + k(e.x) + ')';
+    case 'big': {
+      // bound index names are irrelevant: Σ_j w_j ≡ Σ_k w_k (alpha-equivalence)
+      const inner = { ...env, [e.i]: '#' + depth };
+      return `${e.op}[${k(e.lo)}..${k(e.hi)}](${key(e.body, inner, depth + 1)})`;
+    }
     case 'fn':
-      return `fn:${e.f}(${e.args.map(key).join(',')})`;
+      return `fn:${e.f}(${e.args.map(k).join(',')})`;
   }
 }
 export const same = (a: Expr, b: Expr) => key(tidy(a)) === key(tidy(b));
