@@ -1,0 +1,191 @@
+import type { WorldId } from '../game/level/types';
+
+// The 14 sectors of NOESIS's cognitive architecture. Disciplinary numbering is kept
+// (01–14) but access follows mathematical dependencies (prerequisites), drawn on the atlas.
+export interface SectorMeta {
+  world: WorldId;
+  number: number;
+  symbol: string;
+  name: string;
+  tag: string;
+  accent: string;
+  description: string;
+  prerequisites: WorldId[];
+  /** what NOESIS can do once this sector's module is restored */
+  capability: string;
+  /** atlas position in stage units (1600×900) */
+  at: [number, number];
+}
+
+export const SECTORS: SectorMeta[] = [
+  {
+    world: 'foundations',
+    number: 1,
+    symbol: 'f',
+    name: 'Precálculo',
+    tag: 'El lenguaje',
+    accent: '#28e7fa',
+    description: 'Signos, conjuntos, funciones, Σ y Π, normalización, exp, ln y softmax: la sintaxis del modelo.',
+    prerequisites: [],
+    capability: 'Leer y escribir el lenguaje del modelo: convertir puntuaciones en creencias.',
+    at: [140, 450],
+  },
+  {
+    world: 'differential',
+    number: 2,
+    symbol: '∂',
+    name: 'Cálculo diferencial',
+    tag: 'El cambio',
+    accent: '#ff3ba7',
+    description: 'Límites, derivada, regla de la cadena, Taylor y descenso de gradiente.',
+    prerequisites: ['foundations'],
+    capability: 'Sentir hacia dónde baja una función: corregir creencias por gradiente.',
+    at: [380, 250],
+  },
+  {
+    world: 'integral',
+    number: 3,
+    symbol: '∫',
+    name: 'Cálculo integral',
+    tag: 'La acumulación',
+    accent: '#a88aff',
+    description: 'Área, densidad, acumulada, expectativas y cambio de variable.',
+    prerequisites: ['foundations', 'probability'],
+    capability: 'Acumular masa continua: normalizar densidades y promediar.',
+    at: [640, 150],
+  },
+  {
+    world: 'linear',
+    number: 4,
+    symbol: '⊗',
+    name: 'Álgebra lineal',
+    tag: 'Las transformaciones',
+    accent: '#7baffe',
+    description: 'Vectores, matrices estocásticas, productos y precisión.',
+    prerequisites: ['foundations', 'probability'],
+    capability: 'Transformar creencias con matrices A y B.',
+    at: [640, 420],
+  },
+  {
+    world: 'probability',
+    number: 5,
+    symbol: 'Ω',
+    name: 'Probabilidad',
+    tag: 'La incertidumbre',
+    accent: '#ffbc5e',
+    description: 'Universo, conjunta, marginal, condicional e independencia.',
+    prerequisites: ['foundations'],
+    capability: 'Representar la incertidumbre como masa repartida.',
+    at: [380, 650],
+  },
+  {
+    world: 'statistics',
+    number: 6,
+    symbol: 'μ',
+    name: 'Estadística',
+    tag: 'Los datos',
+    accent: '#28e7fa',
+    description: 'Familias, verosimilitud, estimación y validación.',
+    prerequisites: ['probability', 'foundations'],
+    capability: 'Ajustar parámetros a datos.',
+    at: [640, 760],
+  },
+  {
+    world: 'multivariate',
+    number: 7,
+    symbol: '∇',
+    name: 'Varias variables',
+    tag: 'La geometría local',
+    accent: '#ff3ba7',
+    description: 'Gradiente, Jacobiano, Hessiano y restricciones.',
+    prerequisites: ['differential', 'linear'],
+    capability: 'Navegar paisajes de muchas dimensiones.',
+    at: [900, 200],
+  },
+  {
+    world: 'information',
+    number: 8,
+    symbol: 'H',
+    name: 'Teoría de la información',
+    tag: 'La sorpresa',
+    accent: '#a88aff',
+    description: 'Sorpresa, entropía, KL, ganancia de información y MaxEnt.',
+    prerequisites: ['probability', 'foundations'],
+    capability: 'Medir sorpresa y distancia entre creencias.',
+    at: [900, 640],
+  },
+  {
+    world: 'dynamics',
+    number: 9,
+    symbol: 'ẋ',
+    name: 'Sistemas dinámicos',
+    tag: 'El flujo',
+    accent: '#7baffe',
+    description: 'Estabilidad, ruido, Euler, Ornstein–Uhlenbeck y coordenadas generalizadas.',
+    prerequisites: ['differential', 'integral', 'probability'],
+    capability: 'Simular el tiempo continuo.',
+    at: [1120, 120],
+  },
+  {
+    world: 'bayesian',
+    number: 10,
+    symbol: 'B',
+    name: 'Inferencia bayesiana',
+    tag: 'La actualización',
+    accent: '#ffbc5e',
+    description: 'Tasa base, conjugación, predictiva y evidencia.',
+    prerequisites: ['probability', 'foundations'],
+    capability: 'Actualizar creencias con evidencia.',
+    at: [900, 420],
+  },
+  {
+    world: 'variational',
+    number: 11,
+    symbol: 'F',
+    name: 'Inferencia variacional',
+    tag: 'La aproximación',
+    accent: '#28e7fa',
+    description: 'Energía libre, ELBO, gap, campo medio y Laplace.',
+    prerequisites: ['bayesian', 'information', 'differential'],
+    capability: 'Aproximar posteriors minimizando F.',
+    at: [1140, 420],
+  },
+  {
+    world: 'generative',
+    number: 12,
+    symbol: 'A',
+    name: 'Modelos generativos',
+    tag: 'El modelo del mundo',
+    accent: '#a88aff',
+    description: 'Grafos, placas, matrices A, B, C, D y paso de mensajes.',
+    prerequisites: ['probability', 'linear', 'bayesian'],
+    capability: 'Construir un modelo del mundo.',
+    at: [1140, 700],
+  },
+  {
+    world: 'decision',
+    number: 13,
+    symbol: 'π',
+    name: 'Decisión y POMDP',
+    tag: 'Las políticas',
+    accent: '#ff3ba7',
+    description: 'Políticas, preferencias, riesgo, ambigüedad y valor epistémico.',
+    prerequisites: ['generative', 'information', 'variational'],
+    capability: 'Evaluar planes por su energía libre esperada.',
+    at: [1340, 560],
+  },
+  {
+    world: 'active',
+    number: 14,
+    symbol: 'G',
+    name: 'Active inference',
+    tag: 'La agencia',
+    accent: '#ffbc5e',
+    description: 'Percepción, aprendizaje y acción en un solo bucle.',
+    prerequisites: ['decision', 'generative', 'bayesian', 'variational'],
+    capability: 'Percibir, aprender y actuar: NOESIS despierta.',
+    at: [1480, 380],
+  },
+];
+
+export const SECTOR_BY_ID = Object.fromEntries(SECTORS.map((s) => [s.world, s])) as Record<WorldId, SectorMeta>;
