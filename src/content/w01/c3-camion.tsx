@@ -16,17 +16,17 @@ import { Choices, Confirm, Knob, dec, hhmm } from '../shared/ui';
 // ajustar d = mt + b; tramo horizontal = detenido; intersección de dos rectas = encuentro.
 // ============================================================================
 
-const P = plane([0, 4], [0, 160], { x: 280, y: 250, w: 1080, h: 500 });
-const ROAD = { x0: 280, x1: 1360, y: 140, km: 160 };
-const roadX = (km: number) => ROAD.x0 + (km / ROAD.km) * (ROAD.x1 - ROAD.x0);
-const X_TICKS = [0, 1, 2, 3, 4];
-const Y_TICKS = [20, 40, 60, 80, 100, 120, 140, 160];
+export const P = plane([0, 4], [0, 160], { x: 280, y: 250, w: 1080, h: 500 });
+export const ROAD = { x0: 280, x1: 1360, y: 140, km: 160 };
+export const roadX = (km: number) => ROAD.x0 + (km / ROAD.km) * (ROAD.x1 - ROAD.x0);
+export const X_TICKS = [0, 1, 2, 3, 4];
+export const Y_TICKS = [20, 40, 60, 80, 100, 120, 140, 160];
 /** Taller plane for the logbook rounds (longer trips). */
 const PC = plane([0, 4], [0, 200], { x: 280, y: 150, w: 1080, h: 600 });
 const YC_TICKS = [40, 80, 120, 160, 200];
 
 /** The road seen from above: port on the left, km marks, vehicles placed by distance. */
-function Road({ children }: { children?: ReactNode }) {
+export function Road({ children }: { children?: ReactNode }) {
   return (
     <g>
       <rect x={ROAD.x0 - 40} y={ROAD.y - 34} width={ROAD.x1 - ROAD.x0 + 80} height={68} fill="#120f22" stroke="#2b2340" />

@@ -40,6 +40,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   const seed = hashSeed(run.level.id, run.stepIndex, round, cycle, salt.current);
 
   const resetRoundUi = () => {
+    setPrompt({ text: '…' });
     setFeedback(null);
     setShownHints(0);
     setHints([]);

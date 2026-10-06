@@ -14,23 +14,23 @@ import { Confirm, dec } from '../shared/ui';
 // deshacen los pasos en orden inverso; una máquina que junta dos letras no se puede invertir.
 // ============================================================================
 
-const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-const num = (ch: string) => ABC.indexOf(ch) + 1;
+export const ABC = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+export const num = (ch: string) => ABC.indexOf(ch) + 1;
 const letter = (n: number) => (Number.isInteger(n) && n >= 1 && n <= 26 ? ABC[n - 1] : null);
 
-interface Op {
+export interface Op {
   k: 'add' | 'sub' | 'mul' | 'div';
   v: number;
 }
-const apply = (o: Op, x: number) => (o.k === 'add' ? x + o.v : o.k === 'sub' ? x - o.v : o.k === 'mul' ? x * o.v : x / o.v);
-const inv = (o: Op): Op => ({ k: o.k === 'add' ? 'sub' : o.k === 'sub' ? 'add' : o.k === 'mul' ? 'div' : 'mul', v: o.v });
-const opLabel = (o: Op) => `${{ add: '+', sub: '−', mul: '×', div: '÷' }[o.k]}${o.v}`;
+export const apply = (o: Op, x: number) => (o.k === 'add' ? x + o.v : o.k === 'sub' ? x - o.v : o.k === 'mul' ? x * o.v : x / o.v);
+export const inv = (o: Op): Op => ({ k: o.k === 'add' ? 'sub' : o.k === 'sub' ? 'add' : o.k === 'mul' ? 'div' : 'mul', v: o.v });
+export const opLabel = (o: Op) => `${{ add: '+', sub: '−', mul: '×', div: '÷' }[o.k]}${o.v}`;
 const same = (a: Op, b: Op) => a.k === b.k && a.v === b.v;
-const run = (ops: Op[], x: number) => ops.reduce((acc, o) => apply(o, acc), x);
-const show = (n: number) => (Number.isInteger(n) ? String(n) : dec(n, 2));
+export const run = (ops: Op[], x: number) => ops.reduce((acc, o) => apply(o, acc), x);
+export const show = (n: number) => (Number.isInteger(n) ? String(n) : dec(n, 2));
 
 /** A chain of gears: value chips between operation boxes, left to right. */
-function Pipeline({ ops, input, x, y, gap = 230, color = C.cyan, inLabel }: { ops: (Op | null)[]; input: number | null; x: number; y: number; gap?: number; color?: string; inLabel?: string }) {
+export function Pipeline({ ops, input, x, y, gap = 230, color = C.cyan, inLabel }: { ops: (Op | null)[]; input: number | null; x: number; y: number; gap?: number; color?: string; inLabel?: string }) {
   const vals: (number | null)[] = [input];
   for (const o of ops) {
     const prev = vals[vals.length - 1];
@@ -243,7 +243,7 @@ function Decoder({ seed, round, api }: ChallengeProps) {
     if (round === 2) return { word, merger: pick(r, MERGERS), ops: [] as Op[], tiles: [] as Op[] };
     const a = pick(r, [2, 3, 4, 5]);
     const b = 1 + Math.floor(r() * 9);
-    const ops: Op[] = round === 0 ? (r() < 0.5 ? [{ k: 'mul', v: a }, { k: 'add', v: b }] : [{ k: 'add', v: b }, { k: 'mul', v: a }]) : [{ k: 'add', v: b }, { k: 'mul', v: a }, { k: 'sub', v: pick(r, [2, 3, 4, 5, 6].filter((v) => v !== b)) }];
+    const ops: Op[] = round === 0 ? (r() < 0.5 ? [{ k: 'mul', v: a }, { k: 'add', v: b }] : [{ k: 'add', v: b }, { k: 'mul', v: a }]) : [{ k: 'add', v: b }, { k: 'mul', v: a }, { k: 'sub', v: pick(r, [2, 3, 4, 5, 6].filter((v) => v !== b && v < a * (1 + b))) }];
     const tiles = shuffle(r, [...ops.map(inv), ...ops.slice(0, round === 0 ? 1 : 2)]);
     return { word, ops, tiles, merger: MERGERS[0] };
   }, [seed, round]);

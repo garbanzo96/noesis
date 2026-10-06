@@ -16,12 +16,12 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w1-c1': { pos: [230, 250], requires: [] },
   'w1-c2': { pos: [560, 190], requires: ['w1-c1'] },
   'w1-c3': { pos: [900, 200], requires: ['w1-c2'] },
-  'w1-c4': { pos: [700, 460], requires: ['w1-c2'] },
-  'w1-c5': { pos: [270, 560], requires: ['w1-c1'] },
+  'w1-c4': { pos: [700, 460], requires: ['w1-c3'] },
+  'w1-c5': { pos: [270, 560], requires: ['w1-c4'] },
   'w1-c6': { pos: [460, 760], requires: ['w1-c5'] },
-  'w1-c7': { pos: [940, 680], requires: ['w1-c4', 'w1-c5'] },
+  'w1-c7': { pos: [940, 680], requires: ['w1-c6'] },
   'w1-c8': { pos: [1230, 560], requires: ['w1-c7'] },
-  'w1-final': { pos: [1300, 250], requires: ['w1-c3', 'w1-c6', 'w1-c8'] },
+  'w1-final': { pos: [1300, 250], requires: ['w1-c8'] },
 };
 
 const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
