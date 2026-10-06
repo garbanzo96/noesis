@@ -19,4 +19,19 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Exponencial decreciente', tex: '\\lim_{x\\to\\infty}e^{-x}=0' },
     ],
   },
+  'w2-c2': {
+    defs: [
+      { label: 'Razón de cambio media', tex: '\\frac{\\Delta f}{\\Delta x}=\\frac{f(b)-f(a)}{b-a}', body: 'Pendiente de la secante entre $(a,f(a))$ y $(b,f(b))$.' },
+      { label: 'Derivada en un punto', tex: "f'(a)=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}", body: 'Ritmo de cambio instantáneo: pendiente de la recta tangente en $a$. Existe si el límite existe.' },
+      { label: 'Recta tangente', tex: "y=f(a)+f'(a)\\,(x-a)" },
+      { label: 'Notaciones', tex: "f'(x),\\qquad \\frac{df}{dx},\\qquad \\frac{d}{dx}f(x),\\qquad \\dot x(t)" },
+    ],
+    props: [
+      { label: 'Unidades', body: "Las unidades de $f'$ son las de $f$ divididas por las de $x$: MWh por hora = MW; metros por segundo; etc." },
+      { label: 'Linealidad local', body: 'Cerca de $a$, una función derivable es casi igual a su tangente.' },
+      { label: 'Derivable implica continua', body: 'Si $f\'(a)$ existe, $f$ es continua en $a$. Al revés no: $|x|$ es continua en 0 pero tiene una esquina.' },
+      { label: 'Recta', tex: "f(x)=mx+b\\ \\Rightarrow\\ f'(x)=m", body: 'Una recta tiene la misma pendiente en todas partes.' },
+      { label: 'Cuadrado', tex: "f(x)=x^2\\ \\Rightarrow\\ \\frac{(x+h)^2-x^2}{h}=2x+h\\ \\to\\ 2x" },
+    ],
+  },
 };
