@@ -118,4 +118,18 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Resultados útiles', tex: 'a\\,x-b\\,x^2\\ \\text{máx. en}\\ x=\\frac{a}{2b},\\qquad a\\,q+\\frac bq\\ \\text{mín. en}\\ q=\\sqrt{\\frac ba}' },
     ],
   },
+  'w2-c9': {
+    defs: [
+      { label: 'Linealización', tex: "L(x)=f(a)+f'(a)\\,(x-a)", body: 'La tangente en $a$ usada como aproximación de $f$ cerca de $a$.' },
+      { label: 'Diferencial', tex: "dy=f'(x)\\,dx", body: 'Cambio aproximado de $y$ para un cambio pequeño $dx$.' },
+      { label: 'Método de Newton', tex: "x_{n+1}=x_n-\\frac{g(x_n)}{g'(x_n)}", body: 'Iteración para resolver $g(x)=0$ siguiendo tangentes.' },
+    ],
+    props: [
+      { label: 'Aproximación lineal', tex: "f(a+h)\\approx f(a)+f'(a)\\,h" },
+      { label: 'Tamaño del error', body: "Para $f$ con segunda derivada, el error de la aproximación lineal es del orden de $h^2$: duplicar $h$ cuadruplica el error, más o menos." },
+      { label: 'Aproximaciones clásicas', tex: '\\sqrt{a^2+h}\\approx a+\\frac{h}{2a},\\qquad (1+h)^n\\approx1+nh,\\qquad e^h\\approx1+h,\\qquad \\ln(1+h)\\approx h' },
+      { label: 'Propagación de errores', tex: "\\Delta y\\approx f'(x)\\,\\Delta x,\\qquad \\frac{\\Delta y}{y}\\approx n\\,\\frac{\\Delta x}{x}\\ \\ \\text{si } y=x^n" },
+      { label: 'Newton para raíces', tex: 'x_{n+1}=\\frac12\\left(x_n+\\frac{N}{x_n}\\right)', body: 'Es Newton aplicado a $x^2-N$; converge muy rápido a $\\sqrt N$.' },
+    ],
+  },
 };
