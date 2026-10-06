@@ -15,6 +15,8 @@ export function fracTex(n: number, d: number, reduce = true) {
   if (!reduce || g === 1 || n === 0) return base;
   return d / g === 1 ? `${base}=${n / g}` : `${base}=\\frac{${n / g}}{${d / g}}`;
 }
+/** Two fixed decimals with a comma: 0.2 → "0,20". */
+export const f2 = (v: number) => v.toFixed(2).replace('.', ',');
 export const pct = (p: number, d = 1) => `${dec(p * 100, d)} %`;
 
 export type Cell = [number, number];
@@ -140,8 +142,8 @@ export function Table({
   rows,
   cols,
   data,
-  cw = 170,
-  ch = 76,
+  cw = 210,
+  ch = 92,
   fmtV = (v: number) => String(v),
   rowSums,
   colSums,
@@ -176,7 +178,7 @@ export function Table({
   return (
     <g>
       {cols.map((c, j) => (
-        <Html key={c} x={x + (j + 0.5) * cw} y={y - 26} size={20} color={C.muted}>
+        <Html key={c} x={x + (j + 0.5) * cw} y={y - 28} size={23} color={C.muted}>
           <span>{c}</span>
         </Html>
       ))}
@@ -189,7 +191,7 @@ export function Table({
         <g key={r} opacity={dimRow?.(i) ? 0.25 : 1}>
           <g onClick={onRow ? () => onRow(i) : undefined} style={{ cursor: onRow ? 'pointer' : undefined }}>
             {onRow && <rect x={lx - 220} y={y + i * ch} width={220} height={ch} fill="transparent" />}
-            <Html x={lx} y={y + (i + 0.5) * ch} size={22} anchor="right" color={C.text}>
+            <Html x={lx} y={y + (i + 0.5) * ch} size={25} anchor="right" color={C.text}>
               <span>{r}</span>
             </Html>
           </g>
@@ -198,7 +200,7 @@ export function Table({
             return (
               <g key={j} onClick={onCell ? () => onCell(i, j) : undefined} style={{ cursor: onCell ? 'pointer' : undefined }}>
                 <rect x={x + j * cw + 3} y={y + i * ch + 3} width={cw - 6} height={ch - 6} rx={8} fill={t ?? '#120f22'} fillOpacity={t ? 0.3 : 1} stroke={t ?? C.line} strokeWidth={t ? 2.5 : 1.5} />
-                <Html x={x + (j + 0.5) * cw} y={y + (i + 0.5) * ch} size={28} color={C.text}>
+                <Html x={x + (j + 0.5) * cw} y={y + (i + 0.5) * ch} size={33} color={C.text}>
                   <span className="prop-tag">{hidden?.(i, j) ? '?' : fmtV(v)}</span>
                 </Html>
               </g>
