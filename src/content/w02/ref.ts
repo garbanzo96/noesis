@@ -103,4 +103,19 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Derivada logarítmica', tex: "\\frac{y'}{y}=(\\ln y)'", body: 'Ritmo relativo de cambio.' },
     ],
   },
+  'w2-c8': {
+    defs: [
+      { label: 'Máximo y mínimo local', body: '$f(c)$ es máximo local si $f(c)\\ge f(x)$ para los $x$ cercanos a $c$; mínimo local, al revés.' },
+      { label: 'Máximo y mínimo absoluto', body: 'El mayor (o menor) valor de $f$ en todo el dominio considerado.' },
+      { label: 'Punto crítico', tex: "f'(c)=0\\quad\\text{o}\\quad f'(c)\\ \\text{no existe}" },
+    ],
+    props: [
+      { label: 'Fermat', body: "Si $f$ tiene un extremo local en un punto interior $c$ y es derivable ahí, entonces $f'(c)=0$." },
+      { label: 'Primera derivada', body: "Si $f'$ pasa de $+$ a $-$ en $c$: máximo local. De $-$ a $+$: mínimo local. Si no cambia de signo: no es extremo." },
+      { label: 'Segunda derivada', tex: "f'(c)=0:\\quad f''(c)<0\\Rightarrow\\text{máx.},\\qquad f''(c)>0\\Rightarrow\\text{mín.}", body: 'Si $f\'\'(c)=0$ la prueba no decide.' },
+      { label: 'Intervalo cerrado', body: 'Una función continua en $[a,b]$ alcanza máximo y mínimo. Se comparan los puntos críticos interiores con $f(a)$ y $f(b)$.' },
+      { label: 'Receta para modelar', body: '1) Nombrar la variable. 2) Escribir la cantidad a optimizar como función de una sola variable. 3) Derivar e igualar a 0. 4) Comprobar que es máximo o mínimo y revisar los bordes.' },
+      { label: 'Resultados útiles', tex: 'a\\,x-b\\,x^2\\ \\text{máx. en}\\ x=\\frac{a}{2b},\\qquad a\\,q+\\frac bq\\ \\text{mín. en}\\ q=\\sqrt{\\frac ba}' },
+    ],
+  },
 };
