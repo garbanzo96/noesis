@@ -13,16 +13,16 @@ import * as FINAL from './final';
 const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6, C7, C8, C9, FINAL];
 
 const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
-  'w5-c1': { pos: [230, 250], requires: [] },
-  'w5-c2': { pos: [540, 180], requires: ['w5-c1'] },
-  'w5-c3': { pos: [540, 470], requires: ['w5-c1'] },
-  'w5-c4': { pos: [860, 300], requires: ['w5-c3'] },
-  'w5-c5': { pos: [880, 590], requires: ['w5-c4'] },
-  'w5-c6': { pos: [1160, 230], requires: ['w5-c5'] },
-  'w5-c7': { pos: [1180, 520], requires: ['w5-c5'] },
-  'w5-c8': { pos: [1000, 770], requires: ['w5-c7'] },
-  'w5-c9': { pos: [330, 720], requires: ['w5-c2', 'w5-c3'] },
-  'w5-final': { pos: [1400, 770], requires: ['w5-c6', 'w5-c8', 'w5-c9'] },
+  'w5-c1': { pos: [230, 220], requires: [] },
+  'w5-c2': { pos: [560, 180], requires: ['w5-c1'] },
+  'w5-c3': { pos: [890, 220], requires: ['w5-c2'] },
+  'w5-c4': { pos: [1220, 190], requires: ['w5-c3'] },
+  'w5-c5': { pos: [1300, 480], requires: ['w5-c4'] },
+  'w5-c6': { pos: [980, 500], requires: ['w5-c5'] },
+  'w5-c7': { pos: [650, 470], requires: ['w5-c6'] },
+  'w5-c8': { pos: [300, 520], requires: ['w5-c7'] },
+  'w5-c9': { pos: [520, 770], requires: ['w5-c8'] },
+  'w5-final': { pos: [1050, 770], requires: ['w5-c9'] },
 };
 
 const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));

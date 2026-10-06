@@ -72,7 +72,7 @@ export function NumberField({ x, y, value, onChange, onEnter, label, unit, width
           style={{ width: `${width}em` }}
           inputMode="decimal"
           value={value}
-          onChange={(e) => onChange(e.target.value.replace(/[^0-9,.\-−]/g, ''))}
+          onChange={(e) => onChange(e.target.value.replace(/[^0-9,.\-−/% ]/g, ''))}
           onKeyDown={(e) => {
             if (e.key === 'Enter') onEnter?.();
           }}
@@ -87,4 +87,18 @@ export function NumberField({ x, y, value, onChange, onEnter, label, unit, width
 export const parseNum = (s: string) => {
   const v = Number(s.replace(',', '.').replace('−', '-'));
   return s.trim() === '' || Number.isNaN(v) ? null : v;
+};
+
+/** Parse a probability typed as "3/8", "0,375" or "37,5 %". */
+export const parseProb = (s: string) => {
+  const t = s.replace(/\s/g, '');
+  if (t.includes('/')) {
+    const [a, b] = t.split('/').map((x) => parseNum(x));
+    return a === null || b === null || b === 0 ? null : a / b;
+  }
+  if (t.endsWith('%')) {
+    const v = parseNum(t.slice(0, -1));
+    return v === null ? null : v / 100;
+  }
+  return parseNum(t);
 };
