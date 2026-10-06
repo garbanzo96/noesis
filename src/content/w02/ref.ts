@@ -48,4 +48,18 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Altura y pendiente', body: "El valor de $f$ y el de $f'$ son independientes: $f$ puede ser grande con $f'$ pequeña, y al revés." },
     ],
   },
+  'w2-c4': {
+    defs: [
+      { label: 'Notación de Leibniz', tex: "\\frac{dy}{dx}=f'(x)", body: 'Cambio de $y$ por cada pequeño cambio de $x$.' },
+      { label: 'Diferencial', tex: "dy=f'(x)\\,dx", body: 'Cambio aproximado de $y$ cuando $x$ cambia en $dx$.' },
+    ],
+    props: [
+      { label: 'Constante', tex: "\\frac{d}{dx}c=0" },
+      { label: 'Potencia', tex: '\\frac{d}{dx}x^n=n\\,x^{n-1}\\qquad(n\\in\\mathbb R)' },
+      { label: 'Casos frecuentes', tex: '\\frac{d}{dx}\\frac1x=-\\frac1{x^2},\\qquad \\frac{d}{dx}\\sqrt x=\\frac1{2\\sqrt x}' },
+      { label: 'Linealidad', tex: "(a\\,f+b\\,g)'=a\\,f'+b\\,g'" },
+      { label: 'Polinomios', tex: "\\frac{d}{dx}\\sum_{k=0}^{n}a_kx^k=\\sum_{k=1}^{n}k\\,a_kx^{k-1}" },
+      { label: 'Recta tangente', tex: "y=f(x_0)+f'(x_0)\\,(x-x_0)", body: 'Pendiente $m=f\'(x_0)$; ordenada $b=f(x_0)-m\\,x_0$.' },
+    ],
+  },
 };
