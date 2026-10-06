@@ -1,17 +1,20 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Backdrop } from '../../art/places';
 import { useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
 import { Console, KeyHint } from './Console';
+import { Notebook } from './Notebook';
 import { hashSeed, useRun } from './context';
 import type { ChallengeApi, ChallengeStep } from './types';
 
-export const INTEGRITY = 4;
+export const INTEGRITY = 3;
 
+/** Credibility: each wrong conclusion costs one cell; at zero the case reopens with new data. */
 export function Integrity({ value, max = INTEGRITY }: { value: number; max?: number }) {
   return (
-    <div className="integrity" title="Integridad: cada error cuesta una celda">
-      <span>INTEGRIDAD</span>
+    <div className="integrity" title="Credibilidad: cada conclusión errónea cuesta una celda">
+      <span>CREDIBILIDAD</span>
       <div>
         {Array.from({ length: max }, (_, i) => (
           <i key={i} className={i < value ? 'on' : ''} />
@@ -33,24 +36,14 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   const [shownHints, setShownHints] = useState(0);
   const [feedback, setFeedback] = useState<{ ok: boolean; msg: string } | null>(null);
   const [phase, setPhase] = useState<'play' | 'solved' | 'desync'>('play');
-  const [shake, setShake] = useState(0);
   const [shaking, setShaking] = useState(false);
-  useEffect(() => {
-    if (!shake) return;
-    setShaking(true);
-    const id = setTimeout(() => setShaking(false), 420);
-    return () => clearTimeout(id);
-  }, [shake]);
   const seed = hashSeed(run.level.id, run.stepIndex, round, cycle, salt.current);
 
-  // Per-round UI state is reset where the round changes (not in an effect: child effects
-  // run first and would have their hints wiped).
   const resetRoundUi = () => {
     setFeedback(null);
     setShownHints(0);
     setHints([]);
   };
-
   const live = useRef({ phase, integrity, round, streak });
   live.current = { phase, integrity, round, streak };
 
@@ -67,22 +60,12 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           setStreak((s) => s + 1);
           setFeedback({ ok: true, msg: msg ?? 'Correcto.' });
           setPhase('solved');
-          setTimeout(
-            () => {
-              if (L.round + 1 >= step.rounds) run.complete();
-              else {
-                resetRoundUi();
-                setRound((r) => r + 1);
-                setPhase('play');
-              }
-            },
-            run.reduced ? 500 : 1150,
-          );
         } else {
           sfx.bad();
           run.error();
           setStreak(0);
-          setShake((s) => s + 1);
+          setShaking(true);
+          setTimeout(() => setShaking(false), 420);
           setFeedback({ ok: false, msg: msg ?? 'No es correcto.' });
           const left = L.integrity - 1;
           setIntegrity(left);
@@ -95,15 +78,25 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
               setRound(0);
               setCycle((c) => c + 1);
               setPhase('play');
-            }, 2200);
+            }, 2400);
           }
         }
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [step.rounds],
+    [],
   );
 
+  const nextRound = () => {
+    if (phase !== 'solved') return;
+    if (round + 1 >= step.rounds) run.complete();
+    else {
+      sfx.advance();
+      resetRoundUi();
+      setRound(round + 1);
+      setPhase('play');
+    }
+  };
   const revealHint = () => {
     if (shownHints >= hints.length) return;
     sfx.hint();
@@ -111,48 +104,65 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     setShownHints((h) => h + 1);
   };
   useKey(['h', 'H'], revealHint, !run.paused && phase === 'play');
+  useKey([' ', 'Enter'], (e) => {
+    if (phase !== 'solved') return;
+    e.preventDefault();
+    nextRound();
+  }, !run.paused);
+  useEffect(() => {
+    // solved rounds move on after a beat, so the player can read the explanation
+    if (phase !== 'solved') return;
+    const id = setTimeout(nextRound, run.reduced ? 1600 : 3200);
+    return () => clearTimeout(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [phase]);
 
   const Comp = step.Comp;
-  const consoleText = feedback ? feedback.msg : prompt.text;
   return (
-    <div className="play">
+    <div className="play with-notes">
       <div className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''}`}>
+        <Backdrop place={run.place} dim={0.9} className="stage-backdrop" />
         <div className="challenge-head">
           <span className="challenge-title">{step.title}</span>
           <div className="round-pips">
             {Array.from({ length: step.rounds }, (_, i) => (
-              <i key={i} className={i < round ? 'done' : i === round ? 'now' : ''} />
+              <i key={i} className={i < round || (i === round && phase === 'solved') ? 'done' : i === round ? 'now' : ''} />
             ))}
           </div>
           <span className="round-label">
-            CASO {round + 1}/{step.rounds}
+            {round + 1} / {step.rounds}
           </span>
-          {streak >= 2 && <span className="streak">RACHA ×{streak}</span>}
         </div>
         <Comp key={`${round}-${cycle}`} seed={seed} round={round} rounds={step.rounds} reduced={run.reduced} api={api} />
         {phase === 'solved' && (
           <div className="solved-flash">
-            <span>✓ CASO RESUELTO</span>
+            <span>✓</span>
           </div>
         )}
         {phase === 'desync' && (
           <div className="desync">
-            <span>DESINCRONIZACIÓN</span>
-            <p>Integridad agotada. El protocolo se reinicia con casos nuevos.</p>
+            <span>SIN CREDIBILIDAD</span>
+            <p>Iris revisa tus notas. El caso se reabre con datos nuevos.</p>
           </div>
         )}
       </div>
+      <Notebook notes={run.notes} />
       <Console
-        text={consoleText}
+        text={feedback ? feedback.msg : prompt.text}
         tex={feedback ? undefined : prompt.tex}
-        mood={feedback ? (feedback.ok ? 'ok' : 'bad') : 'talk'}
         tone={feedback ? (feedback.ok ? 'ok' : 'bad') : undefined}
         actions={
           <>
             <Integrity value={integrity} />
-            <button className="btn hint" onClick={revealHint} disabled={shownHints >= hints.length || phase !== 'play'}>
-              Pista {hints.length ? `${shownHints}/${hints.length}` : ''}
-            </button>
+            {phase === 'solved' ? (
+              <button className="btn primary" onClick={nextRound}>
+                {round + 1 >= step.rounds ? 'Cerrar' : 'Siguiente'} ▸
+              </button>
+            ) : (
+              <button className="btn hint" onClick={revealHint} disabled={shownHints >= hints.length || phase !== 'play'}>
+                Pista {hints.length ? `${shownHints}/${hints.length}` : ''}
+              </button>
+            )}
           </>
         }
       >
@@ -171,7 +181,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           </ol>
         )}
         <div className="console-keys">
-          <KeyHint k="H">pista (cuesta la estrella ★2)</KeyHint>
+          <KeyHint k="H">pista</KeyHint>
         </div>
       </Console>
     </div>

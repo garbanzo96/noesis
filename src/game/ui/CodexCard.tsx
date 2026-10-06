@@ -41,19 +41,6 @@ export function CodexCard({ entry, compact = false }: { entry: CodexEntry; compa
           </ul>
         </section>
       )}
-      {entry.aif && entry.aif.length > 0 && (
-        <section className="codex-aif">
-          <h4>En Active Inference</h4>
-          {entry.aif.map((a, i) => (
-            <div key={i} className="aif-row">
-              {a.tex && <Tex tex={a.tex} display />}
-              <p>
-                <Rich text={a.text} />
-              </p>
-            </div>
-          ))}
-        </section>
-      )}
     </article>
   );
 }

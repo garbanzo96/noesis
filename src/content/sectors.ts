@@ -1,191 +1,38 @@
 import type { WorldId } from '../game/level/types';
 
-// The 14 sectors of NOESIS's cognitive architecture. Disciplinary numbering is kept
-// (01–14) but access follows mathematical dependencies (prerequisites), drawn on the atlas.
+// The fourteen districts of Valparaíso 2089. Each one is a mathematical world and a chapter
+// of the investigation. Access follows mathematical prerequisites.
 export interface SectorMeta {
   world: WorldId;
   number: number;
   symbol: string;
+  /** district */
   name: string;
-  tag: string;
+  /** mathematics */
+  area: string;
   accent: string;
-  description: string;
+  /** one line of story */
+  hook: string;
   prerequisites: WorldId[];
-  /** what NOESIS can do once this sector's module is restored */
-  capability: string;
-  /** atlas position in stage units (1600×900) */
+  /** position on the city map (1600×900) */
   at: [number, number];
 }
 
 export const SECTORS: SectorMeta[] = [
-  {
-    world: 'foundations',
-    number: 1,
-    symbol: 'f',
-    name: 'Precálculo',
-    tag: 'El lenguaje',
-    accent: '#28e7fa',
-    description: 'Signos, conjuntos, funciones, Σ y Π, normalización, exp, ln y softmax: la sintaxis del modelo.',
-    prerequisites: [],
-    capability: 'Leer y escribir el lenguaje del modelo: convertir puntuaciones en creencias.',
-    at: [140, 450],
-  },
-  {
-    world: 'differential',
-    number: 2,
-    symbol: '∂',
-    name: 'Cálculo diferencial',
-    tag: 'El cambio',
-    accent: '#ff3ba7',
-    description: 'Límites, derivada, regla de la cadena, Taylor y descenso de gradiente.',
-    prerequisites: ['foundations'],
-    capability: 'Sentir hacia dónde baja una función: corregir creencias por gradiente.',
-    at: [380, 250],
-  },
-  {
-    world: 'integral',
-    number: 3,
-    symbol: '∫',
-    name: 'Cálculo integral',
-    tag: 'La acumulación',
-    accent: '#a88aff',
-    description: 'Área, densidad, acumulada, expectativas y cambio de variable.',
-    prerequisites: ['foundations', 'probability'],
-    capability: 'Acumular masa continua: normalizar densidades y promediar.',
-    at: [640, 150],
-  },
-  {
-    world: 'linear',
-    number: 4,
-    symbol: '⊗',
-    name: 'Álgebra lineal',
-    tag: 'Las transformaciones',
-    accent: '#7baffe',
-    description: 'Vectores, matrices estocásticas, productos y precisión.',
-    prerequisites: ['foundations', 'probability'],
-    capability: 'Transformar creencias con matrices A y B.',
-    at: [640, 420],
-  },
-  {
-    world: 'probability',
-    number: 5,
-    symbol: 'Ω',
-    name: 'Probabilidad',
-    tag: 'La incertidumbre',
-    accent: '#ffbc5e',
-    description: 'Universo, conjunta, marginal, condicional e independencia.',
-    prerequisites: ['foundations'],
-    capability: 'Representar la incertidumbre como masa repartida.',
-    at: [380, 650],
-  },
-  {
-    world: 'statistics',
-    number: 6,
-    symbol: 'μ',
-    name: 'Estadística',
-    tag: 'Los datos',
-    accent: '#28e7fa',
-    description: 'Familias, verosimilitud, estimación y validación.',
-    prerequisites: ['probability', 'foundations'],
-    capability: 'Ajustar parámetros a datos.',
-    at: [640, 760],
-  },
-  {
-    world: 'multivariate',
-    number: 7,
-    symbol: '∇',
-    name: 'Varias variables',
-    tag: 'La geometría local',
-    accent: '#ff3ba7',
-    description: 'Gradiente, Jacobiano, Hessiano y restricciones.',
-    prerequisites: ['differential', 'linear'],
-    capability: 'Navegar paisajes de muchas dimensiones.',
-    at: [900, 200],
-  },
-  {
-    world: 'information',
-    number: 8,
-    symbol: 'H',
-    name: 'Teoría de la información',
-    tag: 'La sorpresa',
-    accent: '#a88aff',
-    description: 'Sorpresa, entropía, KL, ganancia de información y MaxEnt.',
-    prerequisites: ['probability', 'foundations'],
-    capability: 'Medir sorpresa y distancia entre creencias.',
-    at: [900, 640],
-  },
-  {
-    world: 'dynamics',
-    number: 9,
-    symbol: 'ẋ',
-    name: 'Sistemas dinámicos',
-    tag: 'El flujo',
-    accent: '#7baffe',
-    description: 'Estabilidad, ruido, Euler, Ornstein–Uhlenbeck y coordenadas generalizadas.',
-    prerequisites: ['differential', 'integral', 'probability'],
-    capability: 'Simular el tiempo continuo.',
-    at: [1120, 120],
-  },
-  {
-    world: 'bayesian',
-    number: 10,
-    symbol: 'B',
-    name: 'Inferencia bayesiana',
-    tag: 'La actualización',
-    accent: '#ffbc5e',
-    description: 'Tasa base, conjugación, predictiva y evidencia.',
-    prerequisites: ['probability', 'foundations'],
-    capability: 'Actualizar creencias con evidencia.',
-    at: [900, 420],
-  },
-  {
-    world: 'variational',
-    number: 11,
-    symbol: 'F',
-    name: 'Inferencia variacional',
-    tag: 'La aproximación',
-    accent: '#28e7fa',
-    description: 'Energía libre, ELBO, gap, campo medio y Laplace.',
-    prerequisites: ['bayesian', 'information', 'differential'],
-    capability: 'Aproximar posteriors minimizando F.',
-    at: [1140, 420],
-  },
-  {
-    world: 'generative',
-    number: 12,
-    symbol: 'A',
-    name: 'Modelos generativos',
-    tag: 'El modelo del mundo',
-    accent: '#a88aff',
-    description: 'Grafos, placas, matrices A, B, C, D y paso de mensajes.',
-    prerequisites: ['probability', 'linear', 'bayesian'],
-    capability: 'Construir un modelo del mundo.',
-    at: [1140, 700],
-  },
-  {
-    world: 'decision',
-    number: 13,
-    symbol: 'π',
-    name: 'Decisión y POMDP',
-    tag: 'Las políticas',
-    accent: '#ff3ba7',
-    description: 'Políticas, preferencias, riesgo, ambigüedad y valor epistémico.',
-    prerequisites: ['generative', 'information', 'variational'],
-    capability: 'Evaluar planes por su energía libre esperada.',
-    at: [1340, 560],
-  },
-  {
-    world: 'active',
-    number: 14,
-    symbol: 'G',
-    name: 'Active inference',
-    tag: 'La agencia',
-    accent: '#ffbc5e',
-    description: 'Percepción, aprendizaje y acción en un solo bucle.',
-    prerequisites: ['decision', 'generative', 'bayesian', 'variational'],
-    capability: 'Percibir, aprender y actuar: NOESIS despierta.',
-    at: [1480, 380],
-  },
+  { world: 'foundations', number: 1, symbol: '⚓', name: 'El Puerto', area: 'Precálculo', accent: '#28e7fa', hook: 'Vacunas desviadas, un barco sin bandera y un virus en las grúas.', prerequisites: [], at: [300, 720] },
+  { world: 'probability', number: 5, symbol: '⚄', name: 'Casino Aurora', area: 'Probabilidad', accent: '#ffbc5e', hook: 'El dinero del contrabando pasa por mesas de juego que nunca pierden.', prerequisites: ['foundations'], at: [640, 760] },
+  { world: 'differential', number: 2, symbol: '∂', name: 'La Planta', area: 'Cálculo diferencial', accent: '#ff3ba7', hook: 'La central eléctrica sufre picos que nadie sabe explicar.', prerequisites: ['foundations'], at: [430, 520] },
+  { world: 'integral', number: 3, symbol: '∫', name: 'La Represa', area: 'Cálculo integral', accent: '#a88aff', hook: 'Falta agua y alguien manipula los caudalímetros.', prerequisites: ['differential'], at: [250, 330] },
+  { world: 'linear', number: 4, symbol: '⊞', name: 'El Metro', area: 'Álgebra lineal', accent: '#6f9cff', hook: 'Los trenes se desvían según una tabla que nadie escribió.', prerequisites: ['foundations'], at: [760, 560] },
+  { world: 'statistics', number: 6, symbol: 'x̄', name: 'El Archivo', area: 'Estadística', accent: '#28e7fa', hook: 'Miles de registros y una muestra que no cuadra.', prerequisites: ['probability'], at: [960, 700] },
+  { world: 'multivariate', number: 7, symbol: '∇', name: 'Los Cerros', area: 'Varias variables', accent: '#ff3ba7', hook: 'Un dron perdido entre quebradas y pendientes.', prerequisites: ['differential', 'linear'], at: [620, 360] },
+  { world: 'information', number: 8, symbol: '≋', name: 'Las Antenas', area: 'Teoría de la información', accent: '#a88aff', hook: 'Mensajes cifrados viajan por una red que pierde bits.', prerequisites: ['probability'], at: [1120, 520] },
+  { world: 'dynamics', number: 9, symbol: '∿', name: 'El Observatorio', area: 'Sistemas dinámicos', accent: '#6f9cff', hook: 'Una tormenta que los modelos no predijeron.', prerequisites: ['integral', 'multivariate'], at: [420, 160] },
+  { world: 'bayesian', number: 10, symbol: '⚕', name: 'La Clínica', area: 'Inferencia bayesiana', accent: '#ffbc5e', hook: 'Un test que da positivo demasiadas veces.', prerequisites: ['probability'], at: [1270, 720] },
+  { world: 'variational', number: 11, symbol: '≈', name: 'El Laboratorio', area: 'Inferencia variacional', accent: '#28e7fa', hook: 'Un modelo imposible de calcular y una aproximación que sí.', prerequisites: ['bayesian', 'information', 'differential'], at: [1000, 330] },
+  { world: 'generative', number: 12, symbol: '⚙', name: 'La Fábrica', area: 'Modelos generativos', accent: '#a88aff', hook: 'Las máquinas producen datos falsos que parecen reales.', prerequisites: ['bayesian', 'linear'], at: [1330, 420] },
+  { world: 'decision', number: 13, symbol: '♞', name: 'La Bolsa', area: 'Decisión secuencial', accent: '#ff3ba7', hook: 'Alguien siempre elige un paso antes que el mercado.', prerequisites: ['generative', 'information'], at: [1200, 200] },
+  { world: 'active', number: 14, symbol: '◉', name: 'Torre Halcón', area: 'Síntesis final', accent: '#ffbc5e', hook: 'Todas las pistas llevan al último piso.', prerequisites: ['decision', 'variational', 'dynamics'], at: [820, 110] },
 ];
 
 export const SECTOR_BY_ID = Object.fromEntries(SECTORS.map((s) => [s.world, s])) as Record<WorldId, SectorMeta>;

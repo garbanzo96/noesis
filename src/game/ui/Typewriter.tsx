@@ -21,7 +21,7 @@ function split(text: string): Part[] {
   return out;
 }
 
-const SPEED = { slow: 28, normal: 55, instant: 1e9 } as const;
+const SPEED = { slow: 30, normal: 60, fast: 120, instant: 1e9 } as const;
 
 export function Typewriter({
   text,

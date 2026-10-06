@@ -84,7 +84,6 @@ export function GameRoot() {
   if (shown.name === 'title')
     screen = (
       <Title
-        reduced={reduced}
         onContinue={() => {
           const last = store.get().last.world as WorldId | undefined;
           go(last && PLAYABLE[last] ? { name: 'sector', world: last } : { name: 'atlas' });
@@ -97,7 +96,7 @@ export function GameRoot() {
     screen = (
       <>
         <TopBar
-          title="ATLAS · arquitectura cognitiva de NOESIS"
+          title="VALPARAÍSO 2089 · MAPA DE DISTRITOS"
           onBack={() => go({ name: 'title' })}
           backLabel="INICIO"
           onCodex={() => setOverlay('codex')}
@@ -112,9 +111,9 @@ export function GameRoot() {
     screen = (
       <>
         <TopBar
-          title={`SECTOR ${String(sector.number).padStart(2, '0')} · ${sector.name.toUpperCase()}`}
+          title={`DISTRITO · ${sector.name.toUpperCase()} · ${sector.tag.toUpperCase()}`}
           onBack={() => go({ name: 'atlas' })}
-          backLabel="ATLAS"
+          backLabel="MAPA"
           onCodex={() => setOverlay('codex')}
           onSettings={() => setOverlay('settings')}
           reduced={reduced}

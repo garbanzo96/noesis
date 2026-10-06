@@ -305,7 +305,6 @@ export function ForgePlayer({ step }: { step: ForgeStep }) {
               ? 'Selección activa. Las reglas aplicables se iluminan; ↑ amplía la selección.'
               : 'Haz clic en una subexpresión, o elige primero una regla. Cada movimiento es una identidad.')
         }
-        mood={msg?.tone === 'ok' ? 'ok' : msg?.tone === 'bad' ? 'bad' : 'talk'}
         tone={msg?.tone === 'info' ? undefined : msg?.tone}
         actions={
           <>

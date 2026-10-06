@@ -1,37 +1,38 @@
 import type { ReactNode } from 'react';
+import { CAST, Portrait, type CastId } from '../../art/cast';
 import { MorphTex } from '../../engine/Tex';
-import { NoesisEye, type Mood } from '../ui/NoesisEye';
 import { Typewriter } from '../ui/Typewriter';
 import { useRun } from './context';
 
-/** The bottom console: NOESIS speaks, the current formula lives here, actions on the right. */
+/** Bottom prompt bar: the guiding character says what to do; formula below; actions right. */
 export function Console({
   text,
   tex,
-  mood = 'talk',
   skip = 0,
   onTyped,
   children,
   actions,
-  label = 'NOESIS',
+  who,
   tone,
 }: {
   text: string;
   tex?: string;
-  mood?: Mood;
   skip?: number;
   onTyped?: () => void;
   children?: ReactNode;
   actions?: ReactNode;
-  label?: string;
+  who?: CastId;
   tone?: 'ok' | 'bad' | 'hint' | 'info';
 }) {
   const run = useRun();
+  const speaker = who ?? run.guide;
   return (
     <section className={`console ${tone ? 'tone-' + tone : ''}`} aria-live="polite">
-      <div className="console-speaker">
-        <NoesisEye size={54} mood={mood} modules={run.modules} reduced={run.reduced} />
-        <span>{label}</span>
+      <div className="console-speaker" style={{ ['--who' as string]: CAST[speaker].color }}>
+        <div className="console-face">
+          <Portrait id={speaker} size={64} />
+        </div>
+        <span>{CAST[speaker].name.split(' ')[0]}</span>
       </div>
       <div className="console-body">
         <div className="console-text">

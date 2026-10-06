@@ -94,11 +94,6 @@ export function CodexScreen({ onClose }: { onClose: () => void }) {
                         ⚠ <Rich text={g.warn} />
                       </p>
                     )}
-                    {g.aif && (
-                      <p className="glyph-aif">
-                        AIF · <Rich text={g.aif} />
-                      </p>
-                    )}
                   </div>
                 </div>
               );

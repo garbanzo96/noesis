@@ -1,14 +1,15 @@
 import type { ComponentType } from 'react';
+import type { CastId } from '../../art/cast';
+import type { PlaceId } from '../../art/places';
 import type { Beats } from '../../engine/hooks';
 import type { ForgePuzzle } from '../../forge';
 import type { sfx } from '../audio';
 
 // ============================================================================
-// LEVEL CONTRACT — every level of every world is a LevelDef.
-// A level is a short protocol: briefing → demonstration (animated, with predictions)
-// → challenge waves (direct manipulation, generated cases) → Forge (derive identities)
-// → codex card. The runner owns HUD, console, integrity, hints, stars and results;
-// level authors only write scenes and mechanics.
+// CASE CONTRACT — every level is a case of the Agencia NÓESIS.
+//   scene (dialogue in a location) → demo (guided investigation: every beat is an action
+//   or a prediction; notes fill the notebook) → challenge rounds (the case itself) →
+//   closing scene. The runner owns HUD, notebook, credibility, hints, stars and results.
 // ============================================================================
 
 export type WorldId =
@@ -27,43 +28,64 @@ export type WorldId =
   | 'decision'
   | 'active';
 
+/** A notebook entry: the formal side of what the player just did. */
+export interface Note {
+  label: string;
+  tex?: string;
+  body?: string;
+}
+
 export interface LevelDef {
-  /** stable id, e.g. 'w01-l11' (progress is keyed by it) */
+  /** stable id, e.g. 'w01-l03' (progress is keyed by it) */
   id: string;
   world: WorldId;
-  /** display code, e.g. '1.11' */
+  /** display code, e.g. '1.3' */
   code: string;
+  /** case title */
   title: string;
+  /** mathematical topic */
   subtitle: string;
-  /** TeX shown on the sector-map node */
+  /** TeX shown on the case card */
   glyph: string;
   kind: 'level' | 'boss';
   /** level ids that must be completed first (soft gate; free mode ignores it) */
   requires: string[];
-  /** node position on the sector map, in stage units (1600×900) */
+  /** position on the district board, in stage units (1600×900) */
   pos: [number, number];
-  /** one sentence: what the player will be able to do afterwards */
-  objective: string;
-  /** lexicon ids learned in this level */
+  /** one sentence: the situation of the case */
+  teaser: string;
+  /** one sentence: the mathematics the player will master */
+  learn: string;
+  /** character who guides the investigation (default: iris) */
+  guide?: CastId;
+  /** lexicon ids introduced */
   glyphs: string[];
-  /** codex entry ids unlocked on completion */
-  codex: string[];
-  /** module granted (bosses) */
+  /** extra notebook entries beyond those collected in the demo */
+  notes?: Note[];
+  /** typical mistakes, shown in the notebook card */
+  pitfalls?: string[];
+  /** reward of a boss (district closed) */
   module?: string;
-  /** under construction: shown on the map but not playable; does not block dependents */
+  /** under construction: shown but not playable; does not block dependents */
   wip?: boolean;
   steps: Step[];
 }
 
-export type Step = BriefStep | DemoStep | ChallengeStep | ForgeStep | CodexStep;
+export type Step = SceneStep | DemoStep | ChallengeStep | ForgeStep;
 
-/** NOESIS speaks. Rich text: $tex$ and **bold**. */
-export interface BriefStep {
-  kind: 'brief';
-  lines: string[];
+export interface Line {
+  /** speaker; 'tu' = the player, 'nar' = narration */
+  who: CastId | 'tu' | 'nar';
+  text: string;
+}
+/** Dialogue in a location. Rich text: $tex$ and **bold**. */
+export interface SceneStep {
+  kind: 'scene';
+  place: PlaceId;
+  lines: Line[];
 }
 
-/** An animated demonstration advanced beat by beat (Space / →). */
+/** Guided investigation. Beats are actions (gate), predictions (ask) or short reveals. */
 export interface DemoStep {
   kind: 'demo';
   title: string;
@@ -71,13 +93,15 @@ export interface DemoStep {
   beats: Beat[];
 }
 export interface Beat {
-  /** caption spoken by NOESIS during this beat (rich) */
+  /** one or two short sentences: what to look at or do */
   say: string;
-  /** formula shown under the caption (TeX with \g{} glyph tags) */
+  /** formula shown with the prompt */
   tex?: string;
+  /** notebook entry revealed when the beat is completed */
+  note?: Note;
   /** a prediction asked BEFORE the scene reveals the answer; no penalty */
   ask?: { prompt: string; options: string[]; answer: number; explain: string };
-  /** the player must interact with the scene (scene calls unlock()) to continue */
+  /** instruction for an interaction; the scene calls unlock() when satisfied */
   gate?: string;
   /** animation duration in seconds (default 1.4) */
   dur?: number;
@@ -85,13 +109,11 @@ export interface Beat {
 export interface DemoProps {
   beats: Beats;
   reduced: boolean;
-  /** call when the gate interaction for the current beat has been satisfied */
   unlock: () => void;
-  /** prediction chosen on the current beat (null until answered) */
   answer: number | null;
 }
 
-/** Interactive challenge waves; each round is a new generated case. */
+/** The case: generated rounds of direct manipulation with consequences in the scene. */
 export interface ChallengeStep {
   kind: 'challenge';
   title: string;
@@ -99,7 +121,6 @@ export interface ChallengeStep {
   rounds: number;
 }
 export interface ChallengeProps {
-  /** deterministic seed for this round's case */
   seed: number;
   round: number;
   rounds: number;
@@ -107,29 +128,19 @@ export interface ChallengeProps {
   api: ChallengeApi;
 }
 export interface ChallengeApi {
-  /** set the console instruction for this round (rich) and an optional formula */
+  /** instruction for this round (rich) and an optional formula */
   prompt: (text: string, tex?: string) => void;
-  /** graded hints for this round, revealed one at a time by the player */
+  /** two graded hints */
   hints: (list: string[]) => void;
-  /**
-   * Report an attempt. ok=true ends the round (success animation, next case).
-   * ok=false costs one integrity cell; msg must say exactly what is wrong.
-   */
+  /** ok=true ends the round; ok=false costs credibility and msg must name the discrepancy */
   result: (ok: boolean, msg?: string) => void;
   sfx: typeof sfx;
 }
 
-/** Symbolic derivation puzzles in the Forge. */
 export interface ForgeStep {
   kind: 'forge';
   title: string;
   puzzles: ForgePuzzle[];
-}
-
-/** Formal card unlocked into the codex. */
-export interface CodexStep {
-  kind: 'codex';
-  entry: string;
 }
 
 // ---------- codex & lexicon ----------
@@ -137,52 +148,42 @@ export interface CodexEntry {
   id: string;
   world: WorldId;
   title: string;
-  /** one-sentence intuition */
   summary: string;
-  blocks: { label: string; body?: string; tex?: string }[];
+  blocks: Note[];
   pitfalls?: string[];
-  /** where it shows up in Active Inference */
-  aif?: { text: string; tex?: string }[];
-  /** level that teaches it */
   level: string;
 }
 
 export interface Glyph {
   id: string;
-  /** TeX of the symbol */
   tex: string;
   name: string;
   /** how to read it aloud (Spanish) */
   read: string;
   meaning: string;
-  /** collision / warning, if any */
+  /** collision / warning */
   warn?: string;
-  aif?: string;
   world: WorldId;
 }
 
 export interface SectorDef {
   world: WorldId;
   number: number;
+  /** district name */
   name: string;
+  /** mathematical area */
   tag: string;
-  /** TeX emblem */
-  emblem: string;
   accent: string;
+  place: PlaceId;
   description: string;
-  /** NOESIS lines when entering the sector */
-  intro: string[];
-  /** module restored by the boss */
-  module: { id: string; name: string; description: string };
   levels: LevelDef[];
-  /** zone labels drawn on the sector map */
-  zones: { label: string; x: number; y: number }[];
+  /** what closing the district reveals */
+  module: { id: string; name: string; description: string };
 }
 
-/** What a level file exports. Layout (pos) and gating (requires) are set by the sector index. */
+/** What a level file exports. Layout (pos) and gating (requires) are set by the district index. */
 export type LevelSpec = Omit<LevelDef, 'pos' | 'requires'>;
 export interface LevelModule {
   level: LevelSpec;
-  codex: CodexEntry[];
   glyphs: Glyph[];
 }

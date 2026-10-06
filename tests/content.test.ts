@@ -22,11 +22,26 @@ describe('content contract', () => {
     }
   });
 
-  it('codex and glyph references resolve', () => {
+  it('glyph references resolve and every playable case has a notebook card', () => {
     for (const l of levels) {
-      for (const c of l.codex) expect(CODEX[c], `${l.id} codex ${c}`).toBeTruthy();
       for (const g of l.glyphs) expect(GLYPHS[g], `${l.id} glyph ${g}`).toBeTruthy();
-      for (const st of l.steps) if (st.kind === 'codex') expect(CODEX[st.entry], `${l.id} codex step ${st.entry}`).toBeTruthy();
+      if (!l.wip) expect(CODEX[l.id], `${l.id} codex`).toBeTruthy();
+    }
+  });
+
+  it('cases start with a scene and contain a demo and at least one challenge', () => {
+    for (const l of levels) {
+      if (l.wip) continue;
+      expect(l.steps[0].kind, l.id).toBe('scene');
+      expect(l.steps.some((s) => s.kind === 'challenge'), l.id).toBe(true);
+    }
+  });
+
+  it('no Active Inference vocabulary leaks into the texts', () => {
+    const banned = /active inference|inferencia activa|energía libre|free energy|\bAIF\b|q\(\\pi\)|\\ln E/i;
+    for (const l of levels) {
+      const blob = JSON.stringify(l, (k, v) => (typeof v === 'function' ? undefined : v));
+      expect(banned.test(blob), `${l.id} mentions AIF`).toBe(false);
     }
   });
 
@@ -44,7 +59,6 @@ describe('content contract', () => {
   it('all TeX in codex entries renders without KaTeX errors', () => {
     for (const c of Object.values(CODEX)) {
       for (const b of c.blocks) if (b.tex) expect(renderTex(b.tex, true), `${c.id}/${b.label}`).not.toContain('katex-error');
-      for (const a of c.aif ?? []) if (a.tex) expect(renderTex(a.tex, true), c.id).not.toContain('katex-error');
     }
   });
 

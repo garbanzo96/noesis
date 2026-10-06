@@ -8,27 +8,11 @@ import type { LevelDef, SectorDef } from '../level/types';
 import { sfx } from '../audio';
 import { useGame } from '../state';
 
-function circuit(a: [number, number], b: [number, number]) {
-  // orthogonal trace with a rounded elbow, like a PCB route
-  const [x1, y1] = a;
-  const [x2, y2] = b;
-  const mx = x1 + (x2 - x1) * 0.5;
-  const r = Math.min(24, Math.abs(y2 - y1) / 2, Math.abs(x2 - x1) / 2);
-  if (Math.abs(y2 - y1) < 2) return `M${x1} ${y1}L${x2} ${y2}`;
-  const sy = Math.sign(y2 - y1);
-  const sx = Math.sign(x2 - x1) || 1;
-  return `M${x1} ${y1}L${mx - r * sx} ${y1}Q${mx} ${y1} ${mx} ${y1 + r * sy}L${mx} ${y2 - r * sy}Q${mx} ${y2} ${mx + r * sx} ${y2}L${x2} ${y2}`;
-}
+const CARD_W = 210;
+const CARD_H = 130;
 
-export function SectorMap({
-  sector,
-  onPlay,
-  reduced,
-}: {
-  sector: SectorDef;
-  onPlay: (l: LevelDef) => void;
-  reduced: boolean;
-}) {
+/** The district board: case files pinned on cork, red string between dependent cases. */
+export function SectorMap({ sector, onPlay, reduced }: { sector: SectorDef; onPlay: (l: LevelDef) => void; reduced: boolean }) {
   const game = useGame();
   const [hover, setHover] = useState<string | null>(null);
   const recommended = nextLevel(game, sector.world);
@@ -49,142 +33,136 @@ export function SectorMap({
     sfx.select();
     onPlay(l);
   };
-
   useKey('Enter', () => recommended && play(recommended));
 
   return (
     <div className="sector" style={{ ['--accent' as string]: sector.accent }}>
       <div className="sector-stage">
-        <Stage>
-          {sector.zones.map((z) => (
-            <Html key={z.label} x={z.x} y={z.y} size={16} color={C.dim}>
-              <span className="zone-label">{z.label}</span>
-            </Html>
-          ))}
+        <Stage grid={false}>
+          <defs>
+            <pattern id="cork" width="8" height="8" patternUnits="userSpaceOnUse">
+              <rect width="8" height="8" fill="#1a1322" />
+              <circle cx="2" cy="3" r="0.9" fill="#261b31" />
+              <circle cx="6" cy="6" r="0.7" fill="#120d19" />
+            </pattern>
+          </defs>
+          <rect x="20" y="20" width="1560" height="860" rx="10" fill="url(#cork)" stroke="#2c2140" strokeWidth={8} />
+          {/* red strings */}
           {sector.levels.flatMap((l) =>
             l.requires.map((r) => {
-              const from = byId[r];
-              if (!from) return null;
-              const d = circuit(from.pos, l.pos);
+              const a = byId[r];
+              if (!a) return null;
+              const [x1, y1] = a.pos;
+              const [x2, y2] = l.pos;
+              const sag = 40 + Math.abs(x2 - x1) * 0.08;
               const live = game.levels[r]?.done;
               return (
-                <g key={r + l.id}>
-                  <path d={d} fill="none" stroke={live ? sector.accent : C.line} strokeWidth={live ? 2.5 : 2} opacity={live ? 0.55 : 0.8} />
-                  {live && !reduced && (
-                    <path
-                      d={d}
-                      fill="none"
-                      stroke={sector.accent}
-                      strokeWidth={3.5}
-                      strokeDasharray="4 46"
-                      className="flow flow-50"
-                    />
-                  )}
-                </g>
+                <path
+                  key={r + l.id}
+                  d={`M${x1} ${y1 - CARD_H / 2 + 8} Q${(x1 + x2) / 2} ${Math.max(y1, y2) - CARD_H / 2 + 8 + sag} ${x2} ${y2 - CARD_H / 2 + 8}`}
+                  fill="none"
+                  stroke={live ? '#ff4d6d' : '#7a2a3a'}
+                  strokeWidth={live ? 3 : 2}
+                  opacity={live ? 0.95 : 0.55}
+                />
               );
             }),
           )}
-          {sector.levels.map((l) => {
+          {sector.levels.map((l, i) => {
             const st = levelState(game, l);
             const boss = l.kind === 'boss';
-            const r = boss ? 62 : 44;
             const [x, y] = l.pos;
-            const col = boss ? C.magenta : sector.accent;
+            const w = boss ? CARD_W + 40 : CARD_W;
+            const h = boss ? CARD_H + 20 : CARD_H;
+            const tilt = ((i * 37) % 7) - 3;
             const isRec = recommended?.id === l.id;
             const got = game.levels[l.id]?.stars ?? [false, false, false];
+            const locked = st === 'locked' || st === 'wip';
             return (
               <g
                 key={l.id}
+                transform={`rotate(${tilt} ${x} ${y})`}
                 onMouseEnter={() => {
                   setHover(l.id);
                   sfx.hover();
                 }}
                 onMouseLeave={() => setHover(null)}
                 onClick={() => play(l)}
-                style={{ cursor: st === 'locked' || st === 'wip' ? 'not-allowed' : 'pointer' }}
+                style={{ cursor: locked ? 'not-allowed' : 'pointer' }}
+                className={`case-card ${isRec && !reduced ? 'rec' : ''}`}
               >
-                {isRec && !reduced && (
-                  <circle cx={x} cy={y} r={r + 12} fill="none" stroke={col} strokeWidth={2} className="pulse-ring" />
-                )}
-                {boss && (
-                  <circle
-                    cx={x}
-                    cy={y}
-                    r={r + 10}
-                    fill="none"
-                    stroke={col}
-                    strokeWidth={2}
-                    strokeDasharray="14 10"
-                    opacity={0.6}
-                    className={reduced ? undefined : 'spin-slow'}
-                  />
-                )}
-                <circle
-                  cx={x}
-                  cy={y}
-                  r={r}
-                  fill={st === 'done' ? col : C.panel}
-                  fillOpacity={st === 'done' ? 0.16 : 1}
-                  stroke={col}
-                  strokeWidth={hover === l.id ? 4 : 2.5}
-                  opacity={st === 'locked' || st === 'wip' ? 0.4 : 1}
-                  strokeDasharray={st === 'wip' ? '6 7' : undefined}
-                  filter={st === 'open' || st === 'done' ? 'url(#glow)' : undefined}
+                <rect x={x - w / 2 + 6} y={y - h / 2 + 8} width={w} height={h} fill="#000" opacity={0.45} />
+                <rect
+                  x={x - w / 2}
+                  y={y - h / 2}
+                  width={w}
+                  height={h}
+                  fill={locked ? '#2a2433' : boss ? '#efe2c2' : '#e8e0cf'}
+                  stroke={hover === l.id ? sector.accent : isRec ? sector.accent : 'none'}
+                  strokeWidth={4}
                 />
-                <Html x={x} y={y} size={boss ? 34 : 28} color={st === 'locked' || st === 'wip' ? C.dim : C.text}>
-                  <Tex tex={l.glyph} />
+                {/* folder tab */}
+                <rect x={x - w / 2} y={y - h / 2} width={w} height={28} fill={locked ? '#332b40' : boss ? '#b8343f' : '#c9b98f'} />
+                <circle cx={x} cy={y - h / 2 + 8} r={8} fill="#d23" stroke="#600" strokeWidth={2} />
+                <Html x={x - w / 2 + 12} y={y - h / 2 + 14} size={15} anchor="left" color={locked ? '#6d6488' : boss ? '#fff' : '#3a2f22'} style={{ rotate: `${tilt}deg` }}>
+                  <span className="card-code">CASO {l.code}</span>
                 </Html>
-                <Html x={x} y={y + r + 10} size={15} anchor="top" color={st === 'locked' || st === 'wip' ? C.dim : C.muted}>
-                  <span className="node-label">
-                    {l.code} · {l.title}
-                  </span>
+                <Html x={x} y={y - 4} size={21} color={locked ? '#6d6488' : '#1a1410'} style={{ rotate: `${tilt}deg` }}>
+                  <span className="card-title">{l.title}</span>
+                </Html>
+                <Html x={x} y={y + 34} size={14} color={locked ? '#5d5478' : '#5a4a36'} style={{ rotate: `${tilt}deg` }}>
+                  <span className="card-sub">{l.subtitle}</span>
                 </Html>
                 {st === 'done' && (
-                  <Html x={x} y={y - r - 14} size={15}>
-                    <span className="node-stars">
-                      {got.map((g, i) => (
-                        <b key={i} className={g ? 'on' : ''}>
-                          ★
-                        </b>
-                      ))}
-                    </span>
-                  </Html>
+                  <>
+                    <Html x={x + w / 2 - 12} y={y + h / 2 - 16} size={16} anchor="right" color="#b8343f">
+                      <span className="card-stars">
+                        {got.map((g, k) => (
+                          <b key={k} style={{ opacity: g ? 1 : 0.25 }}>
+                            ★
+                          </b>
+                        ))}
+                      </span>
+                    </Html>
+                    <g transform={`rotate(-14 ${x - 30} ${y + 40})`} opacity={0.75}>
+                      <rect x={x - 90} y={y + 26} width={120} height={30} fill="none" stroke="#b8343f" strokeWidth={3} />
+                      <Html x={x - 30} y={y + 41} size={14} color="#b8343f" style={{ rotate: `${tilt - 14}deg` }}>
+                        <span className="card-stamp">CERRADO</span>
+                      </Html>
+                    </g>
+                  </>
                 )}
               </g>
             );
           })}
+          <Html x={60} y={60} size={18} anchor="top-left" color={C.muted}>
+            <span className="board-title">
+              TABLERO · {sector.name.toUpperCase()} · {sector.tag.toUpperCase()}
+            </span>
+          </Html>
         </Stage>
       </div>
       <aside className="sector-panel">
-        <span className="eyebrow">
-          SECTOR {String(sector.number).padStart(2, '0')} · {sector.tag.toUpperCase()}
-        </span>
+        <span className="eyebrow">{sector.tag.toUpperCase()}</span>
         <h2>{sector.name}</h2>
-        {stars.done === 0 && (
-          <div className="sector-intro">
-            {sector.intro.map((l, i) => (
-              <p key={i}>
-                <span>›</span> <Rich text={l} />
-              </p>
-            ))}
-          </div>
-        )}
+        <p className="sector-desc">{sector.description}</p>
         <div className="sector-progress">
           <span>
-            {stars.done}/{stars.total} protocolos
+            {stars.done}/{stars.total} casos cerrados
           </span>
-          <span>
-            ★ {stars.got}/{stars.max}
-          </span>
+          <span>★ {stars.got}/{stars.max}</span>
         </div>
         <div className="level-card">
           <span className="level-card-code">
-            {focus.kind === 'boss' ? 'NÚCLEO' : 'PROTOCOLO'} {focus.code}
+            {focus.kind === 'boss' ? 'CASO PRINCIPAL' : 'CASO'} {focus.code}
           </span>
           <h3>{focus.title}</h3>
           <p className="level-card-sub">{focus.subtitle}</p>
           <p className="level-card-obj">
-            <Rich text={focus.objective} />
+            <Rich text={focus.teaser} />
+          </p>
+          <p className="level-card-learn">
+            <span>APRENDES</span> <Rich text={focus.learn} />
           </p>
           {focus.glyphs.length > 0 && (
             <div className="level-card-glyphs">
@@ -196,26 +174,19 @@ export function SectorMap({
             </div>
           )}
           {fstate === 'wip' ? (
-            <p className="level-card-lock">◇ En construcción</p>
+            <p className="level-card-lock">En preparación.</p>
           ) : fstate === 'locked' ? (
-            <p className="level-card-lock">
-              ⌁ Requiere {focus.requires.map((r) => byId[r]?.code).join(', ')}
-            </p>
+            <p className="level-card-lock">Antes: {focus.requires.map((r) => `caso ${byId[r]?.code}`).join(', ')}.</p>
           ) : (
             <button className="btn primary" onClick={() => play(focus)}>
-              {rec?.done ? 'Repetir' : 'Iniciar'} {focus.code} ▸ {focus.id === recommended?.id && <kbd>Enter</kbd>}
+              {rec?.done ? 'Repetir caso' : 'Abrir caso'} {focus.code} ▸
             </button>
           )}
           {rec?.done && (
             <p className="level-card-best">
-              Mejor: {rec.stars.filter(Boolean).length}/3 ★ · {rec.attempts} intento{rec.attempts === 1 ? '' : 's'}
+              Mejor resultado: {rec.stars.filter(Boolean).length}/3 ★ · {rec.attempts} intento{rec.attempts === 1 ? '' : 's'}
             </p>
           )}
-        </div>
-        <div className="sector-module">
-          <span>MÓDULO DEL NÚCLEO</span>
-          <b>{sector.module.name}</b>
-          <p>{sector.module.description}</p>
         </div>
       </aside>
     </div>

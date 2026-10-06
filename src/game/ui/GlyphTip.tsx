@@ -47,11 +47,6 @@ export function GlyphProvider({ children }: { children: ReactNode }) {
               ⚠ <Rich text={g.warn} />
             </p>
           )}
-          {g.aif && (
-            <p className="glyph-aif">
-              AIF · <Rich text={g.aif} />
-            </p>
-          )}
         </div>
       )}
     </GlyphContext.Provider>

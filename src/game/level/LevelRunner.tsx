@@ -2,28 +2,20 @@ import { useMemo, useRef, useState } from 'react';
 import { useKey } from '../../engine/hooks';
 import { sfx } from '../audio';
 import { completeLevel, starsFor, store, useGame } from '../state';
-import { BriefPlayer } from './BriefPlayer';
 import { ChallengePlayer } from './ChallengePlayer';
-import { CodexPlayer } from './CodexPlayer';
 import { DemoPlayer } from './DemoPlayer';
 import { ForgePlayer } from './ForgePlayer';
 import { Results, type ResultsData } from './Results';
+import { ScenePlayer } from './ScenePlayer';
 import { RunContext, type RunCtx } from './context';
-import type { LevelDef, SectorDef, Step } from './types';
+import { levelNotes } from './notes';
+import type { LevelDef, Note, SectorDef, Step } from './types';
 
 const STEP_LABEL: Record<Step['kind'], string> = {
-  brief: 'Briefing',
-  demo: 'Demostración',
-  challenge: 'Retos',
+  scene: 'Escena',
+  demo: 'Investigación',
+  challenge: 'Caso',
   forge: 'Forja',
-  codex: 'Códex',
-};
-const STEP_ICON: Record<Step['kind'], string> = {
-  brief: '›_',
-  demo: '▶',
-  challenge: '◆',
-  forge: '⚒',
-  codex: '▣',
 };
 
 const systemReduced =
@@ -51,16 +43,20 @@ export function LevelRunner({
   const game = useGame();
   const reduced = game.settings.reducedMotion || !!systemReduced;
   // ?step=N starts at a given step (QA / authoring aid)
-  const [stepIndex, setStepIndex] = useState(() => {
-    const n = Number(new URLSearchParams(window.location.search).get('step'));
-    return Number.isInteger(n) && n > 0 && n < level.steps.length ? n : 0;
-  });
+  const initialStep = (() => {
+    const k = Number(new URLSearchParams(window.location.search).get('step'));
+    return Number.isInteger(k) && k > 0 && k < level.steps.length ? k : 0;
+  })();
+  const [stepIndex, setStepIndex] = useState(initialStep);
   const [attempt, setAttempt] = useState(0);
   const [errors, setErrors] = useState(0);
   const [hints, setHints] = useState(0);
   const [pausedMenu, setPausedMenu] = useState(false);
   const [results, setResults] = useState<ResultsData | null>(null);
   const [transition, setTransition] = useState(false);
+  // skipping the investigation (or jumping in with ?step) still gives the full notebook
+  const allNotes = useMemo(() => levelNotes(level), [level]);
+  const [notes, setNotes] = useState<Note[]>(() => (initialStep > 0 ? allNotes : []));
   const t0 = useRef(performance.now());
   const counters = useRef({ errors: 0, hints: 0 });
   const paused = pausedMenu || overlayOpen || !!results;
@@ -75,19 +71,34 @@ export function LevelRunner({
       errors: counters.current.errors,
       seconds,
       glyphs: level.glyphs,
-      codex: level.codex,
+      codex: [level.id],
       module: level.module,
     };
     const { state, gained, newStars } = completeLevel(store.get(), r);
     store.set(state);
-    setResults({
-      stars: starsFor(r),
-      newStars,
-      gained,
-      errors: r.errors,
-      hints: r.hintsUsed,
-      seconds,
-    });
+    setResults({ stars: starsFor(r), newStars, gained, errors: r.errors, hints: r.hintsUsed, seconds });
+  };
+
+  const goNext = () => {
+    if (stepIndex + 1 >= level.steps.length) {
+      finish();
+      return;
+    }
+    // leaving a demo (even skipped): the notebook gets every entry of that investigation
+    const cur = level.steps[stepIndex];
+    if (cur.kind === 'demo') {
+      const add = cur.beats.flatMap((b) => (b.note ? [b.note] : []));
+      setNotes((ns) => [...ns, ...add.filter((n) => !ns.some((x) => x.label === n.label && x.tex === n.tex))]);
+    }
+    sfx.whoosh();
+    setTransition(true);
+    setTimeout(
+      () => {
+        setStepIndex((i) => i + 1);
+        setTransition(false);
+      },
+      reduced ? 0 : 260,
+    );
   };
 
   const ctx: RunCtx = useMemo(
@@ -97,22 +108,11 @@ export function LevelRunner({
       reduced,
       textSpeed: game.settings.textSpeed,
       paused,
-      modules: game.modules.length,
-      complete: () => {
-        if (stepIndex + 1 >= level.steps.length) {
-          finish();
-          return;
-        }
-        sfx.whoosh();
-        setTransition(true);
-        setTimeout(
-          () => {
-            setStepIndex((i) => i + 1);
-            setTransition(false);
-          },
-          reduced ? 0 : 280,
-        );
-      },
+      guide: level.guide ?? 'iris',
+      place: sector.place,
+      notes,
+      addNote: (n) => setNotes((ns) => (ns.some((x) => x.label === n.label && x.tex === n.tex) ? ns : [...ns, n])),
+      complete: goNext,
       error: () => {
         counters.current.errors += 1;
         setErrors(counters.current.errors);
@@ -123,7 +123,7 @@ export function LevelRunner({
       },
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [level, stepIndex, reduced, game.settings.textSpeed, paused, game.modules.length],
+    [level, sector, stepIndex, reduced, game.settings.textSpeed, paused, notes],
   );
 
   const retry = () => {
@@ -132,6 +132,7 @@ export function LevelRunner({
     setHints(0);
     setResults(null);
     setStepIndex(0);
+    setNotes([]);
     setAttempt((a) => a + 1);
     setPausedMenu(false);
     t0.current = performance.now();
@@ -146,28 +147,27 @@ export function LevelRunner({
 
   const step = level.steps[stepIndex];
   const record = game.levels[level.id];
-  const liveStars = [stepIndex >= level.steps.length - 1, hints === 0, errors <= 1];
+  const liveStars = [stepIndex >= level.steps.length - 1, hints === 0, errors === 0];
 
   return (
     <RunContext.Provider value={ctx}>
       <div className={`level ${level.kind === 'boss' ? 'boss' : ''}`} style={{ ['--accent' as string]: sector.accent }}>
         <header className="level-hud">
-          <button className="hud-back" onClick={onExit} title="Volver al mapa del sector">
-            ◂ <span>SECTOR {String(sector.number).padStart(2, '0')}</span>
+          <button className="hud-back" onClick={onExit} title="Volver al tablero del distrito">
+            ◂ <span>{sector.name.toUpperCase()}</span>
           </button>
           <div className="hud-title">
-            <span className="hud-code">{level.code}</span>
+            <span className="hud-code">CASO {level.code}</span>
             <span className="hud-name">{level.title}</span>
           </div>
           <ol className="step-track">
             {level.steps.map((s, i) => (
               <li key={i} className={i < stepIndex ? 'done' : i === stepIndex ? 'now' : ''}>
-                <span className="step-icon">{STEP_ICON[s.kind]}</span>
-                <span className="step-label">{s.kind === 'demo' || s.kind === 'challenge' ? s.title : STEP_LABEL[s.kind]}</span>
+                <span className="step-label">{s.kind === 'challenge' || s.kind === 'demo' ? s.title : STEP_LABEL[s.kind]}</span>
               </li>
             ))}
           </ol>
-          <div className="hud-stars" title="Estrellas en juego: completar · sin pistas · ≤ 1 error">
+          <div className="hud-stars" title="Estrellas: resolver · sin pistas · sin errores">
             {liveStars.map((on, i) => (
               <span key={i} className={on ? 'on' : 'off'}>
                 ★
@@ -180,22 +180,21 @@ export function LevelRunner({
           </button>
         </header>
         <main className={`level-body ${transition ? 'leaving' : 'entering'}`} key={`${attempt}-${stepIndex}`}>
-          {step.kind === 'brief' && <BriefPlayer step={step} />}
+          {step.kind === 'scene' && <ScenePlayer step={step} />}
           {step.kind === 'demo' && <DemoPlayer step={step} />}
           {step.kind === 'challenge' && <ChallengePlayer step={step} />}
           {step.kind === 'forge' && <ForgePlayer step={step} />}
-          {step.kind === 'codex' && <CodexPlayer step={step} />}
         </main>
         {pausedMenu && (
           <div className="pause" onClick={() => setPausedMenu(false)}>
             <div className="pause-card" onClick={(e) => e.stopPropagation()}>
-              <span className="pause-kicker">PAUSA · {level.code}</span>
+              <span className="pause-kicker">PAUSA · CASO {level.code}</span>
               <h2>{level.title}</h2>
               <button className="btn primary" onClick={() => setPausedMenu(false)}>
                 Continuar
               </button>
               <button className="btn" onClick={retry}>
-                Reiniciar protocolo
+                Reiniciar el caso
               </button>
               <button
                 className="btn"
@@ -204,7 +203,7 @@ export function LevelRunner({
                   onOpenCodex();
                 }}
               >
-                Códex (C)
+                Cuaderno y léxico (C)
               </button>
               <button
                 className="btn"
@@ -216,7 +215,7 @@ export function LevelRunner({
                 Ajustes
               </button>
               <button className="btn ghost" onClick={onExit}>
-                Salir al mapa
+                Volver al tablero
               </button>
             </div>
           </div>
@@ -225,12 +224,13 @@ export function LevelRunner({
           <Results
             level={level}
             data={results}
+            notes={allNotes}
             onRetry={retry}
             onExit={onExit}
             onNext={onNext}
             nextLabel={nextLabel}
             reduced={reduced}
-            module={sector.module}
+            module={level.kind === 'boss' ? sector.module : undefined}
           />
         )}
       </div>

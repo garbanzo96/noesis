@@ -73,7 +73,7 @@ export const STAR_XP = 50;
 export const COMPLETE_XP = 50;
 
 export function starsFor(r: Pick<LevelResult, 'hintsUsed' | 'errors'>): [boolean, boolean, boolean] {
-  return [true, r.hintsUsed === 0, r.errors <= 1];
+  return [true, r.hintsUsed === 0, r.errors === 0];
 }
 
 /** Returns new state and the XP gained (only newly earned stars pay). */
@@ -112,18 +112,14 @@ export function completeLevel(s: GameState, r: LevelResult): { state: GameState;
 }
 
 export const RANKS = [
-  'Observador',
-  'Cartógrafo',
-  'Modelador',
+  'Aspirante',
   'Analista',
-  'Inferente',
-  'Navegante',
-  'Investigador',
-  'Arquitecto',
-  'Estratega',
-  'Constructor',
-  'Sintetizador',
-  'Agente',
+  'Analista senior',
+  'Detective',
+  'Detective senior',
+  'Especialista',
+  'Agente de élite',
+  'Leyenda de NÓESIS',
 ];
 export const RANK_XP = 500;
 export const rankOf = (xp: number) => Math.min(RANKS.length - 1, Math.floor(xp / RANK_XP));
