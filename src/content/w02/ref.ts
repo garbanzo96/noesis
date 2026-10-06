@@ -62,4 +62,17 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Recta tangente', tex: "y=f(x_0)+f'(x_0)\\,(x-x_0)", body: 'Pendiente $m=f\'(x_0)$; ordenada $b=f(x_0)-m\\,x_0$.' },
     ],
   },
+  'w2-c5': {
+    defs: [
+      { label: 'Producto de funciones', tex: '(f\\,g)(x)=f(x)\\,g(x)' },
+      { label: 'Cociente de funciones', tex: '\\left(\\frac fg\\right)(x)=\\frac{f(x)}{g(x)}\\qquad(g(x)\\ne0)' },
+    ],
+    props: [
+      { label: 'Regla del producto', tex: "(f\\,g)'=f'\\,g+f\\,g'" },
+      { label: 'Regla del cociente', tex: "\\left(\\frac fg\\right)'=\\frac{f'\\,g-f\\,g'}{g^2}" },
+      { label: 'Recíproco', tex: "\\left(\\frac1g\\right)'=-\\frac{g'}{g^2}" },
+      { label: 'Producto de tres', tex: "(fgh)'=f'gh+fg'h+fgh'" },
+      { label: 'Tasas relativas', tex: "\\frac{(fg)'}{fg}=\\frac{f'}{f}+\\frac{g'}{g},\\qquad \\frac{(f/g)'}{f/g}=\\frac{f'}{f}-\\frac{g'}{g}", body: 'Los porcentajes de cambio se suman en un producto y se restan en un cociente.' },
+    ],
+  },
 };
