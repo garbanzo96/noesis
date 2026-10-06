@@ -35,6 +35,12 @@ export interface Note {
   body?: string;
 }
 
+/** Reference of a topic: definitions and properties/identities, written in general form. */
+export interface TopicRef {
+  defs: Note[];
+  props: Note[];
+}
+
 export interface LevelDef {
   /** stable id, e.g. 'w01-l03' (progress is keyed by it) */
   id: string;
@@ -48,7 +54,7 @@ export interface LevelDef {
   /** TeX shown on the case card */
   glyph: string;
   kind: 'level' | 'boss';
-  /** level ids that must be completed first (soft gate; free mode ignores it) */
+  /** story order: cases that come before this one (a recommendation, never a lock) */
   requires: string[];
   /** position on the district board, in stage units (1600×900) */
   pos: [number, number];
@@ -64,6 +70,8 @@ export interface LevelDef {
   notes?: Note[];
   /** typical mistakes, shown in the notebook card */
   pitfalls?: string[];
+  /** reference sheet of the topic, shown in Resources: general definitions and properties */
+  ref?: TopicRef;
   /** reward of a boss (district closed) */
   module?: string;
   /** under construction: shown but not playable; does not block dependents */

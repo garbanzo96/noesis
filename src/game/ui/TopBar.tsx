@@ -47,7 +47,7 @@ export function TopBar({
       </div>
       <div className="topbar-right">
         <button className="btn ghost small" onClick={onCodex}>
-          Cuaderno <kbd>C</kbd>
+          Recursos <kbd>R</kbd>
         </button>
         <button className="btn ghost small" onClick={onSettings}>
           Ajustes

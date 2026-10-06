@@ -30,6 +30,7 @@ export function LevelRunner({
   onOpenCodex,
   onOpenSettings,
   overlayOpen,
+  startStep,
 }: {
   level: LevelDef;
   sector: SectorDef;
@@ -39,12 +40,14 @@ export function LevelRunner({
   onOpenCodex: () => void;
   onOpenSettings: () => void;
   overlayOpen: boolean;
+  /** start at this step (from Resources or a board shortcut) */
+  startStep?: number;
 }) {
   const game = useGame();
   const reduced = game.settings.reducedMotion || !!systemReduced;
   // ?step=N starts at a given step (QA / authoring aid)
   const initialStep = (() => {
-    const k = Number(new URLSearchParams(window.location.search).get('step'));
+    const k = startStep ?? Number(new URLSearchParams(window.location.search).get('step'));
     return Number.isInteger(k) && k > 0 && k < level.steps.length ? k : 0;
   })();
   const [stepIndex, setStepIndex] = useState(initialStep);
@@ -138,6 +141,15 @@ export function LevelRunner({
     t0.current = performance.now();
   };
 
+  /** visit any step directly (review): later steps get the full notebook */
+  const jumpTo = (i: number) => {
+    if (i === stepIndex || results) return;
+    sfx.click();
+    setNotes(i > 0 ? allNotes : []);
+    setStepIndex(i);
+    setAttempt((a) => a + 1);
+  };
+
   useKey('Escape', () => {
     if (results || overlayOpen) return;
     sfx.click();
@@ -163,7 +175,9 @@ export function LevelRunner({
           <ol className="step-track">
             {level.steps.map((s, i) => (
               <li key={i} className={i < stepIndex ? 'done' : i === stepIndex ? 'now' : ''}>
-                <span className="step-label">{s.kind === 'challenge' || s.kind === 'demo' ? s.title : STEP_LABEL[s.kind]}</span>
+                <button onClick={() => jumpTo(i)} title="Ir a este paso">
+                  <span className="step-label">{s.kind === 'challenge' || s.kind === 'demo' ? s.title : STEP_LABEL[s.kind]}</span>
+                </button>
               </li>
             ))}
           </ol>
@@ -203,7 +217,7 @@ export function LevelRunner({
                   onOpenCodex();
                 }}
               >
-                Cuaderno y léxico (C)
+                Recursos del tema (R)
               </button>
               <button
                 className="btn"

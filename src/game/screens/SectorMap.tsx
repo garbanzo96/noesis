@@ -12,7 +12,7 @@ const CARD_W = 210;
 const CARD_H = 130;
 
 /** The district board: case files pinned on cork, red string between dependent cases. */
-export function SectorMap({ sector, onPlay, reduced }: { sector: SectorDef; onPlay: (l: LevelDef) => void; reduced: boolean }) {
+export function SectorMap({ sector, onPlay, onResources, reduced }: { sector: SectorDef; onPlay: (l: LevelDef, step?: number) => void; onResources: (id: string) => void; reduced: boolean }) {
   const game = useGame();
   const [hover, setHover] = useState<string | null>(null);
   const recommended = nextLevel(game, sector.world);
@@ -23,16 +23,17 @@ export function SectorMap({ sector, onPlay, reduced }: { sector: SectorDef; onPl
   const stars = sectorStars(game, sector.world);
   const byId = Object.fromEntries(sector.levels.map((l) => [l.id, l]));
 
-  const play = (l: LevelDef) => {
-    const st = levelState(game, l);
-    if (st === 'locked' || st === 'wip') {
+  const play = (l: LevelDef, step?: number) => {
+    if (levelState(game, l) === 'wip') {
       sfx.bad();
       setHover(l.id);
       return;
     }
     sfx.select();
-    onPlay(l);
+    onPlay(l, step);
   };
+  const demoStep = focus.steps.findIndex((st) => st.kind === 'demo');
+  const practiceStep = focus.steps.findIndex((st) => st.kind === 'challenge');
   useKey('Enter', () => recommended && play(recommended));
 
   return (
@@ -77,7 +78,7 @@ export function SectorMap({ sector, onPlay, reduced }: { sector: SectorDef; onPl
             const tilt = ((i * 37) % 7) - 3;
             const isRec = recommended?.id === l.id;
             const got = game.levels[l.id]?.stars ?? [false, false, false];
-            const locked = st === 'locked' || st === 'wip';
+            const locked = st === 'wip';
             return (
               <g
                 key={l.id}
@@ -175,12 +176,29 @@ export function SectorMap({ sector, onPlay, reduced }: { sector: SectorDef; onPl
           )}
           {fstate === 'wip' ? (
             <p className="level-card-lock">En preparación.</p>
-          ) : fstate === 'locked' ? (
-            <p className="level-card-lock">Antes: {focus.requires.map((r) => `caso ${byId[r]?.code}`).join(', ')}.</p>
           ) : (
-            <button className="btn primary" onClick={() => play(focus)}>
-              {rec?.done ? 'Repetir caso' : 'Abrir caso'} {focus.code} ▸
-            </button>
+            <>
+              <button className="btn primary" onClick={() => play(focus)}>
+                {rec?.done ? 'Repetir caso' : 'Abrir caso'} {focus.code} ▸
+              </button>
+              <div className="level-card-alt">
+                {demoStep > 0 && (
+                  <button className="btn small" onClick={() => play(focus, demoStep)}>
+                    Solo la explicación
+                  </button>
+                )}
+                {practiceStep > 0 && (
+                  <button className="btn small" onClick={() => play(focus, practiceStep)}>
+                    Solo la práctica
+                  </button>
+                )}
+                {focus.ref && (
+                  <button className="btn small ghost" onClick={() => onResources(focus.id)}>
+                    Recursos del tema
+                  </button>
+                )}
+              </div>
+            </>
           )}
           {rec?.done && (
             <p className="level-card-best">

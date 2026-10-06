@@ -62,6 +62,16 @@ describe('content contract', () => {
     }
   });
 
+  it('every topic has a reference sheet whose TeX renders', () => {
+    for (const l of levels) {
+      if (l.wip || l.kind === 'boss') continue;
+      expect(l.ref, `${l.id} ref`).toBeTruthy();
+      expect(l.ref!.defs.length, `${l.id} defs`).toBeGreaterThanOrEqual(2);
+      expect(l.ref!.props.length, `${l.id} props`).toBeGreaterThanOrEqual(2);
+      for (const n of [...l.ref!.defs, ...l.ref!.props]) if (n.tex) expect(renderTex(n.tex, true), `${l.id}/${n.label}`).not.toContain('katex-error');
+    }
+  });
+
   it('demo beats are well formed', () => {
     for (const l of levels)
       for (const st of l.steps)

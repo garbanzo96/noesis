@@ -18,13 +18,13 @@ export const CODEX: Record<string, CodexEntry> = Object.fromEntries(CODEX_LIST.m
 export const GLYPH_LIST: Glyph[] = [...W01_GLYPHS, ...W05_GLYPHS];
 export const GLYPHS: Record<string, Glyph> = Object.fromEntries(GLYPH_LIST.map((g) => [g.id, g]));
 
-// ---------- gating ----------
+// ---------- access ----------
+// Everything playable is always open: this is a study resource and any topic can be reviewed on
+// its own. The story order only decides which case is recommended next.
 export function levelState(s: GameState, l: LevelDef): 'done' | 'open' | 'locked' | 'wip' {
   if (l.wip) return 'wip';
   if (s.levels[l.id]?.done) return 'done';
-  if (s.settings.freeMode) return 'open';
-  // a dependency still under construction does not block its dependents
-  return l.requires.every((r) => s.levels[r]?.done || LEVELS[r]?.wip) ? 'open' : 'locked';
+  return 'open';
 }
 
 export function sectorState(s: GameState, w: WorldId): 'done' | 'open' | 'locked' | 'sealed' {
@@ -32,9 +32,7 @@ export function sectorState(s: GameState, w: WorldId): 'done' | 'open' | 'locked
   if (!def) return 'sealed';
   const boss = def.levels.find((l) => l.kind === 'boss');
   if (boss && s.levels[boss.id]?.done) return 'done';
-  if (s.settings.freeMode) return 'open';
-  const prereq = SECTOR_BY_ID[w].prerequisites;
-  return prereq.every((p) => !PLAYABLE[p] || sectorState(s, p) === 'done') ? 'open' : 'locked';
+  return 'open';
 }
 
 export function sectorStars(s: GameState, w: WorldId) {
@@ -50,7 +48,7 @@ export function sectorStars(s: GameState, w: WorldId) {
   return { got, max: def.levels.length * 3, done, total: def.levels.length };
 }
 
-/** The next case to play in a district: first open, not-done case in board order. */
+/** The recommended case in a district: the first not-done case in story order after `after`. */
 export function nextLevel(s: GameState, w: WorldId, after?: string): LevelDef | undefined {
   const def = PLAYABLE[w];
   if (!def) return undefined;
@@ -59,3 +57,9 @@ export function nextLevel(s: GameState, w: WorldId, after?: string): LevelDef | 
   const rest = [...order.slice(start), ...order.slice(0, start)];
   return rest.find((l) => levelState(s, l) === 'open');
 }
+
+/** Topics with a reference sheet, in story order, per playable district. */
+export const TOPICS: { world: WorldId; levels: LevelDef[] }[] = Object.values(PLAYABLE).map((s) => ({
+  world: s!.world,
+  levels: s!.levels.filter((l) => !l.wip && l.kind !== 'boss'),
+}));

@@ -30,7 +30,7 @@ export function Title({ onContinue, onCodex, onSettings }: { onContinue: () => v
             {done ? 'Continuar la investigación' : 'Empezar'} ▸
           </button>
           <button className="btn" onClick={onCodex}>
-            Cuaderno y léxico
+            Recursos de estudio
           </button>
           <button className="btn" onClick={onSettings}>
             Ajustes

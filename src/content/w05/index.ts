@@ -9,6 +9,7 @@ import * as C7 from './c7-arboles';
 import * as C8 from './c8-bayes';
 import * as C9 from './c9-esperanza';
 import * as FINAL from './final';
+import { REF_W05 } from './ref';
 
 const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6, C7, C8, C9, FINAL];
 
@@ -25,7 +26,7 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w5-final': { pos: [1050, 770], requires: ['w5-c9'] },
 };
 
-const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
+const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W05[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
 
 export const W05: SectorDef = {
   world: 'probability',

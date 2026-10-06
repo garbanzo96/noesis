@@ -8,6 +8,7 @@ import * as C6 from './c6-reparto';
 import * as C7 from './c7-virus';
 import * as C8 from './c8-cuenta';
 import * as FINAL from './final';
+import { REF_W01 } from './ref';
 
 const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6, C7, C8, FINAL];
 
@@ -24,7 +25,7 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w1-final': { pos: [1300, 250], requires: ['w1-c8'] },
 };
 
-const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
+const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W01[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
 
 export const W01: SectorDef = {
   world: 'foundations',

@@ -2687,3 +2687,256 @@ strong {
   opacity: 0.4;
   cursor: default;
 }
+
+/* ---------------------------------------------------------------- resources */
+.res-screen {
+  width: min(1400px, 96vw);
+  height: min(920px, 94vh);
+  display: grid;
+  grid-template-rows: auto 1fr;
+  background: var(--bg2);
+  border: 1px solid var(--line2);
+}
+.res-head {
+  display: flex;
+  gap: 14px;
+  align-items: center;
+  padding: 10px 16px;
+  border-bottom: 1px solid var(--line);
+}
+.res-title {
+  font-family: var(--display);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+.res-head input {
+  flex: 1;
+  min-width: 160px;
+  background: #0006;
+  border: 1px solid var(--line2);
+  padding: 7px 12px;
+  color: #fff;
+}
+.res-body {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  min-height: 0;
+}
+.res-nav {
+  border-right: 1px solid var(--line);
+  overflow-y: auto;
+  padding: 10px 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.res-nav-kicker {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  padding: 4px 10px 8px;
+}
+.res-nav button {
+  text-align: left;
+  background: none;
+  border: none;
+  border-left: 2px solid transparent;
+  padding: 7px 10px;
+  cursor: pointer;
+  color: #cfc8e6;
+  font-size: 14px;
+  line-height: 1.3;
+}
+.res-nav button span {
+  display: inline-block;
+  min-width: 2.6em;
+  font-family: var(--mono);
+  color: var(--muted);
+}
+.res-nav button:hover {
+  background: #ffffff08;
+}
+.res-nav button.on {
+  border-color: var(--accent);
+  color: #fff;
+  background: #ffffff0a;
+}
+.res-doc {
+  overflow-y: auto;
+  padding: 18px 34px 80px;
+  scroll-padding-top: 12px;
+}
+.res-world {
+  margin: 8px 0 18px;
+}
+.res-world span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--accent);
+}
+.res-world h2 {
+  margin: 2px 0 0;
+  font-family: var(--display);
+}
+.res-topic {
+  border-top: 1px solid var(--line);
+  padding: 18px 0 8px;
+}
+.res-topic > header {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 8px;
+}
+.res-code {
+  font-family: var(--mono);
+  font-size: 15px;
+  color: var(--accent);
+  border: 1px solid var(--accent);
+  padding: 4px 8px;
+}
+.res-topic h3 {
+  margin: 0;
+  font-size: 22px;
+}
+.res-topic header small {
+  color: var(--muted);
+}
+.res-actions {
+  margin-left: auto;
+  display: flex;
+  gap: 8px;
+}
+.res-sec h4 {
+  margin: 14px 0 6px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+.res-entry {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 18px;
+  padding: 7px 0;
+  border-bottom: 1px dashed #ffffff10;
+}
+.res-entry b {
+  font-weight: 600;
+  color: #fff;
+  font-size: 15px;
+}
+.res-entry p {
+  margin: 2px 0 0;
+  color: #cfc8e6;
+  font-size: 14px;
+  line-height: 1.5;
+}
+.res-tex {
+  overflow-x: auto;
+  overflow-y: hidden;
+  font-size: 17px;
+}
+.res-tex .katex-display {
+  margin: 0;
+  text-align: left;
+}
+.res-tex .katex-display > .katex {
+  text-align: left;
+}
+.res-notation {
+  border-collapse: collapse;
+  width: 100%;
+}
+.res-notation td {
+  padding: 7px 0;
+  border-bottom: 1px dashed #ffffff10;
+  vertical-align: top;
+}
+.res-notation .res-sym {
+  width: 220px;
+  font-size: 19px;
+  padding-right: 18px;
+}
+.res-notation small {
+  color: var(--muted);
+}
+.res-notation p {
+  margin: 2px 0 0;
+  color: #cfc8e6;
+  font-size: 14px;
+}
+.res-warn {
+  color: var(--amber, #ffbc5e) !important;
+}
+.res-warn::before {
+  content: '⚠ ';
+}
+.res-pitfalls {
+  margin: 0;
+  padding-left: 18px;
+  color: #cfc8e6;
+  font-size: 14px;
+  line-height: 1.6;
+}
+@media (max-width: 900px) {
+  .res-body {
+    grid-template-columns: 1fr;
+  }
+  .res-nav {
+    display: none;
+  }
+  .res-entry {
+    grid-template-columns: 1fr;
+    gap: 4px;
+  }
+}
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  .res-doc,
+  .res-doc * {
+    visibility: visible;
+  }
+  .res-doc {
+    position: absolute;
+    inset: 0;
+    overflow: visible;
+    background: #fff;
+    color: #000;
+  }
+  .res-doc p,
+  .res-doc b,
+  .res-doc h2,
+  .res-doc h3,
+  .res-doc li {
+    color: #000 !important;
+  }
+  .res-actions {
+    display: none !important;
+  }
+}
+
+/* step track: steps can be visited directly */
+.step-track button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+.step-track button:hover .step-label {
+  color: #fff;
+}
+.level-card-alt {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+  flex-wrap: wrap;
+}
