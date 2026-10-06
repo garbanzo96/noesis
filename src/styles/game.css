@@ -2663,3 +2663,20 @@ strong {
   font-family: var(--display);
   font-weight: 800;
 }
+
+/* choice rows inside the stage */
+.stage-choices {
+  display: flex;
+  gap: 0.4em;
+  align-items: center;
+  white-space: nowrap;
+}
+.stage-choices-label {
+  color: var(--muted);
+  font-size: 0.8em;
+  margin-right: 0.4em;
+}
+.stage-btn:disabled {
+  opacity: 0.4;
+  cursor: default;
+}

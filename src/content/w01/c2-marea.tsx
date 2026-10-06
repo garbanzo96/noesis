@@ -409,7 +409,7 @@ export const level: LevelSpec = {
       place: 'puerto',
       lines: [
         { who: 'teo', text: 'Con la marea de hoy, la ventana se abre a las 00:40 y dura hasta las 05:20. El Altamar llegará de madrugada.' },
-        { who: 'iris', text: 'Y alguien tiene que llevarse la carga en camión. Quiero los registros de todos los camiones que salieron del puerto anoche.' },
+        { who: 'iris', text: 'Y alguien tiene que llevarse la carga en camión. Quiero los GPS de los camiones que retiraron su última carga.' },
       ],
     },
   ],
