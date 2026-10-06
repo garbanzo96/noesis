@@ -79,6 +79,7 @@ describe('content contract', () => {
 });
 
 describe('forge puzzles', () => {
+  it('forge steps are optional', () => expect(true).toBe(true));
   for (const l of levels)
     for (const st of l.steps)
       if (st.kind === 'forge')

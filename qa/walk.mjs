@@ -18,7 +18,7 @@ for (let b = 0; b < count; b++) {
   await page.waitForTimeout(2300);
   await page.screenshot({ path: `${out}${prefix}-b${b}.png` });
   const hasAsk = await page.evaluate(() => !!document.querySelector('.ask-options'));
-  if (hasAsk) { await page.keyboard.press('1'); await page.waitForTimeout(1400); await page.screenshot({ path: `${out}${prefix}-b${b}r.png` }); }
+  if (hasAsk) { const k = await page.evaluate(() => window.__demo?.rightKey || 1); await page.keyboard.press(String(k)); await page.waitForTimeout(1400); await page.screenshot({ path: `${out}${prefix}-b${b}r.png` }); }
   await page.evaluate(() => window.__demo?.unlock?.());
   await page.waitForTimeout(1500);
   const still = await page.evaluate(() => window.__demo?.beat);

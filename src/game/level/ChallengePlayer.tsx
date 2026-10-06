@@ -87,6 +87,11 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     [],
   );
 
+  useEffect(() => {
+    if (!import.meta.env.DEV) return;
+    (window as unknown as { __round: unknown }).__round = { pass: () => api.result(true, 'QA'), round, phase };
+  });
+
   const nextRound = () => {
     if (phase !== 'solved') return;
     if (round + 1 >= step.rounds) run.complete();

@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
 import { useBeats, useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
@@ -6,7 +6,7 @@ import { sfx } from '../audio';
 import { recordPrediction } from '../state';
 import { Console, KeyHint } from './Console';
 import { Notebook } from './Notebook';
-import { useRun } from './context';
+import { hashSeed, useRun } from './context';
 import type { DemoStep } from './types';
 
 /**
@@ -24,6 +24,22 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
   const [answers, setAnswers] = useState<(number | null)[]>(() => step.beats.map(() => null));
   const [unlocked, setUnlocked] = useState<boolean[]>(() => step.beats.map((b) => !b.gate));
   const noted = useRef(new Set<number>());
+  // options are shown in a fixed shuffled order per case and beat, so the answer is never "always the first"
+  const orders = useMemo(
+    () =>
+      step.beats.map((b, k) => {
+        const idx = (b.ask?.options ?? []).map((_, i) => i);
+        let s = hashSeed(run.level.id, k) >>> 0;
+        for (let i = idx.length - 1; i > 0; i--) {
+          s = (Math.imul(s, 1664525) + 1013904223) >>> 0;
+          const j = s % (i + 1);
+          [idx[i], idx[j]] = [idx[j], idx[i]];
+        }
+        return idx;
+      }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [step],
+  );
   const beat = step.beats[beats.beat];
   const answer = answers[beats.beat];
   const needsAnswer = !!beat.ask && answer === null;
@@ -88,7 +104,7 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
 
   useEffect(() => {
     if (!import.meta.env.DEV) return;
-    (window as unknown as { __demo: unknown }).__demo = { unlock, beat: beats.beat, count: n, answer };
+    (window as unknown as { __demo: unknown }).__demo = { unlock, beat: beats.beat, count: n, answer, rightKey: beat.ask ? orders[beats.beat].indexOf(beat.ask.answer) + 1 : 0 };
   });
 
   useKey([' ', 'Enter', 'ArrowRight'], (e) => {
@@ -96,7 +112,10 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
     advance();
   }, !run.paused);
   useKey('ArrowLeft', () => beats.prev(), !run.paused);
-  useKey(['1', '2', '3', '4'], (e) => choose(Number(e.key) - 1), !run.paused && needsAnswer && typed);
+  useKey(['1', '2', '3', '4'], (e) => {
+    const i = orders[beats.beat][Number(e.key) - 1];
+    if (i !== undefined) choose(i);
+  }, !run.paused && needsAnswer && typed);
 
   const Scene = step.Scene;
   const tone = beat.ask && answer !== null ? (answer === beat.ask.answer ? 'ok' : 'bad') : beat.gate && unlocked[beats.beat] ? 'ok' : undefined;
@@ -140,14 +159,14 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
               <span className="ask-tag">ANTES DE MIRAR</span> <Rich text={beat.ask.prompt} />
             </div>
             <div className="ask-options">
-              {beat.ask.options.map((o, i) => (
+              {orders[beats.beat].map((i, pos) => (
                 <button
                   key={i}
                   className={`opt ${answer === null ? '' : i === beat.ask!.answer ? 'right' : i === answer ? 'wrong' : 'off'}`}
                   onClick={() => choose(i)}
                   disabled={answer !== null}
                 >
-                  <kbd>{i + 1}</kbd> <Rich text={o} />
+                  <kbd>{pos + 1}</kbd> <Rich text={beat.ask!.options[i]} />
                 </button>
               ))}
             </div>
