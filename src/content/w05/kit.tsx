@@ -239,3 +239,17 @@ export function Formula({ y, tex, size = 30, color = C.text, x = 800 }: { y: num
     </Html>
   );
 }
+
+// ---------------------------------------------------------------- cards
+export const RANKS = ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'];
+export const SUITS = ['c', 'o', 'p', 't'] as const;
+export type Suit = (typeof SUITS)[number];
+export const SUIT_NAME: Record<Suit, string> = { c: 'corazones', o: 'diamantes', p: 'picas', t: 'tréboles' };
+export interface Card {
+  r: number; // 0..12 (A..K)
+  s: Suit;
+}
+export const DECK: Card[] = SUITS.flatMap((s) => RANKS.map((_, r) => ({ r, s })));
+export const isRed = (c: Card) => c.s === 'c' || c.s === 'o';
+export const isFace = (c: Card) => c.r >= 10;
+export const cardName = (c: Card) => `${RANKS[c.r]} de ${SUIT_NAME[c.s]}`;
