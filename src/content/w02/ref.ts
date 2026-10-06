@@ -34,4 +34,18 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Cuadrado', tex: "f(x)=x^2\\ \\Rightarrow\\ \\frac{(x+h)^2-x^2}{h}=2x+h\\ \\to\\ 2x" },
     ],
   },
+  'w2-c3': {
+    defs: [
+      { label: 'Función derivada', tex: "f':\\ x\\mapsto f'(x)", body: 'A cada $x$ le asigna la pendiente de $f$ en $x$.' },
+      { label: 'Punto crítico', tex: "f'(c)=0", body: 'La tangente es horizontal (o $f\'$ no existe). Candidatos a máximo o mínimo.' },
+      { label: 'Segunda derivada', tex: "f''=(f')'", body: 'Mide cómo cambia la pendiente.' },
+      { label: 'Concavidad e inflexión', body: "$f''>0$: cóncava hacia arriba (las tangentes quedan bajo la curva). $f''<0$: hacia abajo. Inflexión: donde $f''$ cambia de signo." },
+    ],
+    props: [
+      { label: 'Signo y monotonía', tex: "f'>0\\ \\text{en }I\\Rightarrow f\\ \\text{crece en }I,\\qquad f'<0\\Rightarrow f\\ \\text{decrece}" },
+      { label: 'Extremos de la derivada', body: "En una inflexión, $f'$ alcanza un máximo o mínimo local: ahí $f$ cambia más rápido." },
+      { label: 'Leer la derivada en la gráfica', body: "Tangente horizontal → $f'=0$ (cruza el eje). Tramo que sube → $f'$ sobre el eje. Tramo recto → $f'$ constante." },
+      { label: 'Altura y pendiente', body: "El valor de $f$ y el de $f'$ son independientes: $f$ puede ser grande con $f'$ pequeña, y al revés." },
+    ],
+  },
 };
