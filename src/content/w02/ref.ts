@@ -89,4 +89,18 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Ejemplos de razones', tex: '\\frac{d}{dt}\\pi r^2=2\\pi r\\,\\frac{dr}{dt},\\qquad \\frac{d}{dt}\\tfrac43\\pi r^3=4\\pi r^2\\,\\frac{dr}{dt}' },
     ],
   },
+  'w2-c7': {
+    defs: [
+      { label: 'Exponencial natural', tex: 'e^x,\\qquad e\\approx2{,}71828', body: 'La única exponencial cuya pendiente es igual a su altura.' },
+      { label: 'Logaritmo natural', tex: '\\ln x=\\log_e x\\qquad(x>0)' },
+      { label: 'Ley de enfriamiento de Newton', tex: "T'=-k\\,(T-T_a),\\qquad T(t)=T_a+(T_0-T_a)\\,e^{-kt}" },
+    ],
+    props: [
+      { label: 'Exponenciales', tex: "\\left(e^x\\right)'=e^x,\\qquad \\left(e^{kx}\\right)'=k\\,e^{kx},\\qquad \\left(b^x\\right)'=\\ln b\\cdot b^x" },
+      { label: 'Logaritmos', tex: "\\left(\\ln x\\right)'=\\frac1x,\\qquad \\left(\\log_b x\\right)'=\\frac{1}{x\\ln b}" },
+      { label: 'Con la cadena', tex: "\\left(e^{u}\\right)'=u'\\,e^{u},\\qquad \\left(\\ln u\\right)'=\\frac{u'}{u}" },
+      { label: 'Crecimiento proporcional', tex: "y'=k\\,y\\iff y=y_0\\,e^{kx}", body: 'Si el ritmo es proporcional a la cantidad, la cantidad es exponencial.' },
+      { label: 'Derivada logarítmica', tex: "\\frac{y'}{y}=(\\ln y)'", body: 'Ritmo relativo de cambio.' },
+    ],
+  },
 };
