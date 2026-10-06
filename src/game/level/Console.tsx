@@ -40,7 +40,7 @@ export function Console({
         </div>
         {tex && (
           <div className="console-tex">
-            <MorphTex tex={tex} display={false} />
+            <MorphTex tex={`\\displaystyle ${tex}`} display={false} />
           </div>
         )}
         {children}

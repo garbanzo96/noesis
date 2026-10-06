@@ -60,3 +60,31 @@ export function Choices<T extends string | number>({ x, y, options, value, onPic
     </Html>
   );
 }
+
+/** Numeric answer box on the stage; Enter submits. Accepts a decimal comma. */
+export function NumberField({ x, y, value, onChange, onEnter, label, unit, width = 5 }: { x: number; y: number; value: string; onChange: (v: string) => void; onEnter?: () => void; label?: string; unit?: string; width?: number }) {
+  return (
+    <Html x={x} y={y} size={26} interactive anchor="left">
+      <label className="stage-choices">
+        {label && <span className="stage-choices-label">{label}</span>}
+        <input
+          className="stage-input"
+          style={{ width: `${width}em` }}
+          inputMode="decimal"
+          value={value}
+          onChange={(e) => onChange(e.target.value.replace(/[^0-9,.\-−]/g, ''))}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') onEnter?.();
+          }}
+        />
+        {unit && <span className="stage-choices-label">{unit}</span>}
+      </label>
+    </Html>
+  );
+}
+
+/** Parse what the player typed ("12,5", "−3") into a number, or null. */
+export const parseNum = (s: string) => {
+  const v = Number(s.replace(',', '.').replace('−', '-'));
+  return s.trim() === '' || Number.isNaN(v) ? null : v;
+};
