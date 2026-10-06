@@ -75,4 +75,18 @@ export const REF_W02: Record<string, TopicRef> = {
       { label: 'Tasas relativas', tex: "\\frac{(fg)'}{fg}=\\frac{f'}{f}+\\frac{g'}{g},\\qquad \\frac{(f/g)'}{f/g}=\\frac{f'}{f}-\\frac{g'}{g}", body: 'Los porcentajes de cambio se suman en un producto y se restan en un cociente.' },
     ],
   },
+  'w2-c6': {
+    defs: [
+      { label: 'Composición', tex: '(f\\circ g)(x)=f\\big(g(x)\\big)', body: 'Primero $g$ (adentro), después $f$ (afuera).' },
+      { label: 'Razones relacionadas', body: 'Si varias cantidades dependen del tiempo y están ligadas por una fórmula, al derivar la fórmula respecto de $t$ se relacionan sus ritmos.' },
+    ],
+    props: [
+      { label: 'Regla de la cadena', tex: "(f\\circ g)'(x)=f'\\big(g(x)\\big)\\,g'(x)" },
+      { label: 'Forma de Leibniz', tex: '\\frac{dy}{dx}=\\frac{dy}{du}\\cdot\\frac{du}{dx}' },
+      { label: 'Potencia de una función', tex: "\\frac{d}{dx}\\big(u(x)\\big)^n=n\\,u^{n-1}\\,u'" },
+      { label: 'Raíz de una función', tex: "\\frac{d}{dx}\\sqrt{u(x)}=\\frac{u'}{2\\sqrt u}" },
+      { label: 'Engranajes', body: 'En una cadena de etapas, la razón total es el producto de las razones de cada etapa.' },
+      { label: 'Ejemplos de razones', tex: '\\frac{d}{dt}\\pi r^2=2\\pi r\\,\\frac{dr}{dt},\\qquad \\frac{d}{dt}\\tfrac43\\pi r^3=4\\pi r^2\\,\\frac{dr}{dt}' },
+    ],
+  },
 };
