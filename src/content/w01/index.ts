@@ -9,6 +9,8 @@ import * as C7 from './c7-virus';
 import * as C8 from './c8-cuenta';
 import * as FINAL from './final';
 import { REF_W01 } from './ref';
+import { LESSONS_W01 } from './lessons';
+import { withLesson } from '../stub';
 
 const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6, C7, C8, FINAL];
 
@@ -25,13 +27,13 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w1-final': { pos: [1300, 250], requires: ['w1-c8'] },
 };
 
-const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W01[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
+const levels: LevelDef[] = MODULES.map((m) => withLesson({ ...m.level, ref: REF_W01[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }, LESSONS_W01[m.level.id]));
 
 export const W01: SectorDef = {
   world: 'foundations',
   number: 1,
-  name: 'El Puerto',
-  tag: 'Precálculo',
+  name: 'Precálculo',
+  tag: 'El Puerto',
   accent: '#28e7fa',
   place: 'puerto',
   description: 'Cuarenta cajas de vacunas desaparecieron de la bodega 9. Las pistas apuntan a un carguero sin bandera, el Altamar, y a alguien que lleva las cuentas del contrabando.',

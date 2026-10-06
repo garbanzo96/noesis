@@ -98,8 +98,11 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                 <Html x={x} y={y} size={30} color={open ? '#fff' : '#5d5478'}>
                   <span className="atlas-sym">{s.symbol}</span>
                 </Html>
-                <Html x={x} y={y + 50} size={17} anchor="top" color={open ? C.text : '#6d6488'}>
-                  <span className="atlas-label">{s.name}</span>
+                <Html x={x} y={y + 48} size={17} anchor="top" color={open ? C.text : '#6d6488'}>
+                  <span className="atlas-label">
+                    {s.number}. {s.area}
+                    <small>{s.name}</small>
+                  </span>
                 </Html>
                 {ss.total > 0 && (
                   <Html x={x} y={y - 54} size={14} color={C.amber}>
@@ -112,20 +115,22 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
         </Stage>
       </div>
       <aside className="atlas-panel" style={{ ['--accent' as string]: meta.accent }}>
-        <span className="eyebrow">DISTRITO · {meta.area.toUpperCase()}</span>
-        <h2>{meta.name}</h2>
+        <span className="eyebrow">
+          MUNDO {meta.number} · DISTRITO {meta.name.toUpperCase()}
+        </span>
+        <h2>{meta.area}</h2>
         <p className="atlas-hook">{meta.hook}</p>
         {st === 'sealed' ? (
-          <p className="atlas-state sealed">Cerrado por ahora: el caso de este distrito aún no está escrito.</p>
+          <p className="atlas-state sealed">En preparación: los temas de este mundo aún no están escritos.</p>
         ) : st === 'locked' ? (
           <p className="atlas-state locked">Requiere cerrar: {meta.prerequisites.map((p) => SECTOR_BY_ID[p].name).join(' · ')}</p>
         ) : (
           <>
             <p className="atlas-state open">
-              {st === 'done' ? 'Distrito resuelto' : 'Investigación abierta'} · {stars.done}/{stars.total} casos · ★ {stars.got}/{stars.max}
+              {st === 'done' ? 'Mundo completado' : 'Disponible'} · {stars.done}/{stars.total} casos · ★ {stars.got}/{stars.max}
             </p>
             <button className="btn primary" onClick={() => click(focus)}>
-              Ir al distrito ▸
+              Entrar al mundo ▸
             </button>
           </>
         )}

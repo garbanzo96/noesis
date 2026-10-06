@@ -31,8 +31,8 @@ const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W05[m.leve
 export const W05: SectorDef = {
   world: 'probability',
   number: 5,
-  name: 'Casino Aurora',
-  tag: 'Probabilidad',
+  name: 'Probabilidad',
+  tag: 'Casino Aurora',
   accent: '#ffbc5e',
   place: 'casino',
   description: 'El dinero del contrabando entra por las mesas del Barón Ferrer. Algunos juegos están amañados y en la mesa 7 alguien gana demasiado.',

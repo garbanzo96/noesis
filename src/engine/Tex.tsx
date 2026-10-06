@@ -3,6 +3,7 @@ import {
   createContext,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -28,6 +29,16 @@ const MACROS: Record<string, string> = {
   '\\N': '\\mathbb{N}',
   '\\Z': '\\mathbb{Z}',
   '\\softmax': '\\operatorname{softmax}',
+  // animated parts: \p{2}{x^2} appears as part 2 of the formula (see AnimTex)
+  '\\p': '\\htmlClass{ap-#1}{#2}',
+  // lesson colours, matching the stage palette
+  '\\cC': '\\htmlClass{lc-c}{#1}',
+  '\\cA': '\\htmlClass{lc-a}{#1}',
+  '\\cM': '\\htmlClass{lc-m}{#1}',
+  '\\cG': '\\htmlClass{lc-g}{#1}',
+  '\\cV': '\\htmlClass{lc-v}{#1}',
+  '\\cR': '\\htmlClass{lc-r}{#1}',
+  '\\cB': '\\htmlClass{lc-b}{#1}',
   '\\argmax': '\\operatorname*{arg\\,max}',
 };
 
@@ -179,4 +190,32 @@ function Fragmented({ s }: { s: string }) {
       )}
     </>
   );
+}
+
+/**
+ * A formula whose parts appear in order. Parts are marked in TeX with \p{1}{...}, \p{2}{...};
+ * `progress` (0..1) reveals them one after another with a short fade; unmarked TeX is always
+ * visible. Lets the blackboard build an equation term by term in sync with the animation.
+ */
+export function AnimTex({ tex, progress = 1, display = true, className }: { tex: string; progress?: number; display?: boolean; className?: string }) {
+  const html = useMemo(() => renderTex(tex, display), [tex, display]);
+  const ref = useRef<HTMLSpanElement>(null);
+  const hover = useGlyphHover();
+  useLayoutEffect(() => {
+    const root = ref.current;
+    if (!root) return;
+    const parts = Array.from(root.querySelectorAll<HTMLElement>('[class*="ap-"]'));
+    const idx = (el: HTMLElement) => Number(/(?:^|\s)ap-(\d+)/.exec(el.className)?.[1] ?? 0);
+    const n = parts.reduce((m, el) => Math.max(m, idx(el)), 0);
+    for (const el of parts) {
+      const k = idx(el);
+      const t = n ? progress * (n + 0.5) - (k - 1) : 1;
+      const o = Math.max(0, Math.min(1, t));
+      el.style.opacity = String(o);
+      el.style.filter = o < 1 ? `blur(${(1 - o) * 3}px)` : '';
+      el.style.textShadow = t > 0 && t < 1.6 ? '0 0 12px currentColor' : '';
+      el.style.transition = 'opacity .25s, filter .25s, text-shadow .6s';
+    }
+  }, [html, progress]);
+  return <span ref={ref} className={`tex anim-tex ${display ? 'tex-display' : ''} ${className ?? ''}`} {...hover} dangerouslySetInnerHTML={{ __html: html }} />;
 }

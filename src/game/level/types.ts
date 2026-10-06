@@ -79,7 +79,7 @@ export interface LevelDef {
   steps: Step[];
 }
 
-export type Step = SceneStep | DemoStep | ChallengeStep | ForgeStep;
+export type Step = SceneStep | LessonStep | DemoStep | ChallengeStep | ForgeStep;
 
 export interface Line {
   /** speaker; 'tu' = the player, 'nar' = narration */
@@ -94,6 +94,23 @@ export interface SceneStep {
 }
 
 /** Guided investigation. Beats are actions (gate), predictions (ask) or short reveals. */
+/** A line of the lesson blackboard; with a label it is also copied to the case notebook. */
+export interface BoardLine {
+  tex: string;
+  label?: string;
+  body?: string;
+}
+/**
+ * The lesson: the concept developed from scratch with animations and interactive tools, while
+ * the blackboard builds the formal side term by term. Narrated by NÓESIS. Comes before the
+ * investigation, so nothing is applied before it has been introduced.
+ */
+export interface LessonStep {
+  kind: 'lesson';
+  title: string;
+  Scene: ComponentType<DemoProps>;
+  beats: Beat[];
+}
 export interface DemoStep {
   kind: 'demo';
   title: string;
@@ -111,8 +128,10 @@ export interface Beat {
   ask?: { prompt: string; options: string[]; answer: number; explain: string };
   /** instruction for an interaction; the scene calls unlock() when satisfied */
   gate?: string;
-  /** animation duration in seconds (default 1.4) */
+  /** animation duration in seconds (default 1.4; lessons 2.2) */
   dur?: number;
+  /** lesson only: formula line(s) written on the blackboard during this beat */
+  board?: BoardLine | BoardLine[];
 }
 export interface DemoProps {
   beats: Beats;

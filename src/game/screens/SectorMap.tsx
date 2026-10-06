@@ -32,7 +32,8 @@ export function SectorMap({ sector, onPlay, onResources, reduced }: { sector: Se
     sfx.select();
     onPlay(l, step);
   };
-  const demoStep = focus.steps.findIndex((st) => st.kind === 'demo');
+  const lessonAt = focus.steps.findIndex((st) => st.kind === 'lesson');
+  const demoStep = lessonAt >= 0 ? lessonAt : focus.steps.findIndex((st) => st.kind === 'demo');
   const practiceStep = focus.steps.findIndex((st) => st.kind === 'challenge');
   useKey('Enter', () => recommended && play(recommended));
 
@@ -138,13 +139,15 @@ export function SectorMap({ sector, onPlay, onResources, reduced }: { sector: Se
           })}
           <Html x={60} y={60} size={18} anchor="top-left" color={C.muted}>
             <span className="board-title">
-              TABLERO · {sector.name.toUpperCase()} · {sector.tag.toUpperCase()}
+              MUNDO {sector.number} · {sector.name.toUpperCase()} · TABLERO DE {sector.tag.toUpperCase()}
             </span>
           </Html>
         </Stage>
       </div>
       <aside className="sector-panel">
-        <span className="eyebrow">{sector.tag.toUpperCase()}</span>
+        <span className="eyebrow">
+          MUNDO {sector.number} · DISTRITO {sector.tag.toUpperCase()}
+        </span>
         <h2>{sector.name}</h2>
         <p className="sector-desc">{sector.description}</p>
         <div className="sector-progress">
@@ -184,7 +187,7 @@ export function SectorMap({ sector, onPlay, onResources, reduced }: { sector: Se
               <div className="level-card-alt">
                 {demoStep > 0 && (
                   <button className="btn small" onClick={() => play(focus, demoStep)}>
-                    Solo la explicación
+                    Solo la clase
                   </button>
                 )}
                 {practiceStep > 0 && (

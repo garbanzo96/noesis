@@ -2646,6 +2646,15 @@ strong {
   .play.with-notes > .notebook {
     display: none;
   }
+  .play.with-notes.lesson {
+    grid-template-columns: 1fr;
+    grid-template-rows: minmax(0, 1fr) auto auto;
+  }
+  .play.with-notes > .board {
+    grid-column: 1;
+    grid-row: 3;
+    max-height: 30vh;
+  }
   .results-card {
     grid-template-columns: 1fr;
   }
@@ -2939,4 +2948,179 @@ strong {
   gap: 8px;
   margin-top: 8px;
   flex-wrap: wrap;
+}
+
+/* ---------------------------------------------------------------- lesson blackboard */
+.play.with-notes > .board {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+}
+.play.with-notes.lesson {
+  grid-template-columns: minmax(0, 1fr) 400px;
+}
+.board {
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+  overflow-y: auto;
+  padding: 14px 16px 24px;
+  background: linear-gradient(180deg, #0a1714 0%, #08100f 100%);
+  border-left: 1px solid #1f3a33;
+}
+.board header {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #2c5248;
+  margin-bottom: 10px;
+}
+.board header span {
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #3df5c9;
+}
+.board header b {
+  font-family: var(--display);
+  font-size: 15px;
+  color: #e6fff8;
+}
+.board ol {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.board li {
+  padding: 6px 0 6px 10px;
+  border-left: 2px solid #2c5248;
+  transition: opacity 0.4s;
+}
+.board li.past {
+  opacity: 0.72;
+}
+.board li.now {
+  border-left-color: #3df5c9;
+  animation: note-in 0.5s ease-out;
+}
+.board-tex {
+  font-size: 17px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  color: #effffb;
+}
+.board-tex .katex-display {
+  text-align: left;
+  margin: 4px 0 0;
+}
+.board-tex .katex-display > .katex {
+  text-align: left;
+}
+.board li p {
+  margin: 4px 0 0;
+  font-size: 13px;
+  line-height: 1.45;
+  color: #bfe6dc;
+}
+.ask-tag.check {
+  background: #3df5c9;
+}
+.atlas-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  line-height: 1.15;
+}
+.atlas-label small {
+  font-size: 0.72em;
+  opacity: 0.65;
+  font-family: var(--mono);
+  letter-spacing: 0.06em;
+}
+
+/* ---------------------------------------------------------------- prologue guide */
+.prologue-guide {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+}
+.guide-card {
+  position: relative;
+  width: min(820px, 92vw);
+  max-height: 90vh;
+  overflow-y: auto;
+  padding: 30px 36px;
+  background: #0b0918ee;
+  border: 1px solid var(--line2);
+  border-top: 3px solid #3df5c9;
+}
+.guide-card h2 {
+  margin: 4px 0 12px;
+  font-family: var(--display);
+}
+.guide-card p {
+  color: #d9d3ee;
+  line-height: 1.6;
+}
+.guide-steps {
+  list-style: none;
+  counter-reset: g;
+  padding: 0;
+  margin: 14px 0;
+  display: grid;
+  gap: 10px;
+}
+.guide-steps li {
+  counter-increment: g;
+  display: grid;
+  grid-template-columns: 34px 140px 1fr;
+  gap: 10px;
+  align-items: baseline;
+}
+.guide-steps li::before {
+  content: counter(g);
+  font-family: var(--mono);
+  color: #3df5c9;
+  border: 1px solid #3df5c9;
+  text-align: center;
+  padding: 2px 0;
+}
+.guide-steps b {
+  font-family: var(--display);
+}
+.guide-steps span {
+  color: #cfc8e6;
+  line-height: 1.5;
+}
+
+/* lesson stage: NÓESIS training room instead of the story location */
+.lesson-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse at 50% 40%, #0f2a26 0%, #070d0e 70%),
+    #070d0e;
+}
+.lesson-bg::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(#3df5c90d 1px, transparent 1px),
+    linear-gradient(90deg, #3df5c90d 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+.lesson-kicker {
+  position: absolute;
+  left: 18px;
+  top: 14px;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: #3df5c9;
 }

@@ -65,7 +65,8 @@ function Entry({ n }: { n: Note }) {
 
 function Topic({ t, onGo }: { t: TopicView; onGo: (id: string, step: number) => void }) {
   const l = t.level;
-  const demo = l.steps.findIndex((s) => s.kind === 'demo');
+  const lessonAt = l.steps.findIndex((s) => s.kind === 'lesson');
+  const demo = lessonAt >= 0 ? lessonAt : l.steps.findIndex((s) => s.kind === 'demo');
   const practice = l.steps.findIndex((s) => s.kind === 'challenge');
   return (
     <section className="res-topic" id={`res-${l.id}`}>
@@ -80,7 +81,7 @@ function Topic({ t, onGo }: { t: TopicView; onGo: (id: string, step: number) => 
         <div className="res-actions">
           {demo >= 0 && (
             <button className="btn small" onClick={() => onGo(l.id, demo)}>
-              Explicación ▸
+              Clase ▸
             </button>
           )}
           {practice >= 0 && (

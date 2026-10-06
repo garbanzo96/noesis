@@ -32,8 +32,8 @@ const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W02[m.leve
 export const W02: SectorDef = {
   world: 'differential',
   number: 2,
-  name: 'La Planta',
-  tag: 'Cálculo diferencial',
+  name: 'Cálculo diferencial',
+  tag: 'La Planta',
   accent: '#6f9cff',
   place: 'planta',
   description: 'La central Halcón Energía de Ventanas sufre picos de consumo cada noche. Una carga oculta se conecta a las 03:12 y nadie sabe qué es.',

@@ -8,13 +8,14 @@ import { ForgePlayer } from './ForgePlayer';
 import { Results, type ResultsData } from './Results';
 import { ScenePlayer } from './ScenePlayer';
 import { RunContext, type RunCtx } from './context';
-import { levelNotes } from './notes';
+import { beatNotes, levelNotes, mergeNotes } from './notes';
 import type { LevelDef, Note, SectorDef, Step } from './types';
 
 const STEP_LABEL: Record<Step['kind'], string> = {
-  scene: 'Escena',
+  scene: 'Historia',
+  lesson: 'Clase',
   demo: 'Investigación',
-  challenge: 'Caso',
+  challenge: 'Práctica',
   forge: 'Forja',
 };
 
@@ -89,9 +90,9 @@ export function LevelRunner({
     }
     // leaving a demo (even skipped): the notebook gets every entry of that investigation
     const cur = level.steps[stepIndex];
-    if (cur.kind === 'demo') {
-      const add = cur.beats.flatMap((b) => (b.note ? [b.note] : []));
-      setNotes((ns) => [...ns, ...add.filter((n) => !ns.some((x) => x.label === n.label && x.tex === n.tex))]);
+    if (cur.kind === 'demo' || cur.kind === 'lesson') {
+      const add = cur.beats.flatMap(beatNotes);
+      setNotes((ns) => mergeNotes(ns, add));
     }
     sfx.whoosh();
     setTransition(true);
@@ -114,7 +115,7 @@ export function LevelRunner({
       guide: level.guide ?? 'iris',
       place: sector.place,
       notes,
-      addNote: (n) => setNotes((ns) => (ns.some((x) => x.label === n.label && x.tex === n.tex) ? ns : [...ns, n])),
+      addNote: (n) => setNotes((ns) => mergeNotes(ns, [n])),
       complete: goNext,
       error: () => {
         counters.current.errors += 1;
@@ -176,7 +177,7 @@ export function LevelRunner({
             {level.steps.map((s, i) => (
               <li key={i} className={i < stepIndex ? 'done' : i === stepIndex ? 'now' : ''}>
                 <button onClick={() => jumpTo(i)} title="Ir a este paso">
-                  <span className="step-label">{s.kind === 'challenge' || s.kind === 'demo' ? s.title : STEP_LABEL[s.kind]}</span>
+                  <span className="step-label">{STEP_LABEL[s.kind]}</span>
                 </button>
               </li>
             ))}
@@ -195,7 +196,7 @@ export function LevelRunner({
         </header>
         <main className={`level-body ${transition ? 'leaving' : 'entering'}`} key={`${attempt}-${stepIndex}`}>
           {step.kind === 'scene' && <ScenePlayer step={step} />}
-          {step.kind === 'demo' && <DemoPlayer step={step} />}
+          {(step.kind === 'demo' || step.kind === 'lesson') && <DemoPlayer key={stepIndex} step={step} />}
           {step.kind === 'challenge' && <ChallengePlayer step={step} />}
           {step.kind === 'forge' && <ForgePlayer step={step} />}
         </main>

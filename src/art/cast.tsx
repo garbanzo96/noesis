@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Noir portraits: dark silhouettes with a rim light in the character's color and one luminous
 // signature feature (visor, headphones, monocle...). Stylized on purpose: no realistic faces.
-export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia';
+export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis';
 
 export interface Character {
   id: CastId;
@@ -20,6 +20,7 @@ export const CAST: Record<CastId, Character> = {
   baron: { id: 'baron', name: 'Barón Ferrer', role: 'Dueño · Casino Aurora', color: '#ffd36e' },
   vera: { id: 'vera', name: 'Vera Soto', role: 'Crupier · mesa 7', color: C.green },
   nadia: { id: 'nadia', name: 'Nadia Paz', role: 'Ingeniera de turno · La Planta', color: C.blue },
+  noesis: { id: 'noesis', name: 'NÓESIS', role: 'Tutora de la agencia', color: C.teal },
 };
 
 const SKIN = '#151226';
@@ -85,6 +86,23 @@ const eyes = (col: string, gid: string, y = 148) => (
 );
 
 const BODY: Record<CastId, (col: string, gid: string) => ReactElement> = {
+  noesis: (col, gid) => (
+    <>
+      {/* the agency's tutor: a lens in a hexagonal frame */}
+      <polygon points="150,40 245,95 245,225 150,280 55,225 55,95" fill="#0b0a1c" stroke={col} strokeOpacity="0.6" strokeWidth="4" />
+      <polygon points="150,70 220,110 220,210 150,250 80,210 80,110" fill="none" stroke={col} strokeOpacity="0.25" strokeWidth="2" />
+      <circle cx="150" cy="160" r="62" fill="#07141a" stroke={col} strokeWidth="3" />
+      <g className="eyes" filter={`url(#${gid}-glow)`}>
+        <circle cx="150" cy="160" r="30" fill={col} opacity="0.85" />
+        <circle cx="150" cy="160" r="12" fill="#04080a" />
+        <circle cx="160" cy="150" r="5" fill="#fff" opacity="0.8" />
+      </g>
+      {[0, 60, 120, 180, 240, 300].map((a) => (
+        <line key={a} x1={150 + 70 * Math.cos((a * Math.PI) / 180)} y1={160 + 70 * Math.sin((a * Math.PI) / 180)} x2={150 + 84 * Math.cos((a * Math.PI) / 180)} y2={160 + 84 * Math.sin((a * Math.PI) / 180)} stroke={col} strokeWidth="3" opacity="0.7" />
+      ))}
+      <path d="M90 330 L210 330" stroke={col} strokeOpacity="0.4" strokeWidth="3" />
+    </>
+  ),
   nadia: (col, gid) => (
     <>
       {shoulders('#0d0c1e')}

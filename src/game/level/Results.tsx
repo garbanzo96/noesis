@@ -95,7 +95,7 @@ export function Results({
           </div>
           {module && (
             <div className="results-module">
-              <span>DISTRITO RESUELTO</span>
+              <span>MUNDO COMPLETADO</span>
               <b>{module.name}</b>
               <p>{module.description}</p>
             </div>

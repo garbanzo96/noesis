@@ -4,20 +4,24 @@ import { useBeats, useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
 import { recordPrediction } from '../state';
+import { Board } from './Board';
 import { Console, KeyHint } from './Console';
 import { Notebook } from './Notebook';
 import { hashSeed, useRun } from './context';
-import type { DemoStep } from './types';
+import { beatNotes } from './notes';
+import type { DemoStep, LessonStep } from './types';
 
 /**
- * Guided investigation. A beat is complete when its text has been read (plain beat), its
- * prediction answered (ask) or its interaction done (gate). Completing a gate advances by
- * itself; completing any beat moves its note into the notebook.
+ * Guided investigation (demo) and lesson. A beat is complete when its text has been read, its
+ * question answered (ask) or its interaction done (gate). Completing a gate advances by itself;
+ * completing any beat moves its note (and labelled blackboard lines) into the notebook.
+ * A lesson shows the blackboard instead of the notebook and is narrated by NÓESIS.
  */
-export function DemoPlayer({ step }: { step: DemoStep }) {
+export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const run = useRun();
+  const lesson = step.kind === 'lesson';
   const n = step.beats.length;
-  const beats = useBeats(n, (b) => step.beats[b]?.dur ?? 1.4, run.reduced);
+  const beats = useBeats(n, (b) => step.beats[b]?.dur ?? (lesson ? 2.2 : 1.4), run.reduced);
   const [typedBeat, setTypedBeat] = useState(-1);
   const typed = typedBeat === beats.beat;
   const [skip, setSkip] = useState(0);
@@ -53,9 +57,9 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
 
   // notebook: a beat's note is revealed once the beat is done
   useEffect(() => {
-    if (!done || !beat.note || noted.current.has(beats.beat)) return;
+    if (!done || noted.current.has(beats.beat)) return;
     noted.current.add(beats.beat);
-    run.addNote(beat.note);
+    for (const note of beatNotes(beat)) run.addNote(note);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [done, beats.beat]);
 
@@ -120,21 +124,28 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
   const Scene = step.Scene;
   const tone = beat.ask && answer !== null ? (answer === beat.ask.answer ? 'ok' : 'bad') : beat.gate && unlocked[beats.beat] ? 'ok' : undefined;
   return (
-    <div className="play with-notes">
+    <div className={`play with-notes ${lesson ? 'lesson' : ''}`}>
       <div className="play-stage">
-        <Backdrop place={run.place} dim={0.9} className="stage-backdrop" />
+        {lesson ? (
+          <div className="lesson-bg" aria-hidden>
+            <span className="lesson-kicker">CLASE · {step.title.toUpperCase()}</span>
+          </div>
+        ) : (
+          <Backdrop place={run.place} dim={0.9} className="stage-backdrop" />
+        )}
         <Scene beats={beats} reduced={run.reduced} unlock={unlock} answer={answer} />
         <div className="beat-dots" aria-label={`Paso ${beats.beat + 1} de ${n}`}>
           {step.beats.map((_, i) => (
             <i key={i} className={i < beats.beat ? 'past' : i === beats.beat ? 'now' : ''} />
           ))}
         </div>
-        <button className="skip-demo" onClick={() => run.complete()} title="Saltar la investigación">
-          Saltar al caso ▸▸
+        <button className="skip-demo" onClick={() => run.complete()} title={lesson ? 'Saltar la clase' : 'Saltar la investigación'}>
+          {lesson ? 'Saltar la clase' : 'Saltar a la práctica'} ▸▸
         </button>
       </div>
-      <Notebook notes={run.notes} />
+      {lesson ? <Board title={run.level.subtitle} beats={step.beats} current={beats.beat} progress={beats.at(beats.beat)} /> : <Notebook notes={run.notes} />}
       <Console
+        who={lesson ? 'noesis' : undefined}
         text={beat.say}
         tex={beat.tex}
         skip={skip}
@@ -147,7 +158,7 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
             </button>
             {(!beat.gate || beats.beat === n - 1) && (
               <button className={`btn ${done ? 'primary pulse' : ''}`} onClick={advance} disabled={typed && !done}>
-                {beats.beat < n - 1 ? 'Seguir' : 'Al caso'} ▸
+                {beats.beat < n - 1 ? 'Seguir' : lesson ? 'A la investigación' : 'A la práctica'} ▸
               </button>
             )}
           </>
@@ -156,7 +167,7 @@ export function DemoPlayer({ step }: { step: DemoStep }) {
         {beat.ask && typed && (
           <div className="ask">
             <div className="ask-prompt">
-              <span className="ask-tag">ANTES DE MIRAR</span> <Rich text={beat.ask.prompt} />
+              <span className={`ask-tag ${lesson ? 'check' : ''}`}>{lesson ? 'COMPRUEBA' : 'ANTES DE MIRAR'}</span> <Rich text={beat.ask.prompt} />
             </div>
             <div className="ask-options">
               {orders[beats.beat].map((i, pos) => (

@@ -72,6 +72,24 @@ describe('content contract', () => {
     }
   });
 
+  it('every topic has a lesson before it is applied, and its blackboard renders', () => {
+    // worlds whose lessons are written; add each world here as its lessons land
+    const withLessons = new Set(['foundations']);
+    for (const l of levels) {
+      if (l.wip || l.kind === 'boss' || !withLessons.has(l.world)) continue;
+      const li = l.steps.findIndex((s) => s.kind === 'lesson');
+      expect(li, `${l.id} has no lesson`).toBeGreaterThan(0);
+      const firstUse = l.steps.findIndex((s) => s.kind === 'demo' || s.kind === 'challenge');
+      expect(li, `${l.id} lesson must come before its use`).toBeLessThan(firstUse);
+      const st = l.steps[li];
+      if (st.kind !== 'lesson') continue;
+      for (const b of st.beats) {
+        const lines = b.board ? (Array.isArray(b.board) ? b.board : [b.board]) : [];
+        for (const ln of lines) expect(renderTex(ln.tex, true), `${l.id}: ${ln.tex}`).not.toContain('katex-error');
+      }
+    }
+  });
+
   it('demo beats are well formed', () => {
     for (const l of levels)
       for (const st of l.steps)

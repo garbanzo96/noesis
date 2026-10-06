@@ -6,6 +6,7 @@ import type { WorldId } from './level/types';
 import { sfx } from './audio';
 import { store, useGame } from './state';
 import { Atlas } from './screens/Atlas';
+import { Prologue } from './screens/Prologue';
 import { ResourcesScreen } from './screens/ResourcesScreen';
 import { SectorMap } from './screens/SectorMap';
 import { SettingsScreen } from './screens/SettingsScreen';
@@ -16,6 +17,7 @@ import { TopBar } from './ui/TopBar';
 
 type Route =
   | { name: 'title' }
+  | { name: 'prologue' }
   | { name: 'atlas' }
   | { name: 'sector'; world: WorldId }
   | { name: 'level'; id: string; step?: number };
@@ -24,6 +26,7 @@ function parseHash(): Route {
   const h = window.location.hash.replace(/^#\/?/, '');
   const [a, b, c] = h.split('/');
   if (a === 'atlas') return { name: 'atlas' };
+  if (a === 'prologo') return { name: 'prologue' };
   if (a === 'sector' && b && PLAYABLE[b as WorldId]) return { name: 'sector', world: b as WorldId };
   if (a === 'level' && b && LEVELS[b]) {
     const k = Number(c);
@@ -32,7 +35,7 @@ function parseHash(): Route {
   return { name: 'title' };
 }
 const toHash = (r: Route) =>
-  r.name === 'title' ? '#/' : r.name === 'atlas' ? '#/atlas' : r.name === 'sector' ? `#/sector/${r.world}` : `#/level/${r.id}${r.step ? `/${r.step}` : ''}`;
+  r.name === 'title' ? '#/' : r.name === 'prologue' ? '#/prologo' : r.name === 'atlas' ? '#/atlas' : r.name === 'sector' ? `#/sector/${r.world}` : `#/level/${r.id}${r.step ? `/${r.step}` : ''}`;
 const sameRoute = (a: Route, b: Route) => toHash(a) === toHash(b);
 
 const systemReduced =
@@ -102,15 +105,17 @@ export function GameRoot() {
           const last = store.get().last.world as WorldId | undefined;
           go(last && PLAYABLE[last] ? { name: 'sector', world: last } : { name: 'atlas' });
         }}
+        onPrologue={() => go({ name: 'prologue' })}
         onCodex={() => openResources()}
         onSettings={() => setOverlay('settings')}
       />
     );
+  else if (shown.name === 'prologue') screen = <Prologue onDone={() => go({ name: 'atlas' })} />;
   else if (shown.name === 'atlas')
     screen = (
       <>
         <TopBar
-          title="VALPARAÍSO 2089 · MAPA DE DISTRITOS"
+          title="MAPA DE MUNDOS · VALPARAÍSO 2089"
           onBack={() => go({ name: 'title' })}
           backLabel="INICIO"
           onCodex={() => openResources()}
@@ -125,7 +130,7 @@ export function GameRoot() {
     screen = (
       <>
         <TopBar
-          title={`DISTRITO · ${sector.name.toUpperCase()} · ${sector.tag.toUpperCase()}`}
+          title={`MUNDO ${sector.number} · ${sector.name.toUpperCase()} · ${sector.tag.toUpperCase()}`}
           onBack={() => go({ name: 'atlas' })}
           backLabel="MAPA"
           onCodex={() => openResources()}
