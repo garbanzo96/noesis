@@ -27,6 +27,24 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 5. **Casino Aurora** — probabilidad. Caso: juegos amañados que lavan el dinero del contrabando.
 (Los demás distritos se escriben al construir cada mundo.)
 
+### Arco de El Puerto
+
+1.1 Contenedores del Altamar fuera de 2–8 °C → el barco vuelve esta noche. 1.2 La marea decide
+cuándo puede atracar → hay que seguir los camiones. 1.3 El GPS delata al camión D: paró 30 min en el
+km 60 → bodega abandonada con una nota cifrada. 1.4 La nota dice «Viernes. Nueve. Muelle norte» y
+aparece el libro de cuentas. 1.5 Los pagos van a la Clínica del Cerro (1 200 dosis). 1.6 Faltan 150
+dosis en la sede Norte; un virus ataca las grúas. 1.7 Crecimiento exponencial del virus; otra cepa en
+aduanas. 1.8 Cuántas horas hasta el millón de registros; el virus era una distracción.
+1.★ Viernes 21:00, muelle norte: el Contador escapa y deja una ficha del Casino Aurora.
+
+### Arco de Casino Aurora
+
+5.1 Iris y el analista llegan como clientes; Vera explica «Doble Aurora». 5.2 Las cámaras muestran
+un dado cargado en la mesa 3. 5.3 La tabla de pagos cuenta dos veces. 5.4–5.5 Los VIP ganan el 75 %
+de las manos. 5.6 Ganar depende de jugar en la mesa 7. 5.7 El zapato de cartas del Barón.
+5.8 Bayes: el dado cargado entra con el VIP del sombrero. 5.9 La casa pierde a propósito: así se
+lava el dinero. 5.★ La mesa 7: el Barón cae; su libreta lista pacientes de la Clínica del Cerro.
+
 ## Reglas de estilo
 
 - Español neutro, tuteo. Frases cortas. Nada de jerga inventada.

@@ -2520,7 +2520,14 @@ strong {
   line-height: 1.15;
 }
 .card-sub {
+  display: block;
   font-family: var(--mono);
+  font-size: 0.66em;
+  white-space: normal;
+  width: 13em;
+  margin: 0.45em auto 0;
+  text-align: center;
+  line-height: 1.2;
 }
 .card-stamp {
   font-family: var(--display);

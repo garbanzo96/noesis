@@ -107,11 +107,11 @@ export function SectorMap({ sector, onPlay, reduced }: { sector: SectorDef; onPl
                 <Html x={x - w / 2 + 12} y={y - h / 2 + 14} size={15} anchor="left" color={locked ? '#6d6488' : boss ? '#fff' : '#3a2f22'} style={{ rotate: `${tilt}deg` }}>
                   <span className="card-code">CASO {l.code}</span>
                 </Html>
-                <Html x={x} y={y - 4} size={21} color={locked ? '#6d6488' : '#1a1410'} style={{ rotate: `${tilt}deg` }}>
+                <Html x={x} y={y + 12} size={21} color={locked ? '#6d6488' : '#1a1410'} style={{ rotate: `${tilt}deg` }}>
                   <span className="card-title">{l.title}</span>
-                </Html>
-                <Html x={x} y={y + 34} size={14} color={locked ? '#5d5478' : '#5a4a36'} style={{ rotate: `${tilt}deg` }}>
-                  <span className="card-sub">{l.subtitle}</span>
+                  <span className="card-sub" style={{ color: locked ? '#5d5478' : '#5a4a36' }}>
+                    {l.subtitle}
+                  </span>
                 </Html>
                 {st === 'done' && (
                   <>
