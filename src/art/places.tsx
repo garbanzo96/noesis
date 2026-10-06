@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Location backdrops (1600×900, scaled with "slice"). Layered vector silhouettes, window lights,
 // neon and fog. Deterministic pseudo-random so every render is identical.
-export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores';
+export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -230,6 +230,46 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
         </g>
       ))}
       <rect x="0" y="600" width="1600" height="300" fill="#000" opacity="0.25" />
+    </>
+  ),
+  planta: () => (
+    <>
+      <Sky top="#06050f" mid="#140d2a" bottom="#1a1030" />
+      <Cerros seed={21} y0={600} color="#100b22" />
+      {/* transmission towers and lines */}
+      {[120, 520, 980, 1440].map((x, i) => (
+        <g key={x} opacity={0.8}>
+          <path d={`M${x - 40} 640 L${x} 330 L${x + 40} 640 M${x - 26} 530 L${x + 26} 530 M${x - 50} 380 L${x + 50} 380 M${x - 36} 420 L${x + 36} 420`} stroke="#2a2148" strokeWidth={5} fill="none" />
+          <circle cx={x} cy={326} r={5} fill={C.red} className="blink" style={{ animationDelay: `${i * 0.4}s` }} />
+        </g>
+      ))}
+      {[380, 420].map((y) => (
+        <path key={y} d={`M70 ${y} Q320 ${y + 60} 570 ${y} Q750 ${y + 60} 1030 ${y} Q1235 ${y + 60} 1490 ${y}`} stroke={C.blue} strokeOpacity={0.35} strokeWidth={2} fill="none" />
+      ))}
+      {/* cooling tower */}
+      <path d="M1020 700 C 1050 560 1050 470 1010 400 L1250 400 C 1210 470 1210 560 1240 700 Z" fill="#141126" stroke="#2a2148" strokeWidth={4} />
+      <ellipse cx={1130} cy={392} rx={130} ry={26} fill="#1d1836" opacity={0.8} />
+      <ellipse cx={1130} cy={340} rx={160} ry={70} fill="#2a2440" opacity={0.25} />
+      {/* stacks */}
+      {[300, 380].map((x, i) => (
+        <g key={x}>
+          <rect x={x} y={250 + i * 30} width={44} height={450 - i * 30} fill="#120f24" stroke="#2a2148" strokeWidth={3} />
+          {[0, 1, 2].map((k) => (
+            <rect key={k} x={x} y={300 + i * 30 + k * 110} width={44} height={14} fill={C.red} opacity={0.5} />
+          ))}
+          <circle cx={x + 22} cy={244 + i * 30} r={6} fill={C.red} className="blink" />
+        </g>
+      ))}
+      {/* turbine hall */}
+      <rect x="520" y="560" width="440" height="140" fill="#0f0d20" stroke="#2a2148" strokeWidth={4} />
+      {Array.from({ length: 8 }, (_, i) => (
+        <rect key={i} x={540 + i * 52} y={590} width={36} height={60} fill={C.blue} opacity={0.18 + (i % 3) * 0.08} />
+      ))}
+      <Neon x={740} y={520} text="HALCÓN ENERGÍA" color={C.blue} size={34} />
+      <rect x="0" y="700" width="1600" height="200" fill="#08070f" />
+      <rect width="1600" height="900" fill="url(#fog)" />
+      <RainDefs />
+      <Rain />
     </>
   ),
   servidores: () => (

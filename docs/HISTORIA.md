@@ -20,11 +20,13 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | contador | «El Contador» | Lleva las cuentas del contrabando. | Educado y frío. Habla en cifras. |
 | baron | El Barón Ferrer | Dueño del Casino Aurora. | Teatral, seguro de que la casa siempre gana. |
 | vera | Vera Soto | Crupier de la mesa 7. Informante. | Nerviosa, observadora. |
+| nadia | Nadia Paz | Ingeniera de turno de la central Halcón Energía. Informante. | Práctica, desconfiada, habla en unidades. |
 
 ## Distritos (mundos)
 
 1. **El Puerto** — precálculo. Caso: vacunas desviadas, un barco sospechoso, un virus en las grúas.
 5. **Casino Aurora** — probabilidad. Caso: juegos amañados que lavan el dinero del contrabando.
+2. **La Planta** — cálculo diferencial. Caso: picos nocturnos de consumo en la central de Ventanas.
 (Los demás distritos se escriben al construir cada mundo.)
 
 ### Arco de El Puerto
@@ -53,3 +55,15 @@ lava el dinero. 5.★ La mesa 7: el Barón cae; su libreta lista pacientes de la
 - Primero el objeto concreto, después el símbolo. Cada símbolo nuevo se ancla a algo que se ve.
 - Matemática exacta: unidades, dominios y condiciones explícitos. Cifras verificadas.
 - Sin referencias a active inference ni a contenidos de mundos posteriores.
+
+### Arco de La Planta
+
+2.1 La señal de la red tiene un salto a las 03:12: alguien desconecta y reconecta una carga.
+2.2 El medidor de energía muestra una carga oculta; su potencia es una derivada. 2.3 La gráfica de
+la potencia delata la hora del pico. 2.4–2.5 Los modelos de la sala de máquinas: potencias,
+voltaje por corriente. 2.6 Los engranajes de la turbina 3 fueron cambiados. 2.7 La torre de
+enfriamiento trabaja de más: algo produce calor en el subsuelo. 2.8 Quien instaló la carga eligió
+el punto de máxima potencia. 2.9 Estimar a qué hora el transformador llega a su límite.
+2.★ El apagón: el subsuelo esconde servidores enfriados con agua de la represa; alguien altera
+los caudalímetros → La Represa.
+

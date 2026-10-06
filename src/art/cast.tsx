@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Noir portraits: dark silhouettes with a rim light in the character's color and one luminous
 // signature feature (visor, headphones, monocle...). Stylized on purpose: no realistic faces.
-export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera';
+export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia';
 
 export interface Character {
   id: CastId;
@@ -19,6 +19,7 @@ export const CAST: Record<CastId, Character> = {
   contador: { id: 'contador', name: 'El Contador', role: 'Contrabandista', color: C.violet },
   baron: { id: 'baron', name: 'Barón Ferrer', role: 'Dueño · Casino Aurora', color: '#ffd36e' },
   vera: { id: 'vera', name: 'Vera Soto', role: 'Crupier · mesa 7', color: C.green },
+  nadia: { id: 'nadia', name: 'Nadia Paz', role: 'Ingeniera de turno · La Planta', color: C.blue },
 };
 
 const SKIN = '#151226';
@@ -84,6 +85,28 @@ const eyes = (col: string, gid: string, y = 148) => (
 );
 
 const BODY: Record<CastId, (col: string, gid: string) => ReactElement> = {
+  nadia: (col, gid) => (
+    <>
+      {shoulders('#0d0c1e')}
+      {/* overalls straps */}
+      <path d="M116 252 L124 360 M184 252 L176 360" stroke="#1d1a36" strokeWidth="14" />
+      {neck}
+      {head(50, 62)}
+      {/* short hair under the helmet */}
+      <path d="M100 160 C 98 128 104 112 112 104 L188 104 C 196 112 202 128 200 160 C 196 136 190 122 150 120 C 112 122 104 136 100 160 Z" fill="#07060f" />
+      {/* hard hat */}
+      <path d="M88 112 C 90 62 120 46 150 46 C 182 46 210 62 212 112 Z" fill="#141230" stroke={col} strokeOpacity="0.5" strokeWidth="2" />
+      <rect x="80" y="108" width="140" height="12" rx="6" fill="#141230" stroke={col} strokeOpacity="0.4" strokeWidth="2" />
+      <path d="M150 48 L150 108" stroke={col} strokeOpacity="0.35" strokeWidth="4" />
+      {rim(gid)}
+      {eyes(col, gid)}
+      {/* headlamp */}
+      <g filter={`url(#${gid}-glow)`}>
+        <circle cx="150" cy="86" r="11" fill={col} />
+        <path d="M150 86 L 70 30 L 40 70 Z" fill={col} opacity="0.12" />
+      </g>
+    </>
+  ),
   iris: (col, gid) => (
     <>
       {shoulders()}

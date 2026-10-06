@@ -21,7 +21,7 @@ export interface SectorMeta {
 export const SECTORS: SectorMeta[] = [
   { world: 'foundations', number: 1, symbol: '⚓', name: 'El Puerto', area: 'Precálculo', accent: '#28e7fa', hook: 'Vacunas desviadas, un barco sin bandera y un virus en las grúas.', prerequisites: [], at: [300, 720] },
   { world: 'probability', number: 5, symbol: '⚄', name: 'Casino Aurora', area: 'Probabilidad', accent: '#ffbc5e', hook: 'El dinero del contrabando pasa por mesas de juego que nunca pierden.', prerequisites: ['foundations'], at: [640, 760] },
-  { world: 'differential', number: 2, symbol: '∂', name: 'La Planta', area: 'Cálculo diferencial', accent: '#ff3ba7', hook: 'La central eléctrica sufre picos que nadie sabe explicar.', prerequisites: ['foundations'], at: [430, 520] },
+  { world: 'differential', number: 2, symbol: '∂', name: 'La Planta', area: 'Cálculo diferencial', accent: '#6f9cff', hook: 'Cada noche, a las 03:12, la central de Ventanas sufre un pico que nadie explica.', prerequisites: ['foundations'], at: [430, 520] },
   { world: 'integral', number: 3, symbol: '∫', name: 'La Represa', area: 'Cálculo integral', accent: '#a88aff', hook: 'Falta agua y alguien manipula los caudalímetros.', prerequisites: ['differential'], at: [250, 330] },
   { world: 'linear', number: 4, symbol: '⊞', name: 'El Metro', area: 'Álgebra lineal', accent: '#6f9cff', hook: 'Los trenes se desvían según una tabla que nadie escribió.', prerequisites: ['foundations'], at: [760, 560] },
   { world: 'statistics', number: 6, symbol: 'x̄', name: 'El Archivo', area: 'Estadística', accent: '#28e7fa', hook: 'Miles de registros y una muestra que no cuadra.', prerequisites: ['probability'], at: [960, 700] },
