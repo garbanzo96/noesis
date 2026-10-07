@@ -1,6 +1,6 @@
 # Source-grounded curriculum report
 
-Research date: 2026-10-03. Read-only source inspection; no source files modified. Sources are local materials in `/Users/gabrielsalas/Desktop/enigma/grupo de lectura active inference` (below: `ENIGMA/`). There were no applicable AGENTS.md files on the relevant ancestor paths.
+Research date: 2026-10-03. Read-only source inspection; no source files modified. Sources are local materials in `~/Desktop/enigma/grupo de lectura active inference` (below: `ENIGMA/`). There were no applicable AGENTS.md files on the relevant ancestor paths.
 
 ## What is already available
 

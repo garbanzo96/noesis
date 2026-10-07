@@ -2,7 +2,7 @@
 
 **Documento de continuidad del proyecto. Actualizado: 3 de octubre de 2026.**
 
-Carpeta de trabajo consolidada: `/Users/gabrielsalas/Desktop/NOESIS-ENIGMA`.
+Carpeta de trabajo consolidada: `~/Desktop/NOESIS-ENIGMA`.
 La aplicación está en `app/`. Este documento está en la raíz y debe leerse antes de continuar.
 
 ## 1. Qué queremos construir
@@ -25,7 +25,7 @@ La siguiente sesión debe partir de esta base y de las correcciones del usuario.
 
 ## 3. Fuentes y referencias
 
-Fuente principal del usuario: `/Users/gabrielsalas/Desktop/enigma/grupo de lectura active inference`.
+Fuente principal del usuario: `~/Desktop/enigma/grupo de lectura active inference`.
 
 Material prioritario:
 
