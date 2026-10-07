@@ -1,9 +1,12 @@
 import type { LevelDef, LevelModule, SectorDef } from '../../game/level/types';
 import { withLesson } from '../stub';
 import * as C1 from './c1-caudal';
+import * as C2 from './c2-riemann';
+import * as C3 from './c3-balance';
+import * as C4 from './c4-acumulador';
 import { REF_W03 } from './ref';
 
-const MODULES: LevelModule[] = [C1];
+const MODULES: LevelModule[] = [C1, C2, C3, C4];
 
 // Board layout (1600×900); `requires` is the story order (a recommendation, never a lock).
 const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
