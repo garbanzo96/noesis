@@ -4,9 +4,14 @@ import * as C1 from './c1-caudal';
 import * as C2 from './c2-riemann';
 import * as C3 from './c3-balance';
 import * as C4 from './c4-acumulador';
+import * as C5 from './c5-primitivas';
+import * as C6 from './c6-sustitucion';
+import * as C7 from './c7-partes';
+import * as C8 from './c8-impropias';
+import * as FINAL from './final';
 import { REF_W03 } from './ref';
 
-const MODULES: LevelModule[] = [C1, C2, C3, C4];
+const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6, C7, C8, FINAL];
 
 // Board layout (1600×900); `requires` is the story order (a recommendation, never a lock).
 const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {

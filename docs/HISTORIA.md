@@ -21,12 +21,15 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | baron | El Barón Ferrer | Dueño del Casino Aurora. | Teatral, seguro de que la casa siempre gana. |
 | vera | Vera Soto | Crupier de la mesa 7. Informante. | Nerviosa, observadora. |
 | nadia | Nadia Paz | Ingeniera de turno de la central Halcón Energía. Informante. | Práctica, desconfiada, habla en unidades. |
+| marta | Marta Quiroz | Hidróloga de la represa Peñuelas. Informante. | Paciente, exacta, piensa en caudales. |
+| noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
 
 1. **El Puerto** — precálculo. Caso: vacunas desviadas, un barco sospechoso, un virus en las grúas.
 5. **Casino Aurora** — probabilidad. Caso: juegos amañados que lavan el dinero del contrabando.
 2. **La Planta** — cálculo diferencial. Caso: picos nocturnos de consumo en la central de Ventanas.
+3. **La Represa** — cálculo integral. Caso: agua desviada de la represa Peñuelas hacia los servidores.
 (Los demás distritos se escriben al construir cada mundo.)
 
 ### Arco de El Puerto
@@ -66,4 +69,14 @@ enfriamiento trabaja de más: algo produce calor en el subsuelo. 2.8 Quien insta
 el punto de máxima potencia. 2.9 Estimar a qué hora el transformador llega a su límite.
 2.★ El apagón: el subsuelo esconde servidores enfriados con agua de la represa; alguien altera
 los caudalímetros → La Represa.
+
+### Arco de La Represa
+
+3.1 El informe oficial dice 8 mil m³ por noche; el caudalímetro de la tubería 7 da 23. 3.2 Con
+lecturas por hora se estima con rectángulos y trapecios. 3.3 El balance del lago (entra menos sale)
+es negativo cada día. 3.4 El volumen hora a hora: el lago está más lleno cuando el ritmo neto cruza
+de + a −. 3.5 La fórmula del manual da 21 mil m³ exactos. 3.6 La válvula vieja gotea con caudal
+exponencial. 3.7 La bomba del canal 7 sigue $t\,e^{-t/2}$. 3.8 La fuga, para siempre, suma un total
+finito. 3.★ En la sala de control se cierra la válvula; el servidor que la reabre está en el
+centro de control del Metro → Álgebra lineal.
 
