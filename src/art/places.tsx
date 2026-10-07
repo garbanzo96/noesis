@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Location backdrops (1600×900, scaled with "slice"). Layered vector silhouettes, window lights,
 // neon and fog. Deterministic pseudo-random so every render is identical.
-export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta';
+export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta' | 'represa';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -267,6 +267,36 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       ))}
       <Neon x={740} y={520} text="HALCÓN ENERGÍA" color={C.blue} size={34} />
       <rect x="0" y="700" width="1600" height="200" fill="#08070f" />
+      <rect width="1600" height="900" fill="url(#fog)" />
+      <RainDefs />
+      <Rain />
+    </>
+  ),
+  represa: () => (
+    <>
+      <Sky top="#05060f" mid="#0f1430" bottom="#142238" />
+      <Cerros seed={33} y0={470} color="#0f0d24" lights={false} />
+      {/* reservoir */}
+      <path d="M0 520 L1040 520 L1040 900 L0 900 Z" fill="#081a2a" />
+      {Array.from({ length: 22 }, (_, i) => (
+        <line key={i} x1={(i * 113) % 1000} x2={((i * 113) % 1000) + 50 + (i % 4) * 20} y1={540 + (i % 8) * 34} y2={540 + (i % 8) * 34} stroke={i % 3 ? '#1d4a63' : C.violet} strokeOpacity={i % 3 ? 0.5 : 0.4} strokeWidth={2} />
+      ))}
+      {/* curved dam wall */}
+      <path d="M1000 470 Q1060 690 1000 900 L1140 900 Q1200 690 1140 470 Z" fill="#1a1630" stroke="#2f2754" strokeWidth={4} />
+      {[0, 1, 2, 3, 4, 5].map((k) => (
+        <line key={k} x1={1010 + k * 4} x2={1130 - k * 4} y1={520 + k * 64} y2={520 + k * 64} stroke="#2f2754" strokeWidth={2} />
+      ))}
+      {/* spillway water */}
+      <path d="M1140 520 Q1260 620 1270 900 L1330 900 Q1300 600 1160 500 Z" fill="#5fd3ff" opacity={0.12} />
+      {/* pipes to the plant */}
+      {[0, 1].map((k) => (
+        <path key={k} d={`M1140 ${640 + k * 60} L1600 ${600 + k * 70}`} stroke="#2a2148" strokeWidth={18} />
+      ))}
+      <circle cx={1360} cy={631} r={10} fill={C.red} className="blink" />
+      {/* control house */}
+      <rect x={1060} y={400} width={90} height={70} fill="#120f24" stroke="#2f2754" strokeWidth={3} />
+      <rect x={1078} y={418} width={22} height={18} fill={C.amber} opacity={0.6} />
+      <Neon x={330} y={300} text="PEÑUELAS" color="#5fd3ff" size={38} />
       <rect width="1600" height="900" fill="url(#fog)" />
       <RainDefs />
       <Rain />

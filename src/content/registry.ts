@@ -3,20 +3,21 @@ import { codexFor } from '../game/level/notes';
 import type { GameState } from '../game/state';
 import { W01, W01_GLYPHS } from './w01';
 import { W02, W02_GLYPHS } from './w02';
+import { W03, W03_GLYPHS } from './w03';
 import { W05, W05_GLYPHS } from './w05';
 import { SECTORS, SECTOR_BY_ID } from './sectors';
 
 export { SECTORS, SECTOR_BY_ID };
 
 /** Districts with playable cases. Others appear on the city map as closed. */
-export const PLAYABLE: Partial<Record<WorldId, SectorDef>> = { foundations: W01, differential: W02, probability: W05 };
+export const PLAYABLE: Partial<Record<WorldId, SectorDef>> = { foundations: W01, differential: W02, integral: W03, probability: W05 };
 
 export const LEVELS: Record<string, LevelDef> = Object.fromEntries(
   Object.values(PLAYABLE).flatMap((s) => s!.levels.map((l) => [l.id, l])),
 );
 export const CODEX_LIST: CodexEntry[] = Object.values(PLAYABLE).flatMap((s) => s!.levels.filter((l) => !l.wip).map(codexFor));
 export const CODEX: Record<string, CodexEntry> = Object.fromEntries(CODEX_LIST.map((c) => [c.id, c]));
-export const GLYPH_LIST: Glyph[] = [...W01_GLYPHS, ...W02_GLYPHS, ...W05_GLYPHS];
+export const GLYPH_LIST: Glyph[] = [...W01_GLYPHS, ...W02_GLYPHS, ...W03_GLYPHS, ...W05_GLYPHS];
 export const GLYPHS: Record<string, Glyph> = Object.fromEntries(GLYPH_LIST.map((g) => [g.id, g]));
 
 // ---------- access ----------

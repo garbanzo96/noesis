@@ -213,4 +213,6 @@ export type LevelSpec = Omit<LevelDef, 'pos' | 'requires'>;
 export interface LevelModule {
   level: LevelSpec;
   glyphs: Glyph[];
+  /** the topic's lesson, inserted right after the opening scene */
+  lesson?: LessonStep;
 }

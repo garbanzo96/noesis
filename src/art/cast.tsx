@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Noir portraits: dark silhouettes with a rim light in the character's color and one luminous
 // signature feature (visor, headphones, monocle...). Stylized on purpose: no realistic faces.
-export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis';
+export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis' | 'marta';
 
 export interface Character {
   id: CastId;
@@ -21,6 +21,7 @@ export const CAST: Record<CastId, Character> = {
   vera: { id: 'vera', name: 'Vera Soto', role: 'Crupier · mesa 7', color: C.green },
   nadia: { id: 'nadia', name: 'Nadia Paz', role: 'Ingeniera de turno · La Planta', color: C.blue },
   noesis: { id: 'noesis', name: 'NÓESIS', role: 'Tutora de la agencia', color: C.teal },
+  marta: { id: 'marta', name: 'Marta Quiroz', role: 'Hidróloga · Represa Peñuelas', color: '#5fd3ff' },
 };
 
 const SKIN = '#151226';
@@ -86,6 +87,25 @@ const eyes = (col: string, gid: string, y = 148) => (
 );
 
 const BODY: Record<CastId, (col: string, gid: string) => ReactElement> = {
+  marta: (col, gid) => (
+    <>
+      {/* field jacket with a raised hood behind */}
+      <path d="M78 360 C 66 262 92 206 150 202 C 208 206 234 262 222 360 Z" fill="#0f1424" />
+      {shoulders('#0d1222')}
+      <path d="M120 246 L150 290 L180 246" fill="none" stroke={col} strokeOpacity="0.45" strokeWidth="3" />
+      {neck}
+      {head(48, 62)}
+      {/* braid */}
+      <path d="M102 150 C 96 100 124 82 152 82 C 184 82 206 102 200 150 C 196 120 182 104 150 104 C 122 104 106 120 102 150 Z" fill="#07060f" />
+      <path d="M196 150 C 214 190 210 230 196 262" stroke="#07060f" strokeWidth="14" fill="none" strokeLinecap="round" />
+      {rim(gid)}
+      {eyes(col, gid)}
+      {/* water-drop pin on the collar */}
+      <g filter={`url(#${gid}-glow)`}>
+        <path d="M200 262 C 200 262 188 280 188 288 A 12 12 0 0 0 212 288 C 212 280 200 262 200 262 Z" fill={col} />
+      </g>
+    </>
+  ),
   noesis: (col, gid) => (
     <>
       {/* the agency's tutor: a lens in a hexagonal frame */}
