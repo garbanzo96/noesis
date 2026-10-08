@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Location backdrops (1600×900, scaled with "slice"). Layered vector silhouettes, window lights,
 // neon and fog. Deterministic pseudo-random so every render is identical.
-export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta' | 'represa';
+export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta' | 'represa' | 'metro' | 'archivo';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -300,6 +300,73 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       <rect width="1600" height="900" fill="url(#fog)" />
       <RainDefs />
       <Rain />
+    </>
+  ),
+  metro: () => (
+    <>
+      <rect width="1600" height="900" fill="#05070c" />
+      {/* control room wall: network map */}
+      <rect x="120" y="70" width="1360" height="420" fill="#08101a" stroke="#1b2c3a" strokeWidth={4} />
+      {[
+        { d: 'M180 380 L460 380 L620 260 L980 260 L1140 160 L1420 160', c: '#9cff6e' },
+        { d: 'M180 220 L420 220 L620 260 L760 380 L1180 380 L1420 300', c: C.amber },
+        { d: 'M300 460 L520 330 L760 380 L900 140', c: C.magenta },
+      ].map((l, i) => (
+        <path key={i} d={l.d} fill="none" stroke={l.c} strokeOpacity={0.55} strokeWidth={6} strokeLinejoin="round" />
+      ))}
+      {[[180, 380], [460, 380], [620, 260], [980, 260], [1140, 160], [1420, 160], [180, 220], [420, 220], [760, 380], [1180, 380], [1420, 300], [300, 460], [520, 330], [900, 140]].map(([x, y], i) => (
+        <circle key={i} cx={x} cy={y} r={9} fill="#08101a" stroke="#cfe" strokeOpacity={0.7} strokeWidth={3} />
+      ))}
+      {[[540, 320], [1060, 210], [880, 380]].map(([x, y], i) => (
+        <rect key={i} x={x - 14} y={y - 7} width={28} height={14} rx={4} fill={i === 2 ? C.red : '#9cff6e'} className={i === 2 ? 'blink' : undefined} />
+      ))}
+      {/* consoles */}
+      {Array.from({ length: 6 }, (_, i) => (
+        <g key={i}>
+          <path d={`M${120 + i * 230} 900 L${150 + i * 230} 640 L${320 + i * 230} 640 L${350 + i * 230} 900 Z`} fill="#0a0f18" stroke="#1b2c3a" strokeWidth={3} />
+          <rect x={165 + i * 230} y={600} width={140} height={86} fill="#0b1824" stroke="#1f3446" strokeWidth={3} />
+          {[0, 1, 2].map((k) => (
+            <line key={k} x1={178 + i * 230} x2={178 + i * 230 + 40 + ((i * 3 + k * 5) % 7) * 12} y1={622 + k * 20} y2={622 + k * 20} stroke={k === 1 && i % 2 ? C.amber : '#9cff6e'} strokeOpacity={0.6} strokeWidth={4} />
+          ))}
+        </g>
+      ))}
+      <Neon x={800} y={560} text="METRO VALPARAÍSO · CONTROL" color="#9cff6e" size={30} />
+    </>
+  ),
+  archivo: () => (
+    <>
+      <rect width="1600" height="900" fill="#090609" />
+      {/* vaulted ceiling */}
+      {[0, 1, 2, 3].map((k) => (
+        <path key={k} d={`M${k * 420 - 40} 260 Q${k * 420 + 170} 40 ${k * 420 + 380} 260`} fill="none" stroke="#2a1d26" strokeWidth={10} />
+      ))}
+      {/* shelves of boxes, receding */}
+      {Array.from({ length: 7 }, (_, i) => {
+        const x = 40 + i * 225;
+        return (
+          <g key={i}>
+            <rect x={x} y={260} width={190} height={520} fill="#120c12" stroke="#2a1d26" strokeWidth={4} />
+            {Array.from({ length: 6 }, (_, k) => (
+              <g key={k}>
+                <line x1={x} x2={x + 190} y1={340 + k * 80} y2={340 + k * 80} stroke="#2a1d26" strokeWidth={5} />
+                {Array.from({ length: 5 }, (_, j) => (
+                  <rect key={j} x={x + 8 + j * 36} y={290 + k * 80} width={30} height={48} fill={(i + j + k) % 9 === 0 ? '#ff9f6e' : '#3a2a26'} opacity={(i + j + k) % 9 === 0 ? 0.55 : 0.8} />
+                ))}
+              </g>
+            ))}
+          </g>
+        );
+      })}
+      {/* reading lamps */}
+      {[360, 1180].map((x) => (
+        <g key={x}>
+          <path d={`M${x} 0 L${x} 120`} stroke="#2a1d26" strokeWidth={3} />
+          <path d={`M${x - 40} 150 L${x + 40} 150 L${x + 18} 120 L${x - 18} 120 Z`} fill="#2a1d26" />
+          <path d={`M${x - 40} 150 L${x - 220} 900 L${x + 220} 900 L${x + 40} 150 Z`} fill="#ff9f6e" opacity={0.06} />
+        </g>
+      ))}
+      <rect x="0" y="780" width="1600" height="120" fill="#070407" />
+      <Neon x={800} y={210} text="ARCHIVO REGIONAL" color="#ff9f6e" size={34} />
     </>
   ),
   servidores: () => (

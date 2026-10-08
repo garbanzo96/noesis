@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Noir portraits: dark silhouettes with a rim light in the character's color and one luminous
 // signature feature (visor, headphones, monocle...). Stylized on purpose: no realistic faces.
-export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis' | 'marta';
+export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis' | 'marta' | 'lucia' | 'ana';
 
 export interface Character {
   id: CastId;
@@ -22,6 +22,8 @@ export const CAST: Record<CastId, Character> = {
   nadia: { id: 'nadia', name: 'Nadia Paz', role: 'Ingeniera de turno · La Planta', color: C.blue },
   noesis: { id: 'noesis', name: 'NÓESIS', role: 'Tutora de la agencia', color: C.teal },
   marta: { id: 'marta', name: 'Marta Quiroz', role: 'Hidróloga · Represa Peñuelas', color: '#5fd3ff' },
+  lucia: { id: 'lucia', name: 'Lucía Ferrada', role: 'Controladora de tráfico · Metro', color: '#9cff6e' },
+  ana: { id: 'ana', name: 'Ana Rojas', role: 'Archivera · Archivo Regional', color: '#ff9f6e' },
 };
 
 const SKIN = '#151226';
@@ -87,6 +89,49 @@ const eyes = (col: string, gid: string, y = 148) => (
 );
 
 const BODY: Record<CastId, (col: string, gid: string) => ReactElement> = {
+  lucia: (col, gid) => (
+    <>
+      {/* uniform jacket with reflective stripes */}
+      {shoulders('#0d1418')}
+      <path d="M40 330 L260 330" stroke={col} strokeOpacity="0.35" strokeWidth="6" />
+      <path d="M120 246 L134 360 M180 246 L166 360" stroke="#16222a" strokeWidth="10" />
+      {neck}
+      {head(48, 62)}
+      {/* high ponytail */}
+      <path d="M100 150 C 94 98 124 80 152 80 C 184 80 206 100 200 150 C 196 118 180 104 150 104 C 120 104 106 120 100 150 Z" fill="#07060f" />
+      <path d="M184 92 C 220 80 236 120 226 170" stroke="#07060f" strokeWidth="16" fill="none" strokeLinecap="round" />
+      {rim(gid)}
+      {eyes(col, gid)}
+      {/* headset with a boom mic */}
+      <path d="M98 150 C 96 96 204 96 202 150" fill="none" stroke="#1d2a30" strokeWidth="7" />
+      <rect x="88" y="138" width="16" height="30" rx="7" fill="#1d2a30" />
+      <g filter={`url(#${gid}-glow)`}>
+        <path d="M96 166 C 100 192 118 200 134 196" fill="none" stroke={col} strokeWidth="3" />
+        <circle cx="136" cy="196" r="5" fill={col} />
+      </g>
+    </>
+  ),
+  ana: (col, gid) => (
+    <>
+      {/* cardigan over a high collar */}
+      {shoulders('#15101a')}
+      <path d="M128 244 L150 300 L172 244" fill="#0c0a14" />
+      {neck}
+      {head(48, 62)}
+      {/* bun */}
+      <circle cx="150" cy="78" r="24" fill="#07060f" />
+      <path d="M102 150 C 96 102 122 86 150 86 C 180 86 206 102 198 150 C 194 122 180 108 150 108 C 120 108 106 122 102 150 Z" fill="#07060f" />
+      {rim(gid)}
+      {/* round glasses */}
+      <g filter={`url(#${gid}-glow)`} className="eyes">
+        <circle cx="132" cy="148" r="13" fill="none" stroke={col} strokeWidth="3" />
+        <circle cx="168" cy="148" r="13" fill="none" stroke={col} strokeWidth="3" />
+        <line x1="145" y1="148" x2="155" y2="148" stroke={col} strokeWidth="2" />
+      </g>
+      {/* glasses chain */}
+      <path d="M119 152 C 112 200 120 236 132 250 M181 152 C 188 200 180 236 168 250" fill="none" stroke={col} strokeOpacity="0.4" strokeWidth="1.5" />
+    </>
+  ),
   marta: (col, gid) => (
     <>
       {/* field jacket with a raised hood behind */}

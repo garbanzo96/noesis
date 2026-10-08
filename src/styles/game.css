@@ -1567,7 +1567,7 @@ strong {
 }
 
 /* ---------- overlays ---------- */
-.overlay {
+.overlay:not(.katex .overlay) {
   position: fixed;
   inset: 0;
   z-index: 100;
@@ -3123,4 +3123,31 @@ strong {
   font-size: 11px;
   letter-spacing: 0.14em;
   color: #3df5c9;
+}
+/* matrix / vector answer box on the stage */
+.mat-input {
+  display: flex;
+  align-items: center;
+  gap: 0.15em;
+  pointer-events: auto;
+}
+.mat-input .mat-paren {
+  font-size: 3.4em;
+  font-weight: 200;
+  line-height: 1;
+  color: var(--muted);
+  transform: scaleX(0.6);
+}
+.mat-input .mat-grid {
+  display: grid;
+  gap: 0.35em 0.5em;
+}
+.mat-input .stage-input {
+  width: 3em;
+  text-align: center;
+}
+.mat-input .mat-label {
+  font-family: var(--mono);
+  color: var(--muted);
+  margin-right: 0.4em;
 }
