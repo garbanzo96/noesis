@@ -22,6 +22,8 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | vera | Vera Soto | Crupier de la mesa 7. Informante. | Nerviosa, observadora. |
 | nadia | Nadia Paz | Ingeniera de turno de la central Halcón Energía. Informante. | Práctica, desconfiada, habla en unidades. |
 | marta | Marta Quiroz | Hidróloga de la represa Peñuelas. Informante. | Paciente, exacta, piensa en caudales. |
+| lucia | Lucía Ferrada | Controladora de tráfico del Metro. Informante. | Rápida, habla en estaciones, tramos y horarios. |
+| ana | Ana Rojas | Archivera del Archivo Regional. Informante. | Meticulosa, cita folios y fechas. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -30,6 +32,8 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 5. **Casino Aurora** — probabilidad. Caso: juegos amañados que lavan el dinero del contrabando.
 2. **La Planta** — cálculo diferencial. Caso: picos nocturnos de consumo en la central de Ventanas.
 3. **La Represa** — cálculo integral. Caso: agua desviada de la represa Peñuelas hacia los servidores.
+4. **El Metro** — álgebra lineal. Caso: un tren de mantención que sale de noche y una tabla que lo esconde en las pantallas.
+6. **El Archivo** — estadística. Caso: el registro de vacunación de la Clínica del Cerro, alterado.
 (Los demás distritos se escriben al construir cada mundo.)
 
 ### Arco de El Puerto
@@ -80,3 +84,25 @@ exponencial. 3.7 La bomba del canal 7 sigue $t\,e^{-t/2}$. 3.8 La fuga, para sie
 finito. 3.★ En la sala de control se cierra la válvula; el servidor que la reabre está en el
 centro de control del Metro → Álgebra lineal.
 
+
+### Arco de El Metro
+
+4.1 El GPS del M-7 solo guarda tramos: sumados, terminan en las Cocheras Barón (cerradas desde 2071);
+el registro inventa un tramo de 5 km. 4.2 Una grúa de pórtico con dos rieles inclinados movió un
+vagón sellado. 4.3 Los sensores de la vía en desuso prueban que el M-7 pasó por ahí. 4.4 El servidor
+multiplica la posición del M-7 por una tabla $A$ y la pantalla lo muestra en el taller. 4.5 El sensor
+de ejes del puente revela seis trenes de carga sin horario. 4.6 La tabla se arma con dos pasos; el
+orden importa. 4.7 La tabla del M-7 se puede deshacer (det 6); la de carga no (det 0, todo cae sobre
+la línea principal). 4.8 Noche a noche, el reparto de vagones converge al 75 % en las Cocheras.
+4.★ En vivo, se deshace cada tabla; el vagón sellado guarda discos del Archivo Regional → El Archivo.
+
+### Arco de El Archivo
+
+6.1 La copia del registro es bimodal: 18 pacientes de 25–35 años (trabajadores de Halcón) en una
+campaña para mayores de 65. 6.2 «46 dosis diarias» es una media inflada por un solo día de 400
+(mediana 21). 6.3 Los demás días del Cerro tienen σ ≈ 0,7: datos rellenados. 6.4 La semana 31
+tiene z = 3,4. 6.5 Una muestra de 64 fichas da edad media 66 (z = −6 frente al 72 del informe).
+6.6 IC 95 % de la edad: [64,0; 68,0]. 6.7 «95 % de cobertura» se rechaza (p̂ = 0,89, z ≈ −5,5).
+6.8 Recibidas vs. registradas: el Cerro tiene residuo −5,4 (540 dosis fuera del registro oficial).
+6.★ El informe para la fiscalía; el registro se alteró desde Halcón Drones, base Los Cerros, y un
+dron con vacunas se perdió en una quebrada → Los Cerros (varias variables).
