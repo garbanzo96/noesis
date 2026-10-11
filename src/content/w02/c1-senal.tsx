@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve, Dot, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, hhmm, parseNum } from '../shared/ui';
 import { nt } from './kit';
@@ -23,6 +24,122 @@ const freq = (t: number) => 50 + 0.6 * (t - 3) * Math.cos(2.2 * (t - 3)) + 0.25 
 function Hole({ x, y, color = C.cyan }: { x: number; y: number; color?: string }) {
   return <circle cx={x} cy={y} r={9} fill={C.bg} stroke={color} strokeWidth={3} />;
 }
+
+// ---------------------------------------------------------------- lesson
+// g agrees with x + 2 only away from the excluded point x = 2.
+const signalExample = (x: number) => x + 2;
+const SIGNAL_PL = plane([0, 4], [0, 7], { x: 300, y: 130, w: 820, h: 520 });
+
+function SignalLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat, at } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x, setX] = useState(1);
+  const reached = useRef({ l: false, r: false });
+  const [sides, setSides] = useState(reached.current);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 1) return;
+    const v = Math.round(clamp(SIGNAL_PL.inv(px, 0)[0], 0.1, 3.9) * 1000) / 1000;
+    setX(v);
+    if (v !== 2 && v > 1.95 && v < 2.05) {
+      reached.current = { l: reached.current.l || v < 2, r: reached.current.r || v > 2 };
+      setSides(reached.current);
+      if (reached.current.l && reached.current.r) unlock();
+    }
+  });
+
+  if (beat === 2) {
+    const J = plane([0, 2], [0, 4], { x: 300, y: 130, w: 820, h: 520 });
+    return (
+      <Stage>
+        <Axes P={J} xTicks={[0, 1, 2]} yTicks={[1, 2, 3]} xLabel="x" yLabel="h(x)" grid />
+        <Curve P={J} f={() => 1} a={0} b={1} color={C.cyan} />
+        <Curve P={J} f={() => 3} a={1} b={2} color={C.magenta} />
+        <Hole x={J.x(1)} y={J.y(1)} />
+        <Dot x={J.x(1)} y={J.y(3)} color={C.magenta} />
+        <Cap x={1330} y={210} tex="h(x)=\begin{cases}1&x<1\\3&x\ge1\end{cases}" size={22} />
+        {answer !== null && <Cap x={1330} y={330} tex="1\ne3" color={C.amber} />}
+      </Stage>
+    );
+  }
+  if (beat === 5) {
+    const I = plane([1, 16], [-0.5, 6], { x: 300, y: 130, w: 820, h: 520 });
+    return (
+      <Stage>
+        <Axes P={I} xTicks={[1, 4, 8, 12, 16]} yTicks={[0, 1, 3, 5]} xLabel="x" yLabel="y" grid />
+        {[0, 5].map((y) => <Line key={y} a={I.pt(1, y)} b={I.pt(16, y)} color={C.green} dashed />)}
+        <Curve P={I} f={(v) => 1 / v} a={1} b={16} color={C.cyan} progress={at(5)} />
+        <Curve P={I} f={(v) => 5 - 3 / v} a={1} b={16} color={C.amber} progress={at(5)} />
+        <Cap x={1330} y={220} tex="\frac1x\to0" color={C.cyan} />
+        <Cap x={1330} y={290} tex="5-\frac3x\to5" color={C.amber} />
+      </Stage>
+    );
+  }
+  return (
+    <Stage ref={svg}>
+      <Axes P={SIGNAL_PL} xTicks={[0, 1, 2, 3, 4]} yTicks={[2, 4, 6]} xLabel="x" yLabel={beat === 3 ? 'f(x)' : 'g(x)'} grid />
+      <Curve P={SIGNAL_PL} f={signalExample} a={0} b={2} color={C.cyan} />
+      <Curve P={SIGNAL_PL} f={signalExample} a={2} b={4} color={C.cyan} />
+      {beat === 3 ? <Dot x={SIGNAL_PL.x(2)} y={SIGNAL_PL.y(4)} color={C.green} /> : <Hole x={SIGNAL_PL.x(2)} y={SIGNAL_PL.y(4)} />}
+      <Cap x={1330} y={180} size={22} tex={beat === 3 ? 'f(x)=x+2' : 'g(x)=\\frac{x^2-4}{x-2}'} />
+      {beat === 1 && (
+        <>
+          {x !== 2 && <Dot x={SIGNAL_PL.x(x)} y={SIGNAL_PL.y(signalExample(x))} color={C.amber} onPointerDown={onX} cursor="ew-resize" />}
+          <Cap x={1330} y={260} size={20} color={C.amber} tex={x === 2 ? 'g(2)\\text{ no está definido}' : `x=${nt(x, 3)},\\quad g(x)=${nt(signalExample(x), 3)}`} />
+          <Cap x={1330} y={350} size={18} color={sides.l ? C.green : C.muted}>{sides.l ? '✓' : '·'} desde la izquierda</Cap>
+          <Cap x={1330} y={390} size={18} color={sides.r ? C.green : C.muted}>{sides.r ? '✓' : '·'} desde la derecha</Cap>
+          <Cap x={1330} y={490} size={18} tex="1{,}9\mapsto3{,}9\\1{,}99\mapsto3{,}99\\2{,}01\mapsto4{,}01" />
+          <line x1={SIGNAL_PL.x(0)} x2={SIGNAL_PL.x(4)} y1={720} y2={720} stroke={C.line} strokeWidth={3} />
+          <Knob x={SIGNAL_PL.x(x)} y={720} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(x, 3)}`} />
+        </>
+      )}
+      {beat === 3 && <Cap x={1330} y={290} tex="f(2)=4=\lim_{x\to2}f(x)" color={C.green} size={20} />}
+      {beat === 4 && answer !== null && <Cap x={1330} y={290} tex="g(x)=x+2\quad(x\ne2)" color={C.amber} size={20} />}
+    </Stage>
+  );
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Límites y continuidad',
+  Scene: SignalLesson,
+  beats: [
+    {
+      say: 'La gráfica de $g(x)=\\frac{x^2-4}{x-2}$ tiene un hueco en $x=2$. El límite pregunta a qué valor se acerca $g(x)$ al acercarse a 2, sin usar $g(2)$.',
+      dur: 2.6,
+      board: { label: 'Límite', tex: '\\lim_{x\\to\\p{1}{\\cC{a}}}f(x)=\\p{2}{\\cA{L}}', body: 'Aquí el límite es 4, aunque $g(2)$ no esté definido.' },
+    },
+    {
+      say: 'Acércate al hueco desde cada lado y mira los valores. Ambos lados se acercan a 4.',
+      gate: 'Arrastra x hasta quedar a menos de 0,05 de 2 por la izquierda y por la derecha.',
+      board: { label: 'Límites laterales', tex: '\\lim_{x\\to a^-}f(x)=\\p{1}{L}=\\lim_{x\\to a^+}f(x)', body: 'El límite existe si ambos laterales existen y coinciden. $g(1{,}9)=3{,}9$, $g(1{,}99)=3{,}99$ y $g(2{,}01)=4{,}01$.' },
+    },
+    {
+      say: 'Esta función salta en $x=1$. Mira la altura a la que llega desde cada lado.',
+      ask: { prompt: '¿Existe $\\lim_{x\\to1}h(x)$?', options: ['No: por la izquierda da 1 y por la derecha 3', 'Sí, vale 3', 'Sí, vale 2'], answer: 0, explain: 'Los límites laterales son 1 y 3. Como son distintos, el límite no existe.' },
+      board: { label: 'Un salto', tex: '\\lim_{x\\to1^-}h(x)=\\p{1}{1}\\ne\\p{2}{3}=\\lim_{x\\to1^+}h(x)' },
+    },
+    {
+      say: 'Para ser continua en $a$, la función debe tener valor, tener límite y ambos deben ser iguales. Al llenar el hueco con 4, $f(x)=x+2$ es continua en 2.',
+      dur: 2.6,
+      board: { label: 'Continuidad', tex: '\\lim_{x\\to a}f(x)=\\p{1}{\\cG{f(a)}}', body: 'Tres condiciones: existe $f(a)$, existe el límite y coinciden.' },
+    },
+    {
+      say: 'Reemplazar $x=2$ en la fracción da $0/0$. Factoriza y simplifica para $x\\ne2$ antes de calcular el límite.',
+      ask: { prompt: '¿Cuánto vale $\\lim_{x\\to2}\\frac{x^2-4}{x-2}$?', options: ['4', '0', 'No existe'], answer: 0, explain: 'Para $x\\ne2$, $(x^2-4)/(x-2)=x+2$. Cuando $x$ se acerca a 2, $x+2$ se acerca a 4.' },
+      board: { label: 'Forma 0/0', tex: '\\frac{(x-2)(x+2)}{x-2}=\\p{1}{x+2}\\quad(x\\ne2)', body: '$\\lim_{x\\to2}g(x)=4$. La simplificación no define $g(2)$.' },
+    },
+    {
+      say: 'Cuando $x$ crece, $1/x$ se acerca a 0 y $5-3/x$ se acerca a 5. Cada curva se acerca a una asíntota horizontal.',
+      dur: 3,
+      board: [
+        { label: 'Ejemplos al infinito', tex: '\\lim_{x\\to\\infty}\\frac1x=\\p{1}{0},\\qquad\\lim_{x\\to\\infty}\\left(5-\\frac3x\\right)=\\p{2}{5}' },
+        { label: 'Límite al infinito', tex: '\\lim_{x\\to\\infty}f(x)=\\p{1}{\\cG{L}}', body: 'La recta $y=L$ es una asíntota horizontal.' },
+      ],
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function SignalDemo({ beats, unlock, answer }: DemoProps) {

@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Group, Html, Stage, plane, type Plane } from '../../engine/Stage';
 import { Axes, Curve, Dot, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng, shuffle } from '../shared/rng';
 import { Confirm, Knob, dec, hhmm } from '../shared/ui';
 import { Tangent, deriv, nt } from './kit';
@@ -21,6 +22,129 @@ const E = (t: number) => 12 * t * t - 4 * t * t * t;
 const Pw = (t: number) => 24 * t - 12 * t * t;
 const TOP = plane([0, 2], [0, 18], { x: 300, y: 70, w: 960, h: 340 });
 const BOT = plane([0, 2], [0, 14], { x: 300, y: 480, w: 960, h: 300 });
+
+// ---------------------------------------------------------------- lesson
+const graphExample = (x: number) => x ** 3 - 3 * x;
+const graphSlope = (x: number) => 3 * x * x - 3;
+const GRAPH_TOP = plane([-2, 2], [-3, 3], { x: 300, y: 100, w: 820, h: 260 });
+const GRAPH_BOT = plane([-2, 2], [-4, 10], { x: 300, y: 460, w: 820, h: 260 });
+
+function GraphLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x, setX] = useState(0);
+  const visited = useRef({ lo: 0, hi: 0 });
+  const [range, setRange] = useState(visited.current);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const v = Math.round(clamp(GRAPH_TOP.inv(px, 0)[0], -2, 2) * 1000) / 1000;
+    setX(v);
+    visited.current = { lo: Math.min(visited.current.lo, v), hi: Math.max(visited.current.hi, v) };
+    setRange(visited.current);
+    if (visited.current.lo <= -1.5 && visited.current.hi >= 1.5) unlock();
+  });
+  const t = beat === 0 ? x : beat === 3 ? -1 : 0;
+  const extrema = beat === 3 || (beat === 2 && answer !== null);
+  const colored = beat === 1 || beat >= 4;
+  const segments = beat >= 4 ? [-2, 0, 2] : [-2, -1, 1, 2];
+  return (
+    <Stage ref={svg}>
+      <Axes P={GRAPH_TOP} xTicks={[-2, -1, 0, 1, 2]} yTicks={[-2, 2]} xLabel="x" yLabel="f(x)" grid />
+      {colored ? segments.slice(0, -1).map((a, i) => (
+        <Curve key={a} P={GRAPH_TOP} f={graphExample} a={a} b={segments[i + 1]} color={beat >= 4 ? (a < 0 ? C.magenta : C.green) : (i === 1 ? C.red : C.green)} />
+      )) : <Curve P={GRAPH_TOP} f={graphExample} a={-2} b={2} color={C.cyan} />}
+      {(beat === 0 || beat === 3 || beat === 5) && <Tangent P={GRAPH_TOP} f={graphExample} a={t} m={graphSlope(t)} half={0.3} color={C.amber} onPointerDown={beat === 0 ? onX : undefined} />}
+      {extrema && [-1, 1].map((a) => <Tangent key={a} P={GRAPH_TOP} f={graphExample} a={a} m={0} half={0.3} color={C.amber} />)}
+      <Axes P={GRAPH_BOT} xTicks={[-2, -1, 0, 1, 2]} yTicks={[-3, 0, 3, 6, 9]} xLabel="x" yLabel="f'(x)" grid />
+      {beat === 0 ? (
+        <>
+          {range.hi > range.lo && <Curve P={GRAPH_BOT} f={graphSlope} a={range.lo} b={range.hi} color={C.amber} />}
+          <Line a={GRAPH_TOP.pt(x, graphExample(x))} b={GRAPH_BOT.pt(x, graphSlope(x))} color={C.dim} dashed />
+        </>
+      ) : <Curve P={GRAPH_BOT} f={graphSlope} a={-2} b={2} color={C.amber} />}
+      {(beat === 0 || beat === 3 || beat === 5) && <Dot x={GRAPH_BOT.x(t)} y={GRAPH_BOT.y(graphSlope(t))} color={C.amber} />}
+      {extrema && [-1, 1].map((a) => <Dot key={a} x={GRAPH_BOT.x(a)} y={GRAPH_BOT.y(0)} color={C.amber} />)}
+      <Cap x={1330} y={150} size={22} tex="f(x)=x^3-3x" color={C.cyan} />
+      <Cap x={1330} y={490} size={22} tex="f'(x)=3x^2-3" color={C.amber} opacity={beat === 0 ? 0 : 1} />
+      {beat === 0 && (
+        <>
+          <Cap x={1330} y={550} size={22} tex={`f'(${nt(x, 3)})=${nt(graphSlope(x), 3)}`} color={C.amber} />
+          <Cap x={1330} y={230} size={18} color={range.lo <= -1.5 ? C.green : C.muted}>{range.lo <= -1.5 ? '✓' : '·'} hasta −1,5</Cap>
+          <Cap x={1330} y={270} size={18} color={range.hi >= 1.5 ? C.green : C.muted}>{range.hi >= 1.5 ? '✓' : '·'} hasta 1,5</Cap>
+          <line x1={GRAPH_TOP.x(-2)} x2={GRAPH_TOP.x(2)} y1={790} y2={790} stroke={C.line} strokeWidth={3} />
+          <Knob x={GRAPH_TOP.x(x)} y={790} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(x, 3)}`} />
+        </>
+      )}
+      {beat === 1 && (
+        <>
+          <Cap x={1330} y={240} size={20} tex="f'>0:\ x<-1\text{ o }x>1" color={C.green} />
+          <Cap x={1330} y={300} size={20} tex="f'<0:\ -1<x<1" color={C.red} />
+        </>
+      )}
+      {beat === 3 && (
+        <>
+          <Cap x={1330} y={240} tex="f(-1)=2" color={C.cyan} />
+          <Cap x={1330} y={550} tex="f'(-1)=0" color={C.amber} />
+        </>
+      )}
+      {beat >= 4 && (
+        <>
+          <Cap x={1330} y={220} tex="f''(x)=6x" />
+          <Cap x={1330} y={280} size={20} tex="x<0:\ f''<0\quad\cap" color={C.magenta} />
+          <Cap x={1330} y={330} size={20} tex="x>0:\ f''>0\quad\cup" color={C.green} />
+          {[-1, 1].map((a) => <Tangent key={a} P={GRAPH_BOT} f={graphSlope} a={a} m={6 * a} half={0.3} color={a < 0 ? C.magenta : C.green} />)}
+        </>
+      )}
+      {beat === 5 && (
+        <>
+          <Dot x={GRAPH_TOP.x(0)} y={GRAPH_TOP.y(0)} color={C.text} />
+          <Cap x={1330} y={390} size={20}>Inflexión en (0, 0)</Cap>
+          <Cap x={1330} y={550} tex="f'(0)=-3\text{ (mínimo)}" size={20} color={C.amber} />
+        </>
+      )}
+    </Stage>
+  );
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'La derivada como función',
+  Scene: GraphLesson,
+  beats: [
+    {
+      say: 'Recorre $f(x)=x^3-3x$ con la tangente. Abajo se dibuja la pendiente para cada $x$: aparece otra función, $f\'$.',
+      gate: 'Arrastra la tangente desde −1,5 hasta 1,5; puedes recorrerla en cualquier sentido.',
+      board: { label: 'La derivada como función', tex: 'x\\mapsto\\p{1}{\\cA{f\'(x)}},\\qquad f\'(x)=3x^2-3', body: 'A cada $x$ le asignamos la pendiente de su tangente.' },
+    },
+    {
+      say: 'Una pendiente positiva hace que la función suba; una negativa hace que baje. Compara los tramos de arriba con el signo de $f\'$ abajo.',
+      dur: 2.6,
+      board: { label: 'Signo y crecimiento', tex: '\\p{1}{\\cG{f\'>0}}\\Rightarrow f\\text{ crece},\\qquad\\p{2}{f\'<0}\\Rightarrow f\\text{ decrece}', body: 'Crece si $x<-1$ o $x>1$. Decrece si $-1<x<1$.' },
+    },
+    {
+      say: 'En un máximo o mínimo local de esta curva, la tangente queda horizontal. Busca dónde su pendiente es cero.',
+      ask: { prompt: '¿En qué $x$ la tangente queda horizontal?', options: ['$x=-1$ y $x=1$', '$x=0$', '$x=\\pm2$'], answer: 0, explain: '$3x^2-3=0$ da $x=-1$ y $x=1$. Son el máximo local y el mínimo local de $f$.' },
+      board: { label: 'Tangente horizontal', tex: 'f\'(x)=\\p{1}{0}\\quad\\text{en }x=-1,1', body: 'En picos y valles suaves, $f\'=0$. Una derivada cero por sí sola no garantiza un extremo.' },
+    },
+    {
+      say: 'Más alto no significa más empinado. En $x=-1$, la altura es 2 y la pendiente es 0: son valores distintos.',
+      dur: 2.6,
+      board: { label: 'Altura y pendiente', tex: '\\p{1}{\\cC{f(-1)=2}},\\qquad\\p{2}{\\cA{f\'(-1)=0}}' },
+    },
+    {
+      say: 'La segunda derivada mide cómo cambia la pendiente. Aquí $f\'\'(x)=6x$: la curva es cóncava hacia abajo antes de 0 y hacia arriba después.',
+      dur: 2.6,
+      board: { label: 'Segunda derivada y concavidad', tex: 'f\'\'(x)=6x,\\qquad\\p{1}{f\'\'>0}\\Rightarrow\\cup,\\quad\\p{2}{f\'\'<0}\\Rightarrow\\cap', body: '$f\'\'$ es la pendiente de $f\'$. Es negativa si $x<0$ y positiva si $x>0$.' },
+    },
+    {
+      say: 'En $x=0$ cambia la concavidad: es un punto de inflexión. Ahí la pendiente alcanza su mínimo, $f\'(0)=-3$.',
+      dur: 2.6,
+      board: { label: 'Punto de inflexión', tex: '\\p{1}{\\text{Inflexión}}:\\quad f\'\'\\text{ cambia de signo}', body: 'Aquí $f\'\'(x)=6x$ cambia de negativo a positivo en 0; la inflexión es $(0,0)$.' },
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function PeakDemo({ beats, unlock, answer }: DemoProps) {

@@ -1,4 +1,5 @@
 import type { LevelDef, LevelModule, SectorDef } from '../../game/level/types';
+import { withLesson } from '../stub';
 import * as C1 from './c1-senal';
 import * as C2 from './c2-potencia';
 import * as C3 from './c3-grafica';
@@ -27,7 +28,7 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w2-final': { pos: [1050, 770], requires: ['w2-c9'] },
 };
 
-const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W02[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
+const levels: LevelDef[] = MODULES.map((m) => withLesson({ ...m.level, ref: REF_W02[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }, m.lesson));
 
 export const W02: SectorDef = {
   world: 'differential',

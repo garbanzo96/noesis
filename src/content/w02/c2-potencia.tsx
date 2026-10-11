@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve, Dot } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Secant, SlopeLine, Tangent, nt } from './kit';
@@ -21,6 +22,103 @@ const E = (t: number) => 2 * t * t + 3 * t;
 const P = plane([0, 2.2], [0, 16], { x: 300, y: 130, w: 1000, h: 540 });
 const X_T = [0, 0.5, 1, 1.5, 2];
 const Y_T = [2, 4, 6, 8, 10, 12, 14, 16];
+
+// ---------------------------------------------------------------- lesson
+const powerExample = (x: number) => x * x;
+const POWER_PL = plane([0, 3.3], [0, 11], { x: 300, y: 130, w: 820, h: 520 });
+
+function PowerLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat, at } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [h, setH] = useState(2);
+  const onH = useSvgDrag(svg, (px) => {
+    if (beat !== 1) return;
+    const v = Math.round(clamp(POWER_PL.inv(px, 0)[0] - 1, 0.005, 2) * 1000) / 1000;
+    setH(v);
+    if (v < 0.1) unlock();
+  });
+
+  if (beat === 4) {
+    const half = 0.5 / (1 + 24 * at(4));
+    const Z = plane([1 - half, 1 + half], [1 - 2.6 * half, 1 + 2.6 * half], { x: 300, y: 130, w: 820, h: 520 });
+    return (
+      <Stage>
+        <Axes P={Z} xTicks={[1]} yTicks={[1]} xLabel="x" yLabel="f(x)" grid />
+        <Curve P={Z} f={powerExample} a={1 - half} b={1 + half} color={C.cyan} />
+        <SlopeLine P={Z} a={1} ya={1} m={2} x0={1 - half} x1={1 + half} color={C.green} dashed />
+        <Dot x={Z.x(1)} y={Z.y(1)} color={C.amber} />
+        <Cap x={1330} y={230} tex="f(x)=x^2" color={C.cyan} />
+        <Cap x={1330} y={290} tex="y=1+2(x-1)" color={C.green} />
+        <Cap x={1330} y={380} size={18}>Lupa alrededor de x = 1</Cap>
+        <Cap x={1330} y={430} size={18} tex={`1-${nt(half, 3)}\\le x\\le1+${nt(half, 3)}`} />
+      </Stage>
+    );
+  }
+  const secantH = beat === 0 ? 2 : beat === 2 ? h * (1 - at(2)) : h;
+  return (
+    <Stage ref={svg}>
+      <Axes P={POWER_PL} xTicks={[0, 1, 2, 3]} yTicks={[1, 4, 9]} xLabel={beat === 5 ? 'x\\ (\\text{s})' : 'x'} yLabel={beat === 5 ? 'f\\ (\\text{m})' : 'f(x)'} grid />
+      <Curve P={POWER_PL} f={powerExample} a={0} b={3.3} color={C.cyan} />
+      {beat <= 2 && secantH > 0.0001 && <Secant P={POWER_PL} f={powerExample} a={1} b={1 + secantH} labels={false} />}
+      {beat >= 2 && <Tangent P={POWER_PL} f={powerExample} a={1} m={2} half={0.7} color={C.green} />}
+      <Cap x={1330} y={170} tex="f(x)=x^2,\quad a=1" />
+      {beat <= 1 && <Cap x={1330} y={240} color={C.magenta} tex={`\\frac{\\Delta f}{\\Delta x}=${nt(2 + secantH, 3)}`} />}
+      {beat === 0 && <Cap x={1330} y={310} tex="\Delta f=9-1=8,\quad\Delta x=2" size={20} />}
+      {beat === 1 && (
+        <>
+          <Dot x={POWER_PL.x(1 + h)} y={POWER_PL.y(powerExample(1 + h))} color={C.magenta} r={11} onPointerDown={onH} cursor="ew-resize" ring />
+          <Cap x={1330} y={310} color={C.magenta} tex={`h=${nt(h, 3)},\\quad m=2+h`} size={20} />
+          <Cap x={1330} y={410} tex="h=2\Rightarrow m=4\\h=1\Rightarrow m=3\\h=0{,}5\Rightarrow m=2{,}5\\h=0{,}1\Rightarrow m=2{,}1" size={18} />
+          <line x1={POWER_PL.x(1)} x2={POWER_PL.x(3)} y1={720} y2={720} stroke={C.line} strokeWidth={3} />
+          <Knob x={POWER_PL.x(1 + h)} y={720} onPointerDown={onH} cursor="ew-resize" label={`h=${dec(h, 3)}`} />
+        </>
+      )}
+      {beat === 2 && <Cap x={1330} y={290} tex={`m=${nt(2 + secantH, 3)}\\to2`} color={C.green} />}
+      {beat === 3 && answer !== null && <Cap x={1330} y={290} tex="f'(1)=2" color={C.green} />}
+      {beat === 5 && <Cap x={1330} y={290} tex="f'(1)=2\ \frac{\text{m}}{\text{s}}" color={C.green} />}
+    </Stage>
+  );
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'La derivada',
+  Scene: PowerLesson,
+  beats: [
+    {
+      say: 'La pendiente entre dos puntos es el cambio en altura dividido por el cambio horizontal. Para $f(x)=x^2$, entre 1 y 3 vale $(9-1)/(3-1)=4$.',
+      dur: 2.6,
+      board: { label: 'Pendiente de la secante', tex: '\\frac{\\p{1}{\\Delta f}}{\\p{2}{\\Delta x}}=\\frac{f(b)-f(a)}{b-a}', body: 'La secante pasa por $(1,1)$ y $(3,9)$: su pendiente es 4.' },
+    },
+    {
+      say: 'Acerca el segundo punto al primero, que está en $a=1$. El intervalo $h$ se achica y la pendiente $2+h$ se acerca a 2.',
+      gate: 'Arrastra el segundo punto hasta que h sea menor que 0,1.',
+      board: { label: 'Cociente incremental', tex: '\\frac{f(a+\\p{1}{\\cM{h}})-f(a)}{\\p{1}{\\cM{h}}}', body: 'Con $h=2,1,0{,}5,0{,}1$, las pendientes son $4,3,2{,}5,2{,}1$.' },
+    },
+    {
+      say: 'Al reducir $h$ hacia 0, la secante se acerca a la tangente. El límite de su pendiente se llama derivada.',
+      dur: 3,
+      board: { label: 'Definición de derivada', tex: '\\p{1}{\\cG{f\'(a)}}=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}' },
+    },
+    {
+      say: 'Expande $(1+h)^2$ y simplifica para $h\\ne0$. El cociente queda $2+h$.',
+      ask: { prompt: 'Entonces, ¿cuánto vale $f\'(1)$ para $f(x)=x^2$?', options: ['2', '1', '4'], answer: 0, explain: 'El cociente es $2+h$. Cuando $h\\to0$, su límite es 2: $f\'(1)=2$.' },
+      board: { label: 'Cálculo en a = 1', tex: '\\frac{(1+h)^2-1}{h}=\\frac{2h+h^2}{h}=\\p{1}{2+h}\\to\\p{2}{2}', body: 'Para $h\\ne0$ se cancela el factor $h$.' },
+    },
+    {
+      say: 'La lupa se acerca a $(1,1)$. En un intervalo pequeño, la curva se parece a la recta tangente.',
+      dur: 3.5,
+      board: { label: 'Aproximación local', tex: 'f(1+h)\\approx\\p{1}{f(1)}+\\p{2}{f\'(1)}h=1+2h', body: 'El valor exacto es $1+2h+h^2$: el error es $h^2$.' },
+    },
+    {
+      say: 'Si $f$ se mide en metros y $x$ en segundos, la derivada se mide en metros por segundo. Es la tasa instantánea de cambio.',
+      dur: 2.6,
+      board: { label: 'Pendiente y tasa instantánea', tex: '\\p{1}{\\cG{f\'(a)}}=\\text{pendiente de la tangente}=\\text{tasa instantánea},\\qquad[f\']=\\frac{[f]}{[x]}', body: 'Aquí $f\'(1)=2$ metros por segundo.' },
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function PowerDemo({ beats, unlock, answer }: DemoProps) {
