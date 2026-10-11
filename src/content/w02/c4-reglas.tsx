@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Group, Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Formula } from '../w05/kit';
@@ -34,6 +35,118 @@ function polyTex(cs: number[], v = 'x') {
 }
 const polyEval = (cs: number[], x: number) => cs.reduce((acc, c) => acc * x + c, 0);
 const polyDer = (cs: number[]) => cs.slice(0, -1).map((c, i) => c * (cs.length - 1 - i));
+
+// ---------------------------------------------------------------- lesson
+function RulesLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [h, setH] = useState(0.6);
+  const onH = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp((px - 400) / 800, 0.02, 1) * 100) / 100;
+    setH(next);
+    if (next < 0.1) unlock();
+  });
+  if (beat === 0) {
+    const side = 2;
+    const scale = 170;
+    return (
+      <Stage ref={svg}>
+        <rect x={380} y={170} width={side * scale} height={side * scale} fill={C.cyan} fillOpacity={0.3} stroke={C.cyan} strokeWidth={3} />
+        <rect x={720} y={170} width={h * scale} height={side * scale} fill={C.amber} fillOpacity={0.55} />
+        <rect x={380} y={510} width={side * scale} height={h * scale} fill={C.magenta} fillOpacity={0.55} />
+        <rect x={720} y={510} width={h * scale} height={h * scale} fill={C.red} fillOpacity={0.8} />
+        <Cap x={550} y={340} size={32} tex="x^2" color={C.cyan} />
+        <Cap x={550} y={140} tex="x=2" />
+        <Cap x={720 + h * scale / 2} y={140} tex="h" color={C.amber} />
+        <Cap x={1150} y={220} tex="\Delta A=xh+xh+h^2" />
+        <Cap x={1150} y={310} tex={`\\frac{\\Delta A}{h}=4+${nt(h)}=${nt(4 + h)}`} color={C.amber} />
+        <Cap x={1150} y={400} tex={`h^2=${nt(h * h, 4)}`} color={C.red} />
+        <Cap x={1150} y={490} size={18}>Las dos franjas quedan; la esquina se reduce.</Cap>
+        <line x1={400} x2={1200} y1={740} y2={740} stroke={C.line} strokeWidth={3} />
+        <rect x={380} y={710} width={840} height={60} fill="transparent" onPointerDown={onH} style={{ cursor: 'ew-resize' }} />
+        <Knob x={400 + h * 800} y={740} onPointerDown={onH} cursor="ew-resize" label={`h=${dec(h, 2)}`} />
+      </Stage>
+    );
+  }
+  if (beat === 1) {
+    const iso = (x: number, y: number, z: number) => [690 + (x - y) * 100, 500 + (x + y) * 50 - z * 115];
+    const face = (points: number[][], color: string) => <polygon points={points.map(([x, y, z]) => iso(x, y, z).join(',')).join(' ')} fill={color} fillOpacity={0.4} stroke={color} strokeWidth={2} />;
+    return (
+      <Stage>
+        {face([[0, 0, 2], [2, 0, 2], [2, 2, 2], [0, 2, 2]], C.cyan)}
+        {face([[2, 0, 0], [2, 2, 0], [2, 2, 2], [2, 0, 2]], C.cyan)}
+        {face([[0, 2, 0], [2, 2, 0], [2, 2, 2], [0, 2, 2]], C.cyan)}
+        {face([[0, 0, 2.2], [2, 0, 2.2], [2, 2, 2.2], [0, 2, 2.2]], C.amber)}
+        {face([[2.2, 0, 0], [2.2, 2, 0], [2.2, 2, 2], [2.2, 0, 2]], C.amber)}
+        {face([[0, 2.2, 0], [2, 2.2, 0], [2, 2.2, 2], [0, 2.2, 2]], C.amber)}
+        <Cap x={1200} y={250} tex="\frac{\Delta V}{h}=3x^2+3xh+h^2" size={22} />
+        <Cap x={1200} y={350} tex="h\to0:\quad3x^2" color={C.amber} />
+        {answer !== null && <Cap x={1200} y={450} tex="3\cdot2^2=12" color={C.green} />}
+      </Stage>
+    );
+  }
+  const rows = beat === 2 ? [
+    "\\frac{d}{dx}x^n=n\\,x^{n-1}",
+    "\\frac{d}{dx}x^{-1}=-x^{-2}",
+    "\\frac{d}{dx}\\sqrt{x}=\\frac{1}{2\\sqrt{x}}",
+  ] : beat === 3 ? [
+    "(c\\,f)'=c\\,f',\\quad(f+g)'=f'+g',\\quad c'=0",
+    "\\frac{d}{dx}(4x^3-2x+7)=12x^2-2",
+    ...(answer !== null ? ["12\\cdot1^2-2=10"] : []),
+  ] : ["\\frac{d}{dx}x^n=n\\,x^{n-1}", "(c\\,f)'=c\\,f',\\quad(f+g)'=f'+g',\\quad c'=0"];
+  return <Stage>{rows.map((tex, i) => <Cap key={tex} x={800} y={220 + i * 150} tex={tex} size={28} color={i === 0 ? C.cyan : C.amber} />)}</Stage>;
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Reglas de derivación',
+  Scene: RulesLesson,
+  beats: [
+    {
+      say: 'Al aumentar el lado de un cuadrado en $h$, aparecen dos franjas $xh$ y una esquina $h^2$. Reduce $h$ y mira qué pasa con la esquina.',
+      gate: 'Arrastra el control para cambiar h y dejarlo bajo 0,1.',
+      board: [
+        { label: 'Cuadrado', tex: '(x+h)^2=x^2+\\p{1}{2xh}+\\p{2}{h^2}' },
+        { tex: '\\frac{(x+h)^2-x^2}{h}=2x+h\\to2x,\\qquad\\frac{d}{dx}x^2=\\p{1}{\\cA{2x}}' },
+      ],
+    },
+    {
+      say: 'En un cubo crecen tres caras de área $x^2$. Al dividir el aumento por $h$ y hacer $h$ pequeño, queda $3x^2$.',
+      ask: { prompt: '¿Cuánto vale la derivada de $x^3$ en $x=2$?', options: ['12', '8', '6'], answer: 0, explain: '$3\\cdot2^2=12$. El volumen es 8; su derivada es 12.' },
+      board: [
+        { label: 'Cubo', tex: '(x+h)^3=x^3+3x^2h+3xh^2+h^3' },
+        { tex: '\\frac{d}{dx}x^3=\\p{1}{\\cA{3x^2}}' },
+      ],
+    },
+    {
+      say: 'Para una potencia, el exponente baja como factor y luego se resta uno al exponente. También funciona con exponentes negativos y fraccionarios, donde la función es derivable.',
+      dur: 3,
+      board: [
+        { label: 'Potencia', tex: '\\frac{d}{dx}x^n=\\p{1}{n}\\,x^{\\p{2}{n-1}}' },
+        { tex: "(x^{-1})'=-x^{-2},\\qquad(\\sqrt{x})'=\\frac{1}{2\\sqrt{x}}", body: 'Para $x^{-1}$, $x\\ne0$. Para la derivada de $\\sqrt{x}$, $x>0$.' },
+      ],
+    },
+    {
+      say: 'Los factores constantes se mantienen y las sumas se derivan término a término. Una constante tiene derivada cero.',
+      ask: { prompt: 'Para $4x^3-2x+7$, ¿cuánto vale esa derivada en $x=1$?', options: ['10', '9', '12'], answer: 0, explain: 'La derivada es $12x^2-2$. En $x=1$: $12-2=10$.' },
+      board: [
+        { label: 'Constantes y sumas', tex: "(c\\,f)'=c\\,f',\\quad(f+g)'=f'+g',\\quad c'=0" },
+        { tex: '\\frac{d}{dx}(4x^3-2x+7)=12x^2-2', body: 'En $x=1$, la derivada vale 10.' },
+      ],
+    },
+    {
+      say: 'La regla de la potencia y la linealidad permiten derivar cada término de un polinomio. Aplica ambas reglas y reúne el resultado.',
+      dur: 2.6,
+      board: [
+        { label: 'Regla de la potencia', tex: '\\frac{d}{dx}x^n=\\p{1}{\\cA{n\\,x^{n-1}}}' },
+        { label: 'Linealidad', tex: "(a\\,f+b\\,g)'=\\p{1}{\\cC{a\\,f'}}+\\p{2}{\\cA{b\\,g'}},\\qquad c'=0" },
+      ],
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function RulesDemo({ beats, unlock, answer }: DemoProps) {

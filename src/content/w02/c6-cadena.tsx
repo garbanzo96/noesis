@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { Arrow, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Formula } from '../w05/kit';
@@ -38,6 +39,107 @@ function Gear({ cx, cy, r, teeth, angle, color, label, opacity = 1 }: { cx: numb
     </g>
   );
 }
+
+// ---------------------------------------------------------------- lesson
+function ChainLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x, setX] = useState(1);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp(1 + (px - 400) / 800, 1, 1.3) * 1000) / 1000;
+    setX(next);
+    if (next >= 1.1) unlock();
+  });
+  const showX = beat === 0 ? x : 1;
+  const u = 3 * showX + 1;
+  const y = u * u;
+  if (beat <= 1) {
+    // Angles follow the actual composition. Their local speed ratios are 3 and 2u.
+    const angle = (showX - 1) * 120;
+    return (
+      <Stage ref={svg}>
+        <Gear cx={420} cy={370} r={100} teeth={24} angle={angle} color={C.cyan} label="x" />
+        <Gear cx={740} cy={370} r={100} teeth={24} angle={3 * angle} color={C.violet} label="u = 3x + 1" />
+        <Gear cx={1060} cy={370} r={100} teeth={24} angle={(y - 16) * 120} color={C.amber} label="y = u²" />
+        <Arrow from={[550, 370]} to={[610, 370]} color={C.violet} />
+        <Arrow from={[870, 370]} to={[930, 370]} color={C.amber} />
+        <Cap x={580} y={250} tex="\times3" color={C.violet} />
+        <Cap x={900} y={250} tex={`\\times2u=\\times${nt(2 * u, 3)}`} color={C.amber} size={20} />
+        <Cap x={740} y={150} tex={`x=${nt(showX, 3)},\\quad u=${nt(u, 3)},\\quad y=${nt(y, 3)}`} />
+        <Cap x={800} y={540} tex="x=1:\quad u=4,\quad\frac{dy}{du}=8" />
+        <Cap x={800} y={620} size={18}>Las flechas muestran una composición; las razones son locales.</Cap>
+        {beat === 0 && <>
+          <line x1={400} x2={640} y1={740} y2={740} stroke={C.line} strokeWidth={3} />
+          <rect x={380} y={710} width={280} height={60} fill="transparent" onPointerDown={onX} style={{ cursor: 'ew-resize' }} />
+          <Knob x={400 + (x - 1) * 800} y={740} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(x, 3)}`} />
+        </>}
+        {beat === 1 && answer !== null && <Cap x={800} y={710} tex="\frac{dy}{dx}=8\cdot3=24\quad(x=1)" color={C.green} />}
+      </Stage>
+    );
+  }
+  if (beat === 3) return (
+    <Stage>
+      <circle cx={620} cy={370} r={210} fill={C.violet} fillOpacity={0.25} stroke={C.violet} strokeWidth={3} />
+      <circle cx={620} cy={370} r={230} fill="none" stroke={C.amber} strokeWidth={20} strokeOpacity={0.4} />
+      <Line a={[620, 370]} b={[830, 370]} color={C.text} />
+      <Cap x={725} y={340} tex="r=3\ \text{cm}" />
+      <Cap x={1150} y={240} tex="\frac{dr}{dt}=2\ \frac{\text{cm}}{\text{s}}" />
+      <Cap x={1150} y={350} tex="\frac{dA}{dt}=2\pi r\,\frac{dr}{dt}" color={C.amber} />
+      <Cap x={1150} y={460} size={22} tex={`12\\pi\\approx${nt(12 * Math.PI, 1)}\\ \\frac{\\text{cm}^2}{\\text{s}}`} />
+    </Stage>
+  );
+  const rows = beat === 2 ? [
+    "(f\\circ g)'(x)=f'(g(x))\\,g'(x)",
+    "\\frac{d}{dx}(x^2+1)^5=5(x^2+1)^4\\cdot2x",
+    "x=1:\\quad5\\cdot2^4\\cdot2=160",
+  ] : ["\\frac{dy}{dx}=\\frac{dy}{du}\\cdot\\frac{du}{dx}", "(f\\circ g)'(x)=f'(g(x))\\,g'(x)"];
+  return <Stage>{rows.map((tex, i) => <Cap key={tex} x={800} y={220 + i * 160} tex={tex} size={28} color={i === 0 ? C.cyan : C.amber} />)}</Stage>;
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Regla de la cadena',
+  Scene: ChainLesson,
+  beats: [
+    {
+      say: 'La entrada pasa por dos etapas: $x\\to u=3x+1\\to y=u^2$. $u$ cambia tres veces más rápido que $x$; en $x=1$, $u=4$ e $y$ cambia ocho veces más rápido que $u$.',
+      gate: 'Arrastra el control para girar el primer engranaje hasta x = 1,1 o más.',
+      board: { label: 'Dos etapas', tex: '\\frac{du}{dx}=\\p{1}{\\cC{3}},\\qquad\\frac{dy}{du}=\\p{2}{\\cA{2u}}', body: 'En $x=1$: $u=4$ y $dy/du=8$. La segunda razón cambia con $u$.' },
+    },
+    {
+      say: 'Para obtener la razón total, multiplica las razones de las dos etapas. Evalúa cada una en el valor que le corresponde.',
+      ask: { prompt: 'Si $u$ va 3 veces más rápido que $x$ e $y$ va 8 veces más rápido que $u$, ¿cuántas veces más rápido que $x$ va $y$?', options: ['24', '11', '8/3'], answer: 0, explain: 'Las razones se multiplican: $8\\cdot3=24$.' },
+      board: { label: 'Regla de la cadena', tex: '\\frac{dy}{dx}=\\p{1}{\\cA{\\frac{dy}{du}}}\\cdot\\p{2}{\\cC{\\frac{du}{dx}}}', body: 'En $x=1$, $dy/dx=8\\cdot3=24$.' },
+    },
+    {
+      say: 'Deriva la función exterior en el valor de la interior y multiplica por la derivada interior. Para $(x^2+1)^5$, esos factores son $5(x^2+1)^4$ y $2x$.',
+      dur: 3,
+      board: [
+        { label: 'Composición', tex: "(f\\circ g)'(x)=\\p{1}{f'(g(x))}\\,\\p{2}{g'(x)}" },
+        { tex: '\\frac{d}{dx}(x^2+1)^5=5(x^2+1)^4\\cdot2x', body: 'En $x=1$: $5\\cdot2^4\\cdot2=160$.' },
+      ],
+    },
+    {
+      say: 'El radio de un círculo crece a 2 cm/s. El área depende del radio y el radio depende del tiempo: usa la cadena para hallar el cambio del área.',
+      dur: 3,
+      board: [
+        { label: 'Razones relacionadas', tex: 'A=\\pi r^2,\\qquad\\frac{dA}{dt}=2\\pi r\\,\\frac{dr}{dt}' },
+        { tex: '\\left.\\frac{dA}{dt}\\right|_{r=3}=2\\pi\\cdot3\\cdot2=12\\pi\\approx37{,}7\\ \\frac{\\text{cm}^2}{\\text{s}}' },
+      ],
+    },
+    {
+      say: 'Las dos notaciones expresan la misma regla. La derivada de la composición multiplica las derivadas de sus etapas.',
+      dur: 2.6,
+      board: [
+        { label: 'Por etapas', tex: '\\frac{dy}{dx}=\\p{1}{\\cA{\\frac{dy}{du}}}\\cdot\\p{2}{\\cC{\\frac{du}{dx}}}' },
+        { label: 'Composición', tex: "(f\\circ g)'(x)=\\p{1}{\\cA{f'(g(x))}}\\,\\p{2}{\\cC{g'(x)}}" },
+      ],
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function GearsDemo({ beats, unlock, answer }: DemoProps) {

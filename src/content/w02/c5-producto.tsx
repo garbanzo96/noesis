@@ -4,7 +4,8 @@ import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum, thousands } from '../shared/ui';
 import { Formula } from '../w05/kit';
@@ -20,6 +21,111 @@ const V0 = 400;
 const I0 = 30;
 const dVdt = 100;
 const dIdt = 10;
+
+// ---------------------------------------------------------------- lesson
+function ProductLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [h, setH] = useState(0.2);
+  const moved = useRef(false);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp((px - 400) / 800, 0.01, 0.3) * 1000) / 1000;
+    setH(next);
+    if (next >= 0.15) moved.current = true;
+    if (moved.current && next < 0.05) unlock();
+  });
+  if (beat === 0) {
+    const u = 1;
+    const v = 4;
+    const du = (1 + h) ** 2 - u;
+    const dv = 3 * h;
+    const sx = 100;
+    const sy = 240;
+    const corner = du * dv;
+    return (
+      <Stage ref={svg}>
+        <rect x={340} y={180} width={v * sx} height={u * sy} fill={C.cyan} fillOpacity={0.3} stroke={C.cyan} strokeWidth={3} />
+        <rect x={740} y={180} width={dv * sx} height={u * sy} fill={C.amber} fillOpacity={0.55} />
+        <rect x={340} y={420} width={v * sx} height={du * sy} fill={C.magenta} fillOpacity={0.55} />
+        <rect x={740} y={420} width={dv * sx} height={du * sy} fill={C.red} fillOpacity={0.8} />
+        <Cap x={540} y={300} tex="uv" size={32} color={C.cyan} />
+        <Cap x={540} y={140} tex="v(1)=4" />
+        <Cap x={300} y={300} tex="u(1)=1" anchor="right" />
+        <Cap x={1160} y={190} tex={`x=1+h=${nt(1 + h, 3)}`} />
+        <Cap x={1160} y={270} tex={`u\\,\\Delta v=${nt(u * dv, 4)}`} color={C.amber} />
+        <Cap x={1160} y={350} tex={`v\\,\\Delta u=${nt(v * du, 4)}`} color={C.magenta} />
+        <Cap x={1160} y={430} tex={`\\Delta u\\,\\Delta v=${nt(corner, 5)}`} color={C.red} />
+        <Cap x={1160} y={510} tex={`\\frac{\\Delta(uv)}{h}=${nt((u * dv + v * du + corner) / h, 3)}\\to11`} size={22} />
+        <line x1={400} x2={640} y1={740} y2={740} stroke={C.line} strokeWidth={3} />
+        <rect x={380} y={710} width={280} height={60} fill="transparent" onPointerDown={onX} style={{ cursor: 'ew-resize' }} />
+        <Knob x={400 + h * 800} y={740} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(1 + h, 3)}`} />
+      </Stage>
+    );
+  }
+  const rows = beat === 1 ? [
+    "u=x^2,\\quad v=3x+1",
+    "(uv)'=2x(3x+1)+x^2\\cdot3=9x^2+2x",
+    "uv=3x^3+x^2\\quad\\Rightarrow\\quad(uv)'=9x^2+2x",
+    "(uv)'(1)=9+2=11",
+  ] : beat === 2 ? [
+    "(uv)'\\ne u'v'",
+    "u'v'=2x\\cdot3=6x",
+    ...(answer !== null ? ["x=1:\\quad(uv)'=11,\\quad u'v'=6"] : []),
+  ] : beat === 3 ? [
+    "q(x)=\\frac{x}{x+1}",
+    "q'(x)=\\frac{(x+1)-x}{(x+1)^2}=\\frac{1}{(x+1)^2}",
+    ...(answer !== null ? ["q'(1)=\\frac14=0{,}25"] : []),
+  ] : ["(uv)'=u'v+uv'", "\\left(\\frac uv\\right)'=\\frac{u'v-uv'}{v^2}"];
+  return <Stage>{rows.map((tex, i) => <Cap key={tex} x={800} y={190 + i * 130} tex={tex} size={26} color={i === 0 ? C.cyan : C.amber} />)}</Stage>;
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Producto y cociente',
+  Scene: ProductLesson,
+  beats: [
+    {
+      say: 'El rectángulo tiene lados $u=x^2$ y $v=3x+1$. Al mover $x$, el área crece en dos franjas y una esquina que se vuelve despreciable al reducir el cambio.',
+      gate: 'Arrastra x hasta 1,15 o más; luego acércalo a 1 hasta quedar a menos de 0,05.',
+      board: [
+        { label: 'Aumento de área', tex: '\\Delta(uv)=\\p{1}{u\\,\\Delta v}+\\p{2}{v\\,\\Delta u}+\\Delta u\\,\\Delta v' },
+        { label: 'Producto', tex: "(uv)'=\\p{1}{\\cM{u'v}}+\\p{2}{\\cA{uv'}}" },
+      ],
+    },
+    {
+      say: 'Deriva un lado y conserva el otro; luego suma el segundo aporte. Expandir el producto primero da el mismo resultado.',
+      dur: 3,
+      board: [
+        { label: 'Dos aportes', tex: "(uv)'=2x(3x+1)+x^2\\cdot3=\\p{1}{9x^2+2x}" },
+        { label: 'Comprobación', tex: "uv=3x^3+x^2\\Rightarrow(uv)'=9x^2+2x", body: 'En $x=1$, la derivada vale $9+2=11$.' },
+      ],
+    },
+    {
+      say: 'Multiplicar las dos derivadas omite los aportes de las franjas. Aquí $u\'v\'=6x$, que en $x=1$ da 6.',
+      ask: { prompt: '¿Cuánto vale $(uv)\'$ en $x=1$?', options: ['11', '6', '4'], answer: 0, explain: '$2\\cdot1\\cdot4+1^2\\cdot3=8+3=11$. Multiplicar $u\'$ por $v\'$ da 6, pero esa no es la regla del producto.' },
+      board: { label: 'Error típico', tex: "(uv)'=u'v+uv'\\ne\\p{1}{u'v'}", body: 'En $x=1$: la derivada del producto es 11; el producto de las derivadas es 6.' },
+    },
+    {
+      say: 'Para un cociente, resta los aportes en el numerador y divide por el cuadrado del denominador. En $q=x/(x+1)$, el numerador queda igual a 1.',
+      ask: { prompt: '¿Cuánto vale $q\'(1)$?', options: ['0,25', '0,5', '1'], answer: 0, explain: '$q\'(1)=1/(1+1)^2=1/4=0{,}25$.' },
+      board: [
+        { label: 'Cociente', tex: "\\left(\\frac uv\\right)'=\\frac{\\p{1}{u'v-uv'}}{\\p{2}{v^2}}", body: 'El denominador debe ser distinto de cero.' },
+        { tex: "q'(x)=\\frac{(x+1)-x}{(x+1)^2}=\\frac{1}{(x+1)^2}", body: '$q\'(1)=0{,}25$.' },
+      ],
+    },
+    {
+      say: 'En un producto se suman dos aportes. En un cociente se restan y se divide por el cuadrado del denominador.',
+      dur: 2.6,
+      board: [
+        { label: 'Producto', tex: "(uv)'=\\p{1}{\\cM{u'v}}+\\p{2}{\\cA{uv'}}" },
+        { label: 'Cociente', tex: "\\left(\\frac uv\\right)'=\\frac{\\p{1}{\\cM{u'v}}-\\p{2}{\\cA{uv'}}}{v^2}" },
+      ],
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function ProductDemo({ beats, unlock, answer }: DemoProps) {
