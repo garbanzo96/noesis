@@ -8,7 +8,7 @@ import { Axes, Dot, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
 import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
 import { pick, rng } from '../shared/rng';
-import { Choices, Confirm, Knob, dec, hhmm } from '../shared/ui';
+import { DragCue, Choices, Confirm, Knob, dec, hhmm } from '../shared/ui';
 
 // ============================================================================
 // CASO 1.3 · «El camión que mintió» — rectas y pendiente
@@ -133,6 +133,7 @@ function TruckDemo({ beats, unlock, answer }: DemoProps) {
         </Html>
         <Dot x={P.x(1)} y={P.y(30)} r={9} color={C.amber} />
         <Dot x={P.x(t2)} y={P.y(dA(t2))} r={11} color={C.magenta} ring onPointerDown={beat === 1 ? onT2 : undefined} cursor="grab" />
+        {beat === 1 && <DragCue x={P.x(t2)} y={P.y(dA(t2))} axis="x" color={C.magenta} />}
       </Group>
       {/* beat 2: truck B, same slope, 20 km ahead */}
       <Group opacity={beat === 2 && answer !== null ? 1 : 0}>

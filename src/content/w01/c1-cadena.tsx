@@ -1,3 +1,4 @@
+import { DragCue } from '../shared/ui';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { ContainerBox, Thermometer } from '../../art/props';
 import { clamp, fmt } from '../../engine/anim';
@@ -140,6 +141,7 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
           <g style={{ cursor: 'ns-resize' }} onPointerDown={onDrag}>
             <rect x={270} y={TOP - 30} width={120} height={BOTTOM - TOP + 80} fill="transparent" />
             <path d={`M${300} ${TY(temp)} l-30 -16 v32 z`} fill={C.text} />
+            <DragCue x={300} y={TY(temp)} axis="y" color={C.text} />
           </g>
         )}
         <Html x={330} y={TOP - 50} size={20} color={C.muted}>
@@ -215,6 +217,7 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
                 }
               >
                 <rect x={x - 62} y={y - 26} width={124} height={52} rx={8} fill={t.id.startsWith('ALT') ? '#123848' : '#3a2a14'} stroke={right && beat > 4 ? C.green : t.region === 'AR' || t.region === 'R' ? C.red : C.line} strokeWidth={2.5} />
+                {beat === 4 && <DragCue x={x} y={y} axis="xy" color={right && beat > 4 ? C.green : t.region === 'AR' || t.region === 'R' ? C.red : C.line} />}
                 <Html x={x} y={y} size={18} color={C.text}>
                   <span className="prop-id">{t.id}</span>
                 </Html>
@@ -425,6 +428,8 @@ function BuildInterval({ seed, api }: { seed: number; api: ChallengeProps['api']
       </g>
       <g onPointerDown={onDrag} style={{ cursor: 'ns-resize' }}>
         <rect x={240} y={top - 90} width={160} height={bottom - top + 180} fill="transparent" />
+        <DragCue x={320} y={Y(hi)} axis="y" color={C.cyan} />
+        <DragCue x={320} y={Y(lo)} axis="y" color={C.cyan} />
       </g>
       <Html x={1000} y={330} size={30} color={C.text}>
         <Tex tex={`\\text{${product.name}}`} />

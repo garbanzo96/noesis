@@ -6,7 +6,7 @@ import { Group, Stage, plane } from '../../engine/Stage';
 import { Arrow, Axes, Curve, Dot, Line } from '../../engine/shapes';
 import type { DemoProps, LessonStep } from '../../game/level/types';
 import { Cap, Token, mix } from '../shared/lesson';
-import { Knob, dec } from '../shared/ui';
+import { DragCue, Knob, dec } from '../shared/ui';
 
 // Clase 1.4 · Composición e inversas: máquinas en cadena, el orden importa, deshacer en orden
 // inverso, despejar paso a paso, la inversa como reflejo en y=x, y la prueba horizontal.
@@ -113,6 +113,7 @@ function CompositionLesson({ beats, unlock, answer }: DemoProps) {
         <Curve P={PI} f={(x) => (x - 1) / 2} a={-1} b={7} color={C.amber} width={4} />
         <Line a={PI.pt(q[0], q[1])} b={PI.pt(q[1], q[0])} color={C.text} dashed width={2} />
         <Dot x={PI.x(q[0])} y={PI.y(q[1])} r={12} color={C.cyan} ring onPointerDown={onP} cursor="grab" />
+        <DragCue x={PI.x(q[0])} y={PI.y(q[1])} axis="x" color={C.cyan} />
         <Dot x={PI.x(q[1])} y={PI.y(q[0])} r={10} color={C.amber} />
         <Cap x={PI.x(q[0]) - 14} y={PI.y(q[1]) - 22} size={18} color={C.cyan} anchor="right" tex={`(${dec(q[0], 1)},${dec(q[1], 1)})`} />
         <Cap x={PI.x(q[1]) + 14} y={PI.y(q[0]) + 24} size={18} color={C.amber} anchor="left" tex={`(${dec(q[1], 1)},${dec(q[0], 1)})`} />

@@ -8,7 +8,7 @@ import { Tex } from '../../engine/Tex';
 import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
+import { DragCue, Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Formula } from '../w05/kit';
 import { SlopeLine, nt } from './kit';
 
@@ -51,6 +51,7 @@ function EstimateLesson({ beats, unlock, answer }: DemoProps) {
       <Dot x={PL.x(4)} y={PL.y(2)} r={8} color={C.amber} />
       <Line a={PL.pt(at, Math.sqrt(at))} b={PL.pt(at, linear(at))} color={C.red} width={4} />
       <Dot x={PL.x(at)} y={PL.y(Math.sqrt(at))} r={8} color={C.cyan} onPointerDown={beat === 0 ? onX : undefined} />
+      {beat === 0 && <DragCue x={PL.x(at)} y={PL.y(Math.sqrt(at))} axis="x" color={C.cyan} />}
       {reveal && <>
         <Dot x={PL.x(at)} y={PL.y(linear(at))} r={6} color={C.amber} />
         <Cap x={1370} y={210} tex={`\\sqrt{${nt(at, 3)}}\\approx${nt(Math.sqrt(at), 5)}`} size={22} color={C.cyan} />

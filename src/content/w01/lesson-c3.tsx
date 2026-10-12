@@ -6,7 +6,7 @@ import { Group, Stage, plane } from '../../engine/Stage';
 import { Axes, Dot, Line } from '../../engine/shapes';
 import type { DemoProps, LessonStep } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
-import { Knob, dec } from '../shared/ui';
+import { DragCue, Knob, dec } from '../shared/ui';
 import { SlopeLine } from '../w02/kit';
 
 // Clase 1.3 · Rectas y pendiente: cambio constante, pendiente como cociente, y=mx+b con
@@ -68,6 +68,7 @@ function LinesLesson({ beats, unlock, answer }: DemoProps) {
             <Cap x={P.x(x2) + 16} y={P.y((3 + f(x2)) / 2)} size={20} color={C.magenta} anchor="left" tex={`\\Delta y=${dec(f(x2) - 3, 1)}`} />
             <Dot x={P.x(1)} y={P.y(3)} r={9} color={C.amber} />
             <Dot x={P.x(x2)} y={P.y(f(x2))} r={13} color={C.magenta} ring onPointerDown={onX2} cursor="ew-resize" />
+            <DragCue x={P.x(x2)} y={P.y(f(x2))} axis="x" color={C.magenta} />
             <Cap x={1300} y={200} size={28} color={C.text} tex={`\\dfrac{\\Delta y}{\\Delta x}=\\dfrac{${dec(f(x2) - 3, 1)}}{${dec(x2 - 1, 1)}}=2`} />
           </g>
         )}

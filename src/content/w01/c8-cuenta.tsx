@@ -6,7 +6,7 @@ import { Group, Html, Stage } from '../../engine/Stage';
 import { Tex } from '../../engine/Tex';
 import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, dec, parseNum, thousands } from '../shared/ui';
+import { DragCue, Confirm, Knob, NumberField, dec, parseNum, thousands } from '../shared/ui';
 
 // ============================================================================
 // CASO 1.8 · «Cuenta regresiva» — logaritmos
@@ -128,6 +128,7 @@ function LogDemo({ beats, unlock, answer }: DemoProps) {
         <Ruler2 x0={x0} y={400} unit={unit} kmax={12} hi={off === 3 ? [128] : [8]} />
         <g onPointerDown={onOff} style={{ cursor: 'ew-resize' }}>
           <Ruler2 x0={x0} y={410} unit={unit} kmax={8} offset={offT} color={C.cyan} below hi={off === 3 ? [1, 16] : [1]} />
+          <DragCue x={x0 + offT * unit} y={410} axis="x" color={C.cyan} />
         </g>
         {off === 3 && (
           <>
@@ -272,6 +273,7 @@ function Countdown({ seed, round, api }: ChallengeProps) {
         <Ruler2 x0={x0} y={360} unit={unit} kmax={12} hi={readV !== null ? [readV] : []} onClickValue={setReadV} />
         <g onPointerDown={onOff} style={{ cursor: 'ew-resize' }}>
           <Ruler2 x0={x0} y={370} unit={unit} kmax={8} offset={offT} color={C.cyan} below />
+          <DragCue x={x0 + offT * unit} y={370} axis="x" color={C.cyan} />
         </g>
         <Html x={800} y={620} size={26} color={C.muted}>
           <span>{readV === null ? 'Pulsa el resultado en la regla de arriba' : `Tu lectura: ${thousands(readV)}`}</span>

@@ -8,7 +8,7 @@ import { Tex } from '../../engine/Tex';
 import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, dec, hhmm, parseNum } from '../shared/ui';
+import { DragCue, Confirm, Knob, NumberField, dec, hhmm, parseNum } from '../shared/ui';
 import { nt } from './kit';
 
 // ============================================================================
@@ -83,7 +83,10 @@ function SignalLesson({ beats, unlock, answer }: DemoProps) {
       <Cap x={1330} y={180} size={22} tex={beat === 3 ? 'f(x)=x+2' : 'g(x)=\\frac{x^2-4}{x-2}'} />
       {beat === 1 && (
         <>
-          {x !== 2 && <Dot x={SIGNAL_PL.x(x)} y={SIGNAL_PL.y(signalExample(x))} color={C.amber} onPointerDown={onX} cursor="ew-resize" />}
+          {x !== 2 && <>
+            <Dot x={SIGNAL_PL.x(x)} y={SIGNAL_PL.y(signalExample(x))} color={C.amber} onPointerDown={onX} cursor="ew-resize" />
+            <DragCue x={SIGNAL_PL.x(x)} y={SIGNAL_PL.y(signalExample(x))} axis="x" color={C.amber} />
+          </>}
           <Cap x={1330} y={260} size={20} color={C.amber} tex={x === 2 ? 'g(2)\\text{ no está definido}' : `x=${nt(x, 3)},\\quad g(x)=${nt(signalExample(x), 3)}`} />
           <Cap x={1330} y={350} size={18} color={sides.l ? C.green : C.muted}>{sides.l ? '✓' : '·'} desde la izquierda</Cap>
           <Cap x={1330} y={390} size={18} color={sides.r ? C.green : C.muted}>{sides.r ? '✓' : '·'} desde la derecha</Cap>

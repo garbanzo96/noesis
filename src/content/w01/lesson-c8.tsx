@@ -6,7 +6,7 @@ import { Group, Stage, plane } from '../../engine/Stage';
 import { Arrow, Axes, Curve, Dot, Line } from '../../engine/shapes';
 import type { DemoProps, LessonStep } from '../../game/level/types';
 import { Cap, Token } from '../shared/lesson';
-import { Knob, dec } from '../shared/ui';
+import { DragCue, Knob, dec } from '../shared/ui';
 
 // Clase 1.8 · Logaritmos: la pregunta inversa a la potencia, la definición y una tabla, la
 // gráfica como reflejo de b^x, la escala logarítmica, las leyes deducidas de las de potencias
@@ -74,6 +74,7 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
         <Curve P={PI} f={(x) => Math.log2(x)} a={0.26} b={8} color={C.amber} width={4} />
         <Line a={PI.pt(q[0], q[1])} b={PI.pt(q[1], q[0])} color={C.text} dashed width={2} />
         <Dot x={PI.x(q[0])} y={PI.y(q[1])} r={12} color={C.cyan} ring onPointerDown={onP} cursor="grab" />
+        <DragCue x={PI.x(q[0])} y={PI.y(q[1])} axis="x" color={C.cyan} />
         <Dot x={PI.x(q[1])} y={PI.y(q[0])} r={10} color={C.amber} />
         <Cap x={PI.x(q[1]) + 14} y={PI.y(q[0]) + 24} size={18} color={C.amber} anchor="left" tex={`(${dec(q[1], 2)},\\ ${dec(q[0], 1)})`} />
         <Cap x={1300} y={240} size={26} color={C.cyan} tex="y=2^x" />

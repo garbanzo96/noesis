@@ -8,7 +8,7 @@ import { Tex } from '../../engine/Tex';
 import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
+import { DragCue, Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Secant, SlopeLine, Tangent, nt } from './kit';
 
 // ============================================================================
@@ -67,6 +67,7 @@ function PowerLesson({ beats, unlock, answer }: DemoProps) {
       {beat === 1 && (
         <>
           <Dot x={POWER_PL.x(1 + h)} y={POWER_PL.y(powerExample(1 + h))} color={C.magenta} r={11} onPointerDown={onH} cursor="ew-resize" ring />
+          <DragCue x={POWER_PL.x(1 + h)} y={POWER_PL.y(powerExample(1 + h))} axis="x" color={C.magenta} />
           <Cap x={1330} y={310} color={C.magenta} tex={`h=${nt(h, 3)},\\quad m=2+h`} size={20} />
           <Cap x={1330} y={410} tex="h=2\Rightarrow m=4\\h=1\Rightarrow m=3\\h=0{,}5\Rightarrow m=2{,}5\\h=0{,}1\Rightarrow m=2{,}1" size={18} />
           <line x1={POWER_PL.x(1)} x2={POWER_PL.x(3)} y1={720} y2={720} stroke={C.line} strokeWidth={3} />
@@ -154,6 +155,7 @@ function PowerDemo({ beats, unlock, answer }: DemoProps) {
         {beat === 1 && h < 0.2 && <Tangent P={P} f={E} a={1} m={7} half={1} color={C.green} />}
         <Secant P={P} f={E} a={1} b={bb} unitY="\ \text{MWh}" unitX="\ \text{h}" />
         <Dot x={P.x(bb)} y={P.y(E(bb))} r={12} color={C.magenta} ring onPointerDown={beat === 0 ? onB : undefined} cursor="ew-resize" />
+        {beat === 0 && <DragCue x={P.x(bb)} y={P.y(E(bb))} axis="x" color={C.magenta} />}
         <Html x={1330} y={220} size={22} anchor="left" color={C.magenta}>
           <Tex tex={`\\dfrac{\\Delta E}{\\Delta t}=${nt(m, 3)}\\ \\text{MW}`} />
         </Html>

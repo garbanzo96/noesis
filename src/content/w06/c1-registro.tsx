@@ -7,7 +7,7 @@ import { Axes } from '../../engine/shapes';
 import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Choices, Confirm, NumberField, parseNum } from '../shared/ui';
+import { DragCue, Choices, Confirm, NumberField, parseNum } from '../shared/ui';
 import { Bars, counts, num } from './kit';
 
 // ============================================================================
@@ -238,6 +238,7 @@ function Classify({ seed, round, api }: ChallengeProps) {
           {[0, 1, 2, 3].map((k) => (
             <rect key={k} x={P.x(20 + k * 20) + 6} y={P.box.y} width={P.x(40) - P.x(20) - 12} height={P.box.h} fill="transparent" onPointerDown={onDrag} style={{ cursor: 'ns-resize' }} />
           ))}
+          <DragCue x={P.x(30)} y={P.y(h[0])} axis="y" color={C.amber} />
           <Html x={1340} y={330} size={20} color={C.text}>
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 3em)', gap: '0.4em', textAlign: 'center' }}>
               {ages.map((a, i) => (

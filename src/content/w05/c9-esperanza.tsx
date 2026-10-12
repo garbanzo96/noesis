@@ -6,7 +6,7 @@ import { Html, Stage } from '../../engine/Stage';
 import { Line } from '../../engine/shapes';
 import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
 import { pick, rng } from '../shared/rng';
-import { Confirm, NumberField, dec, parseNum } from '../shared/ui';
+import { DragCue, Confirm, NumberField, dec, parseNum } from '../shared/ui';
 import { ALL, Bars, type Cell, DiceGrid, Formula, fracTex } from './kit';
 
 // ============================================================================
@@ -52,7 +52,12 @@ function Beam({ xs, ps, f, onF, lo = -3, hi = 4 }: { xs: number[]; ps: number[];
         );
       })}
       <path d={`M${fx} ${y + 10} L${fx - 32} ${y + 66} L${fx + 32} ${y + 66} Z`} fill={C.panel} stroke={balanced ? C.green : C.text} strokeWidth={3} />
-      {onF && <rect x={X(lo) - 20} y={y + 10} width={X(hi) - X(lo) + 40} height={80} fill="transparent" onPointerDown={onF} style={{ cursor: 'ew-resize' }} />}
+      {onF && (
+        <>
+          <rect x={X(lo) - 20} y={y + 10} width={X(hi) - X(lo) + 40} height={80} fill="transparent" onPointerDown={onF} style={{ cursor: 'ew-resize' }} />
+          <DragCue x={fx} y={y + 10} axis="x" color={balanced ? C.green : C.text} />
+        </>
+      )}
       <Html x={fx} y={y + 96} size={22} color={balanced ? C.green : C.text}>
         <span className="prop-tag">{dec(f, 2)}</span>
       </Html>

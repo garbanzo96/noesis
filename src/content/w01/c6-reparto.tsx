@@ -6,7 +6,7 @@ import { Group, Html, Stage } from '../../engine/Stage';
 import { Tex } from '../../engine/Tex';
 import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
 import { pick, rng, shuffle } from '../shared/rng';
-import { Confirm, Knob, NumberField, dec, parseNum, thousands } from '../shared/ui';
+import { DragCue, Confirm, Knob, NumberField, dec, parseNum, thousands } from '../shared/ui';
 
 // ============================================================================
 // CASO 1.6 · «El reparto» — proporciones
@@ -123,7 +123,12 @@ function Balance({ lots, fulcrum, onFulcrum, lo = 8, hi = 22, y = 470 }: { lots:
         );
       })}
       <path d={`M${fx} ${y + 10} L${fx - 34} ${y + 70} L${fx + 34} ${y + 70} Z`} fill={C.panel} stroke={Math.abs(torque) < total * 0.02 ? C.green : C.text} strokeWidth={3} onPointerDown={onFulcrum} style={{ cursor: onFulcrum ? 'ew-resize' : undefined }} />
-      {onFulcrum && <rect x={X(lo) - 20} y={y + 10} width={X(hi) - X(lo) + 40} height={80} fill="transparent" onPointerDown={onFulcrum} style={{ cursor: 'ew-resize' }} />}
+      {onFulcrum && (
+        <>
+          <rect x={X(lo) - 20} y={y + 10} width={X(hi) - X(lo) + 40} height={80} fill="transparent" onPointerDown={onFulcrum} style={{ cursor: 'ew-resize' }} />
+          <DragCue x={fx} y={y + 10} axis="x" color={Math.abs(torque) < total * 0.02 ? C.green : C.text} />
+        </>
+      )}
       <Html x={fx} y={y + 100} size={22} color={Math.abs(torque) < total * 0.02 ? C.green : C.text}>
         <span className="prop-tag">${dec(fulcrum, 2)}</span>
       </Html>

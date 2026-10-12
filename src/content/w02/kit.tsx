@@ -3,7 +3,7 @@ import { C } from '../../engine/palette';
 import { Html, type Plane } from '../../engine/Stage';
 import { Dot, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import { dec } from '../shared/ui';
+import { DragCue, dec } from '../shared/ui';
 
 // Shared pieces of La Planta: numeric derivative, secant and tangent lines, slope triangles.
 
@@ -62,6 +62,7 @@ export function Tangent({ P, f, a, m, half = 2, color = C.amber, onPointerDown }
     <g>
       <SlopeLine P={P} a={a} ya={f(a)} m={slope} x0={a - half} x1={a + half} color={color} width={3} />
       <Dot x={P.x(a)} y={P.y(f(a))} r={10} color={color} onPointerDown={onPointerDown} cursor={onPointerDown ? 'ew-resize' : undefined} ring={!!onPointerDown} />
+      {onPointerDown && <DragCue x={P.x(a)} y={P.y(f(a))} axis="x" color={color} />}
     </g>
   );
 }

@@ -1,3 +1,4 @@
+import { DragCue } from '../shared/ui';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Ship } from '../../art/props';
 import { clamp, fmt } from '../../engine/anim';
@@ -135,6 +136,7 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
           <g style={{ cursor: 'ew-resize' }} onPointerDown={onTime}>
             <rect x={P.x(0) - 20} y={P.y(0) - 10} width={P.box.w + 40} height={70} fill="transparent" />
             <circle cx={P.x(tShown)} cy={P.y(0) + 30} r={18} fill={C.panel} stroke={C.cyan} strokeWidth={3} />
+            <DragCue x={P.x(tShown)} y={P.y(0) + 30} axis="x" color={C.cyan} />
             <Html x={P.x(tShown)} y={P.y(0) + 30} size={14} color={C.cyan}>
               <span className="prop-tag">{hhmm(tShown)}</span>
             </Html>
@@ -154,6 +156,7 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
           <g style={{ cursor: beat === 3 ? 'ns-resize' : undefined }} onPointerDown={beat === 3 ? onLevel : undefined}>
             <rect x={P.x(24) - 10} y={P.y(cShown) - 24} width={90} height={48} fill="transparent" />
             <circle cx={P.x(24) + 30} cy={P.y(cShown)} r={16} fill={C.panel} stroke={C.amber} strokeWidth={3} />
+            {beat === 3 && <DragCue x={P.x(24) + 30} y={P.y(cShown)} axis="y" color={C.amber} />}
           </g>
           <Html x={P.x(24) + 60} y={P.y(cShown)} size={20} anchor="left" color={C.amber}>
             <Tex tex={`${dec(cShown)}\\ \\text{m}`} />
@@ -283,6 +286,7 @@ function Docking({ seed, round, api }: ChallengeProps) {
             <rect key={k} x={P.x(k / 2) + 1} y={P.y(0) + 10} width={P.sx / 2 - 2} height={36} fill={on ? C.green : '#ffffff10'} opacity={on ? 0.85 : 1} stroke="#ffffff30" />
           ))}
           <rect x={P.x(0)} y={P.y(0) + 6} width={P.box.w} height={46} fill="transparent" />
+          <DragCue x={P.x(0)} y={P.y(0) + 28} axis="x" color={C.green} />
         </g>
       )}
       {round === 1 && (
@@ -295,6 +299,7 @@ function Docking({ seed, round, api }: ChallengeProps) {
           <g onPointerDown={onLow} style={{ cursor: 'ew-resize' }}>
             <rect x={P.x(0) - 20} y={P.y(0)} width={P.box.w + 40} height={70} fill="transparent" />
             <circle cx={P.x(tLow)} cy={P.y(0) + 30} r={18} fill={C.panel} stroke={C.cyan} strokeWidth={3} />
+            <DragCue x={P.x(tLow)} y={P.y(0) + 30} axis="x" color={C.cyan} />
             <Html x={P.x(tLow)} y={P.y(0) + 30} size={14} color={C.cyan}>
               <span className="prop-tag">{hhmm(tLow)}</span>
             </Html>
@@ -310,6 +315,7 @@ function Docking({ seed, round, api }: ChallengeProps) {
           <g onPointerDown={onSlot} style={{ cursor: 'ew-resize' }}>
             <rect x={P.x(0)} y={P.y(0) + 8} width={P.box.w} height={40} fill="transparent" />
             <rect x={P.x(slot)} y={P.y(0) + 10} width={P.x(slot + 2) - P.x(slot)} height={36} rx={6} fill={C.violet} opacity={0.85} />
+            <DragCue x={P.x(slot)} y={P.y(0) + 28} axis="x" color={C.violet} />
             <Html x={P.x(slot + 1)} y={P.y(0) + 28} size={15} color={C.bg}>
               <span className="prop-tag">
                 {hhmm(slot)}–{hhmm(slot + 2)}

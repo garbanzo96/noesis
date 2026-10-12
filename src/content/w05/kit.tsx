@@ -3,7 +3,7 @@ import { Die } from '../../art/props';
 import { C } from '../../engine/palette';
 import { Group, Html } from '../../engine/Stage';
 import { Tex } from '../../engine/Tex';
-import { dec } from '../shared/ui';
+import { DragCue, dec } from '../shared/ui';
 
 // Shared pieces of the casino: the 6×6 board of two dice, fractions, bars and tables.
 
@@ -99,6 +99,7 @@ export function DiceGrid({
                 stroke={t ?? C.line}
                 strokeWidth={t ? 2.5 : 1.5}
               />
+              {onPaint && k === keyOf(ALL[0]) && <DragCue x={cx + cell / 2} y={cy + cell / 2} axis="xy" color={t ?? C.line} />}
               {labels === 'dice' && (
                 <>
                   <Die

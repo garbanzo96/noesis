@@ -1,3 +1,4 @@
+import { DragCue } from './ui';
 import { fmt } from '../../engine/anim';
 import { C } from '../../engine/palette';
 import { Group, Html } from '../../engine/Stage';
@@ -53,6 +54,7 @@ export function ScoreBars({
               <g style={{ cursor: 'ns-resize' }} onPointerDown={onGrab(i)}>
                 <rect x={cx(i) - barW / 2 - 10} y={y0 - h - 18} width={barW + 20} height={36} fill="transparent" />
                 <line x1={cx(i) - barW / 2} x2={cx(i) + barW / 2} y1={y0 - h} y2={y0 - h} stroke={C.text} strokeWidth={4} />
+                {i === 0 && <DragCue x={cx(i)} y={y0 - h} axis="y" color={col} />}
               </g>
             )}
             {showValues && (
