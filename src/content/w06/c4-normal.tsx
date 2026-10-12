@@ -166,7 +166,7 @@ function Scores({ seed, round, api }: ChallengeProps) {
       { text: `entre ${mu} y ${mu + s}`, ans: 34, a: 0, b: 1 },
     ];
     const z = pick(r, [-2, -1.5, -1, 1.5, 2, 2.5]);
-    return { mu, s, x: Math.round(x * 10) / 10, q: qs[k], z };
+    return { mu, s, x: Math.round(x), q: qs[k], z };
   }, [seed, round]);
   const [val, setVal] = useState('');
   const { mu, s, x, q, z } = data;

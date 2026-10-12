@@ -90,6 +90,8 @@ function Chevrons({ x, y, r, axis, color }: { x: number; y: number; r: number; a
 export function Knob({ x, y, color = C.cyan, r = 18, label, onPointerDown, cursor = 'grab', axis }: { x: number; y: number; color?: string; r?: number; label?: ReactNode; onPointerDown?: PointerEventHandler; cursor?: string; axis?: 'x' | 'y' | 'xy' }) {
   const cue = useCue();
   const ax = axis ?? (cursor === 'ew-resize' ? 'x' : cursor === 'ns-resize' ? 'y' : 'xy');
+  // a one- or two-letter name (a, b, m, ĵ) fits inside the handle; readouts go outside, away from the axis
+  const short = typeof label === 'string' && label.length <= 2;
   return (
     <g
       className={`knob ${cue.active ? 'cue' : ''}`}
@@ -104,11 +106,16 @@ export function Knob({ x, y, color = C.cyan, r = 18, label, onPointerDown, curso
       <Chevrons x={x} y={y} r={r} axis={ax} color={color} />
       <circle className="knob-body" cx={x} cy={y} r={r} fill={C.panel} stroke={color} strokeWidth={3} />
       <circle cx={x} cy={y} r={Math.max(4, r * 0.32)} fill={color} pointerEvents="none" />
-      {label !== undefined && (
-        <Html x={x} y={y + r + 26} size={17} color={color}>
-          <span className="knob-label">{label}</span>
-        </Html>
-      )}
+      {label !== undefined &&
+        (short ? (
+          <Html x={x} y={y} size={15} color={color}>
+            <span className="knob-inner">{label}</span>
+          </Html>
+        ) : (
+          <Html x={ax === 'y' ? x + r + 14 : x} y={ax === 'x' ? y - r - 24 : ax === 'y' ? y : y + r + 26} size={17} color={color} anchor={ax === 'y' ? 'left' : 'center'}>
+            <span className="knob-label">{label}</span>
+          </Html>
+        ))}
       {cue.active && <GhostHand x={x} y={y} axis={ax} />}
     </g>
   );

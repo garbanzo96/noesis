@@ -994,3 +994,7 @@
 .hud-back {
   font-size: 12px;
 }
+.knob-inner {
+  font-family: var(--mono);
+  font-weight: 600;
+}
