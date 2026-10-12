@@ -3,7 +3,7 @@ import { clamp } from '../../engine/anim';
 import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Stage, plane } from '../../engine/Stage';
-import { Arrow, Axes, Curve, Dot, Line } from '../../engine/shapes';
+import { Arrow, Axes, Curve, Dot, Line, PlaneClip } from '../../engine/shapes';
 import type {
   ChallengeProps,
   DemoProps,
@@ -29,28 +29,32 @@ function PartialLesson({ beats, unlock, answer }: DemoProps) {
     if (Math.abs(v - 2) < 0.06) unlock();
   });
   const y = beat === 1 ? slice : 2;
+  const fyMode = beat === 3 && answer !== null;
+  const color = fyMode ? C.magenta : C.amber;
   const P3 = ortho({ cx: 650, cy: 430, scale: 65, zScale: 0.16, xr: [-2, 3], yr: [-1, 3] });
   const section = Array.from({ length: 101 }, (_, i) => {
-    const x = -2 + i / 20;
-    return P3(x, y, F(x, y)).join(',');
+    const t = fyMode ? -1 + i / 25 : -2 + i / 20;
+    return (fyMode ? P3(1, t, F(1, t)) : P3(t, y, F(t, y))).join(',');
   });
-  const fyMode = beat === 3 && answer !== null;
   return (
     <Stage ref={svg}>
       <Surface f={F} P3={P3} />
       <polygon
-        points={[P3(-2, y, -15), P3(3, y, -15), P3(3, y, 22), P3(-2, y, 22)]
+        points={(fyMode
+          ? [P3(1, -1, -15), P3(1, 3, -15), P3(1, 3, 22), P3(1, -1, 22)]
+          : [P3(-2, y, -15), P3(3, y, -15), P3(3, y, 22), P3(-2, y, 22)]
+        )
           .map((p) => p.join(','))
           .join(' ')}
-        fill={C.amber}
+        fill={color}
         fillOpacity={0.08}
-        stroke={C.amber}
+        stroke={color}
         strokeOpacity={0.4}
       />
-      <polyline points={section.join(' ')} fill="none" stroke={C.amber} strokeWidth={4} />
+      <polyline points={section.join(' ')} fill="none" stroke={color} strokeWidth={4} />
       <Line
-        a={P3(0.3, y, F(1, y) - (2 + 3 * y) * 0.7)}
-        b={P3(1.7, y, F(1, y) + (2 + 3 * y) * 0.7)}
+        a={fyMode ? P3(1, 1.3, 3.7) : P3(0.3, y, F(1, y) - (2 + 3 * y) * 0.7)}
+        b={fyMode ? P3(1, 2.7, 2.3) : P3(1.7, y, F(1, y) + (2 + 3 * y) * 0.7)}
         color={C.green}
         width={4}
         opacity={beat === 0 ? at(0) : 1}
@@ -60,14 +64,25 @@ function PartialLesson({ beats, unlock, answer }: DemoProps) {
       <Cap
         x={680}
         y={650}
-        tex={`y=${num(y)}:\\quad z=x^2+${num(3 * y)}x-(${num(y)})^2`}
-        color={C.amber}
+        tex={
+          fyMode
+            ? 'x=1:\\quad z=1+3y-y^2'
+            : `y=${num(y)}:\\quad z=x^2+(${num(3 * y)})x-(${num(y)})^2`
+        }
+        color={color}
         size={21}
       />
-      <Axes P={PROFILE} xLabel="x" yLabel="z" />
-      <Curve P={PROFILE} f={(x) => F(x, y)} color={C.amber} clip />
-      <Curve P={PROFILE} f={(x) => F(1, y) + (2 + 3 * y) * (x - 1)} color={C.green} dashed clip />
-      <Dot x={PROFILE.x(1)} y={PROFILE.y(F(1, y))} color={C.green} />
+      <PlaneClip P={PROFILE} />
+      <Axes P={PROFILE} xLabel={fyMode ? 'y' : 'x'} yLabel="z" />
+      <Curve P={PROFILE} f={(t) => (fyMode ? F(1, t) : F(t, y))} color={color} clip />
+      <Curve
+        P={PROFILE}
+        f={(t) => (fyMode ? 3 - (t - 2) : F(1, y) + (2 + 3 * y) * (t - 1))}
+        color={C.green}
+        dashed
+        clip
+      />
+      <Dot x={PROFILE.x(fyMode ? 2 : 1)} y={PROFILE.y(F(1, y))} color={C.green} />
       {beat === 1 && (
         <>
           <line x1={1090} x2={1470} y1={660} y2={660} stroke={C.line} strokeWidth={3} />

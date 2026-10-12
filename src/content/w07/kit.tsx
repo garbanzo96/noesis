@@ -14,6 +14,7 @@ export const pair = (v: V2) => `(${num(v[0])};\\,${num(v[1])})`;
 export const F: Field = (x, y) => x * x + 3 * x * y - y * y;
 export const H: Field = (x, y) => 200 - 2 * x * x - y * y;
 export const hill: Field = (x, y) => 9 - x * x - y * y;
+export const saddle: Field = (x, y) => x * x - y * y;
 export const terrain: Field = (x, y) => 160 - 4 * x * x - 3 * y * y;
 export const partial = (f: Field, x: number, y: number, axis: 'x' | 'y') => {
   const h = 1e-4 * Math.max(1, Math.abs(axis === 'x' ? x : y));

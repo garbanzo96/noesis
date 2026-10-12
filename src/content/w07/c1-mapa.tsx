@@ -30,6 +30,7 @@ import {
 const MAP = plane([-3.2, 3.2], [-3.2, 3.2], { x: 890, y: 180, w: 440, h: 440 });
 const SEARCH = plane([-5, 5], [-5, 5], { x: 300, y: 160, w: 600, h: 600 });
 const CUTS = [0, 3, 6, 8];
+const EVEN_CUTS = [0, 2, 4, 6, 8];
 const HEIGHTS = [60, 80, 100, 120, 140];
 const uneven = (x: number, y: number) => 9 - (x * x + y * y) * (1 + 0.55 * Math.tanh(x));
 
@@ -83,7 +84,7 @@ function MapLesson({ beats, unlock, reduced }: DemoProps) {
           );
         })}
       <Axes P={MAP} xLabel="x" yLabel="y" />
-      <ContourMap P={MAP} f={beat === 4 ? uneven : hill} levels={CUTS} />
+      <ContourMap P={MAP} f={beat === 4 ? uneven : hill} levels={beat === 4 ? EVEN_CUTS : CUTS} />
       {beat === 1 && (
         <>
           <circle
@@ -106,7 +107,7 @@ function MapLesson({ beats, unlock, reduced }: DemoProps) {
           <Cap x={1090} y={680} tex={`h${pair(point)}=${num(hill(...point))}`} color={C.amber} />
         </>
       )}
-      <Cap x={550} y={160} tex="h(x,y)=9-x^2-y^2" />
+      {beat !== 4 && <Cap x={550} y={160} tex="h(x,y)=9-x^2-y^2" />}
       {beat === 4 && (
         <>
           <Cap x={570} y={320} color={C.cyan}>
@@ -294,7 +295,7 @@ function MapPractice({ seed, round, api }: ChallengeProps) {
           : 'Suma las alturas de las dos curvas y divide por dos.',
     );
   };
-  const P = plane([0, 4], [0, 4], { x: 350, y: 210, w: 460, h: 460 });
+  const P = plane([0, 4], [-0.5, 4.5], { x: 350, y: 210, w: 460, h: 460 });
   const linear = useMemo(() => (_x: number, y: number) => lo + 20 * y, [lo]);
   return (
     <Stage>
