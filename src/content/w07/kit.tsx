@@ -115,6 +115,25 @@ export function Surface({
 }
 
 /** 80 × 80 marching squares. Ambiguous saddle cells use the centre value. */
+/** Five or six round contour levels spread over the values f takes on the plane (5th–95th percentile). */
+export function niceLevels(P: Plane, f: Field, count = 6): number[] {
+  const vals: number[] = [];
+  for (let i = 0; i <= 24; i++)
+    for (let j = 0; j <= 24; j++) {
+      const v = f(P.xr[0] + ((P.xr[1] - P.xr[0]) * i) / 24, P.yr[0] + ((P.yr[1] - P.yr[0]) * j) / 24);
+      if (Number.isFinite(v)) vals.push(v);
+    }
+  vals.sort((a, b) => a - b);
+  const lo = vals[Math.floor(vals.length * 0.05)],
+    hi = vals[Math.floor(vals.length * 0.95)];
+  const raw = (hi - lo) / count;
+  const mag = 10 ** Math.floor(Math.log10(raw || 1));
+  const step = [1, 2, 5, 10].map((k) => k * mag).find((k) => k >= raw) ?? 10 * mag;
+  const out: number[] = [];
+  for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) out.push(Math.round(v * 1e6) / 1e6);
+  return out;
+}
+
 export function ContourMap({
   P,
   f,
@@ -133,7 +152,7 @@ export function ContourMap({
     const values = Array.from({ length: n + 1 }, (_, i) =>
       Array.from({ length: n + 1 }, (_, j) => f(P.xr[0] + i * dx, P.yr[0] + j * dy)),
     );
-    return levels.map((level) => {
+    const lines = levels.map((level) => {
       const segments: [V2, V2][] = [];
       for (let i = 0; i < n; i++)
         for (let j = 0; j < n; j++) {
@@ -172,18 +191,20 @@ export function ContourMap({
             else segments.push([hits[0].p, hits[3].p], [hits[1].p, hits[2].p]);
           }
         }
-      // One label on each visible level, near the upper-right part of its geometry.
-      const label = segments.length
-        ? segments.reduce(
-            (best, s) => (s[0][0] - s[0][1] > best[0] - best[1] ? s[0] : best),
-            segments[0][0],
-          )
-        : null;
-      return {
-        level,
-        label,
-        d: segments.map(([a, b]) => `M${a.join(' ')}L${b.join(' ')}`).join(' '),
-      };
+      return { level, segments, d: segments.map(([a, b]) => `M${a.join(' ')}L${b.join(' ')}`).join(' ') };
+    });
+    // One label per visible level, toward the upper right of its curve, skipping spots
+    // already taken by another level's label so crowded contours stay readable.
+    const placed: V2[] = [];
+    return lines.map(({ level, segments, d }) => {
+      const spots = segments
+        .map((s) => s[0])
+        .filter((q) => q[0] > P.box.x + 24 && q[1] > P.box.y + 24)
+        .sort((a, b) => b[0] - b[1] - (a[0] - a[1]));
+      const free = (q: V2) => placed.every((o) => Math.abs(o[0] - q[0]) > 52 || Math.abs(o[1] - q[1]) > 30);
+      const label = spots.find(free) ?? null;
+      if (label) placed.push(label);
+      return { level, label, d };
     });
   }, [P, f, levels]);
   return (

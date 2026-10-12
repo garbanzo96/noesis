@@ -13,7 +13,7 @@ import type {
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
-import { ContourMap, F, GradField, H, num, pair, polynomial, type V2 } from './kit';
+import { ContourMap, F, GradField, H, niceLevels, num, pair, polynomial, type V2 } from './kit';
 
 const MAP = plane([-2, 4], [-1, 5], { x: 300, y: 170, w: 560, h: 560 });
 const PRACTICE = plane([-3, 4], [-3, 4], { x: 300, y: 170, w: 560, h: 560 });
@@ -228,7 +228,7 @@ function FallDemo({ beats, answer, reduced }: DemoProps) {
         stroke={C.dim}
         strokeDasharray="6 8"
       />
-      <Cap x={SEARCH.x(2)} y={SEARCH.y(6.65)} size={18} color={C.muted}>
+      <Cap x={SEARCH.x(1.15)} y={SEARCH.y(6.65)} size={18} color={C.muted}>
         Quebrada Jaime
       </Cap>
       <Axes
@@ -292,11 +292,12 @@ function GradientPractice({ seed, round, api }: ChallengeProps) {
       [4 / 5, -3 / 5],
     ] as V2[]);
     const g = poly.gradient(...p);
-    return { poly, p, u, g, rate: g[0] * u[0] + g[1] * u[1], norm: Math.hypot(...g) };
+    const levels = niceLevels(PRACTICE, poly.f);
+    return { poly, p, u, g, levels, rate: g[0] * u[0] + g[1] * u[1], norm: Math.hypot(...g) };
   }, [seed, round]);
   const [first, setFirst] = useState('');
   const [second, setSecond] = useState('');
-  const { poly, p, u, g, rate, norm } = data;
+  const { poly, p, u, g, levels, rate, norm } = data;
   const uTex = u[0] === 3 / 5 ? '(\\tfrac35,\\tfrac45)' : '(\\tfrac45,-\\tfrac35)';
   useEffect(() => {
     setFirst('');
@@ -401,7 +402,7 @@ function GradientPractice({ seed, round, api }: ChallengeProps) {
   };
   return (
     <Stage>
-      <ContourMap P={PRACTICE} f={poly.f} levels={CONTOURS} />
+      <ContourMap P={PRACTICE} f={poly.f} levels={levels} />
       <Dot x={PRACTICE.x(p[0])} y={PRACTICE.y(p[1])} color={C.amber} />
       <Cap x={PRACTICE.x(p[0]) + 30} y={PRACTICE.y(p[1]) - 25} tex={pair(p)} color={C.amber} />
       <Cap x={1210} y={220} tex={`f(x,y)=${poly.tex}`} />

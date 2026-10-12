@@ -216,7 +216,7 @@ function AntennaDemo({ beats, answer }: DemoProps) {
         strokeWidth={3}
       />
       <Dot x={ANTENNA.x(0)} y={ANTENNA.y(0)} color={C.text} />
-      <Cap x={ANTENNA.x(0)} y={ANTENNA.y(0) + 40} size={18}>
+      <Cap x={ANTENNA.x(0) + 64} y={ANTENNA.y(0) + 30} size={18}>
         Cuartel
       </Cap>
       <Cap x={1230} y={220} tex="f=3x+4y" color={C.amber} />

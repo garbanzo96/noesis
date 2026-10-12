@@ -32,7 +32,9 @@ function TangentLesson({ beats, unlock, answer, reduced }: DemoProps) {
   });
   const zoom = beat === 0 ? (reduced ? 1 : at(0)) : 1;
   const span = 1.5 - 1.15 * zoom;
-  const camera = ortho({ cx: 600, cy: 410, scale: 140 / span, zScale: 0.12 });
+  // Azimut positivo: con la pendiente 8 en x, el azimut por defecto proyecta ambos ejes casi
+  // paralelos y la malla se ve de canto.
+  const camera = ortho({ cx: 600, cy: 410, scale: 150 / span, zScale: 0.1, azimuth: 0.75 });
   // Centre the camera on the contact point while retaining the original x,y domains.
   const P3: Projection = Object.assign(
     (x: number, y: number, z: number): V2 => camera(x - 1, y - 2, z - 3),
@@ -248,7 +250,8 @@ function LinearPractice({ seed, round, api }: ChallengeProps) {
       `Los cambios son $\\Delta x=${num(dx)}$ y $\\Delta y=${num(dy)}$. Multiplica cada uno por su parcial, conserva los signos y suma ${value}.`,
     );
   };
-  const P3 = ortho({ cx: 650, cy: 420, scale: 110, zScale: 0.12, xr: [-1, 1], yr: [-1, 1] });
+  // zScale bajo: con cualquier par de parciales del sorteo el plano se ve con área, nunca de canto.
+  const P3 = ortho({ cx: 650, cy: 420, scale: 130, zScale: 0.045, xr: [-1, 1], yr: [-1, 1] });
   const local = (x: number, y: number) => gx * x + gy * y;
   const q = P3(dx, dy, local(dx, dy));
   return (
