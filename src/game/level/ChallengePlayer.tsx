@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
+import { CueCtx } from '../../engine/cue';
 import { useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
 import { Console, KeyHint } from './Console';
 import { Notebook } from './Notebook';
+import { Rail } from './Rail';
 import { hashSeed, useRun } from './context';
 import type { ChallengeApi, ChallengeStep } from './types';
 
@@ -124,10 +126,15 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   }, [phase]);
 
   const Comp = step.Comp;
+  // each round starts with its handles cued; the first touch retires the cue for that round
+  const [touchedRound, setTouchedRound] = useState(-1);
+  const cueActive = phase === 'play' && touchedRound !== round + cycle * 100;
+  const cue = useMemo(() => ({ active: cueActive, touch: () => setTouchedRound(round + cycle * 100) }), [cueActive, round, cycle]);
   return (
-    <div className="play with-notes">
-      <div className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''}`}>
-        <Backdrop place={run.place} dim={0.9} className="stage-backdrop" />
+    <div className="play with-notes practice">
+      <div className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''} ${cueActive ? 'cue-on' : ''}`}>
+        <div className="stage-area">
+        <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
         <div className="challenge-head">
           <span className="challenge-title">{step.title}</span>
           <div className="round-pips">
@@ -139,7 +146,9 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
             {round + 1} / {step.rounds}
           </span>
         </div>
-        <Comp key={`${round}-${cycle}`} seed={seed} round={round} rounds={step.rounds} reduced={run.reduced} api={api} />
+        <CueCtx.Provider value={cue}>
+          <Comp key={`${round}-${cycle}`} seed={seed} round={round} rounds={step.rounds} reduced={run.reduced} api={api} />
+        </CueCtx.Provider>
         {phase === 'solved' && (
           <div className="solved-flash">
             <span>✓</span>
@@ -151,8 +160,11 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
             <p>Iris revisa tus notas. El caso se reabre con datos nuevos.</p>
           </div>
         )}
+        </div>
       </div>
-      <Notebook notes={run.notes} />
+      <Rail label="Cuaderno" count={run.notes.length}>
+        <Notebook notes={run.notes} />
+      </Rail>
       <Console
         text={feedback ? feedback.msg : prompt.text}
         tex={feedback ? undefined : prompt.tex}

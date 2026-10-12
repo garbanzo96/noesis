@@ -5,11 +5,7 @@ import { GLYPHS, LEVELS, PLAYABLE, TOPICS } from '../../content/registry';
 import type { Glyph, LevelDef, Note, WorldId } from '../level/types';
 
 /** Lowercase without accents, for search. */
-const fold = (s: string) =>
-  s
-    .toLowerCase()
-    .normalize('NFD')
-    .replace(/[̀-ͯ]/g, '');
+const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
 
 interface TopicView {
   level: LevelDef;
@@ -74,9 +70,7 @@ function Topic({ t, onGo }: { t: TopicView; onGo: (id: string, step: number) => 
         <span className="res-code">{l.code}</span>
         <div>
           <h3>{l.subtitle}</h3>
-          <small>
-            Caso «{l.title}»
-          </small>
+          <small>Caso «{l.title}»</small>
         </div>
         <div className="res-actions">
           {demo >= 0 && (
@@ -155,7 +149,15 @@ function Topic({ t, onGo }: { t: TopicView; onGo: (id: string, step: number) => 
  * Definitions, notation, properties and identities, frequent mistakes, and direct links to the
  * explanation or the practice of each topic.
  */
-export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void; focus?: string; onGo: (id: string, step: number) => void }) {
+export function ResourcesScreen({
+  onClose,
+  focus,
+  onGo,
+}: {
+  onClose: () => void;
+  focus?: string;
+  onGo: (id: string, step: number) => void;
+}) {
   const firstWorld = (focus && LEVELS[focus]?.world) || TOPICS[0].world;
   const [world, setWorld] = useState<WorldId>(firstWorld);
   const [q, setQ] = useState('');
@@ -172,7 +174,13 @@ export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void;
   const groups = useMemo(() => {
     const src = needle ? TOPICS : TOPICS.filter((g) => g.world === world);
     return src
-      .map((g) => ({ world: g.world, topics: g.levels.map(topicView).map((t) => filterTopic(t, needle)).filter((t): t is TopicView => !!t) }))
+      .map((g) => ({
+        world: g.world,
+        topics: g.levels
+          .map(topicView)
+          .map((t) => filterTopic(t, needle))
+          .filter((t): t is TopicView => !!t),
+      }))
       .filter((g) => g.topics.length > 0);
   }, [needle, world]);
 
@@ -181,7 +189,10 @@ export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void;
     document.getElementById(`res-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
   useEffect(() => {
-    if (focus) requestAnimationFrame(() => document.getElementById(`res-${focus}`)?.scrollIntoView({ block: 'start' }));
+    if (focus)
+      requestAnimationFrame(() =>
+        document.getElementById(`res-${focus}`)?.scrollIntoView({ block: 'start' }),
+      );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   // highlight the topic being read
@@ -190,7 +201,9 @@ export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void;
     if (!root) return;
     const io = new IntersectionObserver(
       (entries) => {
-        const vis = entries.filter((e) => e.isIntersecting).sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
+        const vis = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top)[0];
         if (vis) setActive(vis.target.id.replace(/^res-/, ''));
       },
       { root, rootMargin: '0px 0px -70% 0px' },
@@ -199,7 +212,9 @@ export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void;
     return () => io.disconnect();
   }, [groups]);
 
-  const navTopics = needle ? groups.flatMap((g) => g.topics.map((t) => t.level)) : (TOPICS.find((g) => g.world === world)?.levels ?? []);
+  const navTopics = needle
+    ? groups.flatMap((g) => g.topics.map((t) => t.level))
+    : (TOPICS.find((g) => g.world === world)?.levels ?? []);
 
   return (
     <div className="overlay" onClick={onClose}>
@@ -221,7 +236,12 @@ export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void;
               </button>
             ))}
           </div>
-          <input ref={search} placeholder="Buscar definición, símbolo, propiedad…  ( / )" value={q} onChange={(e) => setQ(e.target.value)} />
+          <input
+            ref={search}
+            placeholder="Buscar definición, símbolo, propiedad…  ( / )"
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+          />
           <button className="btn ghost small" onClick={() => window.print()}>
             Imprimir
           </button>
@@ -229,9 +249,30 @@ export function ResourcesScreen({ onClose, focus, onGo }: { onClose: () => void;
             Cerrar <kbd>Esc</kbd>
           </button>
         </header>
+        <label className="res-topic-select">
+          <span>Tema</span>
+          <select
+            value={navTopics.some((l) => l.id === active) ? active! : ''}
+            onChange={(e) => jump(e.target.value)}
+            disabled={!navTopics.length}
+          >
+            <option value="" disabled>
+              {navTopics.length ? 'Elige un tema' : 'Sin resultados'}
+            </option>
+            {navTopics.map((l) => (
+              <option key={l.id} value={l.id}>
+                {l.code} · {l.subtitle}
+              </option>
+            ))}
+          </select>
+        </label>
         <div className="res-body">
           <nav className="res-nav">
-            {needle && <span className="res-nav-kicker">{navTopics.length ? 'Resultados' : 'Sin resultados'}</span>}
+            {needle && (
+              <span className="res-nav-kicker">
+                {navTopics.length ? 'Resultados' : 'Sin resultados'}
+              </span>
+            )}
             {navTopics.map((l) => (
               <button key={l.id} className={active === l.id ? 'on' : ''} onClick={() => jump(l.id)}>
                 <span>{l.code}</span>

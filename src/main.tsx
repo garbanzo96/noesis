@@ -11,9 +11,10 @@ import './styles/game.css';
 import './styles/v5.css';
 import './styles/screens-mobile.css';
 import { GameRoot } from './game/GameRoot';
+import { CastGallery } from './game/dev/CastGallery';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    <GameRoot />
+    {import.meta.env.DEV && window.location.hash === '#/dev/cast' ? <CastGallery /> : <GameRoot />}
   </React.StrictMode>,
 );

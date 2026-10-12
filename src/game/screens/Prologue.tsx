@@ -14,14 +14,46 @@ interface Panel {
 
 // The prologue: who you are, what the agency does, what the mission is, and how studying works.
 const PANELS: Panel[] = [
-  { place: 'puerto', who: 'nar', text: 'Valparaíso, 2089. Una sola empresa, Halcón, administra el puerto, la energía, el agua y los datos de la ciudad.' },
-  { place: 'puerto', who: 'nar', text: 'Sus informes siempre cuadran. Las vacunas llegan, la luz no se corta, el agua alcanza. Al menos en el papel.' },
-  { place: 'oficina', who: 'iris', text: 'Soy Iris Montt, de la Agencia NÓESIS. Investigamos lo que los números esconden.' },
-  { place: 'oficina', who: 'iris', text: 'Te contraté como analista. No necesito que ya sepas matemáticas. Necesito que las aprendas bien, desde la base.' },
-  { place: 'oficina', who: 'teo', text: 'Yo soy Teo: sensores, código, cifrados. Te consigo los datos; tú los haces hablar.' },
-  { place: 'oficina', who: 'noesis', text: 'Y yo soy NÓESIS, la tutora de la agencia. Antes de usar una herramienta matemática, te la enseño desde cero: primero la ves, después la escribes.' },
-  { place: 'oficina', who: 'iris', text: 'La misión: alguien dentro de Halcón usa la ciudad para algo grande. Cada distrito guarda una pieza, y cada pieza exige una rama de la matemática.' },
-  { place: 'oficina', who: 'iris', text: 'Empezamos por el puerto. Ayer desaparecieron cuarenta cajas de vacunas.' },
+  {
+    place: 'puerto',
+    who: 'nar',
+    text: 'Valparaíso, 2089. Una sola empresa, Halcón, administra el puerto, la energía, el agua y los datos de la ciudad.',
+  },
+  {
+    place: 'puerto',
+    who: 'nar',
+    text: 'Sus informes siempre cuadran. Las vacunas llegan, la luz no se corta, el agua alcanza. Al menos en el papel.',
+  },
+  {
+    place: 'oficina',
+    who: 'iris',
+    text: 'Soy Iris Montt, de la Agencia NÓESIS. Investigamos lo que los números esconden.',
+  },
+  {
+    place: 'oficina',
+    who: 'iris',
+    text: 'Te contraté como analista. No necesito que ya sepas matemáticas. Necesito que las aprendas bien, desde la base.',
+  },
+  {
+    place: 'oficina',
+    who: 'teo',
+    text: 'Yo soy Teo: sensores, código, cifrados. Te consigo los datos; tú los haces hablar.',
+  },
+  {
+    place: 'oficina',
+    who: 'noesis',
+    text: 'Y yo soy NÓESIS, la tutora de la agencia. Antes de usar una herramienta matemática, te la enseño desde cero: primero la ves, después la escribes.',
+  },
+  {
+    place: 'oficina',
+    who: 'iris',
+    text: 'La misión: alguien dentro de Halcón usa la ciudad para algo grande. Cada distrito guarda una pieza, y cada pieza exige una rama de la matemática.',
+  },
+  {
+    place: 'oficina',
+    who: 'iris',
+    text: 'Empezamos por el puerto. Ayer desaparecieron cuarenta cajas de vacunas.',
+  },
 ];
 
 /** Story introduction followed by a short guide to how the game teaches. */
@@ -39,6 +71,7 @@ export function Prologue({ onDone }: { onDone: () => void }) {
     setI(i + 1);
   };
   useKey([' ', 'Enter', 'ArrowRight'], (e) => {
+    if ((e.target as HTMLElement)?.closest('button, select')) return;
     e.preventDefault();
     advance();
   });
@@ -51,7 +84,9 @@ export function Prologue({ onDone }: { onDone: () => void }) {
           <span className="eyebrow">CÓMO SE ESTUDIA EN NÓESIS</span>
           <h2>Un curso de matemáticas, caso por caso</h2>
           <p>
-            Cada <b>mundo</b> es un área de la matemática: Precálculo, Cálculo diferencial, Cálculo integral, Álgebra lineal, Probabilidad… Cada mundo se divide en <b>temas</b>, y cada tema tiene cuatro pasos:
+            Cada <b>mundo</b> es un área de la matemática: Precálculo, Cálculo diferencial, Cálculo
+            integral, Álgebra lineal, Probabilidad… Cada mundo se divide en <b>temas</b>, y cada
+            tema tiene cuatro pasos:
           </p>
           <ol className="guide-steps">
             <li>
@@ -60,7 +95,10 @@ export function Prologue({ onDone }: { onDone: () => void }) {
             </li>
             <li>
               <b>Clase</b>
-              <span>NÓESIS desarrolla el concepto desde cero con animaciones y herramientas que puedes mover. A la derecha, la pizarra escribe la parte formal término a término.</span>
+              <span>
+                NÓESIS desarrolla el concepto desde cero con animaciones y herramientas que puedes
+                mover. A la derecha, la pizarra escribe la parte formal término a término.
+              </span>
             </li>
             <li>
               <b>Investigación</b>
@@ -72,7 +110,9 @@ export function Prologue({ onDone }: { onDone: () => void }) {
             </li>
           </ol>
           <p>
-            Todo está abierto: puedes ir a cualquier mundo o tema para repasar, entrar directo a una clase o a la práctica, y consultar <b>Recursos</b> (tecla R): el formulario con definiciones, notación y propiedades de cada tema.
+            Todo está abierto: puedes ir a cualquier mundo o tema para repasar, entrar directo a una
+            clase o a la práctica, y consultar <b>Recursos</b> (tecla R): el formulario con
+            definiciones, notación y propiedades de cada tema.
           </p>
           <button className="btn primary big" onClick={onDone}>
             {Object.keys(game.levels).length ? 'Volver al mapa' : 'Ir al mapa de mundos'} ▸
@@ -85,7 +125,7 @@ export function Prologue({ onDone }: { onDone: () => void }) {
   const name = p.who === 'nar' ? '' : CAST[p.who].name;
   const color = p.who === 'nar' ? '#c9c2e6' : CAST[p.who].color;
   return (
-    <div className="scene" onClick={advance}>
+    <div className="scene prologue-scene" onClick={advance}>
       <Backdrop place={p.place} dim={0.15} />
       <div className="scene-rain" aria-hidden />
       {p.who !== 'nar' && (
@@ -95,7 +135,10 @@ export function Prologue({ onDone }: { onDone: () => void }) {
           </div>
         </div>
       )}
-      <div className={`dialogue ${p.who === 'nar' ? 'narration' : ''}`} style={{ ['--who' as string]: color }}>
+      <div
+        className={`dialogue ${p.who === 'nar' ? 'narration' : ''}`}
+        style={{ ['--who' as string]: color }}
+      >
         {name && (
           <div className="dialogue-name">
             <b>{name}</b>
@@ -103,13 +146,27 @@ export function Prologue({ onDone }: { onDone: () => void }) {
           </div>
         )}
         <p className="dialogue-text">
-          <Typewriter key={i} text={p.text} speed="fast" skip={skip} onDone={() => setTyped(true)} />
+          <Typewriter
+            key={i}
+            text={p.text}
+            speed="fast"
+            skip={skip}
+            onDone={() => setTyped(true)}
+          />
         </p>
         <div className="dialogue-foot">
           <span>
             PRÓLOGO · {i + 1}/{PANELS.length}
           </span>
-          <span className={typed ? 'ready' : ''}>ESPACIO ▸</span>
+          <button
+            className={`btn small prologue-next ${typed ? 'ready' : ''}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              advance();
+            }}
+          >
+            {typed ? 'Avanzar ▸' : 'Mostrar texto ▸'}
+          </button>
         </div>
       </div>
       <button

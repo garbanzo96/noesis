@@ -47,23 +47,28 @@ export function ScenePlayer({ step }: { step: SceneStep }) {
   const color = speaker === 'tu' || speaker === 'nar' ? '#c9c2e6' : CAST[speaker].color;
   return (
     <div className="scene" onClick={advance}>
-      <Backdrop place={step.place} dim={0.15} />
+      <Backdrop place={step.place} dim={0.4} className="scene-backdrop" />
       <div className="scene-rain" aria-hidden />
       <div className="scene-cast left">
         {present.left.map((c) => (
           <div key={c} className={`scene-actor ${speaker === c ? 'on' : ''}`}>
-            <Portrait id={c} size={330} talking={speaker === c} dim={speaker !== c} />
+            <Portrait id={c} size={330} talking={speaker === c && !typed} dim={speaker !== c} />
           </div>
         ))}
       </div>
       <div className="scene-cast right">
         {present.right.map((c) => (
           <div key={c} className={`scene-actor ${speaker === c ? 'on' : ''}`}>
-            <Portrait id={c} size={330} talking={speaker === c} dim={speaker !== c} flip />
+            <Portrait id={c} size={330} talking={speaker === c && !typed} dim={speaker !== c} flip />
           </div>
         ))}
       </div>
-      <div className={`dialogue ${speaker === 'nar' ? 'narration' : ''}`} style={{ ['--who' as string]: color }}>
+      <div className={`dialogue ${speaker === 'nar' ? 'narration' : ''} ${present.right.includes(speaker as CastId) ? 'from-right' : ''}`} style={{ ['--who' as string]: color }}>
+        {speaker !== 'tu' && speaker !== 'nar' && (
+          <div className="dialogue-face" aria-hidden>
+            <Portrait id={speaker} size={84} talking={!typed} />
+          </div>
+        )}
         {name && (
           <div className="dialogue-name">
             <b>{name}</b>
@@ -77,7 +82,10 @@ export function ScenePlayer({ step }: { step: SceneStep }) {
           <span>
             {i + 1}/{step.lines.length}
           </span>
-          <span className={typed ? 'ready' : ''}>{i < step.lines.length - 1 ? 'ESPACIO ▸' : 'ESPACIO · comenzar ▸'}</span>
+          <span className={typed ? 'ready' : ''}>
+            <span className="k-desk">{i < step.lines.length - 1 ? 'ESPACIO ▸' : 'ESPACIO · comenzar ▸'}</span>
+            <span className="k-touch">{i < step.lines.length - 1 ? 'Toca para seguir ▸' : 'Toca para comenzar ▸'}</span>
+          </span>
         </div>
       </div>
       <button

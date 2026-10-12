@@ -158,6 +158,7 @@ export function LevelRunner({
   });
   useKey(['c', 'C'], () => !results && !pausedMenu && onOpenCodex(), !overlayOpen);
 
+  const [rotateOk, setRotateOk] = useState(false);
   const step = level.steps[stepIndex];
   const record = game.levels[level.id];
   const liveStars = [stepIndex >= level.steps.length - 1, hints === 0, errors === 0];
@@ -194,6 +195,18 @@ export function LevelRunner({
             ☰
           </button>
         </header>
+        <div className="level-notice">
+          {step.kind !== 'scene' && !rotateOk && (
+            <div className="rotate-hint">
+              <svg className="rot-icon" width="16" height="22" viewBox="0 0 16 22" aria-hidden>
+                <rect x="1" y="1" width="14" height="20" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
+                <circle cx="8" cy="17" r="1.4" fill="currentColor" />
+              </svg>
+              <span>Gira el teléfono para ver el escenario más grande.</span>
+              <button onClick={() => setRotateOk(true)}>Entendido</button>
+            </div>
+          )}
+        </div>
         <main className={`level-body ${transition ? 'leaving' : 'entering'}`} key={`${attempt}-${stepIndex}`}>
           {step.kind === 'scene' && <ScenePlayer step={step} />}
           {(step.kind === 'demo' || step.kind === 'lesson') && <DemoPlayer key={stepIndex} step={step} />}

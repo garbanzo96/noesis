@@ -1,0 +1,892 @@
+/* =====================================================================================
+   UX V5 · layout adaptable, foco, affordances. Se carga después de game.css.
+   Breakpoints:
+     compacto   (max-width: 1100px), (max-height: 640px)  → pizarra/cuaderno en cajón
+     horizontal bajo (max-height: 520px) and (orientation: landscape) → escenario | consola
+     vertical   (max-width: 700px) and (orientation: portrait)
+   ===================================================================================== */
+
+:root {
+  --label-min: 13px;
+}
+@media (max-width: 900px), (max-height: 520px) {
+  :root {
+    --label-min: 11px;
+  }
+}
+
+/* ---------------------------------------------------------------- partida: grilla */
+.play.with-notes,
+.play.with-notes.lesson {
+  grid-template-columns: minmax(0, 1fr) 300px;
+  grid-template-rows: minmax(0, 1fr) auto;
+}
+.play.with-notes > .rail {
+  grid-column: 2;
+  grid-row: 1 / span 2;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+.rail > .board,
+.rail > .notebook {
+  flex: 1 1 auto;
+  min-height: 0;
+  border-left: 1px solid var(--line);
+}
+.rail-toggle,
+.rail-close,
+.rail-scrim {
+  display: none;
+}
+
+/* escenario + franja de foco */
+.play-stage {
+  display: flex;
+  flex-direction: column;
+  padding: 6px 12px 0;
+  min-height: 0;
+}
+.stage-area {
+  position: relative;
+  flex: 1 1 0;
+  min-height: 0;
+}
+.stage-area > .stage-fit {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+}
+.stage-area > .lesson-bg,
+.stage-area > .stage-backdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+}
+.stage-backdrop {
+  filter: blur(3px) saturate(0.6);
+  opacity: 0.55;
+}
+.lesson-bg::before {
+  opacity: 0.5;
+}
+.play.lesson .stage-dots,
+.play.practice .stage-dots,
+.play.demo .stage-dots {
+  opacity: 0.18;
+}
+
+.stage-meta {
+  position: absolute;
+  top: 2px;
+  left: 4px;
+  right: 4px;
+  z-index: 3;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  pointer-events: none;
+}
+.stage-meta > * {
+  pointer-events: auto;
+}
+.stage-kicker {
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 40%;
+}
+.stage-meta .beat-dots {
+  position: static;
+  transform: none;
+  margin: 0 auto;
+}
+.beat-dots i {
+  width: 22px;
+  height: 4px;
+  border-radius: 2px;
+}
+.stage-meta .skip-demo {
+  position: static;
+  font-size: 12px;
+  color: var(--muted);
+  padding: 8px 4px;
+}
+.challenge-head {
+  top: 4px;
+  left: 4px;
+  right: 4px;
+  font-size: 13px;
+}
+
+/* franja de foco: lo formal del paso, grande y cerca del dibujo */
+.focus-strip {
+  flex: 0 0 auto;
+  min-height: 0;
+  max-height: 34%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 0 8px;
+  transition: min-height 0.3s;
+}
+.play.lesson .focus-strip {
+  min-height: 92px;
+  justify-content: center;
+  border-top: 1px solid #1f3a33;
+  background: linear-gradient(180deg, #08131200, #0a1715);
+}
+.play.demo .focus-strip.on {
+  border-top: 1px solid var(--line);
+  padding-top: 6px;
+  padding-bottom: 6px;
+}
+.focus-line {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  column-gap: 16px;
+  animation: focus-in 0.45s ease-out;
+}
+@keyframes focus-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+}
+.focus-label {
+  grid-column: 1;
+  font-family: var(--mono);
+  font-size: 12px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #3df5c9;
+  max-width: 11em;
+  white-space: normal;
+  line-height: 1.3;
+}
+.play.demo .focus-label {
+  color: var(--accent);
+}
+.focus-tex {
+  grid-column: 2;
+  font-size: clamp(18px, 1.9vw, 30px);
+  color: #f2fffb;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.focus-tex .katex-display {
+  margin: 4px 0;
+  text-align: left;
+}
+.focus-tex .katex-display > .katex {
+  text-align: left;
+}
+.focus-body {
+  grid-column: 2;
+  margin: 0 0 4px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #bfe6dc;
+  transition: opacity 0.5s;
+}
+.play.demo .focus-body {
+  color: #d6d0ec;
+}
+.flyer {
+  background: #0a1715ee;
+  border: 1px solid #3df5c966;
+  border-radius: 6px;
+  padding: 4px 8px;
+}
+
+/* pizarra como registro */
+.board {
+  background: #08100f;
+}
+.board li.past {
+  opacity: 0.5;
+  padding-top: 2px;
+  padding-bottom: 2px;
+}
+.board li.past .board-tex {
+  font-size: 14px;
+}
+.board li.newest {
+  border-left-color: #3df5c9;
+  animation: note-in 0.6s ease-out 0.45s both;
+}
+.board-tex {
+  font-size: 16px;
+}
+.note-label {
+  font-size: 11.5px;
+}
+.notebook li:last-child {
+  border-left-color: var(--accent);
+}
+.notebook li:not(:last-child) {
+  opacity: 0.6;
+  border-left-color: var(--line2);
+}
+
+/* ---------------------------------------------------------------- consola */
+.console {
+  min-height: 0;
+  padding: 12px 20px 14px;
+  gap: 16px;
+}
+.console-text {
+  font-size: 18px;
+  line-height: 1.5;
+}
+.console-speaker span {
+  font-size: 11px;
+}
+.console-actions {
+  min-width: 160px;
+}
+.wait-reason {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--amber);
+  text-align: right;
+}
+.btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+.gate {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin: 12px 0 0;
+  padding: 8px 12px;
+  font-family: inherit;
+  font-size: 16px;
+  line-height: 1.4;
+  color: #ffe2b0;
+  background: #ffbc5e14;
+  border: 1px solid #ffbc5e55;
+  border-radius: 6px;
+}
+.gate.done {
+  color: #c9ffe4;
+  background: #4dffa612;
+  border-color: #4dffa655;
+}
+.gate-icon {
+  font-size: 18px;
+  line-height: 1.2;
+}
+.gate:not(.done) .gate-icon {
+  animation: gate-nudge 1.4s ease-in-out infinite;
+}
+@keyframes gate-nudge {
+  50% {
+    transform: translateY(-3px);
+  }
+}
+.ask-tag {
+  text-transform: uppercase;
+}
+.opt {
+  min-height: 40px;
+  font-size: 16px;
+  border-radius: 4px;
+}
+.opt kbd {
+  font-size: 12px;
+}
+@media (hover: none) {
+  .console-keys,
+  .opt kbd,
+  .keyhint {
+    display: none;
+  }
+}
+
+/* ---------------------------------------------------------------- affordances */
+.knob {
+  touch-action: none;
+}
+.knob .knob-body {
+  transition: stroke-width 0.15s;
+}
+.knob:hover .knob-body {
+  stroke-width: 5;
+}
+.knob .knob-chevrons {
+  opacity: 0.55;
+  transition: opacity 0.2s;
+}
+.knob:hover .knob-chevrons,
+.knob.cue .knob-chevrons {
+  opacity: 1;
+}
+.knob-halo {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: knob-halo 1.6s ease-out infinite;
+}
+@keyframes knob-halo {
+  from {
+    transform: scale(0.9);
+    opacity: 0.9;
+  }
+  to {
+    transform: scale(1.8);
+    opacity: 0;
+  }
+}
+.knob-label {
+  font-family: var(--mono);
+  background: #070613cc;
+  padding: 0.05em 0.35em;
+  border-radius: 3px;
+}
+.ghost-hand {
+  opacity: 0;
+  animation: ghost-x 2.6s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+.ghost-hand.ghost-y {
+  animation-name: ghost-y;
+}
+.ghost-hand.ghost-xy {
+  animation-name: ghost-xy;
+}
+@keyframes ghost-x {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  12% {
+    opacity: 0.95;
+    transform: translate(0, 0);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate(90px, 0);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translate(90px, 0);
+  }
+}
+@keyframes ghost-y {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  12% {
+    opacity: 0.95;
+    transform: translate(0, 0);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate(0, -80px);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translate(0, -80px);
+  }
+}
+@keyframes ghost-xy {
+  0% {
+    opacity: 0;
+    transform: translate(0, 0);
+  }
+  12% {
+    opacity: 0.95;
+    transform: translate(0, 0);
+  }
+  60% {
+    opacity: 0.95;
+    transform: translate(70px, -60px);
+  }
+  80%,
+  100% {
+    opacity: 0;
+    transform: translate(70px, -60px);
+  }
+}
+.ghost-press {
+  animation: ghost-press 2.6s ease-in-out infinite 0.8s;
+  transform-box: fill-box;
+  transform-origin: center;
+}
+@keyframes ghost-press {
+  0%,
+  10% {
+    transform: scale(0.4);
+  }
+  16% {
+    transform: scale(1.4);
+  }
+  60% {
+    transform: scale(1);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .ghost-hand,
+  .knob-halo,
+  .ghost-press {
+    animation: none;
+  }
+  .ghost-hand {
+    opacity: 0.9;
+  }
+}
+/* controles en el escenario: botones y campos con objetivo táctil decente y pulso mientras se espera */
+.stage-btn {
+  min-height: 2.2em;
+  border-radius: 4px;
+}
+.cue-on .stage-btn:not(:disabled),
+.cue-on .stage-input:placeholder-shown {
+  animation: btn-cue 1.8s ease-in-out infinite;
+}
+@keyframes btn-cue {
+  50% {
+    box-shadow: 0 0 0 4px #ffbc5e44;
+    border-color: var(--amber);
+  }
+}
+.stage-input {
+  min-height: 2em;
+  border-radius: 4px;
+}
+.stage-input:focus {
+  box-shadow: 0 0 0 3px #28e7fa44;
+}
+
+/* ---------------------------------------------------------------- compacto: cajón */
+@media (max-width: 1100px), (max-height: 640px) {
+  .play.with-notes,
+  .play.with-notes.lesson {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: minmax(0, 1fr) auto;
+  }
+  .play.with-notes > .rail {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: min(380px, 88vw);
+    z-index: 40;
+    transform: translateX(105%);
+    transition: transform 0.3s ease;
+    box-shadow: -20px 0 40px #000a;
+    display: flex !important;
+  }
+  .play.with-notes > .rail.open {
+    transform: none;
+  }
+  .rail-close {
+    display: block;
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    z-index: 2;
+    width: 40px;
+    height: 40px;
+    background: #0b0a18;
+    border: 1px solid var(--line2);
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  .rail-scrim {
+    display: block;
+    position: fixed;
+    inset: 0;
+    z-index: 39;
+    background: #0008;
+  }
+  .rail-toggle {
+    display: inline-flex;
+    position: absolute;
+    z-index: 6;
+    right: 12px;
+    top: 44px;
+    align-items: center;
+    gap: 8px;
+    min-height: 36px;
+    padding: 0 12px;
+    background: #0b0a18e6;
+    border: 1px solid var(--line2);
+    border-radius: 18px;
+    color: var(--text);
+    font-family: var(--mono);
+    font-size: 12px;
+    letter-spacing: 0.08em;
+    cursor: pointer;
+  }
+  .play.lesson .rail-toggle {
+    border-color: #2c5248;
+    color: #c9fff0;
+  }
+  .rail-toggle b {
+    min-width: 22px;
+    height: 22px;
+    border-radius: 11px;
+    display: grid;
+    place-items: center;
+    background: var(--accent);
+    color: var(--bg);
+    font-size: 12px;
+  }
+  .rail-toggle b.bump {
+    animation: pop 0.45s;
+  }
+  .play.with-notes {
+    position: relative;
+  }
+}
+
+/* ---------------------------------------------------------------- HUD compacto */
+@media (max-width: 900px), (max-height: 520px) {
+  .level-hud {
+    grid-template-columns: auto minmax(0, 1fr) auto auto;
+    gap: 10px;
+    padding: 4px 10px;
+    min-height: 40px;
+  }
+  .hud-back span,
+  .hud-stars small {
+    display: none;
+  }
+  .hud-back {
+    min-width: 40px;
+    min-height: 36px;
+  }
+  .hud-title {
+    min-width: 0;
+    overflow: hidden;
+  }
+  .hud-name {
+    font-size: 15px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .step-track {
+    display: none;
+  }
+  .hud-stars span {
+    font-size: 15px;
+  }
+  .hud-menu {
+    width: 40px;
+    height: 36px;
+  }
+  .console {
+    padding: 8px 12px 10px;
+    gap: 10px;
+    grid-template-columns: auto minmax(0, 1fr);
+  }
+  .console-actions {
+    grid-column: 1 / -1;
+    flex-direction: row-reverse;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: wrap;
+    min-width: 0;
+  }
+  .console-actions .btn,
+  .console-actions > div + button {
+    min-width: 0;
+  }
+  .console-face {
+    width: 44px;
+    height: 44px;
+  }
+  .console-text {
+    font-size: 16px;
+  }
+  .focus-tex {
+    font-size: 18px;
+  }
+  .play.lesson .focus-strip {
+    min-height: 64px;
+  }
+}
+
+/* horizontal bajo (celular girado): escenario a la izquierda, consola a la derecha */
+@media (max-height: 520px) and (orientation: landscape) {
+  .play.with-notes,
+  .play.with-notes.lesson {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 34%);
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .play.with-notes > .play-stage {
+    grid-column: 1;
+    grid-row: 1;
+    padding: 2px 6px 0;
+  }
+  .play.with-notes > .console {
+    grid-column: 2;
+    grid-row: 1;
+    max-height: none;
+    border-top: none;
+    border-left: 1px solid var(--line2);
+    grid-template-columns: minmax(0, 1fr);
+    align-content: start;
+  }
+  .console-speaker {
+    flex-direction: row;
+  }
+  .console-face {
+    width: 36px;
+    height: 36px;
+  }
+  .console-text {
+    font-size: 15px;
+  }
+  .focus-strip {
+    max-height: 30%;
+  }
+  .play.lesson .focus-strip {
+    min-height: 52px;
+  }
+  .focus-tex {
+    font-size: 16px;
+  }
+  .focus-body {
+    font-size: 13px;
+  }
+  .play.with-notes > .rail-toggle {
+    top: 30px;
+    right: calc(max(260px, 34%) + 10px);
+  }
+  .stage-kicker {
+    display: none;
+  }
+}
+
+/* vertical en celular: escenario arriba, consola debajo con desplazamiento */
+@media (max-width: 700px) and (orientation: portrait) {
+  .play.with-notes,
+  .play.with-notes.lesson {
+    grid-template-rows: auto minmax(0, 1fr);
+  }
+  .play.with-notes > .play-stage {
+    height: auto;
+  }
+  .play-stage .stage-area {
+    flex: 0 0 auto;
+    aspect-ratio: 16 / 9;
+    width: 100%;
+  }
+  .play.with-notes > .console {
+    max-height: none;
+    overflow-y: auto;
+  }
+  .focus-strip {
+    max-height: none;
+  }
+  .rail-toggle {
+    top: 6px;
+  }
+  .stage-meta .skip-demo {
+    display: none;
+  }
+}
+
+/* aviso para girar el teléfono en clase, investigación y práctica */
+.rotate-hint {
+  display: none;
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .rotate-hint {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 12px;
+    background: #ffbc5e1a;
+    border-bottom: 1px solid #ffbc5e55;
+    color: #ffe2b0;
+    font-size: 14px;
+  }
+  .rotate-hint button {
+    margin-left: auto;
+    background: none;
+    border: 1px solid #ffbc5e55;
+    color: #ffe2b0;
+    min-height: 32px;
+    padding: 0 10px;
+  }
+  .rotate-hint .rot-icon {
+    font-size: 18px;
+    animation: rot-phone 2.4s ease-in-out infinite;
+    display: inline-block;
+  }
+  @keyframes rot-phone {
+    40%,
+    70% {
+      transform: rotate(90deg);
+    }
+  }
+}
+
+/* la partida: HUD, aviso opcional, cuerpo */
+.level {
+  grid-template-rows: auto auto minmax(0, 1fr);
+}
+.level-notice {
+  min-height: 0;
+}
+
+/* retratos: boca que habla */
+.portrait .mouth-open {
+  opacity: 0;
+}
+.portrait.talking .mouth-open {
+  animation: mouth-open 0.36s steps(1) infinite;
+}
+.portrait.talking .mouth-closed {
+  animation: mouth-closed 0.36s steps(1) infinite;
+}
+@keyframes mouth-open {
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes mouth-closed {
+  50% {
+    opacity: 0;
+  }
+}
+
+/* ---------------------------------------------------------------- escenas */
+.scene-cast {
+  bottom: 150px;
+  z-index: 1;
+}
+.scene-cast.left {
+  left: max(2vw, calc(50% - 600px));
+}
+.scene-cast.right {
+  right: max(2vw, calc(50% - 600px));
+}
+.scene-actor {
+  margin: 0 -30px;
+  transform: translateY(16px) scale(0.86);
+  transform-origin: 50% 100%;
+}
+.scene-actor.on {
+  transform: none;
+}
+.scene-actor svg {
+  width: auto;
+  height: clamp(240px, 46vh, 440px);
+}
+.portrait.dim {
+  filter: brightness(0.5) saturate(0.7) blur(0.4px);
+}
+.dialogue {
+  z-index: 2;
+  bottom: 22px;
+  min-height: 128px;
+  border-radius: 6px;
+}
+.dialogue-name b {
+  font-size: 18px;
+}
+.dialogue-name span {
+  font-size: 12px;
+}
+.dialogue-foot {
+  font-size: 12px;
+}
+.dialogue-face {
+  display: none;
+}
+.scene-skip {
+  font-size: 12px;
+  padding: 8px 14px;
+  min-height: 36px;
+  z-index: 3;
+}
+@media (max-height: 520px) and (orientation: landscape) {
+  .scene-cast {
+    bottom: 112px;
+  }
+  .scene-actor svg {
+    height: clamp(150px, 52vh, 230px);
+  }
+  .dialogue {
+    bottom: 8px;
+    min-height: 96px;
+    padding: 10px 16px 8px;
+  }
+  .dialogue-text {
+    font-size: 16px;
+  }
+}
+@media (max-width: 700px) and (orientation: portrait) {
+  .scene-cast {
+    display: none;
+  }
+  .dialogue {
+    left: 8px;
+    right: 8px;
+    width: auto;
+    transform: none;
+    bottom: 10px;
+    display: grid;
+    grid-template-columns: 84px minmax(0, 1fr);
+    column-gap: 12px;
+    padding: 12px 14px 10px;
+  }
+  .dialogue.narration {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .dialogue-face {
+    display: block;
+    grid-row: 1 / span 3;
+    align-self: start;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 84px;
+    height: 84px;
+    border: 2px solid var(--who);
+    background: #0006;
+  }
+  .dialogue-text {
+    font-size: 17px;
+  }
+  .dialogue-name {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+.scene-backdrop {
+  filter: blur(1.5px) saturate(0.8);
+}
+.dialogue-face svg {
+  width: 150px;
+  height: auto;
+  margin: -30px 0 0 -33px;
+}
+.k-touch {
+  display: none;
+}
+@media (hover: none) {
+  .k-desk {
+    display: none;
+  }
+  .k-touch {
+    display: inline;
+  }
+}

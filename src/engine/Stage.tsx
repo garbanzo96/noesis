@@ -120,7 +120,7 @@ function StageDefs() {
 }
 
 function BackdropGrid() {
-  return <rect width={W} height={H} fill="url(#dots)" opacity={0.55} pointerEvents="none" />;
+  return <rect className="stage-dots" width={W} height={H} fill="url(#dots)" opacity={0.55} pointerEvents="none" />;
 }
 
 /**
@@ -171,7 +171,8 @@ export function Html({
         top: `${(y / H) * 100}%`,
         transform: `translate(${tx})`,
         opacity: op,
-        fontSize: `calc(var(--su) * ${size})`,
+        // labels scale with the stage but never drop below a legible floor (see --label-min)
+        fontSize: `max(calc(var(--su) * ${size}), var(--label-min, 0px))`,
         color,
         pointerEvents: interactive ? 'auto' : 'none',
         ...style,

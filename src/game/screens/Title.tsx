@@ -3,7 +3,17 @@ import { useKey } from '../../engine/hooks';
 import { sfx } from '../audio';
 import { store, useGame } from '../state';
 
-export function Title({ onContinue, onPrologue, onCodex, onSettings }: { onContinue: () => void; onPrologue: () => void; onCodex: () => void; onSettings: () => void }) {
+export function Title({
+  onContinue,
+  onPrologue,
+  onCodex,
+  onSettings,
+}: {
+  onContinue: () => void;
+  onPrologue: () => void;
+  onCodex: () => void;
+  onSettings: () => void;
+}) {
   const game = useGame();
   const done = Object.values(game.levels).filter((l) => l.done).length;
   const start = () => {
@@ -14,6 +24,7 @@ export function Title({ onContinue, onPrologue, onCodex, onSettings }: { onConti
     else onContinue();
   };
   useKey([' ', 'Enter'], (e) => {
+    if ((e.target as HTMLElement)?.closest('button, select')) return;
     e.preventDefault();
     start();
   });
@@ -41,7 +52,9 @@ export function Title({ onContinue, onPrologue, onCodex, onSettings }: { onConti
             Ajustes
           </button>
         </nav>
-        <p className="title-meta">{done ? `${done} casos cerrados · ${game.xp} XP` : 'Pulsa Enter para empezar'}</p>
+        <p className="title-meta">
+          {done ? `${done} casos cerrados · ${game.xp} XP` : 'Pulsa Enter para empezar'}
+        </p>
       </div>
     </div>
   );

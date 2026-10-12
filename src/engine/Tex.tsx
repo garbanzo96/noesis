@@ -216,6 +216,9 @@ export function AnimTex({ tex, progress = 1, display = true, className }: { tex:
       el.style.textShadow = t > 0 && t < 1.6 ? '0 0 12px currentColor' : '';
       el.style.transition = 'opacity .25s, filter .25s, text-shadow .6s';
     }
+    // formulas without marked parts are "written" left to right, as in Manim's Write
+    const w = n ? 1 : Math.max(0, Math.min(1, progress * 1.25));
+    root.style.clipPath = w < 1 ? `inset(-20% ${(1 - w) * 100}% -20% 0)` : '';
   }, [html, progress]);
   return <span ref={ref} className={`tex anim-tex ${display ? 'tex-display' : ''} ${className ?? ''}`} {...hover} dangerouslySetInnerHTML={{ __html: html }} />;
 }

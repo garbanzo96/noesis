@@ -10,9 +10,11 @@ import { useGame } from '../state';
 export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduced: boolean }) {
   const game = useGame();
   const [hover, setHover] = useState<WorldId | null>(null);
+  const [selected, setSelected] = useState<WorldId | null>(null);
   const [toast, setToast] = useState<string | null>(null);
-  const firstOpen = SECTORS.find((s) => sectorState(game, s.world) === 'open')?.world ?? 'foundations';
-  const focus = hover ?? firstOpen;
+  const firstOpen =
+    SECTORS.find((s) => sectorState(game, s.world) === 'open')?.world ?? 'foundations';
+  const focus = hover ?? selected ?? firstOpen;
   const meta = SECTOR_BY_ID[focus];
   const st = sectorState(game, focus);
   const stars = sectorStars(game, focus);
@@ -21,13 +23,17 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
     const s = sectorState(game, w);
     if (s === 'sealed') {
       sfx.glitch();
-      setToast(`${SECTOR_BY_ID[w].name}: este distrito todavía no está abierto a la investigación.`);
+      setToast(
+        `${SECTOR_BY_ID[w].name}: este distrito todavía no está abierto a la investigación.`,
+      );
       setTimeout(() => setToast(null), 2600);
       return;
     }
     if (s === 'locked') {
       sfx.bad();
-      setToast(`Primero hay que cerrar: ${SECTOR_BY_ID[w].prerequisites.map((p) => SECTOR_BY_ID[p].name).join(', ')}.`);
+      setToast(
+        `Primero hay que cerrar: ${SECTOR_BY_ID[w].prerequisites.map((p) => SECTOR_BY_ID[p].name).join(', ')}.`,
+      );
       setTimeout(() => setToast(null), 2600);
       return;
     }
@@ -37,10 +43,74 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
 
   return (
     <div className="atlas">
+      <div className="atlas-mobile menu-list" aria-label="Mundos">
+        {[...SECTORS]
+          .sort((a, b) => a.number - b.number)
+          .map((sector) => {
+            const state = sectorState(game, sector.world);
+            const ss = sectorStars(game, sector.world);
+            const open = state === 'open' || state === 'done';
+            const status =
+              state === 'done'
+                ? 'Completado'
+                : state === 'open'
+                  ? 'Disponible'
+                  : state === 'sealed'
+                    ? 'En preparación'
+                    : `Requiere cerrar: ${sector.prerequisites.map((p) => SECTOR_BY_ID[p].name).join(' · ')}`;
+            const expanded = selected === sector.world;
+            return (
+              <section
+                key={sector.world}
+                className={`menu-list-item ${expanded ? 'selected' : ''}`}
+                style={{ ['--accent' as string]: sector.accent }}
+              >
+                <button
+                  className="menu-list-row"
+                  aria-expanded={expanded}
+                  aria-controls={`world-detail-${sector.world}`}
+                  onClick={() => setSelected(sector.world)}
+                >
+                  <span className="menu-list-symbol" aria-hidden>
+                    {sector.symbol}
+                  </span>
+                  <span className="menu-list-copy">
+                    <strong>
+                      {sector.number}. {sector.area}
+                    </strong>
+                    <span>{sector.name}</span>
+                    <span className="menu-list-meta">
+                      {ss.total > 0 && (
+                        <>
+                          ★ {ss.got}/{ss.max} ·{' '}
+                        </>
+                      )}
+                      {status}
+                    </span>
+                  </span>
+                </button>
+                {expanded && (
+                  <div className="menu-list-detail" id={`world-detail-${sector.world}`}>
+                    <p>{sector.hook}</p>
+                    <p className="menu-list-meta">{status}</p>
+                    {open && (
+                      <button className="btn primary" onClick={() => click(sector.world)}>
+                        Entrar al mundo ▸
+                      </button>
+                    )}
+                  </div>
+                )}
+              </section>
+            );
+          })}
+      </div>
       <div className="atlas-stage">
         <Stage grid={false}>
           {/* sea and coastline */}
-          <path d="M0 640 C 220 600 420 690 620 680 C 860 670 1040 610 1260 640 C 1420 660 1520 620 1600 600 L1600 900 L0 900 Z" fill="#071a2a" />
+          <path
+            d="M0 640 C 220 600 420 690 620 680 C 860 670 1040 610 1260 640 C 1420 660 1520 620 1600 600 L1600 900 L0 900 Z"
+            fill="#071a2a"
+          />
           {Array.from({ length: 9 }, (_, i) => (
             <path
               key={i}
@@ -62,7 +132,14 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
               opacity={0.8 - i * 0.05}
             />
           ))}
-          <text x="1440" y="860" fill="#1f5470" fontFamily="IBM Plex Mono" fontSize="22" letterSpacing="8">
+          <text
+            x="1440"
+            y="860"
+            fill="#1f5470"
+            fontFamily="IBM Plex Mono"
+            fontSize="22"
+            letterSpacing="8"
+          >
             BAHÍA
           </text>
           {/* links */}
@@ -72,7 +149,17 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
               const b = s.at;
               const live = sectorState(game, p) === 'done';
               return (
-                <line key={p + s.world} x1={a[0]} y1={a[1]} x2={b[0]} y2={b[1]} stroke={live ? C.cyan : '#3a2f60'} strokeWidth={live ? 2.5 : 1.5} strokeDasharray={live ? undefined : '6 8'} opacity={0.7} />
+                <line
+                  key={p + s.world}
+                  x1={a[0]}
+                  y1={a[1]}
+                  x2={b[0]}
+                  y2={b[1]}
+                  stroke={live ? C.cyan : '#3a2f60'}
+                  strokeWidth={live ? 2.5 : 1.5}
+                  strokeDasharray={live ? undefined : '6 8'}
+                  opacity={0.7}
+                />
               );
             }),
           )}
@@ -86,15 +173,42 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
               <g
                 key={s.world}
                 onMouseEnter={() => {
+                  if (window.matchMedia('(hover: none)').matches) return;
                   setHover(s.world);
                   sfx.hover();
                 }}
-                onMouseLeave={() => setHover(null)}
-                onClick={() => click(s.world)}
+                onMouseLeave={() => {
+                  if (!window.matchMedia('(hover: none)').matches) setHover(null);
+                }}
+                onClick={() => {
+                  if (window.matchMedia('(hover: none)').matches) {
+                    setHover(null);
+                    setSelected(s.world);
+                  } else click(s.world);
+                }}
                 style={{ cursor: 'pointer' }}
               >
-                {state === 'open' && !reduced && <circle cx={x} cy={y} r={46} fill="none" stroke={col} strokeWidth={2} className="pulse-ring" />}
-                <circle cx={x} cy={y} r={34} fill={state === 'done' ? col : '#0c0a1c'} fillOpacity={state === 'done' ? 0.22 : 1} stroke={col} strokeWidth={hover === s.world ? 4 : 2.5} strokeDasharray={state === 'sealed' ? '4 6' : undefined} />
+                {state === 'open' && !reduced && (
+                  <circle
+                    cx={x}
+                    cy={y}
+                    r={46}
+                    fill="none"
+                    stroke={col}
+                    strokeWidth={2}
+                    className="pulse-ring"
+                  />
+                )}
+                <circle
+                  cx={x}
+                  cy={y}
+                  r={34}
+                  fill={state === 'done' ? col : '#0c0a1c'}
+                  fillOpacity={state === 'done' ? 0.22 : 1}
+                  stroke={col}
+                  strokeWidth={hover === s.world ? 4 : 2.5}
+                  strokeDasharray={state === 'sealed' ? '4 6' : undefined}
+                />
                 <Html x={x} y={y} size={30} color={open ? '#fff' : '#5d5478'}>
                   <span className="atlas-sym">{s.symbol}</span>
                 </Html>
@@ -106,7 +220,9 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                 </Html>
                 {ss.total > 0 && (
                   <Html x={x} y={y - 54} size={14} color={C.amber}>
-                    <span>★ {ss.got}/{ss.max}</span>
+                    <span>
+                      ★ {ss.got}/{ss.max}
+                    </span>
                   </Html>
                 )}
               </g>
@@ -121,13 +237,18 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
         <h2>{meta.area}</h2>
         <p className="atlas-hook">{meta.hook}</p>
         {st === 'sealed' ? (
-          <p className="atlas-state sealed">En preparación: los temas de este mundo aún no están escritos.</p>
+          <p className="atlas-state sealed">
+            En preparación: los temas de este mundo aún no están escritos.
+          </p>
         ) : st === 'locked' ? (
-          <p className="atlas-state locked">Requiere cerrar: {meta.prerequisites.map((p) => SECTOR_BY_ID[p].name).join(' · ')}</p>
+          <p className="atlas-state locked">
+            Requiere cerrar: {meta.prerequisites.map((p) => SECTOR_BY_ID[p].name).join(' · ')}
+          </p>
         ) : (
           <>
             <p className="atlas-state open">
-              {st === 'done' ? 'Mundo completado' : 'Disponible'} · {stars.done}/{stars.total} casos · ★ {stars.got}/{stars.max}
+              {st === 'done' ? 'Mundo completado' : 'Disponible'} · {stars.done}/{stars.total} casos
+              · ★ {stars.got}/{stars.max}
             </p>
             <button className="btn primary" onClick={() => click(focus)}>
               Entrar al mundo ▸
