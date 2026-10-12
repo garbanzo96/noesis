@@ -8,6 +8,8 @@ import '@fontsource/space-grotesk/latin-500.css';
 import '@fontsource/space-grotesk/latin-700.css';
 import '@fontsource/ibm-plex-mono/latin-400.css';
 import './styles/game.css';
+import './styles/v5.css';
+import './styles/screens-mobile.css';
 import { GameRoot } from './game/GameRoot';
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
