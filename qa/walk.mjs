@@ -6,7 +6,7 @@ const out = new URL('./out/', import.meta.url).pathname;
 const storage = fs.readFileSync(new URL('./storage.json', import.meta.url), 'utf8');
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const ctx = await browser.newContext({ viewport: { width: 1440, height: 860 } });
-await ctx.addInitScript((s) => localStorage.setItem('noesis.v3', s), storage);
+await ctx.addInitScript((s) => { localStorage.setItem('noesis.v3', s); if (!location.search.includes('coach')) localStorage.setItem('noesis.coach.lesson', '1'); }, storage);
 const page = await ctx.newPage();
 const errors = [];
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));

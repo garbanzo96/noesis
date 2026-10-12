@@ -6,6 +6,7 @@ import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
 import { recordPrediction } from '../state';
 import { Board, linesOf } from './Board';
+import { Coach, LESSON_TOUR } from './Coach';
 import { Console, KeyHint } from './Console';
 import { FocusStrip } from './FocusStrip';
 import { Notebook } from './Notebook';
@@ -235,6 +236,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
           {beat.ask && <KeyHint k="1-3">responder</KeyHint>}
         </div>
       </Console>
+      {lesson && !run.reduced && <Coach id="lesson" steps={LESSON_TOUR} />}
     </div>
   );
 }

@@ -890,3 +890,51 @@
     display: inline;
   }
 }
+
+/* ---------------------------------------------------------------- guía de primera vez */
+.coach {
+  position: fixed;
+  inset: 0;
+  z-index: 80;
+}
+.coach-spot {
+  position: fixed;
+  border-radius: 8px;
+  box-shadow:
+    0 0 0 3px var(--amber),
+    0 0 0 9999px #05040cc4;
+  transition: all 0.35s ease;
+  pointer-events: none;
+}
+.coach-card {
+  position: fixed;
+  width: min(340px, calc(100vw - 24px));
+  background: #100d22;
+  border: 1px solid var(--amber);
+  border-radius: 8px;
+  padding: 14px 16px 12px;
+  box-shadow: 0 20px 50px #000c;
+  transition: top 0.35s ease, left 0.35s ease;
+}
+.coach-step {
+  font-family: var(--mono);
+  font-size: 12px;
+  color: var(--amber);
+}
+.coach-card b {
+  display: block;
+  font-family: var(--display);
+  font-size: 17px;
+  margin: 2px 0 6px;
+}
+.coach-card p {
+  margin: 0 0 12px;
+  font-size: 15px;
+  line-height: 1.45;
+  color: #e4def6;
+}
+.coach-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px;
+}

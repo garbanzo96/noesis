@@ -34,7 +34,7 @@ export function Confirm({ onClick, label = 'Confirmar', x = 1490, y = 840, disab
 /** Pointing hand drawn with its fingertip at (0,0). */
 function HandIcon() {
   return (
-    <g transform="translate(-14 -2)">
+    <g transform="scale(1.45) translate(-14 -2)">
       <path
         d="M14 2 C 18 2 20 5 20 9 L 20 24 L 23 22 C 27 20 31 22 31 26 L 31 27 C 34 25 38 27 38 31 L 38 32 C 41 31 44 33 44 37 L 44 50 C 44 60 38 66 29 66 L 22 66 C 15 66 11 62 8 56 L 2 44 C 0 40 2 36 6 35 C 9 34 11 36 12 38 L 8 30 L 8 9 C 8 5 10 2 14 2 Z"
         fill="#fff"
