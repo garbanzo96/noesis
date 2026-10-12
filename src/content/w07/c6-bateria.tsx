@@ -203,7 +203,7 @@ function AntennaDemo({ beats, answer }: DemoProps) {
         P={ANTENNA}
         xTicks={[-2, 0, 2]}
         yTicks={[-2, 2]}
-        xLabel="\text{este (km)}"
+        xLabel="\text{este}"
         yLabel="\text{norte (km)}"
       />
       <circle
