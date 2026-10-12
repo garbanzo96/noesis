@@ -24,6 +24,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | marta | Marta Quiroz | Hidróloga de la represa Peñuelas. Informante. | Paciente, exacta, piensa en caudales. |
 | lucia | Lucía Ferrada | Controladora de tráfico del Metro. Informante. | Rápida, habla en estaciones, tramos y horarios. |
 | ana | Ana Rojas | Archivera del Archivo Regional. Informante. | Meticulosa, cita folios y fechas. |
+| tomas | Tomás Leiva | Bombero voluntario de Cerro Barón y piloto de drones de rescate. | Calmado, habla en metros y coordenadas; humor seco de rescatista. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -34,6 +35,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 3. **La Represa** — cálculo integral. Caso: agua desviada de la represa Peñuelas hacia los servidores.
 4. **El Metro** — álgebra lineal. Caso: un tren de mantención que sale de noche y una tabla que lo esconde en las pantallas.
 6. **El Archivo** — estadística. Caso: el registro de vacunación de la Clínica del Cerro, alterado.
+7. **Los Cerros** — varias variables. Caso: un dron del contrabando perdido en la quebrada Jaime antes de la lluvia nocturna.
 (Los demás distritos se escriben al construir cada mundo.)
 
 ### Arco de El Puerto
@@ -106,3 +108,14 @@ tiene z = 3,4. 6.5 Una muestra de 64 fichas da edad media 66 (z = −6 frente al
 6.8 Recibidas vs. registradas: el Cerro tiene residuo −5,4 (540 dosis fuera del registro oficial).
 6.★ El informe para la fiscalía; el registro se alteró desde Halcón Drones, base Los Cerros, y un
 dron con vacunas se perdió en una quebrada → Los Cerros (varias variables).
+
+### Arco de Los Cerros
+
+7.1 Tomás ubica el suelo bajo la última señal: curva de 100 m, punto del este. 7.2 Las parciales
+del sendero miden la bajada en los ejes. 7.3 El máximo descenso lleva a la quebrada Jaime, sin señal.
+7.4 El plano tangente estima 160 m; el terreno da 159,5 m y el barómetro deja una diferencia pendiente.
+7.5 El portezuelo entre Barón y Los Placeres es una silla: los drones cruzan bajo el radar.
+7.6 La batería permite ubicar la antena en (1,2; 1,6) km, con intensidad 10. 7.7 La lluvia sobre
+la cuenca suma 99 000 m³ en tres horas. 7.8 El radio de búsqueda para el 95 % es aproximadamente 1,73 km.
+7.★ A las 03:00, Tomás baja con cuerda: dron entero, caja térmica vacía y chip que sigue enviando
+mensajes cifrados a una red de antenas → Las Antenas.

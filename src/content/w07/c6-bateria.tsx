@@ -62,10 +62,10 @@ function BatteryLesson({ beats, unlock, answer }: DemoProps) {
         <Curve P={PRODUCT} f={(x) => x * (10 - x)} color={C.cyan} progress={at(3)} />
         <Dot x={PRODUCT.x(5)} y={PRODUCT.y(25)} color={C.green} />
         <Cap x={PRODUCT.x(5)} y={PRODUCT.y(25) - 35} tex="(5;25)" color={C.green} />
-        <Cap x={1230} y={250} tex="f=xy,\\quad x+y=10" />
-        <Cap x={1230} y={340} tex="(y,x)=\\lambda(1,1)" color={C.amber} />
+        <Cap x={1230} y={250} tex="f=xy,\quad x+y=10" />
+        <Cap x={1230} y={340} tex="(y,x)=\lambda(1,1)" color={C.amber} />
         <Cap x={1230} y={430} tex="x=y=5" color={C.magenta} />
-        <Cap x={1230} y={520} tex="f_{\\max}=25" color={C.green} />
+        <Cap x={1230} y={520} tex="f_{\max}=25" color={C.green} />
         <Cap x={1230} y={620} size={19}>
           Sobre la recta: xy = x(10 − x).
         </Cap>
@@ -118,8 +118,8 @@ function BatteryLesson({ beats, unlock, answer }: DemoProps) {
             color={C.cyan}
             width={3}
           />
-          <Cap x={1230} y={470} tex="\\nabla f=(3,4)" color={C.amber} />
-          <Cap x={1230} y={540} tex="\\nabla g=(2x,2y)" color={C.cyan} />
+          <Cap x={1230} y={470} tex="\nabla f=(3,4)" color={C.amber} />
+          <Cap x={1230} y={540} tex="\nabla g=(2x,2y)" color={C.cyan} />
           <Cap x={1230} y={625} size={19}>
             Las flechas son paralelas en el contacto.
           </Cap>
@@ -130,7 +130,7 @@ function BatteryLesson({ beats, unlock, answer }: DemoProps) {
           Gira el punto hasta la marca verde.
         </Cap>
       )}
-      {beat === 4 && <Cap x={1230} y={710} tex="\\lambda=\\tfrac52" color={C.magenta} />}
+      {beat === 4 && <Cap x={1230} y={710} tex="\lambda=\tfrac52" color={C.magenta} />}
     </Stage>
   );
 }
@@ -203,8 +203,8 @@ function AntennaDemo({ beats, answer }: DemoProps) {
         P={ANTENNA}
         xTicks={[-2, 0, 2]}
         yTicks={[-2, 2]}
-        xLabel="\\text{este (km)}"
-        yLabel="\\text{norte (km)}"
+        xLabel="\text{este (km)}"
+        yLabel="\text{norte (km)}"
       />
       <circle
         cx={ANTENNA.x(0)}
@@ -220,7 +220,7 @@ function AntennaDemo({ beats, answer }: DemoProps) {
         Cuartel
       </Cap>
       <Cap x={1230} y={220} tex="f=3x+4y" color={C.amber} />
-      <Cap x={1230} y={300} tex="x^2+y^2\\le4" color={C.cyan} />
+      <Cap x={1230} y={300} tex="x^2+y^2\le4" color={C.cyan} />
       <Cap x={1230} y={385} size={20}>
         Radio disponible: 2 km.
       </Cap>
@@ -229,7 +229,7 @@ function AntennaDemo({ beats, answer }: DemoProps) {
           <SignalLevel value={10} radius={2} />
           <Arrow from={ANTENNA.pt(0, 0)} to={ANTENNA.pt(1.2, 1.6)} color={C.green} width={4} />
           <Dot x={ANTENNA.x(1.2)} y={ANTENNA.y(1.6)} color={C.green} />
-          <Cap x={1230} y={490} tex="P=(1{,}2;1{,}6)\\,\\mathrm{km}" color={C.green} />
+          <Cap x={1230} y={490} tex="P=(1{,}2;1{,}6)\,\mathrm{km}" color={C.green} />
         </>
       )}
       {beats.beat === 1 && answer !== null && (

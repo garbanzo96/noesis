@@ -188,7 +188,7 @@ function LastPosition({ beats, answer }: DemoProps) {
   const show = beats.beat > 0 || answer !== null;
   return (
     <Stage>
-      <Axes P={SEARCH} xLabel="\\text{este}" yLabel="\\text{norte}" />
+      <Axes P={SEARCH} xLabel="\text{este}" yLabel="\text{norte}" />
       <ContourMap P={SEARCH} f={terrain} levels={HEIGHTS} />
       {[-1, 1].map((sign) => (
         <g key={sign}>
@@ -202,9 +202,9 @@ function LastPosition({ beats, answer }: DemoProps) {
       <Cap x={SEARCH.x(4.5)} y={SEARCH.y(0) + 34} size={18}>
         Antena
       </Cap>
-      <Cap x={1250} y={250} tex="\\text{altitud: }120\\,\\mathrm m" />
-      <Cap x={1250} y={320} tex="\\text{sobre el suelo: }20\\,\\mathrm m" />
-      {show && <Cap x={1250} y={410} tex="120-20=100\\,\\mathrm m" color={C.green} />}
+      <Cap x={1250} y={250} tex="\text{altitud: }120\,\mathrm m" />
+      <Cap x={1250} y={320} tex="\text{sobre el suelo: }20\,\mathrm m" />
+      {show && <Cap x={1250} y={410} tex="120-20=100\,\mathrm m" color={C.green} />}
       {beats.beat === 1 && answer !== null && (
         <Cap x={1250} y={490} color={C.amber}>
           La señal viene del este.

@@ -106,18 +106,18 @@ function CriticalLesson({ beats, answer }: DemoProps) {
           <Cap x={650} y={695} size={19}>
             Los planos marcados son horizontales.
           </Cap>
-          <Cap x={1220} y={220} tex="f_x=3x^2-3,\\quad f_y=2y" size={21} />
-          {beat >= 1 && <Cap x={1220} y={300} tex="(1,0),\\quad(-1,0)" color={C.green} />}
+          <Cap x={1220} y={220} tex="f_x=3x^2-3,\quad f_y=2y" size={21} />
+          {beat >= 1 && <Cap x={1220} y={300} tex="(1,0),\quad(-1,0)" color={C.green} />}
           {beat >= 3 && (
             <>
-              <Cap x={1220} y={390} tex="f_{xx}=6x,\\quad f_{yy}=2" color={C.amber} />
-              <Cap x={1220} y={455} tex="f_{xy}=0,\\quad D=12x" color={C.magenta} />
+              <Cap x={1220} y={390} tex="f_{xx}=6x,\quad f_{yy}=2" color={C.amber} />
+              <Cap x={1220} y={455} tex="f_{xy}=0,\quad D=12x" color={C.magenta} />
             </>
           )}
           {beat === 4 && answer !== null && (
             <>
               <Cap x={1220} y={560} tex="D(-1,0)=-12<0" color={C.magenta} />
-              <Cap x={1220} y={625} tex="D(1,0)=12,\\quad f_{xx}=6" color={C.amber} size={21} />
+              <Cap x={1220} y={625} tex="D(1,0)=12,\quad f_{xx}=6" color={C.amber} size={21} />
               <Cap x={1220} y={700} size={20}>
                 Silla a la izquierda; mínimo a la derecha.
               </Cap>
@@ -227,10 +227,10 @@ function PassDemo({ beats, answer }: DemoProps) {
       <Cap x={650} y={160}>
         Paso entre Barón y Los Placeres
       </Cap>
-      <Cap x={650} y={720} tex="(0,0):\\quad S=50\\,\\mathrm m" color={C.green} />
+      <Cap x={650} y={720} tex="(0,0):\quad S=50\,\mathrm m" color={C.green} />
       <Cap x={1230} y={220} tex="S=x^2-y^2+50" />
-      <Cap x={1230} y={305} tex="\\nabla S=(2x,-2y)" color={C.cyan} />
-      <Cap x={1230} y={385} tex="\\nabla S(0,0)=(0,0)" />
+      <Cap x={1230} y={305} tex="\nabla S=(2x,-2y)" color={C.cyan} />
+      <Cap x={1230} y={385} tex="\nabla S(0,0)=(0,0)" />
       {show && (
         <>
           <polyline points={cut('x')} fill="none" stroke={C.amber} strokeWidth={4} />

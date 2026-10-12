@@ -235,8 +235,8 @@ function FallDemo({ beats, answer, reduced }: DemoProps) {
         P={SEARCH}
         xTicks={[0, 2, 4, 6, 8]}
         yTicks={[2, 4, 6, 8]}
-        xLabel="\\text{este (km)}"
-        yLabel="\\text{norte (km)}"
+        xLabel="\text{este (km)}"
+        yLabel="\text{norte (km)}"
       />
       <ContourMap P={SEARCH} f={H} levels={HEIGHTS} />
       <GradField P={SEARCH} grad={downhill} color={C.red} />

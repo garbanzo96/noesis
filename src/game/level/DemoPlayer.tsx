@@ -136,8 +136,11 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const tone = beat.ask && answer !== null ? (answer === beat.ask.answer ? 'ok' : 'bad') : beat.gate && unlocked[beats.beat] ? 'ok' : undefined;
   // what the focus strip shows: the board lines of a lesson step; in an investigation, the
   // formula of the step and, once done, the note it leaves in the notebook
+  // in a step that asks for a prediction, its formula (which usually holds the answer) waits for it
   const focus: BoardLine[] = lesson
-    ? linesOf(beat)
+    ? beat.ask && answer === null
+      ? []
+      : linesOf(beat)
     : done && beat.note
       ? [{ label: beat.note.label, tex: beat.note.tex ?? '', body: beat.note.body }]
       : beat.tex
@@ -149,6 +152,23 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
     [cueActive, beats.beat],
   );
   const waiting = typed && !done;
+  // write the formula of an answered question part by part, like any other step
+  const [revealed, setRevealed] = useState(1);
+  useEffect(() => {
+    if (!beat.ask || answer === null) return;
+    if (run.reduced) return setRevealed(1);
+    setRevealed(0);
+    const t0 = performance.now();
+    let id = 0;
+    const tick = () => {
+      const r = Math.min(1, (performance.now() - t0) / 1600);
+      setRevealed(r);
+      if (r < 1) id = requestAnimationFrame(tick);
+    };
+    id = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [answer, beats.beat]);
   return (
     <div className={`play with-notes ${lesson ? 'lesson' : 'demo'}`}>
       <div className={`play-stage ${cueActive ? 'cue-on' : ''}`}>
@@ -173,7 +193,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
             </button>
           </div>
         </div>
-        <FocusStrip key={`${beats.beat}-${done ? 1 : 0}`} lines={focus} progress={lesson ? beats.at(beats.beat) : 1} tone={lesson ? undefined : 'note'} />
+        <FocusStrip key={`${beats.beat}-${done ? 1 : 0}-${answer === null ? 0 : 1}`} lines={focus} progress={lesson ? (beat.ask ? revealed : beats.at(beats.beat)) : 1} tone={lesson ? undefined : 'note'} />
       </div>
       <Rail label={lesson ? 'Pizarra' : 'Cuaderno'} count={lesson ? step.beats.slice(0, beats.beat).reduce((m, b) => m + linesOf(b).length, 0) : run.notes.length}>
         {lesson ? <Board title={run.level.subtitle} beats={step.beats} current={beats.beat} /> : <Notebook notes={run.notes} />}

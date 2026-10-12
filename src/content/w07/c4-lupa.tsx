@@ -155,23 +155,23 @@ function BarometerDemo({ beats, answer }: DemoProps) {
         P={PROFILE}
         xTicks={[3]}
         yTicks={[155, 160, 165, 170]}
-        xLabel="x\\ (\\mathrm{km})"
-        yLabel="z\\ (\\mathrm m)"
+        xLabel="x\ (\mathrm{km})"
+        yLabel="z\ (\mathrm m)"
       />
       <Curve P={PROFILE} f={(x) => H(x, 4)} color={C.cyan} clip />
       <Curve P={PROFILE} f={(x) => 166 - 12 * (x - 3)} color={C.amber} dashed clip />
       <Dot x={PROFILE.x(3)} y={PROFILE.y(166)} color={C.green} />
       <Cap x={PROFILE.x(3) + 55} y={PROFILE.y(166) - 30} tex="(3;166)" size={18} />
       <Line a={PROFILE.pt(3.5, 154)} b={PROFILE.pt(3.5, 168)} dashed />
-      <Cap x={PROFILE.x(3.5)} y={690} tex="x=3{,}5,\\quad y=4" size={19} />
+      <Cap x={PROFILE.x(3.5)} y={690} tex="x=3{,}5,\quad y=4" size={19} />
       <Cap x={1230} y={200} tex="H=200-2x^2-y^2" color={C.cyan} />
-      <Cap x={1230} y={270} tex="H(3,4)=166\\,\\mathrm m" />
-      <Cap x={1230} y={340} tex="H_x=-12,\\quad H_y=-8" />
-      <Cap x={1230} y={410} tex="(\\Delta x;\\Delta y)=(0{,}5;0)\\,\\mathrm{km}" size={21} />
+      <Cap x={1230} y={270} tex="H(3,4)=166\,\mathrm m" />
+      <Cap x={1230} y={340} tex="H_x=-12,\quad H_y=-8" />
+      <Cap x={1230} y={410} tex="(\Delta x;\Delta y)=(0{,}5;0)\,\mathrm{km}" size={21} />
       {estimated && (
         <>
           <Dot x={PROFILE.x(3.5)} y={PROFILE.y(160)} color={C.amber} />
-          <Cap x={1230} y={505} tex="L=166-12\\cdot0{,}5=160" color={C.amber} />
+          <Cap x={1230} y={505} tex="L=166-12\cdot0{,}5=160" color={C.amber} />
         </>
       )}
       {checked && (

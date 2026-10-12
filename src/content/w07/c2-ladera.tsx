@@ -178,8 +178,8 @@ function SlopeDemo({ beats, answer }: DemoProps) {
         P={SEARCH}
         xTicks={[0, 2, 4, 6, 8]}
         yTicks={[2, 4, 6, 8]}
-        xLabel="\\text{este (km)}"
-        yLabel="\\text{norte (km)}"
+        xLabel="\text{este (km)}"
+        yLabel="\text{norte (km)}"
       />
       <ContourMap P={SEARCH} f={H} levels={LEVELS} />
       <Dot x={SEARCH.x(3)} y={SEARCH.y(4)} color={C.green} />
@@ -187,9 +187,9 @@ function SlopeDemo({ beats, answer }: DemoProps) {
       <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(4.8, 4)} color={C.amber} width={4} />
       <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(3, 5.2)} color={C.magenta} width={4} />
       <Cap x={1230} y={200} tex="H=200-2x^2-y^2" />
-      <Cap x={1230} y={270} tex="H(3,4)=166\\,\\mathrm m" />
-      <Cap x={1230} y={370} color={C.amber} tex="H_x(3,4)=-12\\,\\mathrm{m/km}" />
-      <Cap x={1230} y={440} color={C.magenta} tex="H_y(3,4)=-8\\,\\mathrm{m/km}" />
+      <Cap x={1230} y={270} tex="H(3,4)=166\,\mathrm m" />
+      <Cap x={1230} y={370} color={C.amber} tex="H_x(3,4)=-12\,\mathrm{m/km}" />
+      <Cap x={1230} y={440} color={C.magenta} tex="H_y(3,4)=-8\,\mathrm{m/km}" />
       {beats.beat === 1 && answer !== null && (
         <Cap x={1230} y={540} color={C.green}>
           Este: baja más por kilómetro.
