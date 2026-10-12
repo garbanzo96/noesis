@@ -92,7 +92,7 @@ function HistLesson({ beats, unlock, answer }: DemoProps) {
       {AGES.map((a, i) => (
         <circle key={i} cx={P.x(a)} cy={P.y(0) + 62} r={5} fill={C.cyan} opacity={beat === 1 ? 1 - at(1) * 0.5 : 0.5} />
       ))}
-      {beat === 2 && <Choices x={1370} y={300} options={[5, 10, 20, 40]} value={w} onPick={(v) => { setW(v); if (v !== 10) unlock(); }} render={(v) => `${v} años`} label="ancho" />}
+      {beat === 2 && <Choices x={1340} y={300} options={[5, 10, 20, 40]} value={w} onPick={(v) => { setW(v); if (v !== 10) unlock(); }} render={(v) => `${v}`} label="ancho (años)" />}
       {beat <= 2 && <Cap x={1370} y={230} size={22} color={C.text} tex={`n=30,\\ \\text{ancho }${width}`} />}
       {beat === 4 && (
         <>

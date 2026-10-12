@@ -938,3 +938,42 @@
   justify-content: space-between;
   gap: 10px;
 }
+
+/* ---------------------------------------------------------------- legibilidad */
+/* las etiquetas del escenario llevan un halo del color del fondo: se leen aunque crucen líneas */
+.stage-html {
+  text-shadow:
+    0 0 3px #070613,
+    0 0 6px #070613,
+    0 0 1px #070613;
+}
+.stage-html .stage-btn,
+.stage-html .stage-input,
+.stage-html button {
+  text-shadow: none;
+}
+/* rótulos de interfaz: nunca bajo 12 px */
+.step-label,
+.note-label,
+.notebook header span,
+.board header span,
+.console-speaker span,
+.integrity span,
+.keyhint,
+.keyhint kbd,
+.opt kbd,
+.hud-code,
+.round-label,
+.challenge-title {
+  font-size: 12px;
+}
+.step-track li {
+  font-size: 12px;
+}
+/* rótulos móviles (lecturas de perillas, marcadores sobre ejes): fondo opaco que tapa lo de abajo */
+.stage-html .prop-tag,
+.knob-label {
+  background: #070613e6;
+  padding: 0.04em 0.35em;
+  border-radius: 3px;
+}

@@ -105,7 +105,7 @@ export function Knob({ x, y, color = C.cyan, r = 18, label, onPointerDown, curso
       <circle className="knob-body" cx={x} cy={y} r={r} fill={C.panel} stroke={color} strokeWidth={3} />
       <circle cx={x} cy={y} r={Math.max(4, r * 0.32)} fill={color} pointerEvents="none" />
       {label !== undefined && (
-        <Html x={x} y={y - r - 24} size={17} color={color}>
+        <Html x={x} y={y + r + 26} size={17} color={color}>
           <span className="knob-label">{label}</span>
         </Html>
       )}

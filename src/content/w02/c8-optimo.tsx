@@ -150,8 +150,8 @@ function OptimumDemo({ beats, unlock, answer }: DemoProps) {
         {beat === 2 && answer !== null && (
           <>
             <Formula x={1340} y={360} size={22} tex="P''(I)=-0{,}3<0" />
-            <Html x={1340} y={420} size={18} color={C.muted}>
-              <span>la pendiente siempre baja: cóncava hacia abajo</span>
+            <Html x={1340} y={430} size={18} color={C.muted}>
+              <span style={{ display: 'block', whiteSpace: 'normal', width: '12em', textAlign: 'center' }}>la pendiente siempre baja: cóncava hacia abajo</span>
             </Html>
           </>
         )}
