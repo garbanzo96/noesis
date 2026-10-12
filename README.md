@@ -26,7 +26,7 @@ con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pued
 | Mundo | Área | Lugar | Estado |
 | --- | --- | --- | --- |
 | 1 | Precálculo (conjuntos, funciones, sumatorias, exponentes y logaritmos…) | El Puerto | jugable, con clases |
-| 2 | Cálculo diferencial | La Planta | jugable |
+| 2 | Cálculo diferencial (límites, derivada, reglas, cadena, exp y log, optimización, aproximación) | La Planta | jugable, con clases |
 | 3 | Cálculo integral (Riemann, área con signo, TFC, sustitución, partes, impropias) | La Represa | jugable, con clases |
 | 4 | Álgebra lineal (vectores, matrices, sistemas, determinante, valores propios) | El Metro | jugable, con clases |
 | 5 | Probabilidad | Casino Aurora | jugable |
