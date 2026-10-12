@@ -65,7 +65,7 @@ function CenterLesson({ beats, unlock, answer }: DemoProps) {
         <line x1={XX(0) - 20} x2={XX(beat === 5 ? 4 : 40) + 20} y1={Y0} y2={Y0} stroke={C.muted} strokeWidth={5} />
         <DotPlot X={XX} y={Y0 - 2} xs={data} r={13} color={C.amber} />
       </g>
-      {(beat !== 3 || answer !== null) && <Fulcrum X={XX} y={Y0} at={f} />}
+      {((beat !== 3 && beat !== 5) || answer !== null) && <Fulcrum X={XX} y={Y0} at={f} />}
       <NumberLine X={XX} y={Y0 + 80} lo={0} hi={beat === 5 ? 4 : 40} step={beat === 5 ? 1 : 5} />
       {beat >= 1 && beat <= 2 && <Knob x={X(big)} y={Y0 - 15} color={C.magenta} onPointerDown={onBig} r={16} cursor="ew-resize" />}
       {(beat === 2 || (beat === 3 && answer !== null)) && (
@@ -74,7 +74,7 @@ function CenterLesson({ beats, unlock, answer }: DemoProps) {
           <Cap x={XX(md)} y={Y0 - 175} size={20} color={C.cyan} tex={`\\tilde x=${num(md)}`} />
         </>
       )}
-      {(beat !== 3 || answer !== null) && <Cap x={XX(f)} y={Y0 + 150} size={22} color={C.green} tex={`\\bar x=${num(m, 2)}`} opacity={beat === 0 ? at(0) : 1} />}
+      {((beat !== 3 && beat !== 5) || answer !== null) && <Cap x={XX(f)} y={Y0 + 150} size={22} color={C.green} tex={`\\bar x=${num(m, 2)}`} opacity={beat === 0 ? at(0) : 1} />}
       {beat === 2 && <Cap x={1370} y={230} size={20} color={C.muted} tex={`\\text{ordenados: }${sorted(data).join(',\\ ')}`} />}
       {beat === 5 && (
         <>
@@ -105,7 +105,7 @@ const lesson: LessonStep = {
     {
       say: 'La **mediana** es el dato del medio cuando se ordenan: deja la mitad de los datos a cada lado. Si son pares, es el promedio de los dos centrales. Fíjate: no se movió con la pesa.',
       dur: 3,
-      board: { label: 'Mediana', tex: '\\tilde x=\\text{dato central de los datos ordenados}', body: 'Con $n$ par, el promedio de los dos centrales. Es **resistente** a los extremos.' },
+      board: { label: 'Mediana', tex: '\\tilde x=\\text{dato central (ordenados)}', body: 'Con $n$ par, el promedio de los dos centrales. Es **resistente** a los extremos.' },
     },
     {
       say: 'Compara las dos medidas con un dato extremo.',

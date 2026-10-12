@@ -119,7 +119,7 @@ const lesson: LessonStep = {
     {
       say: 'Cada ficha del registro es un **individuo** y cada columna, una **variable**: algo que se mide u observa en cada uno. Hay variables **cualitativas** (categorías) y **cuantitativas** (números); estas son **discretas** si se cuentan y **continuas** si se miden.',
       dur: 3.6,
-      board: { label: 'Variables', tex: '\\text{cualitativa}\\quad\\text{vs}\\quad\\text{cuantitativa}\\ \\begin{cases}\\text{discreta}\\\\\\text{continua}\\end{cases}' },
+      board: { label: 'Variables', tex: '\\begin{aligned}&\\p{1}{\\text{cualitativa}}\\\\&\\p{2}{\\text{cuantitativa: discreta o continua}}\\end{aligned}' },
     },
     {
       say: 'Con muchos datos no sirve mirarlos uno por uno. Se agrupan en **clases** (intervalos del mismo ancho) y se cuenta cuántos caen en cada una: la **frecuencia absoluta** $f_i$. Dividida por el total $n$ es la **frecuencia relativa**.',

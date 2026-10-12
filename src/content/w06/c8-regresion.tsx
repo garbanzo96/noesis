@@ -108,7 +108,7 @@ function RegLesson({ beats, unlock, answer }: DemoProps) {
           <Arrow from={[700, 280]} to={[540, 420]} color={C.magenta} width={3} progress={at(5)} />
           <Arrow from={[820, 280]} to={[980, 420]} color={C.magenta} width={3} progress={at(5)} />
           <line x1={630} x2={890} y1={470} y2={470} stroke={C.dim} strokeWidth={3} strokeDasharray="8 8" opacity={at(5)} />
-          <Cap x={760} y={510} size={18} color={C.muted}>correlacionadas, sin que una cause la otra</Cap>
+          <Cap x={760} y={580} size={18} color={C.muted}>correlacionadas, sin que una cause la otra</Cap>
         </>
       ) : (
         <>
@@ -181,7 +181,7 @@ const lesson: LessonStep = {
     {
       say: 'La recta óptima tiene fórmula: la pendiente es $r$ por el cociente de las desviaciones estándar, y la recta pasa por el punto de las medias $(\\bar x,\\bar y)$.',
       dur: 3,
-      board: { label: 'Coeficientes', tex: '\\hat y=a+b\\,x,\\qquad \\p{1}{b=r\\,\\frac{s_y}{s_x}},\\qquad \\p{2}{a=\\bar y-b\\,\\bar x}' },
+      board: { label: 'Coeficientes', tex: '\\begin{gathered}\\hat y=a+b\\,x\\\\ \\p{1}{b=r\\,\\frac{s_y}{s_x}},\\quad \\p{2}{a=\\bar y-b\\,\\bar x}\\end{gathered}' },
     },
     {
       say: 'La recta sirve para **predecir**, y el **residuo** dice cuánto se aleja un caso real de lo esperado.',

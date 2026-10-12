@@ -126,7 +126,7 @@ const lesson: LessonStep = {
       board: { label: 'Estadístico de prueba', tex: 'z=\\frac{\\p{1}{\\hat p-p_0}}{\\p{2}{\\sqrt{p_0(1-p_0)/n}}}' },
     },
     {
-      say: 'El **valor p** es la probabilidad de obtener un resultado al menos así de extremo **si $H_0$ fuera cierta**: el área de la cola más allá de $z$. Mientras más chico, más difícil de creer $H_0$.',
+      say: 'El **valor p** es la probabilidad de obtener un resultado al menos así de extremo si $H_0$ fuera cierta: el área de la cola más allá de $z$. Mientras más chico, más difícil de creer $H_0$.',
       gate: 'Mueve $z$ hasta que el valor p sea menor que 0,05.',
       board: { label: 'Valor p', tex: 'p=P(Z\\le z_{\\text{obs}}\\mid H_0)' },
     },
@@ -138,7 +138,7 @@ const lesson: LessonStep = {
     {
       say: 'Hay dos formas de equivocarse: rechazar una $H_0$ verdadera (**error tipo I**, con probabilidad $\\alpha$) o no rechazar una falsa (**error tipo II**).',
       dur: 3,
-      board: { label: 'Errores', tex: '\\text{tipo I: }P(\\text{rechazar}\\mid H_0)=\\alpha,\\quad \\text{tipo II}' },
+      board: { label: 'Errores', tex: '\\alpha=P(\\text{tipo I}),\\quad \\beta=P(\\text{tipo II})' },
     },
   ],
 };

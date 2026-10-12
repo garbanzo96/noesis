@@ -139,7 +139,7 @@ const lesson: LessonStep = {
     {
       say: 'Con una **muestra** (no toda la población) se divide por $n-1$. La media de la muestra está, por construcción, en medio de sus propios datos, y dividir por $n$ subestimaría la dispersión real.',
       dur: 3.4,
-      board: { label: 'Varianza muestral', tex: 's^2=\\frac{1}{\\p{1}{n-1}}\\sum_{i=1}^n(x_i-\\bar x)^2,\\qquad s=\\sqrt{s^2}' },
+      board: { label: 'Varianza muestral', tex: 's^2=\\frac{1}{\\p{1}{n-1}}\\sum_{i=1}^n(x_i-\\bar x)^2', body: 'Y la desviación estándar muestral es $s=\\sqrt{s^2}$.' },
     },
   ],
 };

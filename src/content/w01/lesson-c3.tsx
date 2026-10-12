@@ -190,7 +190,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Dos rectas se cortan donde tienen **la misma $y$ para la misma $x$**: se igualan y se despeja.',
+      say: 'Dos rectas se cortan donde tienen la misma $y$ para la misma $x$: se igualan y se despeja.',
       ask: {
         prompt: '¿Dónde se cortan $y=x+1$ e $y=3x-3$?',
         options: ['En (2, 3)', 'En (1, 2)', 'No se cortan'],

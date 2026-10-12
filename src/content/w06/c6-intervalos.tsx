@@ -127,7 +127,7 @@ const lesson: LessonStep = {
     {
       say: 'Más confianza exige intervalos más anchos: el 90 % usa $1{,}645$; el 95 %, $1{,}96$; el 99 %, $2{,}576$. Y más datos los angostan.',
       ask: { prompt: 'Para reducir el margen de error a la mitad, ¿cuánto hay que aumentar $n$?', options: ['Cuatro veces', 'El doble', 'No se puede'], answer: 0, explain: 'El margen es $z^*\\sigma/\\sqrt n$: para dividirlo por 2, $\\sqrt n$ se multiplica por 2, o sea $n$ por 4.' },
-      board: { label: 'Margen y tamaño', tex: 'E=z^*\\frac{\\sigma}{\\sqrt n}\\ \\Rightarrow\\ n=\\p{1}{\\left(\\frac{z^*\\sigma}{E}\\right)^2}', body: '$n$ se redondea hacia arriba.' },
+      board: { label: 'Margen y tamaño', tex: '\\begin{gathered}E=z^*\\frac{\\sigma}{\\sqrt n}\\\\ \\p{1}{n=\\left(\\frac{z^*\\sigma}{E}\\right)^2}\\end{gathered}', body: '$n$ se redondea hacia arriba.' },
     },
     {
       say: 'Si no se conoce $\\sigma$, se usa la desviación de la muestra $s$. Con muestras chicas eso agrega incertidumbre y $z^*$ se cambia por un valor algo mayor, $t^*$, de la distribución $t$ de Student.',

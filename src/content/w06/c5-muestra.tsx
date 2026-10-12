@@ -90,13 +90,13 @@ function SampleLesson({ beats, unlock, answer }: DemoProps) {
       {beat === 0 && <Cap x={1370} y={420} size={22} color={C.amber} tex="\bar x=\text{media de la muestra}" opacity={at(0)} />}
       {beat === 1 && (
         <>
-          <Html x={1370} y={400} size={20} interactive>
+          <Html x={1370} y={290} size={20} interactive>
             <button className="stage-btn on" onClick={take}>
               Tomar muestra ▸
             </button>
           </Html>
-          <Cap x={1370} y={460} size={18} color={C.muted}>{`${draws.length} muestras de 10`}</Cap>
-          {ms.length > 0 && <Cap x={1370} y={510} size={20} color={C.amber} tex={`\\bar x=${num(ms[ms.length - 1], 1)}`} />}
+          <Cap x={1370} y={340} size={18} color={C.muted}>{`${draws.length} muestras de 10`}</Cap>
+          {ms.length > 0 && <Cap x={1370} y={385} size={20} color={C.amber} tex={`\\bar x=${num(ms[ms.length - 1], 1)}`} />}
         </>
       )}
       {beat === 3 && (

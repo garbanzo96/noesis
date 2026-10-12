@@ -120,7 +120,7 @@ const lesson: LessonStep = {
     {
       say: 'Estandarizar convierte cualquier normal en la **normal estándar** $Z\\sim N(0,1)$. Sus áreas acumuladas están en tablas: $\\Phi(z)=P(Z\\le z)$.',
       ask: { prompt: 'Si $\\Phi(1)\\approx0{,}84$, ¿qué fracción de los datos supera $z=1$?', options: ['0,16', '0,84', '0,34'], answer: 0, explain: 'El área total es 1: $1-0{,}84=0{,}16$. Coincide con la regla: fuera de $\\pm1\\sigma$ queda el 32 %, la mitad a cada lado.' },
-      board: { label: 'Normal estándar', tex: 'Z=\\frac{X-\\mu}{\\sigma}\\sim N(0,1),\\quad \\Phi(z)=P(Z\\le z)' },
+      board: { label: 'Normal estándar', tex: '\\begin{gathered}\\p{1}{Z=\\frac{X-\\mu}{\\sigma}\\sim N(0,1)}\\\\\\p{2}{\\Phi(z)=P(Z\\le z)}\\end{gathered}' },
     },
   ],
 };
