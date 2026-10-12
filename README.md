@@ -18,6 +18,10 @@ Cada caso tiene cuatro partes, y se puede entrar a cualquiera desde el mapa:
 3. **Investigación**: se aplica lo aprendido a la escena del caso.
 4. **Práctica**: tres rondas con valores aleatorios; los errores explican qué falló.
 
+En la clase, la fórmula de cada paso se escribe animada bajo el dibujo y después se guarda en la pizarra. Lo que se
+puede arrastrar tiene flechas y, la primera vez, una mano que muestra el gesto. Funciona en PC y en celular
+(mejor en horizontal para clases y prácticas).
+
 El menú **Recursos** (tecla `R`) reúne definiciones, notación y propiedades de todos los temas,
 con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pueden recorrer en cualquier orden.
 
