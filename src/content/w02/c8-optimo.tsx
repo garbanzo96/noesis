@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve, Dot, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Formula } from '../w05/kit';
@@ -21,6 +22,92 @@ import { Tangent, nt } from './kit';
 const Pw = (i: number) => 12 * i - 0.15 * i * i;
 const dPw = (i: number) => 12 - 0.3 * i;
 const PP = plane([0, 80], [0, 260], { x: 300, y: 120, w: 960, h: 540 });
+
+// ---------------------------------------------------------------- lesson
+const area = (x: number) => x * (20 - x);
+const PA = plane([0, 20], [0, 110], { x: 250, y: 140, w: 720, h: 480 });
+
+function OptimumLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x, setX] = useState(4);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp(PA.inv(px, 0)[0], 0, 20) * 100) / 100;
+    setX(next);
+    if (next >= 9.5 && next <= 10.5) unlock();
+  });
+  if (beat === 5) {
+    const rows = ['\\text{Variable: }x', 'A(x)=x(20-x)', 'x\\in[0,20]', "A'(x)=0\\Rightarrow x=10", 'A(0)=A(20)=0<100=A(10)'];
+    return <Stage>{rows.map((tex, i) => <Cap key={tex} x={800} y={170 + i * 110} tex={tex} size={28} color={i === 4 ? C.green : C.text} />)}</Stage>;
+  }
+  const at = beat === 0 ? x : 10;
+  return <Stage ref={svg}>
+    <Axes P={PA} xTicks={[0, 5, 10, 15, 20]} yTicks={[25, 50, 75, 100]} xLabel="x" yLabel="A" grid />
+    <Curve P={PA} f={area} a={0} b={20} color={C.cyan} width={4} />
+    {(beat !== 1 || answer !== null) && <Tangent P={PA} f={area} a={at} m={20 - 2 * at} half={4} />}
+    <rect x={1080} y={240} width={at * 18} height={(20 - at) * 18} fill={C.cyan} fillOpacity={0.25} stroke={C.cyan} strokeWidth={3} />
+    <Cap x={1260} y={180} tex="2x+2(20-x)=40\ \text{m}" size={22} />
+    <Cap x={1260} y={480} tex={`x=${nt(at)}\\ \\text{m},\\quad20-x=${nt(20 - at)}\\ \\text{m}`} size={20} />
+    <Cap x={1260} y={550} tex={`A(${nt(at)})=${nt(area(at))}\\ \\text{m}^2`} color={C.cyan} />
+    {beat === 0 && <>
+      <rect x={PA.x(0)} y={690} width={PA.box.w} height={60} fill="transparent" onPointerDown={onX} />
+      <Knob x={PA.x(x)} y={720} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(x, 2)} m`} />
+    </>}
+    {beat === 2 && <Cap x={650} y={730} tex="A'(x)=20-2x=0\Rightarrow x=10" color={C.amber} />}
+    {beat === 3 && <Cap x={650} y={730} tex="A''(x)=-2<0\Rightarrow\text{máximo}" color={C.amber} />}
+    {beat === 4 && <>
+      {[0, 20].map((v) => <Dot key={v} x={PA.x(v)} y={PA.y(0)} r={9} color={C.green} />)}
+      <Cap x={650} y={730} tex="A(0)=A(20)=0<100=A(10)" color={C.green} />
+    </>}
+  </Stage>;
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Optimización',
+  Scene: OptimumLesson,
+  beats: [
+    {
+      say: 'Con 40 m de reja, un rectángulo de ancho $x$ tiene largo $20-x$. Mueve el ancho y observa el área.',
+      gate: 'Arrastra x hasta quedar entre 9,5 y 10,5 m.',
+      board: { label: 'Modelo', tex: 'A(x)=x(20-x)=\\p{1}{20x-x^2}', body: '$2x+2(20-x)=40$ y $0\\le x\\le20$.' },
+    },
+    {
+      say: 'Al aumentar el ancho, el largo disminuye. El área llega a un máximo y luego baja.',
+      ask: { prompt: '¿Qué ancho da el área máxima?', options: ['10 m', '20 m', '5 m'], answer: 0, explain: 'Con $x=10$, el largo también es 10 y el área es $100$ m².' },
+      board: { label: 'Área máxima', tex: 'A(10)=10(20-10)=\\p{1}{100}\\ \\text{m}^2' },
+    },
+    {
+      say: 'En el máximo, la tangente es horizontal. Resuelve $A\'(x)=20-2x=0$ para obtener $x=10$.',
+      dur: 3,
+      board: [
+        { label: 'Puntos críticos', tex: "f'(x)=0\\quad\\text{o}\\quad f'(x)\\text{ no existe}", body: 'Busca puntos del dominio de la función.' },
+        { tex: "A'(x)=20-2x=0\\Rightarrow x=10,\\qquad A(10)=100\\ \\text{m}^2" },
+      ],
+    },
+    {
+      say: 'La segunda derivada es negativa: la curva es cóncava hacia abajo. El punto crítico es un máximo.',
+      dur: 2.6,
+      board: { label: 'Comprobar el máximo', tex: "A''(x)=-2<0\\Rightarrow\\text{máximo en }x=10" },
+    },
+    {
+      say: 'En un intervalo cerrado, compara los puntos críticos con los extremos. Aquí el área en ambos extremos es cero.',
+      dur: 3,
+      board: { label: 'Extremos del intervalo', tex: 'x\\in[0,20]:\\quad A(0)=A(20)=0<100=A(10)' },
+    },
+    {
+      say: 'Define la variable, la función y el dominio. Busca los puntos críticos y comprueba el resultado, incluyendo los extremos.',
+      dur: 3,
+      board: [
+        { label: 'Modelar', tex: '\\text{Variable}\\to\\text{función}\\to\\text{dominio}' },
+        { label: 'Optimizar', tex: "f'=0\\text{ o }f'\\text{ no existe}\\to\\text{comprobar y comparar extremos}" },
+      ],
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function OptimumDemo({ beats, unlock, answer }: DemoProps) {

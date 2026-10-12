@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Formula } from '../w05/kit';
@@ -34,6 +35,108 @@ function RunOne({ x, y, m, color = C.amber }: { x: number; y: number; m: number;
     </g>
   );
 }
+
+// ---------------------------------------------------------------- lesson
+function ExpLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x, setX] = useState(-1);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp(PE.inv(px, 0)[0], -2, 1.4) * 1000) / 1000;
+    setX(next);
+    if (next >= 1) unlock();
+  });
+  if (beat === 0 || beat === 1) {
+    const at = beat === 0 ? x : 0;
+    return (
+      <Stage ref={svg}>
+        <Axes P={PE} xTicks={[-2, -1, 0, 1, 2]} yTicks={[2, 4, 6, 8, 10, 12]} grid />
+        <Curve P={PE} f={Math.exp} a={-2} b={2.5} color={C.cyan} width={4} />
+        <Tangent P={PE} f={Math.exp} a={at} m={Math.exp(at)} half={1} onPointerDown={beat === 0 ? onX : undefined} />
+        <Cap x={1340} y={190} tex="y=e^x" color={C.cyan} />
+        <Cap x={1340} y={270} tex={`\\text{altura}\\approx${nt(Math.exp(at), 3)}`} color={C.cyan} />
+        <Cap x={1340} y={340} tex={`\\text{pendiente}\\approx${nt(Math.exp(at), 3)}`} color={C.amber} />
+        {beat === 0 && <>
+          <rect x={PE.x(-2)} y={700} width={PE.x(1.4) - PE.x(-2)} height={60} fill="transparent" onPointerDown={onX} />
+          <Knob x={PE.x(x)} y={730} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(x, 3)}`} />
+        </>}
+        {beat === 1 && <>
+          <Curve P={PE} f={(v) => 2 ** v} a={-2} b={2.5} color={C.violet} width={3} />
+          <Tangent P={PE} f={(v) => 2 ** v} a={0} m={Math.log(2)} half={1} color={C.violet} />
+          <Cap x={1340} y={440} tex={`(2^x)'_{x=0}=\\ln2\\approx${nt(Math.log(2), 3)}`} size={20} color={C.violet} />
+          {answer !== null && <Cap x={1340} y={520} tex="(e^x)'_{x=0}=1" color={C.green} />}
+        </>}
+      </Stage>
+    );
+  }
+  if (beat === 2) {
+    const P = plane([0, 8], [0, 110], { x: 300, y: 120, w: 900, h: 540 });
+    const Q = (t: number) => 100 * Math.exp(-0.5 * t);
+    return <Stage>
+      <Axes P={P} xTicks={[0, 2, 4, 6, 8]} yTicks={[20, 40, 60, 80, 100]} xLabel="t" yLabel="Q" grid />
+      <Curve P={P} f={Q} a={0} b={8} color={C.cyan} width={4} />
+      {[0, 2, 4].map((t) => <Tangent key={t} P={P} f={Q} a={t} m={-0.5 * Q(t)} half={0.8} />)}
+      <Cap x={1380} y={220} tex="Q(t)=100e^{-0{,}5t}" size={22} />
+      <Cap x={1380} y={320} tex="Q'(t)=-50e^{-0{,}5t}" size={22} color={C.amber} />
+      <Cap x={1380} y={420} tex="Q'(0)=-50" color={C.amber} />
+    </Stage>;
+  }
+  if (beat === 3) {
+    const P = plane([0, 8], [-2, 3], { x: 300, y: 120, w: 900, h: 540 });
+    return <Stage>
+      <Axes P={P} xTicks={[1, 2, 4, 6, 8]} yTicks={[-1, 1, 2, 3]} grid />
+      <Curve P={P} f={Math.log} a={0.14} b={8} color={C.cyan} width={4} />
+      <Cap x={1360} y={220} tex="y=\ln x" />
+      {answer !== null && <>
+        <Tangent P={P} f={Math.log} a={4} m={0.25} half={3} />
+        <Cap x={1360} y={330} tex="f'(4)=\frac14=0{,}25" size={24} color={C.amber} />
+      </>}
+    </Stage>;
+  }
+  return <Stage>
+    <Cap x={800} y={270} tex="(e^x)'=e^x" size={34} color={C.cyan} />
+    <Cap x={800} y={440} tex="(\ln x)'=\frac1x,\quad x>0" size={34} color={C.amber} />
+  </Stage>;
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Derivadas de exp y log',
+  Scene: ExpLesson,
+  beats: [
+    {
+      say: 'En $y=e^x$, la pendiente es igual a la altura en cada punto. En $x=1$, ambas valen aproximadamente $2{,}718$.',
+      gate: 'Recorre la curva con el control hasta x = 1 o más.',
+      board: { label: 'Exponencial', tex: "(e^x)'=\\p{1}{\\cA{e^x}}", body: 'En $x=1$: altura y pendiente $e\\approx2{,}718$.' },
+    },
+    {
+      say: 'Para otras bases aparece el factor $\\ln a$. En $2^x$, la pendiente en cero es $\\ln2\\approx0{,}693$.',
+      ask: { prompt: '¿Qué base tiene pendiente exactamente 1 en $x=0$?', options: ['$e\\approx2{,}718$', '2', '10'], answer: 0, explain: 'En cero, $a^0\\ln a=\\ln a$. Vale 1 cuando $a=e$.' },
+      board: { label: 'Otras bases', tex: "(a^x)'=\\p{1}{a^x}\\,\\p{2}{\\ln a},\\qquad a>0", body: 'El logaritmo natural de $e$ vale 1.' },
+    },
+    {
+      say: 'La cadena agrega el factor $k$ al derivar $e^{kx}$. En $Q(t)=100e^{-0{,}5t}$, la cantidad baja cada vez más lento.',
+      dur: 3,
+      board: [
+        { label: 'Cadena', tex: "(e^{kx})'=\\p{1}{k}\\,e^{kx}" },
+        { tex: "Q(t)=100e^{-0{,}5t},\\quad Q'(t)=-50e^{-0{,}5t},\\quad Q'(0)=-50" },
+      ],
+    },
+    {
+      say: 'El logaritmo natural es la inversa de $e^x$. Su pendiente en $x>0$ es $1/x$.',
+      ask: { prompt: '¿Cuánto vale la derivada de $\\ln x$ en $x=4$?', options: ['0,25', '4', '1'], answer: 0, explain: '$1/4=0{,}25$.' },
+      board: { label: 'Logaritmo', tex: "(\\ln x)'=\\p{1}{\\cA{\\frac1x}},\\qquad x>0" },
+    },
+    {
+      say: 'La exponencial se deriva a sí misma. La derivada del logaritmo natural es el recíproco de su entrada.',
+      dur: 2.6,
+      board: { label: 'Exp y log', tex: "(e^x)'=\\p{1}{\\cC{e^x}},\\qquad(\\ln x)'=\\p{2}{\\cA{\\frac1x}}\\quad(x>0)" },
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function ExpDemo({ beats, unlock, answer }: DemoProps) {

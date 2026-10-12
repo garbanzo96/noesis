@@ -5,7 +5,8 @@ import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve, Dot, Line } from '../../engine/shapes';
 import { Tex } from '../../engine/Tex';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Formula } from '../w05/kit';
@@ -22,6 +23,126 @@ const PS = plane([80, 130], [8.8, 11.6], { x: 300, y: 120, w: 960, h: 540 });
 const g = (t: number) => 40 + 2 * t + 0.05 * t * t - 110;
 const dg = (t: number) => 2 + 0.1 * t;
 const PN = plane([0, 45], [-80, 110], { x: 300, y: 120, w: 960, h: 540 });
+
+// ---------------------------------------------------------------- lesson
+const PL = plane([2, 6], [1.3, 2.7], { x: 300, y: 140, w: 860, h: 500 });
+const linear = (x: number) => 2 + 0.25 * (x - 4);
+const newtonF = (x: number) => x * x - 2;
+const PNL = plane([0.8, 1.8], [-1.2, 1.3], { x: 300, y: 140, w: 860, h: 500 });
+
+function EstimateLesson({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x, setX] = useState(5.5);
+  const [steps, setSteps] = useState<number[]>([1]);
+  const onX = useSvgDrag(svg, (px) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp(PL.inv(px, 0)[0], 2, 6) * 1000) / 1000;
+    setX(next);
+    if (Math.abs(next - 4) < 0.2) unlock();
+  });
+  if (beat <= 2) {
+    const at = beat === 0 ? x : 4.4;
+    const reveal = beat !== 1 || answer !== null;
+    return <Stage ref={svg}>
+      <Axes P={PL} xTicks={[2, 3, 4, 5, 6]} yTicks={[1.5, 2, 2.5]} grid />
+      <Curve P={PL} f={Math.sqrt} a={2} b={6} color={C.cyan} width={4} />
+      <SlopeLine P={PL} a={4} ya={2} m={0.25} x0={2} x1={6} />
+      <Dot x={PL.x(4)} y={PL.y(2)} r={8} color={C.amber} />
+      <Line a={PL.pt(at, Math.sqrt(at))} b={PL.pt(at, linear(at))} color={C.red} width={4} />
+      <Dot x={PL.x(at)} y={PL.y(Math.sqrt(at))} r={8} color={C.cyan} onPointerDown={beat === 0 ? onX : undefined} />
+      {reveal && <>
+        <Dot x={PL.x(at)} y={PL.y(linear(at))} r={6} color={C.amber} />
+        <Cap x={1370} y={210} tex={`\\sqrt{${nt(at, 3)}}\\approx${nt(Math.sqrt(at), 5)}`} size={22} color={C.cyan} />
+        <Cap x={1370} y={290} tex={`L(${nt(at, 3)})=${nt(linear(at), 5)}`} size={22} color={C.amber} />
+        <Cap x={1370} y={370} tex={`\\text{distancia}\\approx${nt(Math.abs(linear(at) - Math.sqrt(at)), 5)}`} size={20} color={C.red} />
+      </>}
+      <Cap x={1370} y={490} tex="L(x)=2+0{,}25(x-4)" size={22} />
+      {beat === 0 && <>
+        <rect x={PL.x(2)} y={690} width={PL.box.w} height={60} fill="transparent" onPointerDown={onX} />
+        <Knob x={PL.x(x)} y={720} onPointerDown={onX} cursor="ew-resize" label={`x=${dec(x, 3)}`} />
+      </>}
+      {beat === 2 && <>
+        <Line a={PL.pt(4, 2)} b={PL.pt(at, 2)} color={C.green} dashed />
+        <Line a={PL.pt(at, 2)} b={PL.pt(at, linear(at))} color={C.amber} width={3} />
+        <Cap x={800} y={730} tex="dx=0{,}4,\quad dy=0{,}25\cdot0{,}4=0{,}1" color={C.amber} />
+      </>}
+    </Stage>;
+  }
+  if (beat === 3) {
+    const last = steps[steps.length - 1];
+    const step = () => setSteps((prev) => {
+      if (prev.length >= 4) return prev;
+      const at = prev[prev.length - 1];
+      return [...prev, at - newtonF(at) / (2 * at)];
+    });
+    return <Stage>
+      <Axes P={PNL} xTicks={[1, 1.2, 1.4, 1.6, 1.8]} yTicks={[-1, 0, 1]} grid />
+      <Curve P={PNL} f={newtonF} a={0.8} b={1.8} color={C.cyan} width={4} />
+      {steps.slice(0, -1).map((at, i) => <g key={i} opacity={i === steps.length - 2 ? 1 : 0.4}>
+        <Line a={PNL.pt(at, 0)} b={PNL.pt(at, newtonF(at))} color={C.dim} dashed />
+        <SlopeLine P={PNL} a={at} ya={newtonF(at)} m={2 * at} x0={Math.min(at, steps[i + 1]) - 0.03} x1={Math.max(at, steps[i + 1]) + 0.03} />
+        <Dot x={PNL.x(at)} y={PNL.y(newtonF(at))} r={7} color={C.amber} />
+        <Dot x={PNL.x(steps[i + 1])} y={PNL.y(0)} r={7} color={C.green} />
+      </g>)}
+      <Dot x={PNL.x(last)} y={PNL.y(newtonF(last))} r={8} color={C.cyan} />
+      <Cap x={1370} y={170} tex="f(x)=x^2-2" />
+      {steps.map((at, i) => <Cap key={i} x={1370} y={260 + i * 65} tex={`x_${i}${i < 2 ? '=' : '\\approx'}${nt(at, i === 2 ? 5 : 6)}`} color={i === steps.length - 1 ? C.green : C.muted} />)}
+      <Cap x={1370} y={570} tex={`\\sqrt2\\approx${nt(Math.sqrt(2), 6)}`} size={22} />
+      <Html x={800} y={750} size={24} interactive>
+        <button className="stage-btn on" onClick={step} disabled={steps.length >= 4}>Paso de Newton</button>
+      </Html>
+    </Stage>;
+  }
+  return <Stage>
+    <Cap x={800} y={270} tex="L(x)=f(a)+f'(a)(x-a)" size={32} color={C.cyan} />
+    <Cap x={800} y={460} tex="x_{n+1}=x_n-\frac{f(x_n)}{f'(x_n)}" size={32} color={C.amber} />
+  </Stage>;
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Aproximación lineal y Newton',
+  Scene: EstimateLesson,
+  beats: [
+    {
+      say: 'Cerca de $a$, la tangente aproxima la curva. Para $\\sqrt x$ en $a=4$, la altura es 2 y la pendiente es $0{,}25$.',
+      gate: 'Mueve x cerca de 4, hasta que |x − 4| sea menor que 0,2.',
+      board: [
+        { label: 'Aproximación lineal', tex: "L(x)=\\p{1}{f(a)}+\\p{2}{f'(a)}\\,(x-a)" },
+        { tex: 'L(x)=2+0{,}25(x-4)', body: '$\\sqrt{4{,}1}\\approx L(4{,}1)=2{,}025$; el valor real es aproximadamente $2{,}02485$.' },
+      ],
+    },
+    {
+      say: 'Usa la recta para estimar otra raíz cercana. El cambio en $x$ se multiplica por la pendiente.',
+      ask: { prompt: 'Con esa recta, ¿cuánto estima $\\sqrt{4{,}4}$?', options: ['2,1', '2,4', '2,04'], answer: 0, explain: '$2+0{,}25\\cdot0{,}4=2{,}1$. El valor real es aproximadamente $2{,}0976$.' },
+      board: { label: 'Estimación', tex: 'L(4{,}4)=2+0{,}25\\cdot0{,}4=\\p{1}{2{,}1}' },
+    },
+    {
+      say: 'El diferencial $dy$ es el cambio estimado por la tangente. Se obtiene multiplicando el cambio $dx$ por la derivada.',
+      dur: 3,
+      board: { label: 'Diferenciales', tex: "dy=\\p{1}{f'(x)}\\,\\p{2}{dx}", body: 'En $x=4$, con $dx=0{,}4$: $dy=0{,}25\\cdot0{,}4=0{,}1$.' },
+    },
+    {
+      say: 'Newton usa el corte de la tangente con el eje para acercarse a un cero. Para $x^2-2=0$, parte de $x_0=1$ y avanza con el botón.',
+      dur: 3,
+      board: [
+        { label: 'Newton', tex: "x_{n+1}=x_n-\\frac{\\p{1}{f(x_n)}}{\\p{2}{f'(x_n)}}", body: 'Se necesita $f\'(x_n)\\ne0$.' },
+        { tex: 'x_0=1,\\quad x_1=1{,}5,\\quad x_2\\approx1{,}41667,\\quad x_3\\approx1{,}414216', body: '$\\sqrt2\\approx1{,}414214$. Cada tangente da la siguiente aproximación.' },
+      ],
+    },
+    {
+      say: 'La tangente sirve para estimar valores cercanos y para buscar ceros. Estas son las dos fórmulas que usamos.',
+      dur: 2.6,
+      board: [
+        { label: 'Aproximación lineal', tex: "L(x)=\\p{1}{f(a)}+\\p{2}{f'(a)}(x-a)" },
+        { label: 'Newton', tex: "x_{n+1}=x_n-\\p{1}{\\frac{f(x_n)}{f'(x_n)}}" },
+      ],
+    },
+  ],
+};
+
+export { lesson };
 
 // ---------------------------------------------------------------- demo
 function EstimateDemo({ beats, unlock, answer }: DemoProps) {
