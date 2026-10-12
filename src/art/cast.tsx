@@ -5,7 +5,7 @@ import { C } from '../engine/palette';
 // mouth, hair, outfit, one signature accessory) with flat colors, soft shading and a rim light
 // in the character's color, so the cast reads as one hand. Eyes blink and the mouth moves while
 // the character talks (CSS in game.css / v5.css).
-export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis' | 'marta' | 'lucia' | 'ana';
+export type CastId = 'iris' | 'teo' | 'rosa' | 'contador' | 'baron' | 'vera' | 'nadia' | 'noesis' | 'marta' | 'lucia' | 'ana' | 'tomas';
 
 export interface Character {
   id: CastId;
@@ -25,6 +25,7 @@ export const CAST: Record<CastId, Character> = {
   noesis: { id: 'noesis', name: 'NÓESIS', role: 'Tutora de la agencia', color: C.teal },
   marta: { id: 'marta', name: 'Marta Quiroz', role: 'Hidróloga · Represa Peñuelas', color: '#5fd3ff' },
   lucia: { id: 'lucia', name: 'Lucía Ferrada', role: 'Controladora de tráfico · Metro', color: '#9cff6e' },
+  tomas: { id: 'tomas', name: 'Tomás Leiva', role: 'Bombero · piloto de drones', color: '#ff6b4a' },
   ana: { id: 'ana', name: 'Ana Rojas', role: 'Archivera · Archivo Regional', color: '#ff9f6e' },
 };
 
@@ -61,6 +62,7 @@ const LOOKS: Record<Exclude<CastId, 'noesis'>, Look> = {
   nadia: { jaw: 'square', skin: '#8d5a3b', shade: '#6f432a', hair: '#120c09', hairStyle: 'short', iris: '#2a1a10', brows: 'flat', mouth: 'firm', outfit: 'overalls', cloth: '#1b2440', cloth2: '#6f9cff', extra: (c) => <HardHat col={c} /> },
   marta: { jaw: 'round', skin: '#c48f6a', shade: '#9e6b4b', hair: '#3a2416', hairStyle: 'braid', iris: '#3d5a40', brows: 'soft', mouth: 'smile', outfit: 'field', cloth: '#1f2c24', cloth2: '#5fd3ff', extra: (c) => <DropPin col={c} /> },
   lucia: { jaw: 'oval', skin: '#d4a07a', shade: '#ad7a57', hair: '#2b1810', hairStyle: 'highpony', iris: '#2f2219', brows: 'raised', mouth: 'neutral', outfit: 'uniform', cloth: '#16242a', cloth2: '#9cff6e', extra: (c) => <Headset col={c} /> },
+  tomas: { jaw: 'square', skin: '#b9825a', shade: '#93613f', hair: '#1b1512', hairStyle: 'short', iris: '#37251a', brows: 'flat', mouth: 'neutral', outfit: 'uniform', cloth: '#681e24', cloth2: '#e6edb5', extra: (c) => <ShoulderRadio col={c} /> },
   ana: { jaw: 'narrow', skin: '#e6c2a4', shade: '#c19a7c', hair: '#3b2a22', hairStyle: 'bun', iris: '#4b5d3a', brows: 'soft', mouth: 'neutral', outfit: 'cardigan', cloth: '#2a1d1d', cloth2: '#ff9f6e', extra: (c) => <RoundGlasses col={c} /> },
 };
 
@@ -394,6 +396,15 @@ function Outfit({ look, col }: { look: Look; col: string }) {
 }
 
 // ------------------------------------------------------------------ signature accessories
+function ShoulderRadio({ col }: { col: string }) {
+  return <g>
+    <path d="M90 275 L86 239" stroke="#151a20" strokeWidth={5} strokeLinecap="round" />
+    <rect x="77" y="270" width="28" height="43" rx="5" fill="#182128" stroke="#b9c4c3" strokeWidth={2} />
+    <rect x="82" y="276" width="18" height="9" rx="2" fill={col} />
+    {[293, 298, 303].map((y) => <path key={y} d={`M83 ${y} L99 ${y}`} stroke="#aebdbe" strokeWidth={2} />)}
+    <path d="M102 312 Q117 324 118 345" fill="none" stroke="#131b20" strokeWidth={3} />
+  </g>;
+}
 function Visor({ col }: { col: string }) {
   return (
     <g>

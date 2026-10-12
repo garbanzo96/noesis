@@ -3,7 +3,7 @@ import { C } from '../engine/palette';
 
 // Location backdrops (1600×900, scaled with "slice"). Layered vector silhouettes, window lights,
 // neon and fog. Deterministic pseudo-random so every render is identical.
-export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta' | 'represa' | 'metro' | 'archivo';
+export type PlaceId = 'puerto' | 'oficina' | 'bodega' | 'casino' | 'servidores' | 'planta' | 'represa' | 'metro' | 'archivo' | 'cerros';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -367,6 +367,27 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       ))}
       <rect x="0" y="780" width="1600" height="120" fill="#070407" />
       <Neon x={800} y={210} text="ARCHIVO REGIONAL" color="#ff9f6e" size={34} />
+    </>
+  ),
+  cerros: () => (
+    <>
+      <Sky top="#060912" mid="#15172d" bottom="#192b35" />
+      <Cerros seed={71} y0={480} color="#14182c" />
+      <Cerros seed={72} y0={630} color="#0c1220" />
+      {/* Quebrada entre las casas; la escalera queda en la ladera izquierda. */}
+      <path d="M740 490 Q850 620 1050 900 L620 900 Q820 680 740 490 Z" fill="#03070e" />
+      <path d="M120 900 L455 480 L530 480 L280 900 Z" fill="#27323e" />
+      {Array.from({ length: 20 }, (_, i) => {
+        const t = i / 20;
+        return <line key={i} x1={120 + 335 * t} x2={280 + 250 * t} y1={900 - 420 * t} y2={900 - 420 * t} stroke="#65707b" strokeWidth={3} />;
+      })}
+      <path d="M100 870 L440 452 M300 870 L547 452" fill="none" stroke="#75828d" strokeWidth={5} />
+      <Neon x={1230} y={320} text="BARÓN" color="#ff6b4a" size={30} />
+      <rect width="1600" height="900" fill="url(#fog)" />
+      <ellipse cx="780" cy="560" rx="730" ry="75" fill="#879caf" opacity={0.08} />
+      <circle cx="985" cy="660" r="18" fill="#ff6b4a" opacity={0.12} />
+      <circle cx="985" cy="660" r="4" fill="#ff5145" className="blink" />
+      <RainDefs /><Rain />
     </>
   ),
   servidores: () => (
