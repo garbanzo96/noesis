@@ -348,9 +348,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'Represa Peñuelas. El informe oficial dice que anoche salieron 8 mil metros cúbicos. El lago bajó mucho más que eso.' },
-        { who: 'teo', text: 'Tengo el caudalímetro de la tubería 7, la que va a la central. Mide caudal, no volumen.' },
-        { who: 'iris', text: 'Entonces hay que convertir ritmo en cantidad. NÓESIS, explícalo desde el principio.' },
+        { who: 'nar', text: 'Represa Peñuelas, 07:00; el viento golpea la baranda.' },
+        { who: 'marta', text: 'El informe declara 8 mil m³ para anoche. La marca del lago bajó más de lo que esa cuenta permite.' },
+        { who: 'teo', text: 'Tengo el caudalímetro de la tubería 7, hacia la central. Guarda cuánto pasa por hora; falta juntar la noche completa.' },
+        { who: 'iris', text: '¿Podemos guardar el registro antes de que lo corrijan?' },
+        { who: 'marta', text: 'Guarda una copia. Ya he visto correcciones que llegan antes de la pregunta.' },
       ],
     },
     {
@@ -384,8 +386,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'Quince mil metros cúbicos por noche que no aparecen en ningún informe.' },
-        { who: 'teo', text: 'Pero hay un problema: el caudalímetro solo guarda un dato por hora. Entre medio, el caudal cambia.' },
+        { who: 'marta', text: 'En los tramos registrados pasaron 23 mil m³; el informe declara 8 mil. Quedaron 15 mil fuera del papel.' },
+        { who: 'iris', text: 'Esa diferencia tiene destino.' },
+        { who: 'teo', text: 'Hay que afinarla: entre los datos de cada hora también cambia el caudal. La cuenta por tramos supone que se mantiene fijo.' },
+        { who: 'marta', text: 'Entonces deja esa condición escrita. No les regalemos una excusa para descartar el registro.' },
       ],
     },
   ],

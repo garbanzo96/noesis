@@ -346,9 +346,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'puerto',
       lines: [
-        { who: 'teo', text: 'Conseguí el registro del mareógrafo del muelle 3. Una medición por minuto, todo el día.' },
-        { who: 'iris', text: 'El Altamar carga mucho. Si la marea no le da, no entra.' },
-        { who: 'teo', text: 'Necesita al menos 3 metros sobre el nivel base. Con la curva sabremos a qué hora puede llegar.' },
+        { who: 'nar', text: 'Muelle 3, jueves, 07:20; el agua golpea los pilotes.' },
+        { who: 'teo', text: '¡El mareógrafo guarda una lectura por minuto! Tengo el día completo.' },
+        { who: 'iris', text: 'El Altamar necesita al menos 3 metros sobre el nivel base. Quiero saber cuándo cabe.' },
+        { who: 'rosa', text: 'Si ustedes se equivocan de hora, mis trabajadores van a estar ahí cuando descargue.' },
       ],
     },
     {
@@ -408,8 +409,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'puerto',
       lines: [
-        { who: 'teo', text: 'Con la marea de hoy, la ventana se abre a las 00:40 y dura hasta las 05:20. El Altamar llegará de madrugada.' },
-        { who: 'iris', text: 'Y alguien tiene que llevarse la carga en camión. Quiero los GPS de los camiones que retiraron su última carga.' },
+        { who: 'teo', text: 'La ventana de madrugada va de 00:40 a 05:20; también hay otra de 13:04 a 17:44. Necesita esos 3 metros durante toda la descarga.' },
+        { who: 'iris', text: 'Puede entrar de madrugada. Eso todavía no nos dice quién retira la carga.' },
+        { who: 'rosa', text: 'De la última descarga quedaron cuatro camiones en la guía. Los choferes dicen que fueron directo.' },
+        { who: 'teo', text: 'Sus GPS siguen guardados. Me gusta cuando un aparato tiene mejor memoria que su dueño.' },
       ],
     },
   ],

@@ -234,8 +234,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'La bomba del canal 7 se enciende sola a medianoche. Sube, llega a un máximo y se va apagando.' },
-        { who: 'teo', text: 'Su caudal es el tiempo por una exponencial que decae. Un producto de dos funciones.' },
+        { who: 'nar', text: 'Canal 7, 17:00; vibra la carcasa de la bomba.' },
+        { who: 'marta', text: 'Se enciende sola a las 00:00 y alcanza su mayor caudal dos horas después. Necesito contar también lo que saca mientras se apaga.' },
+        { who: 'teo', text: 'El modelo combina el tiempo desde el arranque con una caída cada vez más lenta. No sirve tratarlo como el goteo anterior.' },
+        { who: 'iris', text: 'Cuéntalo hasta las 04:00. Si lo dejaron fuera del informe, quiero saber cuánto dejaron fuera.' },
       ],
     },
     {
@@ -265,8 +267,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'iris', text: 'Y si nadie cierra la válvula vieja, ¿cuánto se pierde en total? ¿Para siempre?' },
-        { who: 'marta', text: 'La fuga nunca llega a cero. Pero eso no significa que el total sea infinito.' },
+        { who: 'marta', text: 'La bomba saca unos 9,5 mil m³ entre las 00:00 y las 04:00. Tampoco aparecen en el informe.' },
+        { who: 'iris', text: 'Y la válvula vieja sigue abierta a medias. Necesito saber cuánto perdería si nadie vuelve a cerrarla.' },
+        { who: 'teo', text: 'Su caudal baja, pero nunca llega del todo a cero.' },
+        { who: 'marta', text: 'La pérdida de cuatro horas no responde eso. Queda por contar toda la cola del goteo.' },
       ],
     },
   ],

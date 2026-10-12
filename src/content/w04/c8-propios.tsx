@@ -324,8 +324,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'teo', text: 'La tabla de carga no solo dibuja: también decide. Cada noche manda una parte de los vagones del Taller a las Cocheras, y otra de vuelta.' },
-        { who: 'lucia', text: 'Llevan semanas haciéndolo. ¿Dónde terminan?' },
+        { who: 'nar', text: 'Centro de control del Metro, 04:20. La impresora arrastra una hoja.' },
+        { who: 'teo', text: 'Encontré los despachos: cada noche sale una parte del Taller hacia las Cocheras y otra vuelve. La pantalla ocultaba posiciones, pero aquí deciden destinos.' },
+        { who: 'lucia', text: 'Llevan semanas así y las Cocheras siguen figurando cerradas. Necesito saber cuánto están acumulando ahí.' },
+        { who: 'tu', text: 'Sigamos el reparto varias noches; una sola puede engañarnos.' },
       ],
     },
     {
@@ -355,8 +357,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Tres de cada cuatro vagones de carga terminan en las Cocheras. Ahí hay algo que alguien quiere guardar.' },
-        { who: 'iris', text: 'Esta noche el M-7 vuelve a salir. Lo esperamos en la sala de control.' },
+        { who: 'teo', text: 'Con 100 vagones, el reparto se acerca a 25 en el Taller y 75 en las Cocheras. La parte que cambia se reduce por 0,6 cada noche.' },
+        { who: 'lucia', text: 'El 75 % en un recinto cerrado. No voy a firmar otro turno fingiendo que no lo vi.' },
+        { who: 'iris', text: 'El M-7 sale otra vez esta noche. Esta vez tendremos su recorrido mientras ocurre.' },
+        { who: 'lucia', text: 'A las 02:00 abro el registro; si mi jefe entra, ustedes siguen contando.' },
       ],
     },
   ],

@@ -332,9 +332,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'teo', text: 'Puse un medidor en el alimentador de la carga oculta. Acumula energía: megawatts-hora desde que se conecta.' },
-        { who: 'nadia', text: 'Lo que me importa es la potencia: cuántos megawatts está tirando en cada momento.' },
-        { who: 'iris', text: 'Energía acumulada y ritmo. Una es la pendiente de la otra.' },
+        { who: 'nar', text: 'Alimentador 4, 07:00; el medidor emite un clic.' },
+        { who: 'teo', text: 'Ya puse el medidor: guarda megawatts-hora desde que se conecta la carga. ¡Tenemos el consumo completo!' },
+        { who: 'nadia', text: 'Necesito los megawatts que tira en cada instante. Un total bonito no protege el alimentador.' },
+        { who: 'iris', text: 'Lee el ritmo con que aumenta. Antes de que Nadia tenga que cortar a ciegas.' },
       ],
     },
     {
@@ -384,8 +385,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'Siete megawatts y subiendo. Eso es lo que consume un barrio entero de los cerros.' },
-        { who: 'iris', text: 'Quiero la gráfica completa de la potencia. Si la carga tiene un patrón, ahí se va a ver.' },
+        { who: 'nadia', text: 'En la primera hora marca 7 MW y sigue subiendo. Eso alcanza para un barrio de los cerros.' },
+        { who: 'teo', text: 'Entre la hora 1 y la 2 da 9 MW de media. El promedio nos está escondiendo cómo cambia.' },
+        { who: 'iris', text: 'Necesito el momento de mayor consumo.' },
+        { who: 'nadia', text: 'Tengo el medidor de toda la noche. La carga deja de tirar antes de que entre el turno de día.' },
       ],
     },
   ],

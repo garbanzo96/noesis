@@ -201,8 +201,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'teo', text: 'Tengo las grabaciones: mil y tantas tiradas por mesa. Un dado honesto deja una huella reconocible.' },
-        { who: 'iris', text: 'Entonces primero veamos cómo se ve un dado honesto.' },
+        { who: 'nar', text: 'Casino Aurora, 21:15. Teo habla entre chasquidos del auricular.' },
+        { who: 'teo', text: 'Tengo 60 tiradas de la mesa 2 y 1 200 de la mesa 3. En las dos sale mucho el 6, pero la primera grabación es corta.' },
+        { who: 'iris', text: 'No vamos a acusar a un crupier por una mala racha. Comparemos con lo que debería salir.' },
+        { who: 'vera', text: 'Háganlo sin señalar la mesa; cuando alguien reclama, nos cambian el turno a nosotros.' },
       ],
     },
     {
@@ -252,8 +254,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'Un dado cargado en la mesa 3. Pero cambiar dados es burdo. El Barón no es burdo.' },
-        { who: 'vera', text: '(En voz baja) Miren las reglas de pago de la casa. Ahí está el truco de verdad.' },
+        { who: 'teo', text: 'En la mesa 3 salieron 320 seises en 1 200 tiradas; esperábamos unas 200. Ese dado está cargado.' },
+        { who: 'iris', text: 'Bien. ¿Por qué dejar una trampa tan fácil de ver?' },
+        { who: 'vera', text: 'Bajen la voz; yo no les mostré ningún dado.' },
+        { who: 'vera', text: 'Miren la tabla de pagos que les dejé sobre el paño. Nadie reclama lo que perdió sin entenderla.' },
       ],
     },
   ],

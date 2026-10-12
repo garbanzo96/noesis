@@ -83,3 +83,10 @@ export const LESSON_TOUR: CoachStep[] = [
   { target: '.console', title: 'NÓESIS te guía', text: 'Lee aquí cada paso. Si hay algo que hacer verás un recuadro con ☝; el botón Seguir espera hasta que lo hagas.' },
   { target: '[data-rail], [data-rail-toggle]', title: 'La pizarra guarda todo', text: 'Al seguir, la fórmula vuela a la pizarra. Ahí queda el registro de la clase para repasar.' },
 ];
+
+export const PRACTICE_TOUR: CoachStep[] = [
+  { target: '.stage-area', title: 'Resuelve en el escenario', text: 'Cada ronda trae datos nuevos. Arrastra, elige o escribe tu respuesta aquí y confírmala con el botón Confirmar.' },
+  { target: '.console', title: 'La consigna', text: 'Aquí está lo que se pide y la fórmula que sirve. Si te equivocas, aquí aparece qué no cuadró.' },
+  { target: '.btn.hint', title: 'Pistas', text: 'Hay dos pistas por ronda. Usarlas no te castiga, pero resolver sin ellas da una estrella extra.' },
+  { target: '.integrity', title: 'Credibilidad', text: 'Cada conclusión equivocada gasta una celda. Si se acaban, el caso se reabre con datos nuevos: nada se pierde, solo se repite.' },
+];

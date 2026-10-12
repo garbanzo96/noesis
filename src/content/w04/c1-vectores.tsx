@@ -360,10 +360,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'nar', text: 'Centro de control del Metro de Valparaíso, 01:40. Las pantallas muestran la red completa.' },
-        { who: 'lucia', text: 'Lucía Ferrada, controladora de turno. Hace tres semanas que un tren de mantención, el M-7, sale de noche sin estar programado.' },
-        { who: 'iris', text: 'El servidor que reabría la válvula de la represa está en este edificio. ¿Adónde va ese tren?' },
-        { who: 'lucia', text: 'El registro dice que vuelve al Taller El Salto. Pero su GPS solo guarda tramos: cuánto se movió, no dónde está.' },
+        { who: 'nar', text: 'Centro de control del Metro de Valparaíso, 01:40. Zumban las pantallas.' },
+        { who: 'lucia', text: 'Soy Lucía Ferrada, la controladora de turno; hace tres semanas el M-7 sale de noche sin estar programado. Si abro su registro, queda mi nombre.' },
+        { who: 'iris', text: 'El servidor que reabría la válvula de la represa está en este edificio. Tu nombre ya está bastante cerca.' },
+        { who: 'lucia', text: 'Dice que vuelve al Taller El Salto, pero el GPS solo guarda cuánto se movió en cada tramo. Ayúdame a ubicarlo antes de que termine mi turno.' },
       ],
     },
     {
@@ -393,8 +393,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Cocheras Barón. Están cerradas desde 2071.' },
-        { who: 'iris', text: 'Y alguien agregó un tramo al registro para que no se note. Vamos a las cocheras.' },
+        { who: 'lucia', text: 'El recorrido termina en (3, 4), Cocheras Barón. Cerradas desde 2071, según mi jefe.' },
+        { who: 'teo', text: 'Para llegar al Taller El Salto faltaría el tramo (3, −4): 5 km que el GPS nunca guardó.' },
+        { who: 'tu', text: 'Guarda la versión del GPS y la del registro. Nos van a pedir las dos.' },
+        { who: 'iris', text: 'Una cochera cerrada y un tren adentro. Me gustaría oír cómo lo explica tu jefe.' },
       ],
     },
   ],

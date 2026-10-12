@@ -420,9 +420,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'Central Halcón Energía, Ventanas. Cada noche, a las 03:12, la tensión de la red cae de golpe.' },
-        { who: 'iris', text: 'Alguien conecta algo grande. Quiero ver qué pasa justo antes y justo después.' },
-        { who: 'teo', text: 'Y hay datos que se pierden. Tendremos que deducirlos de los vecinos.' },
+        { who: 'nar', text: 'Central Halcón Energía, Ventanas, 06:00; zumba el tablero.' },
+        { who: 'nadia', text: 'La tensión cae de golpe a las 03:12, cada noche. En mi turno queda anotado como falla.' },
+        { who: 'iris', text: '¿Y siempre falla a la misma hora? Qué puntual.' },
+        { who: 'teo', text: 'Además falta el dato de frecuencia de las 03:00. Puedo mirar las lecturas de antes y después.' },
+        { who: 'nadia', text: 'Revisa el salto antes de repetir lo que dice el parte. Ese parte lleva mi firma.' },
       ],
     },
     {
@@ -477,8 +479,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'El salto no es una falla: es una carga de varios megawatts que se conecta a las 03:12 y se va a las 05:00.' },
-        { who: 'iris', text: 'Entonces mediremos cuánta energía usa. Y a qué ritmo.' },
+        { who: 'teo', text: 'Antes de las 03:12 hay unos 220 V y después unos 214 V. El dato perdido de las 03:00 se acerca a 50 Hz desde ambos lados.' },
+        { who: 'nadia', text: 'Esa caída acompaña una carga que se conecta a las 03:12 y se va a las 05:00. Varios megawatts sin declarar.' },
+        { who: 'iris', text: '¿En qué alimentador?' },
+        { who: 'nadia', text: 'El 4. No pongas mi nombre sobre la copia del medidor.' },
       ],
     },
   ],

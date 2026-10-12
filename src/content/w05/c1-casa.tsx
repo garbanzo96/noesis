@@ -169,9 +169,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'Casino Aurora. La ficha del Contador vino de aquí. Esta noche somos dos clientes más.' },
-        { who: 'vera', text: 'Bienvenidos a la mesa 7. «Doble Aurora»: un dado rojo, uno blanco. Ustedes apuestan a lo que sale.' },
-        { who: 'iris', text: 'Antes de apostar, quiero ver todo lo que puede salir.' },
+        { who: 'nar', text: 'Casino Aurora, 21:00. Las fichas golpean el paño de la mesa 7.' },
+        { who: 'iris', text: 'La ficha del Contador salió de acá. Esta noche somos clientes; trata de perder poco.' },
+        { who: 'vera', text: '«Doble Aurora»: un dado rojo y uno blanco. Elijan la apuesta antes de que cierre la mesa.' },
+        { who: 'tu', text: 'Primero quiero mirar qué resultados paga cada apuesta.' },
+        { who: 'vera', text: 'Pueden mirar el tablero; las reglas de pago se quedan aquí. No me hagan sacarlas frente a las cámaras.' },
       ],
     },
     {
@@ -226,9 +228,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'baron', text: 'Clientes nuevos. Bienvenidos a mi casa. Aquí todos los dados son honestos.' },
-        { who: 'iris', text: '(En voz baja) Teo, ¿tienes las cámaras de las mesas?' },
-        { who: 'teo', text: '(Por el auricular) Mil tiradas por mesa. Si un dado miente, los números lo van a decir.' },
+        { who: 'vera', text: 'Hay 36 combinaciones. La suma 7 sale en seis; «al menos un 6», en once. Esa última casilla siempre trae discusiones.' },
+        { who: 'baron', text: '¡Clientes que leen el tablero! Bienvenidos a mi casa; mis dados merecen tanta atención como mis invitados.' },
+        { who: 'iris', text: 'Teo, necesitamos las grabaciones.' },
+        { who: 'teo', text: 'Por el auricular: las tengo, incluida la mesa 3. Podemos contar cada cara sin que el Barón nos preste sus dados.' },
       ],
     },
   ],

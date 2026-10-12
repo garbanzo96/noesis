@@ -331,9 +331,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'servidores',
       lines: [
-        { who: 'teo', text: 'Cada cuadro es un equipo de control de grúas. Los rojos están infectados.' },
-        { who: 'teo', text: 'Cada equipo infectado contagia a uno nuevo por hora. Eran 3; ahora son 6.' },
-        { who: 'iris', text: 'Seis no es nada. Cuéntame qué pasa si no hacemos nada.' },
+        { who: 'nar', text: 'Sala de servidores del puerto, viernes, 01:00; un ventilador roza su carcasa.' },
+        { who: 'teo', text: 'Los cuadros rojos son equipos infectados: eran 3 y ahora son 6. Cada uno contagia a otro por hora.' },
+        { who: 'iris', text: 'Quiero salvar los registros antes de que se pierdan las guías.' },
+        { who: 'teo', text: 'Tengo un antivirus, pero necesito saber qué tan rápido se nos llena la pantalla.' },
       ],
     },
     {
@@ -393,8 +394,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'servidores',
       lines: [
-        { who: 'teo', text: 'El antivirus frena esta cepa, pero hay otra en los servidores de aduanas. Empieza con un solo equipo.' },
-        { who: 'iris', text: 'Aduanas tiene un millón de registros. Quiero saber exactamente a qué hora los alcanza.' },
+        { who: 'teo', text: 'Sin intervenir, los 3 se vuelven 1 536 en nueve horas. El antivirus puede ir limpiando la mitad cada hora.' },
+        { who: 'iris', text: '¿Aduanas quedó fuera?' },
+        { who: 'teo', text: 'Encontré otra cepa allí: empieza con un equipo y se duplica cada hora. Hay un millón de registros.' },
+        { who: 'iris', text: 'La salida de esas 150 dosis pasa por aduanas. Qué buen lugar eligieron para la segunda infección.' },
       ],
     },
   ],

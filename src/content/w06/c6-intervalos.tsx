@@ -287,8 +287,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'iris', text: 'Un fiscal no firma «no es 72». Necesito un rango para la edad real.' },
-        { who: 'teo', text: 'Con la muestra de 64 fichas puedo dar uno, con un nivel de confianza.' },
+        { who: 'nar', text: 'Archivo Regional, 15:00. Iris apoya el lápiz sobre la casilla vacía.' },
+        { who: 'iris', text: 'Sesenta y seis años en la muestra. Necesito un rango para la edad promedio real antes de firmar esto.' },
+        { who: 'teo', text: 'Uso las mismas 64 fichas y los ocho años de variación del informe. Puedo calcular cuánto margen dejan.' },
+        { who: 'ana', text: 'Anoten de dónde sale cada dato; si la clínica objeta uno, quiero saber qué parte hay que revisar.' },
       ],
     },
     {
@@ -318,8 +320,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'teo', text: 'La edad real está entre 64 y 68. Los 18 jóvenes de Halcón la bajan; el informe los borró.' },
-        { who: 'iris', text: 'Falta la cifra principal: el informe dice que el 95 % de los inscritos se vacunó. Quiero probarlo o desmentirlo.' },
+        { who: 'teo', text: 'El intervalo del 95 % queda de 64,04 a 67,96 años. Los 72 del informe están fuera.' },
+        { who: 'ana', text: 'La copia conserva las fichas jóvenes que el original omitió. El rango respalda la diferencia; todavía hay que documentar el borrado.' },
+        { who: 'iris', text: 'Anótalo así. Falta su cifra favorita: «95 % de los inscritos se vacunó».' },
+        { who: 'ana', text: 'La imprimieron en la portada; ni siquiera hay que abrir la carpeta para repetirla.' },
       ],
     },
   ],

@@ -294,8 +294,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Los sensores de la vía vieja miden cuánto de la velocidad de un tren va a lo largo de la vía. Anoche, a las 02:10, uno marcó 10 km/h.' },
-        { who: 'iris', text: 'Por esa vía no debería pasar nada. ¿Puede ser un tren que iba por otra?' },
+        { who: 'nar', text: 'Vía en desuso, 02:45. El viento silba entre los rieles.' },
+        { who: 'lucia', text: 'A las 02:10 este sensor marcó 10 km/h. Necesito saber si falló antes de denunciar un tren por una vía cerrada.' },
+        { who: 'iris', text: '¿La falla también eligió horario?' },
+        { who: 'tu', text: 'Crucemos esa lectura con el GPS del M-7 y con la línea principal.' },
       ],
     },
     {
@@ -325,8 +327,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Entonces el M-7 sí pasó por la vía vieja. Y en las pantallas de control nunca apareció ahí.' },
-        { who: 'teo', text: 'Las pantallas no muestran el GPS crudo. Lo pasan por una tabla de conversión del servidor. Voy a buscarla.' },
+        { who: 'teo', text: 'Coincide: el M-7 llevaba los 10 km/h por la vía vieja. En la dirección de la principal daba cero.' },
+        { who: 'lucia', text: 'Yo estaba frente a las pantallas a las 02:10. Ahí jamás apareció.' },
+        { who: 'iris', text: '¿Quién te pide que confíes en esa pantalla?' },
+        { who: 'teo', text: 'El servidor cambia el GPS antes de dibujarlo; hay una tabla de conversión. La vía guardó lo que la pantalla escondió.' },
       ],
     },
   ],

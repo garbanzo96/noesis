@@ -228,8 +228,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'teo', text: 'Registro de octubre: 400 jugadores. Para cada uno, si era VIP y si terminó el mes ganando o perdiendo.' },
-        { who: 'iris', text: 'Una tabla de dos entradas. Léela conmigo.' },
+        { who: 'nar', text: 'Oficina de NÓESIS, 09:00. Teo despliega una hoja manchada de café.' },
+        { who: 'teo', text: 'Octubre, 400 jugadores: puedo cruzar si eran VIP con si terminaron el mes ganando. También tengo las manos del viernes por mesa.' },
+        { who: 'iris', text: 'Separadas; un jugador puede perder muchas manos y terminar ganando el mes.' },
+        { who: 'tu', text: 'Revisaré cuánto representa cada grupo del total antes de compararlos.' },
       ],
     },
     {
@@ -269,8 +271,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'iris', text: 'El 20 % de los jugadores es VIP. Y de los que ganaron, casi la mitad son VIP.' },
-        { who: 'iris', text: 'Eso huele mal. Pero «de los que ganaron» es otra pregunta. Necesitamos condicionar.' },
+        { who: 'teo', text: 'El 20 % de los jugadores era VIP y el 35 % terminó ganando. Sesenta de los 140 ganadores eran VIP.' },
+        { who: 'iris', text: 'Pocos invitados, mucho premio. Ferrer va a decir que la mayoría de los ganadores era regular.' },
+        { who: 'teo', text: 'Puede decirlo: eran 80 regulares. Pero había muchos más jugando.' },
+        { who: 'iris', text: 'Quiero comparar a los VIP con su propio grupo; esa defensa tiene una cifra escondida.' },
       ],
     },
   ],

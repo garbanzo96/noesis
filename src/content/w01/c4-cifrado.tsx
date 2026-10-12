@@ -368,8 +368,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'bodega',
       lines: [
-        { who: 'teo', text: 'La nota del km 60: puros números. Y al lado, una caja con dos engranajes y un teclado.' },
-        { who: 'iris', text: 'Una máquina de cifrar. Si sabemos qué hace, podemos hacerla andar al revés.' },
+        { who: 'nar', text: 'Bodega del km 60, jueves, 18:00; cruje una plancha del techo.' },
+        { who: 'teo', text: 'La nota tiene puros números y esta caja tiene dos engranajes con teclado. Todavía funciona.' },
+        { who: 'iris', text: 'Descifra la nota sin destrozar la caja. Es lo único aquí que puede contar algo.' },
+        { who: 'teo', text: 'Puedo probar una letra y seguir qué le hace cada engranaje. Después deshago los pasos.' },
       ],
     },
     {
@@ -419,8 +421,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'teo', text: 'Junté los fragmentos: «Viernes. Nueve. Muelle norte».' },
-        { who: 'iris', text: 'Una cita. Y en la bodega encontré esto: un libro de cuentas escrito a mano. Alguien llevaba la contabilidad del contrabando.' },
+        { who: 'nar', text: 'Oficina NÓESIS, jueves, 20:00; la lámpara alumbra el libro abierto.' },
+        { who: 'teo', text: 'La nota fija la cita: viernes, nueve, muelle norte. A las 21:00.' },
+        { who: 'iris', text: 'Si llegamos antes, quizá sepamos para quién es. En la bodega también estaba este libro de cuentas.' },
+        { who: 'tu', text: 'Guardaron la hora como un secreto y los pagos a mano.' },
+        { who: 'iris', text: 'Mira el margen. El Contador dejó cuentas pendientes.' },
       ],
     },
   ],

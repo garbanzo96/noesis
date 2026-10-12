@@ -251,8 +251,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'El informe dice que la edad media de los vacunados es 72 años. Revisar las 48 000 fichas nos tomaría semanas.' },
-        { who: 'teo', text: 'Saco 64 al azar con el generador del archivo. Si el informe es cierto, su media debería andar cerca de 72.' },
+        { who: 'nar', text: 'Archivo Regional, 14:00. El generador parpadea junto al listado de fichas.' },
+        { who: 'ana', text: 'El informe da una edad promedio de 72 años; revisar las 48 000 fichas tomaría semanas. No voy a escogerles solo las que nos convienen.' },
+        { who: 'teo', text: 'Que el generador elija 64 al azar y guarde cuáles tomó. Así podemos volver a cada ficha.' },
+        { who: 'iris', text: 'Bien. Si el informe aguanta, también tiene que aguantar esa selección.' },
       ],
     },
     {
@@ -282,8 +284,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'teo', text: 'O el informe miente sobre las edades, o las fichas jóvenes se borraron de él.' },
-        { who: 'iris', text: 'No me basta con «no es 72». Quiero un rango para la edad real que podamos firmar.' },
+        { who: 'teo', text: 'Las 64 fichas dan 66 años, seis por debajo de 72; con el informe, el margen típico entre muestras sería de un año. Quedamos a seis de esos márgenes.' },
+        { who: 'ana', text: 'Guardé la selección; pueden repetir la revisión sin confiar en mi palabra.' },
+        { who: 'tu', text: 'Conservemos también las edades individuales; un promedio solo no cuenta todo.' },
+        { who: 'iris', text: 'Ahora falta ponerle un rango defendible a esos 66. No quiero que la discusión termine en un redondeo.' },
       ],
     },
   ],

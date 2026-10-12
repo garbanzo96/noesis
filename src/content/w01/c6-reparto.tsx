@@ -348,8 +348,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'iris', text: 'Tres sedes de la Clínica del Cerro: Puerto, Cerro y Norte. Las dosis se reparten según cuántos pacientes atiende cada una.' },
-        { who: 'iris', text: 'Haz el reparto justo. Después lo comparamos con lo que llegó.' },
+        { who: 'nar', text: 'Oficina NÓESIS, jueves, 22:00; el café está frío.' },
+        { who: 'iris', text: 'La Clínica del Cerro pagó 1 200 dosis para Puerto, Cerro y Norte. Cada sede atiende a distinta cantidad de pacientes.' },
+        { who: 'teo', text: 'Tengo los inventarios, pero el total de la factura puede tapar un faltante en una sede.' },
+        { who: 'tu', text: 'Calcularía lo que le toca a cada una antes de aceptar el total.' },
+        { who: 'iris', text: 'Eso. Nadie se queda sin dosis porque una cuenta se vea ordenada.' },
       ],
     },
     {
@@ -404,9 +407,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'servidores',
       lines: [
-        { who: 'teo', text: 'Las 150 dosis que faltan en Norte salieron en un camión refrigerado. Y hay algo peor.' },
-        { who: 'teo', text: 'El sistema de las grúas tiene un virus. Hace una hora infectaba 3 equipos. Ahora son 6.' },
-        { who: 'iris', text: 'Si alguien borra los registros del puerto, perdemos el caso. ¿Cuánto tiempo tenemos?' },
+        { who: 'nar', text: 'Sala de servidores del puerto, jueves, 23:00; parpadea una luz roja.' },
+        { who: 'teo', text: 'A Norte le correspondían 600 dosis y llegaron 450: faltan 150. Salieron en un camión refrigerado.' },
+        { who: 'iris', text: '¿Quedó registrada la salida?' },
+        { who: 'teo', text: 'Sí, pero el sistema de las grúas tiene un virus: pasó de 3 equipos a 6 en una hora.' },
+        { who: 'iris', text: 'La prueba está en esa red. Y alguien acaba de empezar a borrarla.' },
       ],
     },
   ],

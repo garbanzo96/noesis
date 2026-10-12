@@ -375,9 +375,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'iris', text: 'El libro del Contador. Una página por semana, una columna por día.' },
-        { who: 'teo', text: 'Y al pie de cada página escribe cosas como «Σ x_i». Es un contador de verdad.' },
-        { who: 'iris', text: 'Entonces aprendamos a leerlo como él.' },
+        { who: 'nar', text: 'Oficina NÓESIS, jueves, 20:15; huele a papel húmedo.' },
+        { who: 'iris', text: 'Una página por semana, una columna por día. El Contador anotaba cada caja. Le gusta el orden.' },
+        { who: 'teo', text: 'Hay una mancha sobre una cuenta, pero conservó los totales al margen. Podemos reconstruir lo que tapa.' },
+        { who: 'iris', text: 'Y seguir los pagos. Las cajas tienen que terminar en algún bolsillo.' },
       ],
     },
     {
@@ -432,8 +433,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'iris', text: 'Todos los pagos van a una sola cuenta: la Clínica del Cerro. Pagaron 1 200 dosis.' },
-        { who: 'teo', text: 'Pero la clínica atiende a tres sedes. Si el reparto no cuadra, alguien se quedó con la diferencia.' },
+        { who: 'teo', text: 'Esa semana salieron 74 cajas a 12 mil pesos: 888 mil. El libro también registra el pago de 1 200 dosis.' },
+        { who: 'iris', text: 'Todos los pagos van a la Clínica del Cerro. Una sola cuenta.' },
+        { who: 'tu', text: 'La cuenta cobra por todo; falta ver cuánto recibió cada sede.' },
+        { who: 'teo', text: 'Puerto, Cerro y Norte. El mismo nombre de clínica aparece sobre tres inventarios distintos.' },
       ],
     },
   ],

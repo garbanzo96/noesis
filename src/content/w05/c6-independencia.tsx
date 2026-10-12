@@ -292,8 +292,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'Si el juego es limpio, la mesa no debería importar. Ganar sería independiente de dónde te sientas.' },
-        { who: 'teo', text: 'Tengo las manos de todas las mesas. Podemos probarlo.' },
+        { who: 'nar', text: 'Casino Aurora, 21:20. Vera baja la voz al pasar un guardia.' },
+        { who: 'vera', text: 'Tengo las manos del viernes, separadas por mesa. Necesito saber si lo de la 7 se ve también ahí; ya están hablando de cambiarme de turno.' },
+        { who: 'teo', text: '¡Se puede comparar! Cuántas manos llegan a cada mesa y cuántas gana el jugador.' },
+        { who: 'iris', text: 'Miremos ese registro antes de que Ferrer te convierta en su explicación.' },
       ],
     },
     {
@@ -353,8 +355,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'vera', text: 'En mi mesa se usa un zapato de cartas especial. El Barón lo trae él mismo.' },
-        { who: 'iris', text: 'Cartas sin reposición. Cada carta que sale cambia lo que queda. Veamos qué sabe quien ve el zapato.' },
+        { who: 'teo', text: 'En la mesa 7 el jugador gana el 60 % de las manos. El cruce real es 0,12; si ganar no dependiera de esa mesa, sería 0,06.' },
+        { who: 'vera', text: 'El doble. Van a decir que repartí mal.' },
+        { who: 'iris', text: '¿Quién trae las cartas?' },
+        { who: 'vera', text: 'El Barón llega con un zapato especial y lo deja junto a mi codo. Nunca me permite elegir otro.' },
       ],
     },
   ],

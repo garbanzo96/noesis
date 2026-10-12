@@ -152,7 +152,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   return (
     <div className={`play with-notes ${lesson ? 'lesson' : 'demo'}`}>
       <div className={`play-stage ${cueActive ? 'cue-on' : ''}`}>
-        <div className="stage-area">
+        <div className="stage-area" onPointerDownCapture={() => cueActive && cue.touch()}>
           {lesson ? (
             <div className="lesson-bg" aria-hidden />
           ) : (

@@ -281,9 +281,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'nar', text: 'Cocheras Barón, 02:30. Polvo, vagones viejos y una grúa de pórtico que todavía tiene corriente.' },
-        { who: 'teo', text: 'La grúa corre sobre dos rieles que no son perpendiculares. Su contador guarda cuántos pasos dio en cada uno.' },
-        { who: 'iris', text: 'Entonces dime dónde estuvo anoche.' },
+        { who: 'nar', text: 'Cocheras Barón, 02:30. La grúa de pórtico zumba.' },
+        { who: 'teo', text: '¡Todavía tiene corriente! Corre por dos rieles inclinados y guarda los pasos de cada uno, pero nadie anotó qué movió.' },
+        { who: 'lucia', text: 'No toques el mando; si algo cae, me van a cargar la mantención de estas cocheras.' },
+        { who: 'iris', text: 'Entonces leamos el contador. Ese vagón sellado tuvo que llegar de alguna manera.' },
       ],
     },
     {
@@ -313,8 +314,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'teo', text: 'El vagón sellado tiene cables de fibra que salen por el piso. Van hacia la vía en desuso.' },
-        { who: 'lucia', text: 'Esa vía no se usa hace años. Pero sus sensores siguen midiendo.' },
+        { who: 'teo', text: 'Dos pasos en el riel largo y uno en el corto: (3, 4), justo sobre el vagón sellado. La grúa averiada no podía alcanzarlo.' },
+        { who: 'iris', text: 'Alguien eligió la que servía. ¿Qué más dejaron conectado?' },
+        { who: 'teo', text: 'Sale fibra por el piso del vagón; sigue hacia la vía en desuso.' },
+        { who: 'lucia', text: 'Los sensores de ese tramo todavía miden. Eso mi jefe nunca lo menciona.' },
       ],
     },
   ],

@@ -308,8 +308,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'De noche los torniquetes están apagados. Lo único que cuenta es el sensor de ejes del puente Barón: trenes y vagones.' },
-        { who: 'iris', text: 'Dos números. ¿Alcanza para saber qué pasó por ahí?' },
+        { who: 'nar', text: 'Centro de control del Metro, 03:25. Lucía aprieta un vaso de café frío.' },
+        { who: 'lucia', text: 'Los torniquetes se apagan de noche, pero el sensor del puente Barón contó 9 trenes y 30 vagones. El horario solo reconoce mantención.' },
+        { who: 'iris', text: '¿Cuántos vagones lleva cada tipo?' },
+        { who: 'lucia', text: 'Dos los de mantención, cuatro los de carga. Si aparecen trenes de carga, alguien autorizó el cruce sin dejarlo en mi horario.' },
       ],
     },
     {
@@ -339,8 +341,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Seis trenes de carga cada noche, y la pantalla no muestra ninguno.' },
-        { who: 'teo', text: 'Es que no hay una tabla: hay dos. Una mueve los trenes y otra gira el mapa. La pantalla aplica las dos seguidas.' },
+        { who: 'lucia', text: 'Tres de mantención y seis de carga. Los tres primeros están en el horario; los otros seis, en ninguna parte.' },
+        { who: 'iris', text: 'Seis permisos que nadie quiere haber firmado.' },
+        { who: 'teo', text: 'Encontré cómo se arma la tabla del M-7: primero estira el mapa y después lo inclina hacia abajo. Son dos tablas seguidas.' },
+        { who: 'tu', text: 'Fíjate en qué tabla aplica primero. El truco puede estar en el orden.' },
       ],
     },
   ],

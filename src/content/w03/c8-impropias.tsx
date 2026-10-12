@@ -266,8 +266,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'iris', text: 'Si nadie cierra la válvula vieja, ¿cuánta agua se pierde en total?' },
-        { who: 'marta', text: 'La fuga nunca llega a cero. Pero cada hora es más chica. Puede que el total sea un número.' },
+        { who: 'nar', text: 'Válvula vieja de Peñuelas, 17:30; suena el goteo.' },
+        { who: 'iris', text: 'Necesito la pérdida completa si nadie la cierra. Un caudal pequeño también puede vaciar una reserva.' },
+        { who: 'marta', text: 'Esta fuga se hace cada vez menor. Hay que revisar si lo que añade después sigue pesando en el total.' },
+        { who: 'tu', text: 'No daría por resuelto el daño solo porque ahora cueste verlo.' },
       ],
     },
     {
@@ -297,8 +299,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'teo', text: 'Encontré quién cambia los caudalímetros: comandos remotos, todas las noches, desde un servidor externo.' },
-        { who: 'iris', text: 'Esta noche vamos a la sala de control. Con todo lo que sabemos.' },
+        { who: 'marta', text: 'Con este modelo, la pérdida completa suma 12 mil m³. Dejarla abierta sigue teniendo ese costo, aunque el total sea limitado.' },
+        { who: 'teo', text: 'Encontré comandos que alteran los caudalímetros cada noche. Vienen de un servidor externo.' },
+        { who: 'iris', text: 'Si cerramos la válvula desde la sala de control, alguien tendrá que responder.' },
+        { who: 'marta', text: 'Guarda el registro de esa respuesta. El del agua ya sabemos que lo corrigen.' },
       ],
     },
   ],

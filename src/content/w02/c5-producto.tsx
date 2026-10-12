@@ -312,8 +312,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'Transformador sin registro, alimentador 4. Voltaje y corriente subiendo al mismo tiempo.' },
-        { who: 'teo', text: 'La potencia es voltaje por corriente. Si los dos cambian, ¿cómo cambia el producto?' },
+        { who: 'nar', text: 'Transformador del alimentador 4, 11:00; huele a aislante caliente.' },
+        { who: 'nadia', text: 'Sin registro y con voltaje y corriente subiendo a la vez. Necesito el ritmo al que aumenta la potencia.' },
+        { who: 'teo', text: 'Puedo seguir ambos sensores; si miro solo uno, se me pierde parte del aumento.' },
+        { who: 'iris', text: 'Sigue los dos. Este equipo ya tuvo suficiente ayuda para pasar inadvertido.' },
       ],
     },
     {
@@ -363,8 +365,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'El transformador alimenta algo en el subsuelo, bajo la turbina 3. Esa turbina gira más rápido de lo normal.' },
-        { who: 'iris', text: 'Alguien cambió los engranajes. Vamos a ver.' },
+        { who: 'teo', text: 'Con 400 V y 30 A, esos cambios hacen crecer la potencia a 7 000 W/s. La resistencia aparente baja unos 1,11 ohms por segundo.' },
+        { who: 'nadia', text: 'El cable alimenta el subsuelo, bajo la turbina 3. La turbina gira normal; el generador da más vueltas de las debidas.' },
+        { who: 'iris', text: 'Entonces el problema está entre ambos.' },
+        { who: 'nadia', text: 'En la caja de cambios. La rueda instalada no coincide con la del registro de mantención.' },
       ],
     },
   ],

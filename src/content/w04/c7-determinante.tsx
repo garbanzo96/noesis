@@ -268,8 +268,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Guardamos las grabaciones de pantalla de todo el mes. Si deshacemos la tabla, sabremos dónde estuvo el M-7 cada noche.' },
-        { who: 'teo', text: 'Siempre que la tabla se pueda deshacer. Hay tablas que no tienen vuelta atrás.' },
+        { who: 'nar', text: 'Centro de control del Metro, 04:00. La grabación tiñe la sala de azul.' },
+        { who: 'lucia', text: 'Guardamos las pantallas de todo el mes. Necesito sacar de ahí la posición real del M-7, aunque mi jefe pregunte quién abrió las copias.' },
+        { who: 'teo', text: 'Depende de lo que la tabla haya conservado; la de carga manda lugares distintos al mismo punto.' },
+        { who: 'iris', text: 'Empecemos por el M-7. Cada noche recuperada te da algo que mostrarle.' },
       ],
     },
     {
@@ -299,8 +301,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Las posiciones del M-7, noche a noche, siempre terminan en el mismo lugar: la vía vieja hacia las cocheras.' },
-        { who: 'iris', text: 'Y los trenes de carga no se pueden reconstruir. Hay que saber hacia dónde los empuja el sistema, noche tras noche.' },
+        { who: 'teo', text: 'A las 03:00 aparecía en (4, −2), pero estaba en (2, 2). Su tabla tiene factor de área 6 y se puede deshacer; la de carga da 0.' },
+        { who: 'lucia', text: 'Las grabaciones del M-7 vuelven a señalar la vía vieja hacia las cocheras. De la carga, la pantalla borró la posición real.' },
+        { who: 'iris', text: 'Quedan los despachos. ¿Quién decide dónde duermen los vagones?' },
+        { who: 'teo', text: 'El mismo servidor guarda un reparto nocturno; lleva semanas repitiéndolo.' },
       ],
     },
   ],

@@ -9,7 +9,7 @@ const [VW, VH] = (process.argv[3] ?? '1440x860').split('x').map(Number);
 const storage = fs.readFileSync(new URL('./storage.json', import.meta.url), 'utf8');
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const ctx = await browser.newContext({ viewport: { width: VW, height: VH } });
-await ctx.addInitScript((s) => { localStorage.setItem('noesis.v3', s); if (!location.search.includes('coach')) localStorage.setItem('noesis.coach.lesson', '1'); }, storage);
+await ctx.addInitScript((s) => { localStorage.setItem('noesis.v3', s); if (!location.search.includes('coach')) localStorage.setItem('noesis.coach.lesson', '1'); localStorage.setItem('noesis.coach.practice', '1'); }, storage);
 const page = await ctx.newPage();
 
 const audit = () => page.evaluate(() => {

@@ -266,8 +266,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'iris', text: 'La Clínica Norte también vacunó a mayores, la misma campaña. ¿Cómo son sus días?' },
-        { who: 'ana', text: 'Saqué ocho días de cada clínica. Mismo promedio: 20 dosis diarias.' },
+        { who: 'nar', text: 'Archivo Regional, 11:00. Ana pasa el dedo por el canto de dos carpetas.' },
+        { who: 'ana', text: 'Ocho días de la Clínica Norte y ocho del Cerro: ambas promedian 20 dosis. No son los catorce días que acabamos de revisar.' },
+        { who: 'iris', text: 'Mismo promedio. ¿También se parecen al mirarlos uno por uno?' },
+        { who: 'ana', text: 'La Norte sube y baja; el Cerro apenas se mueve. Necesito algo que sostenga la sospecha antes de cuestionar el registro.' },
       ],
     },
     {
@@ -297,8 +299,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'Alguien rellenó esos días con números parecidos al promedio. Pero dejó el total semanal intacto.' },
-        { who: 'iris', text: 'Entonces comparemos ese total con el de todas las clínicas de la región.' },
+        { who: 'teo', text: 'La Norte se aparta del promedio unas 6,9 dosis; el Cerro, apenas 0,7. Sus ocho días están entre 19 y 21.' },
+        { who: 'ana', text: 'Parece que alguien rellenó los días para cuadrar el promedio. Todavía tengo que ver qué dejó en los totales semanales.' },
+        { who: 'iris', text: 'Un total puede verse correcto hasta que lo pones junto al resto.' },
+        { who: 'ana', text: 'Tengo las treinta clínicas de la región. La semana 31 del Cerro quedó marcada en mi revisión.' },
       ],
     },
   ],

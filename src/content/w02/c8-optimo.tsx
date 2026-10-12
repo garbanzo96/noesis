@@ -323,8 +323,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'Si pides poca corriente, el transformador entrega poco. Si pides demasiada, se pierde en calor. Hay un punto justo.' },
-        { who: 'iris', text: 'Y quien instaló la carga lo encontró. Nosotros también.' },
+        { who: 'nar', text: 'Transformador del alimentador 4, 13:00; el fusible refleja la luz del tablero.' },
+        { who: 'nadia', text: 'Con poca corriente entrega poco; al exigirle más, aumentan las pérdidas en calor. Necesito saber hasta dónde sirve subirla.' },
+        { who: 'iris', text: 'El instalador eligió un ajuste. Veamos si tuvo la misma precaución con el fusible.' },
+        { who: 'tu', text: 'Revisaría el tope permitido antes de aceptar el ajuste de la carga.' },
       ],
     },
     {
@@ -379,8 +381,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'La carga está justo en el punto de máxima potencia del transformador. Si sube un poco más, se quema.' },
-        { who: 'teo', text: 'Y la temperatura del transformador sube cada noche. Hay que estimar cuándo llega al límite.' },
+        { who: 'nadia', text: 'La curva alcanza 240 kW con 40 A, pero el fusible permite solo 30 A. Dentro de ese tope entrega como máximo 225 kW.' },
+        { who: 'iris', text: 'El punto más alto de una curva no le da permiso para saltarse el fusible.' },
+        { who: 'teo', text: 'Y queda la temperatura: sube cada noche. El sensor del alimentador 4 marca el daño a 110 °C.' },
+        { who: 'nadia', text: 'El ajuste está calculado; el margen para calentarse se está acabando.' },
       ],
     },
   ],

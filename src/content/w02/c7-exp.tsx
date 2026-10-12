@@ -327,8 +327,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'El agua sale de la torre más caliente que nunca. Algo abajo está calentando el circuito.' },
-        { who: 'teo', text: 'Si medimos cómo se enfría, sabremos cuánto calor le meten.' },
+        { who: 'nar', text: 'Torre de enfriamiento, 12:00; el vapor empaña los lentes de Teo.' },
+        { who: 'nadia', text: 'El agua sale más caliente de lo habitual. Necesito revisar cómo se enfría antes de culpar al circuito.' },
+        { who: 'teo', text: 'Tengo las temperaturas desde que salió; baja rápido al principio y después más despacio.' },
+        { who: 'iris', text: 'Mientras algo en el subsuelo sigue calentándola.' },
       ],
     },
     {
@@ -373,8 +375,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'teo', text: 'Para calentar así el agua hacen falta varios megawatts de calor. Coincide con la carga oculta.' },
-        { who: 'nadia', text: 'Y quien la instaló la ajustó al máximo que aguanta el transformador. Sabía lo que hacía.' },
+        { who: 'teo', text: 'El agua empieza en 85 °C y se enfría hacia los 25 °C del aire. Al inicio baja 18 °C por minuto, según el modelo.' },
+        { who: 'nadia', text: 'El calor coincide con la carga oculta. Y el transformador está ajustado para entregar lo máximo.' },
+        { who: 'iris', text: '¿Por descuido?' },
+        { who: 'nadia', text: 'Quien eligió ese ajuste conocía el equipo. Hasta dónde exigirle, al menos.' },
       ],
     },
   ],

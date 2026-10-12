@@ -304,8 +304,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'El manual de la tubería 7 da el caudal nocturno como una fórmula. Nadie la usa: es más fácil copiar el informe.' },
-        { who: 'iris', text: 'Entonces la usamos nosotros. Exacto, sin aproximar.' },
+        { who: 'nar', text: 'Sala de control de Peñuelas, 16:00; huele a tinta del manual.' },
+        { who: 'marta', text: 'Aquí está la fórmula de la tubería 7. Es más fácil copiar el informe que comprobar cuánto da entre las 00:00 y las 06:00.' },
+        { who: 'iris', text: 'Y más cómodo. Haz la cuenta con lo que dice el propio manual.' },
+        { who: 'marta', text: 'La puedo comprobar término por término. Esta vez el total tendrá de dónde salir.' },
       ],
     },
     {
@@ -335,8 +337,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'Veintiún mil exactos por noche según el propio manual. Y alguien cerró la válvula vieja de golpe ayer: desde entonces gotea cada vez menos.' },
-        { who: 'teo', text: 'Una fuga que se apaga como una exponencial. Para integrarla hay que cambiar de variable.' },
+        { who: 'marta', text: 'Según el manual, 21 mil m³ exactos entre las 00:00 y las 06:00. Es la cuenta de su fórmula, distinta de la del registro medido.' },
+        { who: 'iris', text: 'El informe de 8 mil tampoco se sostiene con el manual.' },
+        { who: 'teo', text: 'Queda la válvula vieja: ayer la cerraron a medias y desde entonces pierde cada vez menos.' },
+        { who: 'marta', text: 'Menos por hora. Cuando miras debajo, todavía está pasando agua.' },
       ],
     },
   ],

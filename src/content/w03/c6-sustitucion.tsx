@@ -262,8 +262,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'Cerraron la válvula vieja a medias. Ahora gotea: cada hora pierde la misma fracción de lo que perdía la hora anterior.' },
-        { who: 'teo', text: 'Exponencial que decae. Quiero saber cuánta agua se va antes de que alguien la cierre bien.' },
+        { who: 'nar', text: 'Válvula vieja de Peñuelas, 16:30; gotea el conducto.' },
+        { who: 'marta', text: 'Quedó cerrada a medias. Cada hora pierde la misma fracción de lo que perdía antes.' },
+        { who: 'teo', text: 'Necesito saber cuánto se perdió en las primeras cuatro horas. Que ahora parezca pequeña no borra lo anterior.' },
+        { who: 'iris', text: 'Alguien va a llamarle goteo en el parte. Pongámosle una cantidad.' },
       ],
     },
     {
@@ -293,8 +295,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'teo', text: 'La bomba del canal 7 no arranca de golpe: sube y después se apaga sola. Su caudal es el tiempo multiplicado por una exponencial.' },
-        { who: 'marta', text: 'Un producto. Eso no sale con sustitución.' },
+        { who: 'teo', text: 'Unos 10,4 mil m³ en las primeras cuatro horas. La fuga empezó en 6 mil m³ por hora.' },
+        { who: 'marta', text: 'Y queda la bomba del canal 7. Arranca a medianoche, aumenta el caudal y luego se va apagando.' },
+        { who: 'iris', text: '¿Ese bombeo aparece en el informe?' },
+        { who: 'marta', text: 'Todavía no tengo la cuenta. El arranque automático sí está en el registro.' },
       ],
     },
   ],

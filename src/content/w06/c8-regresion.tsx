@@ -313,8 +313,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'Tengo las guías de despacho: cuántas dosis recibió cada una de las diez clínicas. Y sus registros oficiales: cuántas aplicó.' },
-        { who: 'iris', text: 'Si nadie roba nada, una cifra debería seguir a la otra.' },
+        { who: 'nar', text: 'Archivo Regional, 18:00. Cruje una guía de despacho al desplegarla.' },
+        { who: 'ana', text: 'Diez clínicas: dosis recibidas en las guías, dosis registradas en sus libros. La del Cerro firmó la recepción, pero su registro se queda corto.' },
+        { who: 'iris', text: 'Necesito medir cuánto antes de llamarlo desvío.' },
+        { who: 'ana', text: 'Comparemos con las otras nueve y dejemos las unidades a la vista. Estas columnas están en cientos de dosis.' },
       ],
     },
     {
@@ -344,8 +346,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'Quinientas cuarenta dosis fuera del registro oficial: las 400 de los trabajadores de Halcón y otras 140 sin rastro.' },
-        { who: 'iris', text: 'Armemos el informe completo. Cada cifra, verificada.' },
+        { who: 'teo', text: 'Recibió 1 200 y registró 600; las otras clínicas hacen esperar unas 1 140. La diferencia con esa referencia es −5,4 cientos, unas 540 dosis.' },
+        { who: 'ana', text: 'De esas 540, la copia permite seguir 400 hasta los trabajadores de Halcón. Quedan 140 sin rastro.' },
+        { who: 'iris', text: 'Las guías y la copia se quedan juntas en el informe. Cada diferencia con su respaldo.' },
+        { who: 'ana', text: 'De acuerdo; ahora puedo firmarlo con ustedes. Las 140 siguen fuera de cualquier carpeta de pacientes.' },
       ],
     },
   ],

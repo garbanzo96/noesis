@@ -290,9 +290,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'teo', text: 'La tabla del M-7 no está escrita en ninguna parte. El programa la arma con dos tablas más simples, una después de la otra.' },
-        { who: 'lucia', text: '¿Y eso da lo mismo que una sola tabla?' },
-        { who: 'iris', text: 'Da una sola tabla. Hay que saber cuál.' },
+        { who: 'nar', text: 'Centro de control del Metro, 03:40. El ventilador del servidor traquetea.' },
+        { who: 'teo', text: 'La tabla completa no está escrita: el programa primero estira el mapa con B y después lo inclina con A. Necesito reconstruir lo que llega a la pantalla.' },
+        { who: 'lucia', text: 'Con el orden correcto, por favor; tengo un tren real fuera del horario.' },
+        { who: 'iris', text: 'Y un programador que sabía dónde quería hacerlo aparecer.' },
       ],
     },
     {
@@ -322,8 +323,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'iris', text: 'Ya sabemos cómo se esconde el M-7. Ahora quiero lo contrario: desde la pantalla, volver a la posición real.' },
-        { who: 'teo', text: 'Y hay otra tabla, la de los trenes de carga. Esa hace algo raro con las áreas.' },
+        { who: 'teo', text: 'Primero B y después A: el (3, 4) queda en (6, 0), el taller. Al revés da (6, −6), fuera de toda vía.' },
+        { who: 'iris', text: 'Eligieron el orden con cuidado. Ahora necesito recuperar el recorrido desde las grabaciones.' },
+        { who: 'teo', text: 'La tabla del M-7 parece tener vuelta; la de carga aplasta la cuadrícula.' },
+        { who: 'lucia', text: 'Entonces esos seis trenes pueden estar encima de cualquier tren normal en mi pantalla.' },
       ],
     },
   ],

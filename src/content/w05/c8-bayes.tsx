@@ -264,8 +264,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'teo', text: 'El dado cargado de la mesa 7 saca 6 la mitad de las veces. El honesto, una de cada seis.' },
-        { who: 'iris', text: 'No podemos tocar el dado. Pero podemos mirar lo que sale y ajustar cuánto sospechamos.' },
+        { who: 'nar', text: 'Casino Aurora, 22:00. El dado rebota contra el borde de la mesa 7.' },
+        { who: 'teo', text: 'El cargado saca 6 la mitad de las veces; el honesto, una de cada seis. Desde la cámara no logro distinguir cuál dejó el Barón.' },
+        { who: 'vera', text: 'Lo cambia en una de cada diez manos. Si intentan tocarlo, llama al guardia.' },
+        { who: 'iris', text: 'Entonces seguimos las tiradas. Necesito algo más firme que reconocerle el bolsillo.' },
       ],
     },
     {
@@ -315,9 +317,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'Cinco seises seguidos cuando juega el VIP del sombrero. El dado cargado entra con él.' },
-        { who: 'vera', text: 'Y paga con fichas de la casa, siempre de las grandes. El Barón dice que la casa nunca pierde.' },
-        { who: 'iris', text: 'Veremos cuánto gana la casa, en promedio, en cada juego.' },
+        { who: 'teo', text: 'Con una posibilidad inicial de 0,1, cinco seises seguidos pasan de 0,95 para el cargado. Ocurrió cuando jugó el VIP del sombrero.' },
+        { who: 'iris', text: 'El dado entra con él.' },
+        { who: 'vera', text: 'Paga con fichas de la casa, siempre de las grandes. Ferrer celebra incluso cuando tiene que pagarle.' },
+        { who: 'tu', text: 'Revisemos cuánto le cuesta a la casa esa celebración.' },
       ],
     },
   ],

@@ -323,8 +323,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'servidores',
       lines: [
-        { who: 'teo', text: 'Un equipo infectado en aduanas. Se duplica cada hora. Hay un millón de registros.' },
-        { who: 'iris', text: 'No quiero «pronto». Quiero la hora exacta en que lo alcanza.' },
+        { who: 'nar', text: 'Servidores de aduanas, viernes, 20:40; suena la alarma.' },
+        { who: 'teo', text: 'Esta cepa empezó con uno y se duplica cada hora. El millón de registros está en la misma red.' },
+        { who: 'iris', text: 'Dame el plazo para aislarla. «Pronto» no cabe en el reloj.' },
+        { who: 'tu', text: 'La desconectaría antes de que llegue al millón, aunque quede tiempo para otra copia.' },
       ],
     },
     {
@@ -384,9 +386,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'servidores',
       lines: [
-        { who: 'teo', text: 'Lo aislé a las 19 horas. Faltaba una duplicación para el millón.' },
-        { who: 'iris', text: 'El virus era una distracción. Hoy es viernes. Son casi las nueve.' },
-        { who: 'iris', text: 'Muelle norte. Vamos.' },
+        { who: 'teo', text: 'El modelo llega al millón en unas 19,93 horas; a las 20 lo supera. La aislé a las 19 horas de iniciarse.' },
+        { who: 'iris', text: 'El virus nos tuvo aquí mientras preparaban la cita. Hoy es viernes.' },
+        { who: 'tu', text: 'La nota decía nueve. Son casi las 21:00.' },
+        { who: 'iris', text: 'Y el muelle norte sigue recibiendo carga.' },
       ],
     },
   ],

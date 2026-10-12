@@ -219,8 +219,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'vera', text: 'A veces alcanzo a ver un dado antes que el otro. Eso cambia mucho la apuesta.' },
-        { who: 'iris', text: 'Saber algo cambia las probabilidades. Veamos cuánto.' },
+        { who: 'nar', text: 'Casino Aurora, 21:00. Un dado se detiene junto a la mano de Vera.' },
+        { who: 'vera', text: 'Alcancé a ver el rojo antes que el blanco. Hay clientes que apuestan como si supieran algo más.' },
+        { who: 'iris', text: 'El Barón dice que la mayoría de los ganadores es regular. Necesito ver qué parte de los VIP ganó, aunque cambie la pregunta.' },
+        { who: 'vera', text: 'Les muestro esa fila, pero no me dejen el registro abierto cuando él pase.' },
       ],
     },
     {
@@ -275,8 +277,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'Los VIP ganan tres veces más seguido. O tienen mucha suerte, o el juego no es independiente de quién juega.' },
-        { who: 'vera', text: 'La mayoría de los VIP pide jugar en la mesa 7. En mi mesa.' },
+        { who: 'teo', text: 'Terminó ganando el 75 % de los VIP y el 25 % de los regulares. Ser VIP triplica la frecuencia de ganar en ese registro.' },
+        { who: 'iris', text: 'Ferrer eligió bien qué cifra contar.' },
+        { who: 'vera', text: 'La mayoría de los VIP pide la mesa 7. La mía.' },
+        { who: 'iris', text: '¿La piden ellos, Vera, o los sientan aquí?' },
       ],
     },
   ],

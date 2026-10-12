@@ -277,8 +277,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'vera', text: 'El zapato del Barón tiene pocas cartas. Él siempre sabe cuántas rojas quedan.' },
-        { who: 'iris', text: 'Entonces él puede calcular lo que viene. Nosotros también.' },
+        { who: 'nar', text: 'Casino Aurora, 21:40. El zapato raspa el paño al deslizarse.' },
+        { who: 'vera', text: 'El Barón sabe cuántas rojas quedan; son pocas cartas y ninguna vuelve al zapato. Yo necesito repartir sin que note que estoy contando.' },
+        { who: 'iris', text: 'Nosotros contamos contigo. ¿Qué queda ahora?' },
+        { who: 'vera', text: 'Cinco rojas y tres negras. Puedo mostrarles dos cartas; después él vuelve a mirar mis manos.' },
       ],
     },
     {
@@ -333,8 +335,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'teo', text: 'Encontré algo en las cámaras: el Barón cambia el dado de la mesa 7 cuando juega un VIP. No sabemos cuál de los dos dados está en la mesa.' },
-        { who: 'iris', text: 'Entonces miraremos qué sale y recalcularemos. Cada tirada es evidencia.' },
+        { who: 'teo', text: 'Dos rojas tienen 20 posibilidades de 56; para la segunda roja sola queda 5/8. Y el registro de clientes pone al 22 % en la mesa 7.' },
+        { who: 'iris', text: 'Suficiente para saber qué esperar. ¿Qué más viste en las cámaras?' },
+        { who: 'teo', text: 'El Barón cambia el dado de la mesa 7 cuando se sienta un VIP, pero tapa el cambio con la mano.' },
+        { who: 'vera', text: 'Si está pendiente del dado, por un momento deja de mirarme a mí.' },
       ],
     },
   ],

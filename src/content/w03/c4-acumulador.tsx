@@ -287,8 +287,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'teo', text: 'Quiero el volumen del lago como una curva: cuánto había a cada hora.' },
-        { who: 'marta', text: 'Eso es acumular el ritmo neto desde el mediodía. Y la pendiente de esa curva debería ser el ritmo.' },
+        { who: 'nar', text: 'Caseta de Peñuelas, 13:00; una pantalla ilumina el plano del lago.' },
+        { who: 'teo', text: 'Quiero reconstruir cuánta agua había a cada hora desde el mediodía. El balance total no muestra cuándo empezó la pérdida.' },
+        { who: 'marta', text: 'Tengo el ritmo neto de ese período. Mientras entra más de lo que sale, el volumen sigue subiendo.' },
+        { who: 'iris', text: 'Encuentra el cambio. Esa hora puede decirnos cuándo empezaron a sacar ventaja.' },
       ],
     },
     {
@@ -318,8 +320,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'Tengo la fórmula que usan los ingenieros para el caudal de la tubería 7. Es un polinomio.' },
-        { who: 'teo', text: 'Si sabemos derivar, sabemos desandar el camino: buscar la función cuya derivada es esa fórmula.' },
+        { who: 'teo', text: 'En este registro el lago está más lleno cerca de las 23:18, cuando empieza a salir más de lo que entra. A las 03:00 ya pierde unos 1,96 mil m³ por hora.' },
+        { who: 'marta', text: 'Tengo el manual de la tubería 7. Describe el caudal con una fórmula; debería permitir una cuenta completa de la noche.' },
+        { who: 'iris', text: '¿Coincide con el informe?' },
+        { who: 'marta', text: 'Prefiero calcularlo antes de responderte. El manual todavía conserva sus páginas originales.' },
       ],
     },
   ],

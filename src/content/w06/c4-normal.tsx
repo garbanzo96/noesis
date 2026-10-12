@@ -241,8 +241,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'Las treinta clínicas de la región aplicaron en promedio 120 dosis por semana, con una desviación de 15.' },
-        { who: 'iris', text: 'Y la del Cerro, en la semana 31, reporta 171. ¿Es raro o muy raro?' },
+        { who: 'nar', text: 'Archivo Regional, 12:00. Una hoja sale tibia de la impresora.' },
+        { who: 'ana', text: 'Treinta clínicas: en promedio, 120 dosis por semana, con una variación típica de 15. En la semana 31, el Cerro reportó 171.' },
+        { who: 'iris', text: '¿Cuánto se sale de lo habitual?' },
+        { who: 'ana', text: 'Eso necesito establecer; con «parece mucho» van a devolvernos la carpeta.' },
       ],
     },
     {
@@ -272,8 +274,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'La semana 31 es la del 12 de agosto. Las 400 dosis de un día quedaron repartidas en el informe como si fuera una semana buena.' },
-        { who: 'iris', text: 'Ahora quiero saber quiénes son los vacunados. Pero el registro tiene cuarenta y ocho mil fichas.' },
+        { who: 'teo', text: 'Las 171 dosis quedan a 3,4 desviaciones sobre 120. Superar esa distancia ocurre unas tres veces en 10 000 semanas con este modelo.' },
+        { who: 'iris', text: 'La semana 31 merece una explicación propia. Las 400 del 12 de agosto tampoco desaparecen por eso.' },
+        { who: 'ana', text: 'Tampoco prueban quién recibió cada dosis; para eso hay 48 000 fichas.' },
+        { who: 'iris', text: 'Y alguien cuenta con que nos aburramos antes de llegar a la última.' },
       ],
     },
   ],

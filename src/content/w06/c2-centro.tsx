@@ -249,8 +249,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'El informe oficial de la clínica dice: «46 dosis diarias en promedio durante la campaña».' },
-        { who: 'teo', text: 'Tengo el registro día por día de la copia. Son quince días.' },
+        { who: 'nar', text: 'Archivo Regional, 10:00. Ana sostiene una hoja por el borde.' },
+        { who: 'ana', text: 'El informe presume «46 dosis diarias en promedio». Lleva el sello de la clínica; ustedes tendrán que justificar cada cifra que le discutan.' },
+        { who: 'teo', text: 'Tengo los quince días de la copia. ¡Podemos verlos completos, sin depender de esa frase!' },
+        { who: 'iris', text: 'Muéstralos. Quiero saber si hubo un día así de verdad.' },
       ],
     },
     {
@@ -280,8 +282,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: '12 de agosto: 400 dosis en un día. El mismo día en que, según el portero, llegaron dos buses de Halcón.' },
-        { who: 'iris', text: 'Y los otros catorce días son casi idénticos. Demasiado. Quiero comparar con otra clínica.' },
+        { who: 'teo', text: 'El promedio da 46,1, pero el día del medio da 21; sin el día de 400, queda en 20,8. Ese día arrastra todo el informe.' },
+        { who: 'ana', text: '12 de agosto: 400 dosis; el portero recuerda dos buses de Halcón. Su nombre queda fuera de la copia que se lleven.' },
+        { who: 'iris', text: 'Por ahora. Comparemos otra selección de días con la Clínica Norte antes de decir que el resto fue rellenado.' },
+        { who: 'ana', text: 'Puedo traer ocho de cada clínica. Esos folios se guardaron por separado.' },
       ],
     },
   ],

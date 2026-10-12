@@ -367,8 +367,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'La turbina 3 gira normal, pero el generador da más vueltas de las que debería.' },
-        { who: 'teo', text: 'Entre medio hay una caja de cambios. Alguien cambió una rueda.' },
+        { who: 'nar', text: 'Turbina 3, 11:20; la caja de cambios traquetea.' },
+        { who: 'nadia', text: 'La turbina gira normal y el generador se acelera. Quiero saber cuánto le agregaron las ruedas.' },
+        { who: 'teo', text: 'El movimiento pasa por el eje intermedio antes de llegar al generador. Tengo que seguir las dos etapas.' },
+        { who: 'iris', text: 'Con cuidado. Esa mancha de aceite también está ganando terreno.' },
       ],
     },
     {
@@ -413,8 +415,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'El generador extra alimenta el subsuelo. Y la torre de enfriamiento está trabajando de más.' },
-        { who: 'iris', text: 'Algo allá abajo produce calor. Mucho calor.' },
+        { who: 'teo', text: 'Por cada vuelta de turbina, el intermedio da 3 y el generador da 12. Las dos etapas explican la aceleración.' },
+        { who: 'nadia', text: 'Ese generador extra alimenta el subsuelo. Yo no autoricé el cambio de ruedas.' },
+        { who: 'iris', text: '¿Y dónde termina el calor que produce?' },
+        { who: 'nadia', text: 'En la torre de enfriamiento. Está trabajando por encima de lo que declara el turno.' },
       ],
     },
   ],

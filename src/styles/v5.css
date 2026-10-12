@@ -977,3 +977,20 @@
   padding: 0.04em 0.35em;
   border-radius: 3px;
 }
+.stage-html.paper {
+  text-shadow: none;
+}
+/* portada en PC: menú legible */
+@media (min-width: 761px) and (min-height: 521px) {
+  .title-screen .btn,
+  .title-menu .btn {
+    font-size: 14px;
+    padding: 12px 20px;
+    min-width: 260px;
+  }
+}
+.topbar,
+.topbar-rank small,
+.hud-back {
+  font-size: 12px;
+}

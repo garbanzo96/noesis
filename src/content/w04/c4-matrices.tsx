@@ -308,9 +308,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'teo', text: 'La encontré. Antes de dibujar al M-7, el servidor multiplica su posición por una tabla de cuatro números. Solo a ese tren.' },
-        { who: 'lucia', text: '¿Una tabla puede mover un tren en la pantalla?' },
-        { who: 'iris', text: 'Puede mover el plano entero. Veamos cómo.' },
+        { who: 'nar', text: 'Centro de control del Metro, 03:10. El cursor parpadea sobre cuatro números.' },
+        { who: 'teo', text: 'Aquí está la tabla: el servidor cambia la posición antes de dibujarla, solo para el M-7. ¡Podemos ver qué le hace!' },
+        { who: 'lucia', text: 'Baja la voz; todavía tengo que trabajar acá mañana.' },
+        { who: 'iris', text: 'Averigüemos dónde pone un tren que está en Cocheras Barón. Después vemos qué firma necesita eso.' },
       ],
     },
     {
@@ -340,8 +341,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'metro',
       lines: [
-        { who: 'lucia', text: 'Entonces el M-7 sale cada noche y la pantalla lo deja «estacionado» en el taller.' },
-        { who: 'iris', text: 'Y vuelve con algo. Quiero saber cuántos trenes de verdad circulan de noche.' },
+        { who: 'teo', text: 'El (3, 4) de Cocheras Barón sale como (6, 0), Taller El Salto. En Puerto, (0, 0), la posición queda igual.' },
+        { who: 'lucia', text: 'Por eso al salir nadie ve nada extraño. Yo daba por bueno el regreso al taller.' },
+        { who: 'iris', text: 'El M-7 tiene su truco; falta contar al resto.' },
+        { who: 'lucia', text: 'El sensor de ejes del puente Barón guarda trenes y vagones. Ese registro nunca pasa por esta pantalla.' },
       ],
     },
   ],

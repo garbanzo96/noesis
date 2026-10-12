@@ -114,6 +114,22 @@ export function Knob({ x, y, color = C.cyan, r = 18, label, onPointerDown, curso
   );
 }
 
+/**
+ * Affordance for a custom drag handle that is not a Knob (a point on a curve, a bar, a token):
+ * while the step waits for the player, a halo pulses there and a ghost hand shows the gesture.
+ * Place it at the handle's position; it draws nothing once the cue is retired.
+ */
+export function DragCue({ x, y, axis = 'xy', color = C.amber, r = 16 }: { x: number; y: number; axis?: 'x' | 'y' | 'xy'; color?: string; r?: number }) {
+  const cue = useCue();
+  if (!cue.active) return null;
+  return (
+    <g pointerEvents="none">
+      <circle className="knob-halo" cx={x} cy={y} r={r + 8} fill="none" stroke={color} strokeWidth={3} />
+      <GhostHand x={x} y={y} axis={axis} />
+    </g>
+  );
+}
+
 /** Row of choice buttons placed on the stage (for small discrete answers). */
 export function Choices<T extends string | number>({ x, y, options, value, onPick, render, label, anchor = 'center' }: { x: number; y: number; options: T[]; value: T | null; onPick: (v: T) => void; render?: (v: T) => ReactNode; label?: string; anchor?: 'center' | 'left' | 'right' }) {
   return (

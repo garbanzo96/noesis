@@ -269,12 +269,13 @@ export function SectorMap({
                   height={28}
                   fill={locked ? '#332b40' : boss ? '#b8343f' : '#c9b98f'}
                 />
-                <circle cx={x} cy={y - h / 2 + 8} r={8} fill="#d23" stroke="#600" strokeWidth={2} />
+                <circle cx={x + w / 2 - 14} cy={y - h / 2 + 14} r={8} fill="#d23" stroke="#600" strokeWidth={2} />
                 <Html
                   x={x - w / 2 + 12}
                   y={y - h / 2 + 14}
                   size={15}
                   anchor="left"
+                  className="paper"
                   color={locked ? '#6d6488' : boss ? '#fff' : '#3a2f22'}
                   style={{ rotate: `${tilt}deg` }}
                 >
@@ -284,6 +285,7 @@ export function SectorMap({
                   x={x}
                   y={y + 12}
                   size={21}
+                  className="paper"
                   color={locked ? '#6d6488' : '#1a1410'}
                   style={{ rotate: `${tilt}deg` }}
                 >
@@ -299,6 +301,7 @@ export function SectorMap({
                       y={y + h / 2 - 16}
                       size={16}
                       anchor="right"
+                      className="paper"
                       color="#b8343f"
                     >
                       <span className="card-stars">

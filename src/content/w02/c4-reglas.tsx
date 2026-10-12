@@ -375,9 +375,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'teo', text: 'Cada equipo de la sala de máquinas tiene un modelo: energía en función del tiempo. Son polinomios.' },
-        { who: 'nadia', text: 'Derivarlos con límites cada vez es lento. Los ingenieros usamos reglas.' },
-        { who: 'iris', text: 'Reglas que pueda ver. No me sirven de memoria.' },
+        { who: 'nar', text: 'Sala de máquinas, 10:00; vibra una placa metálica.' },
+        { who: 'teo', text: 'Cada equipo tiene un modelo de energía según el tiempo. Con eso podemos revisar cuánto debería consumir.' },
+        { who: 'nadia', text: 'Y comprobar cuánto cambia al calentarse. La placa cuadrada se dilata; la caldera también tiene su cuenta.' },
+        { who: 'iris', text: 'Quiero comparar esa lista con el pico de 12 MW. Alguien está cobrando espacio aquí sin aparecer en ella.' },
       ],
     },
     {
@@ -427,8 +428,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'Todos los modelos cuadran. Ningún equipo de la sala consume doce megawatts.' },
-        { who: 'teo', text: 'Salvo uno que no está en la lista: un transformador nuevo, conectado al alimentador 4. Mide voltaje y corriente.' },
+        { who: 'teo', text: 'La caldera da 5 en su modelo de potencia al cabo de una hora. Los equipos de la lista cuadran con sus modelos.' },
+        { who: 'nadia', text: 'Ninguno explica los 12 MW. Pero el alimentador 4 tiene un transformador nuevo fuera de la lista.' },
+        { who: 'iris', text: 'Nuevo y sin registro. ¿Quién lo recibió?' },
+        { who: 'nadia', text: 'Mide voltaje y corriente. La placa del fabricante está; la firma de recepción, no.' },
       ],
     },
   ],

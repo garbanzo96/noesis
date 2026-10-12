@@ -287,9 +287,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'nar', text: 'Archivo Regional de Valparaíso, 09:00. Cajas, folios y un servidor nuevo en el subsuelo.' },
-        { who: 'ana', text: 'Ana Rojas, archivera. Los discos del Metro son una copia del registro de vacunación de la Clínica del Cerro. Y no coinciden con el original.' },
-        { who: 'iris', text: 'Antes de buscar diferencias, quiero ver cómo son los datos.' },
+        { who: 'nar', text: 'Archivo Regional de Valparaíso, 09:00. Huele a cartón húmedo.' },
+        { who: 'ana', text: 'Ana Rojas, archivera; los discos del Metro contienen una copia del registro de la Clínica del Cerro. No coinciden con el original y no voy a entregárselos sin dejar constancia.' },
+        { who: 'iris', text: 'Déjala. Necesitamos ver quién aparece en la copia.' },
+        { who: 'ana', text: 'Empiecen por las edades; la campaña era para personas de 65 años o más. Después me dicen si siguen confiando en el original.' },
       ],
     },
     {
@@ -319,8 +320,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'Dieciocho pacientes de 25 a 35 años, en una campaña para mayores de 65. Todos con la misma dirección: bodega 4 de Halcón Logística.' },
-        { who: 'iris', text: 'Las vacunas del puerto terminaron en sus trabajadores. Veamos qué dice el informe oficial.' },
+        { who: 'ana', text: 'Dieciocho de los 60 pacientes tienen de 20 a menos de 40 años: el 30 %. El grupo joven se concentra entre 25 y 35 y todos esos 18 dan la dirección de bodega 4 de Halcón Logística.' },
+        { who: 'iris', text: 'Trabajadores de Halcón dentro de una campaña para mayores. ¿Eso figura en el informe?' },
+        { who: 'ana', text: 'El informe habla de dosis diarias; voy a dejarlo junto a la copia. No mezclen los folios.' },
+        { who: 'tu', text: 'Dieciocho personas con la misma dirección. Eso no lo hizo el azar.' },
       ],
     },
   ],

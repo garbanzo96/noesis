@@ -326,8 +326,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'teo', text: 'El transformador del alimentador 4 sube de temperatura cada noche. A 110 °C se quema.' },
-        { who: 'nadia', text: 'Necesito saber cuándo llega. Y los sensores son baratos: calculan con aproximaciones.' },
+        { who: 'nar', text: 'Alimentador 4, 14:00; parpadea el aviso de temperatura.' },
+        { who: 'teo', text: 'A 110 °C el transformador se quema. Necesitamos el tiempo que falta antes de bajar al subsuelo.' },
+        { who: 'nadia', text: 'El sensor hace cuentas aproximadas. No voy a esperar a que suene la alarma para decidir el corte.' },
+        { who: 'iris', text: 'Dame una estimación con margen. Media ciudad depende de ese margen.' },
       ],
     },
     {
@@ -372,8 +374,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'A las 04:35 el transformador llega a 110 °C. Si sigue así, esta noche se quema y apaga media ciudad.' },
-        { who: 'iris', text: 'Entonces bajamos al subsuelo esta noche. Antes de las 04:35.' },
+        { who: 'teo', text: 'El modelo llega a 110 °C en unos 22,43 minutos. Los 22 minutos y medio ya son una estimación redondeada.' },
+        { who: 'nadia', text: 'Para esta noche, las 04:35 son el plazo de referencia. Tenemos que cortar antes, sin apurar ese redondeo.' },
+        { who: 'iris', text: '¿Tienes las llaves del subsuelo?' },
+        { who: 'nadia', text: 'Sí. Me las pedirán de vuelta cuando vean qué alimenta el cable.' },
       ],
     },
   ],

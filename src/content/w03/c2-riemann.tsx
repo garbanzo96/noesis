@@ -220,8 +220,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'teo', text: 'Seis lecturas en la noche, una por hora. El caudal real no se queda quieto entre lecturas.' },
-        { who: 'marta', text: 'Si usamos esas seis, ¿cuánto nos podemos equivocar?' },
+        { who: 'nar', text: 'Caseta del caudalímetro, 09:00; el teclado está húmedo.' },
+        { who: 'teo', text: 'Siete lecturas, desde las 00:00 hasta las 06:00: seis tramos de una hora. Entre los puntos queda agua por contar.' },
+        { who: 'marta', text: 'Necesito una estimación que podamos defender. Un número inflado nos haría el mismo daño que el informe.' },
+        { who: 'tu', text: 'Compararía las cuentas con el dato del inicio y del final de cada tramo.' },
       ],
     },
     {
@@ -256,8 +258,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'Casi veintiséis mil metros cúbicos con el registro fino. El informe sigue diciendo ocho.' },
-        { who: 'iris', text: 'Pero al lago también le entra agua. Quiero el balance completo: lo que entra menos lo que sale.' },
+        { who: 'teo', text: 'Con el registro fino, este caudal acumula unos 25,7 mil m³ entre las 00:00 y las 06:00. El modelo por tramos anterior daba 23 mil.' },
+        { who: 'marta', text: 'Distinta precisión, la misma objeción: el informe dice 8 mil. Ni afinando desaparece la diferencia.' },
+        { who: 'iris', text: 'Al lago también le entra agua. Necesitamos saber si alcanza a recuperar lo que sale.' },
+        { who: 'marta', text: 'Tengo las entradas de los ríos. El día puede parecer tranquilo desde esta caseta.' },
       ],
     },
   ],

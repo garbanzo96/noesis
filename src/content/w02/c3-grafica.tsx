@@ -408,8 +408,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'iris', text: 'El medidor de toda la noche. La curva solo sube: no se ve ningún pico.' },
-        { who: 'nadia', text: 'Porque es energía acumulada. El pico está en la pendiente. Hay que dibujarla.' },
+        { who: 'nar', text: 'Sala de control, 08:00; brilla la pantalla del medidor.' },
+        { who: 'iris', text: 'Toda la noche en una curva que sube. El mayor consumo sigue escondido.' },
+        { who: 'nadia', text: 'La pantalla suma energía; necesito ver a qué ritmo la suma. Ese ritmo puede subir y bajar.' },
+        { who: 'teo', text: 'Puedo dibujarlo debajo del registro. Ahí el pico tendrá una hora.' },
       ],
     },
     {
@@ -459,8 +461,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'planta',
       lines: [
-        { who: 'nadia', text: 'El pico es a las 04:12, todas las noches. Doce megawatts. Ningún equipo de la planta consume eso.' },
-        { who: 'teo', text: 'En la sala de máquinas hay modelos de cada equipo. Si los derivamos, sabremos cuál miente.' },
+        { who: 'nadia', text: '12 MW a las 04:12, todas las noches. Ningún equipo declarado consume eso.' },
+        { who: 'iris', text: 'Alguien cuenta con que nadie mire debajo de la curva.' },
+        { who: 'teo', text: 'En la sala de máquinas están los modelos de cada equipo. Puedo comparar lo que deberían gastar.' },
+        { who: 'nadia', text: 'La sala tiene su lista oficial. Ya sabes cuánto confiar en ese adjetivo.' },
       ],
     },
   ],

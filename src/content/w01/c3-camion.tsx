@@ -396,9 +396,11 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'teo', text: 'Cuatro camiones retiraron la última carga del Altamar. Tengo sus GPS: la distancia al puerto cada media hora.' },
-        { who: 'iris', text: 'Y tengo las declaraciones de los choferes. Todos dicen que fueron directo a la Clínica del Cerro.' },
-        { who: 'iris', text: 'Uno de ellos se detuvo donde no debía. Encuéntralo.' },
+        { who: 'nar', text: 'Oficina NÓESIS, jueves, 13:00; una impresora traquetea.' },
+        { who: 'teo', text: 'Cuatro camiones de la última carga del Altamar, con distancia al puerto cada media hora. Los GPS están completos.' },
+        { who: 'iris', text: 'Los choferes juran que fueron directo a la Clínica del Cerro. Qué coordinación.' },
+        { who: 'tu', text: 'Si uno paró, el tiempo tiene que aparecer en alguna parte.' },
+        { who: 'iris', text: 'Encuentra esa parada antes de que los cuatro acuerden otra historia.' },
       ],
     },
     {
@@ -453,8 +455,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'iris', text: 'El km 60 de la ruta del camión D. Ahí no hay clínica: hay una bodega abandonada.' },
-        { who: 'teo', text: 'Mandé un dron. En la puerta hay una nota con números. Parece un mensaje cifrado.' },
+        { who: 'teo', text: 'D quedó en el km 60 entre 01:00 y 01:30: treinta minutos detenido. C mintió sobre la velocidad, pero D ocultó una parada.' },
+        { who: 'iris', text: 'En el km 60 hay una bodega abandonada. Mala dirección para una clínica.' },
+        { who: 'teo', text: 'El dron llegó a la puerta: hay una nota con números.' },
+        { who: 'iris', text: 'Treinta minutos para dejar algo. Y alguien se tomó la molestia de cifrarlo.' },
       ],
     },
   ],

@@ -334,8 +334,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'De día los ríos llenan el lago más de lo que sale. De noche, al revés.' },
-        { who: 'iris', text: 'Entonces importa la resta: lo que entra menos lo que sale, durante todo el día.' },
+        { who: 'nar', text: 'Orilla de Peñuelas, 12:00; la línea de agua deja una franja oscura.' },
+        { who: 'marta', text: 'De día los ríos reponen agua; de madrugada la tubería 7 pesa mucho más. Necesito la cuenta de las 24 horas.' },
+        { who: 'iris', text: 'Alguien va a mostrarme solo la subida de la tarde. Quiero también lo que perdió durante la noche.' },
+        { who: 'tu', text: 'Restaría todas las salidas, incluidas las de la ciudad, antes de dar por recuperado el lago.' },
       ],
     },
     {
@@ -370,8 +372,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'represa',
       lines: [
-        { who: 'marta', text: 'El lago pierde cada día más de lo que gana. A este ritmo, en verano no alcanza para la ciudad.' },
-        { who: 'teo', text: 'Necesito el nivel hora por hora, no solo el total. Una función que vaya acumulando.' },
+        { who: 'teo', text: 'El balance de las 24 horas da una pérdida de unos 12,7 mil m³. La entrada del día no compensa la madrugada.' },
+        { who: 'marta', text: 'Así se acaba el margen para el verano. El lago no recibe otra reserva por firmar el informe.' },
+        { who: 'iris', text: 'Necesito saber a qué hora empieza a bajar.' },
+        { who: 'teo', text: 'Podemos reconstruir el volumen hora por hora. El total diario estaba tapando el momento del cambio.' },
       ],
     },
   ],

@@ -286,8 +286,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'baron', text: 'Mis juegos son generosos. Algunos pagan cinco a uno.' },
-        { who: 'iris', text: 'Cinco a uno, ¿cuántas veces? Lo que importa es el promedio.' },
+        { who: 'nar', text: 'Casino Aurora, 22:20. Ferrer hace rodar una ficha grande entre los dedos.' },
+        { who: 'baron', text: 'Mi generosidad es conocida, inspectora; «Doble Aurora» paga cinco fichas si sale 7. Mis invitados saben agradecerlo.' },
+        { who: 'iris', text: 'Y pagan dos para jugar. Quiero ver cuánto les queda después de muchas partidas.' },
+        { who: 'vera', text: 'El VIP del sombrero casi nunca mira cuánto apostó. Mira al Barón antes de cobrar.' },
       ],
     },
     {
@@ -337,9 +339,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'Los juegos honestos le dejan a la casa unas fichas por cada cien. La mesa 7 le hace perder a la casa cuando juegan los VIP.' },
-        { who: 'iris', text: 'Pierde a propósito. Así entra el dinero del contrabando y sale limpio como premio.' },
-        { who: 'vera', text: 'Esta noche hay partida grande en la mesa 7. El Barón va a estar.' },
+        { who: 'teo', text: '«Doble Aurora» cuesta al jugador 0,5 ficha por partida en promedio; la ruleta, 1/37 por ficha apostada. En la mesa 7, con los VIP, la casa pierde.' },
+        { who: 'iris', text: 'Pierde a propósito. El dinero del contrabando sale de aquí convertido en premio.' },
+        { who: 'vera', text: 'El sábado, a las 22:00, hay partida grande en la mesa 7. Ferrer va a estar, y yo tengo que repartir.' },
+        { who: 'iris', text: 'Entonces también tiene que quedar grabado quién paga. No voy a dejarte sola frente a su libreta.' },
       ],
     },
   ],

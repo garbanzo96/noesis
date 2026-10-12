@@ -269,8 +269,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'vera', text: 'Esta es la tabla de pagos. La casa paga por combinaciones: «suma 7 o 11», «algún 6 o dobles»…' },
-        { who: 'iris', text: 'Combinaciones con «o». Ahí es fácil equivocarse. Y el Barón cuenta con eso.' },
+        { who: 'nar', text: 'Casino Aurora, 21:30. Vera alisa la tabla de pagos con la palma.' },
+        { who: 'vera', text: 'Aquí pagan por «suma 7 o 11» y por «algún 6 o dobles». Si un cliente discute el pago, me toca defender esta hoja.' },
+        { who: 'tu', text: 'El doble 6 cumple las dos condiciones de la segunda apuesta. Yo lo contaría una vez.' },
+        { who: 'iris', text: 'Veamos cuánto cobra la casa por contarlo dos.' },
       ],
     },
     {
@@ -325,8 +327,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'iris', text: 'La tabla paga como si «algún 6 o dobles» tuviera 17 casillas. Con eso la casa gana cada noche un poco.' },
-        { who: 'teo', text: 'Conseguí el registro de jugadores de este mes. Quién ganó, quién perdió y si era cliente VIP.' },
+        { who: 'iris', text: '«Algún 6 o dobles» tiene 16 resultados de 36; la tabla usa 17. Esa diferencia se queda en la casa.' },
+        { who: 'vera', text: 'Yo leo el pago que me mandan. La firma al pie de la hoja es del Barón.' },
+        { who: 'teo', text: 'Conseguí el registro de octubre: quién terminó ganando y quién era VIP. Hay algo raro en esos cruces.' },
+        { who: 'iris', text: 'Guarda también la firma. Una hoja de pagos todavía cabe en un bolsillo.' },
       ],
     },
   ],

@@ -4,6 +4,7 @@ import { CueCtx } from '../../engine/cue';
 import { useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
+import { Coach, PRACTICE_TOUR } from './Coach';
 import { Console, KeyHint } from './Console';
 import { Notebook } from './Notebook';
 import { Rail } from './Rail';
@@ -133,7 +134,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   return (
     <div className="play with-notes practice">
       <div className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''} ${cueActive ? 'cue-on' : ''}`}>
-        <div className="stage-area">
+        <div className="stage-area" onPointerDownCapture={() => cueActive && cue.touch()}>
         <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
         <div className="challenge-head">
           <span className="challenge-title">{step.title}</span>
@@ -202,6 +203,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           <KeyHint k="H">pista</KeyHint>
         </div>
       </Console>
+      {!run.reduced && <Coach id="practice" steps={PRACTICE_TOUR} />}
     </div>
   );
 }

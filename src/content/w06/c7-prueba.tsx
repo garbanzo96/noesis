@@ -261,8 +261,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'La cifra que repiten todos los medios: «95 % de los inscritos recibió su dosis».' },
-        { who: 'iris', text: 'Revisemos 400 fichas al azar. Partimos creyéndoles, como en un juicio.' },
+        { who: 'nar', text: 'Archivo Regional, 16:00. La portada refleja la luz de la lámpara.' },
+        { who: 'ana', text: '«95 % de los inscritos recibió su dosis»: así lo repiten los medios. Si lo discutimos, van a pedir las fichas.' },
+        { who: 'iris', text: 'Cuatrocientas, elegidas al azar. Calculemos qué tan lejos caen de lo que afirman.' },
+        { who: 'tu', text: 'Guardemos también las que dicen «no vacunado»; esos inscritos siguen esperando una explicación.' },
       ],
     },
     {
@@ -292,8 +294,10 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'ana', text: 'La cobertura real es menor al 95 %, y no por azar. A muchos inscritos no les llegó la dosis.' },
-        { who: 'iris', text: 'Porque esas dosis fueron a otra parte. Quiero ver cuántas recibió cada clínica y cuántas registró.' },
+        { who: 'teo', text: '356 de 400: el 89 % de la muestra. La distancia frente al 95 % da cerca de −5,5; se rechaza esa cifra oficial.' },
+        { who: 'ana', text: 'Hay inscritos sin dosis y el informe los daba por cubiertos. Tengo que conservar sus fichas antes de que alguien las corrija.' },
+        { who: 'iris', text: 'Comparemos las guías de entrada con lo registrado en cada clínica.' },
+        { who: 'ana', text: 'Las guías llevan firmas de recepción. Ahí alguien tuvo las cajas en sus manos.' },
       ],
     },
   ],
