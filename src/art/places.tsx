@@ -17,7 +17,8 @@ export type PlaceId =
   | 'antenas'
   | 'observatorio'
   | 'clinica'
-  | 'laboratorio';
+  | 'laboratorio'
+  | 'fabrica';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -312,6 +313,84 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       <path d="M550 704 L720 748 L800 790 L555 759 Z" fill="#ded8b2" />
       <path d="M398 560 L421 638 L468 643" fill="none" stroke="#738781" strokeWidth={7} />
       <Neon x={800} y={205} text="OBSERVATORIO · TURNO NOCTURNO" color="#e7df5a" size={28} />
+    </>
+  ),
+  fabrica: () => (
+    <>
+      <rect width="1600" height="900" fill="#0d0b08" />
+      {Array.from({ length: 7 }, (_, i) => (
+        <path
+          key={i}
+          d={`M${i * 260 - 60} 200 L${i * 260 + 70} 60 L${i * 260 + 200} 200`}
+          fill="none"
+          stroke="#2a2418"
+          strokeWidth={8}
+        />
+      ))}
+      <line x1={0} x2={1600} y1={200} y2={200} stroke="#2a2418" strokeWidth={10} />
+      <rect
+        x={1060}
+        y={250}
+        width={420}
+        height={220}
+        rx={8}
+        fill="#15110b"
+        stroke="#3a3122"
+        strokeWidth={4}
+      />
+      {Array.from({ length: 6 }, (_, r) =>
+        Array.from({ length: 12 }, (_, c) => (
+          <circle
+            key={`${r}-${c}`}
+            cx={1090 + c * 32}
+            cy={285 + r * 32}
+            r={7}
+            fill="#c9b37e"
+            opacity={(r * 7 + c * 3) % 5 === 0 ? 0.95 : 0.2}
+          />
+        )),
+      )}
+      {[140, 360, 580, 800].map((x) => (
+        <g key={x}>
+          <rect
+            x={x}
+            y={420}
+            width={170}
+            height={150}
+            rx={10}
+            fill="#1c1710"
+            stroke="#3a3122"
+            strokeWidth={4}
+          />
+          <rect x={x + 20} y={440} width={130} height={20} rx={4} fill="#c9b37e" opacity={0.5} />
+          <rect x={x + 40} y={395} width={90} height={30} fill="#e9e1cf" opacity={0.8} />
+        </g>
+      ))}
+      <rect x={0} y={620} width={1600} height={36} fill="#241e14" />
+      {Array.from({ length: 16 }, (_, i) => (
+        <circle key={i} cx={50 + i * 100} cy={638} r={12} fill="#3a3122" />
+      ))}
+      {Array.from({ length: 9 }, (_, i) => (
+        <path
+          key={i}
+          d={`M${60 + i * 175} 620 v-48 h70 l10 12 h50 v36 z`}
+          fill="#b39a64"
+          opacity={0.85}
+        />
+      ))}
+      <rect x={0} y={656} width={1600} height={244} fill="#0f0c08" />
+      {[0, 1, 2].map((k) => (
+        <ellipse
+          key={k}
+          cx={1460 - k * 40}
+          cy={150 - k * 30}
+          rx={90 + k * 20}
+          ry={30}
+          fill="#e9e1cf"
+          opacity={0.05}
+        />
+      ))}
+      <Neon x={800} y={110} text="LA FÁBRICA · DATOS HALCÓN" color="#c9b37e" size={28} />
     </>
   ),
   laboratorio: () => (

@@ -12,19 +12,20 @@ import { W08, W08_GLYPHS } from './w08';
 import { W09, W09_GLYPHS } from './w09';
 import { W10, W10_GLYPHS } from './w10';
 import { W11, W11_GLYPHS } from './w11';
+import { W12, W12_GLYPHS } from './w12';
 import { SECTORS, SECTOR_BY_ID } from './sectors';
 
 export { SECTORS, SECTOR_BY_ID };
 
 /** Districts with playable cases. Others appear on the city map as closed. */
-export const PLAYABLE: Partial<Record<WorldId, SectorDef>> = { foundations: W01, differential: W02, integral: W03, linear: W04, probability: W05, statistics: W06, multivariate: W07, information: W08, dynamics: W09, bayesian: W10, variational: W11 };
+export const PLAYABLE: Partial<Record<WorldId, SectorDef>> = { foundations: W01, differential: W02, integral: W03, linear: W04, probability: W05, statistics: W06, multivariate: W07, information: W08, dynamics: W09, bayesian: W10, variational: W11, generative: W12 };
 
 export const LEVELS: Record<string, LevelDef> = Object.fromEntries(
   Object.values(PLAYABLE).flatMap((s) => s!.levels.map((l) => [l.id, l])),
 );
 export const CODEX_LIST: CodexEntry[] = Object.values(PLAYABLE).flatMap((s) => s!.levels.filter((l) => !l.wip).map(codexFor));
 export const CODEX: Record<string, CodexEntry> = Object.fromEntries(CODEX_LIST.map((c) => [c.id, c]));
-export const GLYPH_LIST: Glyph[] = [...W01_GLYPHS, ...W02_GLYPHS, ...W03_GLYPHS, ...W04_GLYPHS, ...W05_GLYPHS, ...W06_GLYPHS, ...W07_GLYPHS, ...W08_GLYPHS, ...W09_GLYPHS, ...W10_GLYPHS, ...W11_GLYPHS];
+export const GLYPH_LIST: Glyph[] = [...W01_GLYPHS, ...W02_GLYPHS, ...W03_GLYPHS, ...W04_GLYPHS, ...W05_GLYPHS, ...W06_GLYPHS, ...W07_GLYPHS, ...W08_GLYPHS, ...W09_GLYPHS, ...W10_GLYPHS, ...W11_GLYPHS, ...W12_GLYPHS];
 export const GLYPHS: Record<string, Glyph> = Object.fromEntries(GLYPH_LIST.map((g) => [g.id, g]));
 
 // ---------- access ----------

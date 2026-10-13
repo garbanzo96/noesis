@@ -21,7 +21,8 @@ export type CastId =
   | 'ines'
   | 'elena'
   | 'rocio'
-  | 'simon';
+  | 'simon'
+  | 'joaquin';
 
 export interface Character {
   id: CastId;
@@ -76,6 +77,12 @@ export const CAST: Record<CastId, Character> = {
     name: 'Simón Valdés',
     role: 'Bioestadístico · ex Laboratorio Halcón',
     color: '#d68cff',
+  },
+  joaquin: {
+    id: 'joaquin',
+    name: 'Joaquín Tapia',
+    role: 'Operador nocturno · La Fábrica',
+    color: '#c9b37e',
   },
 };
 
@@ -333,6 +340,21 @@ const LOOKS: Record<Exclude<CastId, 'noesis'>, Look> = {
     cloth: '#2a2532',
     cloth2: '#d68cff',
     extra: (c) => <RectGlasses col={c} />,
+  },
+  joaquin: {
+    jaw: 'square',
+    skin: '#a87452',
+    shade: '#875a3c',
+    hair: '#b9b4ad',
+    hairStyle: 'short',
+    iris: '#3a2a1f',
+    brows: 'stern',
+    mouth: 'neutral',
+    outfit: 'overalls',
+    cloth: '#3a3226',
+    cloth2: '#c9b37e',
+    age: true,
+    extra: (c) => <Headphones col={c} />,
   },
 };
 
