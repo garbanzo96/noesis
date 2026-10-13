@@ -19,7 +19,8 @@ export type CastId =
   | 'ana'
   | 'tomas'
   | 'ines'
-  | 'elena';
+  | 'elena'
+  | 'rocio';
 
 export interface Character {
   id: CastId;
@@ -63,6 +64,7 @@ export const CAST: Record<CastId, Character> = {
   },
   tomas: { id: 'tomas', name: 'Tomás Leiva', role: 'Bombero · piloto de drones', color: '#ff6b4a' },
   ana: { id: 'ana', name: 'Ana Rojas', role: 'Archivera · Archivo Regional', color: '#ff9f6e' },
+  rocio: { id: 'rocio', name: 'Rocío Pizarro', role: 'Tecnóloga médica · Clínica del Cerro', color: '#ff8fa3' },
 };
 
 type Hair =
@@ -290,6 +292,20 @@ const LOOKS: Record<Exclude<CastId, 'noesis'>, Look> = {
     outfit: 'cardigan',
     cloth: '#2a1d1d',
     cloth2: '#ff9f6e',
+    extra: (c) => <RoundGlasses col={c} />,
+  },
+  rocio: {
+    jaw: 'oval',
+    skin: '#d4a07a',
+    shade: '#ad7b58',
+    hair: '#4a2f22',
+    hairStyle: 'bun',
+    iris: '#3d2b20',
+    brows: 'flat',
+    mouth: 'neutral',
+    outfit: 'cardigan',
+    cloth: '#e8eef2',
+    cloth2: '#ff8fa3',
     extra: (c) => <RoundGlasses col={c} />,
   },
 };
