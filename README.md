@@ -33,11 +33,12 @@ con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pued
 | 2 | Cálculo diferencial (límites, derivada, reglas, cadena, exp y log, optimización, aproximación) | La Planta | jugable, con clases |
 | 3 | Cálculo integral (Riemann, área con signo, TFC, sustitución, partes, impropias) | La Represa | jugable, con clases |
 | 4 | Álgebra lineal (vectores, matrices, sistemas, determinante, valores propios) | El Metro | jugable, con clases |
-| 5 | Probabilidad | Casino Aurora | jugable |
+| 5 | Probabilidad (espacio muestral, frecuencia, reglas, conjunta y marginal, condicional, independencia, árboles, Bayes, esperanza) | Casino Aurora | jugable, con clases |
 | 6 | Estadística (descriptiva, normal, muestreo, intervalos, pruebas, regresión) | El Archivo | jugable, con clases |
 | 7 | Varias variables (curvas de nivel, parciales, gradiente, plano tangente, extremos, Lagrange, integrales dobles, polares) | Los Cerros | jugable, con clases |
 | 8 | Teoría de la información (bits, entropía, Huffman, entropía condicional, información mutua, KL, capacidad de canal, Hamming) | Las Antenas | jugable, con clases |
 | 9 | Sistemas dinámicos (campos de direcciones, exponencial, Euler, logística, sistemas lineales, traza y determinante, oscilador amortiguado, caos) | El Observatorio | jugable, con clases |
+| 10 | Inferencia bayesiana (Bayes con frecuencias, tasa base, actualización secuencial, chances y razón de verosimilitud, Beta, resumen del posterior, factor de Bayes, predicción y decisión) | La Clínica | jugable, con clases |
 
 ## Ejecutar localmente
 

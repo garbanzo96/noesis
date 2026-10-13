@@ -27,6 +27,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | tomas | Tomás Leiva | Bombero voluntario de Cerro Barón y piloto de drones de rescate. | Calmado, habla en metros y coordenadas; humor seco de rescatista. |
 | ines | Inés Araya | Técnica de enlaces de Las Antenas. Informante. | Baja y cortante; habla de puertos y cortes, protege a sus compañeros. |
 | elena | Elena Saavedra | Técnica de calibración del Observatorio, turno nocturno. Informante. | Habla desde el instrumento; se demora antes de decir quién firmó. |
+| rocio | Rocío Pizarro | Tecnóloga médica del laboratorio de la Clínica del Cerro. Informante. | Precisa y cansada; habla en muestras, controles y turnos. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -39,6 +40,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 6. **El Archivo** — estadística. Caso: el registro de vacunación de la Clínica del Cerro, alterado.
 7. **Los Cerros** — varias variables. Caso: un dron del contrabando perdido en la quebrada Jaime antes de la lluvia nocturna.
 8. **Las Antenas** — teoría de la información. Caso: el chip del dron y mensajes que la red de repetidores entrega con bits perdidos.
+10. **La Clínica** — inferencia bayesiana. Caso: un test que da positivo demasiadas veces y pedidos de dosis inflados.
 9. **El Observatorio** — sistemas dinámicos. Caso: una tormenta que el boletín no anunció y una copia privada del pronóstico.
 (Los demás distritos se escriben al construir cada mundo.)
 
@@ -141,3 +143,12 @@ lleno parece quieto pero reemplaza datos. 9.5 La copia pública cambió el signo
 canal pasó de espiral saliente a entrante; los accesos llevan a una credencial de Halcón. 9.7 El oscilador del
 registrador fija la hora de descarga. 9.8 Dos pronósticos casi iguales se separan; la copia privada conservaba más
 cifras. 9.★ La cadena de copias y recibos lleva a las vacunas a la Clínica del Cerro → La Clínica.
+
+### Arco de La Clínica
+
+10.1 De 1000 tests salen 67 positivos, pero solo 18 enfermos: P(E | +) ≈ 0,27. 10.2 La central cargó 20 % de
+prevalencia en vez del 2 % del censo, y el VPP aparente sube a 0,82. 10.3 Repetir el test deja 19 de 67. 10.4 Con
+chances, un positivo multiplica por 18 y un negativo por 2/19. 10.5 El lote de agosto tiene tasa posterior 0,28.
+10.6 P(θ > 0,2) ≈ 0,90. 10.7 El lector está alterado (factor de Bayes ≈ 47); lo recalibró el Laboratorio de Halcón en
+julio. 10.8 Se esperaban 201 positivos y se reportaron 600. 10.★ El lector guarda un modelo que el Laboratorio
+«no puede calcular exacto» → El Laboratorio.
