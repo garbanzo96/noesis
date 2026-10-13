@@ -549,7 +549,7 @@ export const level: LevelSpec = {
           text: 'El fragmento D abre una tabla. La lluvia repica en la puerta de la caseta; Inés deja el pulgar inmóvil junto a la fila Sur.',
         },
         { who: 'teo', text: 'Ruta de reserva. Y al lado aparece Sur.' },
-        { who: 'iris', text: 'Cerrado para quién.' },
+        { who: 'iris', text: '¿Cerrado para quién?' },
         { who: 'nar', text: 'Inés retira el pulgar de la pantalla. La fila sigue ahí.' },
       ],
     },

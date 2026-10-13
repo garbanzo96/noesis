@@ -384,7 +384,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'ines',
-          text: 'Esa reserva entró durante mi turno. Todavía no te dije que la enviara yo.',
+          text: 'Esa reserva entró durante mi turno. Eso no quiere decir que la haya enviado yo.',
         },
         { who: 'teo', text: 'Guardo ambas copias. Las líneas vacías también.' },
         {
