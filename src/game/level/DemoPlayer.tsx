@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
-import { CueCtx } from '../../engine/cue';
+import { CueCtx, useSingleGhost } from '../../engine/cue';
 import { useBeats, useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
@@ -33,6 +33,8 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const [unlocked, setUnlocked] = useState<boolean[]>(() => step.beats.map((b) => !b.gate));
   const [touched, setTouched] = useState<boolean[]>(() => step.beats.map(() => false));
   const noted = useRef(new Set<number>());
+  const stageArea = useRef<HTMLDivElement>(null);
+  useSingleGhost(stageArea);
   // options are shown in a fixed shuffled order per case and beat, so the answer is never "always the first"
   const orders = useMemo(
     () =>
@@ -172,7 +174,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   return (
     <div className={`play with-notes ${lesson ? 'lesson' : 'demo'}`}>
       <div className={`play-stage ${cueActive ? 'cue-on' : ''}`}>
-        <div className="stage-area" onPointerDownCapture={() => cueActive && cue.touch()}>
+        <div className="stage-area" ref={stageArea} onPointerDownCapture={() => cueActive && cue.touch()}>
           {lesson ? (
             <div className="lesson-bg" aria-hidden />
           ) : (

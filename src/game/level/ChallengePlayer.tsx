@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
-import { CueCtx } from '../../engine/cue';
+import { CueCtx, useSingleGhost } from '../../engine/cue';
 import { useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
@@ -30,6 +30,8 @@ export function Integrity({ value, max = INTEGRITY }: { value: number; max?: num
 export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   const run = useRun();
   const salt = useRef(Math.floor(Math.random() * 1e9));
+  const stageArea = useRef<HTMLDivElement>(null);
+  useSingleGhost(stageArea);
   const [round, setRound] = useState(0);
   const [cycle, setCycle] = useState(0);
   const [integrity, setIntegrity] = useState(INTEGRITY);
@@ -134,7 +136,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   return (
     <div className="play with-notes practice">
       <div className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''} ${cueActive ? 'cue-on' : ''}`}>
-        <div className="stage-area" onPointerDownCapture={() => cueActive && cue.touch()}>
+        <div className="stage-area" ref={stageArea} onPointerDownCapture={() => cueActive && cue.touch()}>
         <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
         <div className="challenge-head">
           <span className="challenge-title">{step.title}</span>
