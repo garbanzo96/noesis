@@ -31,7 +31,7 @@ export const SECTORS: SectorMeta[] = [
   { world: 'bayesian', number: 10, symbol: '⚕', name: 'La Clínica', area: 'Inferencia bayesiana', accent: '#ff8fa3', hook: 'Un test que da positivo demasiadas veces.', prerequisites: ['probability'], at: [1270, 720] },
   { world: 'variational', number: 11, symbol: '≈', name: 'El Laboratorio', area: 'Inferencia variacional', accent: '#d68cff', hook: 'Un modelo imposible de calcular y una aproximación que sí.', prerequisites: ['bayesian', 'information', 'differential'], at: [1000, 330] },
   { world: 'generative', number: 12, symbol: '⚙', name: 'La Fábrica', area: 'Modelos generativos', accent: '#c9b37e', hook: 'Las máquinas producen datos falsos que parecen reales.', prerequisites: ['bayesian', 'linear'], at: [1330, 420] },
-  { world: 'decision', number: 13, symbol: '♞', name: 'La Bolsa', area: 'Decisión secuencial', accent: '#ff3ba7', hook: 'Alguien siempre elige un paso antes que el mercado.', prerequisites: ['generative', 'information'], at: [1200, 200] },
+  { world: 'decision', number: 13, symbol: '♞', name: 'La Bolsa', area: 'Decisión secuencial', accent: '#e6e9f2', hook: 'Alguien siempre elige un paso antes que el mercado.', prerequisites: ['generative', 'information'], at: [1200, 200] },
   { world: 'active', number: 14, symbol: '◉', name: 'Torre Halcón', area: 'Síntesis final', accent: '#ffbc5e', hook: 'Todas las pistas llevan al último piso.', prerequisites: ['decision', 'variational', 'dynamics'], at: [820, 110] },
 ];
 

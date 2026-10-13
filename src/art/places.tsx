@@ -18,7 +18,8 @@ export type PlaceId =
   | 'observatorio'
   | 'clinica'
   | 'laboratorio'
-  | 'fabrica';
+  | 'fabrica'
+  | 'bolsa';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -313,6 +314,53 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       <path d="M550 704 L720 748 L800 790 L555 759 Z" fill="#ded8b2" />
       <path d="M398 560 L421 638 L468 643" fill="none" stroke="#738781" strokeWidth={7} />
       <Neon x={800} y={205} text="OBSERVATORIO · TURNO NOCTURNO" color="#e7df5a" size={28} />
+    </>
+  ),
+  bolsa: () => (
+    <>
+      <rect width="1600" height="900" fill="#07090f" />
+      {/* the bay behind the glass */}
+      <rect x={0} y={80} width={1600} height={300} fill="#0b1422" />
+      <Cerros seed={131} y0={330} color="#0e1a2a" lights />
+      {/* wall of quote screens */}
+      {Array.from({ length: 3 }, (_, r) =>
+        Array.from({ length: 7 }, (_, c) => {
+          const x = 70 + c * 215,
+            y = 400 + r * 120;
+          const up = (r * 3 + c) % 3 !== 0;
+          return (
+            <g key={`${r}-${c}`}>
+              <rect
+                x={x}
+                y={y}
+                width={195}
+                height={100}
+                rx={6}
+                fill="#0f1420"
+                stroke="#28304a"
+                strokeWidth={3}
+              />
+              <path
+                d={`M${x + 12} ${y + 70} ${Array.from({ length: 8 }, (_, k) => `L${x + 12 + k * 24} ${y + 70 - ((k * (up ? 7 : -5) + ((c + k) % 3) * 9) % 40)}`).join(' ')}`}
+                fill="none"
+                stroke={up ? '#7cf0c8' : '#ff6b8a'}
+                strokeWidth={3}
+              />
+            </g>
+          );
+        }),
+      )}
+      {/* closing clock */}
+      <circle cx={1440} cy={190} r={70} fill="#0f1420" stroke="#e6e9f2" strokeWidth={4} />
+      <line x1={1440} y1={190} x2={1440} y2={140} stroke="#e6e9f2" strokeWidth={5} />
+      <line x1={1440} y1={190} x2={1478} y2={200} stroke="#e6e9f2" strokeWidth={4} />
+      <Neon
+        x={760}
+        y={130}
+        text="BOLSA DE VALPARAÍSO · SALA DE OPERACIONES"
+        color="#e6e9f2"
+        size={24}
+      />
     </>
   ),
   fabrica: () => (

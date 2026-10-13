@@ -22,7 +22,8 @@ export type CastId =
   | 'elena'
   | 'rocio'
   | 'simon'
-  | 'joaquin';
+  | 'joaquin'
+  | 'valentina';
 
 export interface Character {
   id: CastId;
@@ -83,6 +84,12 @@ export const CAST: Record<CastId, Character> = {
     name: 'Joaquín Tapia',
     role: 'Operador nocturno · La Fábrica',
     color: '#c9b37e',
+  },
+  valentina: {
+    id: 'valentina',
+    name: 'Valentina Ruiz',
+    role: 'Operadora de mesa · La Bolsa',
+    color: '#e6e9f2',
   },
 };
 
@@ -355,6 +362,20 @@ const LOOKS: Record<Exclude<CastId, 'noesis'>, Look> = {
     cloth2: '#c9b37e',
     age: true,
     extra: (c) => <Headphones col={c} />,
+  },
+  valentina: {
+    jaw: 'narrow',
+    skin: '#ecc9ae',
+    shade: '#c9a385',
+    hair: '#141217',
+    hairStyle: 'ponytail',
+    iris: '#3b2b22',
+    brows: 'stern',
+    mouth: 'smirk',
+    outfit: 'suit',
+    cloth: '#1d2230',
+    cloth2: '#e6e9f2',
+    extra: (c) => <Headset col={c} />,
   },
 };
 
