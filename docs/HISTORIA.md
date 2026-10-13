@@ -28,6 +28,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | ines | Inés Araya | Técnica de enlaces de Las Antenas. Informante. | Baja y cortante; habla de puertos y cortes, protege a sus compañeros. |
 | elena | Elena Saavedra | Técnica de calibración del Observatorio, turno nocturno. Informante. | Habla desde el instrumento; se demora antes de decir quién firmó. |
 | rocio | Rocío Pizarro | Tecnóloga médica del laboratorio de la Clínica del Cerro. Informante. | Precisa y cansada; habla en muestras, controles y turnos. |
+| simon | Simón Valdés | Bioestadístico que renunció al Laboratorio de Halcón en julio. Informante. | Rápido, habla en imágenes de cocina, ironía para tapar el miedo. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -40,6 +41,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 6. **El Archivo** — estadística. Caso: el registro de vacunación de la Clínica del Cerro, alterado.
 7. **Los Cerros** — varias variables. Caso: un dron del contrabando perdido en la quebrada Jaime antes de la lluvia nocturna.
 8. **Las Antenas** — teoría de la información. Caso: el chip del dron y mensajes que la red de repetidores entrega con bits perdidos.
+11. **El Laboratorio** — inferencia variacional. Caso: la aproximación que eligió el Laboratorio para que los sanos desaparecieran.
 10. **La Clínica** — inferencia bayesiana. Caso: un test que da positivo demasiadas veces y pedidos de dosis inflados.
 9. **El Observatorio** — sistemas dinámicos. Caso: una tormenta que el boletín no anunció y una copia privada del pronóstico.
 (Los demás distritos se escriben al construir cada mundo.)
@@ -152,3 +154,11 @@ chances, un positivo multiplica por 18 y un negativo por 2/19. 10.5 El lote de a
 10.6 P(θ > 0,2) ≈ 0,90. 10.7 El lector está alterado (factor de Bayes ≈ 47); lo recalibró el Laboratorio de Halcón en
 julio. 10.8 Se esperaban 201 positivos y se reportaron 600. 10.★ El lector guarda un modelo que el Laboratorio
 «no puede calcular exacto» → El Laboratorio.
+
+### Arco de El Laboratorio
+
+11.1 El modelo del lector tiene 24 parámetros: 10²⁴ combinaciones; el Laboratorio aproxima. 11.2 Monte Carlo es la
+salida honesta. 11.3 Muestras de un generador corregidas con pesos. 11.4 La familia q y la KL. 11.5 La ELBO: subir la
+cota sin calcular la evidencia. 11.6 El lector trata los síntomas por separado y borra que van juntos. 11.7 El ajuste
+por gradiente depende del paso. 11.8 Con dos jorobas, KL(q‖p) se queda con una: el Laboratorio eligió «enfermo».
+11.★ En el servidor hay registros sintéticos que parecen reales → La Fábrica.
