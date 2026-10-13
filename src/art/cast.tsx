@@ -20,7 +20,8 @@ export type CastId =
   | 'tomas'
   | 'ines'
   | 'elena'
-  | 'rocio';
+  | 'rocio'
+  | 'simon';
 
 export interface Character {
   id: CastId;
@@ -64,7 +65,18 @@ export const CAST: Record<CastId, Character> = {
   },
   tomas: { id: 'tomas', name: 'Tomás Leiva', role: 'Bombero · piloto de drones', color: '#ff6b4a' },
   ana: { id: 'ana', name: 'Ana Rojas', role: 'Archivera · Archivo Regional', color: '#ff9f6e' },
-  rocio: { id: 'rocio', name: 'Rocío Pizarro', role: 'Tecnóloga médica · Clínica del Cerro', color: '#ff8fa3' },
+  rocio: {
+    id: 'rocio',
+    name: 'Rocío Pizarro',
+    role: 'Tecnóloga médica · Clínica del Cerro',
+    color: '#ff8fa3',
+  },
+  simon: {
+    id: 'simon',
+    name: 'Simón Valdés',
+    role: 'Bioestadístico · ex Laboratorio Halcón',
+    color: '#d68cff',
+  },
 };
 
 type Hair =
@@ -307,6 +319,20 @@ const LOOKS: Record<Exclude<CastId, 'noesis'>, Look> = {
     cloth: '#e8eef2',
     cloth2: '#ff8fa3',
     extra: (c) => <RoundGlasses col={c} />,
+  },
+  simon: {
+    jaw: 'narrow',
+    skin: '#e8c4a6',
+    shade: '#c49e80',
+    hair: '#8a6a4a',
+    hairStyle: 'messy',
+    iris: '#4a5a3a',
+    brows: 'raised',
+    mouth: 'smirk',
+    outfit: 'hoodie',
+    cloth: '#2a2532',
+    cloth2: '#d68cff',
+    extra: (c) => <RectGlasses col={c} />,
   },
 };
 

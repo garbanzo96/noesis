@@ -16,7 +16,8 @@ export type PlaceId =
   | 'cerros'
   | 'antenas'
   | 'observatorio'
-  | 'clinica';
+  | 'clinica'
+  | 'laboratorio';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -313,12 +314,107 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       <Neon x={800} y={205} text="OBSERVATORIO · TURNO NOCTURNO" color="#e7df5a" size={28} />
     </>
   ),
+  laboratorio: () => (
+    <>
+      <rect width="1600" height="900" fill="#0c0a12" />
+      {/* glass wall with the Halcón logo, the clean room behind it */}
+      <rect
+        x={120}
+        y={120}
+        width={1360}
+        height={520}
+        fill="#14111d"
+        stroke="#2e2840"
+        strokeWidth={6}
+      />
+      {[460, 800, 1140].map((x) => (
+        <line key={x} x1={x} x2={x} y1={120} y2={640} stroke="#2e2840" strokeWidth={5} />
+      ))}
+      <rect x={120} y={120} width={1360} height={520} fill="#d68cff" opacity={0.03} />
+      {/* server rack with lilac lights */}
+      <rect
+        x={1180}
+        y={180}
+        width={240}
+        height={440}
+        rx={8}
+        fill="#100d17"
+        stroke="#3a3150"
+        strokeWidth={4}
+      />
+      {Array.from({ length: 10 }, (_, i) => (
+        <g key={i}>
+          <rect x={1195} y={196 + i * 42} width={210} height={30} rx={4} fill="#1a1524" />
+          <circle
+            cx={1385}
+            cy={211 + i * 42}
+            r={4}
+            fill="#d68cff"
+            opacity={i % 3 === 0 ? 0.95 : 0.4}
+          />
+          <circle
+            cx={1370}
+            cy={211 + i * 42}
+            r={4}
+            fill="#7cf0c8"
+            opacity={i % 4 === 1 ? 0.8 : 0.2}
+          />
+        </g>
+      ))}
+      {/* whiteboard with half-erased equations */}
+      <rect x={180} y={170} width={420} height={250} rx={6} fill="#e9e6f0" opacity={0.85} />
+      {[0, 1, 2, 3, 4].map((k) => (
+        <path
+          key={k}
+          d={`M${210} ${215 + k * 42} q ${60 + k * 10} -14 ${120 + k * 30} 0 t ${100} 0`}
+          fill="none"
+          stroke="#3d3550"
+          strokeWidth={3}
+          opacity={k === 2 ? 0.25 : 0.6}
+        />
+      ))}
+      {/* benches with flasks */}
+      <rect x={120} y={640} width={1360} height={30} fill="#221d2e" />
+      <rect x={120} y={670} width={1360} height={230} fill="#16121e" />
+      {[680, 760, 840, 920].map((x, i) => (
+        <g key={x}>
+          <path
+            d={`M${x} 520 v40 l-34 70 h68 l-34 -70 v-40`}
+            fill="#1d1828"
+            stroke="#6f6290"
+            strokeWidth={3}
+          />
+          <path
+            d={`M${x - 26} 618 h52 l-8 -16 h-36 z`}
+            fill={i % 2 ? '#7cf0c8' : '#d68cff'}
+            opacity={0.55}
+          />
+        </g>
+      ))}
+      <Neon x={800} y={95} text="HALCÓN · LABORATORIO LOS PLACERES" color="#d68cff" size={26} />
+    </>
+  ),
   clinica: () => (
     <>
       <rect width="1600" height="900" fill="#0b0a12" />
       {/* window to the hill, rain on the glass */}
-      <rect x={980} y={110} width={520} height={360} fill="#0d1b26" stroke="#2b2433" strokeWidth={10} />
-      <svg x={980} y={110} width={520} height={360} viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice">
+      <rect
+        x={980}
+        y={110}
+        width={520}
+        height={360}
+        fill="#0d1b26"
+        stroke="#2b2433"
+        strokeWidth={10}
+      />
+      <svg
+        x={980}
+        y={110}
+        width={520}
+        height={360}
+        viewBox="0 0 1600 900"
+        preserveAspectRatio="xMidYMax slice"
+      >
         <Sky top="#06101a" mid="#10222e" bottom="#162a33" />
         <Cerros seed={101} y0={560} color="#0c1a22" />
       </svg>
@@ -329,17 +425,46 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       {[260, 700].map((x) => (
         <g key={x}>
           <rect x={x - 120} y={40} width={240} height={14} rx={7} fill="#e8f2ff" opacity={0.75} />
-          <path d={`M${x - 120} 54 L${x - 260} 700 L${x + 260} 700 L${x + 120} 54 Z`} fill="#e8f2ff" opacity={0.035} />
+          <path
+            d={`M${x - 120} 54 L${x - 260} 700 L${x + 260} 700 L${x + 120} 54 Z`}
+            fill="#e8f2ff"
+            opacity={0.035}
+          />
         </g>
       ))}
       {/* vaccine fridge with blue light */}
-      <rect x={90} y={210} width={250} height={480} rx={10} fill="#111827" stroke="#2c3c55" strokeWidth={6} />
+      <rect
+        x={90}
+        y={210}
+        width={250}
+        height={480}
+        rx={10}
+        fill="#111827"
+        stroke="#2c3c55"
+        strokeWidth={6}
+      />
       <rect x={110} y={230} width={210} height={300} fill="#0d2a48" opacity={0.9} />
       {[0, 1, 2, 3].map((k) => (
         <g key={k}>
-          <line x1={110} x2={320} y1={290 + k * 60} y2={290 + k * 60} stroke="#3f6f9e" strokeWidth={3} />
+          <line
+            x1={110}
+            x2={320}
+            y1={290 + k * 60}
+            y2={290 + k * 60}
+            stroke="#3f6f9e"
+            strokeWidth={3}
+          />
           {Array.from({ length: 6 }, (_, j) => (
-            <rect key={j} x={122 + j * 32} y={262 + k * 60} width={18} height={26} rx={4} fill="#9cd2ff" opacity={0.55} />
+            <rect
+              key={j}
+              x={122 + j * 32}
+              y={262 + k * 60}
+              width={18}
+              height={26}
+              rx={4}
+              fill="#9cd2ff"
+              opacity={0.55}
+            />
           ))}
         </g>
       ))}
@@ -349,11 +474,37 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       <rect x={380} y={640} width={1220} height={260} fill="#141119" />
       {Array.from({ length: 9 }, (_, i) => (
         <g key={i}>
-          <rect x={430 + i * 26} y={540} width={14} height={60} rx={7} fill="#2a2433" stroke="#4a3f55" strokeWidth={2} />
-          <rect x={432 + i * 26} y={572} width={10} height={26} rx={5} fill={i % 3 === 0 ? '#ff8fa3' : '#d9c7a8'} opacity={0.8} />
+          <rect
+            x={430 + i * 26}
+            y={540}
+            width={14}
+            height={60}
+            rx={7}
+            fill="#2a2433"
+            stroke="#4a3f55"
+            strokeWidth={2}
+          />
+          <rect
+            x={432 + i * 26}
+            y={572}
+            width={10}
+            height={26}
+            rx={5}
+            fill={i % 3 === 0 ? '#ff8fa3' : '#d9c7a8'}
+            opacity={0.8}
+          />
         </g>
       ))}
-      <rect x={760} y={500} width={200} height={100} rx={12} fill="#1b1622" stroke="#ff8fa3" strokeWidth={4} />
+      <rect
+        x={760}
+        y={500}
+        width={200}
+        height={100}
+        rx={12}
+        fill="#1b1622"
+        stroke="#ff8fa3"
+        strokeWidth={4}
+      />
       <rect x={780} y={518} width={120} height={50} rx={6} fill="#ff8fa3" opacity={0.25} />
       <circle cx={930} cy={540} r={9} fill="#ff8fa3" />
       <Neon x={800} y={160} text="CLÍNICA DEL CERRO · LABORATORIO" color="#ff8fa3" size={26} />
