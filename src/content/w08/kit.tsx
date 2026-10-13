@@ -18,6 +18,15 @@ export const bitsText = (v: number) => `${fmtComma(v)} ${v === 1 ? 'bit' : 'bits
 
 export const num = (v: number, digits = 4) =>
   fmtComma(v, digits).replace('−', '-').replace(',', '{,}');
+/** Exact numeric answers: a decimal or a single fraction, with no ignored suffix. */
+export function parseExact(s: string) {
+  const t = s.replace(/\s/g, '').replace('−', '-').replace(',', '.');
+  if (!/^-?(?:\d+(?:\.\d*)?|\.\d+)(?:\/-?(?:\d+(?:\.\d*)?|\.\d+))?$/.test(t)) return null;
+  const [a, b = 1] = t.split('/').map(Number);
+  if (!Number.isFinite(a) || !Number.isFinite(b) || b === 0) return null;
+  const value = a / b;
+  return Number.isFinite(value) ? value : null;
+}
 export const sum = (xs: readonly number[]) => xs.reduce((a, b) => a + b, 0);
 export const near = (x: number, y: number, tx: number, ty: number) =>
   (x - tx) ** 2 + (y - ty) ** 2 <= 24 ** 2;
@@ -792,8 +801,12 @@ export function JointGrid({
   onFilter,
   showInfo = false,
   progress = 1,
+  columnName = 'ruta',
+  columnVariable = 'Y',
 }: {
   counts: number[][];
+  columnName?: string;
+  columnVariable?: string;
   rows: string[];
   columns: string[];
   filter?: number;
@@ -824,8 +837,8 @@ export function JointGrid({
         {filter !== undefined
           ? `Torre conocida: ${rows[filter]}`
           : columnFilter !== undefined
-            ? `Ruta conocida: ${columns[columnFilter]}`
-            : 'X = torre · Y = ruta'}
+            ? `Dato conocido (${columnName}): ${columns[columnFilter]}`
+            : `X = torre · ${columnVariable} = ${columnName}`}
       </Cap>
       {colIds.map((j, v) => (
         <Cap key={j} x={290 + (v + 0.5) * cw} y={200} size={20}>
@@ -868,7 +881,11 @@ export function JointGrid({
                   x={x + cw / 2}
                   y={y + ch * 0.7}
                   size={columns.length > 4 ? 17 : 22}
-                  tex={showInfo && p > 0 ? `${num(info(p))}\\ \\text{bits}` : fraction(p)}
+                  tex={
+                    showInfo && p > 0
+                      ? `${num(info(p))}\\ \\text{${info(p) === 1 ? 'bit' : 'bits'}}`
+                      : fraction(p)
+                  }
                   color={n ? ACCENT : C.muted}
                 />
                 {n > 0 &&
@@ -877,7 +894,7 @@ export function JointGrid({
                     <circle
                       key={k}
                       cx={x + (cw * (k + 1)) / (Math.min(n, 4) + 1)}
-                      cy={y + ch * (0.88 - 0.08 * progress)}
+                      cy={y + ch * (0.93 - 0.01 * progress)}
                       r={7}
                       fill={ACCENT}
                     />

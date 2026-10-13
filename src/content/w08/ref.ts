@@ -107,4 +107,116 @@ export const REF_W08: Record<string, TopicRef> = {
       },
     ],
   },
+  'w8-c4': {
+    defs: [
+      {
+        label: 'Probabilidad conjunta',
+        tex: 'p(x,y)=P(X=x,Y=y)',
+        body: 'Probabilidad de observar el par completo. Las probabilidades de todas las celdas suman uno.',
+      },
+      {
+        label: 'Probabilidad condicional',
+        tex: 'p(y\\mid x)=\\frac{p(x,y)}{p(x)}',
+        body: 'Para p(x) > 0. Dentro de la fila conocida, las probabilidades se renormalizan para sumar uno.',
+      },
+      {
+        label: 'Entropía conjunta',
+        tex: 'H(X,Y)=-\\sum_{x,y}p(x,y)\\log_2p(x,y)',
+        body: 'Información media del par, en bits con logaritmos base dos. Las celdas de probabilidad cero aportan cero.',
+      },
+      {
+        label: 'Entropía condicional',
+        tex: 'H(Y\\mid X)=\\sum_xp(x)H(Y\\mid X=x)',
+        body: 'Información media pendiente sobre Y al conocer X; las filas imposibles no aportan al promedio.',
+      },
+    ],
+    props: [
+      {
+        label: 'Marginales',
+        tex: 'p(x)=\\sum_y p(x,y),\\quad p(y)=\\sum_xp(x,y)',
+        body: 'Suma una fila para la torre y una columna para la ruta.',
+      },
+      {
+        label: 'Regla de la cadena',
+        tex: '\\begin{aligned}H(X,Y)&=H(X)+H(Y\\mid X)\\\\&=H(Y)+H(X\\mid Y)\\end{aligned}',
+        body: 'Ambos órdenes describen el mismo par; las dos entropías condicionales pueden ser distintas.',
+      },
+      {
+        label: 'Condicionar reduce la media',
+        tex: '0\\le H(Y\\mid X)\\le H(Y)',
+        body: 'Para variables discretas con entropías finitas. Es una cota promedio; no afirma que toda fila tenga menos entropía que la marginal.',
+      },
+    ],
+  },
+  'w8-c5': {
+    defs: [
+      {
+        label: 'Información mutua',
+        tex: 'I(X;Y)=H(X)-H(X\\mid Y)',
+        body: 'Reducción promedio de incertidumbre sobre X cuando conoces Y.',
+      },
+      {
+        label: 'Independencia',
+        tex: 'p(x,y)=p(x)p(y)',
+        body: 'Conocer una variable no cambia la distribución de la otra.',
+      },
+    ],
+    props: [
+      {
+        label: 'Entropías y solapamiento',
+        tex: 'I(X;Y)=H(X)+H(Y)-H(X,Y)',
+        body: 'Retira de la suma el contenido contado dos veces.',
+      },
+      {
+        label: 'Simetría y cotas',
+        tex: '\\begin{aligned}I(X;Y)&=I(Y;X)\\\\0\\le I(X;Y)&\\le\\min(H(X),H(Y))\\end{aligned}',
+        body: 'Para variables discretas con entropías finitas. El contenido compartido es simétrico aunque lo pendiente pueda ser distinto.',
+      },
+      {
+        label: 'Cero e independencia',
+        tex: 'I(X;Y)=0\\iff X\\perp Y',
+        body: 'En el caso discreto, información mutua cero equivale a independencia.',
+      },
+      {
+        label: 'Alcance de la medida',
+        body: 'La información mutua mide asociación entre las variables elegidas. Por sí sola no determina una causa ni identifica al operador de un enlace.',
+      },
+    ],
+  },
+  'w8-c6': {
+    defs: [
+      {
+        label: 'Entropía cruzada',
+        tex: 'L_Q(P)=-\\sum_iP_i\\log_2Q_i',
+        body: 'Promedio de los largos ideales del perfil Q con las probabilidades de la fuente emisora P.',
+      },
+      {
+        label: 'Divergencia de Kullback–Leibler',
+        tex: 'D(P\\Vert Q)=\\sum_iP_i\\log_2\\frac{P_i}{Q_i}',
+        body: 'Exceso ideal por símbolo, en bits. Los términos con Pᵢ = 0 aportan cero; si Pᵢ > 0 y Qᵢ = 0, el resultado es infinito.',
+      },
+    ],
+    props: [
+      {
+        label: 'Exceso ideal',
+        tex: 'D(P\\Vert Q)=L_Q(P)-H(P)',
+        body: 'KL no es automáticamente el exceso entre códigos enteros arbitrarios. Coincide aquí porque ambos perfiles diádicos alcanzan exactamente sus largos ideales.',
+      },
+      {
+        label: 'No negatividad e igualdad',
+        tex: 'D(P\\Vert Q)\\ge0,\\quad D(P\\Vert Q)=0\\iff P=Q',
+        body: 'P y Q deben ser distribuciones completas sobre el mismo alfabeto. Los aportes individuales pueden ser negativos; conserva sus signos.',
+      },
+      {
+        label: 'Asimetría',
+        tex: 'D(P\\Vert Q)\\ne D(Q\\Vert P)\\quad\\text{en general}',
+        body: 'Invertir la dirección cambia qué probabilidades ponderan el promedio. Puede haber pares con igual divergencia en ambos sentidos, pero la simetría no es una propiedad general.',
+      },
+      {
+        label: 'Exceso de un lote diádico',
+        tex: '\\Delta=N D(P\\Vert Q)',
+        body: 'Si los conteos son exactamente NPᵢ y ambos códigos tienen largos ideales enteros, multiplica los bits extra por símbolo por N.',
+      },
+    ],
+  },
 };

@@ -111,4 +111,125 @@ export const REF_W09: Record<string, TopicRef> = {
       },
     ],
   },
+  'w9-c4': {
+    defs: [
+      {
+        label: 'Ecuación autónoma',
+        tex: "y'=f(y)",
+        body: 'La pendiente depende del estado, sin dependencia explícita del tiempo.',
+      },
+      {
+        label: 'Equilibrio',
+        tex: 'f(y_*)=0',
+        body: 'Estado que permanece constante al iniciar exactamente en él.',
+      },
+      {
+        label: 'Estabilidad y atracción',
+        body: 'Estable: estados suficientemente cercanos permanecen cerca. Asintóticamente estable: además convergen al equilibrio con el tiempo.',
+      },
+      {
+        label: 'Logística continua',
+        tex: "y'=ry(1-y/K),\\quad r>0,\\ K>0",
+        body: 'r es una tasa por unidad de tiempo; K es la capacidad de referencia del modelo.',
+      },
+    ],
+    props: [
+      {
+        label: 'Ceros y signos logísticos',
+        tex: '\\begin{aligned}f(0)&=f(K)=0\\\\0<y<K&\\Rightarrow f(y)>0\\\\y>K&\\Rightarrow f(y)<0\\end{aligned}',
+        body: 'En el dominio no negativo, 0 es inestable por el lado positivo y K es asintóticamente estable.',
+      },
+      {
+        label: 'Curva del banco',
+        tex: '\\begin{aligned}B(t)&=\\frac8{1+e^{-t}}\\\\B(0)&=4,\\quad B(\\ln3)=6\\end{aligned}',
+        body: 'Cumple B′ = B(1 − B/8). Desde 4 se acerca a 8 sin alcanzarlo en tiempo finito.',
+      },
+      {
+        label: 'Ocupación y tráfico',
+        tex: "B'=\\text{entrada}-\\text{salida}",
+        body: 'En una regla de intercambio, cambio neto cero permite tráfico: 2 entradas/min durante 3 min suman 6 paquetes, aunque el búfer siga lleno.',
+      },
+    ],
+  },
+  'w9-c5': {
+    defs: [
+      {
+        label: 'Sistema lineal autónomo',
+        tex: "\\mathbf x'=A\\mathbf x",
+        body: 'Matriz constante que transforma un estado de dos componentes en dos pendientes.',
+      },
+      {
+        label: 'Vector y valor propios',
+        tex: 'A\\mathbf v=\\lambda\\mathbf v,\\quad\\mathbf v\\ne\\mathbf0',
+        body: 'La matriz conserva la dirección del vector propio y lo multiplica por su valor propio.',
+      },
+      {
+        label: 'Retrato de fase',
+        body: 'Conjunto de trayectorias del estado. Los ejes son sus componentes; el reloj del recorrido se presenta aparte.',
+      },
+    ],
+    props: [
+      {
+        label: 'Modo exponencial',
+        tex: '\\mathbf x(t)=c e^{\\lambda t}\\mathbf v',
+        body: 'Cada dirección propia real produce un modo de solución. Para λ negativa decae; para λ positiva crece.',
+      },
+      {
+        label: 'Superposición con inicio',
+        tex: '\\begin{aligned}\\mathbf x(t)&=c_1e^{\\lambda_1t}\\mathbf v_1\\\\&\\quad+c_2e^{\\lambda_2t}\\mathbf v_2\\\\\\mathbf x_0&=c_1\\mathbf v_1+c_2\\mathbf v_2\\end{aligned}',
+        body: 'Con dos vectores propios reales independientes, los coeficientes se fijan por el estado inicial en t = 0.',
+      },
+      {
+        label: 'Modos del banco acoplado',
+        tex: '\\begin{aligned}A&=\\begin{pmatrix}-2&1\\\\1&-2\\end{pmatrix}\\\\\\mathbf v_1&=(1,1),\\quad\\lambda_1=-1\\\\\\mathbf v_2&=(1,-1),\\quad\\lambda_2=-3\\end{aligned}',
+        body: 'Las amplitudes modales se suman y restan para reconstruir u y v.',
+      },
+      {
+        label: 'Matriz diagonal',
+        tex: '\\begin{aligned}A&=\\operatorname{diag}(a,b)\\\\\\mathbf x(t)&=(u_0e^{at};v_0e^{bt})\\end{aligned}',
+        body: 'Los ejes son direcciones propias. En una matriz acoplada, las entradas diagonales no entregan por sí solas los valores propios.',
+      },
+    ],
+  },
+  'w9-c6': {
+    defs: [
+      {
+        label: 'Traza y determinante',
+        tex: '\\begin{aligned}\\tau&=\\operatorname{tr}A=a+d\\\\D&=\\det A=ad-bc\\end{aligned}',
+        body: 'Para A con filas (a,b) y (c,d), son la suma y el producto de los valores propios.',
+      },
+      {
+        label: 'Discriminante',
+        tex: '\\Delta=\\tau^2-4D',
+        body: 'Discriminante del polinomio λ² − τλ + D; es distinto del determinante D.',
+      },
+      {
+        label: 'Centro lineal',
+        tex: '\\tau=0,\\quad D>0',
+        body: 'Valores propios imaginarios puros. Trayectorias cercanas cerradas: estable, sin atracción al origen.',
+      },
+    ],
+    props: [
+      {
+        label: 'Polinomio y raíces',
+        tex: '\\begin{aligned}\\lambda^2-\\tau\\lambda+D&=0\\\\\\lambda_{1,2}&=\\frac{\\tau\\pm\\sqrt{\\Delta}}2\\end{aligned}',
+        body: 'Δ positiva: dos raíces reales; negativa: conjugadas complejas; cero: raíz real repetida.',
+      },
+      {
+        label: 'Silla y nodo',
+        tex: '\\begin{aligned}D<0&:\\ \\text{silla}\\\\D>0,\\Delta>0&:\\ \\text{nodo}\\end{aligned}',
+        body: 'En el nodo, τ negativa da entrada y positiva da salida. Una silla tiene valores propios de signos opuestos, aunque la traza sea negativa.',
+      },
+      {
+        label: 'Espiral y centro',
+        tex: '\\begin{aligned}D>0,\\Delta<0,\\tau\\ne0&:\\ \\text{espiral}\\\\D>0,\\Delta<0,\\tau=0&:\\ \\text{centro}\\end{aligned}',
+        body: 'La parte real es τ/2: negativa atrae y positiva repele. En un centro los estados permanecen cerca sin converger.',
+      },
+      {
+        label: 'Bordes de la clasificación',
+        tex: '\\begin{aligned}D>0,\\Delta=0&:\\ \\lambda=\\tau/2\\\\D=0&:\\ \\text{revisar el sistema}\\end{aligned}',
+        body: 'La raíz repetida da nodo estrellado o impropio según sus vectores propios. D = 0 puede dejar equilibrios no aislados. Un centro de la parte lineal no resuelve por sí solo la estabilidad no lineal.',
+      },
+    ],
+  },
 };

@@ -179,11 +179,7 @@ function MissingLine({ beats, answer }: DemoProps) {
           x={1250}
           y={510}
           color={C.amber}
-          tex={
-            beats.beat === 0
-              ? 'I(D)=3\\ \\mathrm{bits}'
-              : 'I(D)-I(A)=3-1=2\\ \\mathrm{bits}'
-          }
+          tex={beats.beat === 0 ? 'I(D)=3\\ \\mathrm{bits}' : 'I(D)-I(A)=3-1=2\\ \\mathrm{bits}'}
         />
       )}
       <Cap x={530} y={690} color={C.magenta}>

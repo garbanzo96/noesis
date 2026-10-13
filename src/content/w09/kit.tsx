@@ -35,7 +35,7 @@ export const near = (a: number, b: number, tolerance = 0.005) =>
 export const distance = (a: V2, b: V2) => Math.hypot(a[0] - b[0], a[1] - b[1]);
 export const nearComponents = (a: V2, b: V2, tolerance = 0.005) =>
   a.every((v, i) => near(v, b[i], tolerance));
-export const pair = (v: V2) => `(${num(v[0])};\\,${num(v[1])})`;
+export const pair = (v: V2, digits = 2) => `(${num(v[0], digits)};\\,${num(v[1], digits)})`;
 /** Signed coefficients, with zero terms and unit coefficients omitted. */
 export function polynomial(terms: [number, string][]) {
   return (
@@ -415,6 +415,8 @@ export function LinearPhase({
   yLabel = 'v',
   color = C.cyan,
   clock = true,
+  axes = true,
+  field = true,
 }: {
   P: Plane;
   A: M2;
@@ -427,6 +429,8 @@ export function LinearPhase({
   yLabel?: string;
   color?: string;
   clock?: boolean;
+  axes?: boolean;
+  field?: boolean;
 }) {
   const id = useId();
   const arrows = [];
@@ -450,14 +454,14 @@ export function LinearPhase({
   const point = exact(elapsed);
   return (
     <>
-      <Axes P={P} xLabel={xLabel} yLabel={yLabel} />
+      {axes && <Axes P={P} xLabel={xLabel} yLabel={yLabel} />}
       <defs>
         <clipPath id={id}>
           <rect x={P.box.x} y={P.box.y} width={P.box.w} height={P.box.h} />
         </clipPath>
       </defs>
       <g clipPath={`url(#${id})`}>
-        {arrows}
+        {field && arrows}
         {eigenDirections.map((v, i) => (
           <Line
             key={i}
@@ -508,7 +512,8 @@ export function TraceDetBoard({
   color?: string;
 }) {
   const P = plane([-6, 6], [-4, 10], { x: 180, y: 210, w: 320, h: 440 });
-  const phase = plane([-3, 3], [-3, 3], { x: 580, y: 210, w: 320, h: 440 });
+  // Equal units on both axes preserve the circles of the calibration centre.
+  const phase = plane([-3, 3], [-4.125, 4.125], { x: 580, y: 210, w: 320, h: 440 });
   return (
     <>
       <Axes P={P} xTicks={[-4, 0, 4]} yTicks={[-2, 4, 8]} xLabel="\tau" yLabel="D" />

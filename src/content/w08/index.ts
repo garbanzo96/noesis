@@ -3,9 +3,12 @@ import { withLesson } from '../stub';
 import * as C1 from './c1-pulso';
 import * as C2 from './c2-trafico';
 import * as C3 from './c3-ramas';
+import * as C4 from './c4-sur';
+import * as C5 from './c5-enlace';
+import * as C6 from './c6-perfil';
 import { REF_W08 } from './ref';
 
-const MODULES: LevelModule[] = [C1, C2, C3];
+const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6];
 const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w8-c1': { pos: [220, 210], requires: [] },
   'w8-c2': { pos: [550, 180], requires: ['w8-c1'] },
