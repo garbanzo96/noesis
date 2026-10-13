@@ -672,9 +672,10 @@
   .focus-body {
     font-size: 13px;
   }
+  /* en horizontal el botón va en la cabecera de la consola, fuera del dibujo */
   .play.with-notes > .rail-toggle {
-    top: 30px;
-    right: calc(max(260px, 34%) + 10px);
+    top: 6px;
+    right: 12px;
   }
   .stage-kicker {
     display: none;
