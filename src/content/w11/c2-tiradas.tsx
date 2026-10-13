@@ -82,7 +82,7 @@ function Quarter({ n = 0 }: { n?: number }) {
         1
       </Cap>
       <Cap x={495} y={100} size={23} tex="x^2+y^2\le1" color={C.violet} />
-      <Cap x={495} y={700} size={19} color={C.muted}>
+      <Cap x={495} y={738} size={19} color={C.muted}>
         Lila: dentro del cuarto de círculo. Ámbar: fuera.
       </Cap>
     </g>
