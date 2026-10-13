@@ -2,7 +2,7 @@ import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { clamp } from '../../engine/anim';
 import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
-import { Group } from '../../engine/Stage';
+import { Group, Html } from '../../engine/Stage';
 import { Cap } from '../shared/lesson';
 import { DragCue, Knob, dec } from '../shared/ui';
 
@@ -761,70 +761,166 @@ export function BitTape({
     </>
   );
 }
+/** Exact rational label for the dyadic probabilities used by the terminal. */
+export function fraction(v: number) {
+  if (!Number.isFinite(v)) return '+\\infty';
+  for (let d = 1; d <= 256; d *= 2) {
+    const n = v * d;
+    if (Number.isInteger(n)) return d === 1 ? String(n) : `\\frac{${n}}{${d}}`;
+  }
+  return num(v);
+}
+export const ROUTE_COUNTS = [
+  [4, 4, 0, 0],
+  [0, 0, 4, 4],
+];
+export const ROUTE_TABLE = ROUTE_COUNTS.map((row) => row.map((n) => n / sum(ROUTE_COUNTS.flat())));
+export const PILOT_COUNTS = [
+  [4, 4],
+  [4, 4],
+];
+export const Q = [1 / 8, 1 / 2, 1 / 4, 1 / 8];
+export const Q_CODES = { A: '110', B: '0', C: '10', D: '111' };
+
+/** Large joint table. A row filter renormalizes; larger tables retain all rows via paging. */
 export function JointGrid({
   counts,
   rows,
   columns,
   filter,
+  columnFilter,
   onFilter,
+  showInfo = false,
+  progress = 1,
 }: {
   counts: number[][];
   rows: string[];
   columns: string[];
   filter?: number;
+  columnFilter?: number;
   onFilter?: (i: number) => void;
+  showInfo?: boolean;
+  progress?: number;
 }) {
-  const total = sum(counts.flat()),
-    cw = 600 / columns.length,
-    ch = 380 / rows.length;
+  const [page, setPage] = useState(0);
+  const signature = rows.join('|') + columns.join('|');
+  useEffect(() => setPage(0), [signature, filter, columnFilter]);
+  const total = sum(counts.flat());
+  const rowIds = filter === undefined ? counts.map((_, i) => i) : [filter];
+  const colIds = columnFilter === undefined ? columns.map((_, i) => i) : [columnFilter];
+  const pages = Math.ceil(rowIds.length / 4);
+  const visible = rowIds.slice(Math.min(page, pages - 1) * 4, (Math.min(page, pages - 1) + 1) * 4);
+  const cw = 600 / colIds.length,
+    ch = 420 / visible.length;
+  const denominator =
+    filter !== undefined
+      ? sum(counts[filter])
+      : columnFilter !== undefined
+        ? sum(counts.map((row) => row[columnFilter]))
+        : total;
   return (
     <>
-      {columns.map((c, j) => (
-        <Cap key={c} x={290 + (j + 0.5) * cw} y={200}>
-          {c}
+      <Cap x={535} y={135} size={21} color={ACCENT}>
+        {filter !== undefined
+          ? `Torre conocida: ${rows[filter]}`
+          : columnFilter !== undefined
+            ? `Ruta conocida: ${columns[columnFilter]}`
+            : 'X = torre · Y = ruta'}
+      </Cap>
+      {colIds.map((j, v) => (
+        <Cap key={j} x={290 + (v + 0.5) * cw} y={200} size={20}>
+          {columns[j]}
         </Cap>
       ))}
-      {counts.map((row, i) => (
-        <Group key={i} opacity={filter === undefined || filter === i ? 1 : 0.15}>
-          <Cap x={215} y={250 + (i + 0.5) * ch}>
+      {visible.map((i, v) => (
+        <g key={i}>
+          <Cap x={210} y={240 + (v + 0.5) * ch} size={20} color={ACCENT}>
             {rows[i]}
           </Cap>
-          {row.map((n, j) => (
-            <g key={j}>
-              <rect
-                x={290 + j * cw}
-                y={250 + i * ch}
-                width={cw - 5}
-                height={ch - 5}
-                fill={n ? ACCENT : C.panel}
-                fillOpacity={0.12}
-                stroke={n ? ACCENT : C.dim}
-                strokeDasharray={n ? undefined : '4 5'}
-              />
-              <Cap x={290 + (j + 0.5) * cw} y={250 + (i + 0.5) * ch - 20} size={18}>
-                {n}
-              </Cap>
-              <Cap x={290 + (j + 0.5) * cw} y={250 + (i + 0.5) * ch + 25} size={18}>
-                {fmtComma(n / (filter === undefined ? total : sum(row)) || 0)}
-              </Cap>
-            </g>
-          ))}
-        </Group>
+          {colIds.map((j, u) => {
+            const n = counts[i][j],
+              p = denominator ? n / denominator : 0;
+            const x = 290 + u * cw,
+              y = 240 + v * ch;
+            return (
+              <g key={j}>
+                <rect
+                  x={x}
+                  y={y}
+                  width={cw - 5}
+                  height={ch - 5}
+                  rx={6}
+                  fill={n ? '#164d48' : C.panel}
+                  stroke={n ? ACCENT : C.muted}
+                  strokeWidth={2}
+                />
+                {!n && (
+                  <path
+                    d={`M${x + 10} ${y + 10}L${x + cw - 15} ${y + ch - 15}`}
+                    stroke={C.muted}
+                    strokeWidth={2}
+                  />
+                )}
+                <Cap x={x + cw / 2} y={y + ch * 0.32} size={columns.length > 4 ? 17 : 22}>
+                  {n}
+                </Cap>
+                <Cap
+                  x={x + cw / 2}
+                  y={y + ch * 0.7}
+                  size={columns.length > 4 ? 17 : 22}
+                  tex={showInfo && p > 0 ? `${num(info(p))}\\ \\text{bits}` : fraction(p)}
+                  color={n ? ACCENT : C.muted}
+                />
+                {n > 0 &&
+                  ch > 180 &&
+                  Array.from({ length: Math.min(n, 4) }, (_, k) => (
+                    <circle
+                      key={k}
+                      cx={x + (cw * (k + 1)) / (Math.min(n, 4) + 1)}
+                      cy={y + ch * (0.88 - 0.08 * progress)}
+                      r={7}
+                      fill={ACCENT}
+                    />
+                  ))}
+              </g>
+            );
+          })}
+        </g>
       ))}
+      {pages > 1 && (
+        <Html x={540} y={730} size={20} interactive>
+          <div className="stage-choices">
+            <button className="stage-btn" disabled={page === 0} onClick={() => setPage(page - 1)}>
+              ↑
+            </button>
+            <span>
+              Filas {page * 4 + 1}–{Math.min((page + 1) * 4, rowIds.length)} de {rowIds.length}
+            </span>
+            <button
+              className="stage-btn"
+              disabled={page + 1 >= pages}
+              onClick={() => setPage(page + 1)}
+            >
+              ↓
+            </button>
+          </div>
+        </Html>
+      )}
       {onFilter && (
         <>
-          <circle cx={820} cy={725} r={24} stroke={ACCENT} fill="none" />
-          <Cap x={820} y={785} size={18}>
+          <circle cx={820} cy={745} r={24} stroke={ACCENT} strokeWidth={3} fill={C.panel} />
+          <Cap x={820} y={805} size={18}>
             Filtro
           </Cap>
           {rows.map((r, i) => (
             <DragToken
               key={r}
-              x={230 + i * 150}
-              y={725}
+              x={230 + i * 160}
+              y={745}
               label={r}
+              cue={i === rows.length - 1}
               onDrop={(x, y) => {
-                if (near(x, y, 820, 725)) onFilter(i);
+                if (near(x, y, 820, 745)) onFilter(i);
               }}
             />
           ))}
@@ -833,89 +929,188 @@ export function JointGrid({
     </>
   );
 }
-export function SharedBits({ hx, hy, hxy }: { hx: number; hy: number; hxy: number }) {
+/** Equal-height areas: the overlap and each exclusive strip use the same scale per bit. */
+export function SharedBits({
+  hx,
+  hy,
+  hxy,
+  showShared = true,
+  showReadings = true,
+  labelY = 'Y',
+  progress = 1,
+}: {
+  hx: number;
+  hy: number;
+  hxy: number;
+  showShared?: boolean;
+  showReadings?: boolean;
+  labelY?: string;
+  progress?: number;
+}) {
   const shared = hx + hy - hxy;
   if (shared < -1e-10 || shared > Math.min(hx, hy) + 1e-10)
     throw new RangeError('Entropías incompatibles.');
-  const scale = 600 / Math.max(hxy, 1),
-    x = 180;
+  const scale = 720 / Math.max(hxy, 1),
+    x = 170,
+    y = 250,
+    h = 400;
+  const exclusiveX = hx - shared,
+    exclusiveY = hy - shared;
   return (
     <>
       <rect
         x={x}
-        y={300}
-        width={hx * scale}
-        height={180}
-        fill={ACCENT}
-        fillOpacity={0.22}
-        stroke={ACCENT}
+        y={y}
+        width={720}
+        height={h}
+        rx={8}
+        fill={C.panel}
+        stroke={C.muted}
+        strokeWidth={2}
       />
-      <rect
-        x={x + (hx - shared) * scale}
-        y={410}
-        width={hy * scale}
-        height={180}
-        fill={C.amber}
-        fillOpacity={0.22}
+      {exclusiveX > 0 && (
+        <rect x={x} y={y} width={exclusiveX * scale} height={h} fill={ACCENT} fillOpacity={0.7} />
+      )}
+      {shared > 0 && (
+        <rect
+          x={x + exclusiveX * scale}
+          y={y}
+          width={shared * scale}
+          height={h}
+          fill={C.magenta}
+          fillOpacity={0.7}
+        />
+      )}
+      {exclusiveY > 0 && (
+        <rect
+          x={x + hx * scale}
+          y={y}
+          width={exclusiveY * scale}
+          height={h}
+          fill={C.amber}
+          fillOpacity={0.7}
+        />
+      )}
+      <path d={`M${x} 225V205H${x + hx * scale}V225`} fill="none" stroke={ACCENT} strokeWidth={4} />
+      <Cap x={x + (hx * scale) / 2} y={165} color={ACCENT} tex={`H(X)=${num(hx)}`} />
+      <path
+        d={`M${x + exclusiveX * scale} 675V695H${x + hxy * scale}V675`}
+        fill="none"
         stroke={C.amber}
+        strokeWidth={4}
       />
-      <Cap x={530} y={215}>
-        Áreas proporcionales a bits
-      </Cap>
-      <Cap x={1250} y={260}>
-        H(X) = {fmtComma(hx)}
-      </Cap>
-      <Cap x={1250} y={350}>
-        H(Y) = {fmtComma(hy)}
-      </Cap>
-      <Cap x={1250} y={440}>
-        H(X,Y) = {fmtComma(hxy)}
-      </Cap>
-      <Cap x={1250} y={540} color={ACCENT}>
-        Compartido = {bitsText(shared)}
-      </Cap>
+      <Cap
+        x={x + (exclusiveX + hy / 2) * scale}
+        y={740}
+        color={C.amber}
+        tex={`H(${labelY})=${num(hy)}`}
+      />
+      {shared > 0 && (
+        <Cap x={x + (exclusiveX + shared / 2) * scale} y={450} size={21}>
+          {showShared ? bitsText(shared) : 'Compartido'}
+        </Cap>
+      )}
+      {exclusiveX > 0 && (
+        <Cap x={x + (exclusiveX * scale) / 2} y={450} size={20}>
+          Solo X
+        </Cap>
+      )}
+      {exclusiveY > 0 && (
+        <Cap x={x + (hx + exclusiveY / 2) * scale} y={450} size={20}>
+          Solo {labelY}
+        </Cap>
+      )}
+      <line
+        x1={x}
+        x2={x + hxy * scale * progress}
+        y1={y + h}
+        y2={y + h}
+        stroke={C.text}
+        strokeWidth={4}
+      />
+      {showReadings && (
+        <>
+          <Cap x={1250} y={240} tex={`H(X)=${num(hx)}`} color={ACCENT} />
+          <Cap x={1250} y={330} tex={`H(${labelY})=${num(hy)}`} color={C.amber} />
+          <Cap x={1250} y={420} tex={`H(X,${labelY})=${num(hxy)}`} />
+          {showShared && (
+            <Cap x={1250} y={530} color={C.magenta}>
+              Compartido: {bitsText(shared)}
+            </Cap>
+          )}
+        </>
+      )}
     </>
   );
 }
+/** Both tapes use a common bit scale. Individual signed contributions stay signed. */
 export function CodeCost({
   source,
   profile,
   lengths,
+  labels = SYMBOLS,
+  count = 8,
+  showReadings = true,
+  showExcess = true,
+  showContributions = true,
+  progress = 1,
 }: {
   source: number[];
   profile: number[];
   lengths?: number[];
+  labels?: string[];
+  count?: number;
+  showReadings?: boolean;
+  showExcess?: boolean;
+  showContributions?: boolean;
+  progress?: number;
 }) {
   distribution(source);
   distribution(profile);
   const own = source.map((p) => (p === 0 ? 0 : info(p))),
     other = lengths ?? profile.map(info);
-  const counts = source.map((p) => p * 8),
-    sequences = counts.flatMap((n, i) => Array.from({ length: Math.round(n) }, () => i));
-  const costs = [own, other].map((ls) => meanLength(source, ls) * 8);
+  const costs = [own, other].map((ls) => meanLength(source, ls) * count);
+  const scale = 720 / Math.max(...costs, 1);
   return (
     <>
       {[own, other].map((ls, row) => {
         let x = 170;
         return (
           <g key={row}>
-            {sequences.map((i, j) => {
-              const w = (ls[i] * 720) / Math.max(...costs, 1),
+            <Cap x={530} y={185 + row * 270} size={21}>
+              {row === 0 ? 'Código de la fuente' : 'Código del perfil elegido'}
+            </Cap>
+            {source.map((p, i) => {
+              const n = count * p,
+                w = n * ls[i] * scale,
                 start = x;
               x += w;
+              if (!n) return null;
               return (
-                <g key={j}>
+                <g key={i}>
                   <rect
                     x={start}
-                    y={280 + row * 170}
-                    width={w}
-                    height={100}
-                    stroke={COLORS[i]}
+                    y={230 + row * 270}
+                    width={w * progress}
+                    height={160}
                     fill={COLORS[i]}
-                    fillOpacity={0.14}
+                    fillOpacity={0.7}
+                    stroke={COLORS[i]}
+                    strokeWidth={3}
                   />
-                  <Cap x={start + w / 2} y={330 + row * 170} size={18}>
-                    {SYMBOLS[i]}
+                  {Array.from({ length: Math.max(0, Math.ceil(n * ls[i]) - 1) }, (_, j) => (
+                    <line
+                      key={j}
+                      x1={start + (j + 1) * scale}
+                      x2={start + (j + 1) * scale}
+                      y1={235 + row * 270}
+                      y2={265 + row * 270}
+                      stroke={C.text}
+                      strokeWidth={1.5}
+                    />
+                  ))}
+                  <Cap x={start + w / 2} y={310 + row * 270} size={21}>
+                    {labels[i]} × {n}
                   </Cap>
                 </g>
               );
@@ -923,20 +1118,35 @@ export function CodeCost({
           </g>
         );
       })}
-      <Cap x={1250} y={280}>
-        Propio: {bitsText(costs[0])}
-      </Cap>
-      <Cap x={1250} y={375}>
-        Perfil: {bitsText(costs[1])}
-      </Cap>
-      <Cap x={1250} y={470} color={C.amber}>
-        Exceso: {bitsText(costs[1] - costs[0])}
-      </Cap>
-      {source.map((p, i) => (
-        <Cap key={i} x={230 + i * 195} y={660} size={18}>
-          {SYMBOLS[i]}: {fmtComma(p * (other[i] - own[i]))}
-        </Cap>
-      ))}
+      {showReadings && (
+        <>
+          <Cap x={1250} y={240}>
+            Propio: {bitsText(costs[0])}
+          </Cap>
+          <Cap x={1250} y={330}>
+            Perfil: {bitsText(costs[1])}
+          </Cap>
+          {showExcess && (
+            <Cap x={1250} y={420} color={C.amber}>
+              Exceso: {bitsText(costs[1] - costs[0])}
+            </Cap>
+          )}
+        </>
+      )}
+      {showContributions &&
+        source.map((p, i) => {
+          const delta = p * (other[i] - own[i]);
+          return (
+            <Cap
+              key={i}
+              x={230 + i * 190}
+              y={745}
+              size={20}
+              color={COLORS[i]}
+              tex={`${labels[i]}:\\ ${delta > 0 ? '+' : ''}${fraction(delta)}`}
+            />
+          );
+        })}
     </>
   );
 }

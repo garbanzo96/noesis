@@ -14,7 +14,8 @@ export type PlaceId =
   | 'metro'
   | 'archivo'
   | 'cerros'
-  | 'antenas';
+  | 'antenas'
+  | 'observatorio';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -210,6 +211,107 @@ function Neon({
 }
 
 const PLACES: Record<PlaceId, () => ReactElement> = {
+  observatorio: () => (
+    <>
+      <Sky top="#070e15" mid="#142831" bottom="#1c3438" />
+      <Cerros seed={91} y0={575} color="#10222b" />
+      <Crane x={980} y={570} s={0.48} light="#e7df5a" />
+      <RainDefs />
+      <Rain />
+      {/* Open dome and ribs frame the rain over the port. */}
+      <path
+        d="M0 900 L0 0 L1600 0 L1600 900 L1480 900 L1480 345 Q800 -160 120 345 L120 900 Z"
+        fill="#091016"
+      />
+      <path
+        d="M120 345 Q800 -160 1480 345 M360 280 Q800 -40 1240 280"
+        fill="none"
+        stroke="#34454b"
+        strokeWidth={16}
+      />
+      <rect
+        x="160"
+        y="300"
+        width="1280"
+        height="300"
+        fill="#405a60"
+        fillOpacity={0.07}
+        stroke="#40515a"
+        strokeWidth={9}
+      />
+      {[440, 800, 1160].map((x) => (
+        <path key={x} d={`M${x} 300 L${x} 600`} stroke="#34454b" strokeWidth={8} />
+      ))}
+      {/* Rain gauge and wind vane, in silhouette behind the window. */}
+      <path
+        d="M290 580 L290 410 M255 400 L325 400 L307 430 L273 430 Z M269 450 L311 450 L311 525 L269 525 Z"
+        fill="#09131a"
+        stroke="#18282f"
+        strokeWidth={5}
+      />
+      <path
+        d="M1260 585 L1260 365 M1180 390 L1340 390 L1320 373 M1340 390 L1320 407 M1220 366 L1260 345 L1300 366 Z"
+        fill="#09131a"
+        stroke="#09131a"
+        strokeWidth={6}
+      />
+      <path d="M0 660 L1600 660 L1600 900 L0 900 Z" fill="#080e13" />
+      <path
+        d="M1010 575 L1440 575 L1510 675 L970 675 Z"
+        fill="#17242c"
+        stroke="#32424d"
+        strokeWidth={4}
+      />
+      <rect
+        x="1150"
+        y="502"
+        width="205"
+        height="112"
+        rx="8"
+        fill="#101d2b"
+        stroke="#34475c"
+        strokeWidth={5}
+      />
+      <path
+        d="M1175 548 L1220 548 L1250 548 L1330 548 M1175 575 L1310 575"
+        stroke="#6f9cff"
+        strokeWidth={3}
+        opacity={0.35}
+      />
+      {/* Foreground recorder: sulphur screen light spills onto the paper. */}
+      <path
+        d="M155 660 L905 660 L1020 780 L75 780 Z"
+        fill="#263338"
+        stroke="#48544d"
+        strokeWidth={5}
+      />
+      <path d="M205 780 L190 900 M855 780 L875 900" stroke="#1b282f" strokeWidth={24} />
+      <path d="M595 495 L840 495 L935 760 L450 760 Z" fill="#e7df5a" opacity={0.06} />
+      <rect
+        x="635"
+        y="455"
+        width="205"
+        height="137"
+        rx="8"
+        fill="#161f22"
+        stroke="#48554b"
+        strokeWidth={6}
+      />
+      <path
+        d="M657 548 L691 540 L725 515 L757 483 L816 483"
+        fill="none"
+        stroke="#e7df5a"
+        strokeWidth={4}
+      />
+      <rect x="292" y="608" width="280" height="110" rx="10" fill="#c9c4a2" />
+      <ellipse cx="292" cy="663" rx="28" ry="55" fill="#56625a" stroke="#a1aa91" strokeWidth={4} />
+      <ellipse cx="572" cy="663" rx="28" ry="55" fill="#ded8b2" stroke="#a1aa91" strokeWidth={4} />
+      <path d="M326 667 Q400 663 436 645 T541 619" fill="none" stroke="#a78a52" strokeWidth={3} />
+      <path d="M550 704 L720 748 L800 790 L555 759 Z" fill="#ded8b2" />
+      <path d="M398 560 L421 638 L468 643" fill="none" stroke="#738781" strokeWidth={7} />
+      <Neon x={800} y={205} text="OBSERVATORIO · TURNO NOCTURNO" color="#e7df5a" size={28} />
+    </>
+  ),
   antenas: () => (
     <>
       <Sky top="#050c12" mid="#10252b" bottom="#142b2b" />

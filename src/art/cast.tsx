@@ -18,7 +18,8 @@ export type CastId =
   | 'lucia'
   | 'ana'
   | 'tomas'
-  | 'ines';
+  | 'ines'
+  | 'elena';
 
 export interface Character {
   id: CastId;
@@ -28,6 +29,12 @@ export interface Character {
 }
 
 export const CAST: Record<CastId, Character> = {
+  elena: {
+    id: 'elena',
+    name: 'Elena Saavedra',
+    role: 'Técnica de calibración · El Observatorio',
+    color: '#e7df5a',
+  },
   ines: {
     id: 'ines',
     name: 'Inés Araya',
@@ -100,6 +107,21 @@ interface Look {
 }
 
 const LOOKS: Record<Exclude<CastId, 'noesis'>, Look> = {
+  elena: {
+    jaw: 'oval',
+    skin: '#c48f6a',
+    shade: '#9e6b4b',
+    hair: '#d7d2c7',
+    hairStyle: 'short',
+    iris: '#394e49',
+    brows: 'flat',
+    mouth: 'firm',
+    outfit: 'field',
+    cloth: '#243437',
+    cloth2: '#e7df5a',
+    age: true,
+    extra: (col) => <CalibrationBadge col={col} />,
+  },
   ines: {
     jaw: 'oval',
     skin: '#b9825a',
@@ -743,6 +765,32 @@ function Outfit({ look, col }: { look: Look; col: string }) {
 }
 
 // ------------------------------------------------------------------ signature accessories
+function CalibrationBadge({ col }: { col: string }) {
+  return (
+    <g>
+      <path d="M99 148 L91 107" stroke="#d9b365" strokeWidth={5} strokeLinecap="round" />
+      <path d="M91 107 L90 99 L94 105" fill="#ddd6c4" />
+      <path d="M122 248 L151 305 L178 248" fill="none" stroke="#87908c" strokeWidth={3} />
+      <rect
+        x="133"
+        y="302"
+        width="36"
+        height="43"
+        rx="3"
+        fill="#18292c"
+        stroke={col}
+        strokeWidth={2}
+      />
+      <rect x="139" y="309" width="10" height="12" fill="#d7d2c7" opacity={0.7} />
+      <path
+        d="M154 312 L163 312 M154 317 L163 317 M140 329 L162 329 M140 335 L155 335"
+        stroke={col}
+        strokeWidth={2}
+      />
+      <path d="M67 289 L77 283 M215 329 L225 322" stroke="#7f9088" strokeWidth={2} opacity={0.6} />
+    </g>
+  );
+}
 function ShoulderRadio({ col }: { col: string }) {
   return (
     <g>
