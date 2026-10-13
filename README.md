@@ -35,6 +35,7 @@ con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pued
 | 4 | Álgebra lineal (vectores, matrices, sistemas, determinante, valores propios) | El Metro | jugable, con clases |
 | 5 | Probabilidad | Casino Aurora | jugable |
 | 6 | Estadística (descriptiva, normal, muestreo, intervalos, pruebas, regresión) | El Archivo | jugable, con clases |
+| 7 | Varias variables (curvas de nivel, parciales, gradiente, plano tangente, extremos, Lagrange, integrales dobles, polares) | Los Cerros | jugable, con clases |
 
 ## Ejecutar localmente
 
