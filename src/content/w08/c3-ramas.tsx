@@ -533,7 +533,7 @@ export const level: LevelSpec = {
           },
           note: {
             label: 'Longitudes ponderadas del lote',
-            tex: '32+32+24+24=112\\ \mathrm{bits}',
+            tex: '32+32+24+24=112\\ \\mathrm{bits}',
             body: 'En esta fuente, $\\bar L=H(P)=7/4$ bits/símbolo.',
           },
         },

@@ -63,22 +63,22 @@ Clase. NÓESIS parte con ocho casilleros igualmente posibles; una luz ocupa uno 
 
 1. Se ven los casilleros sin símbolos. Una pregunta binaria separa las mitades y deja iluminada la mitad que contiene la luz. NÓESIS: «Un bit alcanza para elegir entre dos posibilidades iguales». Pizarra: `2\ \text{posibilidades}\longrightarrow1\ \text{bit}`.
 2. Gate: «Gira la perilla hasta dejar un solo casillero». La profundidad toma valores enteros de 0 a 3; cada paso divide por dos las posibilidades restantes. Desbloquea con profundidad 3 y un casillero restante, tolerancia cero tras encaje. Se anima la ruta completa. NÓESIS: «Necesitaste tres respuestas». Pizarra: `8\to4\to2\to1`.
-3. Las fichas se agrupan: A ocupa cuatro casilleros, B dos, C uno y D uno. Se presenta $p$ como la fracción ocupada por el evento. NÓESIS: «El logaritmo cuenta cuántas mitades separan a esa fracción del total». Pizarra: `\imath(x)=-\log_2 p(x)`.
+3. Las fichas se agrupan: A ocupa cuatro casilleros, B dos, C uno y D uno. Se presenta $p$ como la fracción ocupada por el evento. NÓESIS: «El logaritmo cuenta cuántas mitades separan a esa fracción del total». Pizarra: `I(x)=-\log_2 p(x)`.
 4. Cada grupo se conecta a su ruta de particiones. A da 1 bit; B, 2; C y D, 3. Ask: «¿Cuánta información trae D, con probabilidad 1/8?» [«1/8 bit», «3 bits», «8 bits»], answer 1. Explicación: $1/8=2^{-3}$; confundir información con probabilidad da el primer distractor, contar casilleros da el tercero. Pizarra: `-\log_2(1/8)=3`.
-5. Se compara una ficha rara con una frecuente, sin cambiar su significado narrativo. NÓESIS: «Conocer un evento menos probable reduce más las posibilidades. Eso no dice cuánto vale su contenido para la investigación». Pizarra: `p_1<p_2\Rightarrow\imath_1>\imath_2`.
-6. Un casillero seguro queda solo desde el inicio; un evento imposible se mantiene fuera de la bandeja. NÓESIS: «Si ya estaba asegurado, observarlo agrega cero bits. Un evento de probabilidad cero queda fuera de este cálculo finito». Pizarra: `\imath(p=1)=0;\quad0<p\le1`.
+5. Se compara una ficha rara con una frecuente, sin cambiar su significado narrativo. NÓESIS: «Conocer un evento menos probable reduce más las posibilidades. Eso no dice cuánto vale su contenido para la investigación». Pizarra: `p_1<p_2\RightarrowI_1>I_2`.
+6. Un casillero seguro queda solo desde el inicio; un evento imposible se mantiene fuera de la bandeja. NÓESIS: «Si ya estaba asegurado, observarlo agrega cero bits. Un evento de probabilidad cero queda fuera de este cálculo finito». Pizarra: `I(p=1)=0;\quad0<p\le1`.
 
 Investigación «La línea borrada». El lote íntegro del chip tiene 64 cabeceras: A aparece 32 veces; B, 16; C, 8; D, 8. La bitácora de la caseta omite las líneas D, cuya etiqueta pública es «reserva de entrega». Las frecuencias se usan como distribución de este lote; no se declara que describan toda la red.
 
 - Ask 1: «¿Cuántos bits informa una cabecera D bajo esta distribución?» [«3», «8», «1»], answer 0. Explicación: $8/64=1/8$ y $-\log_2(1/8)=3$; 8 es el conteo y 1 corresponde al pulso A.
 - Ask 2: «¿Cuánto más informa D que A?» [«Cuatro veces en bits», «2 bits», «1/8 bit»], answer 1. Explicación: sus probabilidades tienen razón cuatro, pero la diferencia de información es $3-1=2$ bits.
-- Notas: `p=(1/2,1/4,1/8,1/8)`; `\imath(A)=1,\ \imath(B)=2,\ \imath(C)=\imath(D)=3`; `\imath(D)-\imath(A)=2\ \mathrm{bits}`.
+- Notas: `p=(1/2,1/4,1/8,1/8)`; `I(A)=1,\ I(B)=2,\ I(C)=I(D)=3`; `I(D)-I(A)=2\ \mathrm{bits}`.
 
 Práctica (3 rondas).
 
 - r0: sortear $k\in\{1,2,3,4\}$, mostrar $p=1/2^k$ con la fracción desarrollada y pedir información en bits; respuesta $k$. Error típico: escribir $p$ o $2^k$.
 - r1: sortear $a\in\{1,2\}$ y $d\in\{1,2\}$; eventos con probabilidades $2^{-a}$ y $2^{-(a+d)}$. Pedir cuántos bits más informa el segundo; respuesta $d$. Error típico: usar la razón de probabilidades $2^d$ como diferencia de bits.
-- r2: sortear $k\in\{0,1,2,3\}$ y entregar $\imath=k$. Pedir $p$; respuesta $2^{-k}$. Error típico: perder el signo y responder $2^k$; con $k=0$, tratar lo seguro como imposible.
+- r2: sortear $k\in\{0,1,2,3\}$ y entregar $I=k$. Pedir $p$; respuesta $2^{-k}$. Error típico: perder el signo y responder $2^k$; con $k=0$, tratar lo seguro como imposible.
 
 Cierre (`antenas`): Inés tapa con el pulgar el nombre del puerto al que salió D.
 
@@ -99,7 +99,7 @@ Clase. Una bandeja contiene ocho fichas: cuatro A, dos B, una C y una D; las eti
 
 1. Las fichas recorren cintas de largos 1, 2, 3 y 3. NÓESIS: «Cada aparición aporta su cantidad. La media cuenta también cuántas veces aparece». Pizarra: `\text{media}=\text{total}/\text{cantidad}`.
 2. Gate: «Arrastra fichas hasta que cada símbolo tenga la misma cantidad». Hay ocho fichas y cuatro bandejas; se conserva el total. Desbloquea con conteos $(2,2,2,2)$, tolerancia de arrastre 24 y conteos exactos. Al soltar, se recalculan los bits de cada evento. NÓESIS: «Ahora ninguna etiqueta es más fácil de anticipar que otra». Pizarra: `p_A=p_B=p_C=p_D=1/4`.
-3. Vuelve el reparto original; se colorea cada aporte promedio antes de sumar. NÓESIS: «Llamamos entropía a la información media por símbolo de una fuente». Pizarra: `H(X)=\sum_x p(x)\imath(x)=-\sum_xp(x)\log_2p(x)`.
+3. Vuelve el reparto original; se colorea cada aporte promedio antes de sumar. NÓESIS: «Llamamos entropía a la información media por símbolo de una fuente». Pizarra: `H(X)=\sum_x p(x)I(x)=-\sum_xp(x)\log_2p(x)`.
 4. La cinta original suma 14 bits para las ocho fichas. Ask: «¿Cuál es la entropía del reparto original?» [«9 bits/símbolo», «3 bits/símbolo», «1,75 bits/símbolo»], answer 2. Explicación: $14/8=7/4$; 9 suma los bits de las etiquetas sin ponderar y 3 toma solo el máximo individual. Pizarra: `H=\tfrac12\cdot1+\tfrac14\cdot2+\tfrac18\cdot3+\tfrac18\cdot3=7/4`.
 5. Se alterna entre reparto original y uniforme. La barra media sube de 1,75 a 2. NÓESIS: «Con cuatro símbolos posibles, el reparto uniforme alcanza el máximo. Si uno domina, quedan menos decisiones pendientes en promedio». Pizarra: `H(X)\le\log_2m;\quad H_{\max}(4)=2`.
 6. Todas las fichas pasan a A; las otras bandejas vacías no aportan a la suma. NÓESIS: «Una fuente que siempre emite lo mismo tiene entropía cero. Las bandejas vacías aportan cero». Pizarra: `H(1,0,0,0)=0;\quad0\log_2 0:=0`.
@@ -352,7 +352,7 @@ Escena de apertura (`antenas`, caseta, 06:40; la luz del monitor se refleja en e
 
 Clase. Repaso visual, sin conceptos nuevos.
 
-1. Vuelve la bandeja de 64 cabeceras y se ilumina D. NÓESIS: «Recupera la probabilidad antes de leer sus bits». Pizarra: `\imath(D)=-\log_2(8/64)=3`.
+1. Vuelve la bandeja de 64 cabeceras y se ilumina D. NÓESIS: «Recupera la probabilidad antes de leer sus bits». Pizarra: `I(D)=-\log_2(8/64)=3`.
 2. Gate: «Arrastra D hasta su hoja». Desbloquea al alcanzar la hoja `111` del árbol P, con radio 24, etiqueta y palabra exactas; se anima el regreso a la raíz. NÓESIS: «La palabra termina donde el árbol lo indica». Pizarra: `c(D)=111;\quad\bar L=H(P)=7/4`.
 3. La tabla torre–ruta filtra d y se muestra la barra compartida. Ask: «Con la ruta d conocida, ¿cuántos bits faltan sobre la torre?» [«1», «0», «2»], answer 1. Explicación: solo Sur usa d; 1 corresponde a la torre antes del filtro y 2 a la ruta antes de conocer nada. Pizarra: `H(X\mid Y)=0;\quad I(X;Y)=1`.
 4. Las cintas P y Q se alinean con la barra de capacidad del enlace. NÓESIS: «Separa espacio por símbolo de información por uso del canal. Son unidades distintas». Pizarra: `D(P\Vert Q)=5/8\ \mathrm{bits/simbolo};\quad C\approx0{,}1887\ \mathrm{bits/uso}`.

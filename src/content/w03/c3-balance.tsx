@@ -306,8 +306,8 @@ function Budget({ seed, round, api }: ChallengeProps) {
   return (
     <Stage>
       <rect x={400} y={260} width={d.T * 80} height={300} fill="#5fd3ff" opacity={0.25} stroke="#5fd3ff" strokeWidth={3} strokeDasharray="8 6" />
-      <Cap x={400 + d.T * 40} y={410} size={28} color={C.text} tex={`\text{área}=${d.V}`} />
-      <Cap x={400 + d.T * 40} y={600} size={22} color={C.muted} tex={`\text{ancho}=${d.T}\ \text{h}`} />
+      <Cap x={400 + d.T * 40} y={410} size={28} color={C.text} tex={`\\text{área}=${d.V}`} />
+      <Cap x={400 + d.T * 40} y={600} size={22} color={C.muted} tex={`\\text{ancho}=${d.T}\\ \\text{h}`} />
       <Cap x={370} y={410} size={26} color={C.amber} tex="\bar Q=\ ?" anchor="right" />
       <NumberField x={1100} y={420} value={val} onChange={setVal} onEnter={submit} label="Q̄ =" width={4} />
       <Confirm onClick={submit} />

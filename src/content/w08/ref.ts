@@ -10,24 +10,24 @@ export const REF_W08: Record<string, TopicRef> = {
       },
       {
         label: 'Información individual',
-        tex: '\\imath(x)=-\\log_2p(x)',
+        tex: 'I(x)=-\\log_2p(x)',
         body: 'Mide la información de observar x, en bits. El logaritmo es base dos.',
       },
     ],
     props: [
       {
         label: 'Probabilidades diádicas',
-        tex: 'p(x)=2^{-k}\\Rightarrow\\imath(x)=k',
+        tex: 'p(x)=2^{-k}\\RightarrowI(x)=k',
         body: 'k particiones por mitades llevan del total a la probabilidad del evento.',
       },
       {
         label: 'Comparar eventos',
-        tex: '\\imath(y)-\\imath(x)=\\log_2\\frac{p(x)}{p(y)}',
+        tex: 'I(y)-I(x)=\\log_2\\frac{p(x)}{p(y)}',
         body: 'Una razón de probabilidades se transforma en una diferencia de bits.',
       },
       {
         label: 'Casos límite',
-        tex: '\\imath(1)=0,\\quad\\imath(0)=+\\infty',
+        tex: 'I(1)=0,\\quadI(0)=+\\infty',
         body: 'El cálculo es finito para 0 < p ≤ 1. La rareza no mide el valor del contenido para una investigación.',
       },
     ],
@@ -36,7 +36,7 @@ export const REF_W08: Record<string, TopicRef> = {
     defs: [
       {
         label: 'Entropía como media',
-        tex: 'H(X)=\\sum_xp(x)\\imath(x)',
+        tex: 'H(X)=\\sum_xp(x)I(x)',
         body: 'Información media por símbolo, ponderada con las probabilidades de la fuente.',
       },
       {

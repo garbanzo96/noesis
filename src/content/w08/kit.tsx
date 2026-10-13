@@ -13,6 +13,9 @@ export const COUNTS = [32, 16, 8, 8];
 export const CODES: Record<string, string> = { A: '0', B: '10', C: '110', D: '111' };
 export const COLORS = [ACCENT, C.amber, C.magenta, C.violet, C.green, C.blue, C.cyan, C.red];
 export const fmtComma = (v: number, digits = 4) => dec(v, digits);
+/** «1 bit», «2 bits», «1,75 bits». */
+export const bitsText = (v: number) => `${fmtComma(v)} ${v === 1 ? 'bit' : 'bits'}`;
+
 export const num = (v: number, digits = 4) =>
   fmtComma(v, digits).replace('−', '-').replace(',', '{,}');
 export const sum = (xs: readonly number[]) => xs.reduce((a, b) => a + b, 0);
@@ -232,11 +235,14 @@ export function DragToken({
   label,
   color = ACCENT,
   onDrop,
+  cue = true,
 }: {
   x: number;
   y: number;
   label: ReactNode;
   color?: string;
+  /** Show the drag guide on this token. Only one token per step should carry it. */
+  cue?: boolean;
   onDrop: (x: number, y: number) => void;
 }) {
   const svg = useRef<SVGSVGElement | null>(null),
@@ -264,7 +270,7 @@ export function DragToken({
       <Cap x={pos[0]} y={pos[1]} size={20} color={color}>
         {label}
       </Cap>
-      <DragCue x={pos[0]} y={pos[1]} color={color} r={36} />
+      {cue && <DragCue x={pos[0]} y={pos[1]} color={color} r={36} />}
     </g>
   );
 }
@@ -372,7 +378,7 @@ export function SymbolTray({
       {counts.map((n, i) => (
         <Cap key={i} x={230 + i * 200} y={y + 210} size={20} color={COLORS[i]}>
           {labels[i]}: {n}/{total}
-          {showInfo && n > 0 ? ` · ${fmtComma(info(n / total))} bits` : ''}
+          {showInfo && n > 0 ? ` · ${bitsText(info(n / total))}` : ''}
         </Cap>
       ))}
     </>
@@ -394,7 +400,7 @@ export function SplitTree({
         const count = 2 ** level,
           active = level === 0 ? 0 : parseInt(path.slice(0, level), 2);
         return (
-          <Group key={level} opacity={level <= d ? clamp(progress * (d + 1) - level, 0, 1) : 0.15}>
+          <Group key={level} opacity={level <= d ? clamp(progress * (d + 1) - level, 0, 1) : 0.3}>
             {Array.from({ length: count }, (_, i) => {
               const x = 170 + ((i + 0.5) * 720) / count,
                 y = 190 + level * 130;
@@ -406,7 +412,7 @@ export function SplitTree({
                       y1={y - 95}
                       x2={x}
                       y2={y - 22}
-                      stroke={i === active ? ACCENT : C.line}
+                      stroke={i === active ? ACCENT : C.muted}
                       strokeWidth={3}
                     />
                   )}
@@ -418,7 +424,8 @@ export function SplitTree({
                     rx={6}
                     fill={i === active && level <= d ? ACCENT : C.panel}
                     fillOpacity={0.25}
-                    stroke={i === active && level <= d ? ACCENT : C.line}
+                    stroke={i === active && level <= d ? ACCENT : C.muted}
+                    strokeWidth={2}
                   />
                   <Cap x={x} y={y} size={18}>
                     {8 / count}
@@ -493,6 +500,7 @@ export function SourceBars({
                     y={570 - h - 65}
                     label="⅛"
                     color={COLORS[i]}
+                    cue={i === 0}
                     onDrop={(px, py) => {
                       const j = probabilities.findIndex((_, k) =>
                         near(px, py, 170 + (k + 0.5) * spacing, 710),
@@ -566,6 +574,7 @@ export function PrefixTree({
                 y={y}
                 label={n.id}
                 color={slot < 0 ? C.amber : ACCENT}
+                cue={slot < 0 && i === nodes.findIndex((m) => !dropped.includes(m.id))}
                 onDrop={(px, py) => {
                   const target = targets.findIndex(([tx, ty]) => near(px, py, tx, ty));
                   if (target < 0 || dropped.includes(n.id)) return;
@@ -863,7 +872,7 @@ export function SharedBits({ hx, hy, hxy }: { hx: number; hy: number; hxy: numbe
         H(X,Y) = {fmtComma(hxy)}
       </Cap>
       <Cap x={1250} y={540} color={ACCENT}>
-        Compartido = {fmtComma(shared)} bits
+        Compartido = {bitsText(shared)}
       </Cap>
     </>
   );
@@ -915,13 +924,13 @@ export function CodeCost({
         );
       })}
       <Cap x={1250} y={280}>
-        Propio: {fmtComma(costs[0])} bits
+        Propio: {bitsText(costs[0])}
       </Cap>
       <Cap x={1250} y={375}>
-        Perfil: {fmtComma(costs[1])} bits
+        Perfil: {bitsText(costs[1])}
       </Cap>
       <Cap x={1250} y={470} color={C.amber}>
-        Exceso: {fmtComma(costs[1] - costs[0])} bits
+        Exceso: {bitsText(costs[1] - costs[0])}
       </Cap>
       {source.map((p, i) => (
         <Cap key={i} x={230 + i * 195} y={660} size={18}>

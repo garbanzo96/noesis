@@ -72,12 +72,12 @@ function InformationLesson({ beats, unlock, answer, reduced }: DemoProps) {
             }
             color={ACCENT}
           />
-          <Cap x={1250} y={320} tex="\imath(x)=-\log_2p(x)" />
+          <Cap x={1250} y={320} tex="I(x)=-\log_2p(x)" />
           {(b !== 3 || answer !== null) && (
             <Cap
               x={1250}
               y={420}
-              tex={`\\imath=${b === 5 ? 0 : info([1 / 2, 1 / 4, 1 / 8, 1 / 8][selected])}\ \mathrm{bits}`}
+              tex={`I=${b === 5 ? 0 : info([1 / 2, 1 / 4, 1 / 8, 1 / 8][selected])}\\ \\mathrm{bits}`}
               color={C.amber}
             />
           )}
@@ -127,7 +127,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Información individual',
-        tex: '\\p{1}{\\cA{\\imath(x)}}=\\p{2}{-\\log_2\\cC{p(x)}}',
+        tex: '\\p{1}{\\cA{I(x)}}=\\p{2}{-\\log_2\\cC{p(x)}}',
       },
     },
     {
@@ -140,7 +140,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Leer D',
-        tex: '\\p{1}{\\imath(D)}=\\p{2}{-\\log_2\\left(\\cC{\\tfrac18}\\right)}',
+        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2\\left(\\cC{\\tfrac18}\\right)}',
       },
     },
     {
@@ -148,14 +148,14 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Rareza y bits',
-        tex: '\\p{1}{\\cC{p_1}<p_2}\\Rightarrow\\p{2}{\\cA{\\imath_1}>\\imath_2}',
+        tex: '\\p{1}{\\cC{p_1}<p_2}\\Rightarrow\\p{2}{\\cA{I_1}>I_2}',
       },
     },
     {
       say: 'Si el evento estaba asegurado, observarlo agrega cero bits. Un evento de probabilidad cero tiene información infinita y queda fuera de este cálculo finito.',
       dur: 3,
       board: [
-        { label: 'Evento seguro', tex: '\\p{1}{\\imath(p=1)}=\\p{2}{\\cA{0}}' },
+        { label: 'Evento seguro', tex: '\\p{1}{I(p=1)}=\\p{2}{\\cA{0}}' },
         { label: 'Dominio finito', tex: '\\p{1}{0}<\\p{2}{\\cC{p}}\\le\\p{3}{1}' },
       ],
     },
@@ -181,8 +181,8 @@ function MissingLine({ beats, answer }: DemoProps) {
           color={C.amber}
           tex={
             beats.beat === 0
-              ? '\\imath(D)=3\\ \mathrm{bits}'
-              : '\\imath(D)-\\imath(A)=3-1=2\\ \mathrm{bits}'
+              ? 'I(D)=3\\ \\mathrm{bits}'
+              : 'I(D)-I(A)=3-1=2\\ \\mathrm{bits}'
           }
         />
       )}
@@ -214,15 +214,15 @@ function InformationPractice({ seed, round, api }: ChallengeProps) {
     );
     api.hints(
       round === 0
-        ? ['Cuenta cuántas mitades llevan de uno a esa probabilidad.', 'Usa $\\imath=-\\log_2p$.']
+        ? ['Cuenta cuántas mitades llevan de uno a esa probabilidad.', 'Usa $I=-\\log_2p$.']
         : round === 1
           ? [
               'Calcula los bits de cada evento por separado.',
               'Resta los bits del primero a los del segundo.',
             ]
           : [
-              'Despeja la probabilidad de $\\imath=-\\log_2p$.',
-              'Usa $p=2^{-\\imath}$; un evento seguro tiene probabilidad uno.',
+              'Despeja la probabilidad de $I=-\\log_2p$.',
+              'Usa $p=2^{-I}$; un evento seguro tiene probabilidad uno.',
             ],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -265,7 +265,7 @@ function InformationPractice({ seed, round, api }: ChallengeProps) {
     api.result(
       false,
       round === 2
-        ? 'Revisa el signo al despejar: $p=2^{-\\imath}$.'
+        ? 'Revisa el signo al despejar: $p=2^{-I}$.'
         : 'Cuenta las mitades; si comparas eventos, resta sus informaciones.',
     );
   };
@@ -282,7 +282,7 @@ function InformationPractice({ seed, round, api }: ChallengeProps) {
             ? `p=\\frac1{${2 ** k}}`
             : round === 1
               ? `p_1=\\frac1{${2 ** a}},\\ p_2=\\frac1{${2 ** (a + d)}}`
-              : `\\imath=${k}\\ \mathrm{bits}`
+              : `I=${k}\\ \\mathrm{bits}`
         }
         color={ACCENT}
       />
@@ -307,7 +307,7 @@ export const level: LevelSpec = {
   code: '8.1',
   title: 'El pulso que falta',
   subtitle: 'Información de un evento en bits',
-  glyph: '\\imath(x)',
+  glyph: 'I(x)',
   kind: 'level',
   guide: 'ines',
   teaser: 'El chip conserva una reserva de entrega que alguien omitió de la bitácora visible.',
@@ -358,7 +358,7 @@ export const level: LevelSpec = {
           },
           note: {
             label: 'Información de las cabeceras',
-            tex: '\\imath(A)=1,\\quad\\imath(B)=2,\\quad\\imath(C)=\\imath(D)=3',
+            tex: 'I(A)=1,\\quadI(B)=2,\\quadI(C)=I(D)=3',
           },
         },
         {
@@ -369,7 +369,7 @@ export const level: LevelSpec = {
             answer: 1,
             explain: '$3-1=2$ bits. La razón de probabilidades es cuatro; los bits se restan.',
           },
-          note: { label: 'Reserva frente a pulso', tex: '\\imath(D)-\\imath(A)=2\\ \mathrm{bits}' },
+          note: { label: 'Reserva frente a pulso', tex: 'I(D)-I(A)=2\\ \\mathrm{bits}' },
         },
       ],
     },
@@ -408,7 +408,7 @@ export const glyphs: Glyph[] = [
   {
     id: 'it-information',
     world: 'information',
-    tex: '\\imath(x)=-\\log_2p(x)',
+    tex: 'I(x)=-\\log_2p(x)',
     name: 'Información de un evento',
     read: 'información de equis',
     meaning: 'Cantidad de bits asociada a observar un evento de probabilidad p.',

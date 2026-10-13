@@ -103,7 +103,7 @@ function EntropyLesson({ beats, unlock, answer, reduced }: DemoProps) {
           </Cap>
         </>
       )}
-      {b === 2 && <Cap x={1250} y={350} tex="\sum_x p(x)\imath(x)" color={C.amber} />}
+      {b === 2 && <Cap x={1250} y={350} tex="\sum_x p(x)I(x)" color={C.amber} />}
       {b === 3 && (
         <>
           <Cap x={1250} y={350}>
@@ -162,7 +162,7 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía como media',
-          tex: '\\p{1}{\\cA{H(X)}}=\\p{2}{\\sum_x\\cC{p(x)}\\imath(x)}',
+          tex: '\\p{1}{\\cA{H(X)}}=\\p{2}{\\sum_x\\cC{p(x)}I(x)}',
         },
         { label: 'Definición en base dos', tex: '\\p{1}{H(X)}=\\p{2}{-\\sum_xp(x)\\log_2p(x)}' },
       ],
@@ -219,7 +219,7 @@ function CounterDemo({ beats, answer }: DemoProps) {
           y={540}
           tex={
             beats.beat === 0
-              ? `64H(P)=${sum(COUNTS) * entropy(P)}\\ \mathrm{bits}`
+              ? `64H(P)=${sum(COUNTS) * entropy(P)}\\ \\mathrm{bits}`
               : 'H_{\\max}=\\log_2 4=2'
           }
           color={C.amber}
@@ -366,7 +366,7 @@ export const level: LevelSpec = {
   notes: [
     {
       label: 'Exceso del contador fijo',
-      tex: '64\\cdot2-112=16\\ \mathrm{bits}',
+      tex: '64\\cdot2-112=16\\ \\mathrm{bits}',
       body: 'La entropía da una cota inferior de longitud media para un código de prefijo; hay que construirlo.',
     },
   ],
@@ -399,7 +399,7 @@ export const level: LevelSpec = {
           },
           note: {
             label: 'Información del lote',
-            tex: '64H(P)=64\\cdot\\tfrac74=112\\ \mathrm{bits}',
+            tex: '64H(P)=64\\cdot\\tfrac74=112\\ \\mathrm{bits}',
           },
         },
         {
@@ -412,7 +412,7 @@ export const level: LevelSpec = {
           },
           note: {
             label: 'Máximo con cuatro etiquetas',
-            tex: 'H_{\\max}=\\log_2 4=2\\ \mathrm{bits/símbolo}',
+            tex: 'H_{\\max}=\\log_2 4=2\\ \\mathrm{bits/símbolo}',
           },
         },
       ],
