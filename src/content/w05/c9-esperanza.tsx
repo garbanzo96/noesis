@@ -4,9 +4,16 @@ import { useSvgDrag, useTween } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { Line } from '../../engine/shapes';
-import type { ChallengeProps, DemoProps, Glyph, LevelSpec } from '../../game/level/types';
+import type {
+  ChallengeProps,
+  DemoProps,
+  Glyph,
+  LessonStep,
+  LevelSpec,
+} from '../../game/level/types';
+import { Cap } from '../shared/lesson';
 import { pick, rng } from '../shared/rng';
-import { DragCue, Confirm, NumberField, dec, parseNum } from '../shared/ui';
+import { DragCue, Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { ALL, Bars, type Cell, DiceGrid, Formula, fracTex } from './kit';
 
 // ============================================================================
@@ -23,7 +30,21 @@ const SUPPORT = [-2, 2, 3];
 const PROBS = [24 / 36, 6 / 36, 6 / 36];
 
 /** Balance beam over the values of X, with weights p(x); the fulcrum can be dragged. */
-function Beam({ xs, ps, f, onF, lo = -3, hi = 4 }: { xs: number[]; ps: number[]; f: number; onF?: (e: PointerEvent) => void; lo?: number; hi?: number }) {
+function Beam({
+  xs,
+  ps,
+  f,
+  onF,
+  lo = -3,
+  hi = 4,
+}: {
+  xs: number[];
+  ps: number[];
+  f: number;
+  onF?: (e: PointerEvent) => void;
+  lo?: number;
+  hi?: number;
+}) {
   const X = (v: number) => 300 + ((v - lo) / (hi - lo)) * 1000;
   const torque = xs.reduce((a, x, i) => a + ps[i] * (x - f), 0);
   const ang = useTween(clamp(torque * 6, -10, 10), 0.4);
@@ -33,9 +54,25 @@ function Beam({ xs, ps, f, onF, lo = -3, hi = 4 }: { xs: number[]; ps: number[];
   return (
     <g>
       <g transform={`rotate(${ang} ${fx} ${y})`}>
-        <rect x={X(lo)} y={y - 8} width={X(hi) - X(lo)} height={16} rx={4} fill="#2a2148" stroke={C.line} />
+        <rect
+          x={X(lo)}
+          y={y - 8}
+          width={X(hi) - X(lo)}
+          height={16}
+          rx={4}
+          fill="#2a2148"
+          stroke={C.line}
+        />
         {xs.map((x, i) => (
-          <rect key={i} x={X(x) - 30} y={y - 10 - ps[i] * 300} width={60} height={ps[i] * 300} fill={x < 0 ? C.red : C.green} opacity={0.75} />
+          <rect
+            key={i}
+            x={X(x) - 30}
+            y={y - 10 - ps[i] * 300}
+            width={60}
+            height={ps[i] * 300}
+            fill={x < 0 ? C.red : C.green}
+            opacity={0.75}
+          />
         ))}
       </g>
       {xs.map((x, i) => {
@@ -43,7 +80,13 @@ function Beam({ xs, ps, f, onF, lo = -3, hi = 4 }: { xs: number[]; ps: number[];
         const dx = X(x) - fx;
         const dy = -36 - ps[i] * 300;
         return (
-          <Html key={i} x={fx + dx * Math.cos(a) - dy * Math.sin(a)} y={y + dx * Math.sin(a) + dy * Math.cos(a)} size={18} color={x < 0 ? C.red : C.green}>
+          <Html
+            key={i}
+            x={fx + dx * Math.cos(a) - dy * Math.sin(a)}
+            y={y + dx * Math.sin(a) + dy * Math.cos(a)}
+            size={18}
+            color={x < 0 ? C.red : C.green}
+          >
             <span className="prop-tag">
               {x > 0 ? '+' : ''}
               {x} · {dec(ps[i], 3)}
@@ -51,10 +94,23 @@ function Beam({ xs, ps, f, onF, lo = -3, hi = 4 }: { xs: number[]; ps: number[];
           </Html>
         );
       })}
-      <path d={`M${fx} ${y + 10} L${fx - 32} ${y + 66} L${fx + 32} ${y + 66} Z`} fill={C.panel} stroke={balanced ? C.green : C.text} strokeWidth={3} />
+      <path
+        d={`M${fx} ${y + 10} L${fx - 32} ${y + 66} L${fx + 32} ${y + 66} Z`}
+        fill={C.panel}
+        stroke={balanced ? C.green : C.text}
+        strokeWidth={3}
+      />
       {onF && (
         <>
-          <rect x={X(lo) - 20} y={y + 10} width={X(hi) - X(lo) + 40} height={80} fill="transparent" onPointerDown={onF} style={{ cursor: 'ew-resize' }} />
+          <rect
+            x={X(lo) - 20}
+            y={y + 10}
+            width={X(hi) - X(lo) + 40}
+            height={80}
+            fill="transparent"
+            onPointerDown={onF}
+            style={{ cursor: 'ew-resize' }}
+          />
           <DragCue x={fx} y={y + 10} axis="x" color={balanced ? C.green : C.text} />
         </>
       )}
@@ -76,7 +132,11 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
   const svg = useRef<SVGSVGElement>(null);
   const [assigned, setAssigned] = useState(false);
   const [f, setF] = useState(1);
-  const [games, setGames] = useState<{ n: number; total: number; hist: number[] }>({ n: 0, total: 0, hist: [] });
+  const [games, setGames] = useState<{ n: number; total: number; hist: number[] }>({
+    n: 0,
+    total: 0,
+    hist: [],
+  });
   const onF = useSvgDrag(svg, (x) => {
     const v = Math.round(clamp(-3 + ((x - 300) / 1000) * 7, -3, 4) * 20) / 20;
     setF(v);
@@ -107,7 +167,13 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
         />
         {assigned &&
           ALL.map((c) => (
-            <Html key={c[0] * 10 + c[1]} x={420 + (c[1] - 0.5) * 110} y={150 + (c[0] - 0.5) * 110 + 32} size={22} color={gain(c) > 0 ? C.green : C.red}>
+            <Html
+              key={c[0] * 10 + c[1]}
+              x={420 + (c[1] - 0.5) * 110}
+              y={150 + (c[0] - 0.5) * 110 + 32}
+              size={22}
+              color={gain(c) > 0 ? C.green : C.red}
+            >
               <span className="prop-tag">{gain(c) > 0 ? `+${gain(c)}` : gain(c)}</span>
             </Html>
           ))}
@@ -133,7 +199,17 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
   if (beat === 1)
     return (
       <Stage>
-        <Bars x={400} y={200} w={720} h={440} values={PROBS} max={0.8} labels={['−2', '+2', '+3']} fmtV={(v) => `${Math.round(v * 36)}/36`} hi={answer !== null ? 0 : null} />
+        <Bars
+          x={400}
+          y={200}
+          w={720}
+          h={440}
+          values={PROBS}
+          max={0.8}
+          labels={['−2', '+2', '+3']}
+          fmtV={(v) => `${Math.round(v * 36)}/36`}
+          hi={answer !== null ? 0 : null}
+        />
         <Html x={760} y={720} size={22} color={C.muted}>
           <span>valores de X (ganancia en fichas)</span>
         </Html>
@@ -143,7 +219,11 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
     return (
       <Stage ref={svg}>
         <Beam xs={SUPPORT} ps={PROBS} f={f} onF={onF} />
-        <Formula y={760} size={26} tex="E[X]=(-2)\tfrac{24}{36}+2\cdot\tfrac{6}{36}+3\cdot\tfrac{6}{36}=-\tfrac{18}{36}=-0{,}5" />
+        <Formula
+          y={760}
+          size={26}
+          tex="E[X]=(-2)\tfrac{24}{36}+2\cdot\tfrac{6}{36}+3\cdot\tfrac{6}{36}=-\tfrac{18}{36}=-0{,}5"
+        />
       </Stage>
     );
   if (beat === 3) {
@@ -152,12 +232,28 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
     return (
       <Stage>
         <line x1={300} x2={1300} y1={Y(0)} y2={Y(0)} stroke={C.line} strokeWidth={2} />
-        <line x1={300} x2={1300} y1={Y(-0.5)} y2={Y(-0.5)} stroke={C.green} strokeDasharray="8 6" strokeWidth={2} />
+        <line
+          x1={300}
+          x2={1300}
+          y1={Y(-0.5)}
+          y2={Y(-0.5)}
+          stroke={C.green}
+          strokeDasharray="8 6"
+          strokeWidth={2}
+        />
         <Html x={1320} y={Y(-0.5)} size={18} anchor="left" color={C.green}>
           <span className="prop-tag">−0,5</span>
         </Html>
         {games.hist.map((v, i) =>
-          i === 0 ? null : <Line key={i} a={[300 + ((i - 1) / 240) * 1000, Y(clamp(games.hist[i - 1], -2, 3))]} b={[300 + (i / 240) * 1000, Y(clamp(v, -2, 3))]} color={C.amber} width={2.5} />,
+          i === 0 ? null : (
+            <Line
+              key={i}
+              a={[300 + ((i - 1) / 240) * 1000, Y(clamp(games.hist[i - 1], -2, 3))]}
+              b={[300 + (i / 240) * 1000, Y(clamp(v, -2, 3))]}
+              color={C.amber}
+              width={2.5}
+            />
+          ),
         )}
         <Html x={800} y={150} size={26} color={C.text}>
           <span className="prop-tag">
@@ -186,14 +282,23 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
         const red = k !== 0 && k % 2 === 1;
         return (
           <g key={k}>
-            <circle cx={800 + Math.cos(a) * 230} cy={440 + Math.sin(a) * 230} r={22} fill={k === 0 ? '#1f7a4a' : red ? '#c8283c' : '#1a1410'} stroke={k === 17 ? C.amber : '#0006'} strokeWidth={k === 17 ? 4 : 2} />
+            <circle
+              cx={800 + Math.cos(a) * 230}
+              cy={440 + Math.sin(a) * 230}
+              r={22}
+              fill={k === 0 ? '#1f7a4a' : red ? '#c8283c' : '#1a1410'}
+              stroke={k === 17 ? C.amber : '#0006'}
+              strokeWidth={k === 17 ? 4 : 2}
+            />
             <Html x={800 + Math.cos(a) * 230} y={440 + Math.sin(a) * 230} size={13} color="#fff">
               <span className="prop-tag">{k}</span>
             </Html>
           </g>
         );
       })}
-      {answer !== null && <Formula y={440} size={24} tex="35\cdot\tfrac{1}{37}-1\cdot\tfrac{36}{37}=-\tfrac{1}{37}" />}
+      {answer !== null && (
+        <Formula y={440} size={24} tex="35\cdot\tfrac{1}{37}-1\cdot\tfrac{36}{37}=-\tfrac{1}{37}" />
+      )}
     </Stage>
   );
 }
@@ -212,7 +317,10 @@ const EVENTS: { text: string; k: number; f: (c: Cell) => boolean }[] = [
 function Edge({ seed, round, api }: ChallengeProps) {
   const data = useMemo(() => {
     const r = rng(seed);
-    const ev = pick(r, EVENTS.filter((e) => e.k >= 3));
+    const ev = pick(
+      r,
+      EVENTS.filter((e) => e.k >= 3),
+    );
     const pay = pick(r, [3, 4, 5, 6]);
     const cost = 1;
     const fair = pick(r, EVENTS);
@@ -224,14 +332,32 @@ function Edge({ seed, round, api }: ChallengeProps) {
 
   useEffect(() => {
     if (round === 0) {
-      api.prompt(`Nuevo juego: apuestas 1 ficha; si sale **${data.ev.text}** recibes ${data.pay} fichas (tu ficha incluida); si no, la pierdes. ¿Cuál es la ganancia esperada por partida?`, 'E[X]=\\sum_x x\\,P(X=x)');
-      api.hints([`La ganancia neta es ${data.pay - 1} si ganas y −1 si pierdes.`, `$P(\\text{${data.ev.text}})=\\frac{${data.ev.k}}{36}$.`]);
+      api.prompt(
+        `Nuevo juego: apuestas 1 ficha; si sale **${data.ev.text}** recibes ${data.pay} fichas (tu ficha incluida); si no, la pierdes. ¿Cuál es la ganancia esperada por partida?`,
+        'E[X]=\\sum_x x\\,P(X=x)',
+      );
+      api.hints([
+        `La ganancia neta es ${data.pay - 1} si ganas y −1 si pierdes.`,
+        `$P(\\text{${data.ev.text}})=\\frac{${data.ev.k}}{36}$.`,
+      ]);
     } else if (round === 1) {
-      api.prompt(`Iris propone un juego justo: apostar 1 ficha a **${data.fair.text}**. ¿Cuántas fichas netas debería pagar la casa si sale, para que la ganancia esperada sea 0?`, 'E[X]=g\\cdot P(A)-1\\cdot P(A^c)=0');
-      api.hints([`$P(A)=\\frac{${data.fair.k}}{36}$ y $P(A^c)=\\frac{${36 - data.fair.k}}{36}$.`, 'Despeja $g$: lo que se gana por las veces que se gana debe compensar lo que se pierde.']);
+      api.prompt(
+        `Iris propone un juego justo: apostar 1 ficha a **${data.fair.text}**. ¿Cuántas fichas netas debería pagar la casa si sale, para que la ganancia esperada sea 0?`,
+        'E[X]=g\\cdot P(A)-1\\cdot P(A^c)=0',
+      );
+      api.hints([
+        `$P(A)=\\frac{${data.fair.k}}{36}$ y $P(A^c)=\\frac{${36 - data.fair.k}}{36}$.`,
+        'Despeja $g$: lo que se gana por las veces que se gana debe compensar lo que se pierde.',
+      ]);
     } else {
-      api.prompt(`Un VIP juega ${data.n} veces a la ruleta, ${data.stake} fichas a un número cada vez. ¿Cuántas fichas espera perder en total? (Redondea a un entero.)`, 'E[X_1+\\dots+X_n]=n\\,E[X]');
-      api.hints(['Por ficha apostada, la ruleta deja una ganancia esperada de $-\\tfrac{1}{37}$.', 'Multiplica por las fichas de cada jugada y por el número de jugadas.']);
+      api.prompt(
+        `Un VIP juega ${data.n} veces a la ruleta, ${data.stake} fichas a un número cada vez. ¿Cuántas fichas espera perder en total? (Redondea a un entero.)`,
+        'E[X_1+\\dots+X_n]=n\\,E[X]',
+      );
+      api.hints([
+        'Por ficha apostada, la ruleta deja una ganancia esperada de $-\\tfrac{1}{37}$.',
+        'Multiplica por las fichas de cada jugada y por el número de jugadas.',
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, data]);
@@ -242,37 +368,281 @@ function Edge({ seed, round, api }: ChallengeProps) {
     if (round === 0) {
       const p = data.ev.k / 36;
       const t = (data.pay - 1) * p - (1 - p);
-      if (Math.abs(v - t) < 0.01) return api.result(true, `$${data.pay - 1}\\cdot${fracTex(data.ev.k, 36, false)}-1\\cdot${fracTex(36 - data.ev.k, 36, false)}\\approx${dec(t, 3)}$ fichas por partida. ${t < 0 ? 'Gana la casa.' : t > 0 ? 'Gana el jugador.' : 'Juego justo.'}`.replace(/(\d),(\d)/g, '$1{,}$2'));
+      if (Math.abs(v - t) < 0.01)
+        return api.result(
+          true,
+          `$${data.pay - 1}\\cdot${fracTex(data.ev.k, 36, false)}-1\\cdot${fracTex(36 - data.ev.k, 36, false)}\\approx${dec(t, 3)}$ fichas por partida. ${t < 0 ? 'Gana la casa.' : t > 0 ? 'Gana el jugador.' : 'Juego justo.'}`.replace(
+            /(\d),(\d)/g,
+            '$1{,}$2',
+          ),
+        );
       const naive = data.pay * p - (1 - p);
-      if (Math.abs(v - naive) < 0.01) return api.result(false, `Recibir ${data.pay} fichas incluye la tuya: la ganancia neta es ${data.pay - 1}.`);
-      return api.result(false, `Ganancia neta: $+${data.pay - 1}$ con probabilidad $${fracTex(data.ev.k, 36, false)}$ y $-1$ con $${fracTex(36 - data.ev.k, 36, false)}$. Pondera y suma.`);
+      if (Math.abs(v - naive) < 0.01)
+        return api.result(
+          false,
+          `Recibir ${data.pay} fichas incluye la tuya: la ganancia neta es ${data.pay - 1}.`,
+        );
+      return api.result(
+        false,
+        `Ganancia neta: $+${data.pay - 1}$ con probabilidad $${fracTex(data.ev.k, 36, false)}$ y $-1$ con $${fracTex(36 - data.ev.k, 36, false)}$. Pondera y suma.`,
+      );
     }
     if (round === 1) {
       const t = (36 - data.fair.k) / data.fair.k;
-      if (Math.abs(v - t) < 0.01) return api.result(true, `$${dec(t, 2)}\\cdot\\frac{${data.fair.k}}{36}=\\frac{${36 - data.fair.k}}{36}$: lo ganado compensa lo perdido. Pagar ${dec(t, 2)} a 1.`.replace(/(\d),(\d)/g, '$1{,}$2'));
+      if (Math.abs(v - t) < 0.01)
+        return api.result(
+          true,
+          `$${dec(t, 2)}\\cdot\\frac{${data.fair.k}}{36}=\\frac{${36 - data.fair.k}}{36}$: lo ganado compensa lo perdido. Pagar ${dec(t, 2)} a 1.`.replace(
+            /(\d),(\d)/g,
+            '$1{,}$2',
+          ),
+        );
       const e = v * (data.fair.k / 36) - (36 - data.fair.k) / 36;
-      return api.result(false, `Pagando ${dec(v)}, la ganancia esperada sería ${dec(e, 3)}: ${e < 0 ? 'todavía gana la casa' : 'ahora gana el jugador'}.`);
+      return api.result(
+        false,
+        `Pagando ${dec(v)}, la ganancia esperada sería ${dec(e, 3)}: ${e < 0 ? 'todavía gana la casa' : 'ahora gana el jugador'}.`,
+      );
     }
     const t = (data.n * data.stake) / 37;
-    if (Math.abs(v - t) <= 1) return api.result(true, `$${data.n}\\cdot${data.stake}\\cdot\\tfrac{1}{37}\\approx${dec(t, 1)}$ fichas. Una partida puede ganar; cien partidas, casi nunca.`.replace(/(\d),(\d)/g, '$1{,}$2'));
-    if (Math.abs(v - (data.n * data.stake) / 36) <= 1) return api.result(false, 'La ruleta tiene 37 casillas, no 36: el 0 es la ventaja de la casa.');
-    return api.result(false, `Fichas apostadas en total: ${data.n * data.stake}. De cada ficha, la casa se queda en promedio con $\\tfrac{1}{37}$.`);
+    if (Math.abs(v - t) <= 1)
+      return api.result(
+        true,
+        `$${data.n}\\cdot${data.stake}\\cdot\\tfrac{1}{37}\\approx${dec(t, 1)}$ fichas. Una partida puede ganar; cien partidas, casi nunca.`.replace(
+          /(\d),(\d)/g,
+          '$1{,}$2',
+        ),
+      );
+    if (Math.abs(v - (data.n * data.stake) / 36) <= 1)
+      return api.result(
+        false,
+        'La ruleta tiene 37 casillas, no 36: el 0 es la ventaja de la casa.',
+      );
+    return api.result(
+      false,
+      `Fichas apostadas en total: ${data.n * data.stake}. De cada ficha, la casa se queda en promedio con $\\tfrac{1}{37}$.`,
+    );
   };
 
   return (
     <Stage>
       {round < 2 ? (
-        <DiceGrid x={420} y={150} cell={100} labels="sum" tone={(c) => ((round === 0 ? data.ev : data.fair).f(c) ? C.green : null)} />
+        <DiceGrid
+          x={420}
+          y={150}
+          cell={100}
+          labels="sum"
+          tone={(c) => ((round === 0 ? data.ev : data.fair).f(c) ? C.green : null)}
+        />
       ) : (
-        <Formula y={300} size={30} tex={`${data.n}\\ \\text{jugadas}\\times${data.stake}\\ \\text{fichas}`} />
+        <Formula
+          y={300}
+          size={30}
+          tex={`${data.n}\\ \\text{jugadas}\\times${data.stake}\\ \\text{fichas}`}
+        />
       )}
-      <NumberField x={round < 2 ? 1080 : 560} y={round < 2 ? 480 : 520} value={val} onChange={setVal} onEnter={submit} label={round === 0 ? 'E[X] =' : round === 1 ? 'Pago neto:' : 'Pérdida esperada:'} width={5} />
+      <NumberField
+        x={round < 2 ? 1080 : 560}
+        y={round < 2 ? 480 : 520}
+        value={val}
+        onChange={setVal}
+        onEnter={submit}
+        label={round === 0 ? 'E[X] =' : round === 1 ? 'Pago neto:' : 'Pérdida esperada:'}
+        width={5}
+      />
       <Confirm onClick={submit} />
     </Stage>
   );
 }
 
 // ---------------------------------------------------------------- level
+// ---------------------------------------------------------------------------
+// Clase · pagas 1 ficha por lanzar un dado; si sale 6 recibes el premio. La esperanza es el
+// punto donde se equilibra la distribución de la ganancia.
+// ---------------------------------------------------------------------------
+const NL = { x0: 170, y: 600, unit: 95, lo: -2, hi: 7 };
+const nx = (v: number) => NL.x0 + (v - NL.lo) * NL.unit;
+const PRIZE = { x0: 1090, x1: 1420, y: 640, lo: 2, hi: 8 };
+
+function ExpectationLesson({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [prize, setPrize] = useState(4);
+  const { beat } = beats;
+  const R = beat === 3 ? prize : beat >= 4 ? 6 : 4;
+  const win = R - 1;
+  const mean = win / 6 - 5 / 6;
+  const drag = useSvgDrag(svg, (px) => {
+    const t = clamp((px - PRIZE.x0) / (PRIZE.x1 - PRIZE.x0), 0, 1);
+    const next = Math.round(PRIZE.lo + t * (PRIZE.hi - PRIZE.lo));
+    setPrize(next);
+    if (next === 6) unlock();
+  });
+  const bar = (v: number, p: number, col: string) => (
+    <g>
+      <rect
+        x={nx(v) - 26}
+        y={NL.y - p * 300}
+        width={52}
+        height={p * 300}
+        rx={6}
+        fill={col}
+        fillOpacity={0.85}
+      />
+      <Cap
+        x={nx(v)}
+        y={NL.y - p * 300 - 28}
+        size={20}
+        tex={p > 0.5 ? '\\tfrac56' : '\\tfrac16'}
+        color={col}
+      />
+    </g>
+  );
+  return (
+    <Stage ref={svg}>
+      {[1, 2, 3, 4, 5, 6].map((d) => (
+        <g key={d}>
+          <rect
+            x={130 + d * 95}
+            y={170}
+            width={70}
+            height={70}
+            rx={12}
+            fill={C.panel}
+            stroke={d === 6 ? C.amber : C.line}
+            strokeWidth={3}
+          />
+          <Cap x={165 + d * 95} y={205} size={26} color={d === 6 ? C.amber : C.text}>
+            {d}
+          </Cap>
+          <Cap
+            x={165 + d * 95}
+            y={275}
+            size={21}
+            tex={d === 6 ? `+${win}` : '-1'}
+            color={d === 6 ? C.amber : C.muted}
+          />
+        </g>
+      ))}
+      <Cap x={1270} y={205} size={20} color={C.muted}>
+        cara del dado
+      </Cap>
+      <Cap x={1270} y={275} size={20} color={C.muted}>
+        ganancia X (fichas)
+      </Cap>
+      {beat >= 1 && (
+        <>
+          <line x1={nx(NL.lo)} x2={nx(NL.hi)} y1={NL.y} y2={NL.y} stroke={C.text} strokeWidth={3} />
+          {Array.from({ length: NL.hi - NL.lo + 1 }, (_, k) => NL.lo + k).map((v) => (
+            <g key={v}>
+              <line
+                x1={nx(v)}
+                x2={nx(v)}
+                y1={NL.y}
+                y2={NL.y + 10}
+                stroke={C.text}
+                strokeWidth={2}
+              />
+              <Cap x={nx(v)} y={NL.y + 34} size={18} color={C.muted}>
+                {v}
+              </Cap>
+            </g>
+          ))}
+          {bar(-1, 5 / 6, C.cyan)}
+          {bar(win, 1 / 6, C.amber)}
+          <path
+            d={`M${nx(mean)} ${NL.y + 52} l-22 34 h44 z`}
+            fill={Math.abs(mean) < 1e-9 ? C.green : C.magenta}
+          />
+          <Cap
+            x={nx(mean)}
+            y={NL.y + 112}
+            size={20}
+            color={Math.abs(mean) < 1e-9 ? C.green : C.magenta}
+            tex="E[X]"
+          />
+        </>
+      )}
+      {beat >= 1 && (
+        <Cap
+          x={1270}
+          y={380}
+          tex={`E[X]=\\tfrac{${win}}{6}-\\tfrac56=${R === 6 ? '0' : R < 6 ? `-\\tfrac{${6 - R}}{6}` : `\\tfrac{${R - 6}}{6}`}`}
+          color={Math.abs(mean) < 1e-9 ? C.green : C.magenta}
+        />
+      )}
+      {beat === 2 && answer !== null && (
+        <Cap x={1270} y={470} tex="600\cdot(-\tfrac13)=-200" color={C.magenta} />
+      )}
+      {beat === 3 && (
+        <>
+          <line
+            x1={PRIZE.x0}
+            x2={PRIZE.x1}
+            y1={PRIZE.y}
+            y2={PRIZE.y}
+            stroke={C.line}
+            strokeWidth={4}
+          />
+          <Knob
+            x={PRIZE.x0 + ((prize - PRIZE.lo) / (PRIZE.hi - PRIZE.lo)) * (PRIZE.x1 - PRIZE.x0)}
+            y={PRIZE.y}
+            onPointerDown={drag}
+            axis="x"
+            color={C.amber}
+            label={`${prize}`}
+          />
+          <Cap x={1255} y={PRIZE.y + 60} size={19} color={C.muted}>
+            fichas que recibes si sale 6
+          </Cap>
+        </>
+      )}
+    </Stage>
+  );
+}
+
+const lesson: LessonStep = {
+  kind: 'lesson',
+  title: 'Variable aleatoria y esperanza',
+  Scene: ExpectationLesson,
+  beats: [
+    {
+      say: 'Pagas 1 ficha por lanzar un dado. Si sale 6 recibes 4. Una **variable aleatoria** le pone un número a cada resultado: tu ganancia.',
+      board: {
+        label: 'Variable aleatoria',
+        tex: '\\p{1}{X=+3}\\ \\text{con}\\ \\tfrac16,\\quad\\p{2}{X=-1}\\ \\text{con}\\ \\tfrac56',
+      },
+    },
+    {
+      say: 'La **esperanza** es el promedio ponderado: cada ganancia por su probabilidad. Es el punto donde la balanza se equilibra.',
+      board: {
+        label: 'Esperanza',
+        tex: '\\p{1}{E[X]}=\\p{2}{\\sum x\\,P(X=x)}=\\p{3}{-\\tfrac13}',
+      },
+    },
+    {
+      say: 'La esperanza dice cuánto ganas por juego en promedio, después de muchos juegos.',
+      ask: {
+        prompt: 'En 600 juegos, ¿cuánto esperas ganar en total?',
+        options: ['−200 fichas', '−100 fichas', '0 fichas'],
+        answer: 0,
+        explain: 'Cada juego deja −1/3 en promedio; 600 juegos, 600·(−1/3) = −200.',
+      },
+      board: { label: 'Muchos juegos', tex: '\\p{1}{600\\cdot E[X]}=\\p{2}{-200}' },
+    },
+    {
+      say: 'Cambia el premio. Un juego es **justo** cuando su esperanza es cero.',
+      gate: 'Arrastra la perilla hasta que el punto de equilibrio quede en 0.',
+      board: { label: 'Juego justo', tex: '\\p{1}{\\tfrac{5}{6}-\\tfrac56}=\\p{2}{0}' },
+    },
+    {
+      say: 'Con premio 6 el juego es justo. Si la esperanza del jugador es negativa, la diferencia es la ventaja de la casa.',
+      board: {
+        label: 'La ventaja de la casa',
+        tex: '\\p{1}{E[X]<0}\\p{2}{\\Rightarrow\\ \\text{gana la casa}}',
+      },
+    },
+  ],
+};
+
 export const level: LevelSpec = {
   id: 'w5-c9',
   world: 'probability',
@@ -282,19 +652,36 @@ export const level: LevelSpec = {
   glyph: 'E[X]',
   kind: 'level',
   guide: 'iris',
-  teaser: 'Una partida puede salir bien. Mil partidas, no. La esperanza mide cuánto deja cada juego en promedio, y por qué la casa gana.',
-  learn: 'Variable aleatoria como función de los resultados, su distribución, esperanza $E[X]=\\sum x\\,p(x)$ como punto de equilibrio, promedio a la larga, ventaja de la casa y linealidad.',
+  teaser:
+    'Una partida puede salir bien. Mil partidas, no. La esperanza mide cuánto deja cada juego en promedio, y por qué la casa gana.',
+  learn:
+    'Variable aleatoria como función de los resultados, su distribución, esperanza $E[X]=\\sum x\\,p(x)$ como punto de equilibrio, promedio a la larga, ventaja de la casa y linealidad.',
   glyphs: ['rv', 'expect'],
-  pitfalls: ['La esperanza no tiene por qué ser un valor posible de $X$: nadie gana −0,5 fichas en una partida.', 'Ganancia neta ≠ lo que se recibe: descuenta lo apostado.'],
+  pitfalls: [
+    'La esperanza no tiene por qué ser un valor posible de $X$: nadie gana −0,5 fichas en una partida.',
+    'Ganancia neta ≠ lo que se recibe: descuenta lo apostado.',
+  ],
   steps: [
     {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'nar', text: 'Casino Aurora, 22:20. Ferrer hace rodar una ficha grande entre los dedos.' },
-        { who: 'baron', text: 'Mi generosidad es conocida, inspectora; «Doble Aurora» paga cinco fichas si sale 7. Mis invitados saben agradecerlo.' },
-        { who: 'iris', text: 'Y pagan dos para jugar. Quiero ver cuánto les queda después de muchas partidas.' },
-        { who: 'vera', text: 'El VIP del sombrero casi nunca mira cuánto apostó. Mira al Barón antes de cobrar.' },
+        {
+          who: 'nar',
+          text: 'Casino Aurora, 22:20. Ferrer hace rodar una ficha grande entre los dedos.',
+        },
+        {
+          who: 'baron',
+          text: 'Mi generosidad es conocida, inspectora; «Doble Aurora» paga cinco fichas si sale 7. Mis invitados saben agradecerlo.',
+        },
+        {
+          who: 'iris',
+          text: 'Y pagan dos para jugar. Quiero ver cuánto les queda después de muchas partidas.',
+        },
+        {
+          who: 'vera',
+          text: 'El VIP del sombrero casi nunca mira cuánto apostó. Mira al Barón antes de cobrar.',
+        },
       ],
     },
     {
@@ -305,7 +692,11 @@ export const level: LevelSpec = {
         {
           say: '«Doble Aurora»: jugar cuesta 2 fichas. Suma 7 paga 5; dobles pagan 4; lo demás, nada.',
           gate: 'Anota la ganancia neta de cada casilla.',
-          note: { label: 'Variable aleatoria', tex: 'X:\\Omega\\to\\mathbb R', body: 'A cada resultado le asigna un número: aquí, la ganancia neta. Suma 7: $+3$. Dobles: $+2$. Lo demás: $-2$.' },
+          note: {
+            label: 'Variable aleatoria',
+            tex: 'X:\\Omega\\to\\mathbb R',
+            body: 'A cada resultado le asigna un número: aquí, la ganancia neta. Suma 7: $+3$. Dobles: $+2$. Lo demás: $-2$.',
+          },
         },
         {
           say: 'Agrupando casillas por su ganancia se obtiene la distribución de $X$.',
@@ -320,12 +711,19 @@ export const level: LevelSpec = {
         {
           say: 'El promedio de $X$ pesa cada valor según su probabilidad: es el punto donde la balanza se equilibra.',
           gate: 'Arrastra el apoyo hasta equilibrar la balanza.',
-          note: { label: 'Esperanza', tex: 'E[X]=\\sum_x x\\,p(x)=-0{,}5', body: 'En promedio, cada partida le cuesta media ficha al jugador.' },
+          note: {
+            label: 'Esperanza',
+            tex: 'E[X]=\\sum_x x\\,p(x)=-0{,}5',
+            body: 'En promedio, cada partida le cuesta media ficha al jugador.',
+          },
         },
         {
           say: 'Una partida es impredecible. Muchas, no.',
           gate: 'Juega hasta pasar las 1 000 partidas.',
-          note: { label: 'Promedio a la larga', body: 'El promedio de muchas partidas se acerca a $E[X]$. Es lo que la casa cobra de verdad.' },
+          note: {
+            label: 'Promedio a la larga',
+            body: 'El promedio de muchas partidas se acerca a $E[X]$. Es lo que la casa cobra de verdad.',
+          },
         },
         {
           say: 'La ruleta del Barón tiene 37 casillas, del 0 al 36. Una ficha a un número paga 35.',
@@ -333,9 +731,14 @@ export const level: LevelSpec = {
             prompt: '¿Cuánto pierde el jugador, en promedio, por cada ficha?',
             options: ['1/37 de ficha', 'Nada: paga 35 a 1', '1/36 de ficha'],
             answer: 0,
-            explain: 'Gana 35 con probabilidad $\\tfrac1{37}$ y pierde 1 con $\\tfrac{36}{37}$. Si fueran 36 casillas sería justo: el 0 es la ventaja de la casa.',
+            explain:
+              'Gana 35 con probabilidad $\\tfrac1{37}$ y pierde 1 con $\\tfrac{36}{37}$. Si fueran 36 casillas sería justo: el 0 es la ventaja de la casa.',
           },
-          note: { label: 'Ventaja de la casa', tex: 'E[X]=35\\cdot\\tfrac1{37}-\\tfrac{36}{37}=-\\tfrac1{37}', body: 'Linealidad: $E[aX+b]=aE[X]+b$ y $E[X+Y]=E[X]+E[Y]$. Cien fichas apostadas pierden unas $100/37\\approx2{,}7$.' },
+          note: {
+            label: 'Ventaja de la casa',
+            tex: 'E[X]=35\\cdot\\tfrac1{37}-\\tfrac{36}{37}=-\\tfrac1{37}',
+            body: 'Linealidad: $E[aX+b]=aE[X]+b$ y $E[X+Y]=E[X]+E[Y]$. Cien fichas apostadas pierden unas $100/37\\approx2{,}7$.',
+          },
         },
       ],
     },
@@ -344,16 +747,45 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'teo', text: '«Doble Aurora» cuesta al jugador 0,5 ficha por partida en promedio; la ruleta, 1/37 por ficha apostada. En la mesa 7, con los VIP, la casa pierde.' },
-        { who: 'iris', text: 'Pierde a propósito. El dinero del contrabando sale de aquí convertido en premio.' },
-        { who: 'vera', text: 'El sábado, a las 22:00, hay partida grande en la mesa 7. Ferrer va a estar, y yo tengo que repartir.' },
-        { who: 'iris', text: 'Entonces también tiene que quedar grabado quién paga. No voy a dejarte sola frente a su libreta.' },
+        {
+          who: 'teo',
+          text: '«Doble Aurora» cuesta al jugador 0,5 ficha por partida en promedio; la ruleta, 1/37 por ficha apostada. En la mesa 7, con los VIP, la casa pierde.',
+        },
+        {
+          who: 'iris',
+          text: 'Pierde a propósito. El dinero del contrabando sale de aquí convertido en premio.',
+        },
+        {
+          who: 'vera',
+          text: 'El sábado, a las 22:00, hay partida grande en la mesa 7. Ferrer va a estar, y yo tengo que repartir.',
+        },
+        {
+          who: 'iris',
+          text: 'Entonces también tiene que quedar grabado quién paga. No voy a dejarte sola frente a su libreta.',
+        },
       ],
     },
   ],
 };
 
 export const glyphs: Glyph[] = [
-  { id: 'rv', world: 'probability', tex: 'X:\\Omega\\to\\mathbb R', name: 'Variable aleatoria', read: 'equis', meaning: 'Función que asigna un número a cada resultado del experimento.' },
-  { id: 'expect', world: 'probability', tex: 'E[X]', name: 'Esperanza', read: 'esperanza de equis', meaning: 'Promedio ponderado de los valores de $X$: $\\sum_x x\\,P(X=x)$. Es el promedio a la larga.' },
+  {
+    id: 'rv',
+    world: 'probability',
+    tex: 'X:\\Omega\\to\\mathbb R',
+    name: 'Variable aleatoria',
+    read: 'equis',
+    meaning: 'Función que asigna un número a cada resultado del experimento.',
+  },
+  {
+    id: 'expect',
+    world: 'probability',
+    tex: 'E[X]',
+    name: 'Esperanza',
+    read: 'esperanza de equis',
+    meaning:
+      'Promedio ponderado de los valores de $X$: $\\sum_x x\\,P(X=x)$. Es el promedio a la larga.',
+  },
 ];
+
+export { lesson };
