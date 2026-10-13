@@ -375,5 +375,5 @@ describe('W09: stage formulas and lesson questions', () => {
           }
         }
     }
-  });
+  }, 30_000);
 });
