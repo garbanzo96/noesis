@@ -1,4 +1,5 @@
 import type { LevelDef, LevelModule, SectorDef } from '../../game/level/types';
+import { withLesson } from '../stub';
 import * as C1 from './c1-casa';
 import * as C2 from './c2-tiradas';
 import * as C3 from './c3-reglas';
@@ -26,7 +27,16 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w5-final': { pos: [1050, 770], requires: ['w5-c9'] },
 };
 
-const levels: LevelDef[] = MODULES.map((m) => ({ ...m.level, ref: REF_W05[m.level.id], ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }) }));
+const levels: LevelDef[] = MODULES.map((m) =>
+  withLesson(
+    {
+      ...m.level,
+      ref: REF_W05[m.level.id],
+      ...(LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] }),
+    },
+    m.lesson,
+  ),
+);
 
 export const W05: SectorDef = {
   world: 'probability',
@@ -35,11 +45,13 @@ export const W05: SectorDef = {
   tag: 'Casino Aurora',
   accent: '#ffbc5e',
   place: 'casino',
-  description: 'El dinero del contrabando entra por las mesas del Barón Ferrer. Algunos juegos están amañados y en la mesa 7 alguien gana demasiado.',
+  description:
+    'El dinero del contrabando entra por las mesas del Barón Ferrer. Algunos juegos están amañados y en la mesa 7 alguien gana demasiado.',
   module: {
     id: 'w5-closed',
     name: 'Libreta del Barón',
-    description: 'Entre las fichas incautadas hay una libreta con nombres de pacientes de la Clínica del Cerro.',
+    description:
+      'Entre las fichas incautadas hay una libreta con nombres de pacientes de la Clínica del Cerro.',
   },
   levels,
 };
