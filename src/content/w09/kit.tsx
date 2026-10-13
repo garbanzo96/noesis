@@ -17,7 +17,7 @@ export function Readout({ children, ...props }: Omit<ComponentProps<typeof Cap>,
       <span
         style={{
           display: 'block',
-          width: 'calc(var(--su) * 380)',
+          width: 'max(calc(var(--su) * 380), 16em)',
           whiteSpace: 'normal',
           textAlign: 'center',
           lineHeight: 1.3,
@@ -553,11 +553,13 @@ export function DampedInstrument({
   v,
   c,
   elapsed,
+  readouts = true,
 }: {
   q: number;
   v: number;
   c: number;
   elapsed: number;
+  readouts?: boolean;
 }) {
   const state = oscillator(c, q, v, elapsed),
     scale = Math.max(1, Math.abs(q), Math.abs(v) / 5);
@@ -570,27 +572,45 @@ export function DampedInstrument({
   });
   return (
     <>
-      <path d="M270 320 A210 210 0 0 1 690 320" fill="none" stroke={C.dim} strokeWidth={14} />
+      <path d="M210 320 A210 210 0 0 1 630 320" fill="none" stroke={C.dim} strokeWidth={14} />
       <Line
-        a={[480, 320]}
+        a={[420, 320]}
         b={[
-          480 + 195 * Math.sin((state[0] * 0.7) / scale),
+          420 + 195 * Math.sin((state[0] * 0.7) / scale),
           320 - 195 * Math.cos((state[0] * 0.7) / scale),
         ]}
         color={ACCENT}
         width={7}
       />
       <path
-        d="M750 210 L750 310 M725 245 L775 245 L775 285 L725 285 Z"
+        d="M660 210 L660 310 M640 245 L680 245 L680 285 L640 285 Z"
         fill={C.panel}
         stroke={C.muted}
         strokeWidth={4}
       />
-      <Cap x={480} y={365} size={18}>
+      <Cap x={420} y={365} size={18}>
         Cero: posición de reposo
       </Cap>
+      <circle cx={800} cy={225} r={90} fill={C.panel} stroke={C.magenta} strokeWidth={4} />
+      <Line
+        a={[800, 225]}
+        b={[
+          800 + 75 * Math.sin(state[1] / (6 * scale)),
+          225 - 75 * Math.cos(state[1] / (6 * scale)),
+        ]}
+        color={C.magenta}
+        width={5}
+      />
+      <Cap x={800} y={365} size={18}>
+        Velocidad v
+      </Cap>
       <Axes P={time} xLabel="t" yLabel="q" />
-      <SolutionTrace P={time} solution={(t) => oscillator(c, q, v, t)[0]} />
+      <SolutionTrace
+        P={time}
+        solution={(t) => oscillator(c, q, v, t)[0]}
+        cursor={elapsed}
+        slope={(t) => oscillator(c, q, v, t)[1]}
+      />
       <LinearPhase
         P={phase}
         A={[
@@ -601,10 +621,15 @@ export function DampedInstrument({
         elapsed={elapsed}
         xLabel="q"
         yLabel="v"
+        clock={false}
       />
-      <Cap x={1250} y={210} tex={`c=${num(c)},\\quad t=${num(elapsed)}\\,\\mathrm s`} />
-      <Cap x={1250} y={300} tex={`q=${num(state[0], 6)}`} color={ACCENT} />
-      <Cap x={1250} y={390} tex={`v=${num(state[1], 6)}`} color={C.magenta} />
+      {readouts && (
+        <>
+          <Cap x={1250} y={210} tex={`c=${num(c)},\\quad t=${num(elapsed)}\\,\\mathrm s`} />
+          <Cap x={1250} y={300} tex={`q=${num(state[0], 6)}`} color={ACCENT} />
+          <Cap x={1250} y={390} tex={`v=${num(state[1], 6)}`} color={C.magenta} />
+        </>
+      )}
       <Cap x={750} y={760} size={18}>
         Retrato (q, v)
       </Cap>
@@ -616,11 +641,17 @@ export function LogisticMap({
   seeds,
   n,
   P,
+  seriesP,
+  readouts = true,
+  progress = 1,
 }: {
   r: number;
   seeds: number[];
   n: number;
   P: Plane;
+  seriesP?: Plane;
+  readouts?: boolean;
+  progress?: number;
 }) {
   const colors = [C.cyan, C.amber, C.magenta];
   const series = seeds.map((seed) => {
@@ -628,7 +659,7 @@ export function LogisticMap({
     for (let i = 0; i < n; i++) values.push(logisticStep(r, values[i]));
     return values;
   });
-  const S = plane([0, Math.max(1, n)], [0, 1], { x: 1050, y: 440, w: 380, h: 250 });
+  const S = seriesP ?? plane([0, Math.max(1, n)], [0, 1], { x: 1050, y: 440, w: 380, h: 250 });
   return (
     <>
       <Axes P={P} xTicks={[0, 1]} yTicks={[1]} xLabel="x_n" yLabel="x_{n+1}" />
@@ -638,20 +669,36 @@ export function LogisticMap({
         const points: V2[] = [[values[0], 0]];
         for (let i = 0; i < n; i++)
           points.push([values[i], values[i + 1]], [values[i + 1], values[i + 1]]);
+        const advance = clamp(progress, 0, 1) * (points.length - 1);
+        const whole = Math.floor(advance);
+        const visible = points.slice(0, whole + 1);
+        if (whole < points.length - 1) {
+          const from = points[whole],
+            to = points[whole + 1],
+            fraction = advance - whole;
+          visible.push([
+            from[0] + fraction * (to[0] - from[0]),
+            from[1] + fraction * (to[1] - from[1]),
+          ]);
+        }
         return (
           <polyline
             key={j}
-            points={points.map((p) => P.pt(...p).join(',')).join(' ')}
+            points={visible.map((p) => P.pt(...p).join(',')).join(' ')}
             fill="none"
             stroke={colors[j % colors.length]}
             strokeWidth={2}
           />
         );
       })}
-      <Cap x={1250} y={195} tex={`r=${num(r)},\\quad n=${n}`} />
-      <Readout x={1250} y={285} size={18}>
-        r: parámetro del mapa discreto
-      </Readout>
+      {readouts && (
+        <>
+          <Cap x={1250} y={195} tex={`r=${num(r)},\\quad n=${n}`} />
+          <Readout x={1250} y={285} size={18}>
+            r: parámetro del mapa discreto
+          </Readout>
+        </>
+      )}
       <Axes P={S} xLabel="n" yLabel="x" />
       {series.map((values, j) => (
         <polyline

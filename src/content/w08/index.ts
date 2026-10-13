@@ -6,9 +6,12 @@ import * as C3 from './c3-ramas';
 import * as C4 from './c4-sur';
 import * as C5 from './c5-enlace';
 import * as C6 from './c6-perfil';
+import * as C7 from './c7-tasa';
+import * as C8 from './c8-posicion';
+import * as FINAL from './final';
 import { REF_W08 } from './ref';
 
-const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6];
+const MODULES: LevelModule[] = [C1, C2, C3, C4, C5, C6, C7, C8, FINAL];
 const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w8-c1': { pos: [220, 210], requires: [] },
   'w8-c2': { pos: [550, 180], requires: ['w8-c1'] },

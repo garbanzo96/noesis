@@ -232,4 +232,118 @@ export const REF_W09: Record<string, TopicRef> = {
       },
     ],
   },
+
+  'w9-c7': {
+    defs: [
+      {
+        label: 'Segundo orden',
+        tex: "q''+cq'+25q=0",
+        body: 'Aguja de masa normalizada: q es posición desde el reposo, c el freno positivo y 25 la rigidez. Tiempo en segundos; c en s⁻¹ y rigidez en s⁻².',
+      },
+      {
+        label: 'Estado de la aguja',
+        tex: "\\mathbf x=(q,v)^{\\mathsf T},\\quad v=q'",
+        body: 'La trayectoria requiere posición y velocidad iniciales; una posición negativa queda al otro lado del reposo.',
+      },
+      {
+        label: 'Regímenes de amortiguación',
+        tex: '\\Delta=c^2-100',
+        body: 'Δ negativa: subamortiguado; nula: crítico; positiva: sobreamortiguado, con c positivo y rigidez 25.',
+      },
+    ],
+    props: [
+      { label: 'Sistema equivalente', tex: "\\begin{aligned}q'&=v\\\\v'&=-25q-cv\\end{aligned}" },
+      {
+        label: 'Raíces',
+        tex: '\\begin{aligned}\\lambda^2+c\\lambda+25&=0\\\\\\lambda_{1,2}&=\\frac{-c\\pm\\sqrt{c^2-100}}2\\end{aligned}',
+        body: 'c = 6: −3 ± 4i; c = 10: −5 doble; c = 26: −1 y −25.',
+      },
+      {
+        label: 'Soluciones para q₀ = 1 y v₀ = 0',
+        tex: '\\begin{aligned}q_6&=e^{-3t}(\\cos4t+\\tfrac34\\sin4t)\\\\q_{10}&=(1+5t)e^{-5t}\\\\q_{26}&=\\frac{25e^{-t}-e^{-25t}}{24}\\end{aligned}',
+      },
+      {
+        label: 'Raíz repetida e inicio',
+        tex: 'q=(A+Bt)e^{-5t}',
+        body: 'A y B ajustan ambos datos iniciales. Con raíces reales puede haber un cruce según el inicio, pero no oscilaciones repetidas.',
+      },
+      {
+        label: 'Cruce del papel',
+        tex: 'q_6(\\pi/4)=-e^{-3\\pi/4}<0',
+        body: 'El cálculo valida el movimiento; el reloj independiente del papel aporta la hora de descarga.',
+      },
+    ],
+  },
+  'w9-c8': {
+    defs: [
+      {
+        label: 'Mapa logístico',
+        tex: 'x_{n+1}=rx_n(1-x_n)',
+        body: 'Actualización discreta: cada salida vuelve a ser entrada. n cuenta iteraciones sin equivalencia horaria; r es distinto de la tasa de la logística continua.',
+      },
+      {
+        label: 'Distancia entre ejecuciones',
+        tex: 'd_n=|z_n-x_n|',
+        body: 'Compara dos estados en el mismo número de actualización, sin redondear entre pasos.',
+      },
+      {
+        label: 'Sensibilidad inicial',
+        body: 'Inicios cercanos pueden generar recorridos separados bajo la misma regla. La pareja de clase ilustra sensibilidad en el régimen caótico r = 4.',
+      },
+    ],
+    props: [
+      {
+        label: 'Determinismo',
+        body: 'Un inicio exacto y una regla fija determinan cada paso; la precisión de la medición limita el pronóstico.',
+      },
+      {
+        label: 'Acotación, estiramiento y plegado',
+        tex: '\\begin{aligned}4x(1-x)&=1-(2x-1)^2\\\\x\\in[0,1]&\\Rightarrow4x(1-x)\\in[0,1]\\end{aligned}',
+        body: 'La parábola pliega ambos lados del máximo x = 1/2, donde la salida vale 1.',
+      },
+      {
+        label: 'Inicio excepcional',
+        tex: '\\frac14\\longrightarrow\\frac34\\longrightarrow\\frac34',
+        body: 'Una separación aislada no demuestra caos; también puede ocurrir en sistemas sin caos.',
+      },
+      {
+        label: 'Separación tras un paso',
+        tex: '\\begin{aligned}f(\\tfrac14+\\varepsilon)&=\\tfrac34+2\\varepsilon-4\\varepsilon^2\\\\d_1&=2\\varepsilon-4\\varepsilon^2\\end{aligned}',
+        body: 'Para ε = 1/10000 o 1/5000 la expresión es positiva. El factor del mapa depende del estado.',
+      },
+      {
+        label: 'Copias del banco',
+        tex: '\\begin{aligned}x_0&=\\tfrac15,\\quad z_0=\\tfrac{2001}{10000}\\\\d_{10}&\\approx0{,}101341\\end{aligned}',
+        body: 'La distancia puede disminuir entre pasos: baja en 6 y 9. Más precisión inicial no asegura conocer perfectamente el futuro.',
+      },
+      {
+        label: 'Cálculo y acceso',
+        body: 'La sensibilidad explica un límite del cálculo público. El recibo firmado enlazado a la copia privada y al mensaje documenta acceso temprano; parte y guía confirman el recorrido de las vacunas.',
+      },
+    ],
+  },
+  'w9-final': {
+    defs: [
+      {
+        label: 'Revisión del expediente',
+        body: 'Cada cálculo se conserva junto a la copia de la que salió; las horas del 17 preceden a la recepción del 18 de agosto.',
+      },
+      {
+        label: 'Evidencia documental',
+        body: 'La copia, el recibo, el historial, el parte y la guía documentan acceso, edición y recepción. Sus identificadores se conservan en los originales.',
+      },
+    ],
+    props: [
+      {
+        label: 'Euler y referencia',
+        tex: 'Q^E_1=8<10<4e',
+        body: 'La salida pública de paso único queda bajo el umbral; la referencia exacta lo supera.',
+      },
+      {
+        label: 'Traslado observado',
+        tex: '02{:}00<02{:}10<02{:}30<02{:}40',
+        body: '18 de agosto: recepción en el Observatorio dentro de la ventana prevista y recepción en la Clínica del Cerro a las 02:40.',
+      },
+    ],
+  },
 };

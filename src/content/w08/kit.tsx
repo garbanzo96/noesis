@@ -345,6 +345,8 @@ export function SymbolTray({
   labels = SYMBOLS,
   y = 350,
   showInfo = false,
+  height = 140,
+  fillOpacity,
 }: {
   counts: number[];
   selected?: number;
@@ -352,6 +354,8 @@ export function SymbolTray({
   labels?: string[];
   y?: number;
   showInfo?: boolean;
+  height?: number;
+  fillOpacity?: number;
 }) {
   const total = sum(counts);
   let start = 170;
@@ -368,16 +372,21 @@ export function SymbolTray({
                 x={x}
                 y={y}
                 width={w}
-                height={140}
+                height={height}
                 rx={6}
                 fill={COLORS[i]}
-                fillOpacity={selected === i ? 0.4 : 0.14}
+                fillOpacity={fillOpacity ?? (selected === i ? 0.4 : 0.14)}
                 stroke={COLORS[i]}
                 strokeWidth={selected === i ? 4 : 2}
               />
             )}
             {w > 0 && (
-              <Cap x={x + w / 2} y={y + 70} size={28} color={COLORS[i]}>
+              <Cap
+                x={x + w / 2}
+                y={y + height / 2}
+                size={28}
+                color={height > 140 ? C.text : COLORS[i]}
+              >
                 {labels[i]}
               </Cap>
             )}
@@ -385,7 +394,7 @@ export function SymbolTray({
         );
       })}
       {counts.map((n, i) => (
-        <Cap key={i} x={230 + i * 200} y={y + 210} size={20} color={COLORS[i]}>
+        <Cap key={i} x={230 + i * 200} y={y + height + 70} size={20} color={COLORS[i]}>
           {labels[i]}: {n}/{total}
           {showInfo && n > 0 ? ` · ${bitsText(info(n / total))}` : ''}
         </Cap>
@@ -756,7 +765,7 @@ export function BitTape({
       {onCorrect && (
         <DragToken
           x={230}
-          y={y + 210}
+          y={y + 390}
           label="↺"
           color={C.red}
           onDrop={(px, py) => {
@@ -1174,6 +1183,10 @@ export function BinaryChannel({
   trace = '00110101',
   onP,
   onRate,
+  showReadings = true,
+  showCapacity = true,
+  showTraceNotes = true,
+  progress = 1,
 }: {
   p: number;
   inputBalance: number;
@@ -1181,6 +1194,10 @@ export function BinaryChannel({
   trace?: string;
   onP?: (p: number) => void;
   onRate?: (r: number) => void;
+  showReadings?: boolean;
+  showCapacity?: boolean;
+  progress?: number;
+  showTraceNotes?: boolean;
 }) {
   prob(p);
   prob(inputBalance);
@@ -1189,6 +1206,22 @@ export function BinaryChannel({
     rates = [1 / 16, 1 / 8, 1 / 4, 1 / 2];
   return (
     <>
+      <rect
+        x={170}
+        y={180}
+        width={730}
+        height={440}
+        rx={16}
+        fill={C.panel}
+        stroke={ACCENT}
+        strokeWidth={2}
+      />
+      <Cap x={285} y={210} size={19}>
+        Entrada X
+      </Cap>
+      <Cap x={785} y={210} size={19}>
+        Salida Y
+      </Cap>
       {[0, 1].map((b) => (
         <g key={b}>
           <line
@@ -1212,25 +1245,34 @@ export function BinaryChannel({
           <g key={i}>
             <circle cx={x} cy={y} r={10} fill={ACCENT} />
             <path
-              d={`M${x} ${y} L${x + 50} ${flip ? 810 - y : y}`}
+              d={`M${x} ${y} L${x + 50 * progress} ${y + ((flip ? 810 - y : y) - y) * progress}`}
+              fill="none"
               stroke={flip ? C.red : ACCENT}
               strokeWidth={3}
             />
           </g>
         );
       })}
-      <Cap x={530} y={650} size={18}>
-        Traza reproducible; las probabilidades salen del modelo.
-      </Cap>
-      <Cap x={1250} y={190}>
-        P(inversión) = {fmtComma(p)}
-      </Cap>
-      <Cap x={1250} y={280}>
-        C = {fmtComma(bscCapacity(p))} bits/uso
-      </Cap>
-      <Cap x={1250} y={370}>
-        R = {fmtComma(rate)} bits/uso
-      </Cap>
+      {showTraceNotes && (
+        <Cap x={530} y={650} size={18}>
+          Traza reproducible; las probabilidades salen del modelo.
+        </Cap>
+      )}
+      {showReadings && (
+        <>
+          <Cap x={1250} y={190}>
+            P(inversión) = {fmtComma(p)}
+          </Cap>
+          {showCapacity && (
+            <Cap x={1250} y={280}>
+              C = {bitsText(bscCapacity(p))}/uso
+            </Cap>
+          )}
+          <Cap x={1250} y={370}>
+            R = {bitsText(rate)}/uso
+          </Cap>
+        </>
+      )}
       {onP && (
         <DiscreteDial
           value={choices.indexOf(p)}
@@ -1251,9 +1293,11 @@ export function BinaryChannel({
           onSettle={(i) => onRate(rates[i])}
         />
       )}
-      <Cap x={530} y={730} size={18}>
-        P(entrada 1) = {fmtComma(inputBalance)}
-      </Cap>
+      {showTraceNotes && (
+        <Cap x={530} y={730} size={18}>
+          P(entrada 1) = {fmtComma(inputBalance)}
+        </Cap>
+      )}
     </>
   );
 }
@@ -1263,12 +1307,22 @@ export function ParityRack({
   checks = [],
   syndrome,
   onCorrect,
+  onInspect,
+  showReadings = true,
+  showSyndrome = true,
+  inspector = true,
+  progress = 1,
 }: {
   received: string;
   mode: 'parity' | 'repetition' | 'hamming';
   checks?: number[];
   syndrome?: string;
   onCorrect?: (i: number) => void;
+  onInspect?: (group: number) => void;
+  showReadings?: boolean;
+  showSyndrome?: boolean;
+  inspector?: boolean;
+  progress?: number;
 }) {
   bitsOnly(received);
   const [group, setGroup] = useState(0),
@@ -1279,7 +1333,57 @@ export function ParityRack({
     ];
   return (
     <>
+      <rect
+        x={170}
+        y={190}
+        width={720}
+        height={440}
+        rx={16}
+        fill={C.panel}
+        stroke={ACCENT}
+        strokeWidth={2}
+      />
+      {mode === 'hamming' &&
+        groups[group].map((position) => {
+          const x = 170 + ((position - 0.5) * 720) / received.length - 2;
+          return (
+            <path
+              key={position}
+              d={`M530 220L${530 + (x - 530) * progress} ${220 + 55 * progress}`}
+              fill="none"
+              stroke={C.amber}
+              strokeWidth={4}
+            />
+          );
+        })}
       <BitTape bits={received} y={350} onCorrect={onCorrect} />
+      {mode === 'hamming' &&
+        groups.map((positions, g) => (
+          <g key={g}>
+            <Cap x={135} y={470 + g * 65} size={18}>
+              G{2 ** g}
+            </Cap>
+            <line
+              x1={205}
+              x2={855}
+              y1={470 + g * 65}
+              y2={470 + g * 65}
+              stroke={g === group ? C.amber : C.muted}
+              strokeWidth={3}
+            />
+            {Array.from({ length: 7 }, (_, i) => (
+              <circle
+                key={i}
+                cx={170 + ((i + 0.5) * 720) / 7 - 2}
+                cy={470 + g * 65}
+                r={14}
+                fill={positions.includes(i + 1) ? C.amber : C.panel}
+                stroke={positions.includes(i + 1) ? C.amber : C.muted}
+                strokeWidth={2}
+              />
+            ))}
+          </g>
+        ))}
       {[...received].map((_, i) => (
         <Cap
           key={i}
@@ -1293,41 +1397,51 @@ export function ParityRack({
       ))}
       {mode === 'hamming' && (
         <>
-          <DragToken
-            x={200}
-            y={650}
-            label="⌕"
-            onDrop={(x, y) => {
-              const j = [1, 2, 4].findIndex((v) =>
-                near(x, y, 170 + ((v - 0.5) * 720) / received.length - 2, 387),
-              );
-              if (j >= 0) setGroup(j);
-            }}
-          />
+          {inspector && !onCorrect && (
+            <DragToken
+              x={200}
+              y={650}
+              label="⌕"
+              onDrop={(x, y) => {
+                const j = [1, 2, 4].findIndex((v) =>
+                  near(x, y, 170 + ((v - 0.5) * 720) / received.length - 2, 387),
+                );
+                if (j >= 0) {
+                  setGroup(j);
+                  onInspect?.(2 ** j);
+                }
+              }}
+            />
+          )}
           <Cap x={530} y={670} size={18}>
             Grupo {2 ** group}: {groups[group].join(', ')}
           </Cap>
         </>
       )}
-      <Cap x={1250} y={250}>
-        Unos: {sum([...received].map(Number))}
-      </Cap>
-      <Cap x={1250} y={340}>
-        XOR = {xor(received)}
-      </Cap>
-      {mode === 'repetition' && (
-        <Cap x={1250} y={430}>
-          Mayoría: {sum([...received].map(Number)) > received.length / 2 ? 1 : 0}
-        </Cap>
-      )}
-      {mode === 'hamming' && (
+      {showReadings && (
         <>
-          <Cap x={1250} y={430}>
-            Síndrome: {syndrome ?? hammingSyndrome(received).bits}
+          <Cap x={1250} y={250}>
+            Unos: {sum([...received].map(Number))}
           </Cap>
-          <Cap x={1250} y={520}>
-            Checks: {(checks.length ? checks : hammingSyndrome(received).checks).join(', ')}
+          <Cap x={1250} y={340}>
+            XOR = {xor(received)}
           </Cap>
+          {mode === 'repetition' && (
+            <Cap x={1250} y={430}>
+              Mayoría: {sum([...received].map(Number)) > received.length / 2 ? 1 : 0}
+            </Cap>
+          )}
+          {mode === 'hamming' && showSyndrome && (
+            <>
+              <Cap x={1250} y={430}>
+                Síndrome: {syndrome ?? hammingSyndrome(received).bits}
+              </Cap>
+              <Cap x={1250} y={520}>
+                Comprobaciones:{' '}
+                {(checks.length ? checks : hammingSyndrome(received).checks).join(', ')}
+              </Cap>
+            </>
+          )}
         </>
       )}
     </>

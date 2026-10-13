@@ -219,4 +219,119 @@ export const REF_W08: Record<string, TopicRef> = {
       },
     ],
   },
+
+  'w8-c7': {
+    defs: [
+      {
+        label: 'Canal binario simétrico',
+        tex: 'P(Y\\ne X)=p,\\quad P(Y=X)=1-p',
+        body: 'Cada bit se invierte con igual probabilidad p para ambas entradas. El modelo sin memoria asume inversiones independientes; no borra ni inserta posiciones.',
+      },
+      {
+        label: 'Entropía binaria',
+        tex: '\\begin{aligned}h_2(p)&=-p\\log_2p\\\\&\\quad-(1-p)\\log_2(1-p)\\end{aligned}',
+        body: 'Entropía de la decisión invertir o conservar; los aportes de probabilidad cero valen cero.',
+      },
+      {
+        label: 'Capacidad',
+        tex: 'C=\\max_{P_X}I(X;Y)',
+        body: 'Mayor información mutua por uso del canal; se mide en bits útiles por uso.',
+      },
+      {
+        label: 'Tasa útil',
+        tex: 'R=k/n',
+        body: 'k bits de información transportados en n usos del canal. Multiplica por la frecuencia de usos para obtener bits útiles por segundo.',
+      },
+    ],
+    props: [
+      {
+        label: 'Capacidad del BSC',
+        tex: 'C(p)=1-h_2(p)',
+        body: 'Se alcanza con entradas equiprobables. La probabilidad de acierto 1 − p no es la capacidad.',
+      },
+      {
+        label: 'Bordes',
+        tex: 'C(0)=1,\\quad C(1/2)=0,\\quad C(1)=1',
+        body: 'Una inversión segura se deshace invirtiendo otra vez. Con p = 1/2 la salida es independiente de la entrada.',
+      },
+      {
+        label: 'Tasa y fiabilidad',
+        tex: 'R<C',
+        body: 'Bajo la capacidad existen códigos suficientemente largos y adecuados para hacer el error arbitrariamente pequeño. La tasa no garantiza cada bloque corto. Sobre C no se consigue error arbitrariamente pequeño.',
+      },
+      {
+        label: 'Probabilidades exactas antes del redondeo',
+        tex: '\\begin{aligned}C(1/8)&=-2+\\tfrac78\\log_2 7\\\\C(1/4)&=-1+\\tfrac34\\log_2 3\\end{aligned}',
+        body: 'Compara las tasas y multiplica por usos/s antes de redondear. Los huecos marcados se recuperan aparte del canal de inversiones.',
+      },
+    ],
+  },
+  'w8-c8': {
+    defs: [
+      {
+        label: 'XOR y paridad par',
+        tex: 'b_1\\oplus\\cdots\\oplus b_n\\oplus p=0',
+        body: 'XOR es suma módulo dos. El bit añadido deja una cantidad par de unos.',
+      },
+      {
+        label: 'Repetición triple',
+        tex: 'R_{\\mathrm{rep}}=1/3',
+        body: 'Tres copias transportan un dato; la mayoría corrige hasta una inversión por grupo.',
+      },
+      {
+        label: 'Hamming(7,4)',
+        tex: 'w=(p_1,p_2,d_1,p_4,d_2,d_3,d_4)',
+        body: 'Numera desde uno a la izquierda. Datos en 3, 5, 6 y 7; comprobaciones en 1, 2 y 4.',
+      },
+      {
+        label: 'Síndrome',
+        tex: 'j=s_1+2s_2+4s_4=(s_4s_2s_1)_2',
+        body: 'Comprueba los grupos 1 = {1,3,5,7}, 2 = {2,3,6,7} y 4 = {4,5,6,7}. Bajo el límite de una inversión, j señala la posición; j = 0 indica conservar.',
+      },
+    ],
+    props: [
+      {
+        label: 'Paridades del codificador',
+        tex: '\\begin{aligned}p_1&=d_1\\oplus d_2\\oplus d_4\\\\p_2&=d_1\\oplus d_3\\oplus d_4\\\\p_4&=d_2\\oplus d_3\\oplus d_4\\end{aligned}',
+      },
+      {
+        label: 'Alcance de la paridad',
+        body: 'Detecta cualquier cantidad impar de inversiones, sin localizar el bit. Una cantidad par puede pasar.',
+      },
+      {
+        label: 'Tasa y distancia de Hamming',
+        tex: 'R_{\\mathrm{Ham}}=4/7,\\quad d_{\\min}=3',
+        body: 'Garantiza corregir hasta una inversión. Con más errores puede señalar otra posición y dar una palabra válida equivocada; síndrome cero tampoco prueba ausencia de errores sin ese límite.',
+      },
+      {
+        label: 'Comprobación local y autenticidad',
+        body: 'Hamming(7,4) sin paridad adicional no detecta de forma segura dos errores. La autenticidad requiere validar el paquete completo; corregir fragmentos cifrados no los descifra. Las tasas 1/3 y 4/7 superan C del enlace del expediente.',
+      },
+    ],
+  },
+  'w8-final': {
+    defs: [
+      {
+        label: 'Evento y media',
+        tex: 'I(D)=3,\\quad H(P)=7/4',
+        body: 'D informa 3 bits; la fuente promedia 1,75 bits por símbolo.',
+      },
+      {
+        label: 'Pruebas del expediente',
+        body: 'Compresión, dependencia torre–ruta, costo de perfil, capacidad y corrección local aportan lecturas distintas. La autenticidad se comprueba sobre el paquete completo.',
+      },
+    ],
+    props: [
+      {
+        label: 'Lote y exceso',
+        tex: 'L_P=112,\\quad L_Q=152,\\quad L_Q-L_P=40',
+        body: 'Conteos (32,16,8,8); el costo no identifica por sí solo a quien cargó el perfil.',
+      },
+      { label: 'Ruta y enlace', tex: 'H(Y\\mid X)=1,\\quad I(X;Y)=1,\\quad R=1/4>C(1/4)' },
+      {
+        label: 'Cadena de validación',
+        body: 'Conservar los originales, reconstruir una copia bajo el límite del código, validar el paquete completo y abrir el cuerpo con la credencial del chip.',
+      },
+    ],
+  },
 };
