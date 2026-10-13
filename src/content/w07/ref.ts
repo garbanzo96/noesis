@@ -204,4 +204,85 @@ export const REF_W07: Record<string, TopicRef> = {
       },
     ],
   },
+  'w7-c7': {
+    defs: [
+      {
+        label: 'Integral doble',
+        tex: '\\iint_R f(x,y)\\,dA',
+        body: 'Límite de sumas de valores de f por áreas de pequeñas celdas de R. Para f no negativa, representa el volumen bajo la superficie.',
+      },
+      {
+        label: 'Elemento de área rectangular',
+        tex: 'dA=dx\\,dy',
+        body: 'Cada base rectangular tiene área Δx por Δy.',
+      },
+      {
+        label: 'Valor medio',
+        tex: 'f_{\\mathrm{med}}=\\frac{1}{\\operatorname{área}(R)}\\iint_R f\\,dA',
+        body: 'Total dividido por el área, que debe ser positiva.',
+      },
+    ],
+    props: [
+      {
+        label: 'Fubini',
+        tex: '\\begin{aligned}\\iint_R f\\,dA&=\\int_a^b\\!\\int_c^d f(x,y)\\,dy\\,dx\\\\&=\\int_c^d\\!\\int_a^b f(x,y)\\,dx\\,dy\\end{aligned}',
+        body: 'Para f continua en el rectángulo $R=[a,b]\\times[c,d]$. En la integral interior, la otra variable queda fija.',
+      },
+      {
+        label: 'Área de un rectángulo',
+        tex: '\\operatorname{área}(R)=(b-a)(d-c)',
+        body: 'Con a < b y c < d.',
+      },
+      {
+        label: 'Linealidad',
+        tex: '\\iint_R(\\alpha f+\\beta g)\\,dA=\\alpha\\iint_R f\\,dA+\\beta\\iint_R g\\,dA',
+      },
+      {
+        label: 'Lluvia y unidades',
+        tex: '1\\;\\mathrm{mm\\,km^2}=1\\,000\\;\\mathrm{m^3}',
+        body: 'Para una intensidad constante en el tiempo, multiplica la integral espacial de la intensidad por la duración; después convierte las unidades.',
+      },
+    ],
+  },
+  'w7-c8': {
+    defs: [
+      {
+        label: 'Coordenadas polares',
+        tex: '\\begin{aligned}x&=r\\cos\\theta\\\\y&=r\\sin\\theta\\end{aligned}',
+        body: 'r ≥ 0 es la distancia al origen; θ es el ángulo en radianes.',
+      },
+      {
+        label: 'Elemento de área polar',
+        tex: 'dA=r\\,dr\\,d\\theta',
+        body: 'El factor r aparece porque los arcos crecen al alejarse del centro.',
+      },
+    ],
+    props: [
+      {
+        label: 'Cambio a polares',
+        tex: '\\iint_D f\\,dA=\\iint_{D^*}f(r\\cos\\theta,r\\sin\\theta)\\,r\\,dr\\,d\\theta',
+        body: 'Usa límites que cubran la región una sola vez, salvo sus bordes; convierte tanto el integrando como el área.',
+      },
+      {
+        label: 'Disco y sector',
+        tex: '\\begin{aligned}A_{\\mathrm{disco}}&=\\pi R^2\\\\A_{\\mathrm{sector}}&=\\tfrac12R^2\\theta\\end{aligned}',
+        body: 'Para R ≥ 0 y un sector con 0 ≤ θ ≤ 2π.',
+      },
+      {
+        label: 'Potencia radial en un disco',
+        tex: '\\iint_{r\\le R}r^n\\,dA=\\frac{2\\pi R^{n+2}}{n+2}',
+        body: 'Para R > 0 y n > −2, la integral converge también en el centro.',
+      },
+      {
+        label: 'Densidad de la búsqueda',
+        tex: '\\begin{aligned}p(x,y)&=\\tfrac1\\pi e^{-(x^2+y^2)}\\\\P(r\\le R)&=1-e^{-R^2}\\end{aligned}',
+        body: 'Densidad sobre todo el plano, con las distancias en km y R ≥ 0. Su integral total es 1.',
+      },
+      {
+        label: 'Radio para una probabilidad',
+        tex: 'R_p=\\sqrt{-\\ln(1-p)}',
+        body: 'Para 0 < p < 1, en el modelo anterior. El radio exacto del 95 % es $\\sqrt{\\ln20}$, aproximadamente 1,73 km.',
+      },
+    ],
+  },
 };

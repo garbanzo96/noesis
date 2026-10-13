@@ -182,6 +182,13 @@
   overflow-x: auto;
   overflow-y: hidden;
 }
+/* dos o más fórmulas en el mismo paso: más compactas para que quepan sin desplazar */
+.focus-strip:has(.focus-line + .focus-line) .focus-tex {
+  font-size: clamp(16px, 1.45vw, 24px);
+}
+.focus-strip:has(.focus-line + .focus-line) .focus-body {
+  margin-top: 0;
+}
 .focus-tex .katex-display {
   margin: 4px 0;
   text-align: left;

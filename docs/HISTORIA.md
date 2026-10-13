@@ -112,10 +112,10 @@ dron con vacunas se perdió en una quebrada → Los Cerros (varias variables).
 ### Arco de Los Cerros
 
 7.1 Tomás ubica el suelo bajo la última señal: curva de 100 m, punto del este. 7.2 Las parciales
-del sendero miden la bajada en los ejes. 7.3 El máximo descenso lleva a la quebrada Jaime, sin señal.
+miden la bajada en los ejes; 7.3 el máximo descenso lleva a la quebrada Jaime, sin señal.
 7.4 El plano tangente estima 160 m; el terreno da 159,5 m y el barómetro deja una diferencia pendiente.
 7.5 El portezuelo entre Barón y Los Placeres es una silla: los drones cruzan bajo el radar.
-7.6 La batería permite ubicar la antena en (1,2; 1,6) km, con intensidad 10. 7.7 La lluvia sobre
-la cuenca suma 99 000 m³ en tres horas. 7.8 El radio de búsqueda para el 95 % es aproximadamente 1,73 km.
-7.★ A las 03:00, Tomás baja con cuerda: dron entero, caja térmica vacía y chip que sigue enviando
-mensajes cifrados a una red de antenas → Las Antenas.
+7.6 La batería permite ubicar la antena en (1,2; 1,6) km, con intensidad 10. 7.7 Caen 99 000 m³
+sobre la cuenca en tres horas. 7.8 El radio del 95 % es √ln 20 ≈ 1,73 km según el modelo de posición.
+7.★ A las 03:00 se revisan cinco lecturas y Tomás baja con cuerda: dron entero, caja térmica vacía.
+El chip guarda rutas y sigue enviando mensajes cifrados con bits perdidos a una red → Las Antenas.
