@@ -25,6 +25,8 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | lucia | Lucía Ferrada | Controladora de tráfico del Metro. Informante. | Rápida, habla en estaciones, tramos y horarios. |
 | ana | Ana Rojas | Archivera del Archivo Regional. Informante. | Meticulosa, cita folios y fechas. |
 | tomas | Tomás Leiva | Bombero voluntario de Cerro Barón y piloto de drones de rescate. | Calmado, habla en metros y coordenadas; humor seco de rescatista. |
+| ines | Inés Araya | Técnica de enlaces de Las Antenas. Informante. | Baja y cortante; habla de puertos y cortes, protege a sus compañeros. |
+| elena | Elena Saavedra | Técnica de calibración del Observatorio, turno nocturno. Informante. | Habla desde el instrumento; se demora antes de decir quién firmó. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -36,6 +38,8 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 4. **El Metro** — álgebra lineal. Caso: un tren de mantención que sale de noche y una tabla que lo esconde en las pantallas.
 6. **El Archivo** — estadística. Caso: el registro de vacunación de la Clínica del Cerro, alterado.
 7. **Los Cerros** — varias variables. Caso: un dron del contrabando perdido en la quebrada Jaime antes de la lluvia nocturna.
+8. **Las Antenas** — teoría de la información. Caso: el chip del dron y mensajes que la red de repetidores entrega con bits perdidos.
+9. **El Observatorio** — sistemas dinámicos. Caso: una tormenta que el boletín no anunció y una copia privada del pronóstico.
 (Los demás distritos se escriben al construir cada mundo.)
 
 ### Arco de El Puerto
@@ -119,3 +123,21 @@ miden la bajada en los ejes; 7.3 el máximo descenso lleva a la quebrada Jaime, 
 sobre la cuenca en tres horas. 7.8 El radio del 95 % es √ln 20 ≈ 1,73 km según el modelo de posición.
 7.★ A las 03:00 se revisan cinco lecturas y Tomás baja con cuerda: dron entero, caja térmica vacía.
 El chip guarda rutas y sigue enviando mensajes cifrados con bits perdidos a una red → Las Antenas.
+
+### Arco de Las Antenas
+
+8.1 El símbolo D (reserva de entrega) informa 3 bits y falta en la bitácora visible. 8.2 La fuente tiene 1,75 bits por
+símbolo; el contador reservaba 2. 8.3 Huffman lee la cabecera de 112 bits y separa la ruta de reserva. 8.4 La ruta d
+lleva a la torre Sur. 8.5 Ruta y torre comparten 1 bit; el piloto de mantención, 0. 8.6 El perfil equivocado cuesta
+40 bits por lote: Inés autorizó un reinicio, pero la asignación cambió después. 8.7 El enlace pide una tasa sobre su
+capacidad. 8.8 Hamming(7,4) corrige un bit por bloque y Teo valida el paquete. 8.★ El mensaje fija una entrega en El
+Observatorio dentro de una ventana de tormenta que el boletín muestra despejada → El Observatorio.
+
+### Arco de El Observatorio
+
+9.1 El papel del registrador conserva una subida que la pantalla borró. 9.2 El canal crece hasta el umbral al
+inicio de la ventana; la salida privada es anterior. 9.3 El boletín usó un paso de Euler grueso. 9.4 Un búfer
+lleno parece quieto pero reemplaza datos. 9.5 La copia pública cambió el signo de una dirección propia. 9.6 Otro
+canal pasó de espiral saliente a entrante; los accesos llevan a una credencial de Halcón. 9.7 El oscilador del
+registrador fija la hora de descarga. 9.8 Dos pronósticos casi iguales se separan; la copia privada conservaba más
+cifras. 9.★ La cadena de copias y recibos lleva a las vacunas a la Clínica del Cerro → La Clínica.
