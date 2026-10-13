@@ -64,7 +64,7 @@ function SearchDisk({
       <Line a={MAP.pt(0, 0)} b={MAP.pt(R, 0)} color={C.amber} width={4} />
       <Dot x={MAP.x(0)} y={MAP.y(0)} color={C.text} r={7} />
       {label && (
-        <Cap x={MAP.x(R / 2)} y={MAP.y(0) + 30} tex={`R=${num(R)}`} color={C.amber} size={18} />
+        <Cap x={Math.max(MAP.x(R / 2), MAP.x(0) + 60)} y={MAP.y(0) - 26} tex={`R=${num(R)}`} color={C.amber} size={18} />
       )}
     </>
   );
