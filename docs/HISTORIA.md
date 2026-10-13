@@ -29,6 +29,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | elena | Elena Saavedra | Técnica de calibración del Observatorio, turno nocturno. Informante. | Habla desde el instrumento; se demora antes de decir quién firmó. |
 | rocio | Rocío Pizarro | Tecnóloga médica del laboratorio de la Clínica del Cerro. Informante. | Precisa y cansada; habla en muestras, controles y turnos. |
 | simon | Simón Valdés | Bioestadístico que renunció al Laboratorio de Halcón en julio. Informante. | Rápido, habla en imágenes de cocina, ironía para tapar el miedo. |
+| joaquin | Joaquín Tapia | Operador del turno de noche de La Fábrica. Informante. | Lacónico y práctico; habla de lotes, cintas y turnos. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -41,6 +42,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 6. **El Archivo** — estadística. Caso: el registro de vacunación de la Clínica del Cerro, alterado.
 7. **Los Cerros** — varias variables. Caso: un dron del contrabando perdido en la quebrada Jaime antes de la lluvia nocturna.
 8. **Las Antenas** — teoría de la información. Caso: el chip del dron y mensajes que la red de repetidores entrega con bits perdidos.
+12. **La Fábrica** — modelos generativos. Caso: registros clínicos fabricados que pasan cualquier control, salvo por ser demasiado perfectos.
 11. **El Laboratorio** — inferencia variacional. Caso: la aproximación que eligió el Laboratorio para que los sanos desaparecieran.
 10. **La Clínica** — inferencia bayesiana. Caso: un test que da positivo demasiadas veces y pedidos de dosis inflados.
 9. **El Observatorio** — sistemas dinámicos. Caso: una tormenta que el boletín no anunció y una copia privada del pronóstico.
@@ -162,3 +164,11 @@ salida honesta. 11.3 Muestras de un generador corregidas con pesos. 11.4 La fami
 cota sin calcular la evidencia. 11.6 El lector trata los síntomas por separado y borra que van juntos. 11.7 El ajuste
 por gradiente depende del paso. 11.8 Con dos jorobas, KL(q‖p) se queda con una: el Laboratorio eligió «enfermo».
 11.★ En el servidor hay registros sintéticos que parecen reales → La Fábrica.
+
+### Arco de La Fábrica
+
+12.1 Cada carpeta sale de un sorteo con la acumulada. 12.2 La máquina ajusta una campana a los datos reales. 12.3
+Mezcla de dos máquinas. 12.4 Los días sano/enfermo siguen una cadena de Markov. 12.5 Un rasgo oculto mueve varias
+columnas. 12.6 El detector compara verosimilitudes: el lote parece de la máquina. 12.7 Los primeros dígitos del lote
+viejo salen parejos (no siguen Benford). 12.8 El lote «calibrado» da χ² ≈ 0,002: demasiado perfecto. 12.★ Los
+registros falsos alimentaron apuestas de seguros sanitarios en La Bolsa → La Bolsa.

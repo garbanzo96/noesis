@@ -40,6 +40,7 @@ con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pued
 | 9 | Sistemas dinámicos (campos de direcciones, exponencial, Euler, logística, sistemas lineales, traza y determinante, oscilador amortiguado, caos) | El Observatorio | jugable, con clases |
 | 10 | Inferencia bayesiana (Bayes con frecuencias, tasa base, actualización secuencial, chances y razón de verosimilitud, Beta, resumen del posterior, factor de Bayes, predicción y decisión) | La Clínica | jugable, con clases |
 | 11 | Inferencia variacional (evidencia, Monte Carlo, muestreo por importancia, KL, ELBO, campo medio, gradiente, dirección de la KL) | El Laboratorio | jugable, con clases |
+| 12 | Modelos generativos (muestreo con la acumulada, normal, mezclas, Markov, variables latentes, detector de verosimilitud, Benford, χ²) | La Fábrica | jugable, con clases |
 
 ## Ejecutar localmente
 
