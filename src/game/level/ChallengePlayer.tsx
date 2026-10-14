@@ -93,7 +93,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   );
 
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
+    if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
     (window as unknown as { __round: unknown }).__round = { pass: () => api.result(true, 'QA'), round, phase };
   });
 

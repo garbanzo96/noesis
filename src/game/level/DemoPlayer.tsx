@@ -119,7 +119,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   };
 
   useEffect(() => {
-    if (!import.meta.env.DEV) return;
+    if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
     (window as unknown as { __demo: unknown }).__demo = { unlock, beat: beats.beat, count: n, answer, rightKey: beat.ask ? orders[beats.beat].indexOf(beat.ask.answer) + 1 : 0 };
   });
 

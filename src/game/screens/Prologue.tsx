@@ -52,6 +52,16 @@ const PANELS: Panel[] = [
   {
     place: 'oficina',
     who: 'iris',
+    text: 'En la calle le dicen el Contador. Nadie le ha visto la cara, pero cada cifra arreglada de esta ciudad lleva su firma.',
+  },
+  {
+    place: 'oficina',
+    who: 'noesis',
+    text: 'Son catorce distritos, uno por rama de la matemática. Los recorreremos en orden, del Puerto a la Torre Halcón, y cada uno se apoya en los anteriores.',
+  },
+  {
+    place: 'oficina',
+    who: 'iris',
     text: 'Empezamos por el puerto. Ayer desaparecieron cuarenta cajas de vacunas.',
   },
 ];

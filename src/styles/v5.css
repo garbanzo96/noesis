@@ -1800,3 +1800,136 @@
     bottom: 16px;
   }
 }
+
+/* ---------------------------------------------------------------- screen transition: shutter */
+.wipe.shutter {
+  background: none;
+  animation: none;
+  display: flex;
+  flex-direction: column;
+}
+.wipe.shutter::after {
+  display: none;
+}
+.wipe.shutter i {
+  flex: 1;
+  background: linear-gradient(90deg, #07051a, #0d0a22 60%, #07051a);
+  border-bottom: 1px solid color-mix(in srgb, var(--accent) 35%, transparent);
+  transform-origin: calc(100% * (var(--i) % 2)) 50%;
+  animation: shutter 0.56s cubic-bezier(0.7, 0, 0.3, 1) both;
+  animation-delay: calc(var(--i) * 18ms);
+  position: relative;
+}
+.wipe.shutter i::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  right: calc(100% * (1 - var(--i) % 2) - 1px);
+  background: var(--accent);
+  box-shadow: 0 0 16px var(--accent);
+  opacity: 0.9;
+}
+@keyframes shutter {
+  0% {
+    transform: scaleX(0);
+  }
+  42%,
+  56% {
+    transform: scaleX(1);
+  }
+  100% {
+    transform: scaleX(0);
+    transform-origin: calc(100% * (1 - var(--i) % 2)) 50%;
+  }
+}
+@keyframes screen-in {
+  from {
+    opacity: 0;
+    transform: scale(1.015);
+    filter: blur(5px) brightness(1.4);
+  }
+}
+
+/* ---------------------------------------------------------------- illustrated places */
+.place-art {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+}
+.place-art img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: place-drift 40s ease-in-out infinite alternate;
+}
+.place-art span {
+  position: absolute;
+  inset: 0;
+  background: #05040c;
+}
+.place-art::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 50% 40%, transparent 45%, #05040cb0 100%),
+    linear-gradient(0deg, #05040ce0 0%, transparent 35%);
+  pointer-events: none;
+}
+@keyframes place-drift {
+  from {
+    transform: scale(1.06) translate(-1%, 0.5%);
+  }
+  to {
+    transform: scale(1.1) translate(1%, -0.5%);
+  }
+}
+.reduced .place-art img {
+  animation: none;
+}
+/* scene choreography */
+.scene .dialogue {
+  animation: dialogue-in 0.5s 0.15s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+@keyframes dialogue-in {
+  from {
+    opacity: 0;
+    transform: translate(-50%, 24px);
+  }
+}
+.scene-cast.left .scene-actor {
+  animation: actor-in-left 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.scene-cast.right .scene-actor {
+  animation: actor-in-right 0.7s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.scene-actor:nth-child(2) {
+  animation-delay: 0.12s;
+}
+@keyframes actor-in-left {
+  from {
+    opacity: 0;
+    translate: -70px 0;
+  }
+}
+@keyframes actor-in-right {
+  from {
+    opacity: 0;
+    translate: 70px 0;
+  }
+}
+.dialogue-name b {
+  animation: name-in 0.35s ease-out both;
+}
+@keyframes name-in {
+  from {
+    opacity: 0;
+    letter-spacing: 0.25em;
+  }
+}
+.reduced .scene .dialogue,
+.reduced .scene-actor,
+.reduced .dialogue-name b {
+  animation: none;
+}

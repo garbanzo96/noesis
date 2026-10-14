@@ -248,7 +248,13 @@ export function GameRoot() {
         <div className="screen" key={toHash(shown)}>
           {screen}
         </div>
-        {wipe && <div className="wipe" />}
+        {wipe && (
+          <div className="wipe shutter" aria-hidden>
+            {Array.from({ length: 7 }, (_, i) => (
+              <i key={i} style={{ ['--i' as string]: i }} />
+            ))}
+          </div>
+        )}
         {overlay === 'codex' && (
           <ResourcesScreen focus={resFocus} onClose={() => setOverlay(null)} onGo={goStep} />
         )}

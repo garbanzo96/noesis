@@ -14,7 +14,7 @@ import { GameRoot } from './game/GameRoot';
 import { CastGallery } from './game/dev/CastGallery';
 import { LEVELS } from './content/registry';
 
-if (import.meta.env.DEV) {
+if (import.meta.env.DEV || import.meta.env.MODE === 'qa') {
   // level index for the QA scripts (qa/overlap.mjs)
   (window as unknown as { __levels: unknown }).__levels = Object.values(LEVELS).map((l) => ({ id: l.id, steps: l.steps.map((s) => s.kind), rounds: l.steps.map((s) => (s.kind === 'challenge' ? s.rounds : 0)) }));
 }

@@ -1,4 +1,5 @@
 import type { ReactElement } from 'react';
+import { PLACE_ART } from './assets';
 import { C } from '../engine/palette';
 
 // Location backdrops (1600×900, scaled with "slice"). Layered vector silhouettes, window lights,
@@ -1428,6 +1429,13 @@ export function Backdrop({
   dim?: number;
 }) {
   const Place = PLACES[place];
+  if (PLACE_ART.has(place))
+    return (
+      <div className={`place place-art ${className ?? ''}`} aria-hidden>
+        <img src={`${import.meta.env.BASE_URL}art/places/${place}.webp`} alt="" decoding="async" />
+        {dim > 0 && <span style={{ opacity: dim }} />}
+      </div>
+    );
   return (
     <svg
       className={`place ${className ?? ''}`}
