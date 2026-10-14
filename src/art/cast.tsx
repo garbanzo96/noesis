@@ -1,5 +1,6 @@
-import type { ReactElement } from 'react';
+import type { CSSProperties, ReactElement } from 'react';
 import { C } from '../engine/palette';
+import { CAST_ART } from './assets';
 
 // Illustrated busts. Every character is built from the same parts (head, eyes, brows, nose,
 // mouth, hair, outfit, one signature accessory) with flat colors, soft shading and a rim light
@@ -395,6 +396,28 @@ export function Portrait({
 }) {
   const col = CAST[id].color;
   const k = `p-${id}`;
+  if (CAST_ART.has(id)) {
+    const face = size < 140;
+    const style = {
+      ['--who' as string]: col,
+      width: face ? size : undefined,
+      height: face ? size : undefined,
+    } as CSSProperties;
+    return (
+      <span
+        className={`portrait-art ${face ? 'face' : 'full'} ${talking ? 'talking' : ''} ${dim ? 'dim' : ''} ${flip ? 'flip' : ''} ${id === 'noesis' ? 'holo' : ''}`}
+        style={style}
+        aria-hidden
+      >
+        <img
+          src={`${import.meta.env.BASE_URL}art/cast/${id}${face ? '-face' : ''}.webp`}
+          alt=""
+          draggable={false}
+          decoding="async"
+        />
+      </span>
+    );
+  }
   return (
     <svg
       width={size}

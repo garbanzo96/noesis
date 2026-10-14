@@ -8,8 +8,8 @@ import type { LevelDef, SectorDef } from '../level/types';
 import { sfx } from '../audio';
 import { useGame } from '../state';
 
-const CARD_W = 210;
-const CARD_H = 130;
+const CARD_W = 220;
+const CARD_H = 138;
 
 function CaseDetail({
   level: focus,
@@ -244,96 +244,38 @@ export function SectorMap({
                 style={{ cursor: locked ? 'not-allowed' : 'pointer' }}
                 className={`case-card ${isRec && !reduced ? 'rec' : ''}`}
               >
-                <rect
-                  x={x - w / 2 + 6}
-                  y={y - h / 2 + 8}
-                  width={w}
-                  height={h}
-                  fill="#000"
-                  opacity={0.45}
-                />
-                <rect
-                  x={x - w / 2}
-                  y={y - h / 2}
-                  width={w}
-                  height={h}
-                  fill={locked ? '#2a2433' : boss ? '#efe2c2' : '#e8e0cf'}
-                  stroke={hover === l.id ? sector.accent : isRec ? sector.accent : 'none'}
-                  strokeWidth={4}
-                />
-                {/* folder tab */}
-                <rect
-                  x={x - w / 2}
-                  y={y - h / 2}
-                  width={w}
-                  height={28}
-                  fill={locked ? '#332b40' : boss ? '#b8343f' : '#c9b98f'}
-                />
-                <circle cx={x + w / 2 - 14} cy={y - h / 2 + 14} r={8} fill="#d23" stroke="#600" strokeWidth={2} />
-                <Html
-                  x={x - w / 2 + 12}
-                  y={y - h / 2 + 14}
-                  size={15}
-                  anchor="left"
-                  className="paper"
-                  color={locked ? '#6d6488' : boss ? '#fff' : '#3a2f22'}
-                  style={{ rotate: `${tilt}deg` }}
-                >
-                  <span className="card-code">CASO {l.code}</span>
+                {/* hit area; the card itself is one HTML block that scales as a unit */}
+                <rect x={x - w / 2} y={y - h / 2} width={w} height={h} fill="transparent" />
+                <Html x={x} y={y} size={18}>
+                  <div
+                    className={`case-card2 ${boss ? 'boss' : ''} ${locked ? 'locked' : ''} ${st === 'done' ? 'done' : ''} ${hover === l.id ? 'hover' : ''} ${isRec ? 'rec' : ''}`}
+                    style={{
+                      width: `calc(var(--su) * ${w})`,
+                      height: `calc(var(--su) * ${h})`,
+                      rotate: `${tilt}deg`,
+                      ['--accent' as string]: sector.accent,
+                    }}
+                  >
+                    <div className="cc-tab">
+                      <span>CASO {l.code}</span>
+                      <i />
+                    </div>
+                    <b className={`cc-title ${l.title.length > 17 ? 'long' : ''}`}>{l.title}</b>
+                    <span className="cc-sub">{l.subtitle}</span>
+                    {st === 'done' && (
+                      <>
+                        <span className="cc-stars">
+                          {got.map((g, k) => (
+                            <b key={k} style={{ opacity: g ? 1 : 0.25 }}>
+                              ★
+                            </b>
+                          ))}
+                        </span>
+                        <span className="cc-stamp">CERRADO</span>
+                      </>
+                    )}
+                  </div>
                 </Html>
-                <Html
-                  x={x}
-                  y={y + 12}
-                  size={21}
-                  className="paper"
-                  color={locked ? '#6d6488' : '#1a1410'}
-                  style={{ rotate: `${tilt}deg` }}
-                >
-                  <span className="card-title">{l.title}</span>
-                  <span className="card-sub" style={{ color: locked ? '#5d5478' : '#5a4a36' }}>
-                    {l.subtitle}
-                  </span>
-                </Html>
-                {st === 'done' && (
-                  <>
-                    <Html
-                      x={x + w / 2 - 12}
-                      y={y + h / 2 - 16}
-                      size={16}
-                      anchor="right"
-                      className="paper"
-                      color="#b8343f"
-                    >
-                      <span className="card-stars">
-                        {got.map((g, k) => (
-                          <b key={k} style={{ opacity: g ? 1 : 0.25 }}>
-                            ★
-                          </b>
-                        ))}
-                      </span>
-                    </Html>
-                    <g transform={`rotate(-14 ${x - 30} ${y + 40})`} opacity={0.75}>
-                      <rect
-                        x={x - 90}
-                        y={y + 26}
-                        width={120}
-                        height={30}
-                        fill="none"
-                        stroke="#b8343f"
-                        strokeWidth={3}
-                      />
-                      <Html
-                        x={x - 30}
-                        y={y + 41}
-                        size={14}
-                        color="#b8343f"
-                        style={{ rotate: `${tilt - 14}deg` }}
-                      >
-                        <span className="card-stamp">CERRADO</span>
-                      </Html>
-                    </g>
-                  </>
-                )}
               </g>
             );
           })}
