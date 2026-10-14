@@ -1,10 +1,73 @@
 import { useState } from 'react';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
+import { Tex } from '../../engine/Tex';
 import { SECTORS, SECTOR_BY_ID, sectorStars, sectorState } from '../../content/registry';
 import type { WorldId } from '../level/types';
 import { sfx } from '../audio';
 import { useGame } from '../state';
+
+/** every world that `w` builds on, directly or through others */
+function ancestors(w: WorldId, acc = new Set<WorldId>()): Set<WorldId> {
+  for (const p of SECTOR_BY_ID[w].prerequisites) {
+    if (!acc.has(p)) {
+      acc.add(p);
+      ancestors(p, acc);
+    }
+  }
+  return acc;
+}
+/** worlds that list `w` as a direct prerequisite */
+const nextOf = (w: WorldId) =>
+  SECTORS.filter((s) => s.prerequisites.includes(w)).sort((a, b) => a.number - b.number);
+const byNumber = (ws: Iterable<WorldId>) =>
+  [...ws].map((w) => SECTOR_BY_ID[w]).sort((a, b) => a.number - b.number);
+
+function Sym({ s, scale = 1 }: { s: (typeof SECTORS)[number]; scale?: number }) {
+  if (!s.tex) return <>{s.symbol}</>;
+  return (
+    <Tex tex={`\\boldsymbol{${s.tex}}`} style={{ fontSize: `${(s.texSize ?? 1) * scale}em` }} />
+  );
+}
+
+/** Links bow sideways when a straight line would cross another district or its label. */
+const LINK_PATHS: Record<string, string> = (() => {
+  const out: Record<string, string> = {};
+  const quad = (a: number[], c: number[], b: number[], t: number) => [
+    (1 - t) ** 2 * a[0] + 2 * (1 - t) * t * c[0] + t * t * b[0],
+    (1 - t) ** 2 * a[1] + 2 * (1 - t) * t * c[1] + t * t * b[1],
+  ];
+  for (const s of SECTORS)
+    for (const p of s.prerequisites) {
+      const a = SECTOR_BY_ID[p].at;
+      const b = s.at;
+      const obstacles = SECTORS.filter((o) => o.world !== p && o.world !== s.world).flatMap(
+        ({ at: [x, y] }) => [
+          [x, y],
+          [x, y + 62],
+          [x - 52, y + 66],
+          [x + 52, y + 66],
+        ],
+      );
+      const [dx, dy] = [b[0] - a[0], b[1] - a[1]];
+      const m = [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+      let best = { bend: 0, clear: -1, c: m };
+      for (const bend of [0, 0.12, -0.12, 0.2, -0.2, 0.3, -0.3]) {
+        const c = [m[0] - dy * bend, m[1] + dx * bend];
+        let clear = Infinity;
+        for (let i = 2; i <= 18; i++) {
+          const q = quad(a, c, b, i / 20);
+          for (const o of obstacles) clear = Math.min(clear, Math.hypot(q[0] - o[0], q[1] - o[1]));
+        }
+        // a straighter line wins unless the bend buys real clearance
+        const score = Math.min(clear, 80) - Math.abs(bend) * 90;
+        if (score > best.clear) best = { bend, clear: score, c };
+      }
+      out[p + s.world] =
+        `M${a[0]} ${a[1]} Q${best.c[0].toFixed(1)} ${best.c[1].toFixed(1)} ${b[0]} ${b[1]}`;
+    }
+  return out;
+})();
 
 /** City map of Valparaíso 2089: districts on the hills and the bay, linked by prerequisites. */
 export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduced: boolean }) {
@@ -18,6 +81,12 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
   const meta = SECTOR_BY_ID[focus];
   const st = sectorState(game, focus);
   const stars = sectorStars(game, focus);
+  // the highlighted world: its whole chain of prerequisites lights up, and its next worlds too
+  const hl = hover ?? selected;
+  const chain = hl ? ancestors(hl) : null;
+  const next = hl ? new Set(nextOf(hl).map((s) => s.world)) : null;
+  const before = byNumber(ancestors(focus));
+  const after = nextOf(focus);
 
   const click = (w: WorldId) => {
     const s = sectorState(game, w);
@@ -72,7 +141,7 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                   onClick={() => setSelected(sector.world)}
                 >
                   <span className="menu-list-symbol" aria-hidden>
-                    {sector.symbol}
+                    <Sym s={sector} scale={0.8} />
                   </span>
                   <span className="menu-list-copy">
                     <strong>
@@ -142,23 +211,34 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
           >
             BAHÍA
           </text>
-          {/* links */}
+          {/* links: with a world highlighted, its chain of prerequisites flows towards it */}
           {SECTORS.flatMap((s) =>
             s.prerequisites.map((p) => {
-              const a = SECTOR_BY_ID[p].at;
-              const b = s.at;
               const live = sectorState(game, p) === 'done';
+              const inChain = !!hl && chain!.has(p) && (s.world === hl || chain!.has(s.world));
+              const outgoing = !!hl && p === hl;
+              const dim = !!hl && !inChain && !outgoing;
+              const color = inChain
+                ? SECTOR_BY_ID[hl!].accent
+                : outgoing
+                  ? s.accent
+                  : live
+                    ? C.cyan
+                    : '#3a2f60';
               return (
-                <line
+                <path
                   key={p + s.world}
-                  x1={a[0]}
-                  y1={a[1]}
-                  x2={b[0]}
-                  y2={b[1]}
-                  stroke={live ? C.cyan : '#3a2f60'}
-                  strokeWidth={live ? 2.5 : 1.5}
-                  strokeDasharray={live ? undefined : '6 8'}
-                  opacity={0.7}
+                  d={LINK_PATHS[p + s.world]}
+                  fill="none"
+                  stroke={color}
+                  strokeWidth={inChain ? 4 : outgoing ? 3 : live ? 2.5 : 1.5}
+                  strokeDasharray={
+                    inChain ? '14 10' : outgoing ? '4 8' : live ? undefined : '6 8'
+                  }
+                  strokeLinecap="round"
+                  className={(inChain || outgoing) && !reduced ? 'atlas-flow' : undefined}
+                  opacity={dim ? 0.18 : inChain ? 0.95 : outgoing ? 0.8 : 0.7}
+                  style={{ transition: 'opacity 0.2s, stroke 0.2s' }}
                 />
               );
             }),
@@ -169,9 +249,13 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
             const open = state === 'open' || state === 'done';
             const col = open ? s.accent : '#5d5478';
             const ss = sectorStars(game, s.world);
+            const faded =
+              !!hl && s.world !== hl && !chain!.has(s.world) && !next!.has(s.world);
             return (
               <g
                 key={s.world}
+                className="atlas-node"
+                opacity={faded ? 0.35 : 1}
                 onMouseEnter={() => {
                   if (window.matchMedia('(hover: none)').matches) return;
                   setHover(s.world);
@@ -206,11 +290,13 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                   fill={state === 'done' ? col : '#0c0a1c'}
                   fillOpacity={state === 'done' ? 0.22 : 1}
                   stroke={col}
-                  strokeWidth={hover === s.world ? 4 : 2.5}
+                  strokeWidth={hl === s.world ? 4 : chain?.has(s.world) ? 3.5 : 2.5}
                   strokeDasharray={state === 'sealed' ? '4 6' : undefined}
                 />
                 <Html x={x} y={y} size={30} color={open ? '#fff' : '#5d5478'}>
-                  <span className="atlas-sym">{s.symbol}</span>
+                  <span className="atlas-sym">
+                    <Sym s={s} />
+                  </span>
                 </Html>
                 <Html x={x} y={y + 48} size={17} anchor="top" color={open ? C.text : '#6d6488'}>
                   <span className="atlas-label">
@@ -236,6 +322,28 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
         </span>
         <h2>{meta.area}</h2>
         <p className="atlas-hook">{meta.hook}</p>
+        <div className="atlas-route">
+          <p>
+            <span>SE APOYA EN</span>
+            {before.length
+              ? before.map((b) => (
+                  <em key={b.world} style={{ ['--accent' as string]: b.accent }}>
+                    {b.number}. {b.area}
+                  </em>
+                ))
+              : ' Nada: es el punto de partida.'}
+          </p>
+          {after.length > 0 && (
+            <p>
+              <span>LLEVA A</span>
+              {after.map((b) => (
+                <em key={b.world} style={{ ['--accent' as string]: b.accent }}>
+                  {b.number}. {b.area}
+                </em>
+              ))}
+            </p>
+          )}
+        </div>
         {st === 'sealed' ? (
           <p className="atlas-state sealed">
             En preparación: los temas de este mundo aún no están escritos.

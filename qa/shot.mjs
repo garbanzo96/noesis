@@ -29,6 +29,7 @@ for (const st of spec.steps ?? []) {
   if (st.clickText) await page.getByText(st.clickText, { exact: false }).first().click();
   if (st.clickSel) await page.locator(st.clickSel).first().click();
   if (st.dragStage) { const c = await toClient(st.dragStage); await page.mouse.move(c[0], c[1]); await page.mouse.down(); await page.mouse.move(c[2], c[3], { steps: 12 }); await page.mouse.up(); }
+  if (st.hoverStage) { const c = await toClient([...st.hoverStage, ...st.hoverStage]); await page.mouse.move(c[0], c[1], { steps: 4 }); }
   if (st.clickStage) { const c = await toClient([...st.clickStage, ...st.clickStage]); await page.mouse.click(c[0], c[1]); }
   if (st.eval) { const r = await page.evaluate(st.eval); if (r !== undefined) console.log('EVAL', JSON.stringify(r)); }
   if (st.shot) await page.screenshot({ path: out + st.shot });
