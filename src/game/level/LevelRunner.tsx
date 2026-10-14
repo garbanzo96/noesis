@@ -1,5 +1,6 @@
 import { useMemo, useRef, useState } from 'react';
 import { useKey } from '../../engine/hooks';
+import { Backdrop } from '../../art/places';
 import { sfx } from '../audio';
 import { completeLevel, starsFor, store, useGame } from '../state';
 import { ChallengePlayer } from './ChallengePlayer';
@@ -166,6 +167,7 @@ export function LevelRunner({
   return (
     <RunContext.Provider value={ctx}>
       <div className={`level ${level.kind === 'boss' ? 'boss' : ''}`} style={{ ['--accent' as string]: sector.accent }}>
+        {step.kind !== 'scene' && <Backdrop place={sector.place} className="level-ambient" />}
         <header className="level-hud">
           <button className="hud-back" onClick={onExit} title="Volver al tablero del distrito">
             ◂ <span>{sector.name.toUpperCase()}</span>
