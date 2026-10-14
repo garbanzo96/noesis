@@ -41,6 +41,8 @@ con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pued
 | 10 | Inferencia bayesiana (Bayes con frecuencias, tasa base, actualización secuencial, chances y razón de verosimilitud, Beta, resumen del posterior, factor de Bayes, predicción y decisión) | La Clínica | jugable, con clases |
 | 11 | Inferencia variacional (evidencia, Monte Carlo, muestreo por importancia, KL, ELBO, campo medio, gradiente, dirección de la KL) | El Laboratorio | jugable, con clases |
 | 12 | Modelos generativos (muestreo con la acumulada, normal, mezclas, Markov, variables latentes, detector de verosimilitud, Benford, χ²) | La Fábrica | jugable, con clases |
+| 13 | Decisión secuencial (valor esperado, árboles de decisión, valor de la información, descuento, Bellman, parada óptima, explorar o explotar, Kelly) | La Bolsa | jugable, con clases |
+| 14 | Síntesis final (repaso por pisos: logaritmos, derivada, integral, sistemas, bits, Bayes con chances, decisión, KL) | Torre Halcón | jugable, con clases |
 
 ## Ejecutar localmente
 
@@ -57,7 +59,7 @@ Otros comandos: `npm run check` (tipos + tests), `npm run build` (compila a `dis
 ```
 src/engine/    escenario 1600×900 (SVG + KaTeX), formas, animaciones, fórmulas animadas
 src/game/      estado y guardado, audio, runner de casos (historia, clase, investigación, práctica), pantallas
-src/content/   un directorio por mundo (w01–w06); cada caso en su archivo, con su clase
+src/content/   un directorio por mundo (w01–w14); cada caso en su archivo, con su clase
 tests/         contrato de contenido (cada caso tiene clase, referencias y pasos válidos)
 docs/          historia, arquitectura y guía de autoría
 legacy-v2/, legacy-v3/   versiones anteriores (solo referencia; no se compilan)

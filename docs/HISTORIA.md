@@ -30,6 +30,7 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 | rocio | Rocío Pizarro | Tecnóloga médica del laboratorio de la Clínica del Cerro. Informante. | Precisa y cansada; habla en muestras, controles y turnos. |
 | simon | Simón Valdés | Bioestadístico que renunció al Laboratorio de Halcón en julio. Informante. | Rápido, habla en imágenes de cocina, ironía para tapar el miedo. |
 | joaquin | Joaquín Tapia | Operador del turno de noche de La Fábrica. Informante. | Lacónico y práctico; habla de lotes, cintas y turnos. |
+| valentina | Valentina Ruiz | Operadora de mesa de La Bolsa. Informante. | Rápida y precisa; habla en posiciones, márgenes y horarios de cierre. |
 | noesis | NÓESIS | Tutora de la agencia; narra las clases. | Clara, ordenada, va de lo concreto a lo formal. |
 
 ## Distritos (mundos)
@@ -46,6 +47,8 @@ Ningún caso trata de inferencia activa: el hilo conductor es una investigación
 11. **El Laboratorio** — inferencia variacional. Caso: la aproximación que eligió el Laboratorio para que los sanos desaparecieran.
 10. **La Clínica** — inferencia bayesiana. Caso: un test que da positivo demasiadas veces y pedidos de dosis inflados.
 9. **El Observatorio** — sistemas dinámicos. Caso: una tormenta que el boletín no anunció y una copia privada del pronóstico.
+13. **La Bolsa** — decisión secuencial. Caso: una cuenta que compra seguros sanitarios justo antes de cada anuncio y siempre gana.
+14. **Torre Halcón** — síntesis final. Caso: la agencia sube de noche hasta el piso 40, donde el Contador coordinaba todo.
 (Los demás distritos se escriben al construir cada mundo.)
 
 ### Arco de El Puerto
@@ -172,3 +175,20 @@ Mezcla de dos máquinas. 12.4 Los días sano/enfermo siguen una cadena de Markov
 columnas. 12.6 El detector compara verosimilitudes: el lote parece de la máquina. 12.7 Los primeros dígitos del lote
 viejo salen parejos (no siguen Benford). 12.8 El lote «calibrado» da χ² ≈ 0,002: demasiado perfecto. 12.★ Los
 registros falsos alimentaron apuestas de seguros sanitarios en La Bolsa → La Bolsa.
+
+### Arco de La Bolsa
+
+13.1 La cuenta compra contratos con valor esperado público negativo (−14): sabe antes. 13.2 Árbol de decisión resuelto
+desde las hojas. 13.3 Saber el anuncio vale 16 por contrato (EVPI): eso es lo que compra la cuenta. 13.4 Descuento:
+un cobro futuro vale menos hoy. 13.5 Bellman resuelve etapa por etapa. 13.6 Parada óptima: la cuenta nunca espera,
+porque ya conoce la mejor oferta. 13.7 Explorar o explotar: la cuenta nunca explora. 13.8 Apuesta la fracción de Kelly
+exacta de quien conoce p. 13.★ La cuenta está registrada en el piso 40 de la Torre Halcón → Torre Halcón.
+
+### Arco de Torre Halcón
+
+14.1 La credencial robada se descarga a la mitad cada 8 horas: quedan 8 horas de margen. 14.2 La bitácora del
+ascensor: velocidad máxima 120 m/min. 14.3 La sala técnica: 16 kWh antes de cada anuncio. 14.4 Dos rondas de guardias
+dejan un hueco de 2 minutos. 14.5 La clave de 40 bits se reduce a 16 con el patrón de fechas del Contador. 14.6 Tres
+pruebas independientes: chances 40 : 1 de que la cuenta sea suya. 14.7 Subir ahora (26) vale más que esperar (23,4).
+14.8 El modelo de Halcón se aleja 0,32 bits de los registros: reparte recursos hacia sus contratos. 14.★ El Contador,
+frente a las cifras en el piso 40; epílogo en el Puerto: las vacunas vuelven a la Clínica.
