@@ -5,3 +5,8 @@ node_modules/
 work/
 *.tsbuildinfo
 qa/out/
+
+# raw art sources (large); optimized copies live in public/art
+art-src/cast/*.png
+art-src/places/*.png
+art-src/osm/*.json
