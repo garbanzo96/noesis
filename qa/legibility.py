@@ -10,7 +10,7 @@ from PIL import Image, ImageDraw, ImageFilter, ImageStat
 ROOT = Path(__file__).resolve().parent
 args = [a for a in sys.argv[1:] if not a.startswith('--')]
 sheets = '--sheets' in sys.argv
-TH = 0.16
+TH = float(next((a.split('=')[1] for a in sys.argv if a.startswith('--th=')), 0.07))
 recs = []
 for a in args:
     try:
@@ -24,8 +24,10 @@ def score(im, b):
     x1, y1 = min(im.width, x1), min(im.height, y1)
     if x1 - x0 < 4 or y1 - y0 < 4:
         return 0, 0
-    crop = im.crop((x0, y0, x1, y1)).convert('L')
-    edges = crop.filter(ImageFilter.FIND_EDGES)
+    m = 3
+    big = im.crop((x0 - m, y0 - m, x1 + m, y1 + m)).convert('L')
+    edges = big.filter(ImageFilter.FIND_EDGES).crop((m, m, m + x1 - x0, m + y1 - y0))
+    crop = big.crop((m, m, m + x1 - x0, m + y1 - y0))
     px = list(edges.getdata())
     ef = sum(1 for p in px if p > 60) / len(px)
     lum = list(crop.getdata())
@@ -47,7 +49,7 @@ for r in recs:
     im = Image.open(f)
     for b in r['boxes']:
         ef, bf = score(im, b)
-        s = max(ef * 2.2, bf)
+        s = ef
         if s > TH:
             key = (r['id'], b['t'])
             if key in seen: continue

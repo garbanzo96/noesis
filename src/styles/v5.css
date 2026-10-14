@@ -7,7 +7,7 @@
    ===================================================================================== */
 
 :root {
-  --label-min: 13px;
+  --label-min: 12px;
 }
 @media (max-width: 900px), (max-height: 520px) {
   :root {
@@ -950,10 +950,22 @@
 /* ---------------------------------------------------------------- legibilidad */
 /* las etiquetas del escenario llevan un halo del color del fondo: se leen aunque crucen líneas */
 .stage-html {
+  --halo: #070613;
   text-shadow:
-    0 0 3px #070613,
-    0 0 6px #070613,
-    0 0 1px #070613;
+    1px 0 0 var(--halo),
+    -1px 0 0 var(--halo),
+    0 1px 0 var(--halo),
+    0 -1px 0 var(--halo),
+    1px 1px 0 var(--halo),
+    -1px -1px 0 var(--halo),
+    1px -1px 0 var(--halo),
+    -1px 1px 0 var(--halo),
+    2px 0 0 var(--halo),
+    -2px 0 0 var(--halo),
+    0 2px 0 var(--halo),
+    0 -2px 0 var(--halo),
+    0 0 6px var(--halo),
+    0 0 12px var(--halo);
 }
 .stage-html .stage-btn,
 .stage-html .stage-input,
