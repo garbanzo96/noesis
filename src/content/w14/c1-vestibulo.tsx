@@ -79,7 +79,7 @@ function ChargePlot({ t, steps = 0, floor }: { t: number; steps?: number; floor?
             strokeWidth={2}
             strokeDasharray="10 6"
           />
-          <Cap x={PLOT.x1 - 90} y={py(floor) - 20} size={17} color={C.magenta}>
+          <Cap x={PLOT.x0 + 120} y={py(floor) - 22} size={17} color={C.magenta}>
             {`puerta: ${fmt(floor, 2)} %`}
           </Cap>
         </g>

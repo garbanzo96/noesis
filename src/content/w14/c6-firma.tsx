@@ -73,10 +73,10 @@ function OddsBar({ odds, color = C.amber }: { odds: number; color?: string }) {
           </Cap>
         </g>
       ))}
-      <Cap x={BAR.x0 + 90} y={BAR.y - 44} size={18} color={C.cyan}>
+      <Cap x={BAR.x0 + 90} y={BAR.y - 74} size={18} color={C.cyan}>
         otro sospechoso
       </Cap>
-      <Cap x={BAR.x1 - 90} y={BAR.y - 44} size={18} color={C.magenta}>
+      <Cap x={BAR.x1 - 90} y={BAR.y - 74} size={18} color={C.magenta}>
         el Contador
       </Cap>
       <g style={{ transition: 'transform 0.5s' }} transform={`translate(${bx(odds)},0)`}>
@@ -93,7 +93,7 @@ function OddsBar({ odds, color = C.amber }: { odds: number; color?: string }) {
 /** evidence card; clickable when `onPick` is given */
 function Card({ i, used, onPick }: { i: number; used: boolean; onPick?: () => void }) {
   const e = EVIDENCE[i];
-  const x = 260 + i * 270;
+  const x = 250 + i * 300;
   return (
     <g
       onClick={onPick}
@@ -101,9 +101,9 @@ function Card({ i, used, onPick }: { i: number; used: boolean; onPick?: () => vo
       opacity={used ? 0.45 : 1}
     >
       <rect
-        x={x - 110}
+        x={x - 130}
         y={170}
-        width={220}
+        width={260}
         height={150}
         rx={12}
         fill={C.panel}
