@@ -11,7 +11,7 @@ const page = await ctx.newPage();
 const errors = [];
 page.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
 page.on('pageerror', (e) => errors.push('PAGEERROR ' + e.message));
-await page.goto(`http://localhost:8765/?step=${demoStep}#/level/${id}`, { waitUntil: 'networkidle' });
+await page.goto(`http://localhost:${process.env.QA_PORT ?? 8765}/?step=${demoStep}#/level/${id}`, { waitUntil: 'networkidle' });
 await page.waitForTimeout(1200);
 const count = await page.evaluate(() => window.__demo?.count ?? 0);
 for (let b = 0; b < count; b++) {

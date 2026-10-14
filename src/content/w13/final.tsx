@@ -102,7 +102,7 @@ function AccountLesson({ beats, unlock, answer }: DemoProps) {
           <line x1={250} x2={810} y1={580} y2={580} stroke={C.cyan} strokeWidth={3} />
           {[0, 1, 2, 3, 4].map((t) => (
             <Cap key={t} x={250 + t * 140} y={650} size={22}>
-              {t} días
+              {t} {t === 1 ? 'día' : 'días'}
             </Cap>
           ))}
           <Knob x={250 + days * 140} y={580} axis="x" onPointerDown={drag} color={C.cyan} />
@@ -121,7 +121,7 @@ function AccountLesson({ beats, unlock, answer }: DemoProps) {
       {beat === 2 && (
         <>
           <Cap x={1250} y={330} size={23}>
-            Plazo: {days} días
+            Plazo: {days} {days === 1 ? 'día' : 'días'}
           </Cap>
           <Cap x={1250} y={430} tex={`\\text{VP}=10\\cdot0{,}9^{${days}}`} />
           <Cap

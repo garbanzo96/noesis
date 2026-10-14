@@ -59,7 +59,7 @@ function Tables({
               />
             ))}
             <Cap x={x + 170} y={490} size={22}>
-              {w} aciertos de {trials}
+              {w} {w === 1 ? 'acierto' : 'aciertos'} de {trials}
             </Cap>
             <Cap x={x + 170} y={620} size={22} color={rates ? color : C.muted}>
               {rates ? `Tasa real: ${fmt(rates[i])}` : 'Tasa real desconocida'}

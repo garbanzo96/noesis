@@ -47,7 +47,7 @@ const audit = () => page.evaluate(() => {
 const levels = await (async () => {
   for (let t = 0; t < 5; t++) {
     try {
-      await page.goto('http://localhost:8765/#/', { waitUntil: 'networkidle' });
+      await page.goto(`http://localhost:${process.env.QA_PORT ?? 8765}/#/`, { waitUntil: 'networkidle' });
       await page.waitForTimeout(1500);
       const v = await page.evaluate(() => window.__levels ?? null);
       if (v) return v;
@@ -66,7 +66,7 @@ const report = [];
 for (const lv of levels.filter((l) => worlds.some((w) => l.id.startsWith(w + '-')))) {
   for (const [k, kind] of lv.steps.entries()) {
     if (kind !== 'lesson' && kind !== 'demo' && kind !== 'challenge') continue;
-    await page.goto(`http://localhost:8765/?step=${k}#/level/${lv.id}`, { waitUntil: 'networkidle' });
+    await page.goto(`http://localhost:${process.env.QA_PORT ?? 8765}/?step=${k}#/level/${lv.id}`, { waitUntil: 'networkidle' });
     await page.waitForTimeout(900);
     const n = kind === 'challenge' ? lv.rounds[k] : await page.evaluate(() => window.__demo?.count ?? 0);
     for (let b = 0; b < n; b++) {
