@@ -1964,3 +1964,34 @@
 .level-ambient.place-art img {
   animation: none;
 }
+
+/* title over illustrated key art: keep the menu side calm */
+.title-screen .title-bg {
+  z-index: 0;
+}
+.title-screen::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(90deg, #07051af0 0%, #07051ac4 32%, #07051a40 62%, transparent 80%),
+    linear-gradient(0deg, #07051acc 0%, transparent 30%);
+}
+.title-screen .title-block,
+.title-screen .scene-rain {
+  position: relative;
+  z-index: 2;
+}
+.title-screen .scene-rain {
+  position: absolute;
+}
+.title-menu {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: min(320px, 100%);
+}
+.title-menu .btn {
+  text-align: left;
+}
