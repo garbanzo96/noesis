@@ -70,6 +70,24 @@ export function nextLevel(s: GameState, w: WorldId, after?: string): LevelDef | 
   return rest.find((l) => levelState(s, l) === 'open');
 }
 
+/** Worlds in story order (the number on the map). */
+export const STORY: SectorDef[] = Object.values(PLAYABLE)
+  .filter((d): d is SectorDef => !!d)
+  .sort((a, b) => a.number - b.number);
+
+/** The case where the story continues: the first open case, world by world, in order. */
+export function storyNext(s: GameState): LevelDef | undefined {
+  for (const d of STORY) {
+    const l = d.levels.find((l) => levelState(s, l) === 'open');
+    if (l) return l;
+  }
+  return undefined;
+}
+
+/** Whether the player has already set foot in a world (any case visited or closed). */
+export const worldStarted = (s: GameState, w: WorldId) =>
+  Object.keys(s.levels).some((id) => LEVELS[id]?.world === w);
+
 /** Topics with a reference sheet, in story order, per playable district. */
 export const TOPICS: { world: WorldId; levels: LevelDef[] }[] = Object.values(PLAYABLE).map((s) => ({
   world: s!.world,

@@ -1,11 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useKey } from '../engine/hooks';
-import { LEVELS, PLAYABLE, SECTOR_BY_ID, nextLevel } from '../content/registry';
+import {
+  LEVELS,
+  PLAYABLE,
+  SECTOR_BY_ID,
+  nextLevel,
+  storyNext,
+  worldStarted,
+} from '../content/registry';
 import { LevelRunner } from './level/LevelRunner';
 import type { WorldId } from './level/types';
 import { sfx } from './audio';
 import { store, useGame } from './state';
 import { Atlas } from './screens/Atlas';
+import { Chapter } from './screens/Chapter';
 import { Prologue } from './screens/Prologue';
 import { ResourcesScreen } from './screens/ResourcesScreen';
 import { SectorMap } from './screens/SectorMap';
@@ -19,6 +27,7 @@ type Route =
   | { name: 'title' }
   | { name: 'prologue' }
   | { name: 'atlas' }
+  | { name: 'chapter'; world: WorldId }
   | { name: 'sector'; world: WorldId }
   | { name: 'level'; id: string; step?: number };
 
@@ -27,15 +36,31 @@ function parseHash(): Route {
   const [a, b, c] = h.split('/');
   if (a === 'atlas') return { name: 'atlas' };
   if (a === 'prologo') return { name: 'prologue' };
+  if (a === 'capitulo' && b && PLAYABLE[b as WorldId])
+    return { name: 'chapter', world: b as WorldId };
   if (a === 'sector' && b && PLAYABLE[b as WorldId]) return { name: 'sector', world: b as WorldId };
   if (a === 'level' && b && LEVELS[b]) {
     const k = Number(c);
-    return { name: 'level', id: b, step: Number.isInteger(k) && k > 0 && k < LEVELS[b].steps.length ? k : undefined };
+    return {
+      name: 'level',
+      id: b,
+      step: Number.isInteger(k) && k > 0 && k < LEVELS[b].steps.length ? k : undefined,
+    };
   }
   return { name: 'title' };
 }
 const toHash = (r: Route) =>
-  r.name === 'title' ? '#/' : r.name === 'prologue' ? '#/prologo' : r.name === 'atlas' ? '#/atlas' : r.name === 'sector' ? `#/sector/${r.world}` : `#/level/${r.id}${r.step ? `/${r.step}` : ''}`;
+  r.name === 'title'
+    ? '#/'
+    : r.name === 'prologue'
+      ? '#/prologo'
+      : r.name === 'atlas'
+        ? '#/atlas'
+        : r.name === 'chapter'
+          ? `#/capitulo/${r.world}`
+          : r.name === 'sector'
+            ? `#/sector/${r.world}`
+            : `#/level/${r.id}${r.step ? `/${r.step}` : ''}`;
 const sameRoute = (a: Route, b: Route) => toHash(a) === toHash(b);
 
 const systemReduced =
@@ -81,7 +106,11 @@ export function GameRoot() {
     setResFocus(focus);
     setOverlay('codex');
   };
-  useKey(['r', 'R', 'c', 'C'], () => openResources(shown.name === 'level' ? shown.id : undefined), !overlay);
+  useKey(
+    ['r', 'R', 'c', 'C'],
+    () => openResources(shown.name === 'level' ? shown.id : undefined),
+    !overlay,
+  );
   /** jump from Resources (or a board) straight into a step of a case */
   const goStep = (id: string, step: number) => {
     setOverlay(null);
@@ -90,6 +119,15 @@ export function GameRoot() {
   };
 
   const openSector = (w: WorldId) => go({ name: 'sector', world: w });
+  /** follow the story: the next open case, announced by a chapter card when a world begins */
+  const story = storyNext(game);
+  const continueStory = () => {
+    if (!story) return go({ name: 'atlas' });
+    if (!worldStarted(game, story.world)) return go({ name: 'chapter', world: story.world });
+    setLevelKey((k) => k + 1);
+    go({ name: 'level', id: story.id });
+  };
+  const storyLabel = story ? `Caso ${story.code} · ${story.title}` : undefined;
   const accent =
     shown.name === 'sector'
       ? SECTOR_BY_ID[shown.world].accent
@@ -101,17 +139,32 @@ export function GameRoot() {
   if (shown.name === 'title')
     screen = (
       <Title
-        onContinue={() => {
-          const last = store.get().last.world as WorldId | undefined;
-          go(last && PLAYABLE[last] ? { name: 'sector', world: last } : { name: 'atlas' });
-        }}
+        onContinue={continueStory}
+        nextLabel={storyLabel}
+        onMap={() => go({ name: 'atlas' })}
         onPrologue={() => go({ name: 'prologue' })}
         onCodex={() => openResources()}
         onSettings={() => setOverlay('settings')}
       />
     );
-  else if (shown.name === 'prologue') screen = <Prologue onDone={() => go({ name: 'atlas' })} />;
-  else if (shown.name === 'atlas')
+  else if (shown.name === 'prologue') screen = <Prologue onDone={continueStory} />;
+  else if (shown.name === 'chapter') {
+    const def = PLAYABLE[shown.world]!;
+    const first = def.levels.find((l) => !game.levels[l.id]?.done && !l.wip) ?? def.levels[0];
+    screen = (
+      <Chapter
+        world={shown.world}
+        first={first}
+        reduced={reduced}
+        onStart={() => {
+          setLevelKey((k) => k + 1);
+          go({ name: 'level', id: first.id });
+        }}
+        onBoard={() => openSector(shown.world)}
+        onMap={() => go({ name: 'atlas' })}
+      />
+    );
+  } else if (shown.name === 'atlas')
     screen = (
       <>
         <TopBar
@@ -122,7 +175,12 @@ export function GameRoot() {
           onSettings={() => setOverlay('settings')}
           reduced={reduced}
         />
-        <Atlas onOpen={openSector} reduced={reduced} />
+        <Atlas
+          onOpen={openSector}
+          reduced={reduced}
+          onContinue={story ? continueStory : undefined}
+          continueLabel={storyLabel}
+        />
       </>
     );
   else if (shown.name === 'sector') {
@@ -137,7 +195,12 @@ export function GameRoot() {
           onSettings={() => setOverlay('settings')}
           reduced={reduced}
         />
-        <SectorMap sector={sector} reduced={reduced} onPlay={(l, step) => goStep(l.id, step ?? 0)} onResources={(id) => openResources(id)} />
+        <SectorMap
+          sector={sector}
+          reduced={reduced}
+          onPlay={(l, step) => goStep(l.id, step ?? 0)}
+          onResources={(id) => openResources(id)}
+        />
       </>
     );
   } else if (shown.name === 'level') {
@@ -158,9 +221,17 @@ export function GameRoot() {
                 setLevelKey((k) => k + 1);
                 go({ name: 'level', id: nxt.id });
               }
-            : undefined
+            : story && story.world !== level.world
+              ? () => go({ name: 'chapter', world: story.world })
+              : undefined
         }
-        nextLabel={nxt ? `${nxt.code} ${nxt.title}` : undefined}
+        nextLabel={
+          nxt && nxt.id !== level.id
+            ? `${nxt.code} ${nxt.title}`
+            : story && story.world !== level.world
+              ? `Capítulo ${PLAYABLE[story.world]!.number} · ${PLAYABLE[story.world]!.name}`
+              : undefined
+        }
         onOpenCodex={() => openResources(level.id)}
         onOpenSettings={() => setOverlay('settings')}
       />
@@ -169,13 +240,18 @@ export function GameRoot() {
 
   return (
     <GlyphProvider>
-      <div className={`game-root ${reduced ? 'reduced' : ''}`} style={{ ['--accent' as string]: accent }}>
+      <div
+        className={`game-root ${reduced ? 'reduced' : ''}`}
+        style={{ ['--accent' as string]: accent }}
+      >
         <Backdrop reduced={reduced} accent={accent} />
         <div className="screen" key={toHash(shown)}>
           {screen}
         </div>
         {wipe && <div className="wipe" />}
-        {overlay === 'codex' && <ResourcesScreen focus={resFocus} onClose={() => setOverlay(null)} onGo={goStep} />}
+        {overlay === 'codex' && (
+          <ResourcesScreen focus={resFocus} onClose={() => setOverlay(null)} onGo={goStep} />
+        )}
         {overlay === 'settings' && <SettingsScreen onClose={() => setOverlay(null)} />}
         <div className="scanlines" aria-hidden />
       </div>

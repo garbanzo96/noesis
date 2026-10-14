@@ -5,11 +5,15 @@ import { store, useGame } from '../state';
 
 export function Title({
   onContinue,
+  nextLabel,
+  onMap,
   onPrologue,
   onCodex,
   onSettings,
 }: {
   onContinue: () => void;
+  nextLabel?: string;
+  onMap: () => void;
   onPrologue: () => void;
   onCodex: () => void;
   onSettings: () => void;
@@ -39,8 +43,17 @@ export function Title({
         </h1>
         <p className="title-sub">Valparaíso, 2089. La ciudad miente con números. Tú no.</p>
         <nav className="title-menu">
-          <button className="btn primary big" onClick={start}>
-            {done ? 'Continuar la investigación' : 'Empezar'} ▸
+          <button className="btn primary big title-go" onClick={start}>
+            <span>
+              {done || store.get().booted
+                ? 'Continuar la investigación'
+                : 'Comenzar la investigación'}{' '}
+              ▸
+            </span>
+            {nextLabel && (done || store.get().booted) && <small>{nextLabel}</small>}
+          </button>
+          <button className="btn" onClick={onMap}>
+            Mapa de la ciudad
           </button>
           <button className="btn" onClick={onPrologue}>
             Prólogo y cómo se estudia

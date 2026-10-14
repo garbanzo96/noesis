@@ -10,7 +10,17 @@ const byNumber = (ws: Iterable<WorldId>) =>
   [...ws].map((w) => SECTOR_BY_ID[w]).sort((a, b) => a.number - b.number);
 
 /** City map of Valparaíso 2089: districts on the hills and the bay, linked by prerequisites. */
-export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduced: boolean }) {
+export function Atlas({
+  onOpen,
+  reduced,
+  onContinue,
+  continueLabel,
+}: {
+  onOpen: (w: WorldId) => void;
+  reduced: boolean;
+  onContinue?: () => void;
+  continueLabel?: string;
+}) {
   const game = useGame();
   const [hover, setHover] = useState<WorldId | null>(null);
   const [selected, setSelected] = useState<WorldId | null>(null);
@@ -194,6 +204,12 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
           </>
         )}
       </aside>
+      {onContinue && (
+        <button className="btn primary atlas-continue" onClick={onContinue}>
+          <span>Continuar la historia ▸</span>
+          {continueLabel && <small>{continueLabel}</small>}
+        </button>
+      )}
       {toast && <div className="toast">{toast}</div>}
     </div>
   );
