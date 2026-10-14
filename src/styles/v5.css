@@ -2009,3 +2009,16 @@
   filter: blur(3px) saturate(0.85);
   pointer-events: none;
 }
+@media (max-width: 760px), (max-height: 520px) {
+  .atlas-v2 .atlas-panel {
+    display: none;
+  }
+  .atlas-v2 .atlas-mobile {
+    padding-bottom: 96px;
+  }
+}
+@media (min-width: 761px) and (min-height: 521px) and (max-width: 1100px) {
+  .atlas-v2 .atlas-panel {
+    width: min(460px, 52vw);
+  }
+}
