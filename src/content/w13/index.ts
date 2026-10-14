@@ -23,12 +23,20 @@ const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
   'w13-final': { pos: [800, 770], requires: ['w13-c8'] },
 };
 
-const levels: LevelDef[] = MODULES.map((m) =>
-  withLesson(
-    { ...m.level, ref: m.ref, ...(LAYOUT[m.level.id] ?? { pos: [800, 450], requires: [] }) },
+// A case only requires cases that already exist, so cases can arrive in any order.
+const present = new Set(MODULES.map((m) => m.level.id));
+const levels: LevelDef[] = MODULES.map((m) => {
+  const place = LAYOUT[m.level.id] ?? { pos: [800, 450] as [number, number], requires: [] };
+  return withLesson(
+    {
+      ...m.level,
+      ref: m.ref,
+      pos: place.pos,
+      requires: place.requires.filter((r) => present.has(r)),
+    },
     m.lesson,
-  ),
-);
+  );
+});
 
 export const W13: SectorDef = {
   world: 'decision',
