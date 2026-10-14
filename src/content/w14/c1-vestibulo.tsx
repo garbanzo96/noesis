@@ -259,7 +259,7 @@ function BadgePractice({ seed, round, api }: ChallengeProps) {
         return api.result(true, `$${d.half}\\log_2 ${2 ** d.k}=${d.hours}$ horas.`);
       if (Math.abs(v - d.k) < 0.01)
         return api.result(false, 'Eso son semividas. Multiplica por las horas de cada una.');
-      return api.result(false, `De 100 a ${fmt(d.left, 2)} hay ${d.k} mitades.`);
+      return api.result(false, `De 100 a ${fmt(d.left, 2)} hay ${d.k === 1 ? 'una mitad' : `${d.k} mitades`}.`);
     }
     if (Math.abs(v - d.t) < 0.06)
       return api.result(

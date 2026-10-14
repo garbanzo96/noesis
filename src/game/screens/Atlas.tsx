@@ -161,6 +161,20 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                 {expanded && (
                   <div className="menu-list-detail" id={`world-detail-${sector.world}`}>
                     <p>{sector.hook}</p>
+                    <p className="menu-list-meta">
+                      Se apoya en:{' '}
+                      {byNumber(ancestors(sector.world))
+                        .map((b) => `${b.number}. ${b.area}`)
+                        .join(' · ') || 'nada, es el punto de partida'}
+                    </p>
+                    {nextOf(sector.world).length > 0 && (
+                      <p className="menu-list-meta">
+                        Lleva a:{' '}
+                        {nextOf(sector.world)
+                          .map((b) => `${b.number}. ${b.area}`)
+                          .join(' · ')}
+                      </p>
+                    )}
                     <p className="menu-list-meta">{status}</p>
                     {open && (
                       <button className="btn primary" onClick={() => click(sector.world)}>
@@ -232,9 +246,7 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
                   fill="none"
                   stroke={color}
                   strokeWidth={inChain ? 4 : outgoing ? 3 : live ? 2.5 : 1.5}
-                  strokeDasharray={
-                    inChain ? '14 10' : outgoing ? '4 8' : live ? undefined : '6 8'
-                  }
+                  strokeDasharray={inChain ? '14 10' : outgoing ? '4 8' : live ? undefined : '6 8'}
                   strokeLinecap="round"
                   className={(inChain || outgoing) && !reduced ? 'atlas-flow' : undefined}
                   opacity={dim ? 0.18 : inChain ? 0.95 : outgoing ? 0.8 : 0.7}
@@ -249,8 +261,7 @@ export function Atlas({ onOpen, reduced }: { onOpen: (w: WorldId) => void; reduc
             const open = state === 'open' || state === 'done';
             const col = open ? s.accent : '#5d5478';
             const ss = sectorStars(game, s.world);
-            const faded =
-              !!hl && s.world !== hl && !chain!.has(s.world) && !next!.has(s.world);
+            const faded = !!hl && s.world !== hl && !chain!.has(s.world) && !next!.has(s.world);
             return (
               <g
                 key={s.world}

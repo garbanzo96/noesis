@@ -210,7 +210,7 @@ const lesson: LessonStep = {
       say: 'Multiplicar solo vale si cada prueba aporta algo nuevo. Si dos pruebas dependen de la misma fuente, contarlas dos veces infla la conclusión.',
       board: {
         label: 'Cuidado',
-        tex: '\\p{1}{O=O_0\\prod_i \\mathrm{RV}_i}\\p{2}{\\ \\text{(pruebas independientes)}}',
+        tex: '\\p{1}{O=O_0\\prod_i \\mathrm{LR}_i}\\p{2}{\\ \\text{(pruebas independientes)}}',
       },
     },
   ],
@@ -268,9 +268,9 @@ function OddsPractice({ seed, round, api }: ChallengeProps) {
         `Chances iniciales 1 : ${d.n}. ¿Qué razón de verosimilitud necesita una sola prueba para dejarlas en 9 : 1?`,
       ][round],
       [
-        'O=O_0\\cdot\\mathrm{RV}_1\\cdot\\mathrm{RV}_2',
+        'O=O_0\\cdot\\mathrm{LR}_1\\cdot\\mathrm{LR}_2',
         'P=\\frac{O}{1+O}',
-        '\\mathrm{RV}=\\frac{O}{O_0}',
+        '\\mathrm{LR}=\\frac{O}{O_0}',
       ][round],
     );
     api.hints(
@@ -311,10 +311,10 @@ function OddsPractice({ seed, round, api }: ChallengeProps) {
       return api.result(false, `P = ${d.k}/(${d.k} + 1).`);
     }
     if (Math.abs(v - d.need) < 0.01)
-      return api.result(true, `$\\mathrm{RV}=9\\cdot${d.n}=${d.need}$.`);
+      return api.result(true, `$\\mathrm{LR}=9\\cdot${d.n}=${d.need}$.`);
     if (Math.abs(v - 9) < 0.01)
       return api.result(false, 'Eso serían las chances finales si se partiera de 1 : 1.');
-    return api.result(false, `RV = 9 ÷ (1/${d.n}).`);
+    return api.result(false, `LR = 9 ÷ (1/${d.n}).`);
   };
   return (
     <Stage>
@@ -331,7 +331,7 @@ function OddsPractice({ seed, round, api }: ChallengeProps) {
         value={val}
         onChange={setVal}
         onEnter={submit}
-        label={round === 0 ? 'O =' : round === 1 ? 'P =' : 'RV ='}
+        label={round === 0 ? 'O =' : round === 1 ? 'P =' : 'LR ='}
       />
       <Confirm onClick={submit} />
     </Stage>
@@ -344,7 +344,7 @@ export const level: LevelSpec = {
   code: '14.6',
   title: 'La firma',
   subtitle: 'Repaso: Bayes con chances',
-  glyph: 'O·RV',
+  glyph: 'O·LR',
   kind: 'level',
   guide: 'iris',
   teaser:
@@ -430,7 +430,7 @@ export const glyphs: Glyph[] = [
   {
     id: 'tor-odds',
     world: 'active',
-    tex: 'O=O_0\\prod_i\\mathrm{RV}_i',
+    tex: 'O=O_0\\prod_i\\mathrm{LR}_i',
     name: 'Chances por pruebas',
     read: 'o igual a o cero por el producto de las razones de verosimilitud',
     meaning:
@@ -446,7 +446,7 @@ export const ref: TopicRef = {
   props: [
     {
       label: 'Actualizar',
-      tex: 'O=O_0\\prod_i\\mathrm{RV}_i',
+      tex: 'O=O_0\\prod_i\\mathrm{LR}_i',
       body: 'Solo con pruebas independientes.',
     },
     { label: 'Ejemplo', tex: '\\tfrac19\\cdot18\\cdot4\\cdot5=40' },

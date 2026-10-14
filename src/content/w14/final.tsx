@@ -63,7 +63,7 @@ function EvidenceDrawing({ tool, rows, q = Q }: { tool: number; rows: string[]; 
               fill={C.cyan}
             />
             <Cap x={280 + i * 170} y={440} size={20}>
-              {i} mitades
+              {i} {i === 1 ? 'mitad' : 'mitades'}
             </Cap>
           </g>
         ))}
@@ -137,7 +137,7 @@ const REVIEW_ROWS = [
   ['Carga inicial: 100 %; objetivo: 25 %', 'Una mitad cada 6 horas'],
   ['h(t) = 90t² − 30t³ m; 0 ≤ t ≤ 2 min', 'Busca el máximo de la velocidad, no de la altura'],
   ['P(t) = 1 + t kW; 0 ≤ t ≤ 3 h', 'La energía acumula todo el intervalo'],
-  ['Prior: 1 : 4; pruebas independientes', 'LR: 8 por horario; 3 por firma'],
+  ['Prior: 1 : 4; pruebas independientes', 'LR: 8 horario · 3 firma · 1 ficha (no distingue)'],
   ['p: 0,25 en cada sector · barras celestes', 'q: (0,3; 0,2; 0,2; 0,3) · barras ámbar'],
 ];
 function FinalLesson({ beats, unlock, answer }: DemoProps) {
@@ -161,7 +161,7 @@ function FinalLesson({ beats, unlock, answer }: DemoProps) {
           <line x1={250} x2={850} y1={780} y2={780} stroke={C.line} strokeWidth={4} />
           <Knob x={250 + halves * 200} y={780} axis="x" onPointerDown={drag} />
           <Cap x={1250} y={290} size={22}>
-            {halves} mitades · {fmt(100 * 2 ** -halves)} %
+            {halves} {halves === 1 ? 'mitad' : 'mitades'} · {fmt(100 * 2 ** -halves)} %
           </Cap>
           <Cap x={1250} y={390} tex={`t=6\\cdot${halves}=${halves * 6}\\ \\text{h}`} />
           <Cap x={1250} y={490} tex="\log_2(100/25)=2" />
