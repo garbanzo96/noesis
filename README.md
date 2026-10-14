@@ -66,3 +66,9 @@ legacy-v2/, legacy-v3/   versiones anteriores (solo referencia; no se compilan)
 ```
 
 Stack: React 19, TypeScript, Vite, KaTeX. Licencias de fuentes y bibliotecas en `public/licenses/`.
+
+## Arte y mapa
+
+- Retratos del elenco y fondos de lugares: ilustraciones generadas para el juego (fuentes en `art-src/`, fuera de git; versiones optimizadas en `public/art/`). Se regeneran con `python3 art-src/tools/export_art.py`.
+- Mapa de la ciudad: costa, calles y vía Limache–Puerto de [OpenStreetMap](https://www.openstreetmap.org/copyright) (© colaboradores de OpenStreetMap, licencia ODbL), procesados con `art-src/tools/valpo_map.py`.
+- QA de legibilidad: `npx vite build --mode qa --outDir qa/snap`, luego `node qa/legibility.mjs w1,w2 > qa/out/leg.json` y `python3 qa/legibility.py qa/out/leg.json --sheets`.
