@@ -1480,7 +1480,8 @@
   box-sizing: border-box;
   white-space: normal;
   text-shadow: none;
-  overflow-wrap: anywhere;
+  overflow-wrap: break-word;
+  hyphens: auto;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1525,7 +1526,7 @@
   color: #3a2f22;
   font-family: var(--mono);
   font-weight: 700;
-  font-size: calc(var(--su) * 14);
+  font-size: calc(var(--su) * 16);
   letter-spacing: 0.08em;
 }
 .case-card2.boss .cc-tab {
@@ -1542,8 +1543,8 @@
 .cc-title {
   font-family: var(--display);
   font-weight: 700;
-  font-size: calc(var(--su) * 21);
-  line-height: 1.12;
+  font-size: calc(var(--su) * 25);
+  line-height: 1.1;
   text-align: center;
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -1551,13 +1552,13 @@
   overflow: hidden;
 }
 .cc-title.long {
-  font-size: calc(var(--su) * 18);
+  font-size: calc(var(--su) * 21);
 }
 .cc-sub {
   margin-top: calc(var(--su) * 5);
   font-family: var(--mono);
-  font-size: calc(var(--su) * 13);
-  line-height: 1.22;
+  font-size: calc(var(--su) * 16);
+  line-height: 1.2;
   color: #5a4a36;
   text-align: center;
   display: -webkit-box;
@@ -1994,4 +1995,17 @@
 }
 .title-menu .btn {
   text-align: left;
+}
+.sector {
+  isolation: isolate;
+}
+.sector-ambient {
+  position: absolute !important;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+  filter: blur(3px) saturate(0.85);
+  pointer-events: none;
 }

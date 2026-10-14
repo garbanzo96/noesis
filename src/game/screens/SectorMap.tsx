@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Backdrop } from '../../art/places';
 import { useKey } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
@@ -8,8 +9,8 @@ import type { LevelDef, SectorDef } from '../level/types';
 import { sfx } from '../audio';
 import { useGame } from '../state';
 
-const CARD_W = 220;
-const CARD_H = 138;
+const CARD_W = 244;
+const CARD_H = 152;
 
 function CaseDetail({
   level: focus,
@@ -122,6 +123,7 @@ export function SectorMap({
 
   return (
     <div className="sector" style={{ ['--accent' as string]: sector.accent }}>
+      <Backdrop place={sector.place} className="sector-ambient" />
       <div className="sector-mobile menu-list">
         <header className="sector-mobile-head">
           <span className="eyebrow">
@@ -260,7 +262,11 @@ export function SectorMap({
                       <span>CASO {l.code}</span>
                       <i />
                     </div>
-                    <b className={`cc-title ${l.title.length > 17 ? 'long' : ''}`}>{l.title}</b>
+                    <b
+                      className={`cc-title ${l.title.length > 17 || l.title.split(' ').some((w) => w.length > 11) ? 'long' : ''}`}
+                    >
+                      {l.title}
+                    </b>
                     <span className="cc-sub">{l.subtitle}</span>
                     {st === 'done' && (
                       <>
