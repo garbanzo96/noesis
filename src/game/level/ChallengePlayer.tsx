@@ -4,7 +4,6 @@ import { CueCtx, useSingleGhost } from '../../engine/cue';
 import { useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
-import { Coach, PRACTICE_TOUR } from './Coach';
 import { Console, KeyHint } from './Console';
 import { Notebook } from './Notebook';
 import { Rail } from './Rail';
@@ -205,7 +204,6 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           <KeyHint k="H">pista</KeyHint>
         </div>
       </Console>
-      {!run.reduced && <Coach id="practice" steps={PRACTICE_TOUR} />}
     </div>
   );
 }
