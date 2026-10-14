@@ -131,10 +131,10 @@ function InfoLesson({ beats, unlock, answer }: DemoProps) {
       {beat === 1 && (
         <>
           <line x1={SW.x0} x2={SW.x1} y1={SW.y} y2={SW.y} stroke={C.line} strokeWidth={4} />
-          <Cap x={SW.x0} y={SW.y + 42} size={17} color={C.muted}>
+          <Cap x={SW.x0 - 44} y={SW.y} size={17} color={C.muted} anchor="right">
             decidir antes
           </Cap>
-          <Cap x={SW.x1} y={SW.y + 42} size={17} color={C.muted}>
+          <Cap x={SW.x1 + 44} y={SW.y} size={17} color={C.muted} anchor="left">
             saber antes
           </Cap>
           <Knob

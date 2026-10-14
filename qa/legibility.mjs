@@ -14,7 +14,9 @@ const [VW, VH] = (process.argv[3] ?? '1440x860').split('x').map(Number);
 const SNAP = new URL('./snap/', import.meta.url).pathname;
 const OUT = new URL('./out/leg/', import.meta.url).pathname;
 fs.mkdirSync(OUT, { recursive: true });
-const storage = fs.readFileSync(new URL('./storage.json', import.meta.url), 'utf8');
+const saved = JSON.parse(fs.readFileSync(new URL('./storage.json', import.meta.url), 'utf8'));
+// reduced motion: animations jump to their final state, so the audit sees the settled layout
+const storage = JSON.stringify({ ...saved, settings: { ...(saved.settings ?? {}), reducedMotion: true } });
 const browser = await chromium.launch({ channel: 'chrome', headless: true });
 const ctx = await browser.newContext({ viewport: { width: VW, height: VH } });
 await ctx.route('http://snap.local/**', (route) => {
@@ -88,7 +90,7 @@ for (const lv of levels.filter((l) => worlds.some((w) => l.id === w || l.id.star
     const n = kind === 'challenge' ? lv.rounds[k] : await page.evaluate(() => window.__demo?.count ?? 0);
     for (let b = 0; b < n; b++) {
       await page.keyboard.press('Space');
-      await page.waitForTimeout(kind === 'lesson' ? 2300 : 1500);
+      await page.waitForTimeout(kind === 'lesson' ? 1100 : 800);
       if (kind !== 'challenge') {
         const ask = await page.evaluate(() => window.__demo?.rightKey || 0);
         if (ask) { await page.keyboard.press(String(ask)); await page.waitForTimeout(500); }
@@ -97,6 +99,7 @@ for (const lv of levels.filter((l) => worlds.some((w) => l.id === w || l.id.star
       try { r = await audit(); } catch { r = null; }
       if (r) {
         const name = `${lv.id}-${k}-${b}.jpg`;
+        if (process.env.WITHLABELS) { try { await page.locator('.stage').first().screenshot({ path: OUT + name.replace('.jpg', '-L.jpg'), type: 'jpeg', quality: 80 }); } catch {} }
         try { await shoot(name); } catch {}
         report.push({ id: lv.id, step: kind, k, at: b, shot: name, ...r });
       }
