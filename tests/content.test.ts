@@ -74,7 +74,7 @@ describe('content contract', () => {
 
   it('every topic has a lesson before it is applied, and its blackboard renders', () => {
     // worlds whose lessons are written; add each world here as its lessons land
-    const withLessons = new Set(['foundations', 'differential', 'integral', 'linear', 'probability', 'statistics', 'multivariate', 'information', 'dynamics', 'bayesian', 'variational', 'generative', 'decision']);
+    const withLessons = new Set(['foundations', 'differential', 'integral', 'linear', 'probability', 'statistics', 'multivariate', 'information', 'dynamics', 'bayesian', 'variational', 'generative', 'decision', 'active']);
     for (const l of levels) {
       if (l.wip || l.kind === 'boss' || !withLessons.has(l.world)) continue;
       const li = l.steps.findIndex((s) => s.kind === 'lesson');

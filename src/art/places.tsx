@@ -19,7 +19,8 @@ export type PlaceId =
   | 'clinica'
   | 'laboratorio'
   | 'fabrica'
-  | 'bolsa';
+  | 'bolsa'
+  | 'torre';
 
 function prng(seed: number) {
   let a = seed >>> 0;
@@ -314,6 +315,57 @@ const PLACES: Record<PlaceId, () => ReactElement> = {
       <path d="M550 704 L720 748 L800 790 L555 759 Z" fill="#ded8b2" />
       <path d="M398 560 L421 638 L468 643" fill="none" stroke="#738781" strokeWidth={7} />
       <Neon x={800} y={205} text="OBSERVATORIO · TURNO NOCTURNO" color="#e7df5a" size={28} />
+    </>
+  ),
+  torre: () => (
+    <>
+      <rect width="1600" height="900" fill="#05060b" />
+      {/* the bay far below, through the glass */}
+      <rect x={0} y={0} width={1600} height={560} fill="#070b14" />
+      <Cerros seed={141} y0={470} color="#0b1220" lights />
+      {Array.from({ length: 60 }, (_, i) => (
+        <circle
+          key={i}
+          cx={(i * 97) % 1600}
+          cy={500 + ((i * 37) % 60)}
+          r={1.6}
+          fill="#ffd9a0"
+          opacity={0.6}
+        />
+      ))}
+      {/* glass mullions */}
+      {[0, 320, 640, 960, 1280, 1600].map((x) => (
+        <line key={x} x1={x} x2={x} y1={0} y2={560} stroke="#1a1d2b" strokeWidth={10} />
+      ))}
+      <line x1={0} x2={1600} y1={560} y2={560} stroke="#1a1d2b" strokeWidth={14} />
+      {/* red server room at the back and an empty desk */}
+      <rect
+        x={1180}
+        y={600}
+        width={360}
+        height={220}
+        fill="#16070b"
+        stroke="#e8364f"
+        strokeWidth={3}
+      />
+      {Array.from({ length: 5 }, (_, i) => (
+        <rect
+          key={i}
+          x={1200 + i * 66}
+          y={620}
+          width={50}
+          height={180}
+          rx={4}
+          fill="#22090f"
+          stroke="#5a1a26"
+        />
+      ))}
+      <rect x={1180} y={600} width={360} height={220} fill="#e8364f" opacity={0.06} />
+      <rect x={300} y={720} width={520} height={24} fill="#1d1a24" />
+      <rect x={330} y={744} width={20} height={120} fill="#141119" />
+      <rect x={770} y={744} width={20} height={120} fill="#141119" />
+      <circle cx={560} cy={712} r={14} fill="#ffbc5e" opacity={0.85} />
+      <Neon x={800} y={110} text="TORRE HALCÓN · PISO 40" color="#e8364f" size={30} />
     </>
   ),
   bolsa: () => (
