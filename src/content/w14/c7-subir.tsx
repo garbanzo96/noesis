@@ -151,7 +151,7 @@ const lesson: LessonStep = {
       say: 'Cada ruta se abre en dos resultados. El **valor esperado** multiplica cada pago por su probabilidad y suma; conserva el signo de la pérdida.',
       board: {
         label: 'Promedio de los pagos',
-        tex: 'E=p\\,G-(1-p)L',
+        tex: '\\p{1}{E}=\\p{2}{p\\,G-(1-p)L}',
         body: 'G es la ganancia al tener éxito y L es la magnitud positiva de la pérdida al fallar.',
       },
     },
@@ -164,14 +164,14 @@ const lesson: LessonStep = {
         explain:
           '0,6·40 − 0,4·20 = 24 − 8 = 16. El 32 suma la pérdida como ganancia; el 24 omite el fracaso.',
       },
-      board: { label: 'Ponderar ambos resultados', tex: 'E_a=0{,}6\\cdot40-0{,}4\\cdot20' },
+      board: { label: 'Ponderar ambos resultados', tex: '\\p{1}{E_a}=\\p{2}{0{,}6\\cdot40-0{,}4\\cdot20}' },
     },
     {
       say: 'Esperar conserva esas probabilidades, pero demora una ronda. El **descuento** γ convierte el valor futuro a valor de ahora: prueba γ = 0,8.',
       gate: 'Arrastra la perilla de γ hasta 0,8.',
       board: {
         label: 'Una ronda después',
-        tex: 'Q(s,\\text{esperar})=\\gamma E_e',
+        tex: '\\p{1}{Q(s,\\text{esperar})}=\\p{2}{\\gamma E_e}',
         body: 'Con las mismas probabilidades, 0,8·16 = 12,8: la demora reduce un valor esperado positivo.',
       },
     },
@@ -186,14 +186,14 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Mejora y demora',
-        tex: 'Q(s,\\text{esperar})=0{,}8(0{,}8\\cdot40-0{,}2\\cdot20)',
+        tex: '\\p{1}{Q(s,\\text{esperar})}=\\p{2}{0{,}8(0{,}8\\cdot40-0{,}2\\cdot20)}',
       },
     },
     {
       say: 'El **valor del estado** V(s) es el mayor valor entre las acciones disponibles. Compara subir ahora con esperar ya descontado; un promedio favorable no garantiza éxito en una sola subida.',
       board: {
         label: 'Elegir la acción',
-        tex: 'V(s)=\\max(E_a;\\gamma E_e)',
+        tex: '\\p{1}{V(s)}=\\p{2}{\\max(E_a;\\gamma E_e)}',
         body: 'Esperar conviene si γ·E_e > E_a. Con valor positivo y la misma probabilidad, un descuento menor que 1 favorece subir ahora.',
       },
     },

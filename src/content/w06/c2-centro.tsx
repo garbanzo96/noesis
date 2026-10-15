@@ -105,7 +105,7 @@ const lesson: LessonStep = {
     {
       say: 'La **mediana** es el dato del medio cuando se ordenan: deja la mitad de los datos a cada lado. Si son pares, es el promedio de los dos centrales. Fíjate: no se movió con la pesa.',
       dur: 3,
-      board: { label: 'Mediana', tex: '\\tilde x=\\text{dato central (ordenados)}', body: 'Con $n$ par, el promedio de los dos centrales. Es **resistente** a los extremos.' },
+      board: { label: 'Mediana', tex: '\\p{1}{\\tilde x}=\\p{2}{\\text{dato central (ordenados)}}', body: 'Con $n$ par, el promedio de los dos centrales. Es **resistente** a los extremos.' },
     },
     {
       say: 'Compara las dos medidas con un dato extremo.',
@@ -115,7 +115,7 @@ const lesson: LessonStep = {
     {
       say: 'La **moda** es el valor más frecuente. Sirve incluso para variables cualitativas, como la comuna.',
       dur: 2.4,
-      board: { label: 'Moda', tex: '\\text{Mo}=\\text{valor de mayor frecuencia}' },
+      board: { label: 'Moda', tex: '\\p{1}{\\text{Mo}}=\\p{2}{\\text{valor de mayor frecuencia}}' },
     },
     {
       say: 'Con una tabla de frecuencias no hace falta escribir cada dato: cada valor se multiplica por cuántas veces aparece. Es una **media ponderada**.',

@@ -143,7 +143,7 @@ const lesson: LessonStep = {
       say: 'Una **familia variacional** limita las formas que puede tomar q, nuestra aproximación al posterior p. Aquí repartimos entre x₀ y x₁; x₂ queda siempre con probabilidad cero.',
       board: {
         label: 'La familia de dos valores',
-        tex: 'p=(\\tfrac14;\\tfrac12;\\tfrac14),\\quad q(a)=(a;1-a;0),\\quad 0\\le a\\le1',
+        tex: '\\p{1}{p}=\\p{2}{(\\tfrac14;\\tfrac12;\\tfrac14)},\\quad\\p{3}{ q(a)}=\\p{4}{(a;1-a;0)},\\quad\\p{5}{ 0\\le a\\le1}',
       },
     },
     {
@@ -170,14 +170,14 @@ const lesson: LessonStep = {
       gate: 'Arrastra la perilla hasta la candidata con menor KL.',
       board: {
         label: 'Elegir dentro de la familia',
-        tex: 'q^*=\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)',
+        tex: '\\p{1}{q^*}=\\p{2}{\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',
       },
     },
     {
       say: 'La mejor q reparte 1/3 y 2/3 entre los dos valores permitidos. Todavía queda un desajuste: esta familia nunca puede copiar la probabilidad de x₂.',
       board: {
         label: 'El límite del molde',
-        tex: 'q^*=(\\tfrac13;\\tfrac23;0),\\quad KL(q^*\\Vert p)=\\log_2\\tfrac43\\approx0{,}415',
+        tex: '\\p{1}{q^*}=\\p{2}{(\\tfrac13;\\tfrac23;0)},\\quad\\p{3}{ KL(q^*\\Vert p)}=\\p{4}{\\log_2\\tfrac43}\\approx\\p{5}{0{,}415}',
         body: 'KL = 0 requiere q = p en todos los valores; con esta familia es imposible.',
       },
     },

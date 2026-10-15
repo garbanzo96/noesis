@@ -139,7 +139,7 @@ const lesson: LessonStep = {
     {
       say: 'La **frecuencia acumulada** $F_i$ suma las frecuencias hasta la clase $i$: responde preguntas del tipo «¿cuántos tienen menos de tal edad?».',
       ask: { prompt: '¿Cuántas de estas 30 personas tienen menos de 40 años?', options: ['17', '6', '13'], answer: 0, explain: '$1+3+7+6=17$: es $F_4$, la acumulada hasta la clase $[30,40)$.' },
-      board: { label: 'Frecuencia acumulada', tex: 'F_i=f_1+f_2+\\dots+f_i' },
+      board: { label: 'Frecuencia acumulada', tex: '\\p{1}{F_i}=\\p{2}{f_1+f_2+\\dots+f_i}' },
     },
   ],
 };

@@ -102,12 +102,12 @@ const lesson: LessonStep = {
     {
       say: 'El determinante también puede ser **negativo**: significa que la matriz da vuelta el plano, como un espejo. Mira la F.',
       gate: 'Arrastra $A\\hat\\jmath$ hasta que el determinante sea negativo.',
-      board: { label: 'Signo', tex: '\\det A<0\\ \\Rightarrow\\ \\text{invierte la orientación}', body: 'Las áreas se multiplican por $|\\det A|$.' },
+      board: { label: 'Signo', tex: '\\p{1}{\\det A<0\\ }\\Rightarrow\\p{2}{\\ \\text{invierte la orientación}}', body: 'Las áreas se multiplican por $|\\det A|$.' },
     },
     {
       say: 'Si el determinante es **cero**, las columnas quedan paralelas y el plano se aplasta en una recta. Puntos distintos caen en el mismo lugar.',
       ask: { prompt: '¿Se puede deshacer una transformación con determinante 0?', options: ['No: se perdió información', 'Sí, siempre', 'Solo si la matriz es simétrica'], answer: 0, explain: 'Si dos puntos distintos caen en el mismo lugar, desde el resultado no se puede saber de cuál venía.' },
-      board: { label: 'Determinante cero', tex: '\\det A=0\\iff\\text{columnas paralelas}', body: 'El plano se aplasta y la transformación no se puede deshacer.' },
+      board: { label: 'Determinante cero', tex: '\\p{1}{\\det A}=\\p{2}{0\\iff\\text{columnas paralelas}}', body: 'El plano se aplasta y la transformación no se puede deshacer.' },
     },
     {
       say: 'Si $\\det A\\neq0$, existe la **inversa** $A^{-1}$: la transformación que devuelve todo a su lugar. En $2\\times2$: se intercambian $a$ y $d$, se cambia el signo de $b$ y $c$, y se divide por el determinante.',

@@ -158,21 +158,21 @@ const lesson: LessonStep = {
       say: 'Diez dentro de tres días valen hoy 7,29 si conservas el 90 % del valor por cada día de espera. Ese equivalente hoy se llama **valor presente**; el factor diario es γ = 0,9.',
       board: {
         label: 'Valor presente',
-        tex: '\\text{VP}=\\gamma^t r',
+        tex: '\\p{1}{\\text{VP}}=\\p{2}{\\gamma^t r}',
         body: 'r es el cobro y t el número de días hasta recibirlo. γ es un factor de valoración, no una probabilidad de cobrar.',
       },
     },
     {
       say: 'Mueve el cobro por el calendario: hoy conserva todo su valor; cada día adicional aplica otra vez el factor 0,9.',
       gate: 'Arrastra la perilla de plazo hasta t = 3 días.',
-      board: { label: 'Tres días', tex: '10\\cdot0{,}9^3=7{,}29' },
+      board: { label: 'Tres días', tex: '\\p{1}{10\\cdot0{,}9^3}=\\p{2}{7{,}29}' },
     },
     {
       say: 'Mantén el plazo en tres días y sube **γ**: cuanto más cerca de 1, más valor conservan los cobros futuros. Con γ entre 0 y 1, un plazo mayor reduce el valor presente de un cobro positivo.',
       gate: 'Arrastra la perilla de descuento diario hasta γ = 0,9.',
       board: {
         label: 'Factor de descuento',
-        tex: '0<\\gamma<1,\\quad \\gamma^0=1',
+        tex: '\\p{1}{0<\\gamma<1},\\quad\\p{2}{ \\gamma^0}=\\p{3}{1}',
         body: 'El plazo y el factor deben usar la misma unidad: aquí, días.',
       },
     },
@@ -184,13 +184,13 @@ const lesson: LessonStep = {
         answer: 1,
         explain: '100 · 0,9² = 81. El 90 descuenta solo un día; el 100 deja fuera la espera.',
       },
-      board: { label: 'Dos días de espera', tex: '\\text{VP}=\\gamma^t r' },
+      board: { label: 'Dos días de espera', tex: '\\p{1}{\\text{VP}}=\\p{2}{\\gamma^t r}' },
     },
     {
       say: 'Si cobras 10 cada día para siempre, empezando hoy, sumas 10 + 9 + 8,1 + …: el valor presente total es 100. La **serie geométrica** converge porque γ es menor que 1.',
       board: {
         label: 'Renta desde hoy',
-        tex: '\\sum_{t\\ge0}\\gamma^t r=\\frac{r}{1-\\gamma}=\\frac{10}{1-0{,}9}=100',
+        tex: '\\p{1}{\\sum_{t\\ge0}\\gamma^t r}=\\p{2}{\\frac{r}{1-\\gamma}}=\\p{3}{\\frac{10}{1-0{,}9}}=\\p{4}{100}',
         body: 'Si el primer cobro fuera mañana, multiplicarías este total por γ: valdría 90.',
       },
     },

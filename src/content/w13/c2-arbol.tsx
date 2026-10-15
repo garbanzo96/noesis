@@ -206,7 +206,7 @@ const lesson: LessonStep = {
       gate: 'Arrastra la perilla por A, luego B y finalmente «Azar ahora», sin saltarte nodos.',
       board: {
         label: 'Resolver hacia atrás',
-        tex: 'V(A)=\\max(60-10,0),\\quad V(B)=\\max(-20-10,0)',
+        tex: '\\p{1}{V(A)}=\\p{2}{\\max(60-10,0)},\\quad\\p{3}{ V(B)}=\\p{4}{\\max(-20-10,0)}',
       },
     },
     {
@@ -218,11 +218,11 @@ const lesson: LessonStep = {
         explain:
           'En el círculo promedias: 0,5 · 50 + 0,5 · 0 = 25. El 50 corresponde solo al dato bueno; 20 es el valor de invertir ahora.',
       },
-      board: { label: 'Nodo de azar', tex: 'V(s)=\\sum_j p_j\\,V(s_j)' },
+      board: { label: 'Nodo de azar', tex: '\\p{1}{V(s)}=\\p{2}{\\sum_j p_j\\,V(s_j)}' },
     },
     {
       say: 'Llegaste al cuadrado inicial. Compara 20 por invertir ahora con 25 por esperar: eliges esperar y conservas un margen esperado de 5.',
-      board: { label: 'Decisión inicial', tex: 'V_{\\text{inicio}}=\\max(20,25)=25' },
+      board: { label: 'Decisión inicial', tex: '\\p{1}{V_{\\text{inicio}}}=\\p{2}{\\max(20,25)}=\\p{3}{25}' },
     },
     {
       say: 'Una **política** especifica qué harás en cada decisión: esperar ahora e invertir solo si el dato es bueno. Resuelve cada nodo cuando ya tengas los valores de sus ramas.',

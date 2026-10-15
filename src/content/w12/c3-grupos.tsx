@@ -142,7 +142,7 @@ const lesson: LessonStep = {
       say: 'Las dos máquinas producen valores de 0 a 3. A entrega más valores bajos; B entrega más valores altos. Mira las barras de cada fuente.',
       board: {
         label: 'Las fuentes',
-        tex: 'P_A=(0{,}5;0{,}3;0{,}15;0{,}05),\\quad P_B=(0{,}05;0{,}15;0{,}3;0{,}5)',
+        tex: '\\p{1}{P_A}=\\p{2}{(0{,}5;0{,}3;0{,}15;0{,}05)},\\quad\\p{3}{ P_B}=\\p{4}{(0{,}05;0{,}15;0{,}3;0{,}5)}',
       },
     },
     {
@@ -157,7 +157,7 @@ const lesson: LessonStep = {
       say: 'Para x = 2, A aporta 0,5 · 0,15 = 0,075 y B aporta 0,5 · 0,3 = 0,15. Suma ambos aportes para obtener la probabilidad del valor en la cinta.',
       board: {
         label: 'Un valor en la cinta',
-        tex: 'P(2)=0{,}5\\cdot0{,}15+0{,}5\\cdot0{,}3=0{,}225',
+        tex: '\\p{1}{P(2)}=\\p{2}{0{,}5\\cdot0{,}15+0{,}5\\cdot0{,}3}=\\p{3}{0{,}225}',
       },
     },
     {
@@ -178,7 +178,7 @@ const lesson: LessonStep = {
       say: 'Una responsabilidad de 1/3 expresa incertidumbre sobre el origen de ese registro. B tiene responsabilidad 2/3; el valor por sí solo no identifica la máquina.',
       board: {
         label: 'Las responsabilidades suman uno',
-        tex: 'r_A=\\tfrac13,\\quad r_B=1-r_A=\\tfrac23',
+        tex: '\\p{1}{r_A}=\\p{2}{\\tfrac13},\\quad\\p{3}{ r_B}=\\p{4}{1-r_A}=\\p{5}{\\tfrac23}',
       },
     },
   ],

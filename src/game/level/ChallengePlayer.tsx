@@ -77,10 +77,10 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           if (left <= 0) {
             setPhase('desync');
             sfx.glitch();
+            // only this round is reopened, with new data; earlier rounds stay solved
             setTimeout(() => {
               resetRoundUi();
               setIntegrity(INTEGRITY);
-              setRound(0);
               setCycle((c) => c + 1);
               setPhase('play');
             }, 2400);
@@ -94,7 +94,11 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
 
   useEffect(() => {
     if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
-    (window as unknown as { __round: unknown }).__round = { pass: () => api.result(true, 'QA'), round, phase };
+    (window as unknown as { __round: unknown }).__round = {
+      pass: () => api.result(true, 'QA'),
+      round,
+      phase,
+    };
   });
 
   const nextRound = () => {
@@ -103,6 +107,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     else {
       sfx.advance();
       resetRoundUi();
+      setIntegrity(INTEGRITY);
       setRound(round + 1);
       setPhase('play');
     }
@@ -114,11 +119,15 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     setShownHints((h) => h + 1);
   };
   useKey(['h', 'H'], revealHint, !run.paused && phase === 'play');
-  useKey([' ', 'Enter'], (e) => {
-    if (phase !== 'solved') return;
-    e.preventDefault();
-    nextRound();
-  }, !run.paused);
+  useKey(
+    [' ', 'Enter'],
+    (e) => {
+      if (phase !== 'solved') return;
+      e.preventDefault();
+      nextRound();
+    },
+    !run.paused,
+  );
   useEffect(() => {
     // solved rounds move on after a beat, so the player can read the explanation
     if (phase !== 'solved') return;
@@ -131,37 +140,62 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   // each round starts with its handles cued; the first touch retires the cue for that round
   const [touchedRound, setTouchedRound] = useState(-1);
   const cueActive = phase === 'play' && touchedRound !== round + cycle * 100;
-  const cue = useMemo(() => ({ active: cueActive, touch: () => setTouchedRound(round + cycle * 100) }), [cueActive, round, cycle]);
+  const cue = useMemo(
+    () => ({ active: cueActive, touch: () => setTouchedRound(round + cycle * 100) }),
+    [cueActive, round, cycle],
+  );
   return (
     <div className="play with-notes practice">
-      <div className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''} ${cueActive ? 'cue-on' : ''}`}>
-        <div className="stage-area" ref={stageArea} onPointerDownCapture={() => cueActive && cue.touch()}>
-        <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
-        <div className="challenge-head">
-          <span className="challenge-title">{step.title}</span>
-          <div className="round-pips">
-            {Array.from({ length: step.rounds }, (_, i) => (
-              <i key={i} className={i < round || (i === round && phase === 'solved') ? 'done' : i === round ? 'now' : ''} />
-            ))}
+      <div
+        className={`play-stage ${phase === 'solved' ? 'solved' : ''} ${shaking ? 'shake' : ''} ${cueActive ? 'cue-on' : ''}`}
+      >
+        <div
+          className="stage-area"
+          ref={stageArea}
+          onPointerDownCapture={() => cueActive && cue.touch()}
+        >
+          <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
+          <div className="challenge-head">
+            <span className="challenge-title">{step.title}</span>
+            <div className="round-pips">
+              {Array.from({ length: step.rounds }, (_, i) => (
+                <i
+                  key={i}
+                  className={
+                    i < round || (i === round && phase === 'solved')
+                      ? 'done'
+                      : i === round
+                        ? 'now'
+                        : ''
+                  }
+                />
+              ))}
+            </div>
+            <span className="round-label">
+              {round + 1} / {step.rounds}
+            </span>
           </div>
-          <span className="round-label">
-            {round + 1} / {step.rounds}
-          </span>
-        </div>
-        <CueCtx.Provider value={cue}>
-          <Comp key={`${round}-${cycle}`} seed={seed} round={round} rounds={step.rounds} reduced={run.reduced} api={api} />
-        </CueCtx.Provider>
-        {phase === 'solved' && (
-          <div className="solved-flash">
-            <span>✓</span>
-          </div>
-        )}
-        {phase === 'desync' && (
-          <div className="desync">
-            <span>SIN CREDIBILIDAD</span>
-            <p>Iris revisa tus notas. El caso se reabre con datos nuevos.</p>
-          </div>
-        )}
+          <CueCtx.Provider value={cue}>
+            <Comp
+              key={`${round}-${cycle}`}
+              seed={seed}
+              round={round}
+              rounds={step.rounds}
+              reduced={run.reduced}
+              api={api}
+            />
+          </CueCtx.Provider>
+          {phase === 'solved' && (
+            <div className="solved-flash">
+              <span>✓</span>
+            </div>
+          )}
+          {phase === 'desync' && (
+            <div className="desync">
+              <span>SIN CREDIBILIDAD</span>
+              <p>Iris revisa tus notas. Esta ronda se repite con datos nuevos.</p>
+            </div>
+          )}
         </div>
       </div>
       <Rail label="Cuaderno" count={run.notes.length}>
@@ -179,7 +213,11 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
                 {round + 1 >= step.rounds ? 'Cerrar' : 'Siguiente'} ▸
               </button>
             ) : (
-              <button className="btn hint" onClick={revealHint} disabled={shownHints >= hints.length || phase !== 'play'}>
+              <button
+                className="btn hint"
+                onClick={revealHint}
+                disabled={shownHints >= hints.length || phase !== 'play'}
+              >
                 Pista {hints.length ? `${shownHints}/${hints.length}` : ''}
               </button>
             )}

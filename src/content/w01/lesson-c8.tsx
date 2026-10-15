@@ -150,12 +150,12 @@ export const lesson: LessonStep = {
     {
       say: 'En general, $\\log_b N$ es el exponente que lleva la base $b$ hasta $N$. Con base 10, cuenta cuántos ceros hay.',
       dur: 3,
-      board: { label: 'Definición', tex: '\\log_b N=t\\iff b^t=N', body: 'Con $b>0$, $b\\ne1$ y $N>0$. Valores especiales: $\\log_b1=0$, $\\log_bb=1$.' },
+      board: { label: 'Definición', tex: '\\p{1}{\\log_b N}=\\p{2}{t\\iff b^t}=\\p{3}{N}', body: 'Con $b>0$, $b\\ne1$ y $N>0$. Valores especiales: $\\log_b1=0$, $\\log_bb=1$.' },
     },
     {
       say: 'Como deshace la potencia, la gráfica de $\\log_2 x$ es el reflejo de $2^x$ en la recta $y=x$.',
       gate: 'Arrastra el punto celeste y mira su reflejo.',
-      board: { label: 'Inversas', tex: 'b^{\\log_b N}=N,\\qquad \\log_b\\left(b^t\\right)=t' },
+      board: { label: 'Inversas', tex: '\\p{1}{b^{\\log_b N}}=\\p{2}{N,\\qquad \\log_b\\left(b^t\\right)}=\\p{3}{t}' },
     },
     {
       say: 'En una **escala logarítmica**, distancias iguales significan factores iguales. Sirve para ver juntos números muy chicos y muy grandes.',

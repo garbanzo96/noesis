@@ -137,7 +137,7 @@ const lesson: LessonStep = {
     {
       say: 'Con el error estándar se puede medir qué tan lejos de $\\mu$ cae una media, igual que con un dato: en errores estándar.',
       ask: { prompt: 'Con $\\mu=40$, $\\sigma=12$ y $n=36$, ¿qué tan probable es obtener $\\bar x>44$?', options: ['≈ 2,5 %', '≈ 16 %', '≈ 50 %'], answer: 0, explain: '$\\text{EE}=12/6=2$, así que $z=(44-40)/2=2$. Sobre $z=2$ queda la mitad del 5 %: 2,5 %.' },
-      board: { label: 'z de una media', tex: 'z=\\frac{\\bar x-\\mu}{\\sigma/\\sqrt n}' },
+      board: { label: 'z de una media', tex: '\\p{1}{z}=\\p{2}{\\frac{\\bar x-\\mu}{\\sigma/\\sqrt n}}' },
     },
   ],
 };

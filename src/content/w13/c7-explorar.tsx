@@ -191,7 +191,7 @@ const lesson: LessonStep = {
       say: 'Cada mesa paga una unidad si aciertas. Sus tasas reales son desconocidas: tras cinco pruebas, A lleva tres aciertos y B lleva uno.',
       board: {
         label: 'Frecuencia observada',
-        tex: '\\widehat\\mu_a=\\frac{\\text{aciertos en }a}{\\text{pruebas en }a}',
+        tex: '\\p{1}{\\widehat\\mu_a}=\\p{2}{\\frac{\\text{aciertos en }a}{\\text{pruebas en }a}}',
       },
     },
     {
@@ -207,7 +207,7 @@ const lesson: LessonStep = {
         explain:
           'Las frecuencias describen estas pruebas. No garantizan el orden de las tasas reales; dejar de probar B puede mantener una elección equivocada.',
       },
-      board: { label: 'Explotar', tex: 'a=\\arg\\max_a\\widehat\\mu_a' },
+      board: { label: 'Explotar', tex: '\\p{1}{a}=\\p{2}{\\arg\\max_a\\widehat\\mu_a}' },
     },
     {
       say: 'En este ejemplo, las tasas reales son A: 0,4 y B: 0,6. **Explorar** permite reunir más pruebas de una mesa que al principio parecía peor.',
@@ -221,14 +221,14 @@ const lesson: LessonStep = {
       gate: 'Arrastra la perilla hasta ε = 0,2.',
       board: {
         label: 'Exploración uniforme',
-        tex: 'P(B)=\\frac\\varepsilon2,\\quad P(A)=1-\\varepsilon+\\frac\\varepsilon2',
+        tex: '\\p{1}{P(B)}=\\p{2}{\\frac\\varepsilon2},\\quad\\p{3}{ P(A)}=\\p{4}{1-\\varepsilon+\\frac\\varepsilon2}',
       },
     },
     {
       say: 'El **arrepentimiento** suma lo que dejas de ganar en promedio respecto de la mejor mesa real. Jugar cien veces A cuesta 20 aciertos esperados; el resultado efectivo puede variar.',
       board: {
         label: 'Arrepentimiento esperado',
-        tex: 'R_T=\\sum_{t=1}^T(\\mu^*-\\mu_{a_t}),\\quad\\mu^*=\\max_a\\mu_a',
+        tex: '\\p{1}{R_T}=\\p{2}{\\sum_{t=1}^T(\\mu^*-\\mu_{a_t})},\\quad\\p{3}{\\mu^*}=\\p{4}{\\max_a\\mu_a}',
       },
     },
   ],

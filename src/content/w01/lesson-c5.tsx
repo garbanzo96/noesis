@@ -204,7 +204,7 @@ export const lesson: LessonStep = {
     {
       say: 'El **índice** $i$ es un contador: toma los valores 1, 2, 3… y en cada uno agrega un término. Lo acumulado hasta $n$ es la suma parcial.',
       gate: 'Arrastra el índice desde 1 hasta 7.',
-      board: { label: 'Suma parcial', tex: 'S_n=\\sum_{i=1}^{n}x_i', body: '$S_7=3+5+2+6+4+7+1=28$.' },
+      board: { label: 'Suma parcial', tex: '\\p{1}{S_n}=\\p{2}{\\sum_{i=1}^{n}x_i}', body: '$S_7=3+5+2+6+4+7+1=28$.' },
     },
     {
       say: 'El término puede ser una fórmula en $i$. Para calcular, se expande: se reemplaza $i$ por cada valor y se suma.',

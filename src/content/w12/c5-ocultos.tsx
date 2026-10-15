@@ -171,11 +171,11 @@ const lesson: LessonStep = {
     {
       say: 'Arrastra z primero bajo −1 y luego sobre 1, o al revés. Mira cómo cambian juntas las dos columnas mientras el punto recorre la recta.',
       gate: 'Visita z ≤ −1 y z ≥ 1 con la perilla.',
-      board: { label: 'Dos columnas, una perilla', tex: 'x_1=5+0{,}6z,\\quad x_2=5+0{,}8z' },
+      board: { label: 'Dos columnas, una perilla', tex: '\\p{1}{x_1}=\\p{2}{5+0{,}6z},\\quad\\p{3}{ x_2}=\\p{4}{5+0{,}8z}' },
     },
     {
       say: 'La medición (5,6; 6,2) queda fuera de la recta. Resta el centro antes de buscar el rasgo: el desplazamiento observado es (0,6; 1,2).',
-      board: { label: 'Centrar la medición', tex: 'x-\\mu=(0{,}6;1{,}2)' },
+      board: { label: 'Centrar la medición', tex: '\\p{1}{x-\\mu}=\\p{2}{(0{,}6;1{,}2)}' },
     },
     {
       say: 'Para una dirección de longitud uno, proyecta el desplazamiento sobre w. Multiplica las coordenadas correspondientes y suma.',
@@ -192,7 +192,7 @@ const lesson: LessonStep = {
       say: 'Vuelve a generar con z = 1,32: obtienes (5,792; 6,056). Esta **reconstrucción** es el punto más cercano en la recta; pierde la parte de la medición que queda fuera de ella.',
       board: {
         label: 'Reconstruir',
-        tex: '\\hat x=\\mu+\\hat z\\,w=(5{,}792;6{,}056)',
+        tex: '\\p{1}{\\hat x}=\\p{2}{\\mu+\\hat z\\,w}=\\p{3}{(5{,}792;6{,}056)}',
         body: 'Un solo rasgo resume dos mediciones, pero no reproduce cualquier par exacto.',
       },
     },

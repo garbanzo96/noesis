@@ -1,8 +1,9 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useKey } from '../../engine/hooks';
 import { Rich, Tex } from '../../engine/Tex';
-import { GLYPHS, LEVELS, PLAYABLE, TOPICS } from '../../content/registry';
+import { GLYPHS, LEVELS, PLAYABLE, TOPICS, SECTOR_BY_ID } from '../../content/registry';
 import type { Glyph, LevelDef, Note, WorldId } from '../level/types';
+import { Sym } from './CityMap';
 
 /** Lowercase without accents, for search. */
 const fold = (s: string) => s.toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
@@ -225,14 +226,15 @@ export function ResourcesScreen({
             {TOPICS.map((g) => (
               <button
                 key={g.world}
-                className={!needle && world === g.world ? 'on' : ''}
+                title={`${SECTOR_BY_ID[g.world].number}. ${SECTOR_BY_ID[g.world].area} · ${SECTOR_BY_ID[g.world].name}`}
+                className={`res-tab ${!needle && world === g.world ? 'on' : ''}`}
                 onClick={() => {
                   setQ('');
                   setWorld(g.world);
                   doc.current?.scrollTo({ top: 0 });
                 }}
               >
-                {PLAYABLE[g.world]!.name} · {PLAYABLE[g.world]!.tag}
+                <b>{SECTOR_BY_ID[g.world].number}</b> <Sym s={SECTOR_BY_ID[g.world]} scale={0.9} />
               </button>
             ))}
           </div>

@@ -196,18 +196,18 @@ const lesson: LessonStep = {
       say: 'La potencia indica el consumo por hora. La **integral** acumula ese consumo en un intervalo: cada tira tiene altura en kW y ancho en horas.',
       board: {
         label: 'Energía acumulada',
-        tex: 'E=\\int_a^b P(t)\\,dt',
+        tex: '\\p{1}{E}=\\p{2}{\\int_a^b P(t)\\,dt}',
         body: 'kW por horas da kWh.',
       },
     },
     {
       say: 'En este registro de repaso, P(t) = 1 + t. Barre las cuatro horas para cubrir todo el consumo.',
       gate: 'Arrastra la perilla hasta t = 4 h.',
-      board: { label: 'Barrer el intervalo', tex: 'E=\\int_0^4(1+t)\\,dt' },
+      board: { label: 'Barrer el intervalo', tex: '\\p{1}{E}=\\p{2}{\\int_0^4(1+t)\\,dt}' },
     },
     {
       say: 'El área tiene un rectángulo de base 4 y altura 1, más un triángulo de base 4 y altura 4. Sus áreas suman 12 kWh.',
-      board: { label: 'Dos áreas', tex: 'E=1\\cdot4+\\frac{4\\cdot4}{2}=12' },
+      board: { label: 'Dos áreas', tex: '\\p{1}{E}=\\p{2}{1\\cdot4+\\frac{4\\cdot4}{2}}=\\p{3}{12}' },
     },
     {
       say: 'Ahora recorta el mismo registro a sus primeras dos horas.',
@@ -218,7 +218,7 @@ const lesson: LessonStep = {
         explain:
           'Rectángulo: 1·2 = 2. Triángulo: 2·2/2 = 2. Total: 4 kWh; 3 kW es solo la potencia final.',
       },
-      board: { label: 'Primeras dos horas', tex: 'E=2+2=4\\ \\text{kWh}' },
+      board: { label: 'Primeras dos horas', tex: '\\p{1}{E}=\\p{2}{2+2}=\\p{3}{4\\ \\text{kWh}}' },
     },
     {
       say: 'También puedes usar una **primitiva** F, cuya derivada es P. Evalúa F al final y resta su valor al inicio.',

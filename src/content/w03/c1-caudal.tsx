@@ -164,12 +164,12 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Cada franja duplica su altura sin cambiar su ancho: el área completa se duplica.',
       },
-      board: { label: 'Caudal variable', tex: 'V=\\text{área bajo }Q(t)\\ \\text{entre }0\\text{ y }t' },
+      board: { label: 'Caudal variable', tex: '\\p{1}{V}=\\p{2}{\\text{área bajo }Q(t)\\ \\text{entre }0\\text{ y }t}' },
     },
     {
       say: 'Una forma simple de estimar esa área: contar cuadrados de la cuadrícula. Cada cuadrado vale $1\\ \\tfrac{\\text{m}^3}{\\text{s}}\\times1\\ \\text{s}=1\\ \\text{m}^3$.',
       dur: 2.6,
-      board: { label: 'Estimar contando', body: 'Se cuentan los cuadrados completos bajo la curva y se agregan los pedazos. En la próxima clase lo haremos exacto con rectángulos cada vez más finos.', tex: '\\text{área}\\approx\\#\\text{cuadrados}\\times\\text{área de uno}' },
+      board: { label: 'Estimar contando', body: 'Se cuentan los cuadrados completos bajo la curva y se agregan los pedazos. En la próxima clase lo haremos exacto con rectángulos cada vez más finos.', tex: '\\p{1}{\\text{área}}\\approx\\p{2}{\\#\\text{cuadrados}\\times\\text{área de uno}}' },
     },
   ],
 };

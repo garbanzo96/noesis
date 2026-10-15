@@ -128,17 +128,17 @@ const lesson: LessonStep = {
     {
       say: 'El **valor p** es la probabilidad de obtener un resultado al menos así de extremo si $H_0$ fuera cierta: el área de la cola más allá de $z$. Mientras más chico, más difícil de creer $H_0$.',
       gate: 'Mueve $z$ hasta que el valor p sea menor que 0,05.',
-      board: { label: 'Valor p', tex: 'p=P(Z\\le z_{\\text{obs}}\\mid H_0)' },
+      board: { label: 'Valor p', tex: '\\p{1}{p}=\\p{2}{P(Z\\le z_{\\text{obs}}\\mid H_0)}' },
     },
     {
       say: 'Regla de decisión: si el valor p es menor que el **nivel de significación** $\\alpha$ (habitualmente 0,05), se **rechaza** $H_0$. Si no, no se rechaza, lo que no prueba que $H_0$ sea cierta.',
       ask: { prompt: 'Valor p 0,023 con $\\alpha=0{,}05$. ¿Qué se decide?', options: ['Se rechaza $H_0$', 'No se rechaza $H_0$', 'Se demuestra $H_0$'], answer: 0, explain: '$0{,}023<0{,}05$: un resultado así sería muy raro si $H_0$ fuera cierta.' },
-      board: { label: 'Decisión', tex: '\\text{valor }p<\\alpha\\ \\Rightarrow\\ \\text{rechazar }H_0' },
+      board: { label: 'Decisión', tex: '\\p{1}{\\text{valor }p<\\alpha\\ }\\Rightarrow\\p{2}{\\ \\text{rechazar }H_0}' },
     },
     {
       say: 'Hay dos formas de equivocarse: rechazar una $H_0$ verdadera (**error tipo I**, con probabilidad $\\alpha$) o no rechazar una falsa (**error tipo II**).',
       dur: 3,
-      board: { label: 'Errores', tex: '\\alpha=P(\\text{tipo I}),\\quad \\beta=P(\\text{tipo II})' },
+      board: { label: 'Errores', tex: '\\p{1}{\\alpha}=\\p{2}{P(\\text{tipo I})},\\quad\\p{3}{ \\beta}=\\p{4}{P(\\text{tipo II})}' },
     },
   ],
 };

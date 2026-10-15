@@ -173,18 +173,18 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Los registros reales siguen p = (0,2; 0,6; 0,2). La máquina usa q = (0,1; 0,8; 0,1): entrega más «medio» y menos extremos.',
-      board: { label: 'Dos recetas', tex: 'p=(0{,}2;0{,}6;0{,}2),\\quad q=(0{,}1;0{,}8;0{,}1)' },
+      board: { label: 'Dos recetas', tex: '\\p{1}{p}=\\p{2}{(0{,}2;0{,}6;0{,}2)},\\quad\\p{3}{ q}=\\p{4}{(0{,}1;0{,}8;0{,}1)}' },
     },
     {
       say: 'Arma el lote que quedó retenido en el turno. Arrastra la perilla hasta tener ocho «medio»; los otros dos registros quedan repartidos entre bajo y alto.',
       gate: 'Lleva la cantidad de «medio» a 8.',
-      board: { label: 'Lote retenido', tex: 'n_B=1,\\quad n_M=8,\\quad n_A=1' },
+      board: { label: 'Lote retenido', tex: '\\p{1}{n_B}=\\p{2}{1},\\quad\\p{3}{ n_M}=\\p{4}{8},\\quad\\p{5}{ n_A}=\\p{6}{1}' },
     },
     {
       say: 'La **razón de verosimilitudes** divide la probabilidad del mismo dato bajo p por su probabilidad bajo q. Cada «medio» aporta 0,75; cada extremo aporta 2.',
       board: {
         label: 'Un factor por registro',
-        tex: '\\frac{p(M)}{q(M)}=\\frac{0{,}6}{0{,}8}=0{,}75,\\quad \\frac{p(B)}{q(B)}=\\frac{p(A)}{q(A)}=2',
+        tex: '\\p{1}{\\frac{p(M)}{q(M)}}=\\p{2}{\\frac{0{,}6}{0{,}8}}=\\p{3}{0{,}75},\\quad\\p{4}{ \\frac{p(B)}{q(B)}}=\\p{5}{\\frac{p(A)}{q(A)}}=\\p{6}{2}',
       },
     },
     {
@@ -198,14 +198,14 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Razón del lote',
-        tex: '\\Lambda=\\prod_i\\frac{p(x_i)}{q(x_i)}=0{,}75^8\\cdot2^2',
+        tex: '\\p{1}{\\Lambda}=\\p{2}{\\prod_i\\frac{p(x_i)}{q(x_i)}}=\\p{3}{0{,}75^8\\cdot2^2}',
       },
     },
     {
       say: 'Λ < 1 favorece a la máquina; Λ > 1 favorece a la receta real. El valor 0,40 compara dos explicaciones: no es una probabilidad del origen del lote.',
       board: {
         label: 'Lectura del detector',
-        tex: '\\Lambda\\approx0{,}4005<1',
+        tex: '\\p{1}{\\Lambda}\\approx\\p{2}{0{,}4005<1}',
         body: 'La máquina da al mismo lote una verosimilitud unas 2,5 veces mayor. La comparación supone estas dos recetas y registros independientes.',
       },
     },

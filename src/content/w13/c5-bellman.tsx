@@ -144,12 +144,12 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'La posición tiene tres etapas y un descuento de 0,9 por intervalo. Empieza en la última: cobras 10 y la operación termina, así que V(s₃) = 10.',
-      board: { label: 'Condición final', tex: 'V(s_3)=10' },
+      board: { label: 'Condición final', tex: '\\p{1}{V(s_3)}=\\p{2}{10}' },
     },
     {
       say: 'Retrocede a la etapa 2: cerrar paga 5 ahora; seguir no paga ahora y lleva al cobro de 10 un intervalo después. Descuenta ese cobro y elige el mayor valor.',
       gate: 'Arrastra la perilla al valor de la etapa 2, partiendo del cobro final.',
-      board: { label: 'Segunda etapa', tex: 'V(s_2)=\\max(5;0{,}9\\cdot10)' },
+      board: { label: 'Segunda etapa', tex: '\\p{1}{V(s_2)}=\\p{2}{\\max(5;0{,}9\\cdot10)}' },
     },
     {
       say: 'La etapa 2 vale 9. Ahora retrocede a la etapa 1: puedes cerrar por 3 o seguir hasta una posición que vale 9 en el próximo intervalo.',
@@ -160,7 +160,7 @@ const lesson: LessonStep = {
         explain:
           'V(s₁) = max(3; 0,9 · 9) = 8,1. El 9 omite un intervalo de descuento; sumar 3 y 9 mezcla acciones excluyentes.',
       },
-      board: { label: 'Primera etapa', tex: 'V(s_1)=\\max(3;0{,}9\\,V(s_2))' },
+      board: { label: 'Primera etapa', tex: '\\p{1}{V(s_1)}=\\p{2}{\\max(3;0{,}9\\,V(s_2))}' },
     },
     {
       say: 'La **ecuación de Bellman** repite esta comparación en cada estado: pago inmediato más valor futuro descontado, y luego el máximo entre acciones. Aquí cada acción lleva a un estado siguiente conocido.',
@@ -174,7 +174,7 @@ const lesson: LessonStep = {
       say: 'La **política** indica qué eliges en cada etapa: seguir en 1 y 2, y cobrar en 3. El valor inicial es 8,1; los pagos de cierre descartados no se suman a esa ruta.',
       board: {
         label: 'Valores y decisiones',
-        tex: 'V(s_3)=10,\\quad V(s_2)=9,\\quad V(s_1)=8{,}1',
+        tex: '\\p{1}{V(s_3)}=\\p{2}{10},\\quad\\p{3}{ V(s_2)}=\\p{4}{9},\\quad\\p{5}{ V(s_1)}=\\p{6}{8{,}1}',
       },
     },
   ],

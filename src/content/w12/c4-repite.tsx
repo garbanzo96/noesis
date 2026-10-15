@@ -191,7 +191,7 @@ const lesson: LessonStep = {
       say: 'La máquina genera un estado por día: sano (S) o enfermo (N). En una **cadena de Markov**, la probabilidad de mañana depende solo del estado de hoy.',
       board: {
         label: 'Propiedad de Markov',
-        tex: 'P(X_{t+1}\\mid X_t,\\ldots,X_0)=P(X_{t+1}\\mid X_t)',
+        tex: '\\p{1}{P(X_{t+1}\\mid X_t,\\ldots,X_0)}=\\p{2}{P(X_{t+1}\\mid X_t)}',
       },
     },
     {
@@ -205,26 +205,26 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Probabilidad de una secuencia',
-        tex: 'P(X_1=S,X_2=N\\mid X_0=S)=P(S\\to S)\\,P(S\\to N)',
+        tex: '\\p{1}{P(X_1}=\\p{2}{S,X_2}=\\p{3}{N\\mid X_0}=\\p{4}{S)}=\\p{5}{P(S\\to S)\\,P(S\\to N)}',
       },
     },
     {
       say: 'Llama qₜ a la fracción esperada de sanos en el lote. Mañana siguen sanos el 90 % de los sanos y se recupera el 50 % de los enfermos.',
-      board: { label: 'Avanzar un día', tex: 'q_{t+1}=0{,}9q_t+0{,}5(1-q_t)' },
+      board: { label: 'Avanzar un día', tex: '\\p{1}{q_{t+1}}=\\p{2}{0{,}9q_t+0{,}5(1-q_t)}' },
     },
     {
       say: 'Parte con un lote completamente sano. Avanza los días: la fracción esperada se acerca a 5/6; un lote sorteado puede fluctuar alrededor de ese valor.',
       gate: 'Arrastra la perilla de días hasta el día 8 o más.',
       board: {
         label: 'Acercarse al equilibrio',
-        tex: 'q_0=1,\\quad q_t=\\frac56+\\frac16(0{,}4)^t',
+        tex: '\\p{1}{q_0}=\\p{2}{1},\\quad\\p{3}{ q_t}=\\p{4}{\\frac56+\\frac16(0{,}4)^t}',
       },
     },
     {
       say: 'La **distribución estacionaria** se mantiene al avanzar un día. Iguala el flujo de S a N con el de N a S: quedan 5/6 sanos y 1/6 enfermos.',
       board: {
         label: 'Distribución estacionaria',
-        tex: '\\pi_S=\\frac{P(N\\to S)}{P(S\\to N)+P(N\\to S)}=\\frac56,\\quad\\pi_N=\\frac16',
+        tex: '\\p{1}{\\pi_S}=\\p{2}{\\frac{P(N\\to S)}{P(S\\to N)+P(N\\to S)}}=\\p{3}{\\frac56},\\quad\\p{4}{\\pi_N}=\\p{5}{\\frac16}',
       },
     },
   ],

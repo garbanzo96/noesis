@@ -246,7 +246,7 @@ export const lesson: LessonStep = {
     {
       say: 'Una curva es la gráfica de una función si **toda recta vertical** la corta a lo más una vez. La circunferencia falla: un $x$, dos alturas.',
       dur: 3,
-      board: { label: 'Recta vertical', body: 'Cada recta vertical corta la gráfica de una función en a lo más un punto.' , tex: 'x=c\\ \\Rightarrow\\ \\text{un solo }y' },
+      board: { label: 'Recta vertical', body: 'Cada recta vertical corta la gráfica de una función en a lo más un punto.' , tex: '\\p{1}{x}=\\p{2}{c\\ }\\Rightarrow\\p{3}{\\ \\text{un solo }y}' },
     },
     {
       say: 'El **dominio** son las entradas permitidas: la sombra de la gráfica sobre el eje $x$. La **imagen**, las salidas que ocurren: la sombra sobre el eje $y$.',

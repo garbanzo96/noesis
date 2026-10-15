@@ -76,11 +76,14 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   useEffect(() => {
     if (!beat.gate || !unlocked[beats.beat] || !typed) return;
     if (beats.beat >= n - 1) return;
-    const id = setTimeout(() => {
-      sfx.advance();
-      leave();
-      beats.next();
-    }, run.reduced ? 300 : 1200);
+    const id = setTimeout(
+      () => {
+        sfx.advance();
+        leave();
+        beats.next();
+      },
+      run.reduced ? 300 : lesson ? 2800 : 1200,
+    );
     return () => clearTimeout(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [unlocked[beats.beat], typed, beats.beat]);
@@ -120,26 +123,48 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
 
   useEffect(() => {
     if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
-    (window as unknown as { __demo: unknown }).__demo = { unlock, beat: beats.beat, count: n, answer, rightKey: beat.ask ? orders[beats.beat].indexOf(beat.ask.answer) + 1 : 0 };
+    (window as unknown as { __demo: unknown }).__demo = {
+      unlock,
+      beat: beats.beat,
+      count: n,
+      answer,
+      rightKey: beat.ask ? orders[beats.beat].indexOf(beat.ask.answer) + 1 : 0,
+    };
   });
 
-  useKey([' ', 'Enter', 'ArrowRight'], (e) => {
-    e.preventDefault();
-    advance();
-  }, !run.paused);
+  useKey(
+    [' ', 'Enter', 'ArrowRight'],
+    (e) => {
+      e.preventDefault();
+      advance();
+    },
+    !run.paused,
+  );
   useKey('ArrowLeft', () => beats.prev(), !run.paused);
-  useKey(['1', '2', '3', '4'], (e) => {
-    const i = orders[beats.beat][Number(e.key) - 1];
-    if (i !== undefined) choose(i);
-  }, !run.paused && needsAnswer && typed);
+  useKey(
+    ['1', '2', '3', '4'],
+    (e) => {
+      const i = orders[beats.beat][Number(e.key) - 1];
+      if (i !== undefined) choose(i);
+    },
+    !run.paused && needsAnswer && typed,
+  );
 
   const Scene = step.Scene;
-  const tone = beat.ask && answer !== null ? (answer === beat.ask.answer ? 'ok' : 'bad') : beat.gate && unlocked[beats.beat] ? 'ok' : undefined;
+  const tone =
+    beat.ask && answer !== null
+      ? answer === beat.ask.answer
+        ? 'ok'
+        : 'bad'
+      : beat.gate && unlocked[beats.beat]
+        ? 'ok'
+        : undefined;
   // what the focus strip shows: the board lines of a lesson step; in an investigation, the
   // formula of the step and, once done, the note it leaves in the notebook
   // in a step that asks for a prediction, its formula (which usually holds the answer) waits for it
+  // in a step with an action, the drawing is the focus: its formula is written once the action is done
   const focus: BoardLine[] = lesson
-    ? beat.ask && answer === null
+    ? (beat.ask && answer === null) || (beat.gate && !unlocked[beats.beat])
       ? []
       : linesOf(beat)
     : done && beat.note
@@ -149,14 +174,18 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
         : [];
   const cueActive = typed && !!beat.gate && !unlocked[beats.beat] && !touched[beats.beat];
   const cue = useMemo(
-    () => ({ active: cueActive, touch: () => setTouched((t) => (t[beats.beat] ? t : t.map((v, k) => (k === beats.beat ? true : v)))) }),
+    () => ({
+      active: cueActive,
+      touch: () =>
+        setTouched((t) => (t[beats.beat] ? t : t.map((v, k) => (k === beats.beat ? true : v)))),
+    }),
     [cueActive, beats.beat],
   );
   const waiting = typed && !done;
   // write the formula of an answered question part by part, like any other step
   const [revealed, setRevealed] = useState(1);
   useEffect(() => {
-    if (!beat.ask || answer === null) return;
+    if (beat.gate ? !unlocked[beats.beat] : !beat.ask || answer === null) return;
     if (run.reduced) return setRevealed(1);
     setRevealed(0);
     const t0 = performance.now();
@@ -169,11 +198,15 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
     id = requestAnimationFrame(tick);
     return () => cancelAnimationFrame(id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [answer, beats.beat]);
+  }, [answer, beats.beat, unlocked[beats.beat]]);
   return (
     <div className={`play with-notes ${lesson ? 'lesson' : 'demo'}`}>
       <div className={`play-stage ${cueActive ? 'cue-on' : ''}`}>
-        <div className="stage-area" ref={stageArea} onPointerDownCapture={() => cueActive && cue.touch()}>
+        <div
+          className="stage-area"
+          ref={stageArea}
+          onPointerDownCapture={() => cueActive && cue.touch()}
+        >
           {lesson ? (
             <div className="lesson-bg" aria-hidden />
           ) : (
@@ -189,15 +222,35 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
                 <i key={i} className={i < beats.beat ? 'past' : i === beats.beat ? 'now' : ''} />
               ))}
             </div>
-            <button className="skip-demo" onClick={() => run.complete()} title={lesson ? 'Saltar la clase' : 'Saltar la investigación'}>
+            <button
+              className="skip-demo"
+              onClick={() => run.complete()}
+              title={lesson ? 'Saltar la clase' : 'Saltar la investigación'}
+            >
               {lesson ? 'Saltar clase' : 'Saltar'} ▸▸
             </button>
           </div>
         </div>
-        <FocusStrip key={`${beats.beat}-${done ? 1 : 0}-${answer === null ? 0 : 1}`} lines={focus} progress={lesson ? (beat.ask ? revealed : beats.at(beats.beat)) : 1} tone={lesson ? undefined : 'note'} />
+        <FocusStrip
+          key={`${beats.beat}-${done ? 1 : 0}-${answer === null ? 0 : 1}-${unlocked[beats.beat] ? 1 : 0}`}
+          lines={focus}
+          progress={lesson ? (beat.ask || beat.gate ? revealed : beats.at(beats.beat)) : 1}
+          tone={lesson ? undefined : 'note'}
+        />
       </div>
-      <Rail label={lesson ? 'Pizarra' : 'Cuaderno'} count={lesson ? step.beats.slice(0, beats.beat).reduce((m, b) => m + linesOf(b).length, 0) : run.notes.length}>
-        {lesson ? <Board title={run.level.subtitle} beats={step.beats} current={beats.beat} /> : <Notebook notes={run.notes} />}
+      <Rail
+        label={lesson ? 'Pizarra' : 'Cuaderno'}
+        count={
+          lesson
+            ? step.beats.slice(0, beats.beat).reduce((m, b) => m + linesOf(b).length, 0)
+            : run.notes.length
+        }
+      >
+        {lesson ? (
+          <Board title={run.level.subtitle} beats={step.beats} current={beats.beat} />
+        ) : (
+          <Notebook notes={run.notes} />
+        )}
       </Rail>
       <Console
         who={lesson ? 'noesis' : undefined}
@@ -208,12 +261,24 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
         actions={
           <>
             {(!beat.gate || beats.beat === n - 1) && (
-              <button className={`btn ${done ? 'primary pulse' : ''}`} onClick={advance} disabled={waiting}>
+              <button
+                className={`btn ${done ? 'primary pulse' : ''}`}
+                onClick={advance}
+                disabled={waiting}
+              >
                 {beats.beat < n - 1 ? 'Seguir' : lesson ? 'A la investigación' : 'A la práctica'} ▸
               </button>
             )}
-            {waiting && <span className="wait-reason">{needsAnswer ? 'Elige una respuesta' : 'Haz la acción indicada'}</span>}
-            <button className="btn ghost small" onClick={() => beats.prev()} disabled={beats.beat === 0}>
+            {waiting && (
+              <span className="wait-reason">
+                {needsAnswer ? 'Elige una respuesta' : 'Haz la acción indicada'}
+              </span>
+            )}
+            <button
+              className="btn ghost small"
+              onClick={() => beats.prev()}
+              disabled={beats.beat === 0}
+            >
               ◂ Atrás
             </button>
           </>
@@ -222,7 +287,10 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
         {beat.ask && typed && (
           <div className="ask">
             <div className="ask-prompt">
-              <span className={`ask-tag ${lesson ? 'check' : ''}`}>{lesson ? 'Comprueba' : 'Antes de mirar'}</span> <Rich text={beat.ask.prompt} />
+              <span className={`ask-tag ${lesson ? 'check' : ''}`}>
+                {lesson ? 'Comprueba' : 'Antes de mirar'}
+              </span>{' '}
+              <Rich text={beat.ask.prompt} />
             </div>
             <div className="ask-options">
               {orders[beats.beat].map((i, pos) => (

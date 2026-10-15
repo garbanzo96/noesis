@@ -162,7 +162,7 @@ const lesson: LessonStep = {
       say: 'Quieres el promedio de f según p, pero tu generador solo entrega muestras de q. Aquí q reparte por igual los tres valores; p les da probabilidades distintas.',
       board: {
         label: 'Objetivo y generador',
-        tex: 'p=(\\tfrac12;\\tfrac13;\\tfrac16),\\quad q=(\\tfrac13;\\tfrac13;\\tfrac13)',
+        tex: '\\p{1}{p}=\\p{2}{(\\tfrac12;\\tfrac13;\\tfrac16)},\\quad\\p{3}{ q}=\\p{4}{(\\tfrac13;\\tfrac13;\\tfrac13)}',
       },
     },
     {
@@ -177,7 +177,7 @@ const lesson: LessonStep = {
       say: 'Toma una muestra de cada valor para ver la cuenta: multiplica cada f por su peso. Los productos suman 2 y los pesos suman 3.',
       board: {
         label: 'Dos sumas',
-        tex: '\\sum_i w_i f(x_i)=0\\cdot1{,}5+1\\cdot1+2\\cdot0{,}5=2,\\quad\\sum_i w_i=3',
+        tex: '\\p{1}{\\sum_i w_i f(x_i)}=\\p{2}{0\\cdot1{,}5+1\\cdot1+2\\cdot0{,}5}=\\p{3}{2},\\quad\\p{4}{\\sum_i w_i}=\\p{5}{3}',
       },
     },
     {
@@ -198,7 +198,7 @@ const lesson: LessonStep = {
       say: 'En este ejemplo equilibrado obtienes exactamente E_p[f] = 2/3. Con muestras aleatorias de q, esta razón es una estimación: mejora al reunir más muestras, si q cubre todo lo que p permite.',
       board: {
         label: 'Muestreo por importancia',
-        tex: 'E_p[f]\\approx\\frac{\\sum_{i=1}^n w_i f(x_i)}{\\sum_{i=1}^n w_i},\\quad x_i\\sim q,\\quad w_i=\\frac{p(x_i)}{q(x_i)}',
+        tex: '\\p{1}{E_p[f]}\\approx\\p{2}{\\frac{\\sum_{i=1}^n w_i f(x_i)}{\\sum_{i=1}^n w_i}},\\quad\\p{3}{ x_i\\sim q},\\quad\\p{4}{ w_i}=\\p{5}{\\frac{p(x_i)}{q(x_i)}}',
         body: 'q debe ser positiva donde p es positiva; los pesos pueden variar mucho y volver inestable la estimación.',
       },
     },

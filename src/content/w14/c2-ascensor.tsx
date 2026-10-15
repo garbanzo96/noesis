@@ -161,7 +161,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'En un intervalo cerrado, compara el punto crítico con los extremos. La velocidad vale 0 al partir y al llegar, y 120 m/min al minuto 1.',
-      board: { label: 'Comparación completa', tex: 'v(0)=0,\\quad v(1)=120,\\quad v(2)=0' },
+      board: { label: 'Comparación completa', tex: '\\p{1}{v(0)}=\\p{2}{0},\\quad\\p{3}{ v(1)}=\\p{4}{120},\\quad\\p{5}{ v(2)}=\\p{6}{0}' },
     },
   ],
 };

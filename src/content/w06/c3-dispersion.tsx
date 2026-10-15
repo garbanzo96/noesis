@@ -129,7 +129,7 @@ const lesson: LessonStep = {
     {
       say: 'La varianza queda en unidades al cuadrado. Su raíz, la **desviación estándar**, vuelve a las unidades de los datos: es una distancia típica a la media.',
       ask: { prompt: 'Aquí $\\sigma^2=4$. ¿Cuánto vale la desviación estándar?', options: ['2', '4', '16'], answer: 0, explain: '$\\sigma=\\sqrt4=2$: los datos se alejan típicamente unas 2 unidades de la media 5.' },
-      board: { label: 'Desviación estándar', tex: '\\sigma=\\sqrt{\\sigma^2}' },
+      board: { label: 'Desviación estándar', tex: '\\p{1}{\\sigma}=\\p{2}{\\sqrt{\\sigma^2}}' },
     },
     {
       say: 'Pruébalo: separa los datos y mira crecer la banda $\\bar x\\pm\\sigma$. Mover todos juntos no cambia $\\sigma$; alejarlos entre sí, sí.',

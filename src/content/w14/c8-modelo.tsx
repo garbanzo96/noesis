@@ -161,12 +161,12 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Cada par de barras muestra un sector: q es la proporción del modelo y p la de los registros. Aquí los registros reparten un cuarto en cada sector.',
-      board: { label: 'Dos distribuciones', tex: '\\sum_i p_i=\\sum_i q_i=1' },
+      board: { label: 'Dos distribuciones', tex: '\\p{1}{\\sum_i p_i}=\\p{2}{\\sum_i q_i}=\\p{3}{1}' },
     },
     {
       say: 'La **divergencia KL** mide cuánto se aleja q de p, dando peso según p. Acerca el modelo a los registros: Centro y Sur ganan lo que Norte y Bahía ceden.',
       gate: 'Arrastra la perilla hasta 0,25 para que las cuatro proporciones del modelo coincidan con los registros.',
-      board: { label: 'Coincidencia', tex: 'p=q\\Rightarrow KL(p\\Vert q)=0' },
+      board: { label: 'Coincidencia', tex: '\\p{1}{p}=\\p{2}{q}\\Rightarrow\\p{3}{ KL(p\\Vert q)}=\\p{4}{0}' },
     },
     {
       say: 'Vuelve el modelo original: 0,4; 0,1; 0,1; 0,4. Calcula cada término con logaritmo en base 2 y suma, incluidos los términos negativos.',
@@ -177,20 +177,20 @@ const lesson: LessonStep = {
         explain:
           '0,5 · log₂(0,625) + 0,5 · log₂(2,5) = 0,3219 bits. El 0,28 resulta de invertir p y q; KL tiene dirección.',
       },
-      board: { label: 'KL en bits', tex: 'KL(p\\Vert q)=\\sum_i p_i\\log_2\\frac{p_i}{q_i}' },
+      board: { label: 'KL en bits', tex: '\\p{1}{KL(p\\Vert q)}=\\p{2}{\\sum_i p_i\\log_2\\frac{p_i}{q_i}}' },
     },
     {
       say: 'Para **χ²**, pasa de proporciones a conteos: multiplica por el total N. En un lote de 200, el modelo espera 80, 20, 20 y 80; se observan 50 en cada sector.',
       board: {
         label: 'De proporciones a conteos',
-        tex: 'O_i=Np_i,\\quad E_i=Nq_i,\\quad\\chi^2=\\sum_i\\frac{(O_i-E_i)^2}{E_i}',
+        tex: '\\p{1}{O_i}=\\p{2}{Np_i},\\quad\\p{3}{ E_i}=\\p{4}{Nq_i},\\quad\\p{5}{\\chi^2}=\\p{6}{\\sum_i\\frac{(O_i-E_i)^2}{E_i}}',
       },
     },
     {
       say: 'KL conserva su valor si multiplicas todos los conteos por el mismo factor; χ² crece con el tamaño del lote. Una discrepancia pide revisar el modelo y los registros: por sí sola no identifica a quien los alteró.',
       board: {
         label: 'Tamaño del lote',
-        tex: '\\chi^2=N\\sum_i\\frac{(p_i-q_i)^2}{q_i}',
+        tex: '\\p{1}{\\chi^2}=\\p{2}{N\\sum_i\\frac{(p_i-q_i)^2}{q_i}}',
         body: 'Para usar una prueba de ajuste, revisa independencia, conteos esperados suficientes y un modelo fijado antes de observar el lote.',
       },
     },

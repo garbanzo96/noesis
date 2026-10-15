@@ -94,7 +94,7 @@ const lesson: LessonStep = {
     {
       say: 'En un intervalo cerrado, compara los puntos críticos con los extremos. Aquí el área en ambos extremos es cero.',
       dur: 3,
-      board: { label: 'Extremos del intervalo', tex: 'x\\in[0,20]:\\quad A(0)=A(20)=0<100=A(10)' },
+      board: { label: 'Extremos del intervalo', tex: '\\p{1}{x\\in[0,20]:}\\quad\\p{2}{ A(0)}=\\p{3}{A(20)}=\\p{4}{0<100}=\\p{5}{A(10)}' },
     },
     {
       say: 'Define la variable, la función y el dominio. Busca los puntos críticos y comprueba el resultado, incluyendo los extremos.',

@@ -206,7 +206,7 @@ const lesson: LessonStep = {
       say: 'Con x + y = 5 y x − y = 1, suma las ecuaciones. Los términos y y −y se cancelan: esta **eliminación** deja 2x = 6.',
       board: {
         label: 'Eliminar y',
-        tex: '(x+y)+(x-y)=5+1\\Rightarrow2x=6',
+        tex: '\\p{1}{(x+y)+(x-y)}=\\p{2}{5+1}\\Rightarrow\\p{3}{2x}=\\p{4}{6}',
         body: 'x = 3. Sustituye en x − y = 1 para obtener y = 2.',
       },
     },
@@ -218,11 +218,11 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Al sumar queda 2x = 8, así que x = 4. De 4 − y = 1 resulta y = 3; 4 es x.',
       },
-      board: { label: 'Sustituir', tex: '2x=8\\Rightarrow x=4,\\quad y=x-1=3' },
+      board: { label: 'Sustituir', tex: '\\p{1}{2x}=\\p{2}{8}\\Rightarrow\\p{3}{ x}=\\p{4}{4},\\quad\\p{5}{ y}=\\p{6}{x-1}=\\p{7}{3}' },
     },
     {
       say: 'Vuelve al par (3, 2) del repaso. Comprueba las dos ecuaciones: acertar una sola deja tiempos que el otro registro descarta.',
-      board: { label: 'Comprobar ambos registros', tex: '3+2=5,\\quad3-2=1' },
+      board: { label: 'Comprobar ambos registros', tex: '\\p{1}{3+2}=\\p{2}{5},\\quad\\p{3}{3-2}=\\p{4}{1}' },
     },
   ],
 };

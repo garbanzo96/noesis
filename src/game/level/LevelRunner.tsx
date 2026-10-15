@@ -64,9 +64,24 @@ export function LevelRunner({
   const [notes, setNotes] = useState<Note[]>(() => (initialStep > 0 ? allNotes : []));
   const t0 = useRef(performance.now());
   const counters = useRef({ errors: 0, hints: 0 });
+  /** practice steps solved in this attempt: a case only closes once all of them are done */
+  const solved = useRef(new Set<number>());
+  const [notice, setNotice] = useState<string | null>(null);
   const paused = pausedMenu || overlayOpen || !!results;
 
   const finish = () => {
+    const missing = level.steps.findIndex(
+      (s, i) => s.kind === 'challenge' && !solved.current.has(i),
+    );
+    if (missing >= 0) {
+      // jumping ahead with the step track does not close a case: back to the practice
+      setNotes(allNotes);
+      setStepIndex(missing);
+      setAttempt((a) => a + 1);
+      setNotice('Para cerrar el caso falta resolver la práctica.');
+      setTimeout(() => setNotice(null), 3200);
+      return;
+    }
     const seconds = (performance.now() - t0.current) / 1000;
     const r = {
       levelId: level.id,
@@ -81,10 +96,18 @@ export function LevelRunner({
     };
     const { state, gained, newStars } = completeLevel(store.get(), r);
     store.set(state);
-    setResults({ stars: starsFor(r), newStars, gained, errors: r.errors, hints: r.hintsUsed, seconds });
+    setResults({
+      stars: starsFor(r),
+      newStars,
+      gained,
+      errors: r.errors,
+      hints: r.hintsUsed,
+      seconds,
+    });
   };
 
   const goNext = () => {
+    if (level.steps[stepIndex].kind === 'challenge') solved.current.add(stepIndex);
     if (stepIndex + 1 >= level.steps.length) {
       finish();
       return;
@@ -138,6 +161,7 @@ export function LevelRunner({
     setResults(null);
     setStepIndex(0);
     setNotes([]);
+    solved.current = new Set();
     setAttempt((a) => a + 1);
     setPausedMenu(false);
     t0.current = performance.now();
@@ -166,7 +190,10 @@ export function LevelRunner({
 
   return (
     <RunContext.Provider value={ctx}>
-      <div className={`level ${level.kind === 'boss' ? 'boss' : ''}`} style={{ ['--accent' as string]: sector.accent }}>
+      <div
+        className={`level ${level.kind === 'boss' ? 'boss' : ''}`}
+        style={{ ['--accent' as string]: sector.accent }}
+      >
         {step.kind !== 'scene' && <Backdrop place={sector.place} className="level-ambient" />}
         <header className="level-hud">
           <button className="hud-back" onClick={onExit} title="Volver al tablero del distrito">
@@ -198,10 +225,20 @@ export function LevelRunner({
           </button>
         </header>
         <div className="level-notice">
+          {notice && <div className="level-toast">{notice}</div>}
           {step.kind !== 'scene' && !rotateOk && (
             <div className="rotate-hint">
               <svg className="rot-icon" width="16" height="22" viewBox="0 0 16 22" aria-hidden>
-                <rect x="1" y="1" width="14" height="20" rx="3" fill="none" stroke="currentColor" strokeWidth="2" />
+                <rect
+                  x="1"
+                  y="1"
+                  width="14"
+                  height="20"
+                  rx="3"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
                 <circle cx="8" cy="17" r="1.4" fill="currentColor" />
               </svg>
               <span>Gira el teléfono para ver el escenario más grande.</span>
@@ -209,9 +246,14 @@ export function LevelRunner({
             </div>
           )}
         </div>
-        <main className={`level-body ${transition ? 'leaving' : 'entering'}`} key={`${attempt}-${stepIndex}`}>
+        <main
+          className={`level-body ${transition ? 'leaving' : 'entering'}`}
+          key={`${attempt}-${stepIndex}`}
+        >
           {step.kind === 'scene' && <ScenePlayer step={step} />}
-          {(step.kind === 'demo' || step.kind === 'lesson') && <DemoPlayer key={stepIndex} step={step} />}
+          {(step.kind === 'demo' || step.kind === 'lesson') && (
+            <DemoPlayer key={stepIndex} step={step} />
+          )}
           {step.kind === 'challenge' && <ChallengePlayer step={step} />}
           {step.kind === 'forge' && <ForgePlayer step={step} />}
         </main>

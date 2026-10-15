@@ -111,7 +111,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Al derivar, $\\ln x$ se vuelve $\\tfrac1x$ y se simplifica con $\\tfrac{x^2}{2}$. Si $u=x$, habría que integrar $\\ln x$, que es más difícil.',
       },
-      board: { label: 'Elegir u', body: '$u$: lo que se simplifica al derivar (logaritmos, potencias de $x$). $dv$: lo que se integra fácil (exponenciales, potencias).', tex: '\\int x\\ln x\\,dx=\\tfrac{x^2}{2}\\ln x-\\tfrac{x^2}{4}+C' },
+      board: { label: 'Elegir u', body: '$u$: lo que se simplifica al derivar (logaritmos, potencias de $x$). $dv$: lo que se integra fácil (exponenciales, potencias).', tex: '\\p{1}{\\int x\\ln x\\,dx}=\\p{2}{\\tfrac{x^2}{2}\\ln x-\\tfrac{x^2}{4}+C}' },
     },
   ],
 };

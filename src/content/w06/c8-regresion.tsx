@@ -191,7 +191,7 @@ const lesson: LessonStep = {
     {
       say: 'Cuidado: **correlación no es causalidad**. Dos variables pueden moverse juntas porque ambas dependen de una tercera.',
       dur: 2.8,
-      board: { label: 'Correlación no es causa', tex: 'r\\approx1\\ \\not\\Rightarrow\\ x\\ \\text{causa}\\ y' },
+      board: { label: 'Correlación no es causa', tex: '\\p{1}{r}\\approx\\p{2}{1\\ \\not}\\Rightarrow\\p{3}{\\ x\\ \\text{causa}\\ y}' },
     },
   ],
 };

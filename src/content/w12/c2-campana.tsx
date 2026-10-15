@@ -142,19 +142,19 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'El lote trae 4, 6, 5, 7 y 8. Su **media** es 6: sumas los cinco registros y divides por cinco.',
-      board: { label: 'Centro del lote', tex: '\\hat\\mu=\\bar x=\\tfrac{4+6+5+7+8}{5}=6' },
+      board: { label: 'Centro del lote', tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}=\\p{3}{\\tfrac{4+6+5+7+8}{5}}=\\p{4}{6}' },
     },
     {
       say: 'La **normal** tiene un centro μ y un ancho σ. Mueve el centro al promedio del lote; después ajustaremos el ancho.',
       gate: 'Arrastra μ hasta 6.',
-      board: { label: 'Centro de la normal', tex: '\\hat\\mu=\\bar x' },
+      board: { label: 'Centro de la normal', tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}' },
     },
     {
       say: 'Las distancias al centro, al cuadrado, suman 10. La **varianza del ajuste** divide por n: 10/5 = 2; ajusta σ a √2 ≈ 1,41.',
       gate: 'Arrastra σ hasta aproximadamente 1,41.',
       board: {
         label: 'Ancho del ajuste',
-        tex: '\\hat\\sigma^2=\\frac1n\\sum_{i=1}^n(x_i-\\bar x)^2=2,\\quad\\hat\\sigma=\\sqrt2',
+        tex: '\\p{1}{\\hat\\sigma^2}=\\p{2}{\\frac1n\\sum_{i=1}^n(x_i-\\bar x)^2}=\\p{3}{2},\\quad\\p{4}{\\hat\\sigma}=\\p{5}{\\sqrt2}',
       },
     },
     {
@@ -165,13 +165,13 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '6 + √2 · 1 ≈ 7,41. El ancho es √2; usar 2 confunde varianza con desviación.',
       },
-      board: { label: 'Transformar el sorteo', tex: 'x=\\mu+\\sigma z' },
+      board: { label: 'Transformar el sorteo', tex: '\\p{1}{x}=\\p{2}{\\mu+\\sigma z}' },
     },
     {
       say: 'La **normal estándar** tiene centro 0 y desviación 1. Al escalarla y desplazarla, la máquina genera nuevos registros; un lote corto puede tener otro promedio.',
       board: {
         label: 'Receta normal',
-        tex: 'z\\sim\\mathcal N(0,1)\\quad\\Rightarrow\\quad x=\\mu+\\sigma z\\sim\\mathcal N(\\mu,\\sigma^2)',
+        tex: '\\p{1}{z\\sim\\mathcal N(0,1)}\\quad\\Rightarrow\\quad\\p{2}{ x}=\\p{3}{\\mu+\\sigma z\\sim\\mathcal N(\\mu,\\sigma^2)}',
       },
     },
   ],
