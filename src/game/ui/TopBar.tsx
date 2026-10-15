@@ -1,5 +1,5 @@
 import { useTween } from '../../engine/hooks';
-import { RANKS, RANK_XP, rankOf, useGame } from '../state';
+import { RANKS, rankOf, rankProgress, useGame } from '../state';
 
 /** Persistent HUD on map screens. */
 export function TopBar({
@@ -19,7 +19,7 @@ export function TopBar({
   const game = useGame();
   const xp = useTween(game.xp, 1.2);
   const rank = rankOf(game.xp);
-  const into = (xp % RANK_XP) / RANK_XP;
+  const into = rankProgress(xp);
   const closed = Object.values(game.levels).filter((l) => l.done).length;
   return (
     <header className="topbar">

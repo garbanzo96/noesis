@@ -3,7 +3,7 @@ import { configureAudio } from './audio';
 
 // Single source of truth for progress. Pure update functions + a tiny external store.
 // Persistence is local (localStorage) and exportable; nothing here certifies mastery beyond
-// what the stars encode: completed, without hints, with at most one error.
+// what the stars encode: completed, without hints, without errors.
 
 export interface LevelRecord {
   done: boolean;
@@ -72,12 +72,17 @@ export interface LevelResult {
 export const STAR_XP = 50;
 export const COMPLETE_XP = 50;
 
-export function starsFor(r: Pick<LevelResult, 'hintsUsed' | 'errors'>): [boolean, boolean, boolean] {
+export function starsFor(
+  r: Pick<LevelResult, 'hintsUsed' | 'errors'>,
+): [boolean, boolean, boolean] {
   return [true, r.hintsUsed === 0, r.errors === 0];
 }
 
 /** Returns new state and the XP gained (only newly earned stars pay). */
-export function completeLevel(s: GameState, r: LevelResult): { state: GameState; gained: number; newStars: boolean[] } {
+export function completeLevel(
+  s: GameState,
+  r: LevelResult,
+): { state: GameState; gained: number; newStars: boolean[] } {
   const prev = s.levels[r.levelId];
   const earned = starsFor(r);
   const merged: [boolean, boolean, boolean] = [
@@ -87,7 +92,8 @@ export function completeLevel(s: GameState, r: LevelResult): { state: GameState;
   ];
   const newStars = merged.map((v, i) => v && !prev?.stars[i]);
   const mult = r.boss ? 2 : 1;
-  const gained = (newStars.filter(Boolean).length * STAR_XP + (prev?.done ? 0 : COMPLETE_XP)) * mult;
+  const gained =
+    (newStars.filter(Boolean).length * STAR_XP + (prev?.done ? 0 : COMPLETE_XP)) * mult;
   const rec: LevelRecord = {
     done: true,
     stars: merged,
@@ -121,8 +127,16 @@ export const RANKS = [
   'Agente de élite',
   'Leyenda de NÓESIS',
 ];
-export const RANK_XP = 500;
-export const rankOf = (xp: number) => Math.min(RANKS.length - 1, Math.floor(xp / RANK_XP));
+/** XP needed for each rank. A full run (128 cases, every star) is about 28 000 XP, so the
+ *  top rank arrives near the end of the city, not after the first districts. */
+export const RANK_AT = [0, 600, 1800, 3800, 6600, 10200, 15000, 21000];
+export const rankOf = (xp: number) => RANK_AT.reduce((r, t, i) => (xp >= t ? i : r), 0);
+/** fraction of the way to the next rank (1 at the top rank) */
+export const rankProgress = (xp: number) => {
+  const r = rankOf(xp);
+  if (r >= RANK_AT.length - 1) return 1;
+  return (xp - RANK_AT[r]) / (RANK_AT[r + 1] - RANK_AT[r]);
+};
 
 // ---------- validation / persistence ----------
 function isObj(x: unknown): x is Record<string, unknown> {
