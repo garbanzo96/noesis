@@ -70,6 +70,7 @@ export function LevelRunner({
   const [notice, setNotice] = useState<string | null>(null);
   const paused = pausedMenu || overlayOpen || !!results;
 
+  const closed = useRef(false);
   const finish = () => {
     const missing = level.steps.findIndex(
       (s, i) => s.kind === 'challenge' && !solved.current.has(i),
@@ -83,6 +84,9 @@ export function LevelRunner({
       setTimeout(() => setNotice(null), 3200);
       return;
     }
+    // closing twice (a repeated key on the last step) would award the case twice
+    if (closed.current) return;
+    closed.current = true;
     const seconds = (performance.now() - t0.current) / 1000;
     const r = {
       levelId: level.id,
@@ -107,7 +111,10 @@ export function LevelRunner({
     });
   };
 
+  // a second press while a step fades out reaches the old step too: it must not skip the next one
+  const leaving = useRef(false);
   const goNext = () => {
+    if (leaving.current) return;
     if (level.steps[stepIndex].kind === 'challenge') solved.current.add(stepIndex);
     if (stepIndex + 1 >= level.steps.length) {
       finish();
@@ -121,10 +128,12 @@ export function LevelRunner({
     }
     sfx.whoosh();
     setTransition(true);
+    leaving.current = true;
     setTimeout(
       () => {
         setStepIndex((i) => i + 1);
         setTransition(false);
+        leaving.current = false;
       },
       reduced ? 0 : 260,
     );
@@ -163,6 +172,7 @@ export function LevelRunner({
     setStepIndex(0);
     setNotes([]);
     solved.current = new Set();
+    closed.current = false;
     setAttempt((a) => a + 1);
     setPausedMenu(false);
     t0.current = performance.now();

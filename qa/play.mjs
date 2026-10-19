@@ -79,6 +79,16 @@ while (guard++ < 200) {
     continue;
   }
   if (k === 'lesson' || k === 'demo') {
+    // a lesson opens with its context card: read it, then start
+    if (await page.evaluate(() => !!document.querySelector('.lesson-intro'))) {
+      await page.waitForTimeout(2500);
+      await shot(`${stepNo}-${k}-intro`);
+      log.push({ step: 'intro', text: await T('.li-question') + ' · ' + (await T('.console-text')) });
+      await page.keyboard.press('Space');
+      await page.waitForTimeout(400);
+      await page.keyboard.press('Space');
+      await page.waitForTimeout(900);
+    }
     const n = await page.evaluate(() => window.__demo?.count ?? 0);
     const beats = [];
     for (let b = 0; b < n; b++) {
