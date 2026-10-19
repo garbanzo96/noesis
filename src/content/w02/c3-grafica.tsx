@@ -114,32 +114,32 @@ const lesson: LessonStep = {
     {
       say: 'Recorre $f(x)=x^3-3x$ con la tangente. Abajo se dibuja la pendiente para cada $x$: aparece otra función, $f\'$.',
       gate: 'Arrastra la tangente desde −1,5 hasta 1,5; puedes recorrerla en cualquier sentido.',
-      board: { label: 'La derivada como función', tex: 'x\\mapsto\\p{1}{\\cA{f\'(x)}},\\qquad f\'(x)=3x^2-3', body: 'A cada $x$ le asignamos la pendiente de su tangente.' },
+      board: { label: 'La derivada como función', tex: 'x\\mapsto\\p{1}{\\cA{f\'(x)}},\\qquad f\'(x)=3x^2-3', body: 'A cada $x$ le asignamos la pendiente de su tangente.', parts: ['pendiente en cada punto'] },
     },
     {
       say: 'Una pendiente positiva hace que la función suba; una negativa hace que baje. Compara los tramos de arriba con el signo de $f\'$ abajo.',
       dur: 2.6,
-      board: { label: 'Signo y crecimiento', tex: '\\p{1}{\\cG{f\'>0}}\\Rightarrow f\\text{ crece},\\qquad\\p{2}{f\'<0}\\Rightarrow f\\text{ decrece}', body: 'Crece si $x<-1$ o $x>1$. Decrece si $-1<x<1$.' },
+      board: { label: 'Signo y crecimiento', tex: '\\p{1}{\\cG{f\'>0}}\\Rightarrow f\\text{ crece},\\qquad\\p{2}{f\'<0}\\Rightarrow f\\text{ decrece}', body: 'Crece si $x<-1$ o $x>1$. Decrece si $-1<x<1$.', parts: ['pendiente positiva', 'pendiente negativa'] },
     },
     {
       say: 'En un máximo o mínimo local de esta curva, la tangente queda horizontal. Busca dónde su pendiente es cero.',
       ask: { prompt: '¿En qué $x$ la tangente queda horizontal?', options: ['$x=-1$ y $x=1$', '$x=0$', '$x=\\pm2$'], answer: 0, explain: '$3x^2-3=0$ da $x=-1$ y $x=1$. Son el máximo local y el mínimo local de $f$.' },
-      board: { label: 'Tangente horizontal', tex: 'f\'(x)=\\p{1}{0}\\quad\\text{en }x=-1,1', body: 'En picos y valles suaves, $f\'=0$. Una derivada cero por sí sola no garantiza un extremo.' },
+      board: { label: 'Tangente horizontal', tex: 'f\'(x)=\\p{1}{0}\\quad\\text{en }x=-1,1', body: 'En picos y valles suaves, $f\'=0$. Una derivada cero por sí sola no garantiza un extremo.', parts: ['pendiente horizontal'] },
     },
     {
       say: 'Más alto no significa más empinado. En $x=-1$, la altura es 2 y la pendiente es 0: son valores distintos.',
       dur: 2.6,
-      board: { label: 'Altura y pendiente', tex: '\\p{1}{\\cC{f(-1)=2}},\\qquad\\p{2}{\\cA{f\'(-1)=0}}' },
+      board: { label: 'Altura y pendiente', tex: '\\p{1}{\\cC{f(-1)=2}},\\qquad\\p{2}{\\cA{f\'(-1)=0}}', parts: ['altura en ese punto', 'pendiente en ese punto'] },
     },
     {
       say: 'La segunda derivada mide cómo cambia la pendiente. Aquí $f\'\'(x)=6x$: la curva es cóncava hacia abajo antes de 0 y hacia arriba después.',
       dur: 2.6,
-      board: { label: 'Segunda derivada y concavidad', tex: 'f\'\'(x)=6x,\\qquad\\p{1}{f\'\'>0}\\Rightarrow\\cup,\\quad\\p{2}{f\'\'<0}\\Rightarrow\\cap', body: '$f\'\'$ es la pendiente de $f\'$. Es negativa si $x<0$ y positiva si $x>0$.' },
+      board: { label: 'Segunda derivada y concavidad', tex: 'f\'\'(x)=6x,\\qquad\\p{1}{f\'\'>0}\\Rightarrow\\cup,\\quad\\p{2}{f\'\'<0}\\Rightarrow\\cap', body: '$f\'\'$ es la pendiente de $f\'$. Es negativa si $x<0$ y positiva si $x>0$.', parts: ['pendiente en aumento', 'pendiente en descenso'] },
     },
     {
       say: 'En $x=0$ cambia la concavidad: es un punto de inflexión. Ahí la pendiente alcanza su mínimo, $f\'(0)=-3$.',
       dur: 2.6,
-      board: { label: 'Punto de inflexión', tex: '\\p{1}{\\text{Inflexión}}:\\quad f\'\'\\text{ cambia de signo}', body: 'Aquí $f\'\'(x)=6x$ cambia de negativo a positivo en 0; la inflexión es $(0,0)$.' },
+      board: { label: 'Punto de inflexión', tex: '\\p{1}{\\text{Inflexión}}:\\quad f\'\'\\text{ cambia de signo}', body: 'Aquí $f\'\'(x)=6x$ cambia de negativo a positivo en 0; la inflexión es $(0,0)$.', parts: ['cambio de concavidad'] },
     },
   ],
 };

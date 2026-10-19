@@ -34,7 +34,7 @@ export const W08: SectorDef = {
   accent: '#38d9c5',
   place: 'antenas',
   description:
-    'El chip del dron conserva rutas y mensajes cifrados. Inés abre el terminal de Las Antenas; sus copias permiten seguir una reserva de entrega omitida de la bitácora visible.',
+    'El chip del dron guarda rutas y mensajes cifrados. Inés Araya abre el terminal de Las Antenas, donde una entrega aparece en las copias y falta en la bitácora visible.',
   module: {
     id: 'w8-closed',
     name: 'La ventana',

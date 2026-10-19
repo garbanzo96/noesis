@@ -46,7 +46,7 @@ export const W11: SectorDef = {
   accent: '#d68cff',
   place: 'laboratorio',
   description:
-    'El lector de la Clínica guarda un modelo del Laboratorio de Halcón. Dicen que el modelo exacto es imposible de calcular y que lo aproximan. Hay que ver cómo.',
+    'El lector de la Clínica usa un modelo del Laboratorio de Halcón. Dicen que el modelo exacto no se puede calcular y que lo aproximan; falta ver cómo eligieron la aproximación.',
   module: {
     id: 'w11-closed',
     name: 'La receta',

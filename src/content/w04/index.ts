@@ -35,7 +35,7 @@ export const W04: SectorDef = {
   tag: 'El Metro',
   accent: '#9cff6e',
   place: 'metro',
-  description: 'En el centro de control del Metro de Valparaíso, un tren de mantención sale cada noche sin horario y las pantallas lo muestran donde no está.',
+  description: 'En el centro de control del Metro, un tren de mantención sale cada noche sin horario, y las pantallas lo muestran en una estación donde nadie lo ha visto.',
   module: {
     id: 'w4-closed',
     name: 'Discos del Archivo',

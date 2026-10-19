@@ -46,12 +46,12 @@ export const W13: SectorDef = {
   accent: '#e6e9f2',
   place: 'bolsa',
   description:
-    'Los registros fabricados movían anuncios sanitarios y contratos de seguros. En La Bolsa, alguien compraba siempre un paso antes que el mercado.',
+    'Los registros fabricados movían anuncios sanitarios y contratos de seguros. En La Bolsa, una cuenta compraba siempre un poco antes que los demás.',
   module: {
     id: 'w13-closed',
     name: 'La cuenta del último piso',
     description:
-      'La aproximación que el Laboratorio eligió para que los sanos desaparecieran de los datos.',
+      'La cuenta que compraba antes que el mercado está registrada en el piso 40 de la Torre Halcón.',
   },
   levels,
 };

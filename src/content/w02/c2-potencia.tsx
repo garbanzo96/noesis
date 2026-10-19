@@ -89,32 +89,32 @@ const lesson: LessonStep = {
     {
       say: 'La pendiente entre dos puntos es el cambio en altura dividido por el cambio horizontal. Para $f(x)=x^2$, entre 1 y 3 vale $(9-1)/(3-1)=4$.',
       dur: 2.6,
-      board: { label: 'Pendiente de la secante', tex: '\\frac{\\p{1}{\\Delta f}}{\\p{2}{\\Delta x}}=\\frac{f(b)-f(a)}{b-a}', body: 'La secante pasa por $(1,1)$ y $(3,9)$: su pendiente es 4.' },
+      board: { label: 'Pendiente de la secante', tex: '\\frac{\\p{1}{\\Delta f}}{\\p{2}{\\Delta x}}=\\frac{f(b)-f(a)}{b-a}', body: 'La secante pasa por $(1,1)$ y $(3,9)$: su pendiente es 4.', parts: ['cuánto sube', 'cuánto avanza'] },
     },
     {
       say: 'Acerca el segundo punto al primero, que está en $a=1$. El intervalo $h$ se achica y la pendiente $2+h$ se acerca a 2.',
       gate: 'Arrastra el segundo punto hasta que h sea menor que 0,1.',
-      board: { label: 'Cociente incremental', tex: '\\frac{f(a+\\p{1}{\\cM{h}})-f(a)}{\\p{1}{\\cM{h}}}', body: 'Con $h=2,1,0{,}5,0{,}1$, las pendientes son $4,3,2{,}5,2{,}1$.' },
+      board: { label: 'Cociente incremental', tex: '\\frac{f(a+\\p{1}{\\cM{h}})-f(a)}{\\p{1}{\\cM{h}}}', body: 'Con $h=2,1,0{,}5,0{,}1$, las pendientes son $4,3,2{,}5,2{,}1$.', parts: ['separación entre puntos'] },
     },
     {
       say: 'Al reducir $h$ hacia 0, la secante se acerca a la tangente. El límite de su pendiente se llama derivada.',
       dur: 3,
-      board: { label: 'Definición de derivada', tex: '\\p{1}{\\cG{f\'(a)}}=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}' },
+      board: { label: 'Definición de derivada', tex: '\\p{1}{\\cG{f\'(a)}}=\\lim_{h\\to0}\\frac{f(a+h)-f(a)}{h}', parts: ['pendiente de la tangente'] },
     },
     {
       say: 'Expande $(1+h)^2$ y simplifica para $h\\ne0$. El cociente queda $2+h$.',
       ask: { prompt: 'Entonces, ¿cuánto vale $f\'(1)$ para $f(x)=x^2$?', options: ['2', '1', '4'], answer: 0, explain: 'El cociente es $2+h$. Cuando $h\\to0$, su límite es 2: $f\'(1)=2$.' },
-      board: { label: 'Cálculo en a = 1', tex: '\\frac{(1+h)^2-1}{h}=\\frac{2h+h^2}{h}=\\p{1}{2+h}\\to\\p{2}{2}', body: 'Para $h\\ne0$ se cancela el factor $h$.' },
+      board: { label: 'Cálculo en a = 1', tex: '\\frac{(1+h)^2-1}{h}=\\frac{2h+h^2}{h}=\\p{1}{2+h}\\to\\p{2}{2}', body: 'Para $h\\ne0$ se cancela el factor $h$.', parts: ['pendiente de la secante', 'pendiente de la tangente'] },
     },
     {
       say: 'La lupa se acerca a $(1,1)$. En un intervalo pequeño, la curva se parece a la recta tangente.',
       dur: 3.5,
-      board: { label: 'Aproximación local', tex: 'f(1+h)\\approx\\p{1}{f(1)}+\\p{2}{f\'(1)}h=1+2h', body: 'El valor exacto es $1+2h+h^2$: el error es $h^2$.' },
+      board: { label: 'Aproximación local', tex: 'f(1+h)\\approx\\p{1}{f(1)}+\\p{2}{f\'(1)}h=1+2h', body: 'El valor exacto es $1+2h+h^2$: el error es $h^2$.', parts: ['altura de partida', 'pendiente en ese punto'] },
     },
     {
       say: 'Si $f$ se mide en metros y $x$ en segundos, la derivada se mide en metros por segundo. Es la tasa instantánea de cambio.',
       dur: 2.6,
-      board: { label: 'Pendiente y tasa instantánea', tex: '\\p{1}{\\cG{f\'(a)}}=\\text{pendiente de la tangente}=\\text{tasa instantánea},\\qquad[f\']=\\frac{[f]}{[x]}', body: 'Aquí $f\'(1)=2$ metros por segundo.' },
+      board: { label: 'Pendiente y tasa instantánea', tex: '\\p{1}{\\cG{f\'(a)}}=\\text{pendiente de la tangente}=\\text{tasa instantánea},\\qquad[f\']=\\frac{[f]}{[x]}', body: 'Aquí $f\'(1)=2$ metros por segundo.', parts: ['tasa instantánea de cambio'] },
     },
   ],
 };

@@ -46,12 +46,12 @@ export const W14: SectorDef = {
   accent: '#e8364f',
   place: 'torre',
   description:
-    'Todas las pistas llevan al piso 40. La agencia sube la torre de noche; cada piso se lee con una matemática aprendida.',
+    'Todas las pistas llevan al piso 40 de la Torre Halcón. La agencia sube de noche, piso por piso, con todo lo que aprendió en la ciudad.',
   module: {
     id: 'w14-closed',
     name: 'El último piso',
     description:
-      'La aproximación que el Laboratorio eligió para que los sanos desaparecieran de los datos.',
+      'El expediente completo del Contador, de la bodega 9 al piso 40.',
   },
   levels,
 };

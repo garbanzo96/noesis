@@ -41,7 +41,7 @@ export function Title({
         <h1 className="logo" data-text="NÓESIS">
           NÓESIS
         </h1>
-        <p className="title-sub">Valparaíso, 2089. La ciudad miente con números. Tú no.</p>
+        <p className="title-sub">Valparaíso, 2089. Alguien firma todas las cifras falsas de la ciudad con la misma letra.</p>
         <nav className="title-menu">
           <button className="btn primary big title-go" onClick={start}>
             <span>

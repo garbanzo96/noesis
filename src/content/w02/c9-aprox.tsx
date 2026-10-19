@@ -110,25 +110,25 @@ const lesson: LessonStep = {
       say: 'Cerca de $a$, la tangente aproxima la curva. Para $\\sqrt x$ en $a=4$, la altura es 2 y la pendiente es $0{,}25$.',
       gate: 'Mueve x cerca de 4, hasta que |x − 4| sea menor que 0,2.',
       board: [
-        { label: 'Aproximación lineal', tex: "L(x)=\\p{1}{f(a)}+\\p{2}{f'(a)}\\,(x-a)" },
+        { label: 'Aproximación lineal', tex: "L(x)=\\p{1}{f(a)}+\\p{2}{f'(a)}\\,(x-a)", parts: ['altura de partida', 'pendiente de la tangente'] },
         { tex: 'L(x)=2+0{,}25(x-4)', body: '$\\sqrt{4{,}1}\\approx L(4{,}1)=2{,}025$; el valor real es aproximadamente $2{,}02485$.' },
       ],
     },
     {
       say: 'Usa la recta para estimar otra raíz cercana. El cambio en $x$ se multiplica por la pendiente.',
       ask: { prompt: 'Con esa recta, ¿cuánto estima $\\sqrt{4{,}4}$?', options: ['2,1', '2,4', '2,04'], answer: 0, explain: '$2+0{,}25\\cdot0{,}4=2{,}1$. El valor real es aproximadamente $2{,}0976$.' },
-      board: { label: 'Estimación', tex: 'L(4{,}4)=2+0{,}25\\cdot0{,}4=\\p{1}{2{,}1}' },
+      board: { label: 'Estimación', tex: 'L(4{,}4)=2+0{,}25\\cdot0{,}4=\\p{1}{2{,}1}', parts: ['raíz cuadrada estimada'] },
     },
     {
       say: 'El diferencial $dy$ es el cambio estimado por la tangente. Se obtiene multiplicando el cambio $dx$ por la derivada.',
       dur: 3,
-      board: { label: 'Diferenciales', tex: "dy=\\p{1}{f'(x)}\\,\\p{2}{dx}", body: 'En $x=4$, con $dx=0{,}4$: $dy=0{,}25\\cdot0{,}4=0{,}1$.' },
+      board: { label: 'Diferenciales', tex: "dy=\\p{1}{f'(x)}\\,\\p{2}{dx}", body: 'En $x=4$, con $dx=0{,}4$: $dy=0{,}25\\cdot0{,}4=0{,}1$.', parts: ['pendiente en ese punto', 'cambio de la entrada'] },
     },
     {
       say: 'Newton usa el corte de la tangente con el eje para acercarse a un cero. Para $x^2-2=0$, parte de $x_0=1$ y avanza con el botón.',
       dur: 3,
       board: [
-        { label: 'Newton', tex: "x_{n+1}=x_n-\\frac{\\p{1}{f(x_n)}}{\\p{2}{f'(x_n)}}", body: 'Se necesita $f\'(x_n)\\ne0$.' },
+        { label: 'Newton', tex: "x_{n+1}=x_n-\\frac{\\p{1}{f(x_n)}}{\\p{2}{f'(x_n)}}", body: 'Se necesita $f\'(x_n)\\ne0$.', parts: ['altura en la estimación', 'pendiente en la estimación'] },
         { tex: 'x_0=1,\\quad x_1=1{,}5,\\quad x_2\\approx1{,}41667,\\quad x_3\\approx1{,}414216', body: '$\\sqrt2\\approx1{,}414214$. Cada tangente da la siguiente aproximación.' },
       ],
     },
@@ -136,8 +136,8 @@ const lesson: LessonStep = {
       say: 'La tangente sirve para estimar valores cercanos y para buscar ceros. Estas son las dos fórmulas que usamos.',
       dur: 2.6,
       board: [
-        { label: 'Aproximación lineal', tex: "L(x)=\\p{1}{f(a)}+\\p{2}{f'(a)}(x-a)" },
-        { label: 'Newton', tex: "x_{n+1}=x_n-\\p{1}{\\frac{f(x_n)}{f'(x_n)}}" },
+        { label: 'Aproximación lineal', tex: "L(x)=\\p{1}{f(a)}+\\p{2}{f'(a)}(x-a)", parts: ['altura de partida', 'pendiente de la tangente'] },
+        { label: 'Newton', tex: "x_{n+1}=x_n-\\p{1}{\\frac{f(x_n)}{f'(x_n)}}", parts: ['corrección de la estimación'] },
       ],
     },
   ],

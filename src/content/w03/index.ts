@@ -35,7 +35,7 @@ export const W03: SectorDef = {
   tag: 'La Represa',
   accent: '#a88aff',
   place: 'represa',
-  description: 'En la represa Peñuelas, los informes de caudal no cuadran con el nivel del lago. Cada noche desaparecen miles de metros cúbicos rumbo a la central.',
+  description: 'El lago de la represa Peñuelas baja cada noche, pero los caudalímetros dicen que no sale agua. Miles de metros cúbicos van a alguna parte.',
   module: {
     id: 'w3-closed',
     name: 'Enlace del Metro',

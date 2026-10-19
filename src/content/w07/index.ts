@@ -44,7 +44,7 @@ export const W07: SectorDef = {
   accent: '#ff6b4a',
   place: 'cerros',
   description:
-    'El informe del Archivo lleva a Halcón Drones en Los Cerros. Un dron del contrabando no volvió: hay que encontrarlo antes de que la lluvia lo arrastre quebrada abajo.',
+    'El informe del Archivo lleva a Halcón Drones, en Los Cerros. Un dron del contrabando no volvió, y para la noche se anuncia lluvia en la quebrada.',
   module: {
     id: 'w7-closed',
     name: 'Chip del dron',

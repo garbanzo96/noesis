@@ -46,12 +46,12 @@ export const W12: SectorDef = {
   accent: '#c9b37e',
   place: 'fabrica',
   description:
-    'En el servidor del Laboratorio hay registros clínicos indistinguibles de los reales. Vienen de La Fábrica, una planta de datos de Halcón en el viejo barrio industrial.',
+    'En el servidor del Laboratorio hay registros clínicos que nadie distingue de los reales. Vienen de La Fábrica, una planta de datos en el viejo barrio industrial.',
   module: {
     id: 'w12-closed',
     name: 'El lote perfecto',
     description:
-      'La aproximación que el Laboratorio eligió para que los sanos desaparecieran de los datos.',
+      'Los registros falsos alimentaron apuestas de seguros sanitarios en La Bolsa.',
   },
   levels,
 };

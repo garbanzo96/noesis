@@ -37,7 +37,7 @@ export const W02: SectorDef = {
   tag: 'La Planta',
   accent: '#6f9cff',
   place: 'planta',
-  description: 'La central Halcón Energía de Ventanas sufre picos de consumo cada noche. Una carga oculta se conecta a las 03:12 y nadie sabe qué es.',
+  description: 'En la central de Ventanas el consumo sube todas las noches a las 03:12, cuando ningún turno lo necesita. La ingeniera de turno lo anotó tres veces y nadie le respondió.',
   module: {
     id: 'w2-closed',
     name: 'Plano de la represa',

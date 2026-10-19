@@ -17,52 +17,52 @@ const PANELS: Panel[] = [
   {
     place: 'puerto',
     who: 'nar',
-    text: 'Valparaíso, 2089. Una sola empresa, Halcón, administra el puerto, la energía, el agua y los datos de la ciudad.',
+    text: 'Valparaíso, 2089. Una sola empresa, Halcón, administra el puerto, la energía, el agua y los datos de la ciudad, y cada mes publica un informe que cuadra hasta el último decimal.',
   },
   {
     place: 'puerto',
     who: 'nar',
-    text: 'Sus informes siempre cuadran. Las vacunas llegan, la luz no se corta, el agua alcanza. Al menos en el papel.',
+    text: 'En la Clínica del Cerro, mientras tanto, las vacunas llegan con atraso, la luz se corta los jueves y el agua no alcanza. En el informe de Halcón no aparece nada de eso.',
   },
   {
     place: 'oficina',
     who: 'iris',
-    text: 'Soy Iris Montt, de la Agencia NÓESIS. Investigamos lo que los números esconden.',
+    text: 'Iris Montt, de la Agencia NÓESIS. Tenemos una oficina con vista a la bahía y revisamos las cuentas que Halcón preferiría que nadie revisara.',
   },
   {
     place: 'oficina',
     who: 'iris',
-    text: 'Te contraté como analista. No necesito que ya sepas matemáticas. Necesito que las aprendas bien, desde la base.',
+    text: 'Te contraté como analista. Vas a aprender la matemática que haga falta, desde la base, y la vas a usar en casos reales.',
   },
   {
     place: 'oficina',
     who: 'teo',
-    text: 'Yo soy Teo: sensores, código, cifrados. Te consigo los datos; tú los haces hablar.',
+    text: 'Yo soy Teo. Consigo los datos: sensores, registros, cualquier aparato que tenga memoria. Leerlos es tu parte.',
   },
   {
     place: 'oficina',
     who: 'noesis',
-    text: 'Y yo soy NÓESIS, la tutora de la agencia. Antes de usar una herramienta matemática, te la enseño desde cero: primero la ves, después la escribes.',
+    text: 'Y yo soy NÓESIS, la tutora de la agencia. Cada vez que el caso pida una herramienta, primero la verás funcionar en un dibujo y después aprenderás a escribirla.',
   },
   {
     place: 'oficina',
     who: 'iris',
-    text: 'La misión: alguien dentro de Halcón usa la ciudad para algo grande. Cada distrito guarda una pieza, y cada pieza exige una rama de la matemática.',
+    text: 'Llevamos meses mirando cifras de Halcón que cuadran demasiado bien. Alguien está usando la ciudad para algo y lo esconde en las cuentas.',
   },
   {
     place: 'oficina',
     who: 'iris',
-    text: 'En la calle le dicen el Contador. Nadie le ha visto la cara, pero cada cifra arreglada de esta ciudad lleva su firma.',
+    text: 'En el puerto le dicen el Contador. Nadie le ha visto la cara, pero todas las cifras arregladas tienen la misma letra.',
   },
   {
     place: 'oficina',
     who: 'noesis',
-    text: 'Son catorce distritos, uno por rama de la matemática. Los recorreremos en orden, del Puerto a la Torre Halcón, y cada uno se apoya en los anteriores.',
+    text: 'La ciudad tiene catorce distritos y cada uno pide una rama de la matemática. Iremos en orden, del Puerto a la Torre Halcón, porque cada distrito usa lo aprendido en los anteriores.',
   },
   {
     place: 'oficina',
     who: 'iris',
-    text: 'Empezamos por el puerto. Ayer desaparecieron cuarenta cajas de vacunas.',
+    text: 'Empezamos por el puerto. Anoche salieron de la bodega 9 cuarenta cajas de vacunas, y nadie firmó la salida.',
   },
 ];
 

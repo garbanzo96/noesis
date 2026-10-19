@@ -34,7 +34,7 @@ export const W09: SectorDef = {
   accent: '#e7df5a',
   place: 'observatorio',
   description:
-    'El papel del registrador conserva la tormenta que el boletín borró. La agencia reconstruye la salida privada del pronóstico y los ajustes cambiados antes de la entrega de vacunas.',
+    'El registrador del Observatorio conservó en papel una tormenta que el boletín público borró. Alguien tenía el pronóstico verdadero antes que nadie.',
   module: {
     id: 'w9-closed',
     name: 'La copia y el recibo',

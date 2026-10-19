@@ -89,28 +89,28 @@ const lesson: LessonStep = {
       say: 'El rectángulo tiene lados $u=x^2$ y $v=3x+1$. Al mover $x$, el área crece en dos franjas y una esquina que se vuelve despreciable al reducir el cambio.',
       gate: 'Arrastra x hasta 1,15 o más; luego acércalo a 1 hasta quedar a menos de 0,05.',
       board: [
-        { label: 'Aumento de área', tex: '\\Delta(uv)=\\p{1}{u\\,\\Delta v}+\\p{2}{v\\,\\Delta u}+\\Delta u\\,\\Delta v' },
-        { label: 'Producto', tex: "(uv)'=\\p{1}{\\cM{u'v}}+\\p{2}{\\cA{uv'}}" },
+        { label: 'Aumento de área', tex: '\\Delta(uv)=\\p{1}{u\\,\\Delta v}+\\p{2}{v\\,\\Delta u}+\\Delta u\\,\\Delta v', parts: ['franja por cambio de v', 'franja por cambio de u'] },
+        { label: 'Producto', tex: "(uv)'=\\p{1}{\\cM{u'v}}+\\p{2}{\\cA{uv'}}", parts: ['aporte al cambiar u', 'aporte al cambiar v'] },
       ],
     },
     {
       say: 'Deriva un lado y conserva el otro; luego suma el segundo aporte. Expandir el producto primero da el mismo resultado.',
       dur: 3,
       board: [
-        { label: 'Dos aportes', tex: "(uv)'=2x(3x+1)+x^2\\cdot3=\\p{1}{9x^2+2x}" },
+        { label: 'Dos aportes', tex: "(uv)'=2x(3x+1)+x^2\\cdot3=\\p{1}{9x^2+2x}", parts: ['cambio total del área'] },
         { label: 'Comprobación', tex: "uv=3x^3+x^2\\Rightarrow(uv)'=9x^2+2x", body: 'En $x=1$, la derivada vale $9+2=11$.' },
       ],
     },
     {
       say: 'Multiplicar las dos derivadas omite los aportes de las franjas. Aquí $u\'v\'=6x$, que en $x=1$ da 6.',
       ask: { prompt: '¿Cuánto vale $(uv)\'$ en $x=1$?', options: ['11', '6', '4'], answer: 0, explain: '$2\\cdot1\\cdot4+1^2\\cdot3=8+3=11$. Multiplicar $u\'$ por $v\'$ da 6, pero esa no es la regla del producto.' },
-      board: { label: 'Error típico', tex: "(uv)'=u'v+uv'\\ne\\p{1}{u'v'}", body: 'En $x=1$: la derivada del producto es 11; el producto de las derivadas es 6.' },
+      board: { label: 'Error típico', tex: "(uv)'=u'v+uv'\\ne\\p{1}{u'v'}", body: 'En $x=1$: la derivada del producto es 11; el producto de las derivadas es 6.', parts: ['producto de las derivadas'] },
     },
     {
       say: 'Para un cociente, resta los aportes en el numerador y divide por el cuadrado del denominador. En $q=x/(x+1)$, el numerador queda igual a 1.',
       ask: { prompt: '¿Cuánto vale $q\'(1)$?', options: ['0,25', '0,5', '1'], answer: 0, explain: '$q\'(1)=1/(1+1)^2=1/4=0{,}25$.' },
       board: [
-        { label: 'Cociente', tex: "\\left(\\frac uv\\right)'=\\frac{\\p{1}{u'v-uv'}}{\\p{2}{v^2}}", body: 'El denominador debe ser distinto de cero.' },
+        { label: 'Cociente', tex: "\\left(\\frac uv\\right)'=\\frac{\\p{1}{u'v-uv'}}{\\p{2}{v^2}}", body: 'El denominador debe ser distinto de cero.', parts: ['diferencia de aportes', 'escala del cociente'] },
         { tex: "q'(x)=\\frac{(x+1)-x}{(x+1)^2}=\\frac{1}{(x+1)^2}", body: '$q\'(1)=0{,}25$.' },
       ],
     },
@@ -118,8 +118,8 @@ const lesson: LessonStep = {
       say: 'En un producto se suman dos aportes. En un cociente se restan y se divide por el cuadrado del denominador.',
       dur: 2.6,
       board: [
-        { label: 'Producto', tex: "(uv)'=\\p{1}{\\cM{u'v}}+\\p{2}{\\cA{uv'}}" },
-        { label: 'Cociente', tex: "\\left(\\frac uv\\right)'=\\frac{\\p{1}{\\cM{u'v}}-\\p{2}{\\cA{uv'}}}{v^2}" },
+        { label: 'Producto', tex: "(uv)'=\\p{1}{\\cM{u'v}}+\\p{2}{\\cA{uv'}}", parts: ['aporte al cambiar u', 'aporte al cambiar v'] },
+        { label: 'Cociente', tex: "\\left(\\frac uv\\right)'=\\frac{\\p{1}{\\cM{u'v}}-\\p{2}{\\cA{uv'}}}{v^2}", parts: ['aporte al cambiar u', 'aporte que se resta'] },
       ],
     },
   ],

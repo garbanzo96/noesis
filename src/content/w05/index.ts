@@ -46,7 +46,7 @@ export const W05: SectorDef = {
   accent: '#ffbc5e',
   place: 'casino',
   description:
-    'El dinero del contrabando entra por las mesas del Barón Ferrer. Algunos juegos están amañados y en la mesa 7 alguien gana demasiado.',
+    'El dinero del contrabando entra por las mesas del Barón Ferrer. En la mesa 7 hay un jugador que gana demasiado y una crupier que prefiere no mirarlo.',
   module: {
     id: 'w5-closed',
     name: 'Libreta del Barón',

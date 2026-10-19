@@ -71,12 +71,12 @@ const lesson: LessonStep = {
     {
       say: 'Con 40 m de reja, un rectángulo de ancho $x$ tiene largo $20-x$. Mueve el ancho y observa el área.',
       gate: 'Arrastra x hasta quedar entre 9,5 y 10,5 m.',
-      board: { label: 'Modelo', tex: 'A(x)=x(20-x)=\\p{1}{20x-x^2}', body: '$2x+2(20-x)=40$ y $0\\le x\\le20$.' },
+      board: { label: 'Modelo', tex: 'A(x)=x(20-x)=\\p{1}{20x-x^2}', body: '$2x+2(20-x)=40$ y $0\\le x\\le20$.', parts: ['área según el ancho'] },
     },
     {
       say: 'Al aumentar el ancho, el largo disminuye. El área llega a un máximo y luego baja.',
       ask: { prompt: '¿Qué ancho da el área máxima?', options: ['10 m', '20 m', '5 m'], answer: 0, explain: 'Con $x=10$, el largo también es 10 y el área es $100$ m².' },
-      board: { label: 'Área máxima', tex: 'A(10)=10(20-10)=\\p{1}{100}\\ \\text{m}^2' },
+      board: { label: 'Área máxima', tex: 'A(10)=10(20-10)=\\p{1}{100}\\ \\text{m}^2', parts: ['área máxima del terreno'] },
     },
     {
       say: 'En el máximo, la tangente es horizontal. Resuelve $A\'(x)=20-2x=0$ para obtener $x=10$.',
@@ -94,7 +94,7 @@ const lesson: LessonStep = {
     {
       say: 'En un intervalo cerrado, compara los puntos críticos con los extremos. Aquí el área en ambos extremos es cero.',
       dur: 3,
-      board: { label: 'Extremos del intervalo', tex: '\\p{1}{x\\in[0,20]:}\\quad\\p{2}{ A(0)}=\\p{3}{A(20)}=\\p{4}{0<100}=\\p{5}{A(10)}' },
+      board: { label: 'Extremos del intervalo', tex: '\\p{1}{x\\in[0,20]:}\\quad\\p{2}{ A(0)}=\\p{3}{A(20)}=\\p{4}{0<100}=\\p{5}{A(10)}', parts: ['anchos permitidos', 'área con ancho cero', 'área con largo cero', 'comparación de áreas', 'área en el punto crítico'] },
     },
     {
       say: 'Define la variable, la función y el dominio. Busca los puntos críticos y comprueba el resultado, incluyendo los extremos.',

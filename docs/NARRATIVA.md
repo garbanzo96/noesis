@@ -29,34 +29,52 @@ Para quien escriba o reescriba escenas (personas o agentes). Complementa `HISTOR
 
 | Personaje | Cómo habla | Ejemplo |
 |---|---|---|
-| Iris | Seca, irónica, pocas palabras; pregunta para incomodar. Nunca explica de más. | "Cuarenta cajas no se evaporan. Alguien firmó la salida." |
+| Iris | Cortés y seca; pregunta cosas pequeñas y raras, como Poirot. Nunca explica de más ni anuncia antes de tiempo. | "¿Y quién escribió la guía?" |
 | Teo | Rápido, entusiasta, se entusiasma con aparatos; a veces habla de más y Iris lo corta. | "¡Tiene registro por minuto! Bueno, por minuto y medio. Igual sirve." |
 | Rosa | Cansada, directa, protege a su gente; usa el lenguaje del puerto. | "Mis gallos cargan lo que dice la guía. Si la guía miente, no es culpa de ellos." |
 | El Contador | Educado y frío; habla en cifras y en condicional. | "Usted calcula bien, analista. Calcularía mejor si no estuviera tan sola." |
 | Barón Ferrer | Teatral, seguro, se escucha a sí mismo. | "La casa siempre gana, querida. Yo solo me aseguro de que gane con elegancia." |
 | Vera | Nerviosa, observadora; baja la voz, mira a los lados. | "No me mire tanto. Las cámaras leen labios." |
 | Nadia | Práctica, desconfiada; habla en unidades y horarios de turno. | "Son 4,2 megawatts que no figuran en ninguna boleta. Y yo no los inventé." |
-| Marta | Paciente, exacta, piensa en caudales; humor seco de terreno. | "El agua no miente. Los informes, a veces." |
+| Marta | Paciente, exacta, piensa en caudales; humor seco de terreno. | "El caudalímetro marca lo mismo desde marzo. El río, no." |
 | Lucía | Rápida, nombra estaciones y tramos; teme por su puesto. | "Si mi jefe ve que te muestro esto, mañana estoy vendiendo boletos en Bellavista." |
 | Ana | Meticulosa, cita folios y fechas; desconfía de la agencia hasta que ve evidencia. | "Folio 4.117, doce de agosto. La tinta es de otra impresora." |
 | NÓESIS | Tutora: clara, cálida sin ser cursi, una idea por paso, va de lo concreto a lo formal. | "Mira la flecha, no la fórmula. Primero dónde termina; después cómo se escribe." |
 
-## Antes y después
+## Voz: Agatha Christie
+
+La referencia es Agatha Christie: prosa llana, observación exacta y una ironía que sale de la situación, nunca de un remate. El misterio avanza porque alguien nota un detalle pequeño, no porque alguien lo anuncie.
+
+1. El narrador observa como un invitado educado. Anota lo doméstico: quién se sentó dónde, la taza que nadie tocó, la planilla doblada en cuatro. Un detalle exacto reemplaza tres adjetivos.
+2. Las pistas se dicen al pasar, entre cosas triviales, y el jugador las ve todas (juego limpio). Ejemplo: los cuatro choferes cuentan la misma historia «con las mismas palabras, en el mismo orden».
+3. Iris trabaja como Poirot: cortés, pregunta cosas pequeñas y raras, no anuncia conclusiones antes de tenerlas y recuerda casos parecidos. Su ironía es breve y seca.
+4. La gente miente por razones humanas (miedo al despido, lealtad, orgullo) y lo que calla se nota en un gesto, no en una acotación de emoción.
+5. Nadie termina su intervención con un chiste. Si una línea podría ir en una taza o en un póster, se borra.
+6. Las escenas de cierre terminan en un hecho que cambia el sentido de lo anterior, dicho sin énfasis. Nunca en «Vamos a X» ni en una frase hecha.
+7. Hora en palabras cuando habla el narrador («seis y diez»), en cifras cuando la cifra es un dato del caso («de 00:40 a 05:20»).
+8. Ninguna cifra, nombre o hora cambia respecto de la clase, la investigación y la práctica del caso.
+
+### Lista negra
+
+Frases hechas del policial y del ciberpunk: la ciudad nunca duerme, los números no mienten, nada es lo que parece, algo no cuadraba, un escalofrío le recorrió, el reloj corre, jugar con fuego, la punta del iceberg, la pieza que faltaba del rompecabezas, la verdad sale a la luz, en las sombras, mirada de acero, el neón sangraba, la lluvia lavaba la ciudad.
+
+Remates de fórmula: «Qué conveniente», «Interesante», «Qué coordinación», «una explicación preciosa», «Me gusta cuando…», cualquier frase que repita como sentencia lo que ya se vio.
+
+Tics de texto automático: «no X, sino Y» y sus variantes; tríadas decorativas; fragmentos dramáticos en fila («Sin rastro. Sin testigos.»); aforismos («El agua no miente»); rayas largas como conector.
+
+### Antes y después (caso 1.1)
 
 Antes:
 
-> Iris: Anoche desaparecieron cuarenta cajas de vacunas de la bodega 9. Las que quedaron no están mejor.
-> Teo: Cada contenedor registra su temperatura. Estas vacunas solo resisten entre 2 y 8 grados.
-> Iris: Quiero la lista exacta de contenedores que salieron de ese rango. Sin «más o menos».
-> Tú: ¿Y cómo se escribe «entre 2 y 8» sin ambigüedad?
+> Narración: Oficina NÓESIS, jueves, 06:10; zumba el refrigerador de muestras.
+> Iris: Cuarenta cajas desaparecieron de la bodega 9. Alguien tendrá una explicación preciosa.
+> Iris: Hazlo con los registros a la vista. Una caja mal marcada y perdemos la prueba.
 
 Después:
 
-> Narración: Bodega 9, 06:10. El refrigerador zumba más fuerte que la lluvia.
-> Iris: Cuarenta cajas de vacunas no se evaporan. Y las que quedaron pasaron la noche al sol.
-> Teo: Cada contenedor guarda su temperatura minuto a minuto. Estas dosis aguantan de 2 a 8 grados; fuera de eso, son agua.
-> Rosa: Si me van a culpar, que sea con números. Mis gallos no tocaron nada.
-> Iris: Entonces los números van a decir quién. Analista, separa los que se salieron del rango. Sin «más o menos».
+> Narración: Jueves, seis y diez. En la oficina de NÓESIS el refrigerador de muestras había empezado a zumbar en un tono nuevo, y nadie tenía tiempo de llamar al técnico.
+> Iris: Anoche salieron de la bodega 9 cuarenta cajas de vacunas que nadie despachó. Las que se quedaron pasaron la noche con la puerta del contenedor mal cerrada.
+> Iris: Hazlo con los registros a la vista. Si una sola caja queda mal marcada, Halcón dirá que las cuarenta nunca existieron.
 
 ## Clases (NÓESIS)
 

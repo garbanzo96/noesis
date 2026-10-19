@@ -107,8 +107,8 @@ const lesson: LessonStep = {
       say: 'Al aumentar el lado de un cuadrado en $h$, aparecen dos franjas $xh$ y una esquina $h^2$. Reduce $h$ y mira qué pasa con la esquina.',
       gate: 'Arrastra el control para cambiar h y dejarlo bajo 0,1.',
       board: [
-        { label: 'Cuadrado', tex: '(x+h)^2=x^2+\\p{1}{2xh}+\\p{2}{h^2}' },
-        { tex: '\\frac{(x+h)^2-x^2}{h}=2x+h\\to2x,\\qquad\\frac{d}{dx}x^2=\\p{1}{\\cA{2x}}' },
+        { label: 'Cuadrado', tex: '(x+h)^2=x^2+\\p{1}{2xh}+\\p{2}{h^2}', parts: ['área de las franjas', 'área de la esquina'] },
+        { tex: '\\frac{(x+h)^2-x^2}{h}=2x+h\\to2x,\\qquad\\frac{d}{dx}x^2=\\p{1}{\\cA{2x}}', parts: ['cambio del área por lado'] },
       ],
     },
     {
@@ -116,14 +116,14 @@ const lesson: LessonStep = {
       ask: { prompt: '¿Cuánto vale la derivada de $x^3$ en $x=2$?', options: ['12', '8', '6'], answer: 0, explain: '$3\\cdot2^2=12$. El volumen es 8; su derivada es 12.' },
       board: [
         { label: 'Cubo', tex: '(x+h)^3=x^3+3x^2h+3xh^2+h^3' },
-        { tex: '\\frac{d}{dx}x^3=\\p{1}{\\cA{3x^2}}' },
+        { tex: '\\frac{d}{dx}x^3=\\p{1}{\\cA{3x^2}}', parts: ['cambio del volumen por lado'] },
       ],
     },
     {
       say: 'Para una potencia, el exponente baja como factor y luego se resta uno al exponente. También funciona con exponentes negativos y fraccionarios, donde la función es derivable.',
       dur: 3,
       board: [
-        { label: 'Potencia', tex: '\\frac{d}{dx}x^n=\\p{1}{n}\\,x^{\\p{2}{n-1}}' },
+        { label: 'Potencia', tex: '\\frac{d}{dx}x^n=\\p{1}{n}\\,x^{\\p{2}{n-1}}', parts: ['factor que baja', 'exponente que disminuye'] },
         { tex: "(x^{-1})'=-x^{-2},\\qquad(\\sqrt{x})'=\\frac{1}{2\\sqrt{x}}", body: 'Para $x^{-1}$, $x\\ne0$. Para la derivada de $\\sqrt{x}$, $x>0$.' },
       ],
     },
@@ -139,8 +139,8 @@ const lesson: LessonStep = {
       say: 'La regla de la potencia y la linealidad permiten derivar cada término de un polinomio. Aplica ambas reglas y reúne el resultado.',
       dur: 2.6,
       board: [
-        { label: 'Regla de la potencia', tex: '\\frac{d}{dx}x^n=\\p{1}{\\cA{n\\,x^{n-1}}}' },
-        { label: 'Linealidad', tex: "(a\\,f+b\\,g)'=\\p{1}{\\cC{a\\,f'}}+\\p{2}{\\cA{b\\,g'}},\\qquad c'=0" },
+        { label: 'Regla de la potencia', tex: '\\frac{d}{dx}x^n=\\p{1}{\\cA{n\\,x^{n-1}}}', parts: ['derivada de la potencia'] },
+        { label: 'Linealidad', tex: "(a\\,f+b\\,g)'=\\p{1}{\\cC{a\\,f'}}+\\p{2}{\\cA{b\\,g'}},\\qquad c'=0", parts: ['aporte del primer término', 'aporte del segundo término'] },
       ],
     },
   ],

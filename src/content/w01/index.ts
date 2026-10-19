@@ -36,7 +36,7 @@ export const W01: SectorDef = {
   tag: 'El Puerto',
   accent: '#28e7fa',
   place: 'puerto',
-  description: 'Cuarenta cajas de vacunas desaparecieron de la bodega 9. Las pistas apuntan a un carguero sin bandera, el Altamar, y a alguien que lleva las cuentas del contrabando.',
+  description: 'Anoche salieron de la bodega 9 cuarenta cajas de vacunas que nadie despachó. El Altamar, un carguero sin bandera, vuelve esta noche, y alguien lleva la cuenta de cada caja.',
   module: {
     id: 'w1-closed',
     name: 'Ficha de casino «Aurora»',

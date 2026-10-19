@@ -35,7 +35,7 @@ export const W06: SectorDef = {
   tag: 'El Archivo',
   accent: '#ff9f6e',
   place: 'archivo',
-  description: 'En el Archivo Regional, la copia del registro de vacunación que viajaba en el Metro no coincide con el informe oficial de la Clínica del Cerro.',
+  description: 'En el Archivo Regional hay dos copias del registro de vacunación de la Clínica del Cerro. La que viajó en el Metro no dice lo mismo que la oficial.',
   module: {
     id: 'w6-closed',
     name: 'Bitácora de drones',

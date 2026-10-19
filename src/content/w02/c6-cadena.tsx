@@ -105,18 +105,18 @@ const lesson: LessonStep = {
     {
       say: 'La entrada pasa por dos etapas: $x\\to u=3x+1\\to y=u^2$. $u$ cambia tres veces más rápido que $x$; en $x=1$, $u=4$ e $y$ cambia ocho veces más rápido que $u$.',
       gate: 'Arrastra el control para girar el primer engranaje hasta x = 1,1 o más.',
-      board: { label: 'Dos etapas', tex: '\\frac{du}{dx}=\\p{1}{\\cC{3}},\\qquad\\frac{dy}{du}=\\p{2}{\\cA{2u}}', body: 'En $x=1$: $u=4$ y $dy/du=8$. La segunda razón cambia con $u$.' },
+      board: { label: 'Dos etapas', tex: '\\frac{du}{dx}=\\p{1}{\\cC{3}},\\qquad\\frac{dy}{du}=\\p{2}{\\cA{2u}}', body: 'En $x=1$: $u=4$ y $dy/du=8$. La segunda razón cambia con $u$.', parts: ['ritmo de la primera etapa', 'ritmo de la segunda etapa'] },
     },
     {
       say: 'Para obtener la razón total, multiplica las razones de las dos etapas. Evalúa cada una en el valor que le corresponde.',
       ask: { prompt: 'Si $u$ va 3 veces más rápido que $x$ e $y$ va 8 veces más rápido que $u$, ¿cuántas veces más rápido que $x$ va $y$?', options: ['24', '11', '8/3'], answer: 0, explain: 'Las razones se multiplican: $8\\cdot3=24$.' },
-      board: { label: 'Regla de la cadena', tex: '\\frac{dy}{dx}=\\p{1}{\\cA{\\frac{dy}{du}}}\\cdot\\p{2}{\\cC{\\frac{du}{dx}}}', body: 'En $x=1$, $dy/dx=8\\cdot3=24$.' },
+      board: { label: 'Regla de la cadena', tex: '\\frac{dy}{dx}=\\p{1}{\\cA{\\frac{dy}{du}}}\\cdot\\p{2}{\\cC{\\frac{du}{dx}}}', body: 'En $x=1$, $dy/dx=8\\cdot3=24$.', parts: ['ritmo de la etapa exterior', 'ritmo de la etapa interior'] },
     },
     {
       say: 'Deriva la función exterior en el valor de la interior y multiplica por la derivada interior. Para $(x^2+1)^5$, esos factores son $5(x^2+1)^4$ y $2x$.',
       dur: 3,
       board: [
-        { label: 'Composición', tex: "(f\\circ g)'(x)=\\p{1}{f'(g(x))}\\,\\p{2}{g'(x)}" },
+        { label: 'Composición', tex: "(f\\circ g)'(x)=\\p{1}{f'(g(x))}\\,\\p{2}{g'(x)}", parts: ['derivada exterior evaluada', 'derivada de la interior'] },
         { tex: '\\frac{d}{dx}(x^2+1)^5=5(x^2+1)^4\\cdot2x', body: 'En $x=1$: $5\\cdot2^4\\cdot2=160$.' },
       ],
     },
@@ -132,8 +132,8 @@ const lesson: LessonStep = {
       say: 'Las dos notaciones expresan la misma regla. La derivada de la composición multiplica las derivadas de sus etapas.',
       dur: 2.6,
       board: [
-        { label: 'Por etapas', tex: '\\frac{dy}{dx}=\\p{1}{\\cA{\\frac{dy}{du}}}\\cdot\\p{2}{\\cC{\\frac{du}{dx}}}' },
-        { label: 'Composición', tex: "(f\\circ g)'(x)=\\p{1}{\\cA{f'(g(x))}}\\,\\p{2}{\\cC{g'(x)}}" },
+        { label: 'Por etapas', tex: '\\frac{dy}{dx}=\\p{1}{\\cA{\\frac{dy}{du}}}\\cdot\\p{2}{\\cC{\\frac{du}{dx}}}', parts: ['ritmo de la etapa exterior', 'ritmo de la etapa interior'] },
+        { label: 'Composición', tex: "(f\\circ g)'(x)=\\p{1}{\\cA{f'(g(x))}}\\,\\p{2}{\\cC{g'(x)}}", parts: ['derivada exterior evaluada', 'derivada de la interior'] },
       ],
     },
   ],

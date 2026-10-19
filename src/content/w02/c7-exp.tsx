@@ -108,30 +108,30 @@ const lesson: LessonStep = {
     {
       say: 'En $y=e^x$, la pendiente es igual a la altura en cada punto. En $x=1$, ambas valen aproximadamente $2{,}718$.',
       gate: 'Recorre la curva con el control hasta x = 1 o más.',
-      board: { label: 'Exponencial', tex: "(e^x)'=\\p{1}{\\cA{e^x}}", body: 'En $x=1$: altura y pendiente $e\\approx2{,}718$.' },
+      board: { label: 'Exponencial', tex: "(e^x)'=\\p{1}{\\cA{e^x}}", body: 'En $x=1$: altura y pendiente $e\\approx2{,}718$.', parts: ['pendiente igual a altura'] },
     },
     {
       say: 'Para otras bases aparece el factor $\\ln a$. En $2^x$, la pendiente en cero es $\\ln2\\approx0{,}693$.',
       ask: { prompt: '¿Qué base tiene pendiente exactamente 1 en $x=0$?', options: ['$e\\approx2{,}718$', '2', '10'], answer: 0, explain: 'En cero, $a^0\\ln a=\\ln a$. Vale 1 cuando $a=e$.' },
-      board: { label: 'Otras bases', tex: "(a^x)'=\\p{1}{a^x}\\,\\p{2}{\\ln a},\\qquad a>0", body: 'El logaritmo natural de $e$ vale 1.' },
+      board: { label: 'Otras bases', tex: "(a^x)'=\\p{1}{a^x}\\,\\p{2}{\\ln a},\\qquad a>0", body: 'El logaritmo natural de $e$ vale 1.', parts: ['altura de la curva', 'ajuste según la base'] },
     },
     {
       say: 'La cadena agrega el factor $k$ al derivar $e^{kx}$. En $Q(t)=100e^{-0{,}5t}$, la cantidad baja cada vez más lento.',
       dur: 3,
       board: [
-        { label: 'Cadena', tex: "(e^{kx})'=\\p{1}{k}\\,e^{kx}" },
+        { label: 'Cadena', tex: "(e^{kx})'=\\p{1}{k}\\,e^{kx}", parts: ['ritmo de la entrada'] },
         { tex: "Q(t)=100e^{-0{,}5t},\\quad Q'(t)=-50e^{-0{,}5t},\\quad Q'(0)=-50" },
       ],
     },
     {
       say: 'El logaritmo natural es la inversa de $e^x$. Su pendiente en $x>0$ es $1/x$.',
       ask: { prompt: '¿Cuánto vale la derivada de $\\ln x$ en $x=4$?', options: ['0,25', '4', '1'], answer: 0, explain: '$1/4=0{,}25$.' },
-      board: { label: 'Logaritmo', tex: "(\\ln x)'=\\p{1}{\\cA{\\frac1x}},\\qquad x>0" },
+      board: { label: 'Logaritmo', tex: "(\\ln x)'=\\p{1}{\\cA{\\frac1x}},\\qquad x>0", parts: ['pendiente del logaritmo'] },
     },
     {
       say: 'La exponencial se deriva a sí misma. La derivada del logaritmo natural es el recíproco de su entrada.',
       dur: 2.6,
-      board: { label: 'Exp y log', tex: "(e^x)'=\\p{1}{\\cC{e^x}},\\qquad(\\ln x)'=\\p{2}{\\cA{\\frac1x}}\\quad(x>0)" },
+      board: { label: 'Exp y log', tex: "(e^x)'=\\p{1}{\\cC{e^x}},\\qquad(\\ln x)'=\\p{2}{\\cA{\\frac1x}}\\quad(x>0)", parts: ['pendiente de la exponencial', 'pendiente del logaritmo'] },
     },
   ],
 };

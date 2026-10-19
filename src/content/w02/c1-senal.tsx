@@ -109,34 +109,34 @@ const lesson: LessonStep = {
     {
       say: 'La gráfica de $g(x)=\\frac{x^2-4}{x-2}$ tiene un hueco en $x=2$. El límite pregunta a qué valor se acerca $g(x)$ al acercarse a 2, sin usar $g(2)$.',
       dur: 2.6,
-      board: { label: 'Límite', tex: '\\lim_{x\\to\\p{1}{\\cC{a}}}f(x)=\\p{2}{\\cA{L}}', body: 'Aquí el límite es 4, aunque $g(2)$ no esté definido.' },
+      board: { label: 'Límite', tex: '\\lim_{x\\to\\p{1}{\\cC{a}}}f(x)=\\p{2}{\\cA{L}}', body: 'Aquí el límite es 4, aunque $g(2)$ no esté definido.', parts: ['entrada hacia el hueco', 'valor al que se acerca'] },
     },
     {
       say: 'Acércate al hueco desde cada lado y mira los valores. Ambos lados se acercan a 4.',
       gate: 'Arrastra x hasta quedar a menos de 0,05 de 2 por la izquierda y por la derecha.',
-      board: { label: 'Límites laterales', tex: '\\lim_{x\\to a^-}f(x)=\\p{1}{L}=\\lim_{x\\to a^+}f(x)', body: 'El límite existe si ambos laterales existen y coinciden. $g(1{,}9)=3{,}9$, $g(1{,}99)=3{,}99$ y $g(2{,}01)=4{,}01$.' },
+      board: { label: 'Límites laterales', tex: '\\lim_{x\\to a^-}f(x)=\\p{1}{L}=\\lim_{x\\to a^+}f(x)', body: 'El límite existe si ambos laterales existen y coinciden. $g(1{,}9)=3{,}9$, $g(1{,}99)=3{,}99$ y $g(2{,}01)=4{,}01$.', parts: ['valor común de ambos lados'] },
     },
     {
       say: 'Esta función salta en $x=1$. Mira la altura a la que llega desde cada lado.',
       ask: { prompt: '¿Existe $\\lim_{x\\to1}h(x)$?', options: ['No: por la izquierda da 1 y por la derecha 3', 'Sí, vale 3', 'Sí, vale 2'], answer: 0, explain: 'Los límites laterales son 1 y 3. Como son distintos, el límite no existe.' },
-      board: { label: 'Un salto', tex: '\\lim_{x\\to1^-}h(x)=\\p{1}{1}\\ne\\p{2}{3}=\\lim_{x\\to1^+}h(x)' },
+      board: { label: 'Un salto', tex: '\\lim_{x\\to1^-}h(x)=\\p{1}{1}\\ne\\p{2}{3}=\\lim_{x\\to1^+}h(x)', parts: ['límite por la izquierda', 'límite por la derecha'] },
     },
     {
       say: 'Para ser continua en $a$, la función debe tener valor, tener límite y ambos deben ser iguales. Al llenar el hueco con 4, $f(x)=x+2$ es continua en 2.',
       dur: 2.6,
-      board: { label: 'Continuidad', tex: '\\lim_{x\\to a}f(x)=\\p{1}{\\cG{f(a)}}', body: 'Tres condiciones: existe $f(a)$, existe el límite y coinciden.' },
+      board: { label: 'Continuidad', tex: '\\lim_{x\\to a}f(x)=\\p{1}{\\cG{f(a)}}', body: 'Tres condiciones: existe $f(a)$, existe el límite y coinciden.', parts: ['valor de la función'] },
     },
     {
       say: 'Reemplazar $x=2$ en la fracción da $0/0$. Factoriza y simplifica para $x\\ne2$ antes de calcular el límite.',
       ask: { prompt: '¿Cuánto vale $\\lim_{x\\to2}\\frac{x^2-4}{x-2}$?', options: ['4', '0', 'No existe'], answer: 0, explain: 'Para $x\\ne2$, $(x^2-4)/(x-2)=x+2$. Cuando $x$ se acerca a 2, $x+2$ se acerca a 4.' },
-      board: { label: 'Forma 0/0', tex: '\\frac{(x-2)(x+2)}{x-2}=\\p{1}{x+2}\\quad(x\\ne2)', body: '$\\lim_{x\\to2}g(x)=4$. La simplificación no define $g(2)$.' },
+      board: { label: 'Forma 0/0', tex: '\\frac{(x-2)(x+2)}{x-2}=\\p{1}{x+2}\\quad(x\\ne2)', body: '$\\lim_{x\\to2}g(x)=4$. La simplificación no define $g(2)$.', parts: ['expresión sin el hueco'] },
     },
     {
       say: 'Cuando $x$ crece, $1/x$ se acerca a 0 y $5-3/x$ se acerca a 5. Cada curva se acerca a una asíntota horizontal.',
       dur: 3,
       board: [
-        { label: 'Ejemplos al infinito', tex: '\\lim_{x\\to\\infty}\\frac1x=\\p{1}{0},\\qquad\\lim_{x\\to\\infty}\\left(5-\\frac3x\\right)=\\p{2}{5}' },
-        { label: 'Límite al infinito', tex: '\\lim_{x\\to\\infty}f(x)=\\p{1}{\\cG{L}}', body: 'La recta $y=L$ es una asíntota horizontal.' },
+        { label: 'Ejemplos al infinito', tex: '\\lim_{x\\to\\infty}\\frac1x=\\p{1}{0},\\qquad\\lim_{x\\to\\infty}\\left(5-\\frac3x\\right)=\\p{2}{5}', parts: ['asíntota de la primera', 'asíntota de la segunda'] },
+        { label: 'Límite al infinito', tex: '\\lim_{x\\to\\infty}f(x)=\\p{1}{\\cG{L}}', body: 'La recta $y=L$ es una asíntota horizontal.', parts: ['altura de la asíntota'] },
       ],
     },
   ],
