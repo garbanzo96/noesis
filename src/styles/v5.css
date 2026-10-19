@@ -2207,10 +2207,6 @@
 .console-keys {
   margin-top: 4px;
 }
-.hints.solving {
-  border-left: 3px solid var(--amber);
-  padding-left: 12px;
-}
 .hints .hints-title {
   list-style: none;
   margin-left: -1.2em;
