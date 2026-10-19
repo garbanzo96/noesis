@@ -302,14 +302,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Oficina de turno, 01:30. Joaquín ordena facturas de compras de dosis en el mesón; el café se enfría en un tarro de vidrio.',
+          text: 'Oficina de turno, diez para las tres. Joaquín ordenaba facturas de compras de dosis sobre el mesón, y el café se enfriaba en un frasco de vidrio.',
         },
         {
           who: 'joaquin',
-          text: 'Llevo veinte años viendo facturas. Las verdaderas empiezan con 1 una y otra vez. Estas no.',
+          text: 'Llevo veinte años viendo facturas. Las verdaderas empiezan con 1 una y otra vez, y estas no.',
         },
         { who: 'teo', text: 'Eso tiene nombre: ley de Benford.' },
-        { who: 'iris', text: 'Entonces cuenta primeros dígitos.' },
+        { who: 'iris', text: 'Entonces cuenta los primeros dígitos.' },
       ],
     },
     {
@@ -355,13 +355,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín junta las facturas falsas en una pila aparte. Es la pila más alta.',
+          text: 'Joaquín juntó las facturas falsas en una pila aparte, y fue la pila más alta.',
         },
         {
           who: 'joaquin',
-          text: 'En la central dicen que ya corrigieron eso. Que el lote nuevo sale perfecto.',
+          text: 'En la central dicen que ya lo corrigieron, que el lote nuevo sale perfecto.',
         },
-        { who: 'iris', text: 'Perfecto también deja huella.' },
+        {
+          who: 'iris',
+          text: 'Veamos el lote nuevo, entonces. Una cifra demasiado perfecta también se puede medir.',
+        },
       ],
     },
   ],

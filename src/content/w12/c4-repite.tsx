@@ -433,7 +433,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Una impresora golpea el papel continuo. Joaquín frena la cinta con el antebrazo antes de que las carpetas caigan al suelo.',
+          text: 'Una impresora golpeaba el papel continuo. Joaquín frenó la cinta con el antebrazo antes de que las carpetas cayeran al suelo.',
         },
         {
           who: 'joaquin',
@@ -441,10 +441,10 @@ export const level: LevelSpec = {
         },
         {
           who: 'teo',
-          text: '¡Guarda el historial completo! Hay sanos que enferman, enfermos que vuelven a sanos…',
+          text: 'Guarda el historial completo. Hay sanos que enferman y enfermos que vuelven a estar sanos.',
         },
-        { who: 'iris', text: 'Hasta se recuperan sin venir.' },
-        { who: 'joaquin', text: 'La máquina hace turnos largos. Nunca pide licencia.' },
+        { who: 'iris', text: 'Y se recuperan sin haber pisado nunca la clínica.' },
+        { who: 'joaquin', text: 'La máquina no se detiene entre turnos.' },
         {
           who: 'tu',
           text: 'Deja tres días a la vista. Podemos revisar cómo pasa de uno al siguiente.',
@@ -494,14 +494,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín corta el papel por la línea perforada. Bajo la tapa queda otra cinta, ya cargada.',
+          text: 'Joaquín cortó el papel por la línea perforada. Bajo la tapa había otra cinta, ya cargada.',
         },
         {
           who: 'joaquin',
-          text: 'Cinco de cada seis sanos al largo plazo. Esa regla estaba puesta cuando recibí el turno.',
+          text: 'A largo plazo, cinco de cada seis sanos. Esa regla ya estaba puesta cuando recibí el turno.',
         },
         { who: 'iris', text: '¿Y quién la puso?' },
-        { who: 'joaquin', text: 'Mi firma va en la caja. En la regla no hay firma.' },
+        { who: 'joaquin', text: 'Mi firma va en la caja. La regla no tiene firma.' },
       ],
     },
   ],

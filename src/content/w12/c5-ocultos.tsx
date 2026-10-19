@@ -171,7 +171,10 @@ const lesson: LessonStep = {
     {
       say: 'Arrastra z primero bajo −1 y luego sobre 1, o al revés. Mira cómo cambian juntas las dos columnas mientras el punto recorre la recta.',
       gate: 'Visita z ≤ −1 y z ≥ 1 con la perilla.',
-      board: { label: 'Dos columnas, una perilla', tex: '\\p{1}{x_1}=\\p{2}{5+0{,}6z},\\quad\\p{3}{ x_2}=\\p{4}{5+0{,}8z}' },
+      board: {
+        label: 'Dos columnas, una perilla',
+        tex: '\\p{1}{x_1}=\\p{2}{5+0{,}6z},\\quad\\p{3}{ x_2}=\\p{4}{5+0{,}8z}',
+      },
     },
     {
       say: 'La medición (5,6; 6,2) queda fuera de la recta. Resta el centro antes de buscar el rasgo: el desplazamiento observado es (0,6; 1,2).',
@@ -365,16 +368,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La caldera suelta vapor junto al tablero. Joaquín apoya una carpeta sobre el botón de parada; la cinta sigue avanzando.',
+          text: 'La caldera soltó vapor junto al tablero. Joaquín apoyó una carpeta sobre el botón de parada, y la cinta siguió avanzando.',
         },
         {
           who: 'joaquin',
           text: 'Dos columnas por carpeta. El jefe dice que cada una se ajusta sola.',
         },
-        { who: 'iris', text: 'Hay una sola perilla.' },
+        { who: 'iris', text: 'Pero hay una sola perilla.' },
         {
           who: 'joaquin',
-          text: 'Y mueve las dos. No tengo todo el turno para discutirle al jefe.',
+          text: 'Y mueve las dos. No tengo el turno entero para discutirle al jefe.',
         },
         { who: 'tu', text: 'Retén esa carpeta; comparemos sus columnas con la receta.' },
       ],
@@ -427,17 +430,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín levanta la tapa del tablero. Bajo la perilla hay una etiqueta vieja, pegada sobre los nombres de ambas columnas.',
+          text: 'Joaquín levantó la tapa del tablero. Bajo la perilla había una etiqueta vieja, pegada sobre los nombres de las dos columnas.',
         },
         {
           who: 'joaquin',
-          text: 'Un ajuste para las dos. Así salen los lotes desde antes de mi turno.',
+          text: 'Un ajuste para las dos. Los lotes salen así desde antes de mi turno.',
         },
         { who: 'iris', text: 'En el informe las contaron como dos controles independientes.' },
-        { who: 'joaquin', text: 'La cinta no firma informes.' },
+        { who: 'joaquin', text: 'Yo nunca vi ese informe.' },
         {
           who: 'nar',
-          text: 'La etiqueta se despega con el calor; debajo queda el sello de Halcón.',
+          text: 'La etiqueta se despegó con el calor. Debajo estaba el sello de Halcón.',
         },
       ],
     },

@@ -359,15 +359,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La Fábrica, 01:20. Una carpeta queda atrapada entre dos rodillos; Joaquín la suelta con el mango de una llave.',
+          text: 'La Fábrica, una y veinte. Una carpeta quedó atrapada entre dos rodillos, y Joaquín la soltó con el mango de una llave.',
         },
-        { who: 'joaquin', text: 'Dos máquinas, una cinta. Este turno lleva mitad de cada una.' },
-        { who: 'iris', text: 'Las carpetas no dicen de cuál salieron.' },
+        {
+          who: 'joaquin',
+          text: 'Dos máquinas y una cinta. Este turno lleva la mitad de cada una.',
+        },
+        { who: 'iris', text: 'Y las carpetas no dicen de cuál salieron.' },
         {
           who: 'joaquin',
           text: 'Antes venían marcadas. A mí me pagan por sacar el lote a tiempo.',
         },
-        { who: 'tu', text: 'Guarda las recetas de ambas; podemos comparar lo que producen.' },
+        { who: 'tu', text: 'Guarda las recetas de las dos; podemos comparar lo que producen.' },
       ],
     },
     {
@@ -413,13 +416,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín abre el cajón del tablero. Bajo una cinta de etiquetas vacía hay una hoja con el sello de Halcón.',
+          text: 'Joaquín abrió el cajón del tablero. Debajo de un rollo de etiquetas vacío había una hoja con el sello de Halcón.',
         },
         { who: 'joaquin', text: 'Aquí pidieron sacar las marcas. Mi firma está abajo.' },
-        { who: 'iris', text: 'Después pusieron un origen seguro en el informe.' },
+        { who: 'iris', text: 'Y después el informe les puso un origen seguro.' },
         {
           who: 'joaquin',
-          text: 'Y cada carpeta trae registros de varios días. La máquina repite hasta cuando uno duerme.',
+          text: 'Además, cada carpeta trae registros de varios días. La máquina sigue escribiendo mientras uno duerme.',
         },
       ],
     },

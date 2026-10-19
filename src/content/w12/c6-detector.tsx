@@ -173,12 +173,18 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Los registros reales siguen p = (0,2; 0,6; 0,2). La máquina usa q = (0,1; 0,8; 0,1): entrega más «medio» y menos extremos.',
-      board: { label: 'Dos recetas', tex: '\\p{1}{p}=\\p{2}{(0{,}2;0{,}6;0{,}2)},\\quad\\p{3}{ q}=\\p{4}{(0{,}1;0{,}8;0{,}1)}' },
+      board: {
+        label: 'Dos recetas',
+        tex: '\\p{1}{p}=\\p{2}{(0{,}2;0{,}6;0{,}2)},\\quad\\p{3}{ q}=\\p{4}{(0{,}1;0{,}8;0{,}1)}',
+      },
     },
     {
       say: 'Arma el lote que quedó retenido en el turno. Arrastra la perilla hasta tener ocho «medio»; los otros dos registros quedan repartidos entre bajo y alto.',
       gate: 'Lleva la cantidad de «medio» a 8.',
-      board: { label: 'Lote retenido', tex: '\\p{1}{n_B}=\\p{2}{1},\\quad\\p{3}{ n_M}=\\p{4}{8},\\quad\\p{5}{ n_A}=\\p{6}{1}' },
+      board: {
+        label: 'Lote retenido',
+        tex: '\\p{1}{n_B}=\\p{2}{1},\\quad\\p{3}{ n_M}=\\p{4}{8},\\quad\\p{5}{ n_A}=\\p{6}{1}',
+      },
     },
     {
       say: 'La **razón de verosimilitudes** divide la probabilidad del mismo dato bajo p por su probabilidad bajo q. Cada «medio» aporta 0,75; cada extremo aporta 2.',
@@ -405,7 +411,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La Fábrica, 02:40. La cinta chirría bajo diez carpetas retenidas; Joaquín mantiene la mano sobre el interruptor.',
+          text: 'La Fábrica, veinte para las tres. La cinta chirriaba bajo diez carpetas retenidas, y Joaquín mantenía la mano sobre el interruptor.',
         },
         {
           who: 'joaquin',
@@ -415,7 +421,7 @@ export const level: LevelSpec = {
         { who: 'joaquin', text: 'Llegó puesto. Si retengo el lote, queda anotado a mi nombre.' },
         {
           who: 'tu',
-          text: 'Tenemos las dos recetas. Comparemos qué tan bien explican estas carpetas.',
+          text: 'Tenemos las dos recetas. Comparemos qué tan bien explica cada una estas carpetas.',
         },
       ],
     },
@@ -462,7 +468,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín apaga la cinta. La luz del tablero sigue encendida sobre el sello «real».',
+          text: 'Joaquín apagó la cinta. La luz del tablero siguió encendida sobre el sello «real».',
         },
         {
           who: 'joaquin',
@@ -471,7 +477,7 @@ export const level: LevelSpec = {
         { who: 'iris', text: 'El sello promete más de lo que estas carpetas permiten decir.' },
         {
           who: 'joaquin',
-          text: 'Hay montos en la última hoja. Hasta el primer dígito lo imprime la máquina.',
+          text: 'En la última hoja hay montos. Hasta el primer dígito lo imprime la máquina.',
         },
       ],
     },

@@ -396,16 +396,22 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Barón, 03:48. Una carpeta golpea el tope de la cinta y vuelve a golpearlo; Joaquín apoya el lápiz sobre la guía de salida sin firmar.',
+          text: 'Barón, doce para las cuatro. Una carpeta golpeaba el tope de la cinta una y otra vez, y Joaquín tenía el lápiz apoyado sobre la guía de salida, sin firmar.',
         },
-        { who: 'joaquin', text: 'Cambio de turno en doce minutos. Este lote queda a mi nombre.' },
+        {
+          who: 'joaquin',
+          text: 'El cambio de turno es en doce minutos. Este lote queda a mi nombre.',
+        },
         {
           who: 'teo',
-          text: '¡El archivo trae hasta los sorteos de cada carpeta! Puedo copiar también el destino, aunque esa columna tiene otro permiso.',
+          text: 'El archivo trae hasta el sorteo de cada carpeta. Puedo copiar también el destino, aunque esa columna tiene otro permiso.',
         },
-        { who: 'iris', text: 'Qué cuidado con el destino.' },
+        {
+          who: 'iris',
+          text: '¿Por qué protegerían el destino con más cuidado que a los pacientes?',
+        },
         { who: 'joaquin', text: 'Cinco lecturas. Después veo si le pongo la firma.' },
-        { who: 'tu', text: 'Deja la guía al lado del archivo. Tiene la misma hora de salida.' },
+        { who: 'tu', text: 'Deja la guía al lado del archivo; tiene la misma hora de salida.' },
       ],
     },
     { kind: 'challenge', title: 'Cinco lecturas del lote', Comp: LotReport, rounds: 5 },
@@ -415,25 +421,28 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín cruza la guía con el lápiz y detiene la cinta. En el silencio, Teo abre el registro de despachos que quedó bajo la última carpeta.',
+          text: 'Joaquín tachó la guía con el lápiz y detuvo la cinta. En el silencio, Teo abrió el registro de despachos que había quedado bajo la última carpeta.',
         },
         { who: 'joaquin', text: 'Retenido. Que el turno de día pregunte arriba.' },
         {
           who: 'teo',
-          text: 'El destino dice «La Bolsa», mira: seguros sanitarios, apuestas de Halcón. Cada envío llegó antes del anuncio que movió el precio.',
+          text: 'El destino dice «La Bolsa»: seguros sanitarios y apuestas de Halcón. Cada envío llegó antes del anuncio que movió el precio.',
         },
-        { who: 'iris', text: 'Pacientes inventados. Ganancias cobradas.' },
+        {
+          who: 'iris',
+          text: 'Inventaban pacientes, y alguien apostaba a lo que esos pacientes iban a provocar.',
+        },
         {
           who: 'tu',
           text: 'Guarda los despachos junto con las apuestas. Las horas también cuentan.',
         },
         {
           who: 'joaquin',
-          text: 'Yo sacaba lotes por esta puerta. Del otro lado cobraban por adelantado.',
+          text: 'Yo sacaba lotes por esta puerta, y del otro lado cobraban por adelantado.',
         },
         {
           who: 'nar',
-          text: 'Teo abre la carpeta «Mundo 13 · La Bolsa». La primera operación de Halcón lleva la hora de un despacho de La Fábrica; el anuncio público aparece dos horas después.',
+          text: 'Teo abrió la carpeta de La Bolsa. La primera operación de Halcón tenía la hora de un despacho de La Fábrica, y el anuncio público aparecía dos horas después.',
         },
       ],
     },

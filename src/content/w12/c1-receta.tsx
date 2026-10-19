@@ -303,7 +303,8 @@ export const level: LevelSpec = {
   glyph: 'F^{-1}(u)',
   kind: 'level',
   guide: 'joaquin',
-  teaser: 'En La Fábrica no se roba nada: se fabrica. Joaquín conoce la receta de memoria.',
+  teaser:
+    'En La Fábrica todo se fabrica, empezando por los pacientes. Joaquín conoce la receta de memoria.',
   learn:
     'Entender un modelo generativo como una distribución desde la que se sacan datos nuevos con un número al azar y la acumulada.',
   glyphs: ['gen-model', 'gen-inverse'],
@@ -318,16 +319,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La Fábrica, barrio Barón, 23:10. Las impresoras escupen carpetas sin parar; la cinta las lleva hacia un camión con el motor encendido.',
+          text: 'La Fábrica, barrio Barón, once y diez de la noche. Las impresoras soltaban carpetas sin parar, y la cinta las llevaba hasta un camión con el motor encendido.',
         },
         {
           who: 'joaquin',
-          text: 'Aquí no se roba nada. Se fabrica. Cada carpeta sale de un sorteo.',
+          text: 'Aquí todo se fabrica. Cada carpeta sale de un sorteo.',
         },
-        { who: 'iris', text: 'Un sorteo con qué reglas.' },
+        { who: 'iris', text: '¿Un sorteo con qué reglas?' },
         {
           who: 'joaquin',
-          text: 'Las de los registros de verdad. La máquina las aprendió en abril. Desde entonces no para.',
+          text: 'Con las de los registros de verdad. La máquina las aprendió en abril, y desde entonces no ha parado.',
         },
       ],
     },
@@ -369,13 +370,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín levanta una carpeta de la cinta y la hojea sin mirarla de verdad.',
+          text: 'Joaquín levantó una carpeta de la cinta y la hojeó sin mirarla.',
         },
         {
           who: 'joaquin',
           text: 'Las proporciones salen perfectas. Lo que no sé es cómo aprendió la forma de cada número.',
         },
-        { who: 'teo', text: 'Empecemos por el más simple: una campana.' },
+        { who: 'teo', text: 'Empecemos por la más simple: una campana.' },
       ],
     },
   ],

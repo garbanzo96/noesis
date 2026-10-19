@@ -338,7 +338,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'joaquin',
   teaser:
-    'La central corrigió la máquina: el lote nuevo sigue a Benford casi al decimal. Justo eso lo delata.',
+    'La central corrigió la máquina, y el lote nuevo sigue a Benford casi al decimal. Esa exactitud también se puede medir.',
   learn:
     'Calcular el estadístico χ² de ajuste y decidir en las dos colas: datos que no calzan y datos demasiado perfectos.',
   glyphs: ['gen-chi2'],
@@ -353,14 +353,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Nave principal, 03:00. La caldera suelta vapor; en la pantalla de control, el lote nuevo aparece con un sello verde: «calibrado».',
+          text: 'Nave principal, tres de la mañana. La caldera soltaba vapor, y en la pantalla de control el lote nuevo tenía un sello verde: «calibrado».',
         },
         {
           who: 'joaquin',
           text: 'La central lo arregló. Ahora los montos siguen a Benford como si los hubiera dibujado un profesor.',
         },
-        { who: 'iris', text: '¿Y eso los hace pasar?' },
-        { who: 'teo', text: 'Pasan una prueba. La otra los condena.' },
+        { who: 'iris', text: '¿Y con eso pasan?' },
+        { who: 'teo', text: 'Pasan una prueba y fallan la otra.' },
       ],
     },
     {
@@ -402,9 +402,12 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Joaquín apaga la pantalla de control. El sello verde queda impreso un segundo en la oscuridad.',
+          text: 'Joaquín apagó la pantalla. El sello verde quedó un segundo en la oscuridad.',
         },
-        { who: 'joaquin', text: 'Ni la máquina nueva sabe equivocarse como una persona.' },
+        {
+          who: 'joaquin',
+          text: 'Las facturas de verdad nunca salen tan parejas. Estas parecen hechas para aprobar.',
+        },
         { who: 'iris', text: 'Junta todo. Mañana lo leemos en voz alta.' },
       ],
     },

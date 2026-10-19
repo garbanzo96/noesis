@@ -142,7 +142,10 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'El lote trae 4, 6, 5, 7 y 8. Su **media** es 6: sumas los cinco registros y divides por cinco.',
-      board: { label: 'Centro del lote', tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}=\\p{3}{\\tfrac{4+6+5+7+8}{5}}=\\p{4}{6}' },
+      board: {
+        label: 'Centro del lote',
+        tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}=\\p{3}{\\tfrac{4+6+5+7+8}{5}}=\\p{4}{6}',
+      },
     },
     {
       say: 'La **normal** tiene un centro μ y un ancho σ. Mueve el centro al promedio del lote; después ajustaremos el ancho.',
@@ -412,7 +415,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Barón, 00:35. Una impresora golpea cada dos segundos; Joaquín sostiene cinco carpetas fuera de la cinta.',
+          text: 'Barón, doce y treinta y cinco. Una impresora golpeaba cada dos segundos, y Joaquín sostenía cinco carpetas fuera de la cinta.',
         },
         {
           who: 'joaquin',
@@ -420,10 +423,10 @@ export const level: LevelSpec = {
         },
         {
           who: 'teo',
-          text: 'Cuatro, seis, cinco, siete, ocho… ¡Y la salida trae decimales nuevos! Puedo guardar el sorteo de cada carpeta.',
+          text: 'Cuatro, seis, cinco, siete, ocho. Y la salida trae decimales nuevos; puedo guardar el sorteo de cada carpeta.',
         },
         { who: 'iris', text: 'Guárdalo antes de que alguien cierre el tablero.' },
-        { who: 'joaquin', text: 'Quedan dos minutos. La cinta descansa más que yo.' },
+        { who: 'joaquin', text: 'Quedan dos minutos para la pausa de la cinta.' },
       ],
     },
     {
@@ -470,20 +473,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo guarda el registro del sorteo. Joaquín vuelve a poner las cinco carpetas en la cinta y se limpia el tóner del pulgar.',
+          text: 'Teo guardó el registro del sorteo. Joaquín volvió a poner las cinco carpetas en la cinta y se limpió el tóner del pulgar.',
         },
         {
           who: 'tu',
-          text: 'La carpeta de 4,59 salió de esta receta. Eso no prueba que alguien la haya medido.',
+          text: 'La carpeta de 4,59 salió de esta receta, lo que no prueba que alguien la haya medido.',
         },
         {
           who: 'joaquin',
-          text: 'Para despachar piden que se vea bien. El nombre lo pone otra oficina.',
+          text: 'Para despachar piden que se vea bien. El nombre del paciente lo pone otra oficina.',
         },
-        { who: 'iris', text: 'Qué oficina tan descansada.' },
+        { who: 'iris', text: '¿Sabes en qué piso queda esa oficina?' },
         {
           who: 'nar',
-          text: 'Se enciende una segunda luz ámbar. Bajo el mismo timbre, otra impresora empieza a alimentar la cinta.',
+          text: 'Se encendió una segunda luz ámbar. Con el mismo timbre, otra impresora empezó a alimentar la cinta.',
         },
       ],
     },
