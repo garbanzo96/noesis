@@ -271,7 +271,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Estado conjunto',
-        tex: '\\p{1}{\\mathbf x}=\\p{2}{(\\cA{u},\\cM{v})^{\\mathsf T}}',
+        tex: '\\p{1}{\\mathbf x}=\\p{2}{(\\cA{u},\\cM{v})^{\\mathsf T}}', parts: ['estado de ambas agujas', 'lecturas de las agujas'],
       },
     },
     {
@@ -279,17 +279,17 @@ const lesson: LessonStep = {
       gate: 'Arrastra el inicio ámbar hasta (2, 2), con margen de 0,05 por componente.',
       board: {
         label: 'Cambio conjunto',
-        tex: '\\p{1}{A(2,2)^{\\mathsf T}}=\\p{2}{\\cC{(-2,-2)^{\\mathsf T}}}',
+        tex: '\\p{1}{A(2,2)^{\\mathsf T}}=\\p{2}{\\cC{(-2,-2)^{\\mathsf T}}}', parts: ['cambio desde ambas marcas', 'velocidades de las agujas'],
       },
     },
     {
       say: 'La matriz transforma el estado en su velocidad de cambio. Cada fila produce una de las dos pendientes.',
       dur: 4,
       board: [
-        { label: 'Sistema lineal', tex: "\\p{1}{\\mathbf x'}=\\p{2}{\\cC{A}}\\p{3}{\\mathbf x}" },
+        { label: 'Sistema lineal', tex: "\\p{1}{\\mathbf x'}=\\p{2}{\\cC{A}}\\p{3}{\\mathbf x}", parts: ['velocidad del estado', 'regla de transformación', 'estado de ambas agujas'] },
         {
           label: 'Dos ecuaciones',
-          tex: "\\begin{aligned}\\p{1}{u'}&=\\p{2}{\\cA{-2u}+v}\\\\\\p{3}{v'}&=\\p{4}{u\\cM{-2v}}\\end{aligned}",
+          tex: "\\begin{aligned}\\p{1}{u'}&=\\p{2}{\\cA{-2u}+v}\\\\\\p{3}{v'}&=\\p{4}{u\\cM{-2v}}\\end{aligned}", parts: ['cambio de primera aguja', 'regla de primera aguja', 'cambio de segunda aguja', 'regla de segunda aguja'],
         },
       ],
     },
@@ -300,11 +300,11 @@ const lesson: LessonStep = {
         {
           label: 'Dirección propia',
           tex: '\\p{1}{A\\mathbf v}=\\p{2}{\\cC{\\lambda}}\\p{3}{\\mathbf v}',
-          body: 'El vector propio debe ser distinto de cero.',
+          body: 'El vector propio debe ser distinto de cero.', parts: ['dirección transformada', 'factor de la dirección', 'dirección que se conserva'],
         },
         {
           label: 'Modos de este banco',
-          tex: '\\begin{aligned}\\p{1}{\\mathbf v_1=(1,1)}&;\\ \\p{2}{\\cA{\\lambda_1=-1}}\\\\\\p{3}{\\mathbf v_2=(1,-1)}&;\\ \\p{4}{\\cM{\\lambda_2=-3}}\\end{aligned}',
+          tex: '\\begin{aligned}\\p{1}{\\mathbf v_1=(1,1)}&;\\ \\p{2}{\\cA{\\lambda_1=-1}}\\\\\\p{3}{\\mathbf v_2=(1,-1)}&;\\ \\p{4}{\\cM{\\lambda_2=-3}}\\end{aligned}', parts: ['agujas en igual sentido', 'decaimiento más lento', 'agujas en sentido opuesto', 'decaimiento más rápido'],
         },
       ],
     },
@@ -319,7 +319,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Sumar los modos',
-        tex: '\\begin{aligned}\\p{1}{\\mathbf x(t)}&=\\p{2}{\\cA{c_1e^{-t}}(1,1)}\\\\&\\quad+\\p{3}{\\cM{c_2e^{-3t}}(1,-1)}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{\\mathbf x(t)}&=\\p{2}{\\cA{c_1e^{-t}}(1,1)}\\\\&\\quad+\\p{3}{\\cM{c_2e^{-3t}}(1,-1)}\\end{aligned}', parts: ['estado con el tiempo', 'aporte del modo lento', 'aporte del modo rápido'],
       },
     },
     {
@@ -328,11 +328,11 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Modo que decae',
-          tex: '\\p{1}{\\lambda<0}\\Rightarrow\\p{2}{\\cC{e^{\\lambda t}\\to0}}',
+          tex: '\\p{1}{\\lambda<0}\\Rightarrow\\p{2}{\\cC{e^{\\lambda t}\\to0}}', parts: ['factor propio negativo', 'amplitud que se apaga'],
         },
         {
           label: 'Modo que crece',
-          tex: '\\p{1}{\\lambda>0}\\Rightarrow\\p{2}{\\cM{e^{\\lambda t}\\text{ crece}}}',
+          tex: '\\p{1}{\\lambda>0}\\Rightarrow\\p{2}{\\cM{e^{\\lambda t}\\text{ crece}}}', parts: ['factor propio positivo', 'amplitud que aumenta'],
         },
       ],
     },

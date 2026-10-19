@@ -231,7 +231,7 @@ export const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Evento de reserva',
-        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2(8/64)}=\\p{3}{\\cC{3}}',
+        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2(8/64)}=\\p{3}{\\cC{3}}', parts: ['información de d', 'con los datos del lote', 'bits del evento'],
       },
     },
     {
@@ -239,7 +239,7 @@ export const lesson: LessonStep = {
       gate: 'Arrastra D al centro del nodo de su hoja 111, sobre la etiqueta D.',
       board: {
         label: 'Palabra y media',
-        tex: '\\p{1}{c(D)=\\cC{111}},\\quad\\p{2}{\\bar L=H(P)=\\tfrac74}',
+        tex: '\\p{1}{c(D)=\\cC{111}},\\quad\\p{2}{\\bar L=H(P)=\\tfrac74}', parts: ['palabra asignada a d', 'media igual a entropía'],
       },
     },
     {
@@ -251,7 +251,7 @@ export const lesson: LessonStep = {
         explain:
           'Solo Sur usa d: la torre queda determinada. El 1 mide la torre antes del filtro; el 2 mide la ruta antes de conocer nada.',
       },
-      board: { label: 'Entropía condicional', tex: '\\p{1}{H(X\\mid Y)}=\\p{2}{H(X,Y)-H(Y)}' },
+      board: { label: 'Entropía condicional', tex: '\\p{1}{H(X\\mid Y)}=\\p{2}{H(X,Y)-H(Y)}', parts: ['torre pendiente dada ruta', 'par menos ruta conocida'] },
     },
     {
       say: 'Compara las cintas y la capacidad. KL mide espacio extra por símbolo; C mide información útil por uso del canal: conserva las unidades al comparar.',
@@ -259,11 +259,11 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Perfil cambiado',
-          tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{\\cA{\\tfrac58}\\ \\mathrm{bits/símbolo}}',
+          tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{\\cA{\\tfrac58}\\ \\mathrm{bits/símbolo}}', parts: ['exceso por perfil ajeno', 'bits extra por símbolo'],
         },
         {
           label: 'Enlace de inversiones',
-          tex: '\\p{1}{C}\\approx\\p{2}{\\cC{0{,}1887}\\ \\mathrm{bits/uso}}',
+          tex: '\\p{1}{C}\\approx\\p{2}{\\cC{0{,}1887}\\ \\mathrm{bits/uso}}', parts: ['información máxima por uso', 'bits útiles por uso'],
         },
       ],
     },
@@ -271,8 +271,8 @@ export const lesson: LessonStep = {
       say: 'Las comprobaciones proponen una posición bajo el límite de una inversión. La copia reconstruida entra al expediente después de la validación del paquete completo.',
       dur: 3,
       board: [
-        { label: 'Posición de corrección', tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}' },
-        { label: 'Orden del síndrome', tex: '\\p{1}{(s_4s_2s_1)_2}=\\p{2}{101_2}=\\p{3}{5}' },
+        { label: 'Posición de corrección', tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}', parts: ['posición que corregir', 'posición según paridades'] },
+        { label: 'Orden del síndrome', tex: '\\p{1}{(s_4s_2s_1)_2}=\\p{2}{101_2}=\\p{3}{5}', parts: ['paridades ordenadas por peso', 'síndrome del caso', 'quinto bit'] },
       ],
     },
   ],

@@ -182,10 +182,12 @@ const lesson: LessonStep = {
           label: 'Coordenadas polares',
           tex: '\\begin{aligned}\\p{1}{x}&=\\p{2}{\\cA{r}\\cos\\cM{\\theta}}\\\\\\p{3}{y}&=\\p{4}{\\cA{r}\\sin\\cM{\\theta}}\\end{aligned}',
           body: 'r ≥ 0; θ se mide en radianes.',
+          parts: ['posición hacia el este', 'proyección hacia el este', 'posición hacia el norte', 'proyección hacia el norte'],
         },
         {
           label: 'Elemento de área polar',
           tex: '\\p{1}{dA}=\\p{2}{\\cA{r}}\\,\\p{3}{dr}\\,\\p{4}{\\cM{d\\theta}}',
+          parts: ['área del pequeño sector', 'crecimiento del arco', 'espesor del sector', 'apertura del sector'],
         },
       ],
     },
@@ -195,6 +197,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Área del disco',
         tex: '\\begin{aligned}\\p{1}{\\int_0^{2\\pi}\\!\\int_0^R r\\,dr\\,d\\theta}\\\\=\\p{2}{2\\pi\\,\\tfrac{R^2}{2}}=\\p{3}{\\cC{\\pi R^2}}\\end{aligned}',
+        parts: ['área que buscamos', 'con los límites del disco', 'área total del disco'],
       },
     },
     {
@@ -209,6 +212,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Integrando y área',
         tex: '\\begin{aligned}\\p{1}{x^2+y^2}&=\\p{2}{\\cC{r^2}}\\\\\\p{3}{(x^2+y^2)\\,dA}&=\\p{4}{r^3\\,dr\\,d\\theta}\\end{aligned}',
+        parts: ['distancia al centro cuadrada', 'distancia polar al cuadrado', 'aporte en cartesianas', 'aporte en polares'],
       },
     },
     {
@@ -218,6 +222,7 @@ const lesson: LessonStep = {
         label: 'Probabilidad dentro del disco',
         tex: '\\p{1}{P(r\\le R)}=\\p{2}{1-e^{-\\cA{R^2}}}',
         body: 'Para la densidad $p(x,y)=\\pi^{-1}e^{-(x^2+y^2)}$ sobre todo el plano, con distancias en km.',
+        parts: ['probabilidad en el disco', 'probabilidad según el radio'],
       },
     },
     {
@@ -227,10 +232,12 @@ const lesson: LessonStep = {
         {
           label: 'Integrar la densidad',
           tex: '\\begin{aligned}\\p{1}{P(r\\le R)}&=\\p{2}{2\\int_0^R e^{-r^2}r\\,dr}\\\\&=\\p{3}{1-e^{-R^2}}\\end{aligned}',
+          parts: ['probabilidad que buscamos', 'sumar densidad por anillos', 'probabilidad según el radio'],
         },
         {
           label: 'Radio del 95 %',
           tex: '\\p{1}{R_{95}}=\\p{2}{\\sqrt{\\ln20}}\\approx\\p{3}{\\cA{1{,}73}\\;\\mathrm{km}}',
+          parts: ['radio para el 95 %', 'radio exacto de búsqueda', 'radio aproximado de búsqueda'],
         },
       ],
     },

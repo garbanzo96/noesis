@@ -145,7 +145,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Media por símbolo',
-        tex: '\\p{1}{\\text{media}}=\\p{2}{\\frac{\\cA{\\text{total}}}{\\cC{\\text{cantidad}}}}',
+        tex: '\\p{1}{\\text{media}}=\\p{2}{\\frac{\\cA{\\text{total}}}{\\cC{\\text{cantidad}}}}', parts: ['información por símbolo', 'bits entre símbolos'],
       },
     },
     {
@@ -153,7 +153,7 @@ const lesson: LessonStep = {
       gate: 'Arrastra una ficha de A a C y otra de A a D; suéltalas en los círculos destino hasta obtener (2,2,2,2).',
       board: {
         label: 'Fuente uniforme',
-        tex: '\\p{1}{p_A=p_B}=\\p{2}{p_C=p_D}=\\p{3}{\\cC{\\tfrac14}}',
+        tex: '\\p{1}{p_A=p_B}=\\p{2}{p_C=p_D}=\\p{3}{\\cC{\\tfrac14}}', parts: ['probabilidades de a y b', 'probabilidades de c y d', 'probabilidad por símbolo'],
       },
     },
     {
@@ -162,9 +162,9 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía como media',
-          tex: '\\p{1}{\\cA{H(X)}}=\\p{2}{\\sum_x\\cC{p(x)}I(x)}',
+          tex: '\\p{1}{\\cA{H(X)}}=\\p{2}{\\sum_x\\cC{p(x)}I(x)}', parts: ['información media', 'aportes según frecuencia'],
         },
-        { label: 'Definición en base dos', tex: '\\p{1}{H(X)}=\\p{2}{-\\sum_xp(x)\\log_2p(x)}' },
+        { label: 'Definición en base dos', tex: '\\p{1}{H(X)}=\\p{2}{-\\sum_xp(x)\\log_2p(x)}', parts: ['información media', 'promedio de rarezas'] },
       ],
     },
     {
@@ -178,7 +178,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Ponderar antes de sumar',
-        tex: '\\begin{aligned}\\p{1}{H}&=\\p{2}{\\tfrac12\\cdot1+\\tfrac14\\cdot2}\\\\&\\quad+\\p{3}{\\tfrac18\\cdot3+\\tfrac18\\cdot3}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{H}&=\\p{2}{\\tfrac12\\cdot1+\\tfrac14\\cdot2}\\\\&\\quad+\\p{3}{\\tfrac18\\cdot3+\\tfrac18\\cdot3}\\end{aligned}', parts: ['entropía de la fuente', 'aportes de a y b', 'aportes de c y d'],
       },
     },
     {
@@ -186,15 +186,15 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Cota uniforme',
-        tex: '\\p{1}{\\cA{H(X)}}\\le\\p{2}{\\log_2\\cC{m}},\\quad\\p{3}{H_{\\max}(4)=2}',
+        tex: '\\p{1}{\\cA{H(X)}}\\le\\p{2}{\\log_2\\cC{m}},\\quad\\p{3}{H_{\\max}(4)=2}', parts: ['entropía de la fuente', 'máximo con símbolos iguales', 'máximo para cuatro símbolos'],
       },
     },
     {
       say: 'Todas las fichas pasan a A. Una fuente que siempre emite lo mismo tiene entropía cero; las bandejas vacías aportan cero.',
       dur: 3,
       board: [
-        { label: 'Fuente constante', tex: '\\p{1}{H(1,0,0,0)}=\\p{2}{\\cA{0}}' },
-        { label: 'Convención en cero', tex: '\\p{1}{0\\log_2 0}:=\\p{2}{0}' },
+        { label: 'Fuente constante', tex: '\\p{1}{H(1,0,0,0)}=\\p{2}{\\cA{0}}', parts: ['entropía sin variación', 'información que agrega'] },
+        { label: 'Convención en cero', tex: '\\p{1}{0\\log_2 0}:=\\p{2}{0}', parts: ['aporte de bandejas vacías', 'aporte nulo'] },
       ],
     },
   ],

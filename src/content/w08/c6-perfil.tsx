@@ -155,7 +155,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Fuente y perfil',
-        tex: '\\p{1}{\\cC{P}\\ \\text{emite}},\\quad\\p{2}{\\cA{Q}\\ \\text{elige largos}}',
+        tex: '\\p{1}{\\cC{P}\\ \\text{emite}},\\quad\\p{2}{\\cA{Q}\\ \\text{elige largos}}', parts: ['fuente de los símbolos', 'perfil para codificar'],
       },
     },
     {
@@ -163,7 +163,7 @@ const lesson: LessonStep = {
       gate: 'Suelta la perilla en P para leer 14 bits; luego arrástrala y suéltala en Q para leer 19 bits.',
       board: {
         label: 'Exceso del lote pequeño',
-        tex: '\\p{1}{\\cA{19}}-\\p{2}{\\cC{14}}=\\p{3}{\\cM{5}}',
+        tex: '\\p{1}{\\cA{19}}-\\p{2}{\\cC{14}}=\\p{3}{\\cM{5}}', parts: ['bits con perfil ajeno', 'bits con perfil propio', 'bits de exceso'],
       },
     },
     {
@@ -172,11 +172,11 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía cruzada',
-          tex: '\\p{1}{\\cA{L_Q(P)}}=\\p{2}{-\\sum_i\\cC{P_i}\\log_2Q_i}',
+          tex: '\\p{1}{\\cA{L_Q(P)}}=\\p{2}{-\\sum_i\\cC{P_i}\\log_2Q_i}', parts: ['bits medios con q', 'largos ideales según p'],
         },
         {
           label: 'Media del perfil ajeno',
-          tex: '\\p{1}{L_Q(P)}=\\p{2}{\\tfrac{19}{8}}=\\p{3}{2{,}375}',
+          tex: '\\p{1}{L_Q(P)}=\\p{2}{\\tfrac{19}{8}}=\\p{3}{2{,}375}', parts: ['bits medios con q', 'bits entre símbolos', 'bits por símbolo'],
         },
       ],
     },
@@ -186,11 +186,11 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Divergencia KL',
-          tex: '\\p{1}{\\cM{D(P\\Vert Q)}}=\\p{2}{\\sum_iP_i\\log_2\\frac{P_i}{Q_i}}',
+          tex: '\\p{1}{\\cM{D(P\\Vert Q)}}=\\p{2}{\\sum_iP_i\\log_2\\frac{P_i}{Q_i}}', parts: ['exceso ideal por símbolo', 'aportes del desajuste'],
         },
         {
           label: 'Exceso ideal por símbolo',
-          tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{L_Q(P)-H(P)}=\\p{3}{\\tfrac58}',
+          tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{L_Q(P)-H(P)}=\\p{3}{\\tfrac58}', parts: ['exceso ideal por símbolo', 'costo ajeno menos propio', 'bits extra por símbolo'],
         },
       ],
     },
@@ -210,7 +210,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Conservar los signos',
-        tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{\\sum_i\\cC{P_i}\\log_2\\frac{P_i}{\\cA{Q_i}}}',
+        tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{\\sum_i\\cC{P_i}\\log_2\\frac{P_i}{\\cA{Q_i}}}', parts: ['exceso ideal por símbolo', 'aportes con su signo'],
       },
     },
     {
@@ -219,12 +219,12 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Cambiar la dirección',
-          tex: '\\p{1}{D(P\\Vert Q)=\\cM{\\tfrac58}}\\ne\\p{2}{D(Q\\Vert P)=\\cA{\\tfrac12}}',
+          tex: '\\p{1}{D(P\\Vert Q)=\\cM{\\tfrac58}}\\ne\\p{2}{D(Q\\Vert P)=\\cA{\\tfrac12}}', parts: ['exceso al usar q', 'exceso al usar p'],
         },
         {
           label: 'No negatividad e igualdad',
           tex: '\\p{1}{D(P\\Vert Q)}\\ge\\p{2}{0},\\quad\\p{3}{D(P\\Vert P)=0}',
-          body: 'Para estos soportes positivos, la concavidad del logaritmo da $-\\sum_iP_i\\log_2(Q_i/P_i)\\ge-\\log_2\\sum_iQ_i=0$. KL mide largos ideales: redondear o usar códigos enteros arbitrarios puede añadir otros costos.',
+          body: 'Para estos soportes positivos, la concavidad del logaritmo da $-\\sum_iP_i\\log_2(Q_i/P_i)\\ge-\\log_2\\sum_iQ_i=0$. KL mide largos ideales: redondear o usar códigos enteros arbitrarios puede añadir otros costos.', parts: ['exceso ideal por símbolo', 'mínimo del exceso', 'sin exceso al coincidir'],
         },
       ],
     },

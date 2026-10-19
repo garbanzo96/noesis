@@ -377,13 +377,13 @@ const lesson: LessonStep = {
       say: 'Lanzas una moneda y un dado. Antes de mirar, haz la lista de todo lo que puede salir: ese es el **espacio muestral**.',
       board: {
         label: 'Espacio muestral',
-        tex: '\\p{1}{\\Omega=\\{(m,d)\\}},\\quad \\p{2}{|\\Omega|=2\\cdot6=12}',
+        tex: '\\p{1}{\\Omega=\\{(m,d)\\}},\\quad \\p{2}{|\\Omega|=2\\cdot6=12}', parts: ['resultados posibles', 'cantidad de resultados'],
       },
     },
     {
       say: 'Un **evento** es un grupo de resultados. Marca los que cumplen «cara y número par».',
       gate: 'Toca las tres casillas de cara con número par.',
-      board: { label: 'Un evento', tex: '\\p{1}{A=\\{C2,C4,C6\\}}\\p{2}{\\subseteq\\Omega}' },
+      board: { label: 'Un evento', tex: '\\p{1}{A=\\{C2,C4,C6\\}}\\p{2}{\\subseteq\\Omega}', parts: ['cara y número par', 'dentro de lo posible'] },
     },
     {
       say: 'Otro evento: «número mayor que 4», salga cara o sello.',
@@ -393,11 +393,11 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'C5, C6, S5 y S6: el número puede ser 5 o 6 y la moneda, cara o sello. 2·2 = 4.',
       },
-      board: { label: 'Otro evento', tex: '\\p{1}{B=\\{C5,C6,S5,S6\\}},\\ \\p{2}{|B|=4}' },
+      board: { label: 'Otro evento', tex: '\\p{1}{B=\\{C5,C6,S5,S6\\}},\\ \\p{2}{|B|=4}', parts: ['números mayores que cuatro', 'casos del evento'] },
     },
     {
       say: 'El **complemento** de A reúne todo lo que no está en A: las 9 casillas celestes.',
-      board: { label: 'Complemento', tex: '\\p{1}{|A^c|}=\\p{2}{|\\Omega|-|A|}=\\p{3}{9}' },
+      board: { label: 'Complemento', tex: '\\p{1}{|A^c|}=\\p{2}{|\\Omega|-|A|}=\\p{3}{9}', parts: ['casos fuera del evento', 'total menos los del evento', 'casos del complemento'] },
     },
     {
       say: 'Dos eventos son **disjuntos** si no comparten resultados. Mira A en ámbar y B en magenta.',
@@ -407,7 +407,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'C6 es cara, es par y es mayor que 4: está en los dos eventos.',
       },
-      board: { label: 'Intersección', tex: '\\p{1}{A\\cap B}=\\p{2}{\\{C6\\}}' },
+      board: { label: 'Intersección', tex: '\\p{1}{A\\cap B}=\\p{2}{\\{C6\\}}', parts: ['resultados compartidos', 'único caso compartido'] },
     },
   ],
 };

@@ -102,6 +102,7 @@ const lesson: LessonStep = {
         label: 'Plano tangente',
         tex: '\\p{1}{\\cC{z}}=\\p{2}{\\cA{L(x,y)}}',
         body: 'En el punto de contacto, el plano y la superficie tienen el mismo valor y las mismas parciales.',
+        parts: ['altura del plano', 'estimación cerca del punto'],
       },
     },
     {
@@ -111,6 +112,7 @@ const lesson: LessonStep = {
         label: 'Aproximación lineal',
         tex: '\\begin{aligned}\\p{1}{L(x,y)}&=\\p{2}{\\cC{f(a,b)}}\\\\&\\quad+\\p{3}{\\cA{f_x(a,b)(x-a)}}\\\\&\\quad+\\p{4}{\\cM{f_y(a,b)(y-b)}}\\end{aligned}',
         body: 'Para el ejemplo: $f(1,2)=3$, $f_x(1,2)=8$ y $f_y(1,2)=-1$.',
+        parts: ['altura que estimamos', 'altura de partida', 'cambio por avanzar al este', 'cambio por avanzar al norte'],
       },
     },
     {
@@ -119,6 +121,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Plano del ejemplo',
         tex: '\\begin{aligned}\\p{1}{L(x,y)}&=\\p{2}{\\cC{3}}+\\p{3}{\\cA{8(x-1)}}\\\\&\\quad-\\p{4}{\\cM{(y-2)}}\\end{aligned}',
+        parts: ['altura que estimamos', 'altura de partida', 'cambio por avanzar al este', 'cambio por avanzar al norte'],
       },
     },
     {
@@ -133,6 +136,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Cambios pequeños',
         tex: '\\p{1}{\\Delta x}=\\p{2}{\\cA{0{,}1}},\\quad\\p{3}{\\Delta y}=\\p{4}{\\cM{-0{,}1}}',
+        parts: ['desplazamiento hacia el este', 'avance hacia el este', 'desplazamiento al norte', 'retroceso hacia el sur'],
       },
     },
     {
@@ -142,6 +146,7 @@ const lesson: LessonStep = {
         label: 'Error local',
         tex: '\\p{1}{\\cC{f(x,y)}}\\approx\\p{2}{\\cA{L(x,y)}}',
         body: 'Si f es diferenciable, el error dividido por la distancia al contacto tiende a cero al acercarse.',
+        parts: ['altura real del terreno', 'altura que estima el plano'],
       },
     },
   ],

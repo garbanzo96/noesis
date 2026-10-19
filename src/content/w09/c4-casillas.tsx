@@ -179,7 +179,7 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Estado y rapidez',
-        tex: '\\p{1}{\\text{misma ocupación}}\\Rightarrow\\p{2}{\\cC{\\text{misma pendiente}}}',
+        tex: '\\p{1}{\\text{misma ocupación}}\\Rightarrow\\p{2}{\\cC{\\text{misma pendiente}}}', parts: ['igual estado actual', 'igual rapidez de cambio'],
       },
     },
     {
@@ -187,15 +187,15 @@ const lesson: LessonStep = {
       gate: 'Arrastra la ficha ámbar primero a B = 4 y después a B = 12, con margen de 0,05.',
       board: {
         label: 'Dos pruebas',
-        tex: "\\begin{aligned}\\p{1}{B'(4)}&=\\p{2}{\\cC{2}}\\\\\\p{3}{B'(12)}&=\\p{4}{\\cM{-6}}\\end{aligned}",
+        tex: "\\begin{aligned}\\p{1}{B'(4)}&=\\p{2}{\\cC{2}}\\\\\\p{3}{B'(12)}&=\\p{4}{\\cM{-6}}\\end{aligned}", parts: ['cambio con cuatro casillas', 'aumento por minuto', 'cambio con doce casillas', 'disminución por minuto'],
       },
     },
     {
       say: 'Una **ecuación autónoma** depende del estado. Un **equilibrio** mantiene ese estado porque su cambio es cero.',
       dur: 3,
       board: [
-        { label: 'Autónoma', tex: "\\p{1}{y'}=\\p{2}{\\cC{f(y)}}" },
-        { label: 'Equilibrio', tex: '\\p{1}{f(\\cA{y_*})}=\\p{2}{0}' },
+        { label: 'Autónoma', tex: "\\p{1}{y'}=\\p{2}{\\cC{f(y)}}", parts: ['rapidez de cambio', 'regla según el estado'] },
+        { label: 'Equilibrio', tex: '\\p{1}{f(\\cA{y_*})}=\\p{2}{0}', parts: ['cambio en el equilibrio', 'ausencia de cambio'] },
       ],
     },
     {
@@ -209,7 +209,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Comprobar el signo',
-        tex: "\\p{1}{B'}=\\p{2}{\\cA{B}}\\p{3}{(1-\\cC{B}/8)}",
+        tex: "\\p{1}{B'}=\\p{2}{\\cA{B}}\\p{3}{(1-\\cC{B}/8)}", parts: ['cambio de ocupación', 'ocupación actual', 'freno por capacidad'],
       },
     },
     {
@@ -219,9 +219,9 @@ const lesson: LessonStep = {
         {
           label: 'Logística continua',
           tex: "\\p{1}{y'}=\\p{2}{\\cA{ry}}\\p{3}{(1-y/\\cC{K})}",
-          body: 'r > 0 y K > 0; los equilibrios son 0 y K.',
+          body: 'r > 0 y K > 0; los equilibrios son 0 y K.', parts: ['rapidez de cambio', 'crecimiento proporcional', 'freno por capacidad'],
         },
-        { label: 'Estados de reposo', tex: '\\p{1}{y_*}=\\p{2}{0},\\ \\p{3}{\\cC{K}}' },
+        { label: 'Estados de reposo', tex: '\\p{1}{y_*}=\\p{2}{0},\\ \\p{3}{\\cC{K}}', parts: ['estados de equilibrio', 'ocupación vacía', 'capacidad de referencia'] },
       ],
     },
     {
@@ -231,11 +231,11 @@ const lesson: LessonStep = {
         {
           label: 'Curva de ejemplo',
           tex: '\\p{1}{B(t)}=\\p{2}{\\frac8{1+e^{-t}}}',
-          body: 'B(0) = 4; B(ln 3) = 6. Al derivar cumple B′ = B(1 − B/8).',
+          body: 'B(0) = 4; B(ln 3) = 6. Al derivar cumple B′ = B(1 − B/8).', parts: ['ocupación con el tiempo', 'curva desde cuatro casillas'],
         },
         {
           label: 'Ocupación y tráfico',
-          tex: "\\p{1}{B'=0}\\ \\not\\Rightarrow\\ \\p{2}{\\cM{\\text{entrada}=0}}",
+          tex: "\\p{1}{B'=0}\\ \\not\\Rightarrow\\ \\p{2}{\\cM{\\text{entrada}=0}}", parts: ['ocupación sin cambio', 'ausencia de entradas'],
         },
       ],
     },

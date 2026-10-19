@@ -158,7 +158,7 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Unidades del depósito',
-        tex: '\\p{1}{\\cA{t}:\\text{ minutos}},\\quad\\p{2}{\\cC{y}:\\text{ cm}}',
+        tex: '\\p{1}{\\cA{t}:\\text{ minutos}},\\quad\\p{2}{\\cC{y}:\\text{ cm}}', parts: ['tiempo transcurrido', 'altura del nivel'],
       },
     },
     {
@@ -166,23 +166,23 @@ const lesson: LessonStep = {
       gate: 'Arrastra el reloj inferior a t = 1 y la perilla derecha a pendiente 2.',
       board: {
         label: 'Pendiente local',
-        tex: '\\p{1}{\\text{pendiente en }t=1:}\\ \\p{2}{\\cA{2}}',
+        tex: '\\p{1}{\\text{pendiente en }t=1:}\\ \\p{2}{\\cA{2}}', parts: ['rapidez que buscamos', 'subida por minuto'],
       },
     },
     {
       say: 'Una **ecuación diferencial** da la pendiente que debe tener la solución en cada lugar. En este campo, todas las flechas de una columna tienen la misma inclinación.',
       dur: 3,
       board: [
-        { label: 'Regla de pendientes', tex: "\\p{1}{\\cC{y'}}=\\p{2}{f(t,y)}" },
-        { label: 'Campo del depósito', tex: '\\p{1}{f(t,y)}=\\p{2}{\\cA{2t}}' },
+        { label: 'Regla de pendientes', tex: "\\p{1}{\\cC{y'}}=\\p{2}{f(t,y)}", parts: ['rapidez de cambio', 'regla de pendientes'] },
+        { label: 'Campo del depósito', tex: '\\p{1}{f(t,y)}=\\p{2}{\\cA{2t}}', parts: ['pendiente del campo', 'doble del tiempo'] },
       ],
     },
     {
       say: 'El **valor inicial** elige por dónde parte la curva. La tangente de esta solución sigue las flechas del campo.',
       dur: 4,
       board: [
-        { label: 'Solución del depósito', tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{1+t^2}' },
-        { label: 'Comprobar inicio y pendiente', tex: "\\p{1}{y(0)=1},\\quad\\p{2}{y'=2t}" },
+        { label: 'Solución del depósito', tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{1+t^2}', parts: ['altura del nivel', 'curva del depósito'] },
+        { label: 'Comprobar inicio y pendiente', tex: "\\p{1}{y(0)=1},\\quad\\p{2}{y'=2t}", parts: ['altura al inicio', 'rapidez de subida'] },
       ],
     },
     {
@@ -201,7 +201,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Nivel y pendiente',
         tex: "\\p{1}{\\cC{y(2)}};\\quad\\p{2}{\\cA{y'(2)}}",
-        body: 'Uno se mide en cm; la otra, en cm/min.',
+        body: 'Uno se mide en cm; la otra, en cm/min.', parts: ['altura a dos minutos', 'rapidez a dos minutos'],
       },
     },
     {
@@ -209,7 +209,7 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Familia de soluciones',
-        tex: '\\p{1}{y(t)=\\cM{C}+t^2};\\quad\\p{2}{y(0)=\\cM{C}}',
+        tex: '\\p{1}{y(t)=\\cM{C}+t^2};\\quad\\p{2}{y(0)=\\cM{C}}', parts: ['curvas con distintos inicios', 'altura al inicio'],
       },
     },
   ],

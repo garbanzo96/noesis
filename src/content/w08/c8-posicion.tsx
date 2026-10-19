@@ -270,7 +270,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Paridad par',
         tex: '\\p{1}{b_1\\oplus\\cdots\\oplus b_n}\\oplus\\p{2}{\\cA{p}}=\\p{3}{0}',
-        body: 'XOR es suma módulo dos.',
+        body: 'XOR es suma módulo dos.', parts: ['paridad de los datos', 'bit de comprobación', 'paridad total esperada'],
       },
     },
     {
@@ -278,7 +278,7 @@ export const lesson: LessonStep = {
       gate: 'Arrastra el voto 1 al círculo «Salida» del bloque 101.',
       board: {
         label: 'Votación y tasa',
-        tex: '\\p{1}{111}\\to\\p{2}{101}\\to\\p{3}{\\cC{1}},\\quad\\p{4}{R=\\tfrac13}',
+        tex: '\\p{1}{111}\\to\\p{2}{101}\\to\\p{3}{\\cC{1}},\\quad\\p{4}{R=\\tfrac13}', parts: ['triple copia enviada', 'copia con una inversión', 'dato por mayoría', 'datos por bit enviado'],
       },
     },
     {
@@ -287,9 +287,9 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Posiciones de Hamming',
-          tex: '\\p{1}{w}=(\\p{2}{\\cA{p_1,p_2}},\\p{3}{d_1},\\p{4}{\\cA{p_4}},\\p{5}{d_2,d_3,d_4})',
+          tex: '\\p{1}{w}=(\\p{2}{\\cA{p_1,p_2}},\\p{3}{d_1},\\p{4}{\\cA{p_4}},\\p{5}{d_2,d_3,d_4})', parts: ['palabra codificada', 'primeras dos comprobaciones', 'primer dato', 'tercera comprobación', 'otros tres datos'],
         },
-        { label: 'Tasa de Hamming(7,4)', tex: '\\p{1}{R}=\\p{2}{\\tfrac47}' },
+        { label: 'Tasa de Hamming(7,4)', tex: '\\p{1}{R}=\\p{2}{\\tfrac47}', parts: ['datos por bit enviado', 'cuatro datos entre siete'] },
       ],
     },
     {
@@ -298,9 +298,9 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Comprobaciones',
-          tex: '\\p{1}{s_1=\\cM{1}},\\quad\\p{2}{s_2=0},\\quad\\p{3}{s_4=\\cM{1}}',
+          tex: '\\p{1}{s_1=\\cM{1}},\\quad\\p{2}{s_2=0},\\quad\\p{3}{s_4=\\cM{1}}', parts: ['falla del primer grupo', 'segundo grupo sin falla', 'falla del tercer grupo'],
         },
-        { label: 'Índice del síndrome', tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}=\\p{3}{5}' },
+        { label: 'Índice del síndrome', tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}=\\p{3}{5}', parts: ['posición que corregir', 'posición según paridades', 'quinto bit'] },
       ],
     },
     {
@@ -308,7 +308,7 @@ export const lesson: LessonStep = {
       gate: 'Arrastra el marcador ↺ al quinto bit. Debe quedar 0110011 y síndrome 000.',
       board: {
         label: 'Recalcular después de invertir',
-        tex: '\\p{1}{\\operatorname{síndrome}(w)}=\\p{2}{000}',
+        tex: '\\p{1}{\\operatorname{síndrome}(w)}=\\p{2}{000}', parts: ['comprobaciones tras corregir', 'sin fallas de paridad'],
       },
     },
     {
@@ -322,18 +322,18 @@ export const lesson: LessonStep = {
       },
       board: {
         label: 'Extraer datos',
-        tex: '\\p{1}{\\operatorname{datos}(w)}=(\\p{2}{w_3},\\p{3}{w_5},\\p{4}{w_6},\\p{5}{w_7})',
+        tex: '\\p{1}{\\operatorname{datos}(w)}=(\\p{2}{w_3},\\p{3}{w_5},\\p{4}{w_6},\\p{5}{w_7})', parts: ['datos recuperados', 'primer dato', 'segundo dato', 'tercer dato', 'cuarto dato'],
       },
     },
     {
       say: 'Con dos inversiones, el síndrome puede señalar otro bit y el intento dar una palabra válida con datos equivocados. Hamming corrige una inversión; estos códigos cortos también tienen tasas superiores a la capacidad del enlace anterior.',
       dur: 3,
       board: [
-        { label: 'Distancia mínima', tex: '\\p{1}{d_{\\min}}=\\p{2}{3}' },
+        { label: 'Distancia mínima', tex: '\\p{1}{d_{\\min}}=\\p{2}{3}', parts: ['separación mínima de códigos', 'bits que los separan'] },
         {
           label: 'Límite de la garantía',
           tex: '\\p{1}{\\text{corrección}}:\\ \\p{2}{\\text{hasta una inversión}}',
-          body: 'Sin el límite, síndrome cero tampoco prueba ausencia de errores. Hamming(7,4) sin paridad adicional no detecta de manera segura dos errores.',
+          body: 'Sin el límite, síndrome cero tampoco prueba ausencia de errores. Hamming(7,4) sin paridad adicional no detecta de manera segura dos errores.', parts: ['garantía de recuperación', 'una inversión como máximo'],
         },
       ],
     },

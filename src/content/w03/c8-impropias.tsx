@@ -98,16 +98,16 @@ const lesson: LessonStep = {
       say: '¿Tiene sentido el área bajo $e^{-x}$ desde 0 hasta el infinito? Se calcula hasta un $b$ cualquiera y se mira qué pasa cuando $b$ crece sin fin.',
       gate: 'Arrastra b lo más lejos posible.',
       board: [
-        { label: 'Integral impropia', tex: '\\int_a^{\\infty}f(x)\\,dx=\\p{1}{\\lim_{b\\to\\infty}}\\p{2}{\\int_a^b f(x)\\,dx}' },
-        { tex: '\\int_0^\\infty e^{-x}dx=\\lim_{b\\to\\infty}(1-e^{-b})=\\p{1}{1}' },
+        { label: 'Integral impropia', tex: '\\int_a^{\\infty}f(x)\\,dx=\\p{1}{\\lim_{b\\to\\infty}}\\p{2}{\\int_a^b f(x)\\,dx}', parts: ['extendemos el intervalo', 'área hasta el corte'] },
+        { tex: '\\int_0^\\infty e^{-x}dx=\\lim_{b\\to\\infty}(1-e^{-b})=\\p{1}{1}', parts: ['área total finita'] },
       ],
     },
     {
       say: 'Dos curvas que se parecen pueden comportarse distinto: el área bajo $1/x^2$ se acerca a 1, pero la de $1/x$ crece sin límite, aunque muy lento.',
       dur: 4,
       board: [
-        { label: 'Converge', tex: '\\int_1^\\infty\\frac{dx}{x^2}=\\lim_{b\\to\\infty}\\Big(1-\\frac1b\\Big)=\\p{1}{1}' },
-        { label: 'Diverge', tex: '\\int_1^\\infty\\frac{dx}{x}=\\lim_{b\\to\\infty}\\ln b=\\p{1}{\\infty}' },
+        { label: 'Converge', tex: '\\int_1^\\infty\\frac{dx}{x^2}=\\lim_{b\\to\\infty}\\Big(1-\\frac1b\\Big)=\\p{1}{1}', parts: ['área total finita'] },
+        { label: 'Diverge', tex: '\\int_1^\\infty\\frac{dx}{x}=\\lim_{b\\to\\infty}\\ln b=\\p{1}{\\infty}', parts: ['área sin límite'] },
       ],
     },
     {
@@ -123,7 +123,7 @@ const lesson: LessonStep = {
     {
       say: 'También puede ser infinita la altura: $1/\\sqrt x$ se dispara en 0, y aun así el área entre 0 y 1 es finita.',
       dur: 3.4,
-      board: { label: 'Altura infinita', tex: '\\int_0^1\\frac{dx}{\\sqrt x}=\\lim_{\\varepsilon\\to0^+}\\big[2\\sqrt x\\big]_\\varepsilon^1=\\p{1}{2}' },
+      board: { label: 'Altura infinita', tex: '\\int_0^1\\frac{dx}{\\sqrt x}=\\lim_{\\varepsilon\\to0^+}\\big[2\\sqrt x\\big]_\\varepsilon^1=\\p{1}{2}', parts: ['área total finita'] },
     },
     {
       say: 'Volvamos a la fuga de la válvula vieja: gotea para siempre, pero cada vez menos.',
@@ -133,7 +133,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '$\\int_0^\\infty 6e^{-0{,}5t}dt=\\tfrac{6}{0{,}5}=12$. La fuga nunca se detiene, pero el total es finito.',
       },
-      board: { label: 'Exponencial', tex: '\\int_0^\\infty A\\,e^{-kt}dt=\\p{1}{\\frac{A}{k}}' },
+      board: { label: 'Exponencial', tex: '\\int_0^\\infty A\\,e^{-kt}dt=\\p{1}{\\frac{A}{k}}', parts: ['volumen total perdido'] },
     },
   ],
 };

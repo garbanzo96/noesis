@@ -438,7 +438,7 @@ const lesson: LessonStep = {
       say: 'Cada celda cuenta a quienes cumplen dos cosas a la vez: 30 estudiantes hacen deporte y música.',
       board: {
         label: 'Conjunta',
-        tex: '\\p{1}{P(D\\cap M)}=\\p{2}{\\tfrac{30}{100}}=\\p{3}{0{,}30}',
+        tex: '\\p{1}{P(D\\cap M)}=\\p{2}{\\tfrac{30}{100}}=\\p{3}{0{,}30}', parts: ['deporte y música', 'casos respecto del total', 'probabilidad conjunta'],
       },
     },
     {
@@ -446,7 +446,7 @@ const lesson: LessonStep = {
       gate: 'Toca la fila «Deporte» para sumarla.',
       board: {
         label: 'Marginal de una fila',
-        tex: '\\p{1}{P(D)}=\\p{2}{P(D\\cap M)+P(D\\cap M^c)}=\\p{3}{0{,}50}',
+        tex: '\\p{1}{P(D)}=\\p{2}{P(D\\cap M)+P(D\\cap M^c)}=\\p{3}{0{,}50}', parts: ['probabilidad de deporte', 'suma de toda la fila', 'probabilidad marginal'],
       },
     },
     {
@@ -459,16 +459,16 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Marginal de una columna',
-        tex: '\\p{1}{P(M)}=\\p{2}{0{,}30+0{,}10}=\\p{3}{0{,}40}',
+        tex: '\\p{1}{P(M)}=\\p{2}{0{,}30+0{,}10}=\\p{3}{0{,}40}', parts: ['probabilidad de música', 'suma de la columna', 'probabilidad marginal'],
       },
     },
     {
       say: 'Dividida por el total, la tabla completa es una distribución: sus cuatro celdas suman 1.',
-      board: { label: 'Toda la tabla', tex: '\\p{1}{\\sum_{i,j}P(\\text{celda})}=\\p{2}{1}' },
+      board: { label: 'Toda la tabla', tex: '\\p{1}{\\sum_{i,j}P(\\text{celda})}=\\p{2}{1}', parts: ['suma de todas las celdas', 'certeza de algún caso'] },
     },
     {
       say: 'Los márgenes de la tabla dan las probabilidades de una sola variable.',
-      board: { label: 'Regla', tex: '\\p{1}{P(A)}=\\p{2}{\\sum_{b}P(A\\cap b)}' },
+      board: { label: 'Regla', tex: '\\p{1}{P(A)}=\\p{2}{\\sum_{b}P(A\\cap b)}', parts: ['probabilidad del evento', 'suma de sus cruces'] },
     },
   ],
 };

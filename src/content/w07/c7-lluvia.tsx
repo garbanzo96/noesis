@@ -150,6 +150,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Una columna',
         tex: '\\p{1}{\\Delta V}=\\p{2}{\\cC{f(x_i,y_j)}}\\,\\p{3}{\\cA{\\Delta x}}\\,\\p{4}{\\cM{\\Delta y}}',
+        parts: ['volumen de una columna', 'altura de la columna', 'ancho de la base', 'largo de la base'],
       },
     },
     {
@@ -159,6 +160,7 @@ const lesson: LessonStep = {
         label: 'Suma de Riemann doble',
         tex: '\\begin{aligned}\\p{1}{\\iint_R f\\,dA}&=\\p{2}{\\lim_{\\Delta x,\\Delta y\\to0}}\\\\&\\quad\\p{3}{\\sum_{i,j}f(x_i,y_j)\\,\\Delta x\\,\\Delta y}\\end{aligned}',
         body: 'En este ejemplo lineal, los puntos medios ya dan 3 con todas las divisiones; lo que mejora es la forma de las columnas.',
+        parts: ['volumen bajo la superficie', 'columnas cada vez más finas', 'suma de volúmenes'],
       },
     },
     {
@@ -172,6 +174,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Integrar por turnos',
         tex: '\\begin{aligned}\\p{1}{\\int_0^2\\!\\int_0^1(x+y)\\,dy\\,dx}\\\\=\\p{2}{\\int_0^2(x+\\tfrac12)\\,dx}\\end{aligned}',
+        parts: ['volumen que buscamos', 'tras sumar franjas al norte'],
       },
     },
     {
@@ -180,6 +183,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Valor medio',
         tex: '\\p{1}{f_{\\mathrm{med}}}=\\p{2}{\\frac{1}{\\operatorname{área}(R)}\\iint_R f\\,dA}=\\p{3}{\\cA{\\tfrac32}}',
+        parts: ['altura media que buscamos', 'volumen dividido por área', 'altura media del terreno'],
       },
     },
     {
@@ -190,10 +194,12 @@ const lesson: LessonStep = {
           label: 'Fubini en un rectángulo',
           tex: '\\begin{aligned}\\p{1}{\\iint_R f\\,dA}&=\\p{2}{\\int_a^b\\!\\int_c^d f\\,dy\\,dx}\\\\&=\\p{3}{\\int_c^d\\!\\int_a^b f\\,dx\\,dy}\\end{aligned}',
           body: 'Para f continua sobre $R=[a,b]\\times[c,d]$.',
+          parts: ['total sobre la región', 'sumar primero al norte', 'sumar primero al este'],
         },
         {
           label: 'Promedio sobre la región',
           tex: '\\p{1}{f_{\\mathrm{med}}}=\\p{2}{\\frac{\\iint_R f\\,dA}{(b-a)(d-c)}}',
+          parts: ['altura media que buscamos', 'total dividido por área'],
         },
       ],
     },

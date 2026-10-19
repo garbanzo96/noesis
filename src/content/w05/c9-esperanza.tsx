@@ -608,14 +608,14 @@ const lesson: LessonStep = {
       say: 'Pagas 1 ficha por lanzar un dado. Si sale 6 recibes 4. Una **variable aleatoria** le pone un número a cada resultado: tu ganancia.',
       board: {
         label: 'Variable aleatoria',
-        tex: '\\p{1}{X=+3}\\ \\text{con}\\ \\tfrac16,\\quad\\p{2}{X=-1}\\ \\text{con}\\ \\tfrac56',
+        tex: '\\p{1}{X=+3}\\ \\text{con}\\ \\tfrac16,\\quad\\p{2}{X=-1}\\ \\text{con}\\ \\tfrac56', parts: ['ganancia si sale seis', 'pérdida si no sale seis'],
       },
     },
     {
       say: 'La **esperanza** es el promedio ponderado: cada ganancia por su probabilidad. Es el punto donde la balanza se equilibra.',
       board: {
         label: 'Esperanza',
-        tex: '\\p{1}{E[X]}=\\p{2}{\\sum x\\,P(X=x)}=\\p{3}{-\\tfrac13}',
+        tex: '\\p{1}{E[X]}=\\p{2}{\\sum x\\,P(X=x)}=\\p{3}{-\\tfrac13}', parts: ['ganancia promedio por juego', 'ganancias por probabilidad', 'valor esperado'],
       },
     },
     {
@@ -626,18 +626,18 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Cada juego deja −1/3 en promedio; 600 juegos, 600·(−1/3) = −200.',
       },
-      board: { label: 'Muchos juegos', tex: '\\p{1}{600\\cdot E[X]}=\\p{2}{-200}' },
+      board: { label: 'Muchos juegos', tex: '\\p{1}{600\\cdot E[X]}=\\p{2}{-200}', parts: ['ganancia total esperada', 'pérdida total esperada'] },
     },
     {
       say: 'Cambia el premio. Un juego es **justo** cuando su esperanza es cero.',
       gate: 'Arrastra la perilla hasta que el punto de equilibrio quede en 0.',
-      board: { label: 'Juego justo', tex: '\\p{1}{\\tfrac{5}{6}-\\tfrac56}=\\p{2}{0}' },
+      board: { label: 'Juego justo', tex: '\\p{1}{\\tfrac{5}{6}-\\tfrac56}=\\p{2}{0}', parts: ['balance de ganancias', 'ganancia promedio nula'] },
     },
     {
       say: 'Con premio 6 el juego es justo. Si la esperanza del jugador es negativa, la diferencia es la ventaja de la casa.',
       board: {
         label: 'La ventaja de la casa',
-        tex: '\\p{1}{E[X]<0}\\p{2}{\\Rightarrow\\ \\text{gana la casa}}',
+        tex: '\\p{1}{E[X]<0}\\p{2}{\\Rightarrow\\ \\text{gana la casa}}', parts: ['jugador pierde en promedio', 'ventaja de la casa'],
       },
     },
   ],

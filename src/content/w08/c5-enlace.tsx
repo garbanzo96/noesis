@@ -179,14 +179,14 @@ const lesson: LessonStep = {
     {
       say: 'Al retirar la cubierta de la ruta aparece también su torre. Parte de lo que dice Y ya responde de dónde salió; vamos a medir ese contenido compartido.',
       dur: 3,
-      board: { label: 'Antes de conocer la ruta', tex: '\\p{1}{\\cC{H(X)}}=\\p{2}{1}' },
+      board: { label: 'Antes de conocer la ruta', tex: '\\p{1}{\\cC{H(X)}}=\\p{2}{1}', parts: ['incertidumbre inicial', 'bits antes de revelar'] },
     },
     {
       say: 'Compara las dos evidencias. La tabla del piloto conserva ambas torres; la ruta d deja solamente Sur.',
       gate: 'Suelta la perilla en Piloto para registrar esa comparación; después arrástrala y suéltala en Ruta.',
       board: [
-        { label: 'Después de conocer la ruta', tex: '\\p{1}{H(X\\mid\\cA{Y})}=\\p{2}{\\cC{0}}' },
-        { label: 'Después de conocer el piloto', tex: '\\p{1}{H(X\\mid\\cM{Z})}=\\p{2}{\\cC{1}}' },
+        { label: 'Después de conocer la ruta', tex: '\\p{1}{H(X\\mid\\cA{Y})}=\\p{2}{\\cC{0}}', parts: ['torre pendiente dada ruta', 'bits restantes de torre'] },
+        { label: 'Después de conocer el piloto', tex: '\\p{1}{H(X\\mid\\cM{Z})}=\\p{2}{\\cC{1}}', parts: ['torre pendiente dado piloto', 'bits restantes de torre'] },
       ],
     },
     {
@@ -194,7 +194,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Información compartida',
-        tex: '\\p{1}{\\cM{I(X;Y)}}=\\p{2}{\\cC{H(X)}}-\\p{3}{H(X\\mid\\cA{Y})}',
+        tex: '\\p{1}{\\cM{I(X;Y)}}=\\p{2}{\\cC{H(X)}}-\\p{3}{H(X\\mid\\cA{Y})}', parts: ['información compartida', 'incertidumbre inicial', 'incertidumbre que queda'],
       },
     },
     {
@@ -208,7 +208,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Identidad de la información mutua',
-        tex: '\\begin{aligned}\\p{1}{\\cM{I(X;Y)}}&=\\p{2}{\\cC{H(X)}+\\cA{H(Y)}}\\\\&\\quad-\\p{3}{H(X,Y)}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{\\cM{I(X;Y)}}&=\\p{2}{\\cC{H(X)}+\\cA{H(Y)}}\\\\&\\quad-\\p{3}{H(X,Y)}\\end{aligned}', parts: ['información compartida', 'incertidumbres por separado', 'incertidumbre del par'],
       },
     },
     {
@@ -216,7 +216,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Simetría',
-        tex: '\\begin{aligned}\\p{1}{I(X;Y)}&=\\p{2}{I(Y;X)}\\\\&=\\p{3}{H(Y)-H(Y\\mid X)}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{I(X;Y)}&=\\p{2}{I(Y;X)}\\\\&=\\p{3}{H(Y)-H(Y\\mid X)}\\end{aligned}', parts: ['información compartida', 'mismo contenido al invertir', 'reducción sobre la ruta'],
       },
     },
     {
@@ -225,9 +225,9 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Independencia',
-          tex: '\\p{1}{p(x,z)=p(x)p(z)}\\Rightarrow\\p{2}{\\cM{I(X;Z)=0}}',
+          tex: '\\p{1}{p(x,z)=p(x)p(z)}\\Rightarrow\\p{2}{\\cM{I(X;Z)=0}}', parts: ['probabilidades separables', 'sin información compartida'],
         },
-        { label: 'Cotas', tex: '\\p{1}{0}\\le\\p{2}{\\cM{I(X;Y)}}\\le\\p{3}{\\min(H(X),H(Y))}' },
+        { label: 'Cotas', tex: '\\p{1}{0}\\le\\p{2}{\\cM{I(X;Y)}}\\le\\p{3}{\\min(H(X),H(Y))}', parts: ['mínimo compartido', 'información compartida', 'máximo que pueden compartir'] },
       ],
     },
   ],

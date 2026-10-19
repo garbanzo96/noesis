@@ -99,14 +99,14 @@ const lesson: LessonStep = {
     {
       say: 'Fija el comienzo en 0 y deja libre el final $x$. El área acumulada hasta $x$ es una **función** de $x$: la función de acumulación $A(x)$. Abajo se dibuja mientras avanzas.',
       gate: 'Arrastra x hasta el final.',
-      board: { label: 'Función de acumulación', tex: 'A(x)=\\int_{\\p{1}{0}}^{\\p{2}{\\cA{x}}}\\p{3}{f(t)}\\,dt', body: 'La variable de integración se llama $t$ para no confundirla con el límite $x$.' },
+      board: { label: 'Función de acumulación', tex: 'A(x)=\\int_{\\p{1}{0}}^{\\p{2}{\\cA{x}}}\\p{3}{f(t)}\\,dt', body: 'La variable de integración se llama $t$ para no confundirla con el límite $x$.', parts: ['inicio de la acumulación', 'final que se mueve', 'ritmo que se acumula'] },
     },
     {
       say: 'Si $x$ avanza un poquito $dx$, el área crece en una franja de alto $f(x)$ y ancho $dx$. Por eso el ritmo al que crece $A$ es exactamente $f(x)$.',
       dur: 3.6,
       board: [
-        { tex: 'dA\\approx\\p{1}{f(x)}\\,\\p{2}{dx}' },
-        { label: 'Teorema fundamental (I)', tex: "\\p{1}{A'(x)}=\\p{2}{f(x)}", body: 'Derivar la acumulación devuelve el ritmo. Integrar y derivar son operaciones inversas.' },
+        { tex: 'dA\\approx\\p{1}{f(x)}\\,\\p{2}{dx}', parts: ['altura de la franja', 'ancho de la franja'] },
+        { label: 'Teorema fundamental (I)', tex: "\\p{1}{A'(x)}=\\p{2}{f(x)}", body: 'Derivar la acumulación devuelve el ritmo. Integrar y derivar son operaciones inversas.', parts: ['ritmo de la acumulación', 'ritmo de entrada'] },
       ],
     },
     {
@@ -123,7 +123,7 @@ const lesson: LessonStep = {
       say: 'Un ejemplo que se puede calcular a mano: si $f(t)=2t$, el área hasta $x$ es un triángulo de base $x$ y altura $2x$.',
       dur: 3.2,
       board: [
-        { tex: 'A(x)=\\tfrac12\\cdot\\p{1}{x}\\cdot\\p{2}{2x}=\\p{3}{x^2}' },
+        { tex: 'A(x)=\\tfrac12\\cdot\\p{1}{x}\\cdot\\p{2}{2x}=\\p{3}{x^2}', parts: ['base del triángulo', 'altura del triángulo', 'área acumulada'] },
         { tex: "A'(x)=2x=f(x)\\ \\checkmark" },
       ],
     },

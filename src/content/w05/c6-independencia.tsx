@@ -642,16 +642,16 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Saber que la moneda salió cara no cambia nada del dado. La probabilidad de las dos cosas es el producto.',
-      board: { label: 'Independientes', tex: '\\p{1}{P(A\\cap B)}=\\p{2}{P(A)\\,P(B)}' },
+      board: { label: 'Independientes', tex: '\\p{1}{P(A\\cap B)}=\\p{2}{P(A)\\,P(B)}', parts: ['ambos eventos juntos', 'producto sin condicionar'] },
     },
     {
       say: 'En el curso de antes no pasa: 30 % hace deporte y música, pero el producto da 20 %.',
-      board: { label: 'Dependientes', tex: '\\p{1}{0{,}30}\\p{2}{\\neq0{,}5\\cdot0{,}4=0{,}20}' },
+      board: { label: 'Dependientes', tex: '\\p{1}{0{,}30}\\p{2}{\\neq0{,}5\\cdot0{,}4=0{,}20}', parts: ['probabilidad conjunta real', 'producto de marginales'] },
     },
     {
       say: 'Mueve personas entre celdas sin cambiar los totales. Busca la tabla donde saber «deporte» no cambie la probabilidad de música.',
       gate: 'Arrastra la perilla hasta que P(M | D) sea igual a P(M) = 0,4.',
-      board: { label: 'Condición', tex: '\\p{1}{P(M\\mid D)}=\\p{2}{P(M)}' },
+      board: { label: 'Condición', tex: '\\p{1}{P(M\\mid D)}=\\p{2}{P(M)}', parts: ['música entre deportistas', 'música en todo el curso'] },
     },
     {
       say: 'Con 20 personas en deporte y música, la tabla queda independiente.',
@@ -661,13 +661,13 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'La columna Música suma 40: si 20 hacen deporte, las otras 20 no.',
       },
-      board: { label: 'Tabla independiente', tex: '\\p{1}{20}=\\p{2}{100\\cdot0{,}5\\cdot0{,}4}' },
+      board: { label: 'Tabla independiente', tex: '\\p{1}{20}=\\p{2}{100\\cdot0{,}5\\cdot0{,}4}', parts: ['personas en ambas', 'total por probabilidades'] },
     },
     {
       say: 'Dos eventos son independientes cuando saber uno no cambia la probabilidad del otro.',
       board: {
         label: 'Definición',
-        tex: '\\p{1}{A,B\\ \\text{independientes}}\\p{2}{\\iff P(B\\mid A)=P(B)}',
+        tex: '\\p{1}{A,B\\ \\text{independientes}}\\p{2}{\\iff P(B\\mid A)=P(B)}', parts: ['eventos sin influencia', 'saber uno no cambia'],
       },
     },
   ],

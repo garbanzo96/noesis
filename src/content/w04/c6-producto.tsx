@@ -104,25 +104,25 @@ const lesson: LessonStep = {
     {
       say: 'Hacer una transformación y después otra es una nueva transformación. Primero $B$ y después $A$ se escribe $AB$: se lee de derecha a izquierda, como $f(g(x))$.',
       dur: 4,
-      board: { label: 'Composición', tex: '\\p{1}{A}\\,(\\p{2}{B}\\,\\vec v)=(\\p{3}{AB})\\,\\vec v', body: 'Primero actúa la matriz de la derecha.' },
+      board: { label: 'Composición', tex: '\\p{1}{A}\\,(\\p{2}{B}\\,\\vec v)=(\\p{3}{AB})\\,\\vec v', body: 'Primero actúa la matriz de la derecha.', parts: ['segunda transformación', 'primera transformación', 'transformación compuesta'] },
     },
     {
       say: 'Para encontrar $AB$ basta seguir a $\\hat\\imath$ y $\\hat\\jmath$. $B$ los lleva a sus columnas $\\vec b_1$ y $\\vec b_2$; luego $A$ actúa sobre ellas. Así salen las columnas de $AB$.',
       dur: 3,
-      board: { label: 'Columnas del producto', tex: 'AB=\\big(\\,\\p{1}{A\\,\\vec b_1}\\ \\ \\p{2}{A\\,\\vec b_2}\\,\\big)' },
+      board: { label: 'Columnas del producto', tex: 'AB=\\big(\\,\\p{1}{A\\,\\vec b_1}\\ \\ \\p{2}{A\\,\\vec b_2}\\,\\big)', parts: ['primer destino final', 'segundo destino final'] },
     },
     {
       say: 'Entrada por entrada: la que está en la fila $i$ y columna $j$ de $AB$ es la fila $i$ de $A$ por la columna $j$ de $B$, como un producto punto.',
       ask: { prompt: '¿Cuánto vale la entrada de arriba a la izquierda de $\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}\\begin{pmatrix}3&0\\\\1&2\\end{pmatrix}$?', options: ['5', '3', '7'], answer: 0, explain: 'Fila 1 de $A$ por columna 1 de $B$: $1\\cdot3+2\\cdot1=5$.' },
       board: [
-        { label: 'Fila por columna', tex: '(AB)_{ij}=\\p{1}{\\text{fila}_i(A)}\\cdot\\p{2}{\\text{col}_j(B)}' },
-        { tex: '\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}\\begin{pmatrix}3&0\\\\1&2\\end{pmatrix}=\\begin{pmatrix}\\p{1}{5}&\\p{2}{4}\\\\\\p{3}{1}&\\p{4}{2}\\end{pmatrix}' },
+        { label: 'Fila por columna', tex: '(AB)_{ij}=\\p{1}{\\text{fila}_i(A)}\\cdot\\p{2}{\\text{col}_j(B)}', parts: ['pesos de la fila', 'aportes de la columna'] },
+        { tex: '\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}\\begin{pmatrix}3&0\\\\1&2\\end{pmatrix}=\\begin{pmatrix}\\p{1}{5}&\\p{2}{4}\\\\\\p{3}{1}&\\p{4}{2}\\end{pmatrix}', parts: ['destino horizontal del eje x', 'destino horizontal del eje y', 'destino vertical del eje x', 'destino vertical del eje y'] },
       ],
     },
     {
       say: 'El orden importa: cizallar y después girar no deja el plano igual que girar y después cizallar.',
       ask: { prompt: '¿Es $AB=BA$ en general?', options: ['No: el orden importa', 'Sí, como con los números', 'Solo si las dos son giros'], answer: 0, explain: 'Las dos F terminan distintas. Con matrices, $AB$ y $BA$ suelen ser diferentes.' },
-      board: { label: 'Propiedades', tex: '\\begin{gathered}\\p{1}{AB\\neq BA}\\\\ \\p{2}{(AB)C=A(BC)},\\quad \\p{3}{AI=IA=A}\\end{gathered}', body: 'No conmutativo, pero sí asociativo; la identidad $I$ es el neutro.' },
+      board: { label: 'Propiedades', tex: '\\begin{gathered}\\p{1}{AB\\neq BA}\\\\ \\p{2}{(AB)C=A(BC)},\\quad \\p{3}{AI=IA=A}\\end{gathered}', body: 'No conmutativo, pero sí asociativo; la identidad $I$ es el neutro.', parts: ['el orden importa', 'la agrupación no importa', 'la identidad conserva todo'] },
     },
   ],
 };

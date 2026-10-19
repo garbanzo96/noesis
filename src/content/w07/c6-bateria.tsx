@@ -146,6 +146,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Objetivo y restricción',
         tex: '\\begin{aligned}\\p{1}{\\text{maximizar }}&\\p{2}{\\cA{3x+4y}}\\\\\\p{3}{\\text{con }}&\\p{4}{\\cC{x^2+y^2=1}}\\end{aligned}',
+        parts: ['buscar la mayor señal', 'señal que optimizamos', 'condición de la búsqueda', 'posiciones sobre el círculo'],
       },
     },
     {
@@ -155,6 +156,7 @@ const lesson: LessonStep = {
         label: 'Gradientes paralelos',
         tex: '\\p{1}{\\cA{\\nabla f}}=\\p{2}{\\cM{\\lambda}}\\,\\p{3}{\\cC{\\nabla g}}',
         body: 'En un extremo sobre una restricción suave, con $\\nabla g\\ne\\vec0$. El multiplicador λ puede ser positivo o negativo.',
+        parts: ['dirección de mayor señal', 'factor de proporcionalidad', 'normal a la restricción'],
       },
     },
     {
@@ -169,16 +171,18 @@ const lesson: LessonStep = {
       board: {
         label: 'Sistema del círculo',
         tex: '\\begin{cases}\\p{1}{3=2\\lambda x}\\\\\\p{2}{4=2\\lambda y}\\\\\\p{3}{x^2+y^2=1}\\end{cases}',
+        parts: ['igualar pendientes al este', 'igualar pendientes al norte', 'mantenerse sobre el círculo'],
       },
     },
     {
       say: 'Prueba ahora con un producto y una suma fija. Lagrange exige x igual a y; sobre la recta, el producto forma una parábola con máximo en el centro.',
       dur: 3,
       board: [
-        { label: 'Producto con suma fija', tex: '\\p{1}{f=\\cA{xy}},\\quad\\p{2}{g=\\cC{x+y}=10}' },
+        { label: 'Producto con suma fija', tex: '\\p{1}{f=\\cA{xy}},\\quad\\p{2}{g=\\cC{x+y}=10}', parts: ['producto que optimizamos', 'suma que mantenemos fija'] },
         {
           label: 'Reparto óptimo',
           tex: '\\begin{aligned}\\p{1}{(y,x)}&=\\p{2}{\\lambda(1,1)}\\\\\\p{3}{x=y=5}&\\Rightarrow\\p{4}{xy=25}\\end{aligned}',
+          parts: ['gradiente del producto', 'normal a la restricción', 'reparto que maximiza', 'producto máximo'],
         },
       ],
     },
@@ -189,6 +193,7 @@ const lesson: LessonStep = {
         label: 'Sistema de Lagrange',
         tex: '\\begin{cases}\\p{1}{\\cA{f_x}=\\cM{\\lambda}g_x}\\\\\\p{2}{\\cA{f_y}=\\cM{\\lambda}g_y}\\\\\\p{3}{\\cC{g(x,y)=c}}\\end{cases}',
         body: 'Revisa que cada candidato cumpla la restricción; considera también los puntos donde el gradiente de g sea cero, si existen.',
+        parts: ['igualar pendientes al este', 'igualar pendientes al norte', 'condición de la búsqueda'],
       },
     },
   ],

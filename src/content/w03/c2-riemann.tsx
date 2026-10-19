@@ -80,22 +80,22 @@ const lesson: LessonStep = {
     {
       say: 'Para medir el área bajo una curva, se parte el intervalo $[a,b]$ en $n$ franjas del mismo ancho $\\Delta x$. Cada franja es casi un rectángulo.',
       dur: 2.6,
-      board: { label: 'Partición', tex: '\\Delta x=\\frac{\\p{1}{b-a}}{\\p{2}{n}},\\qquad \\p{3}{x_i=a+i\\,\\Delta x}' },
+      board: { label: 'Partición', tex: '\\Delta x=\\frac{\\p{1}{b-a}}{\\p{2}{n}},\\qquad \\p{3}{x_i=a+i\\,\\Delta x}', parts: ['ancho del intervalo', 'cantidad de franjas', 'borde de cada franja'] },
     },
     {
       say: 'Se elige la altura de cada rectángulo con el valor de la función en el **extremo izquierdo** de su franja. Como esta curva sube, los rectángulos quedan un poco por debajo.',
       dur: 2.6,
-      board: { label: 'Suma izquierda', tex: 'L_n=\\sum_{i=0}^{n-1}\\p{1}{\\cA{f(x_i)}}\\,\\p{2}{\\Delta x}', body: 'Altura por ancho, franja por franja. Aquí $L_4=7{,}5$: se queda corta.' },
+      board: { label: 'Suma izquierda', tex: 'L_n=\\sum_{i=0}^{n-1}\\p{1}{\\cA{f(x_i)}}\\,\\p{2}{\\Delta x}', body: 'Altura por ancho, franja por franja. Aquí $L_4=7{,}5$: se queda corta.', parts: ['altura por la izquierda', 'ancho de cada franja'] },
     },
     {
       say: 'Con el **extremo derecho**, los rectángulos sobresalen. El área verdadera queda atrapada entre las dos sumas.',
       dur: 2.6,
-      board: { label: 'Suma derecha', tex: 'R_n=\\sum_{i=1}^{n}\\p{1}{\\cM{f(x_i)}}\\,\\Delta x', body: '$R_4=11{,}5$. Para una función que sube: $L_n\\le\\text{área}\\le R_n$.' },
+      board: { label: 'Suma derecha', tex: 'R_n=\\sum_{i=1}^{n}\\p{1}{\\cM{f(x_i)}}\\,\\Delta x', body: '$R_4=11{,}5$. Para una función que sube: $L_n\\le\\text{área}\\le R_n$.', parts: ['altura por la derecha'] },
     },
     {
       say: 'Mientras más franjas, más finos los rectángulos y menor el error. Las dos sumas se acercan al mismo número.',
       gate: 'Sube n hasta 32 o más (prueba con izquierda y derecha).',
-      board: { label: 'Más franjas', tex: 'L_n,\\ R_n\\ \\xrightarrow[n\\to\\infty]{}\\ \\p{1}{9{,}333\\ldots}' },
+      board: { label: 'Más franjas', tex: 'L_n,\\ R_n\\ \\xrightarrow[n\\to\\infty]{}\\ \\p{1}{9{,}333\\ldots}', parts: ['área bajo la curva'] },
     },
     {
       say: 'Un atajo práctico: promediar la suma izquierda y la derecha equivale a usar **trapecios** en vez de rectángulos.',
@@ -105,14 +105,14 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '$(7{,}5+11{,}5)/2=9{,}5$, muy cerca del área real $9{,}33$.',
       },
-      board: { label: 'Trapecios', tex: 'T_n=\\frac{\\p{1}{L_n}+\\p{2}{R_n}}{2}' },
+      board: { label: 'Trapecios', tex: 'T_n=\\frac{\\p{1}{L_n}+\\p{2}{R_n}}{2}', parts: ['estimación por la izquierda', 'estimación por la derecha'] },
     },
     {
       say: 'Ese número al que se acercan las sumas es la **integral definida**. El símbolo $\\int$ es una S alargada: la suma se vuelve continua y $\\Delta x$ se vuelve $dx$.',
       dur: 3.4,
       board: [
-        { label: 'Integral definida', tex: '\\int_{\\p{2}{\\cC{a}}}^{\\p{2}{\\cC{b}}}\\p{3}{\\cA{f(x)}}\\,\\p{4}{\\cG{dx}}=\\p{1}{\\lim_{n\\to\\infty}\\sum f(x_i)\\,\\Delta x}' },
-        { tex: '\\int_0^4\\left(1+\\tfrac{x^2}{4}\\right)dx=\\p{1}{9{,}\\overline{3}}', body: '$\\cC{a,b}$: límites de integración. $\\cA{f(x)}$: el integrando (la altura). $\\cG{dx}$: el ancho infinitesimal de cada franja.' },
+        { label: 'Integral definida', tex: '\\int_{\\p{2}{\\cC{a}}}^{\\p{2}{\\cC{b}}}\\p{3}{\\cA{f(x)}}\\,\\p{4}{\\cG{dx}}=\\p{1}{\\lim_{n\\to\\infty}\\sum f(x_i)\\,\\Delta x}', parts: ['límite de las sumas', 'extremos del intervalo', 'altura de cada franja', 'ancho de cada franja'] },
+        { tex: '\\int_0^4\\left(1+\\tfrac{x^2}{4}\\right)dx=\\p{1}{9{,}\\overline{3}}', body: '$\\cC{a,b}$: límites de integración. $\\cA{f(x)}$: el integrando (la altura). $\\cG{dx}$: el ancho infinitesimal de cada franja.', parts: ['área bajo la curva'] },
       ],
     },
   ],

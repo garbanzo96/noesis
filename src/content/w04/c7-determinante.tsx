@@ -87,37 +87,37 @@ const lesson: LessonStep = {
     {
       say: 'Una matriz también cambia las **áreas**. El cuadrado formado por $\\hat\\imath$ y $\\hat\\jmath$ (área 1) se convierte en el paralelogramo formado por las columnas. Si la matriz estira 3 veces en horizontal y 2 en vertical, el área se multiplica por 6.',
       dur: 3,
-      board: { label: 'Factor de áreas', tex: '\\begin{pmatrix}a&0\\\\0&d\\end{pmatrix}:\\quad \\text{área}\\times\\p{1}{a\\,d}' },
+      board: { label: 'Factor de áreas', tex: '\\begin{pmatrix}a&0\\\\0&d\\end{pmatrix}:\\quad \\text{área}\\times\\p{1}{a\\,d}', parts: ['factor de área'] },
     },
     {
       say: 'Un cizalle, en cambio, desliza las filas de cuadritos sin cambiar su altura ni su base: el área no cambia.',
       dur: 2.6,
-      board: { tex: '\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}:\\quad \\text{área}\\times\\p{1}{1}' },
+      board: { tex: '\\begin{pmatrix}1&2\\\\0&1\\end{pmatrix}:\\quad \\text{área}\\times\\p{1}{1}', parts: ['área que se conserva'] },
     },
     {
       say: 'En general el factor es $ad-bc$, el **determinante**. Para esta matriz: $3\\cdot2-1\\cdot1=5$. El paralelogramo ocupa cinco cuadritos.',
       dur: 2.6,
-      board: { label: 'Determinante', tex: '\\det\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}=\\p{1}{ad}-\\p{2}{bc}', body: 'Factor por el que la matriz multiplica todas las áreas.' },
+      board: { label: 'Determinante', tex: '\\det\\begin{pmatrix}a&b\\\\c&d\\end{pmatrix}=\\p{1}{ad}-\\p{2}{bc}', body: 'Factor por el que la matriz multiplica todas las áreas.', parts: ['aporte de escalas', 'corrección por inclinación'] },
     },
     {
       say: 'El determinante también puede ser **negativo**: significa que la matriz da vuelta el plano, como un espejo. Mira la F.',
       gate: 'Arrastra $A\\hat\\jmath$ hasta que el determinante sea negativo.',
-      board: { label: 'Signo', tex: '\\p{1}{\\det A<0\\ }\\Rightarrow\\p{2}{\\ \\text{invierte la orientación}}', body: 'Las áreas se multiplican por $|\\det A|$.' },
+      board: { label: 'Signo', tex: '\\p{1}{\\det A<0\\ }\\Rightarrow\\p{2}{\\ \\text{invierte la orientación}}', body: 'Las áreas se multiplican por $|\\det A|$.', parts: ['determinante negativo', 'plano dado vuelta'] },
     },
     {
       say: 'Si el determinante es **cero**, las columnas quedan paralelas y el plano se aplasta en una recta. Puntos distintos caen en el mismo lugar.',
       ask: { prompt: '¿Se puede deshacer una transformación con determinante 0?', options: ['No: se perdió información', 'Sí, siempre', 'Solo si la matriz es simétrica'], answer: 0, explain: 'Si dos puntos distintos caen en el mismo lugar, desde el resultado no se puede saber de cuál venía.' },
-      board: { label: 'Determinante cero', tex: '\\p{1}{\\det A}=\\p{2}{0\\iff\\text{columnas paralelas}}', body: 'El plano se aplasta y la transformación no se puede deshacer.' },
+      board: { label: 'Determinante cero', tex: '\\p{1}{\\det A}=\\p{2}{0\\iff\\text{columnas paralelas}}', body: 'El plano se aplasta y la transformación no se puede deshacer.', parts: ['factor de área con signo', 'plano que se aplasta'] },
     },
     {
       say: 'Si $\\det A\\neq0$, existe la **inversa** $A^{-1}$: la transformación que devuelve todo a su lugar. En $2\\times2$: se intercambian $a$ y $d$, se cambia el signo de $b$ y $c$, y se divide por el determinante.',
       dur: 3.6,
-      board: { label: 'Inversa', tex: 'A^{-1}=\\frac{\\p{1}{1}}{\\p{1}{ad-bc}}\\begin{pmatrix}\\p{2}{d}&\\p{3}{-b}\\\\\\p{3}{-c}&\\p{2}{a}\\end{pmatrix}', body: 'Cumple $A^{-1}A=AA^{-1}=I$.' },
+      board: { label: 'Inversa', tex: 'A^{-1}=\\frac{\\p{1}{1}}{\\p{1}{ad-bc}}\\begin{pmatrix}\\p{2}{d}&\\p{3}{-b}\\\\\\p{3}{-c}&\\p{2}{a}\\end{pmatrix}', body: 'Cumple $A^{-1}A=AA^{-1}=I$.', parts: ['escala que deshace el área', 'escalas intercambiadas', 'inclinaciones opuestas'] },
     },
     {
       say: 'La inversa resuelve sistemas: si $A\\vec x=\\vec b$, aplicando $A^{-1}$ a ambos lados queda $\\vec x=A^{-1}\\vec b$.',
       ask: { prompt: 'Con $A=\\begin{pmatrix}3&1\\\\1&2\\end{pmatrix}$, ¿qué $\\vec x$ cumple $A\\vec x=(7,4)$?', options: ['(2, 1)', '(7, 4)', '(1, 2)'], answer: 0, explain: '$A^{-1}=\\tfrac15\\begin{pmatrix}2&-1\\\\-1&3\\end{pmatrix}$, así que $\\vec x=\\tfrac15(14-4,\\,-7+12)=(2,1)$. Comprobación: $A(2,1)=(7,4)$.' },
-      board: { label: 'Resolver con la inversa', tex: 'A\\vec x=\\vec b\\ \\Rightarrow\\ \\vec x=\\p{1}{A^{-1}}\\vec b' },
+      board: { label: 'Resolver con la inversa', tex: 'A\\vec x=\\vec b\\ \\Rightarrow\\ \\vec x=\\p{1}{A^{-1}}\\vec b', parts: ['transformación que deshace'] },
     },
   ],
 };

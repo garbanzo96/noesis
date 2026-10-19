@@ -111,7 +111,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Una decisión binaria',
-        tex: '\\p{1}{2\\ \\text{posibilidades}}\\longrightarrow\\p{2}{\\cC{1\\ \\text{bit}}}',
+        tex: '\\p{1}{2\\ \\text{posibilidades}}\\longrightarrow\\p{2}{\\cC{1\\ \\text{bit}}}', parts: ['opciones equiprobables', 'decisiones necesarias'],
       },
     },
     {
@@ -119,7 +119,7 @@ const lesson: LessonStep = {
       gate: 'Gira la perilla y suéltala en 3 hasta dejar un solo casillero.',
       board: {
         label: 'Partir en mitades',
-        tex: '\\p{1}{8}\\to\\p{2}{4}\\to\\p{3}{2}\\to\\p{4}{\\cC{1}}',
+        tex: '\\p{1}{8}\\to\\p{2}{4}\\to\\p{3}{2}\\to\\p{4}{\\cC{1}}', parts: ['casilleros al inicio', 'tras una respuesta', 'tras dos respuestas', 'casillero identificado'],
       },
     },
     {
@@ -127,7 +127,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Información individual',
-        tex: '\\p{1}{\\cA{I(x)}}=\\p{2}{-\\log_2\\cC{p(x)}}',
+        tex: '\\p{1}{\\cA{I(x)}}=\\p{2}{-\\log_2\\cC{p(x)}}', parts: ['información del evento', 'mitades hasta el evento'],
       },
     },
     {
@@ -140,7 +140,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Leer D',
-        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2\\left(\\cC{\\tfrac18}\\right)}',
+        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2\\left(\\cC{\\tfrac18}\\right)}', parts: ['información de d', 'con su probabilidad'],
       },
     },
     {
@@ -148,15 +148,15 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Rareza y bits',
-        tex: '\\p{1}{\\cC{p_1}<p_2}\\Rightarrow\\p{2}{\\cA{I_1}>I_2}',
+        tex: '\\p{1}{\\cC{p_1}<p_2}\\Rightarrow\\p{2}{\\cA{I_1}>I_2}', parts: ['menor probabilidad', 'mayor información'],
       },
     },
     {
       say: 'Si el evento estaba asegurado, observarlo agrega cero bits. Un evento de probabilidad cero tiene información infinita y queda fuera de este cálculo finito.',
       dur: 3,
       board: [
-        { label: 'Evento seguro', tex: '\\p{1}{I(p=1)}=\\p{2}{\\cA{0}}' },
-        { label: 'Dominio finito', tex: '\\p{1}{0}<\\p{2}{\\cC{p}}\\le\\p{3}{1}' },
+        { label: 'Evento seguro', tex: '\\p{1}{I(p=1)}=\\p{2}{\\cA{0}}', parts: ['información con certeza', 'bits que agrega'] },
+        { label: 'Dominio finito', tex: '\\p{1}{0}<\\p{2}{\\cC{p}}\\le\\p{3}{1}', parts: ['límite inferior excluido', 'probabilidad del evento', 'máximo de probabilidad'] },
       ],
     },
   ],

@@ -131,12 +131,13 @@ const lesson: LessonStep = {
         label: 'Derivada parcial',
         tex: '\\p{1}{\\frac{\\partial f}{\\partial\\cA{x}}}',
         body: 'Deriva en x dejando y fija.',
+        parts: ['pendiente hacia el este'],
       },
     },
     {
       say: 'Mueve el plano de corte y mira cómo cambian la curva y su tangente.',
       gate: 'Arrastra la perilla hasta y = 2, donde está la marca verde.',
-      board: { label: 'Corte', tex: '\\p{1}{f(x,2)}=\\p{2}{x^2+6x-4}' },
+      board: { label: 'Corte', tex: '\\p{1}{f(x,2)}=\\p{2}{x^2+6x-4}', parts: ['altura con norte fijo', 'altura según el este'] },
     },
     {
       say: 'Al derivar en x, el término que depende solo de y queda constante. En el punto (1, 2), la pendiente hacia el este vale 8.',
@@ -144,6 +145,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Parcial en x',
         tex: '\\begin{aligned}\\p{1}{\\cA{f_x}}&=\\p{2}{2x+3y}\\\\\\p{3}{f_x(1,2)}&=\\p{4}{2+6=8}\\end{aligned}',
+        parts: ['pendiente hacia el este', 'pendiente según la posición', 'pendiente en el punto', 'subida por unidad'],
       },
     },
     {
@@ -158,6 +160,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Parcial en y',
         tex: '\\begin{aligned}\\p{1}{\\cM{f_y}}&=\\p{2}{3x-2y}\\\\\\p{3}{f_y(1,2)}&=\\p{4}{-1}\\end{aligned}',
+        parts: ['pendiente hacia el norte', 'pendiente según la posición', 'pendiente en el punto', 'bajada por unidad'],
       },
     },
     {
@@ -167,6 +170,7 @@ const lesson: LessonStep = {
         label: 'Pendientes por eje',
         tex: '\\p{1}{\\cA{f_x}}:\\ \\text{este},\\quad\\p{2}{\\cM{f_y}}:\\ \\text{norte}',
         body: '$f(1,2)=3$. El signo dice si subes o bajas; el módulo, cuánto cambia la altura por unidad.',
+        parts: ['pendiente hacia el este', 'pendiente hacia el norte'],
       },
     },
   ],

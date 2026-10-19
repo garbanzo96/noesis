@@ -135,26 +135,26 @@ const lesson: LessonStep = {
       dur: 3,
       board: [
         { label: 'Caudal', tex: 'Q\\ \\left[\\tfrac{\\text{m}^3}{\\text{s}}\\right]', body: 'Un ritmo de cambio: volumen por unidad de tiempo.' },
-        { label: 'Caudal constante', tex: 'V=\\p{1}{\\cC{Q}}\\cdot\\p{2}{\\cA{t}}' },
+        { label: 'Caudal constante', tex: 'V=\\p{1}{\\cC{Q}}\\cdot\\p{2}{\\cA{t}}', parts: ['ritmo de entrada', 'tiempo transcurrido'] },
       ],
     },
     {
       say: 'En la gráfica del caudal, un caudal constante es una recta horizontal. El volumen hasta $t$ es el **área del rectángulo** de alto $Q$ y ancho $t$.',
       gate: 'Arrastra el tiempo hasta 10 s y mira cómo crecen el área y el estanque.',
-      board: { label: 'Volumen = área', tex: 'V=\\p{1}{\\underbrace{Q}_{\\text{alto}}}\\cdot\\p{2}{\\underbrace{t}_{\\text{ancho}}}' },
+      board: { label: 'Volumen = área', tex: 'V=\\p{1}{\\underbrace{Q}_{\\text{alto}}}\\cdot\\p{2}{\\underbrace{t}_{\\text{ancho}}}', parts: ['altura del rectángulo', 'ancho del rectángulo'] },
     },
     {
       say: 'Si el caudal cambia por tramos, cada tramo aporta su propio rectángulo, y el total es la **suma** de las áreas.',
       dur: 3.2,
       board: [
         { label: 'Por tramos', tex: 'V=\\sum_i Q_i\\,\\Delta t_i' },
-        { tex: '\\p{1}{\\cA{2\\cdot3}}+\\p{2}{\\cM{5\\cdot2}}+\\p{3}{\\cG{1\\cdot4}}=\\p{4}{20\\ \\text{m}^3}' },
+        { tex: '\\p{1}{\\cA{2\\cdot3}}+\\p{2}{\\cM{5\\cdot2}}+\\p{3}{\\cG{1\\cdot4}}=\\p{4}{20\\ \\text{m}^3}', parts: ['volumen del primer tramo', 'volumen del segundo tramo', 'volumen del tercer tramo', 'volumen total'] },
       ],
     },
     {
       say: 'El área bajo una gráfica de ritmo tiene las unidades de lo acumulado: altura por ancho. Lo mismo sirve para velocidad y distancia, o potencia y energía.',
       dur: 3,
-      board: { label: 'Unidades del área', tex: '\\p{1}{\\tfrac{\\text{m}^3}{\\text{s}}}\\times\\p{2}{\\text{s}}=\\p{3}{\\text{m}^3}' },
+      board: { label: 'Unidades del área', tex: '\\p{1}{\\tfrac{\\text{m}^3}{\\text{s}}}\\times\\p{2}{\\text{s}}=\\p{3}{\\text{m}^3}', parts: ['unidad del caudal', 'unidad de tiempo', 'unidad de volumen'] },
     },
     {
       say: 'Si el caudal varía de forma continua, el volumen sigue siendo el **área bajo la curva** del caudal: cada instante aporta una franja delgadísima.',
@@ -164,12 +164,12 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Cada franja duplica su altura sin cambiar su ancho: el área completa se duplica.',
       },
-      board: { label: 'Caudal variable', tex: '\\p{1}{V}=\\p{2}{\\text{área bajo }Q(t)\\ \\text{entre }0\\text{ y }t}' },
+      board: { label: 'Caudal variable', tex: '\\p{1}{V}=\\p{2}{\\text{área bajo }Q(t)\\ \\text{entre }0\\text{ y }t}', parts: ['volumen acumulado', 'área bajo el caudal'] },
     },
     {
       say: 'Una forma simple de estimar esa área: contar cuadrados de la cuadrícula. Cada cuadrado vale $1\\ \\tfrac{\\text{m}^3}{\\text{s}}\\times1\\ \\text{s}=1\\ \\text{m}^3$.',
       dur: 2.6,
-      board: { label: 'Estimar contando', body: 'Se cuentan los cuadrados completos bajo la curva y se agregan los pedazos. En la próxima clase lo haremos exacto con rectángulos cada vez más finos.', tex: '\\p{1}{\\text{área}}\\approx\\p{2}{\\#\\text{cuadrados}\\times\\text{área de uno}}' },
+      board: { label: 'Estimar contando', body: 'Se cuentan los cuadrados completos bajo la curva y se agregan los pedazos. En la próxima clase lo haremos exacto con rectángulos cada vez más finos.', tex: '\\p{1}{\\text{área}}\\approx\\p{2}{\\#\\text{cuadrados}\\times\\text{área de uno}}', parts: ['área que buscamos', 'estimación con cuadrados'] },
     },
   ],
 };

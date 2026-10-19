@@ -95,7 +95,7 @@ const lesson: LessonStep = {
     {
       say: 'La **media** o promedio es la suma de los datos dividida por cuántos son. Tiene un sentido físico: si cada dato es una pesa sobre una regla, la regla queda en equilibrio justo en la media.',
       dur: 3.4,
-      board: { label: 'Media', tex: '\\bar x=\\frac{\\p{1}{x_1+x_2+\\dots+x_n}}{\\p{2}{n}}=\\p{3}{\\frac1n\\sum_{i=1}^n x_i}', body: 'Aquí: $\\tfrac{2+3+3+5+7}{5}=4$.' },
+      board: { label: 'Media', tex: '\\bar x=\\frac{\\p{1}{x_1+x_2+\\dots+x_n}}{\\p{2}{n}}=\\p{3}{\\frac1n\\sum_{i=1}^n x_i}', body: 'Aquí: $\\tfrac{2+3+3+5+7}{5}=4$.', parts: ['suma de los datos', 'cantidad de datos', 'promedio como suma'] },
     },
     {
       say: 'Ahora aleja un solo dato. Para mantener el equilibrio, el punto de apoyo tiene que correrse hacia él.',
@@ -105,22 +105,22 @@ const lesson: LessonStep = {
     {
       say: 'La **mediana** es el dato del medio cuando se ordenan: deja la mitad de los datos a cada lado. Si son pares, es el promedio de los dos centrales. Fíjate: no se movió con la pesa.',
       dur: 3,
-      board: { label: 'Mediana', tex: '\\p{1}{\\tilde x}=\\p{2}{\\text{dato central (ordenados)}}', body: 'Con $n$ par, el promedio de los dos centrales. Es **resistente** a los extremos.' },
+      board: { label: 'Mediana', tex: '\\p{1}{\\tilde x}=\\p{2}{\\text{dato central (ordenados)}}', body: 'Con $n$ par, el promedio de los dos centrales. Es **resistente** a los extremos.', parts: ['centro por posición', 'mitad a cada lado'] },
     },
     {
       say: 'Compara las dos medidas con un dato extremo.',
       ask: { prompt: 'Datos: 2, 3, 3, 5, 37. ¿Media y mediana?', options: ['media 10, mediana 3', 'media 3, mediana 10', 'media 5, mediana 3'], answer: 0, explain: 'Suma 50 entre 5 datos: media 10. Ordenados, el del medio es 3. Ninguno de los cinco datos está cerca de 10.' },
-      board: { tex: '\\bar x=\\tfrac{50}{5}=\\p{1}{10},\\qquad \\tilde x=\\p{2}{3}' },
+      board: { tex: '\\bar x=\\tfrac{50}{5}=\\p{1}{10},\\qquad \\tilde x=\\p{2}{3}', parts: ['promedio con el extremo', 'mediana sin cambio'] },
     },
     {
       say: 'La **moda** es el valor más frecuente. Sirve incluso para variables cualitativas, como la comuna.',
       dur: 2.4,
-      board: { label: 'Moda', tex: '\\p{1}{\\text{Mo}}=\\p{2}{\\text{valor de mayor frecuencia}}' },
+      board: { label: 'Moda', tex: '\\p{1}{\\text{Mo}}=\\p{2}{\\text{valor de mayor frecuencia}}', parts: ['valor más común', 'dato que más aparece'] },
     },
     {
       say: 'Con una tabla de frecuencias no hace falta escribir cada dato: cada valor se multiplica por cuántas veces aparece. Es una **media ponderada**.',
       ask: { prompt: 'Valores 1, 2, 3 con frecuencias 5, 3, 2. ¿Cuál es la media?', options: ['1,7', '2', '6'], answer: 0, explain: '$\\tfrac{5\\cdot1+3\\cdot2+2\\cdot3}{5+3+2}=\\tfrac{17}{10}=1{,}7$. El promedio simple de 1, 2 y 3 (que da 2) ignora las frecuencias.' },
-      board: { label: 'Media ponderada', tex: '\\bar x=\\frac{\\p{1}{\\sum f_i\\,x_i}}{\\p{2}{\\sum f_i}}' },
+      board: { label: 'Media ponderada', tex: '\\bar x=\\frac{\\p{1}{\\sum f_i\\,x_i}}{\\p{2}{\\sum f_i}}', parts: ['suma con sus frecuencias', 'cantidad total de datos'] },
     },
   ],
 };

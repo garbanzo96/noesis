@@ -178,8 +178,8 @@ export const lesson: LessonStep = {
       say: 'Sigue cada luz entre los carriles. El **canal binario simétrico** invierte cada bit con probabilidad p; asumimos inversiones independientes entre usos, sin borrar ni insertar posiciones.',
       dur: 3,
       board: [
-        { label: 'Inversión', tex: '\\p{1}{P(Y\\ne X)}=\\p{2}{\\cM{p}}' },
-        { label: 'Conservación', tex: '\\p{1}{P(Y=X)}=\\p{2}{1-\\cM{p}}' },
+        { label: 'Inversión', tex: '\\p{1}{P(Y\\ne X)}=\\p{2}{\\cM{p}}', parts: ['probabilidad de inversión', 'ruido del canal'] },
+        { label: 'Conservación', tex: '\\p{1}{P(Y=X)}=\\p{2}{1-\\cM{p}}', parts: ['probabilidad de conservar', 'complemento del ruido'] },
       ],
     },
     {
@@ -187,7 +187,7 @@ export const lesson: LessonStep = {
       gate: 'Suelta la perilla primero en 0 y después en 1/2. Las dos filas deben quedar iguales.',
       board: {
         label: 'Salida independiente',
-        tex: '\\p{1}{p=\\tfrac12}\\Rightarrow\\p{2}{Y\\perp X}',
+        tex: '\\p{1}{p=\\tfrac12}\\Rightarrow\\p{2}{Y\\perp X}', parts: ['inversión equiprobable', 'salida independiente'],
       },
     },
     {
@@ -195,7 +195,7 @@ export const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Entropía binaria',
-        tex: '\\begin{aligned}\\p{1}{\\cA{h_2(p)}}&=\\p{2}{-p\\log_2p}\\\\&\\quad\\p{3}{-(1-p)\\log_2(1-p)}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{\\cA{h_2(p)}}&=\\p{2}{-p\\log_2p}\\\\&\\quad\\p{3}{-(1-p)\\log_2(1-p)}\\end{aligned}', parts: ['incertidumbre del ruido', 'aporte de invertir', 'aporte de conservar'],
       },
     },
     {
@@ -203,7 +203,7 @@ export const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Capacidad del BSC',
-        tex: '\\begin{aligned}\\p{1}{\\cC{C}}&=\\p{2}{\\max_{P_X}I(X;Y)}\\\\&=\\p{3}{1-\\cA{h_2(p)}}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{\\cC{C}}&=\\p{2}{\\max_{P_X}I(X;Y)}\\\\&=\\p{3}{1-\\cA{h_2(p)}}\\end{aligned}', parts: ['información máxima por uso', 'mejor reparto de entrada', 'bit menos ruido'],
       },
     },
     {
@@ -219,7 +219,7 @@ export const lesson: LessonStep = {
         explain:
           '$h_2(1/4)=2-\\tfrac34\\log_2 3$. Al restar de uno queda aproximadamente 0,1887 bits/uso. El 3/4 mide acierto; 0,8113 es la entropía binaria.',
       },
-      board: { label: 'Calcular antes de redondear', tex: '\\p{1}{C(1/4)}=\\p{2}{1-h_2(1/4)}' },
+      board: { label: 'Calcular antes de redondear', tex: '\\p{1}{C(1/4)}=\\p{2}{1-h_2(1/4)}', parts: ['capacidad que buscamos', 'con el ruido del caso'] },
     },
     {
       say: 'Compara las tasas. Bajo C existen códigos largos adecuados que hacen el error arbitrariamente pequeño; un bloque corto todavía puede fallar. Una inversión segura se deshace invirtiendo otra vez.',
@@ -227,11 +227,11 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Tasa bajo capacidad',
-          tex: '\\p{1}{\\cC{R<C}}:\\ \\p{2}{\\text{códigos adecuados}}',
+          tex: '\\p{1}{\\cC{R<C}}:\\ \\p{2}{\\text{códigos adecuados}}', parts: ['tasa bajo el límite', 'error reducible con bloques'],
         },
         {
           label: 'Tasa sobre capacidad',
-          tex: '\\p{1}{\\cM{R>C}}:\\ \\p{2}{\\text{error no arbitrariamente pequeño}}',
+          tex: '\\p{1}{\\cM{R>C}}:\\ \\p{2}{\\text{error no arbitrariamente pequeño}}', parts: ['tasa sobre el límite', 'error que no desaparece'],
         },
       ],
     },

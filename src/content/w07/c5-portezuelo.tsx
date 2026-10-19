@@ -150,6 +150,7 @@ const lesson: LessonStep = {
         label: 'Punto crítico',
         tex: '\\p{1}{\\cC{\\nabla f}}=\\p{2}{\\vec0}',
         body: 'Para una función diferenciable: $f_x=0$ y $f_y=0$.',
+        parts: ['pendientes del terreno', 'ambas pendientes nulas'],
       },
     },
     {
@@ -159,8 +160,9 @@ const lesson: LessonStep = {
         {
           label: 'Buscar puntos críticos',
           tex: '\\begin{aligned}\\p{1}{\\cA{f_x}=3x^2-3=0}&\\Rightarrow\\p{2}{x=\\pm1}\\\\\\p{3}{\\cM{f_y}=2y=0}&\\Rightarrow\\p{4}{y=0}\\end{aligned}',
+          parts: ['anular pendiente al este', 'posiciones al este posibles', 'anular pendiente al norte', 'posición al norte posible'],
         },
-        { label: 'Candidatos', tex: '\\p{1}{(1,0)},\\quad\\p{2}{(-1,0)}' },
+        { label: 'Candidatos', tex: '\\p{1}{(1,0)},\\quad\\p{2}{(-1,0)}', parts: ['primer punto crítico', 'segundo punto crítico'] },
       ],
     },
     {
@@ -169,6 +171,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Tres formas',
         tex: '\\p{1}{\\cC{\\text{máximo}}},\\quad\\p{2}{\\cA{\\text{mínimo}}},\\quad\\p{3}{\\cM{\\text{silla}}}',
+        parts: ['cumbre del terreno', 'hoyo del terreno', 'paso entre cerros'],
       },
     },
     {
@@ -179,8 +182,9 @@ const lesson: LessonStep = {
           label: 'Determinante del hessiano',
           tex: '\\p{1}{D}=\\p{2}{\\cA{f_{xx}f_{yy}}}-\\p{3}{\\cM{f_{xy}^2}}',
           body: 'Aplica el criterio en un punto crítico con segundas parciales continuas cerca de él.',
+          parts: ['criterio de curvatura', 'producto de curvaturas', 'efecto del cambio cruzado'],
         },
-        { label: 'Hessiano del ejemplo', tex: '\\p{1}{D}=(\\p{2}{6x})(\\p{3}{2})-0=\\p{4}{12x}' },
+        { label: 'Hessiano del ejemplo', tex: '\\p{1}{D}=(\\p{2}{6x})(\\p{3}{2})-0=\\p{4}{12x}', parts: ['criterio de curvatura', 'curvatura hacia el este', 'curvatura hacia el norte', 'criterio según la posición'] },
       ],
     },
     {
@@ -195,6 +199,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Clasificar los candidatos',
         tex: '\\p{1}{D(-1,0)=-12},\\quad\\p{2}{D(1,0)=12}',
+        parts: ['silla en el primer punto', 'mínimo en el segundo punto'],
       },
     },
     {
@@ -203,6 +208,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Criterio de la segunda derivada',
         tex: '\\begin{aligned}\\p{1}{D>0,\\ f_{xx}>0}&:\\cA{\\text{mínimo}}\\\\\\p{2}{D>0,\\ f_{xx}<0}&:\\cC{\\text{máximo}}\\\\\\p{3}{D<0}&:\\cM{\\text{silla}}\\\\\\p{4}{D=0}&:\\text{sin conclusión}\\end{aligned}',
+        parts: ['curvatura hacia arriba', 'curvatura hacia abajo', 'sube y baja según dirección', 'criterio que no decide'],
       },
     },
   ],

@@ -105,7 +105,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Probabilidad conjunta',
-        tex: '\\p{1}{\\cC{p(x,y)}}=\\p{2}{\\frac{\\text{fichas de la celda}}{\\text{total de fichas}}}',
+        tex: '\\p{1}{\\cC{p(x,y)}}=\\p{2}{\\frac{\\text{fichas de la celda}}{\\text{total de fichas}}}', parts: ['probabilidad del par', 'proporción de la celda'],
       },
     },
     {
@@ -114,7 +114,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Renormalizar una fila',
         tex: '\\p{1}{\\cA{p(y\\mid x)}}=\\p{2}{\\frac{\\cC{p(x,y)}}{\\cM{p(x)}}}',
-        body: 'Requiere p(x) > 0.',
+        body: 'Requiere p(x) > 0.', parts: ['probabilidad tras filtrar', 'proporción dentro de torre'],
       },
     },
     {
@@ -123,11 +123,11 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía conjunta',
-          tex: '\\p{1}{H(X,Y)}=\\p{2}{-\\sum_{x,y}p(x,y)\\log_2p(x,y)}',
+          tex: '\\p{1}{H(X,Y)}=\\p{2}{-\\sum_{x,y}p(x,y)\\log_2p(x,y)}', parts: ['información media del par', 'rareza media de pares'],
         },
         {
           label: 'Cuatro pares equiprobables',
-          tex: '\\p{1}{H(X,Y)}=\\p{2}{4\\cdot\\tfrac14\\cdot2}=\\p{3}{\\cM{2}}',
+          tex: '\\p{1}{H(X,Y)}=\\p{2}{4\\cdot\\tfrac14\\cdot2}=\\p{3}{\\cM{2}}', parts: ['información media del par', 'con los cuatro pares', 'bits por par'],
         },
       ],
     },
@@ -137,11 +137,11 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía condicional',
-          tex: '\\p{1}{H(Y\\mid X)}=\\p{2}{\\sum_x\\cC{p(x)}H(Y\\mid X=x)}',
+          tex: '\\p{1}{H(Y\\mid X)}=\\p{2}{\\sum_x\\cC{p(x)}H(Y\\mid X=x)}', parts: ['incertidumbre restante', 'promedio entre torres'],
         },
         {
           label: 'Promedio entre filas',
-          tex: '\\p{1}{\\tfrac12\\cdot1}+\\p{2}{\\tfrac12\\cdot1}=\\p{3}{\\cA{1}}',
+          tex: '\\p{1}{\\tfrac12\\cdot1}+\\p{2}{\\tfrac12\\cdot1}=\\p{3}{\\cA{1}}', parts: ['aporte de norte', 'aporte de sur', 'bits restantes de ruta'],
         },
       ],
     },
@@ -156,7 +156,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Regla de la cadena',
-        tex: '\\p{1}{\\cM{H(X,Y)}}=\\p{2}{\\cC{H(X)}}+\\p{3}{\\cA{H(Y\\mid X)}}',
+        tex: '\\p{1}{\\cM{H(X,Y)}}=\\p{2}{\\cC{H(X)}}+\\p{3}{\\cA{H(Y\\mid X)}}', parts: ['información total del par', 'incertidumbre de torre', 'ruta pendiente dada torre'],
       },
     },
     {
@@ -164,7 +164,7 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Cadena en sentido inverso',
-        tex: '\\begin{aligned}\\p{1}{H(X,Y)}&=\\p{2}{H(Y)+H(X\\mid Y)}\\\\&=\\p{3}{\\cA{2}+\\cC{0}=2}\\end{aligned}',
+        tex: '\\begin{aligned}\\p{1}{H(X,Y)}&=\\p{2}{H(Y)+H(X\\mid Y)}\\\\&=\\p{3}{\\cA{2}+\\cC{0}=2}\\end{aligned}', parts: ['información total del par', 'ruta y torre pendiente', 'bits por par'],
       },
     },
   ],

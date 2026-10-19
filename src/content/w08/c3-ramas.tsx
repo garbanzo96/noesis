@@ -171,7 +171,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Sin prefijos entre palabras',
         tex: '\\p{1}{\\cC{c(x)}}\\not\\prec\\p{2}{\\cA{c(y)}},\\quad\\p{3}{x\\ne y}',
-        body: 'El símbolo ≺ se lee «es prefijo de».',
+        body: 'El símbolo ≺ se lee «es prefijo de».', parts: ['palabra de un símbolo', 'palabra de otro símbolo', 'símbolos distintos'],
       },
     },
     {
@@ -179,7 +179,7 @@ const lesson: LessonStep = {
       gate: 'Une C con D, luego B con CD y finalmente A con BCD; arrastra cada nodo a su círculo de unión.',
       board: {
         label: 'Sumar los pesos menores',
-        tex: '\\p{1}{\\cC{\\tfrac18}}+\\p{2}{\\cM{\\tfrac18}}=\\p{3}{\\cA{\\tfrac14}}',
+        tex: '\\p{1}{\\cC{\\tfrac18}}+\\p{2}{\\cM{\\tfrac18}}=\\p{3}{\\cA{\\tfrac14}}', parts: ['peso de c', 'peso de d', 'peso del grupo'],
       },
     },
     {
@@ -187,7 +187,7 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Leer desde la raíz',
-        tex: '\\p{1}{0|10|110|111}\\longrightarrow\\p{2}{\\cC{ABCD}}',
+        tex: '\\p{1}{0|10|110|111}\\longrightarrow\\p{2}{\\cC{ABCD}}', parts: ['palabras en la cinta', 'símbolos recuperados'],
       },
     },
     {
@@ -201,7 +201,7 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Longitud media',
-        tex: '\\p{1}{\\cA{\\bar L}}=\\p{2}{\\sum_i\\cC{p_i}\\cM{\\ell_i}}',
+        tex: '\\p{1}{\\cA{\\bar L}}=\\p{2}{\\sum_i\\cC{p_i}\\cM{\\ell_i}}', parts: ['bits medios por símbolo', 'largos según frecuencia'],
       },
     },
     {
@@ -209,17 +209,17 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Cota de Huffman',
-        tex: '\\p{1}{\\cC{H(X)}}\\le\\p{2}{\\cA{\\bar L_{\\mathrm{Huff}}}}<\\p{3}{H(X)+1}',
+        tex: '\\p{1}{\\cC{H(X)}}\\le\\p{2}{\\cA{\\bar L_{\\mathrm{Huff}}}}<\\p{3}{H(X)+1}', parts: ['mínimo teórico', 'media de huffman', 'límite superior estricto'],
       },
     },
     {
       say: 'Aquí las probabilidades son potencias de un medio. Sus largos ideales son enteros: este árbol alcanza la cota inferior.',
       dur: 3,
       board: [
-        { label: 'Largos ideales', tex: '\\p{1}{\\ell_i}=\\p{2}{-\\log_2p_i}' },
+        { label: 'Largos ideales', tex: '\\p{1}{\\ell_i}=\\p{2}{-\\log_2p_i}', parts: ['largo ideal', 'información del símbolo'] },
         {
           label: 'Igualdad en esta fuente',
-          tex: '\\p{1}{\\ell=(1,2,3,3)},\\quad\\p{2}{\\bar L=H}=\\p{3}{\\cA{\\tfrac74}}',
+          tex: '\\p{1}{\\ell=(1,2,3,3)},\\quad\\p{2}{\\bar L=H}=\\p{3}{\\cA{\\tfrac74}}', parts: ['largos de las palabras', 'media igual a entropía', 'bits por símbolo'],
         },
       ],
     },

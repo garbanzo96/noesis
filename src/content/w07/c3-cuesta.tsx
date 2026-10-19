@@ -157,6 +157,7 @@ const lesson: LessonStep = {
         label: 'Gradiente',
         tex: '\\p{1}{\\cC{\\nabla f}}=(\\p{2}{\\cA{f_x}},\\p{3}{\\cM{f_y}})',
         body: 'En (1, 2), $\\nabla f=(8,-1)$.',
+        parts: ['flecha de máxima subida', 'pendiente hacia el este', 'pendiente hacia el norte'],
       },
     },
     {
@@ -166,6 +167,7 @@ const lesson: LessonStep = {
         label: 'Derivada direccional',
         tex: '\\p{1}{D_{\\vec u}f}=\\p{2}{\\cC{\\nabla f}}\\cdot\\p{3}{\\cA{\\vec u}}',
         body: 'La dirección debe tener norma 1: $\\|\\vec u\\|=1$.',
+        parts: ['subida en esa dirección', 'flecha de máxima subida', 'dirección de norma uno'],
       },
     },
     {
@@ -180,6 +182,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Producto punto',
         tex: '\\begin{aligned}\\p{1}{D_{\\vec u}f}&=\\p{2}{8\\cdot0{,}6-1\\cdot0{,}8}\\\\&=\\p{3}{4}\\end{aligned}',
+        parts: ['subida que buscamos', 'con los datos del caso', 'subida por unidad'],
       },
     },
     {
@@ -189,6 +192,7 @@ const lesson: LessonStep = {
         label: 'Gradiente y niveles',
         tex: '\\p{1}{\\cC{\\nabla f}}\\perp\\p{2}{\\text{curva de nivel}}',
         body: 'En un punto regular, donde $\\nabla f\\ne\\vec 0$.',
+        parts: ['flecha de máxima subida', 'camino de igual altura'],
       },
     },
     {
@@ -198,10 +202,12 @@ const lesson: LessonStep = {
         {
           label: 'Máximo ascenso',
           tex: '\\begin{aligned}\\p{1}{\\text{dirección}}&:\\p{2}{\\cC{\\nabla f}}\\\\\\p{3}{\\text{tasa máxima}}&=\\p{4}{\\|\\nabla f\\|}\\end{aligned}',
+          parts: ['hacia dónde subir', 'flecha de máxima subida', 'cuánto se puede subir', 'mayor subida por unidad'],
         },
         {
           label: 'Máximo descenso',
           tex: '\\begin{aligned}\\p{1}{\\text{dirección}}&:\\p{2}{-\\cC{\\nabla f}}\\\\\\p{3}{\\text{tasa mínima}}&=\\p{4}{-\\|\\nabla f\\|}\\end{aligned}',
+          parts: ['hacia dónde bajar', 'flecha de máxima bajada', 'cuánto cambia la altura', 'mayor bajada por unidad'],
         },
       ],
     },

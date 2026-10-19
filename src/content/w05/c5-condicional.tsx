@@ -426,7 +426,7 @@ const lesson: LessonStep = {
       say: 'Saber algo cambia el universo. Si sabes que la persona hace deporte, solo quedan las 50 de esa fila.',
       board: {
         label: 'Universo reducido',
-        tex: '\\p{1}{\\text{dado }D:}\\ \\p{2}{\\text{total}=50}',
+        tex: '\\p{1}{\\text{dado }D:}\\ \\p{2}{\\text{total}=50}', parts: ['sabemos que hace deporte', 'personas que quedan'],
       },
     },
     {
@@ -434,7 +434,7 @@ const lesson: LessonStep = {
       gate: 'Toca la fila «Deporte» para quedarte solo con ella.',
       board: {
         label: 'Condicional',
-        tex: '\\p{1}{P(M\\mid D)}=\\p{2}{\\frac{P(M\\cap D)}{P(D)}}=\\p{3}{\\frac{0{,}30}{0{,}50}=0{,}6}',
+        tex: '\\p{1}{P(M\\mid D)}=\\p{2}{\\frac{P(M\\cap D)}{P(D)}}=\\p{3}{\\frac{0{,}30}{0{,}50}=0{,}6}', parts: ['música entre deportistas', 'cruce sobre nuevo universo', 'probabilidad condicional'],
       },
     },
     {
@@ -448,16 +448,16 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Al revés',
-        tex: '\\p{1}{P(D\\mid M)}=\\p{2}{\\tfrac{30}{40}}=\\p{3}{0{,}75}',
+        tex: '\\p{1}{P(D\\mid M)}=\\p{2}{\\tfrac{30}{40}}=\\p{3}{0{,}75}', parts: ['deporte entre músicos', 'deportistas entre músicos', 'probabilidad condicional'],
       },
     },
     {
       say: 'El orden importa: 0,6 y 0,75 responden preguntas distintas.',
-      board: { label: 'No es simétrica', tex: '\\p{1}{P(M\\mid D)}\\p{2}{\\neq P(D\\mid M)}' },
+      board: { label: 'No es simétrica', tex: '\\p{1}{P(M\\mid D)}\\p{2}{\\neq P(D\\mid M)}', parts: ['música entre deportistas', 'deporte entre músicos'] },
     },
     {
       say: 'Despejando la definición sale la **regla del producto**: probabilidad de D por probabilidad de M sabiendo D.',
-      board: { label: 'Regla del producto', tex: '\\p{1}{P(D\\cap M)}=\\p{2}{P(D)\\,P(M\\mid D)}' },
+      board: { label: 'Regla del producto', tex: '\\p{1}{P(D\\cap M)}=\\p{2}{P(D)\\,P(M\\mid D)}', parts: ['deporte y música', 'primero deporte luego música'] },
     },
   ],
 };

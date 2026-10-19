@@ -112,12 +112,12 @@ const lesson: LessonStep = {
     {
       say: 'Una media muestral casi nunca coincide con $\\mu$. En vez de un solo número se da un **intervalo**: $\\bar x$ más o menos un **margen de error** $E$.',
       dur: 2.6,
-      board: { label: 'Intervalo', tex: '\\bigl[\\,\\p{1}{\\bar x-E},\\ \\p{2}{\\bar x+E}\\,\\bigr]' },
+      board: { label: 'Intervalo', tex: '\\bigl[\\,\\p{1}{\\bar x-E},\\ \\p{2}{\\bar x+E}\\,\\bigr]', parts: ['extremo inferior', 'extremo superior'] },
     },
     {
       say: 'El 95 % de las medias cae a menos de $1{,}96$ errores estándar de $\\mu$. Dándolo vuelta: en el 95 % de las muestras, $\\mu$ queda a menos de $1{,}96$ errores estándar de $\\bar x$.',
       dur: 3.6,
-      board: { label: 'Intervalo de confianza 95 %', tex: '\\bar x\\pm\\p{1}{1{,}96}\\,\\p{2}{\\frac{\\sigma}{\\sqrt n}}' },
+      board: { label: 'Intervalo de confianza 95 %', tex: '\\bar x\\pm\\p{1}{1{,}96}\\,\\p{2}{\\frac{\\sigma}{\\sqrt n}}', parts: ['factor para confianza 95 %', 'error de la media'] },
     },
     {
       say: 'El 95 % no habla de un intervalo en particular: habla del **método**. Pruébalo: cada muestra da su propio intervalo; casi todos atrapan a $\\mu$, pero no todos.',
@@ -127,7 +127,7 @@ const lesson: LessonStep = {
     {
       say: 'Más confianza exige intervalos más anchos: el 90 % usa $1{,}645$; el 95 %, $1{,}96$; el 99 %, $2{,}576$. Y más datos los angostan.',
       ask: { prompt: 'Para reducir el margen de error a la mitad, ¿cuánto hay que aumentar $n$?', options: ['Cuatro veces', 'El doble', 'No se puede'], answer: 0, explain: 'El margen es $z^*\\sigma/\\sqrt n$: para dividirlo por 2, $\\sqrt n$ se multiplica por 2, o sea $n$ por 4.' },
-      board: { label: 'Margen y tamaño', tex: '\\begin{gathered}E=z^*\\frac{\\sigma}{\\sqrt n}\\\\ \\p{1}{n=\\left(\\frac{z^*\\sigma}{E}\\right)^2}\\end{gathered}', body: '$n$ se redondea hacia arriba.' },
+      board: { label: 'Margen y tamaño', tex: '\\begin{gathered}E=z^*\\frac{\\sigma}{\\sqrt n}\\\\ \\p{1}{n=\\left(\\frac{z^*\\sigma}{E}\\right)^2}\\end{gathered}', body: '$n$ se redondea hacia arriba.', parts: ['tamaño de muestra necesario'] },
     },
     {
       say: 'Si no se conoce $\\sigma$, se usa la desviación de la muestra $s$. Con muestras chicas eso agrega incertidumbre y $z^*$ se cambia por un valor algo mayor, $t^*$, de la distribución $t$ de Student.',

@@ -110,29 +110,29 @@ const lesson: LessonStep = {
     {
       say: 'Para medir cuánto apuntan dos vectores hacia el mismo lado se usa el **producto punto**: se multiplican las componentes correspondientes y se suman. El resultado es un número, no un vector.',
       dur: 2.8,
-      board: { label: 'Producto punto', tex: '\\vec u\\cdot\\vec v=\\p{1}{\\cC{u_1}\\cA{v_1}}+\\p{2}{\\cC{u_2}\\cA{v_2}}', body: 'Ejemplo: $(3,1)\\cdot(2,3)=6+3=9$.' },
+      board: { label: 'Producto punto', tex: '\\vec u\\cdot\\vec v=\\p{1}{\\cC{u_1}\\cA{v_1}}+\\p{2}{\\cC{u_2}\\cA{v_2}}', body: 'Ejemplo: $(3,1)\\cdot(2,3)=6+3=9$.', parts: ['aporte horizontal', 'aporte vertical'] },
     },
     {
       say: 'Su **signo** dice hacia dónde apuntan: positivo si forman un ángulo agudo, cero si son perpendiculares, negativo si el ángulo es obtuso.',
       gate: 'Arrastra la punta de $\\vec v$ hasta que el producto punto sea $0$.',
-      board: { label: 'Signo y ángulo', tex: '\\vec u\\cdot\\vec v\\ \\begin{cases}\\p{1}{>0} & \\text{agudo}\\\\\\p{2}{=0} & \\text{perpendiculares}\\\\\\p{3}{<0} & \\text{obtuso}\\end{cases}' },
+      board: { label: 'Signo y ángulo', tex: '\\vec u\\cdot\\vec v\\ \\begin{cases}\\p{1}{>0} & \\text{agudo}\\\\\\p{2}{=0} & \\text{perpendiculares}\\\\\\p{3}{<0} & \\text{obtuso}\\end{cases}', parts: ['apuntan hacia el mismo lado', 'forman un ángulo recto', 'apuntan hacia lados opuestos'] },
     },
     {
       say: 'La razón es geométrica: el producto punto también vale $\\|\\vec u\\|\\,\\|\\vec v\\|\\cos\\theta$, con $\\theta$ el ángulo entre ellos. El coseno es positivo para ángulos agudos y negativo para obtusos.',
       dur: 3,
-      board: { label: 'Forma geométrica', tex: '\\vec u\\cdot\\vec v=\\p{1}{\\|\\vec u\\|\\,\\|\\vec v\\|}\\,\\p{2}{\\cos\\theta}', body: 'Despejando: $\\cos\\theta=\\dfrac{\\vec u\\cdot\\vec v}{\\|\\vec u\\|\\,\\|\\vec v\\|}$.' },
+      board: { label: 'Forma geométrica', tex: '\\vec u\\cdot\\vec v=\\p{1}{\\|\\vec u\\|\\,\\|\\vec v\\|}\\,\\p{2}{\\cos\\theta}', body: 'Despejando: $\\cos\\theta=\\dfrac{\\vec u\\cdot\\vec v}{\\|\\vec u\\|\\,\\|\\vec v\\|}$.', parts: ['producto de longitudes', 'cuánto se alinean'] },
     },
     {
       say: 'Un vector consigo mismo forma un ángulo de $0^\\circ$, con coseno 1. Por eso el producto punto contiene a la norma.',
       ask: { prompt: '¿Cuánto es $(3,4)\\cdot(3,4)$?', options: ['25', '7', '12'], answer: 0, explain: '$9+16=25=\\|(3,4)\\|^2$.' },
-      board: { label: 'Consigo mismo', tex: '\\vec v\\cdot\\vec v=\\p{1}{v_1^2+v_2^2}=\\p{2}{\\|\\vec v\\|^2}' },
+      board: { label: 'Consigo mismo', tex: '\\vec v\\cdot\\vec v=\\p{1}{v_1^2+v_2^2}=\\p{2}{\\|\\vec v\\|^2}', parts: ['suma de aportes al cuadrado', 'longitud al cuadrado'] },
     },
     {
       say: 'La **proyección** de $\\vec v$ sobre $\\vec u$ es su sombra sobre la recta de $\\vec u$, con luz perpendicular. Su largo con signo es la **componente** de $\\vec v$ en la dirección de $\\vec u$.',
       dur: 3,
       board: [
-        { label: 'Componente en una dirección', tex: '\\operatorname{comp}_{\\vec u}\\vec v=\\frac{\\p{1}{\\vec u\\cdot\\vec v}}{\\p{2}{\\|\\vec u\\|}}' },
-        { label: 'Proyección', tex: '\\operatorname{proy}_{\\vec u}\\vec v=\\p{1}{\\frac{\\vec u\\cdot\\vec v}{\\|\\vec u\\|^2}}\\,\\p{2}{\\vec u}', body: 'Aquí: $\\tfrac{9}{10}(3,1)=(2{,}7;\\,0{,}9)$.' },
+        { label: 'Componente en una dirección', tex: '\\operatorname{comp}_{\\vec u}\\vec v=\\frac{\\p{1}{\\vec u\\cdot\\vec v}}{\\p{2}{\\|\\vec u\\|}}', parts: ['alineación con la dirección', 'longitud del vector guía'] },
+        { label: 'Proyección', tex: '\\operatorname{proy}_{\\vec u}\\vec v=\\p{1}{\\frac{\\vec u\\cdot\\vec v}{\\|\\vec u\\|^2}}\\,\\p{2}{\\vec u}', body: 'Aquí: $\\tfrac{9}{10}(3,1)=(2{,}7;\\,0{,}9)$.', parts: ['factor de proyección', 'vector que da la dirección'] },
       ],
     },
     {

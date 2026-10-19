@@ -111,22 +111,22 @@ const lesson: LessonStep = {
     {
       say: 'Una **transformación lineal** mueve el plano entero de una manera ordenada: las rectas siguen rectas, el origen no se mueve y la cuadrícula sigue pareja.',
       dur: 3,
-      board: { label: 'Transformación lineal', tex: '\\begin{aligned}T(\\p{1}{\\vec u+\\vec v})&=T(\\vec u)+T(\\vec v)\\\\T(\\p{2}{k\\vec v})&=k\\,T(\\vec v)\\end{aligned}', body: 'Respeta sumas y múltiplos: por eso la cuadrícula se deforma sin doblarse.' },
+      board: { label: 'Transformación lineal', tex: '\\begin{aligned}T(\\p{1}{\\vec u+\\vec v})&=T(\\vec u)+T(\\vec v)\\\\T(\\p{2}{k\\vec v})&=k\\,T(\\vec v)\\end{aligned}', body: 'Respeta sumas y múltiplos: por eso la cuadrícula se deforma sin doblarse.', parts: ['suma que se conserva', 'escala que se conserva'] },
     },
     {
       say: 'Basta seguir dos flechas: $\\hat\\imath=(1,0)$ y $\\hat\\jmath=(0,1)$. Donde caen, arrastran consigo toda la cuadrícula. Sus nuevas posiciones se escriben como columnas: eso es una **matriz**.',
       gate: 'Gira el plano un cuarto de vuelta: lleva $\\hat\\imath$ a $(0,1)$ y $\\hat\\jmath$ a $(-1,0)$.',
-      board: { label: 'Matriz', tex: 'A=\\begin{pmatrix}\\p{1}{\\cC{a}}&\\p{2}{\\cA{b}}\\\\\\p{1}{\\cC{c}}&\\p{2}{\\cA{d}}\\end{pmatrix}', body: 'Primera columna: dónde cae $\\hat\\imath$. Segunda columna: dónde cae $\\hat\\jmath$.' },
+      board: { label: 'Matriz', tex: 'A=\\begin{pmatrix}\\p{1}{\\cC{a}}&\\p{2}{\\cA{b}}\\\\\\p{1}{\\cC{c}}&\\p{2}{\\cA{d}}\\end{pmatrix}', body: 'Primera columna: dónde cae $\\hat\\imath$. Segunda columna: dónde cae $\\hat\\jmath$.', parts: ['destino del eje horizontal', 'destino del eje vertical'] },
     },
     {
       say: 'Un vector $\\vec v=(x,y)$ es $x\\hat\\imath+y\\hat\\jmath$. Como la transformación respeta sumas y múltiplos, su imagen es $x$ veces la primera columna más $y$ veces la segunda.',
       dur: 3.2,
-      board: { label: 'Matriz por vector', tex: 'A\\vec v=\\p{1}{x}\\begin{pmatrix}\\cC{a}\\\\\\cC{c}\\end{pmatrix}+\\p{2}{y}\\begin{pmatrix}\\cA{b}\\\\\\cA{d}\\end{pmatrix}=\\p{3}{\\begin{pmatrix}ax+by\\\\cx+dy\\end{pmatrix}}' },
+      board: { label: 'Matriz por vector', tex: 'A\\vec v=\\p{1}{x}\\begin{pmatrix}\\cC{a}\\\\\\cC{c}\\end{pmatrix}+\\p{2}{y}\\begin{pmatrix}\\cA{b}\\\\\\cA{d}\\end{pmatrix}=\\p{3}{\\begin{pmatrix}ax+by\\\\cx+dy\\end{pmatrix}}', parts: ['peso del destino horizontal', 'peso del destino vertical', 'vector transformado'] },
     },
     {
       say: 'En la práctica se calcula por **filas**: cada componente del resultado es una fila de la matriz por el vector, como un producto punto.',
       ask: { prompt: '¿Cuánto es $\\begin{pmatrix}2&-1\\\\1&1\\end{pmatrix}\\begin{pmatrix}1\\\\3\\end{pmatrix}$?', options: ['(−1, 4)', '(5, 2)', '(2, 3)'], answer: 0, explain: 'Primera fila: $2\\cdot1+(-1)\\cdot3=-1$. Segunda: $1\\cdot1+1\\cdot3=4$.' },
-      board: { label: 'Fila por vector', tex: '\\begin{pmatrix}\\cC{2}&\\cC{-1}\\\\\\cA{1}&\\cA{1}\\end{pmatrix}\\begin{pmatrix}1\\\\3\\end{pmatrix}=\\begin{pmatrix}\\p{1}{\\cC{2-3}}\\\\\\p{2}{\\cA{1+3}}\\end{pmatrix}=\\p{3}{\\begin{pmatrix}-1\\\\4\\end{pmatrix}}' },
+      board: { label: 'Fila por vector', tex: '\\begin{pmatrix}\\cC{2}&\\cC{-1}\\\\\\cA{1}&\\cA{1}\\end{pmatrix}\\begin{pmatrix}1\\\\3\\end{pmatrix}=\\begin{pmatrix}\\p{1}{\\cC{2-3}}\\\\\\p{2}{\\cA{1+3}}\\end{pmatrix}=\\p{3}{\\begin{pmatrix}-1\\\\4\\end{pmatrix}}', parts: ['nueva componente horizontal', 'nueva componente vertical', 'vector transformado'] },
     },
     {
       say: 'Cada matriz es un movimiento del plano. Algunas que conviene reconocer a simple vista: un giro, un cizalle, un reflejo y un cambio de escala.',

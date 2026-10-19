@@ -220,13 +220,13 @@ export const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Reloj discreto',
-        tex: '\\p{1}{\\cC{n}}:\\ \\p{2}{\\text{número de actualización}}',
+        tex: '\\p{1}{\\cC{n}}:\\ \\p{2}{\\text{número de actualización}}', parts: ['reloj por turnos', 'cantidad de pasos dados'],
       },
     },
     {
       say: 'Cambia una cifra al inicio y compara después del mismo número de turnos.',
       gate: 'Visita z₀ = 0,2000; después deja z₀ = 0,2001 y arrastra el contador hasta n = 10.',
-      board: { label: 'Diferencia inicial', tex: '\\p{1}{|z_0-x_0|}=\\p{2}{\\cA{0{,}0001}}' },
+      board: { label: 'Diferencia inicial', tex: '\\p{1}{|z_0-x_0|}=\\p{2}{\\cA{0{,}0001}}', parts: ['distancia entre los inicios', 'cambio de una cifra'] },
     },
     {
       say: 'Sigue un paso por la parábola y vuelve por la diagonal. La regla es determinista: un inicio exacto fija cada paso; su precisión limita lo que puedes anticipar.',
@@ -234,9 +234,9 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Mapa logístico discreto',
-          tex: '\\p{1}{x_{n+1}}=\\p{2}{\\cC{r}x_n(1-x_n)};\\quad\\p{3}{r=4}',
+          tex: '\\p{1}{x_{n+1}}=\\p{2}{\\cC{r}x_n(1-x_n)};\\quad\\p{3}{r=4}', parts: ['nivel del próximo turno', 'regla de actualización', 'parámetro del caso'],
         },
-        { label: 'Primer paso', tex: '\\p{1}{x_1}=\\p{2}{4(0{,}2)(0{,}8)}=\\p{3}{0{,}64}' },
+        { label: 'Primer paso', tex: '\\p{1}{x_1}=\\p{2}{4(0{,}2)(0{,}8)}=\\p{3}{0{,}64}', parts: ['nivel del primer turno', 'con los datos del caso', 'nivel tras un paso'] },
       ],
     },
     {
@@ -252,16 +252,16 @@ export const lesson: LessonStep = {
         explain:
           'Solo cambió el estado inicial. En n = 10 la distancia es aproximadamente 0,101341; ambos índices siguen acotados.',
       },
-      board: { label: 'Comparar en la misma lectura', tex: '\\p{1}{\\cM{d_n}}=\\p{2}{|z_n-x_n|}' },
+      board: { label: 'Comparar en la misma lectura', tex: '\\p{1}{\\cM{d_n}}=\\p{2}{|z_n-x_n|}', parts: ['distancia entre las series', 'diferencia al mismo turno'] },
     },
     {
       say: 'El mapa estira y pliega los inicios. Esta pareja ilustra sensibilidad en el régimen caótico r = 4; una separación aislada también puede ocurrir sin caos, y hay inicios excepcionales.',
       dur: 5,
       board: [
-        { label: 'Estiramiento y plegado', tex: '\\p{1}{4x(1-x)}=\\p{2}{1-(2x-1)^2}' },
+        { label: 'Estiramiento y plegado', tex: '\\p{1}{4x(1-x)}=\\p{2}{1-(2x-1)^2}', parts: ['regla de actualización', 'forma que muestra el pliegue'] },
         {
           label: 'Inicio excepcional',
-          tex: '\\p{1}{\\frac14}\\longrightarrow\\p{2}{\\frac34}\\longrightarrow\\p{3}{\\frac34}',
+          tex: '\\p{1}{\\frac14}\\longrightarrow\\p{2}{\\frac34}\\longrightarrow\\p{3}{\\frac34}', parts: ['nivel al inicio', 'nivel tras un paso', 'nivel que se repite'],
         },
       ],
     },
@@ -271,11 +271,11 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Inicios cercanos',
-          tex: '\\p{1}{\\text{misma regla}}+\\p{2}{\\text{inicios cercanos}}',
+          tex: '\\p{1}{\\text{misma regla}}+\\p{2}{\\text{inicios cercanos}}', parts: ['regla compartida', 'pequeña diferencia inicial'],
         },
         {
           label: 'Límite del pronóstico',
-          tex: '\\p{1}{\\Rightarrow}\\p{2}{\\text{recorridos que pueden separarse}}',
+          tex: '\\p{1}{\\Rightarrow}\\p{2}{\\text{recorridos que pueden separarse}}', parts: ['consecuencia del cambio', 'posible separación futura'],
         },
       ],
     },

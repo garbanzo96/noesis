@@ -125,34 +125,34 @@ const lesson: LessonStep = {
     {
       say: 'Una ecuación **lineal** con dos incógnitas, como $x+y=5$, tiene infinitas soluciones: todos los pares que suman 5. Dibujados, forman una recta.',
       dur: 3,
-      board: { label: 'Ecuación lineal', tex: '\\p{1}{a}x+\\p{2}{b}y=\\p{3}{c}', body: 'Sus soluciones forman una recta del plano.' },
+      board: { label: 'Ecuación lineal', tex: '\\p{1}{a}x+\\p{2}{b}y=\\p{3}{c}', body: 'Sus soluciones forman una recta del plano.', parts: ['peso de la primera incógnita', 'peso de la segunda incógnita', 'valor que deben alcanzar'] },
     },
     {
       say: 'Dos ecuaciones a la vez forman un **sistema**. Una solución tiene que cumplir ambas: está en las dos rectas, en el punto donde se cortan.',
       gate: 'Arrastra el punto verde hasta que cumpla las dos ecuaciones.',
-      board: { label: 'Sistema', tex: '\\begin{cases}\\p{1}{x+y=5}\\\\\\p{2}{x-y=1}\\end{cases}' },
+      board: { label: 'Sistema', tex: '\\begin{cases}\\p{1}{x+y=5}\\\\\\p{2}{x-y=1}\\end{cases}', parts: ['condición de la suma', 'condición de la diferencia'] },
     },
     {
       say: 'Para resolverlo sin dibujar se **elimina** una incógnita sumando o restando ecuaciones (o múltiplos de ellas). Aquí, sumarlas hace desaparecer $y$.',
       dur: 3,
-      board: { label: 'Eliminación', tex: '\\begin{aligned}(x+y)+(x-y)&=5+1\\\\ \\p{1}{2x}&\\p{1}{=6}\\\\ \\p{2}{x=3},\\ &\\p{3}{y=2}\\end{aligned}' },
+      board: { label: 'Eliminación', tex: '\\begin{aligned}(x+y)+(x-y)&=5+1\\\\ \\p{1}{2x}&\\p{1}{=6}\\\\ \\p{2}{x=3},\\ &\\p{3}{y=2}\\end{aligned}', parts: ['ecuación con una incógnita', 'primera incógnita resuelta', 'segunda incógnita resuelta'] },
     },
     {
       say: 'No siempre hay una única solución. Si las rectas son paralelas no hay ninguna; si son la misma recta, hay infinitas.',
       ask: { prompt: '¿Cuántas soluciones tiene el sistema $x+y=5$, $2x+2y=4$?', options: ['Ninguna: son rectas paralelas', 'Una', 'Infinitas'], answer: 0, explain: 'La segunda ecuación es $x+y=2$: misma inclinación y otra altura. Ningún par suma 5 y 2 a la vez.' },
-      board: { label: 'Tres casos', tex: '\\#\\,\\text{soluciones}\\in\\{\\p{1}{1},\\ \\p{2}{0},\\ \\p{3}{\\infty}\\}', body: 'Una si las rectas se cortan, ninguna si son paralelas distintas, infinitas si coinciden.' },
+      board: { label: 'Tres casos', tex: '\\#\\,\\text{soluciones}\\in\\{\\p{1}{1},\\ \\p{2}{0},\\ \\p{3}{\\infty}\\}', body: 'Una si las rectas se cortan, ninguna si son paralelas distintas, infinitas si coinciden.', parts: ['rectas que se cortan', 'rectas paralelas distintas', 'rectas que coinciden'] },
     },
     {
       say: 'Un sistema se escribe con una matriz: coeficientes en $A$, incógnitas en $\\vec x$, términos libres en $\\vec b$. Resolverlo es encontrar el vector que la transformación $A$ lleva a $\\vec b$.',
       dur: 3.2,
-      board: { label: 'Forma matricial', tex: '\\underbrace{\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}}_{\\p{1}{A}}\\underbrace{\\begin{pmatrix}x\\\\y\\end{pmatrix}}_{\\p{2}{\\vec x}}=\\underbrace{\\begin{pmatrix}5\\\\1\\end{pmatrix}}_{\\p{3}{\\vec b}}' },
+      board: { label: 'Forma matricial', tex: '\\underbrace{\\begin{pmatrix}1&1\\\\1&-1\\end{pmatrix}}_{\\p{1}{A}}\\underbrace{\\begin{pmatrix}x\\\\y\\end{pmatrix}}_{\\p{2}{\\vec x}}=\\underbrace{\\begin{pmatrix}5\\\\1\\end{pmatrix}}_{\\p{3}{\\vec b}}', parts: ['coeficientes del sistema', 'incógnitas que buscamos', 'valores que deben alcanzar'] },
     },
     {
       say: 'Con más incógnitas se hace lo mismo, en orden: se anota la **matriz ampliada** y se elimina $x$ de las filas de abajo, después $y$. Queda una escalera que se resuelve de abajo hacia arriba.',
       ask: { prompt: 'La última fila dice $7z=21$, así que $z=3$. La segunda dice $-y-3z=-11$. ¿Cuánto vale $y$?', options: ['2', '−2', '20'], answer: 0, explain: '$-y-9=-11\\Rightarrow y=2$. Y la primera fila: $x=6-2-3=1$.' },
       board: [
-        { label: 'Método de Gauss', tex: '\\p{1}{\\left(\\begin{array}{ccc|c}1&1&1&6\\\\0&-1&-3&-11\\\\0&0&7&21\\end{array}\\right)}', body: 'Operaciones permitidas: intercambiar filas, multiplicar una fila por un número $\\neq0$ y sumarle a una fila un múltiplo de otra.' },
-        { tex: '\\p{2}{(x,y,z)=(1,2,3)}' },
+        { label: 'Método de Gauss', tex: '\\p{1}{\\left(\\begin{array}{ccc|c}1&1&1&6\\\\0&-1&-3&-11\\\\0&0&7&21\\end{array}\\right)}', body: 'Operaciones permitidas: intercambiar filas, multiplicar una fila por un número $\\neq0$ y sumarle a una fila un múltiplo de otra.', parts: ['sistema en escalera'] },
+        { tex: '\\p{2}{(x,y,z)=(1,2,3)}', parts: ['sistema en escalera', 'solución del sistema'] },
       ],
     },
   ],

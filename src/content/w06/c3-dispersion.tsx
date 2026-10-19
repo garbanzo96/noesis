@@ -114,32 +114,32 @@ const lesson: LessonStep = {
     {
       say: 'Estos dos grupos tienen la misma media, 20, y son muy distintos: uno apretado y otro desparramado. Hace falta medir la **dispersión**. La más simple es el **rango**: el mayor menos el menor.',
       dur: 3,
-      board: { label: 'Rango', tex: 'R=\\p{1}{x_{\\max}}-\\p{2}{x_{\\min}}', body: 'Fácil, pero depende solo de dos datos.' },
+      board: { label: 'Rango', tex: 'R=\\p{1}{x_{\\max}}-\\p{2}{x_{\\min}}', body: 'Fácil, pero depende solo de dos datos.', parts: ['dato más alto', 'dato más bajo'] },
     },
     {
       say: 'Mejor: mirar cuánto se aleja **cada** dato de la media, su **desviación**. Pero las desviaciones siempre suman cero: las de arriba compensan exactamente las de abajo.',
       dur: 3,
-      board: { label: 'Desviaciones', tex: '\\p{1}{x_i-\\bar x},\\qquad \\p{2}{\\sum_i(x_i-\\bar x)=0}' },
+      board: { label: 'Desviaciones', tex: '\\p{1}{x_i-\\bar x},\\qquad \\p{2}{\\sum_i(x_i-\\bar x)=0}', parts: ['distancia a la media', 'desviaciones que se cancelan'] },
     },
     {
       say: 'Para que no se cancelen, se elevan al cuadrado: todas quedan positivas y las grandes pesan más. Su promedio es la **varianza**.',
       dur: 3,
-      board: { label: 'Varianza', tex: '\\sigma^2=\\frac{1}{\\p{2}{n}}\\p{1}{\\sum_{i=1}^n(x_i-\\bar x)^2}' },
+      board: { label: 'Varianza', tex: '\\sigma^2=\\frac{1}{\\p{2}{n}}\\p{1}{\\sum_{i=1}^n(x_i-\\bar x)^2}', parts: ['desviaciones al cuadrado', 'cantidad de datos'] },
     },
     {
       say: 'La varianza queda en unidades al cuadrado. Su raíz, la **desviación estándar**, vuelve a las unidades de los datos: es una distancia típica a la media.',
       ask: { prompt: 'Aquí $\\sigma^2=4$. ¿Cuánto vale la desviación estándar?', options: ['2', '4', '16'], answer: 0, explain: '$\\sigma=\\sqrt4=2$: los datos se alejan típicamente unas 2 unidades de la media 5.' },
-      board: { label: 'Desviación estándar', tex: '\\p{1}{\\sigma}=\\p{2}{\\sqrt{\\sigma^2}}' },
+      board: { label: 'Desviación estándar', tex: '\\p{1}{\\sigma}=\\p{2}{\\sqrt{\\sigma^2}}', parts: ['distancia típica al centro', 'vuelta a unidades originales'] },
     },
     {
       say: 'Pruébalo: separa los datos y mira crecer la banda $\\bar x\\pm\\sigma$. Mover todos juntos no cambia $\\sigma$; alejarlos entre sí, sí.',
       gate: 'Arrastra los puntos hasta que la desviación estándar supere 3.',
-      board: { label: 'Sumar y multiplicar', tex: '\\sigma_{x+c}=\\p{1}{\\sigma_x},\\qquad \\sigma_{k x}=\\p{2}{|k|\\,\\sigma_x}', body: 'Sumar una constante a todos los datos no cambia la dispersión; multiplicarlos por $k$ la multiplica por $|k|$.' },
+      board: { label: 'Sumar y multiplicar', tex: '\\sigma_{x+c}=\\p{1}{\\sigma_x},\\qquad \\sigma_{k x}=\\p{2}{|k|\\,\\sigma_x}', body: 'Sumar una constante a todos los datos no cambia la dispersión; multiplicarlos por $k$ la multiplica por $|k|$.', parts: ['dispersión sin cambio', 'dispersión por el factor'] },
     },
     {
       say: 'Con una **muestra** (no toda la población) se divide por $n-1$. La media de la muestra está, por construcción, en medio de sus propios datos, y dividir por $n$ subestimaría la dispersión real.',
       dur: 3.4,
-      board: { label: 'Varianza muestral', tex: 's^2=\\frac{1}{\\p{1}{n-1}}\\sum_{i=1}^n(x_i-\\bar x)^2', body: 'Y la desviación estándar muestral es $s=\\sqrt{s^2}$.' },
+      board: { label: 'Varianza muestral', tex: 's^2=\\frac{1}{\\p{1}{n-1}}\\sum_{i=1}^n(x_i-\\bar x)^2', body: 'Y la desviación estándar muestral es $s=\\sqrt{s^2}$.', parts: ['corrección por usar muestra'] },
     },
   ],
 };

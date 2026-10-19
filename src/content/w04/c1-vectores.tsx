@@ -133,12 +133,12 @@ const lesson: LessonStep = {
     {
       say: 'Un desplazamiento tiene **tamaño** y **dirección**, y se dibuja como una flecha. Eso es un **vector**: importa cuánto y hacia dónde, no desde dónde parte.',
       dur: 2.8,
-      board: { label: 'Vector', tex: '\\p{1}{\\vec v}', body: 'Flecha con tamaño y dirección. Trasladada a cualquier lugar, sigue siendo el mismo vector.' },
+      board: { label: 'Vector', tex: '\\p{1}{\\vec v}', body: 'Flecha con tamaño y dirección. Trasladada a cualquier lugar, sigue siendo el mismo vector.', parts: ['desplazamiento con dirección'] },
     },
     {
       say: 'Para describirlo con números se cuentan sus **componentes**: cuánto avanza en $x$ y cuánto en $y$.',
       dur: 2.4,
-      board: { label: 'Componentes', tex: '\\vec v=\\begin{pmatrix}\\p{1}{\\cA{v_1}}\\\\\\p{2}{\\cM{v_2}}\\end{pmatrix}=\\p{3}{\\begin{pmatrix}3\\\\2\\end{pmatrix}}', body: 'También se escribe en una línea: $\\vec v=(3,2)$.' },
+      board: { label: 'Componentes', tex: '\\vec v=\\begin{pmatrix}\\p{1}{\\cA{v_1}}\\\\\\p{2}{\\cM{v_2}}\\end{pmatrix}=\\p{3}{\\begin{pmatrix}3\\\\2\\end{pmatrix}}', body: 'También se escribe en una línea: $\\vec v=(3,2)$.', parts: ['cuánto avanza horizontal', 'cuánto avanza vertical', 'desplazamiento del ejemplo'] },
     },
     {
       say: 'Las componentes pueden ser negativas: hacia la izquierda o hacia abajo.',
@@ -147,22 +147,22 @@ const lesson: LessonStep = {
     {
       say: 'La **longitud** del vector, su **norma**, sale de Pitágoras: las componentes son los catetos de un triángulo rectángulo.',
       ask: { prompt: '¿Cuánto mide $\\vec v=(3,4)$?', options: ['5', '7', '25'], answer: 0, explain: '$\\sqrt{3^2+4^2}=\\sqrt{25}=5$. Sumar las componentes (7) mediría un camino en escalera, no la flecha.' },
-      board: { label: 'Norma', tex: '\\|\\vec v\\|=\\sqrt{\\p{1}{v_1^2}+\\p{2}{v_2^2}}' },
+      board: { label: 'Norma', tex: '\\|\\vec v\\|=\\sqrt{\\p{1}{v_1^2}+\\p{2}{v_2^2}}', parts: ['horizontal al cuadrado', 'vertical al cuadrado'] },
     },
     {
       say: '**Sumar** dos vectores es hacer un desplazamiento y después el otro: la cola del segundo se pone en la punta del primero. En números, se suman componente a componente.',
       dur: 3,
-      board: { label: 'Suma', tex: '\\p{1}{\\cC{\\vec u}}+\\p{2}{\\cA{\\vec v}}=\\p{3}{\\begin{pmatrix}u_1+v_1\\\\u_2+v_2\\end{pmatrix}}', body: 'El orden no importa: $\\vec u+\\vec v=\\vec v+\\vec u$ (las dos rutas forman un paralelogramo).' },
+      board: { label: 'Suma', tex: '\\p{1}{\\cC{\\vec u}}+\\p{2}{\\cA{\\vec v}}=\\p{3}{\\begin{pmatrix}u_1+v_1\\\\u_2+v_2\\end{pmatrix}}', body: 'El orden no importa: $\\vec u+\\vec v=\\vec v+\\vec u$ (las dos rutas forman un paralelogramo).', parts: ['primer desplazamiento', 'segundo desplazamiento', 'desplazamiento total'] },
     },
     {
       say: 'Multiplicar por un número $k$, un **escalar**, estira la flecha $k$ veces. Si $k$ es negativo, además la da vuelta.',
       gate: 'Mueve $k$ hasta un valor negativo.',
-      board: { label: 'Escalar por vector', tex: 'k\\,\\vec v=\\begin{pmatrix}\\p{1}{k\\,v_1}\\\\\\p{1}{k\\,v_2}\\end{pmatrix}', body: '$-\\vec v$ es el viaje de vuelta. Restar es sumar el opuesto: $\\vec u-\\vec v=\\vec u+(-1)\\vec v$.' },
+      board: { label: 'Escalar por vector', tex: 'k\\,\\vec v=\\begin{pmatrix}\\p{1}{k\\,v_1}\\\\\\p{1}{k\\,v_2}\\end{pmatrix}', body: '$-\\vec v$ es el viaje de vuelta. Restar es sumar el opuesto: $\\vec u-\\vec v=\\vec u+(-1)\\vec v$.', parts: ['componentes escaladas'] },
     },
     {
       say: 'Último ingrediente: el vector que va de un punto $P$ a un punto $Q$ se obtiene restando, **punta menos cola**.',
       ask: { prompt: '¿Qué vector va de $P=(-2,1)$ a $Q=(3,3)$?', options: ['(5, 2)', '(1, 4)', '(−5, −2)'], answer: 0, explain: '$Q-P=(3-(-2),\\,3-1)=(5,2)$. El opuesto, $(-5,-2)$, va de $Q$ a $P$.' },
-      board: { label: 'De un punto a otro', tex: '\\overrightarrow{PQ}=\\p{1}{Q}-\\p{2}{P}' },
+      board: { label: 'De un punto a otro', tex: '\\overrightarrow{PQ}=\\p{1}{Q}-\\p{2}{P}', parts: ['punto de llegada', 'punto de partida'] },
     },
   ],
 };

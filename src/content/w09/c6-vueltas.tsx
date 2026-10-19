@@ -242,14 +242,14 @@ const lesson: LessonStep = {
     {
       say: 'El origen es equilibrio en todos. Mira los recorridos: entrada recta, salida por una dirección, giro que entra y giro de radio constante.',
       dur: 4,
-      board: { label: 'Origen en reposo', tex: '\\p{1}{\\cC{A}\\mathbf0}=\\p{2}{\\mathbf0}' },
+      board: { label: 'Origen en reposo', tex: '\\p{1}{\\cC{A}\\mathbf0}=\\p{2}{\\mathbf0}', parts: ['cambio desde el origen', 'estado sin movimiento'] },
     },
     {
       say: 'Compara la dirección que se aleja con la trayectoria que gira. Usa el mismo inicio para las dos pruebas.',
       gate: 'Elige S con la perilla; arrastra el inicio ámbar a (1, 0). Después elige F y repite, con margen de 0,05 por componente.',
       board: {
         label: 'Dos recorridos',
-        tex: '\\p{1}{\\cA{\\text{silla}}};\\quad\\p{2}{\\cM{\\text{espiral entrante}}}',
+        tex: '\\p{1}{\\cA{\\text{silla}}};\\quad\\p{2}{\\cM{\\text{espiral entrante}}}', parts: ['equilibrio con salida', 'giro hacia el origen'],
       },
     },
     {
@@ -258,12 +258,12 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Traza y determinante',
-          tex: '\\p{1}{\\cA{\\tau}=\\operatorname{tr}A};\\quad\\p{2}{\\cC{D}=\\det A}',
+          tex: '\\p{1}{\\cA{\\tau}=\\operatorname{tr}A};\\quad\\p{2}{\\cC{D}=\\det A}', parts: ['suma de valores propios', 'producto de valores propios'],
         },
         {
           label: 'Polinomio característico',
           tex: '\\p{1}{\\lambda^2}-\\p{2}{\\tau\\lambda}+\\p{3}{D}=0',
-          body: 'Δ = τ² − 4D es el discriminante.',
+          body: 'Δ = τ² − 4D es el discriminante.', parts: ['término de segundo grado', 'aporte de la traza', 'aporte del determinante'],
         },
       ],
     },
@@ -273,11 +273,11 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Valores reales',
-          tex: '\\begin{aligned}\\p{1}{D<0}&:\\ \\p{2}{\\cA{\\text{silla}}}\\\\\\p{3}{D>0,\\Delta>0}&:\\ \\p{4}{\\text{nodo}}\\end{aligned}',
+          tex: '\\begin{aligned}\\p{1}{D<0}&:\\ \\p{2}{\\cA{\\text{silla}}}\\\\\\p{3}{D>0,\\Delta>0}&:\\ \\p{4}{\\text{nodo}}\\end{aligned}', parts: ['producto propio negativo', 'entrada y salida', 'raíces de igual signo', 'recorridos sin giro'],
         },
         {
           label: 'Valores complejos',
-          tex: '\\begin{aligned}\\p{1}{D>0,\\Delta<0,\\tau\\ne0}&:\\ \\p{2}{\\cM{\\text{espiral}}}\\\\\\p{3}{D>0,\\Delta<0,\\tau=0}&:\\ \\p{4}{\\cC{\\text{centro}}}\\end{aligned}',
+          tex: '\\begin{aligned}\\p{1}{D>0,\\Delta<0,\\tau\\ne0}&:\\ \\p{2}{\\cM{\\text{espiral}}}\\\\\\p{3}{D>0,\\Delta<0,\\tau=0}&:\\ \\p{4}{\\cC{\\text{centro}}}\\end{aligned}', parts: ['raíces complejas con cambio', 'giro con amplitud variable', 'raíces imaginarias puras', 'giro de radio constante'],
         },
       ],
     },
@@ -294,7 +294,7 @@ const lesson: LessonStep = {
         explain:
           'Las raíces son ±2i y el radio permanece constante. El centro es estable y no asintóticamente estable: estar cerca no exige converger.',
       },
-      board: { label: 'Raíces del giro', tex: '\\p{1}{\\lambda^2+4}=0;\\quad\\p{2}{\\cM{i^2=-1}}' },
+      board: { label: 'Raíces del giro', tex: '\\p{1}{\\lambda^2+4}=0;\\quad\\p{2}{\\cM{i^2=-1}}', parts: ['ecuación de las raíces', 'regla de unidad imaginaria'] },
     },
     {
       say: 'Con D positivo y Δ = 0 hay una raíz real repetida: el nodo puede ser estrellado o impropio. D = 0 requiere revisar el sistema; esta tabla clasifica sistemas lineales.',
@@ -302,12 +302,12 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Raíz repetida',
-          tex: '\\p{1}{D>0,\\Delta=0}\\Rightarrow\\p{2}{\\lambda=\\tau/2}',
+          tex: '\\p{1}{D>0,\\Delta=0}\\Rightarrow\\p{2}{\\lambda=\\tau/2}', parts: ['condición de raíz repetida', 'valor propio repetido'],
         },
         {
           label: 'Borde singular',
           tex: '\\p{1}{D=0}\\Rightarrow\\p{2}{\\cA{\\text{revisar el sistema}}}',
-          body: 'La parte lineal con centro no resuelve por sí sola la estabilidad no lineal.',
+          body: 'La parte lineal con centro no resuelve por sí sola la estabilidad no lineal.', parts: ['producto propio nulo', 'análisis que falta'],
         },
       ],
     },

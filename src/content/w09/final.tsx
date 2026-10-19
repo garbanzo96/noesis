@@ -245,14 +245,14 @@ export const lesson: LessonStep = {
       say: 'Primero distingue un nivel de su pendiente. Conserva el reloj y las unidades de cada canal al leer el papel y la señal de intensidad.',
       dur: 4,
       board: [
-        { label: 'Pendiente del papel', tex: "\\p{1}{\\cC{H'}}=\\p{2}{2t}" },
-        { label: 'Tasa del canal', tex: "\\p{1}{\\cA{R'}}=\\p{2}{(\\ln2)R}" },
+        { label: 'Pendiente del papel', tex: "\\p{1}{\\cC{H'}}=\\p{2}{2t}", parts: ['rapidez de subida', 'regla según el tiempo'] },
+        { label: 'Tasa del canal', tex: "\\p{1}{\\cA{R'}}=\\p{2}{(\\ln2)R}", parts: ['cambio de intensidad', 'crecimiento proporcional'] },
       ],
     },
     {
       say: 'Vuelve a comparar Euler con la referencia en el mismo tiempo final.',
       gate: 'Arrastra el paso a h = 1/8; después lleva el cursor hasta t = 1 h.',
-      board: { label: 'Paso privado', tex: '\\p{1}{Q^E_8}=\\p{2}{4(9/8)^8}>\\p{3}{\\cM{10}}' },
+      board: { label: 'Paso privado', tex: '\\p{1}{Q^E_8}=\\p{2}{4(9/8)^8}>\\p{3}{\\cM{10}}', parts: ['nivel estimado por euler', 'con ocho pasos iguales', 'umbral de comparación'] },
     },
     {
       say: 'La ocupación está en equilibrio aunque cambien las casillas. Mira qué lectura necesitas para saber si entran datos.',
@@ -269,17 +269,17 @@ export const lesson: LessonStep = {
       },
       board: {
         label: 'Cambio neto',
-        tex: "\\p{1}{B'}=\\p{2}{\\text{entrada}}-\\p{3}{\\text{salida}}",
+        tex: "\\p{1}{B'}=\\p{2}{\\text{entrada}}-\\p{3}{\\text{salida}}", parts: ['cambio de ocupación', 'paquetes que entran', 'paquetes que salen'],
       },
     },
     {
       say: 'Clasifica la regla antes de describir un recorrido particular. La silla original y la espiral pública tienen comportamientos distintos; la aguja requiere dos datos iniciales.',
       dur: 4,
       board: [
-        { label: 'Silla', tex: '\\p{1}{D<0}:\\ \\p{2}{\\cC{\\text{silla}}}' },
+        { label: 'Silla', tex: '\\p{1}{D<0}:\\ \\p{2}{\\cC{\\text{silla}}}', parts: ['producto propio negativo', 'entrada y salida'] },
         {
           label: 'Giro y aguja',
-          tex: "\\begin{aligned}\\p{1}{\\Delta<0,\\tau<0}&:\\ \\p{2}{\\text{espiral entrante}}\\\\\\p{3}{q'}&=\\p{4}{\\cM{v}}\\end{aligned}",
+          tex: "\\begin{aligned}\\p{1}{\\Delta<0,\\tau<0}&:\\ \\p{2}{\\text{espiral entrante}}\\\\\\p{3}{q'}&=\\p{4}{\\cM{v}}\\end{aligned}", parts: ['condición de giro entrante', 'giro hacia el origen', 'cambio de posición', 'velocidad de la aguja'],
         },
       ],
     },
@@ -287,10 +287,10 @@ export const lesson: LessonStep = {
       say: 'Una diferencia de cálculo y una prueba de acceso responden preguntas distintas. Mantén cada lectura junto a su documento.',
       dur: 4,
       board: [
-        { label: 'Separación', tex: '\\p{1}{\\cM{d_n}}=\\p{2}{|z_n-x_n|}' },
+        { label: 'Separación', tex: '\\p{1}{\\cM{d_n}}=\\p{2}{|z_n-x_n|}', parts: ['distancia entre las series', 'diferencia al mismo turno'] },
         {
           label: 'Acceso documentado',
-          tex: '\\p{1}{\\text{recibo firmado}}\\longrightarrow\\p{2}{\\text{acceso documentado}}',
+          tex: '\\p{1}{\\text{recibo firmado}}\\longrightarrow\\p{2}{\\text{acceso documentado}}', parts: ['respaldo del acceso', 'acceso con evidencia'],
         },
       ],
     },

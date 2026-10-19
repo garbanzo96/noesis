@@ -119,12 +119,12 @@ const lesson: LessonStep = {
     {
       say: 'Cada ficha del registro es un **individuo** y cada columna, una **variable**: algo que se mide u observa en cada uno. Hay variables **cualitativas** (categorías) y **cuantitativas** (números); estas son **discretas** si se cuentan y **continuas** si se miden.',
       dur: 3.6,
-      board: { label: 'Variables', tex: '\\begin{aligned}&\\p{1}{\\text{cualitativa}}\\\\&\\p{2}{\\text{cuantitativa: discreta o continua}}\\end{aligned}' },
+      board: { label: 'Variables', tex: '\\begin{aligned}&\\p{1}{\\text{cualitativa}}\\\\&\\p{2}{\\text{cuantitativa: discreta o continua}}\\end{aligned}', parts: ['categorías del registro', 'cantidades del registro'] },
     },
     {
       say: 'Con muchos datos no sirve mirarlos uno por uno. Se agrupan en **clases** (intervalos del mismo ancho) y se cuenta cuántos caen en cada una: la **frecuencia absoluta** $f_i$. Dividida por el total $n$ es la **frecuencia relativa**.',
       dur: 3,
-      board: { label: 'Frecuencias', tex: '\\p{1}{f_i},\\qquad \\p{2}{h_i=\\frac{f_i}{n}},\\qquad \\p{3}{\\sum_i h_i=1}', body: 'Aquí, 30 edades en clases de 10 años.' },
+      board: { label: 'Frecuencias', tex: '\\p{1}{f_i},\\qquad \\p{2}{h_i=\\frac{f_i}{n}},\\qquad \\p{3}{\\sum_i h_i=1}', body: 'Aquí, 30 edades en clases de 10 años.', parts: ['casos en la clase', 'proporción del total', 'todas las proporciones'] },
     },
     {
       say: 'El **histograma** dibuja una barra por clase, con altura $f_i$. El ancho de clase importa: muy anchas esconden detalles; muy angostas, solo muestran ruido.',
@@ -139,7 +139,7 @@ const lesson: LessonStep = {
     {
       say: 'La **frecuencia acumulada** $F_i$ suma las frecuencias hasta la clase $i$: responde preguntas del tipo «¿cuántos tienen menos de tal edad?».',
       ask: { prompt: '¿Cuántas de estas 30 personas tienen menos de 40 años?', options: ['17', '6', '13'], answer: 0, explain: '$1+3+7+6=17$: es $F_4$, la acumulada hasta la clase $[30,40)$.' },
-      board: { label: 'Frecuencia acumulada', tex: '\\p{1}{F_i}=\\p{2}{f_1+f_2+\\dots+f_i}' },
+      board: { label: 'Frecuencia acumulada', tex: '\\p{1}{F_i}=\\p{2}{f_1+f_2+\\dots+f_i}', parts: ['casos hasta esta clase', 'suma hasta esta clase'] },
     },
   ],
 };

@@ -154,24 +154,24 @@ const lesson: LessonStep = {
     {
       say: 'Derivar va de $F$ a $f$. La pregunta inversa: dada $f$, ¿qué función $F$ tiene a $f$ como derivada? Esa $F$ se llama **primitiva** o antiderivada.',
       dur: 3,
-      board: { label: 'Primitiva', tex: "\\p{1}{F'(x)}=\\p{2}{f(x)}", body: '$x^2$ es una primitiva de $2x$; $e^x$, de $e^x$; $\\ln x$, de $\\tfrac1x$.' },
+      board: { label: 'Primitiva', tex: "\\p{1}{F'(x)}=\\p{2}{f(x)}", body: '$x^2$ es una primitiva de $2x$; $e^x$, de $e^x$; $\\ln x$, de $\\tfrac1x$.', parts: ['derivada de la primitiva', 'función por integrar'] },
     },
     {
       say: 'Subir o bajar una curva no cambia sus pendientes. Por eso, si $F$ es primitiva, también lo es $F+C$ para cualquier constante $C$: son infinitas.',
       gate: 'Sube la curva hasta C = 3: las tangentes no cambian.',
-      board: { label: 'Integral indefinida', tex: '\\int f(x)\\,dx=\\p{1}{F(x)}+\\p{2}{\\cA{C}}' },
+      board: { label: 'Integral indefinida', tex: '\\int f(x)\\,dx=\\p{1}{F(x)}+\\p{2}{\\cA{C}}', parts: ['una primitiva posible', 'desplazamiento vertical'] },
     },
     {
       say: 'La regla de la potencia, al revés: se suma 1 al exponente y se divide por el nuevo exponente. Se comprueba derivando.',
       dur: 3.2,
-      board: { label: 'Potencia', tex: '\\int x^n\\,dx=\\frac{x^{\\p{1}{n+1}}}{\\p{2}{n+1}}+C\\qquad(n\\ne-1)' },
+      board: { label: 'Potencia', tex: '\\int x^n\\,dx=\\frac{x^{\\p{1}{n+1}}}{\\p{2}{n+1}}+C\\qquad(n\\ne-1)', parts: ['exponente que aumenta', 'factor que compensa'] },
     },
     {
       say: 'Otras primitivas básicas salen de leer al revés la tabla de derivadas. Y como derivar respeta sumas y constantes, integrar también.',
       dur: 3,
       board: [
         { label: 'Exponencial y logaritmo', tex: '\\int e^x\\,dx=e^x+C,\\qquad \\int\\tfrac1x\\,dx=\\ln|x|+C' },
-        { label: 'Término a término', tex: '\\int(3x^2+2)\\,dx=\\p{1}{x^3}+\\p{2}{2x}+C' },
+        { label: 'Término a término', tex: '\\int(3x^2+2)\\,dx=\\p{1}{x^3}+\\p{2}{2x}+C', parts: ['aporte de la potencia', 'aporte del término fijo'] },
       ],
     },
     {
@@ -179,7 +179,7 @@ const lesson: LessonStep = {
       dur: 4,
       board: [
         { tex: 'F(b)-F(a)=\\sum \\Delta F\\approx\\sum f(x_i)\\,\\Delta x' },
-        { label: 'Teorema fundamental (II)', tex: '\\int_a^b f(x)\\,dx=\\p{1}{F(b)}-\\p{2}{F(a)}=\\p{3}{\\big[F(x)\\big]_a^b}' },
+        { label: 'Teorema fundamental (II)', tex: '\\int_a^b f(x)\\,dx=\\p{1}{F(b)}-\\p{2}{F(a)}=\\p{3}{\\big[F(x)\\big]_a^b}', parts: ['primitiva al final', 'primitiva al inicio', 'cambio entre los extremos'] },
       ],
     },
     {
@@ -190,7 +190,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Primitiva: $x+\\tfrac{x^3}{12}$. En 4: $4+\\tfrac{64}{12}=\\tfrac{28}{3}$; en 0: 0. Es el mismo 9,33 al que se acercaban las sumas de Riemann.',
       },
-      board: { tex: '\\Big[x+\\tfrac{x^3}{12}\\Big]_0^4=\\p{1}{4+\\tfrac{64}{12}}-\\p{2}{0}=\\p{3}{\\tfrac{28}{3}}' },
+      board: { tex: '\\Big[x+\\tfrac{x^3}{12}\\Big]_0^4=\\p{1}{4+\\tfrac{64}{12}}-\\p{2}{0}=\\p{3}{\\tfrac{28}{3}}', parts: ['valor al final', 'valor al inicio', 'área exacta'] },
     },
   ],
 };

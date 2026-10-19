@@ -130,7 +130,7 @@ const lesson: LessonStep = {
     {
       say: 'Al aplicar una matriz, casi todos los vectores cambian de dirección. Pero algunos solo se estiran o se encogen y siguen sobre su misma recta. Son los **vectores propios**.',
       dur: 3.2,
-      board: { label: 'Vector propio', tex: 'A\\vec v=\\p{1}{\\lambda}\\,\\p{2}{\\vec v},\\qquad \\vec v\\neq\\vec 0', body: 'La matriz no gira a $\\vec v$: solo lo multiplica por el número $\\lambda$, su **valor propio**.' },
+      board: { label: 'Vector propio', tex: 'A\\vec v=\\p{1}{\\lambda}\\,\\p{2}{\\vec v},\\qquad \\vec v\\neq\\vec 0', body: 'La matriz no gira a $\\vec v$: solo lo multiplica por el número $\\lambda$, su **valor propio**.', parts: ['factor de estiramiento', 'vector que mantiene su recta'] },
     },
     {
       say: 'Busca uno con tus manos: mueve $\\vec v$ y mira hacia dónde lo lleva $A$.',
@@ -139,17 +139,17 @@ const lesson: LessonStep = {
     {
       say: 'Esta matriz tiene dos direcciones propias: la de $(1,0)$, que se triplica, y la de $(1,-1)$, que se duplica. El valor propio dice cuánto: $\\lambda>1$ estira, $0<\\lambda<1$ encoge, $\\lambda<0$ además da vuelta.',
       dur: 3,
-      board: { label: 'Ejemplo', tex: 'A\\begin{pmatrix}1\\\\0\\end{pmatrix}=\\p{1}{3}\\begin{pmatrix}1\\\\0\\end{pmatrix},\\quad A\\begin{pmatrix}1\\\\-1\\end{pmatrix}=\\p{2}{2}\\begin{pmatrix}1\\\\-1\\end{pmatrix}' },
+      board: { label: 'Ejemplo', tex: 'A\\begin{pmatrix}1\\\\0\\end{pmatrix}=\\p{1}{3}\\begin{pmatrix}1\\\\0\\end{pmatrix},\\quad A\\begin{pmatrix}1\\\\-1\\end{pmatrix}=\\p{2}{2}\\begin{pmatrix}1\\\\-1\\end{pmatrix}', parts: ['estiramiento horizontal', 'estiramiento de la diagonal'] },
     },
     {
       say: 'Para hallarlos sin buscar a ciegas: $A\\vec v=\\lambda\\vec v$ equivale a $(A-\\lambda I)\\vec v=\\vec 0$. Para que exista un $\\vec v$ no nulo, $A-\\lambda I$ tiene que aplastar el plano: su determinante debe ser cero.',
       dur: 3.6,
-      board: { label: 'Ecuación característica', tex: '\\det(\\p{1}{A-\\lambda I})=\\p{2}{0}', body: 'En $2\\times2$: $\\lambda^2-(a+d)\\lambda+(ad-bc)=0$. La suma de los valores propios es la **traza** $a+d$ y su producto, $\\det A$.' },
+      board: { label: 'Ecuación característica', tex: '\\det(\\p{1}{A-\\lambda I})=\\p{2}{0}', body: 'En $2\\times2$: $\\lambda^2-(a+d)\\lambda+(ad-bc)=0$. La suma de los valores propios es la **traza** $a+d$ y su producto, $\\det A$.', parts: ['transformación menos escala', 'área que debe anularse'] },
     },
     {
       say: 'Prueba con otra matriz.',
       ask: { prompt: '¿Cuáles son los valores propios de $\\begin{pmatrix}4&1\\\\2&3\\end{pmatrix}$?', options: ['5 y 2', '4 y 3', '7 y 10'], answer: 0, explain: 'Traza 7 y determinante $12-2=10$: $\\lambda^2-7\\lambda+10=(\\lambda-5)(\\lambda-2)$. Los de la diagonal (4 y 3) solo sirven si la matriz es triangular.' },
-      board: { tex: '\\lambda^2-\\p{1}{7}\\lambda+\\p{2}{10}=\\p{3}{(\\lambda-5)(\\lambda-2)}' },
+      board: { tex: '\\lambda^2-\\p{1}{7}\\lambda+\\p{2}{10}=\\p{3}{(\\lambda-5)(\\lambda-2)}', parts: ['suma de valores propios', 'producto de valores propios', 'factores para hallar raíces'] },
     },
     {
       say: 'Si se aplica la misma matriz una y otra vez, la dirección del valor propio más grande se amplifica más que las otras: cualquier vector termina apuntando hacia ella.',

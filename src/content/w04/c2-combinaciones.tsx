@@ -99,7 +99,7 @@ const lesson: LessonStep = {
     {
       say: 'Con dos vectores $\\vec u$ y $\\vec v$ se puede formar $a\\vec u+b\\vec v$: estirar cada uno por un número y sumar. Eso es una **combinación lineal**.',
       dur: 2.6,
-      board: { label: 'Combinación lineal', tex: '\\p{1}{a}\\,\\cC{\\vec u}+\\p{2}{b}\\,\\cA{\\vec v}', body: '$a$ y $b$ son números cualesquiera: los **coeficientes**.' },
+      board: { label: 'Combinación lineal', tex: '\\p{1}{a}\\,\\cC{\\vec u}+\\p{2}{b}\\,\\cA{\\vec v}', body: '$a$ y $b$ son números cualesquiera: los **coeficientes**.', parts: ['peso del primer vector', 'peso del segundo vector'] },
     },
     {
       say: 'Cada elección de $a$ y $b$ lleva a un punto distinto.',
@@ -108,22 +108,22 @@ const lesson: LessonStep = {
     {
       say: 'Si se dibujan todas las combinaciones con $a$ y $b$ enteros, aparece una cuadrícula inclinada. Con $a$ y $b$ reales se llena el plano entero.',
       dur: 2.6,
-      board: { label: 'Espacio generado', tex: '\\operatorname{gen}\\{\\vec u,\\vec v\\}=\\{\\,\\p{1}{a\\vec u+b\\vec v}\\ :\\ \\p{2}{a,b\\in\\mathbb R}\\,\\}', body: 'Todos los puntos que se alcanzan combinando $\\vec u$ y $\\vec v$.' },
+      board: { label: 'Espacio generado', tex: '\\operatorname{gen}\\{\\vec u,\\vec v\\}=\\{\\,\\p{1}{a\\vec u+b\\vec v}\\ :\\ \\p{2}{a,b\\in\\mathbb R}\\,\\}', body: 'Todos los puntos que se alcanzan combinando $\\vec u$ y $\\vec v$.', parts: ['puntos que se alcanzan', 'pesos sin restricción'] },
     },
     {
       say: 'Pero si $\\vec v$ apunta en la misma dirección que $\\vec u$, la cuadrícula se aplasta: todas las combinaciones quedan sobre una recta.',
       ask: { prompt: 'Con $\\vec u=(2,1)$ y $\\vec v=(-4,-2)$, ¿se puede llegar a $(1,5)$?', options: ['No: solo se alcanza la recta de $\\vec u$', 'Sí, con $a$ y $b$ grandes', 'Sí, con $a=b$'], answer: 0, explain: '$\\vec v=-2\\vec u$, así que $a\\vec u+b\\vec v=(a-2b)\\vec u$: siempre un múltiplo de $(2,1)$. El punto $(1,5)$ no lo es.' },
-      board: { label: 'Dependencia lineal', tex: '\\vec v=\\p{1}{k}\\,\\vec u', body: 'Si uno es múltiplo del otro, son **dependientes** y generan solo una recta. Si no, son **linealmente independientes**.' },
+      board: { label: 'Dependencia lineal', tex: '\\vec v=\\p{1}{k}\\,\\vec u', body: 'Si uno es múltiplo del otro, son **dependientes** y generan solo una recta. Si no, son **linealmente independientes**.', parts: ['factor entre los vectores'] },
     },
     {
       say: 'Dos vectores independientes del plano forman una **base**: cada punto se escribe de **una sola** manera como $a\\vec u+b\\vec v$. Los números $(a,b)$ son sus coordenadas en esa base.',
       dur: 3,
-      board: { label: 'Base y coordenadas', tex: '\\vec w=\\p{1}{a}\\,\\vec u+\\p{2}{b}\\,\\vec v\\ \\Rightarrow\\ [\\vec w]=\\p{3}{\\begin{pmatrix}a\\\\b\\end{pmatrix}}', body: 'La base usual es $\\vec e_1=(1,0)$, $\\vec e_2=(0,1)$: ahí las coordenadas son las componentes.' },
+      board: { label: 'Base y coordenadas', tex: '\\vec w=\\p{1}{a}\\,\\vec u+\\p{2}{b}\\,\\vec v\\ \\Rightarrow\\ [\\vec w]=\\p{3}{\\begin{pmatrix}a\\\\b\\end{pmatrix}}', body: 'La base usual es $\\vec e_1=(1,0)$, $\\vec e_2=(0,1)$: ahí las coordenadas son las componentes.', parts: ['peso del primer vector', 'peso del segundo vector', 'coordenadas en esta base'] },
     },
     {
       say: 'Para hallar $a$ y $b$ sin tantear, se igualan las componentes. Con $\\vec u=(2,1)$, $\\vec v=(-1,1)$ y $\\vec w=(4,-1)$ quedan dos ecuaciones; sumándolas, $b$ desaparece.',
       ask: { prompt: '¿Qué coeficientes dan $(4,-1)$?', options: ['$a=1,\\ b=-2$', '$a=2,\\ b=0$', '$a=-1,\\ b=2$'], answer: 0, explain: '$2a-b=4$ y $a+b=-1$. Sumando: $3a=3$, $a=1$; luego $b=-2$. Comprobación: $(2,1)-2(-1,1)=(4,-1)$.' },
-      board: { label: 'Igualar componentes', tex: '\\begin{cases}\\p{1}{2a-b=4}\\\\\\p{2}{a+b=-1}\\end{cases}\\ \\Rightarrow\\ \\p{3}{a=1,\\ b=-2}' },
+      board: { label: 'Igualar componentes', tex: '\\begin{cases}\\p{1}{2a-b=4}\\\\\\p{2}{a+b=-1}\\end{cases}\\ \\Rightarrow\\ \\p{3}{a=1,\\ b=-2}', parts: ['condición horizontal', 'condición vertical', 'pesos que buscamos'] },
     },
   ],
 };

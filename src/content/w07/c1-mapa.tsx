@@ -139,17 +139,18 @@ const lesson: LessonStep = {
         label: 'Superficie',
         tex: '\\p{1}{\\cC{z}}=\\p{2}{f(\\cA{x},\\cM{y})}',
         body: 'Dos coordenadas de entrada; un número de salida.',
+        parts: ['altura del terreno', 'altura según la posición'],
       },
     },
     {
       say: 'El punto del mapa tiene un punto encima, sobre la superficie. Su altura cambia al arrastrarlo.',
       gate: 'Arrastra el punto hasta que su altura sea 5; el círculo verde te orienta.',
-      board: { label: 'Evaluar', tex: '\\p{1}{h(2,0)}=\\p{2}{9-4-0}=\\p{3}{\\cC{5}}' },
+      board: { label: 'Evaluar', tex: '\\p{1}{h(2,0)}=\\p{2}{9-4-0}=\\p{3}{\\cC{5}}', parts: ['altura que buscamos', 'con los datos del caso', 'altura en el punto'] },
     },
     {
       say: 'Corta a alturas fijas: 0, 3, 6 y 8. Cada corte, visto desde arriba, forma una **curva de nivel**.',
       dur: 4,
-      board: { label: 'Curva de nivel', tex: '\\p{1}{\\{(x,y):}\\ \\p{2}{f(x,y)=\\cC{c}\\}}' },
+      board: { label: 'Curva de nivel', tex: '\\p{1}{\\{(x,y):}\\ \\p{2}{f(x,y)=\\cC{c}\\}}', parts: ['puntos del mapa', 'una misma altura'] },
     },
     {
       say: 'La ecuación del corte permite reconocer su forma.',
@@ -160,7 +161,7 @@ const lesson: LessonStep = {
         explain:
           '$9-x^2-y^2=c$ equivale a $x^2+y^2=9-c$. Para $c<9$ son círculos; con $c=9$ queda solo el origen.',
       },
-      board: { label: 'Cerro redondo', tex: '\\p{1}{x^2+y^2}=\\p{2}{9-c}' },
+      board: { label: 'Cerro redondo', tex: '\\p{1}{x^2+y^2}=\\p{2}{9-c}', parts: ['distancia al centro cuadrada', 'radio del corte cuadrado'] },
     },
     {
       say: 'Este otro terreno tiene curvas desparejas. Entre niveles igualmente espaciados en altura, curvas juntas indican mayor pendiente.',
@@ -174,12 +175,13 @@ const lesson: LessonStep = {
       board: {
         label: 'Leer la pendiente',
         tex: '\\p{1}{\\text{curvas juntas}}\\Rightarrow\\p{2}{\\text{más pendiente}}',
+        parts: ['poca distancia entre curvas', 'cambio rápido de altura'],
       },
     },
     {
       say: 'El mapa reúne los cortes de la superficie vistos desde arriba. Una curva entera representa una sola altura.',
       dur: 2.4,
-      board: { label: 'Mapa de alturas', tex: '\\p{1}{z=f(x,y)}\\longrightarrow\\p{2}{f(x,y)=c}' },
+      board: { label: 'Mapa de alturas', tex: '\\p{1}{z=f(x,y)}\\longrightarrow\\p{2}{f(x,y)=c}', parts: ['altura sobre el mapa', 'puntos de igual altura'] },
     },
   ],
 };

@@ -86,21 +86,21 @@ const lesson: LessonStep = {
       say: 'La regla del producto, integrada a ambos lados y reordenada, da una herramienta para integrar productos.',
       dur: 3.6,
       board: [
-        { tex: "(uv)'=\\p{1}{u'v}+\\p{2}{uv'}" },
-        { label: 'Por partes', tex: '\\int u\\,dv=\\p{1}{uv}-\\p{2}{\\int v\\,du}', body: 'Se cambia una integral difícil por otra, ojalá más fácil.' },
+        { tex: "(uv)'=\\p{1}{u'v}+\\p{2}{uv'}", parts: ['cambio del primer factor', 'cambio del segundo factor'] },
+        { label: 'Por partes', tex: '\\int u\\,dv=\\p{1}{uv}-\\p{2}{\\int v\\,du}', body: 'Se cambia una integral difícil por otra, ojalá más fácil.', parts: ['producto de las funciones', 'integral que se resta'] },
       ],
     },
     {
       say: 'En una imagen: el rectángulo grande menos el chico se reparte en dos regiones. Una es $\\int u\\,dv$; la otra, $\\int v\\,du$.',
       dur: 3.6,
-      board: { label: 'Con límites', tex: '\\int_a^b u\\,dv=\\p{1}{\\big[uv\\big]_a^b}-\\p{2}{\\int_a^b v\\,du}' },
+      board: { label: 'Con límites', tex: '\\int_a^b u\\,dv=\\p{1}{\\big[uv\\big]_a^b}-\\p{2}{\\int_a^b v\\,du}', parts: ['producto entre los extremos', 'integral que se resta'] },
     },
     {
       say: 'Ejemplo: $\\int x\\,e^x\\,dx$. Conviene que $u$ sea lo que se **simplifica al derivar** ($x\\to1$) y $dv$ lo que se **sabe integrar** ($e^x$).',
       dur: 4,
       board: [
         { tex: 'u=x,\\ du=dx;\\qquad dv=e^x dx,\\ v=e^x' },
-        { tex: '\\int x e^x dx=\\p{1}{x e^x}-\\p{2}{\\int e^x dx}=\\p{3}{(x-1)e^x+C}' },
+        { tex: '\\int x e^x dx=\\p{1}{x e^x}-\\p{2}{\\int e^x dx}=\\p{3}{(x-1)e^x+C}', parts: ['producto de las funciones', 'integral más simple', 'primitiva del producto'] },
       ],
     },
     {
@@ -111,7 +111,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Al derivar, $\\ln x$ se vuelve $\\tfrac1x$ y se simplifica con $\\tfrac{x^2}{2}$. Si $u=x$, habría que integrar $\\ln x$, que es más difícil.',
       },
-      board: { label: 'Elegir u', body: '$u$: lo que se simplifica al derivar (logaritmos, potencias de $x$). $dv$: lo que se integra fácil (exponenciales, potencias).', tex: '\\p{1}{\\int x\\ln x\\,dx}=\\p{2}{\\tfrac{x^2}{2}\\ln x-\\tfrac{x^2}{4}+C}' },
+      board: { label: 'Elegir u', body: '$u$: lo que se simplifica al derivar (logaritmos, potencias de $x$). $dv$: lo que se integra fácil (exponenciales, potencias).', tex: '\\p{1}{\\int x\\ln x\\,dx}=\\p{2}{\\tfrac{x^2}{2}\\ln x-\\tfrac{x^2}{4}+C}', parts: ['lo que buscamos', 'primitiva del producto'] },
     },
   ],
 };

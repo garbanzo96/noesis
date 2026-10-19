@@ -166,32 +166,32 @@ const lesson: LessonStep = {
     {
       say: 'Para ver si dos variables se relacionan se usa un **diagrama de dispersión**: un punto por individuo, con una variable en cada eje.',
       dur: 2.6,
-      board: { label: 'Diagrama de dispersión', tex: '(\\p{1}{x_i},\\,\\p{2}{y_i}),\\quad i=1,\\dots,n' },
+      board: { label: 'Diagrama de dispersión', tex: '(\\p{1}{x_i},\\,\\p{2}{y_i}),\\quad i=1,\\dots,n', parts: ['primera variable del caso', 'segunda variable del caso'] },
     },
     {
       say: 'El **coeficiente de correlación** $r$ mide qué tan alineados están los puntos sobre una recta. Va de $-1$ a $1$: el signo da la dirección y el tamaño, la fuerza.',
       gate: 'Mueve el control hasta que la correlación sea menor que −0,8.',
-      board: { label: 'Correlación', tex: 'r=\\frac{1}{n-1}\\sum_i\\p{1}{\\frac{x_i-\\bar x}{s_x}}\\cdot\\p{2}{\\frac{y_i-\\bar y}{s_y}}', body: '$r\\approx\\pm1$: casi una recta. $r\\approx0$: sin relación lineal.' },
+      board: { label: 'Correlación', tex: 'r=\\frac{1}{n-1}\\sum_i\\p{1}{\\frac{x_i-\\bar x}{s_x}}\\cdot\\p{2}{\\frac{y_i-\\bar y}{s_y}}', body: '$r\\approx\\pm1$: casi una recta. $r\\approx0$: sin relación lineal.', parts: ['desviación horizontal típica', 'desviación vertical típica'] },
     },
     {
       say: 'La **recta de regresión** es la que mejor pasa entre los puntos: la que hace más chica la suma de los cuadrados de los **residuos**, las distancias verticales de cada punto a la recta.',
       gate: 'Arrastra los extremos de la recta hasta acercarte al mínimo de la suma de cuadrados.',
-      board: { label: 'Mínimos cuadrados', tex: '\\min_{a,b}\\ \\sum_i\\big(\\p{1}{y_i}-(\\p{2}{a+b\\,x_i})\\big)^2' },
+      board: { label: 'Mínimos cuadrados', tex: '\\min_{a,b}\\ \\sum_i\\big(\\p{1}{y_i}-(\\p{2}{a+b\\,x_i})\\big)^2', parts: ['valor observado del caso', 'valor que predice la recta'] },
     },
     {
       say: 'La recta óptima tiene fórmula: la pendiente es $r$ por el cociente de las desviaciones estándar, y la recta pasa por el punto de las medias $(\\bar x,\\bar y)$.',
       dur: 3,
-      board: { label: 'Coeficientes', tex: '\\begin{gathered}\\hat y=a+b\\,x\\\\ \\p{1}{b=r\\,\\frac{s_y}{s_x}},\\quad \\p{2}{a=\\bar y-b\\,\\bar x}\\end{gathered}' },
+      board: { label: 'Coeficientes', tex: '\\begin{gathered}\\hat y=a+b\\,x\\\\ \\p{1}{b=r\\,\\frac{s_y}{s_x}},\\quad \\p{2}{a=\\bar y-b\\,\\bar x}\\end{gathered}', parts: ['inclinación de la recta', 'altura inicial de la recta'] },
     },
     {
       say: 'La recta sirve para **predecir**, y el **residuo** dice cuánto se aleja un caso real de lo esperado.',
       ask: { prompt: 'Con $\\hat y=10+2x$ y un caso real $(15,\\,52)$: ¿predicción y residuo?', options: ['predicción 40, residuo 12', 'predicción 52, residuo 0', 'predicción 40, residuo −12'], answer: 0, explain: '$\\hat y=10+2\\cdot15=40$; residuo $e=y-\\hat y=52-40=12$: el caso está 12 por encima de lo esperado.' },
-      board: { label: 'Residuo', tex: 'e_i=\\p{1}{y_i}-\\p{2}{\\hat y_i}' },
+      board: { label: 'Residuo', tex: 'e_i=\\p{1}{y_i}-\\p{2}{\\hat y_i}', parts: ['valor observado del caso', 'valor esperado del caso'] },
     },
     {
       say: 'Cuidado: **correlación no es causalidad**. Dos variables pueden moverse juntas porque ambas dependen de una tercera.',
       dur: 2.8,
-      board: { label: 'Correlación no es causa', tex: '\\p{1}{r}\\approx\\p{2}{1\\ \\not}\\Rightarrow\\p{3}{\\ x\\ \\text{causa}\\ y}' },
+      board: { label: 'Correlación no es causa', tex: '\\p{1}{r}\\approx\\p{2}{1\\ \\not}\\Rightarrow\\p{3}{\\ x\\ \\text{causa}\\ y}', parts: ['fuerza de relación', 'alineación no basta', 'relación de causa'] },
     },
   ],
 };

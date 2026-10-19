@@ -515,14 +515,14 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'En una bolsa hay una moneda honesta y una con dos caras. Sacas una al azar: antes de lanzar, cada una tiene la mitad.',
-      board: { label: 'Antes de mirar', tex: '\\p{1}{P(T)}=\\p{2}{\\tfrac12}' },
+      board: { label: 'Antes de mirar', tex: '\\p{1}{P(T)}=\\p{2}{\\tfrac12}', parts: ['probabilidad de la trucada', 'probabilidad antes de mirar'] },
     },
     {
       say: 'Imagina 100 repeticiones. Lanza las monedas y cuenta cuántas caras aporta cada una.',
       gate: 'Arrastra la perilla hasta el final para lanzar las 100.',
       board: {
         label: 'Cómo sale cara',
-        tex: '\\p{1}{P(C\\mid T)=1},\\quad\\p{2}{P(C\\mid H)=\\tfrac12}',
+        tex: '\\p{1}{P(C\\mid T)=1},\\quad\\p{2}{P(C\\mid H)=\\tfrac12}', parts: ['cara con moneda trucada', 'cara con moneda honesta'],
       },
     },
     {
@@ -536,21 +536,21 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Después de mirar',
-        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\tfrac{50}{75}}=\\p{3}{\\tfrac23}',
+        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\tfrac{50}{75}}=\\p{3}{\\tfrac23}', parts: ['trucada tras ver cara', 'caras de la trucada', 'probabilidad actualizada'],
       },
     },
     {
       say: 'La misma cuenta en fórmula: lo que aporta la trucada, dividido por todas las formas de ver cara. Es el **teorema de Bayes**.',
       board: {
         label: 'Bayes',
-        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\frac{P(C\\mid T)\\,P(T)}{P(C)}}',
+        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\frac{P(C\\mid T)\\,P(T)}{P(C)}}', parts: ['trucada tras ver cara', 'aporte entre todas las caras'],
       },
     },
     {
       say: 'El denominador suma los dos caminos que terminan en cara: es la probabilidad total.',
       board: {
         label: 'Denominador',
-        tex: '\\p{1}{P(C)}=\\p{2}{P(C\\mid T)P(T)+P(C\\mid H)P(H)}=\\p{3}{\\tfrac34}',
+        tex: '\\p{1}{P(C)}=\\p{2}{P(C\\mid T)P(T)+P(C\\mid H)P(H)}=\\p{3}{\\tfrac34}', parts: ['probabilidad de cara', 'suma de ambos caminos', 'probabilidad total de cara'],
       },
     },
   ],

@@ -618,14 +618,14 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Con un dado honesto, «no sale 6» ocupa todo lo que deja libre el 6. Por eso basta restar.',
-      board: { label: 'Complemento', tex: '\\p{1}{P(A^c)}=\\p{2}{1-P(A)}' },
+      board: { label: 'Complemento', tex: '\\p{1}{P(A^c)}=\\p{2}{1-P(A)}', parts: ['probabilidad de no ocurrir', 'lo que falta para uno'] },
     },
     {
       say: 'A es «par» y B es «mayor que 3». Si sumas sus casos, el 4 y el 6 aparecen dos veces. Junta los círculos.',
       gate: 'Arrastra el círculo B sobre A hasta que el 4 y el 6 coincidan.',
       board: {
         label: 'Contar sin repetir',
-        tex: '\\p{1}{|A\\cup B|}=\\p{2}{|A|+|B|}\\p{3}{-|A\\cap B|}',
+        tex: '\\p{1}{|A\\cup B|}=\\p{2}{|A|+|B|}\\p{3}{-|A\\cap B|}', parts: ['casos en algún evento', 'suma de ambos conteos', 'descuento de repetidos'],
       },
     },
     {
@@ -636,13 +636,13 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '3/6 + 3/6 − 2/6 = 4/6. Los casos son 2, 4, 5 y 6.',
       },
-      board: { label: 'Unión', tex: '\\p{1}{P(A\\cup B)}=\\p{2}{P(A)+P(B)}\\p{3}{-P(A\\cap B)}' },
+      board: { label: 'Unión', tex: '\\p{1}{P(A\\cup B)}=\\p{2}{P(A)+P(B)}\\p{3}{-P(A\\cap B)}', parts: ['probabilidad de alguno', 'suma de probabilidades', 'descuento del cruce'] },
     },
     {
       say: 'Si dos eventos no comparten casos, no hay nada que restar: «sale 1» y «sale 6» suman directo.',
       board: {
         label: 'Disjuntos',
-        tex: '\\p{1}{A\\cap B=\\varnothing}\\p{2}{\\Rightarrow P(A\\cup B)=P(A)+P(B)}',
+        tex: '\\p{1}{A\\cap B=\\varnothing}\\p{2}{\\Rightarrow P(A\\cup B)=P(A)+P(B)}', parts: ['sin casos compartidos', 'suma sin descuento'],
       },
     },
     {
@@ -653,7 +653,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'El 1 no es par: son disjuntos. 3/6 + 1/6 = 4/6 = 2/3.',
       },
-      board: { label: 'Suma directa', tex: '\\p{1}{\\tfrac36+\\tfrac16}=\\p{2}{\\tfrac23}' },
+      board: { label: 'Suma directa', tex: '\\p{1}{\\tfrac36+\\tfrac16}=\\p{2}{\\tfrac23}', parts: ['probabilidades sin cruce', 'probabilidad de par o uno'] },
     },
   ],
 };

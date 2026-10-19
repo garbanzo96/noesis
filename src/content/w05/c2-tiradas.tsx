@@ -500,13 +500,13 @@ const lesson: LessonStep = {
       say: 'Si las seis caras son igual de probables, la probabilidad de un evento es la fracción de casos que lo cumplen.',
       board: {
         label: 'Casos igual de probables',
-        tex: '\\p{1}{P(A)}=\\p{2}{\\frac{|A|}{|\\Omega|}}',
+        tex: '\\p{1}{P(A)}=\\p{2}{\\frac{|A|}{|\\Omega|}}', parts: ['probabilidad del evento', 'casos favorables del total'],
       },
     },
     {
       say: 'En la mesa no se ven probabilidades: se ven tiradas. Sube la cantidad de tiradas y mira la fracción de «5 o 6».',
       gate: 'Arrastra la perilla hasta 10 000 tiradas.',
-      board: { label: 'Frecuencia relativa', tex: '\\p{1}{\\frac{\\#A}{n}}\\p{2}{\\to P(A)}' },
+      board: { label: 'Frecuencia relativa', tex: '\\p{1}{\\frac{\\#A}{n}}\\p{2}{\\to P(A)}', parts: ['frecuencia observada', 'probabilidad a largo plazo'] },
     },
     {
       say: 'La probabilidad también dice cuántas veces esperar el evento en muchas tiradas.',
@@ -518,21 +518,21 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Cantidad esperada',
-        tex: '\\p{1}{n\\cdot P(A)}=\\p{2}{600\\cdot\\tfrac13}=\\p{3}{200}',
+        tex: '\\p{1}{n\\cdot P(A)}=\\p{2}{600\\cdot\\tfrac13}=\\p{3}{200}', parts: ['cantidad esperada', 'con los datos del caso', 'apariciones esperadas'],
       },
     },
     {
       say: 'Con pocas tiradas la frecuencia salta; con muchas se estabiliza cerca de un tercio. Es la **ley de los grandes números**.',
       board: {
         label: 'Muchas repeticiones',
-        tex: '\\p{1}{n\\to\\infty}\\p{2}{\\ \\Rightarrow\\ \\frac{\\#A}{n}\\approx P(A)}',
+        tex: '\\p{1}{n\\to\\infty}\\p{2}{\\ \\Rightarrow\\ \\frac{\\#A}{n}\\approx P(A)}', parts: ['cada vez más tiradas', 'frecuencia estabilizada'],
       },
     },
     {
       say: 'Una probabilidad está entre 0 y 1, y el espacio muestral completo tiene probabilidad 1.',
       board: {
         label: 'Reglas básicas',
-        tex: '\\p{1}{0\\le P(A)\\le1},\\quad \\p{2}{P(\\Omega)=1}',
+        tex: '\\p{1}{0\\le P(A)\\le1},\\quad \\p{2}{P(\\Omega)=1}', parts: ['límites de probabilidad', 'certeza de algún resultado'],
       },
     },
   ],

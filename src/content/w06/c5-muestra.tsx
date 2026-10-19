@@ -117,7 +117,7 @@ const lesson: LessonStep = {
     {
       say: 'La **población** es el conjunto completo (aquí, 600 tiempos de espera, con una cola larga a la derecha). Una **muestra** es una parte elegida al azar. Lo que se calcula con la población es un **parámetro**, como $\\mu$; con la muestra, un **estadístico**, como $\\bar x$.',
       dur: 3.6,
-      board: { label: 'Población y muestra', tex: '\\underbrace{\\mu,\\ \\sigma}_{\\p{1}{\\text{parámetros}}}\\qquad\\underbrace{\\bar x,\\ s}_{\\p{2}{\\text{estadísticos}}}' },
+      board: { label: 'Población y muestra', tex: '\\underbrace{\\mu,\\ \\sigma}_{\\p{1}{\\text{parámetros}}}\\qquad\\underbrace{\\bar x,\\ s}_{\\p{2}{\\text{estadísticos}}}', parts: ['describen toda la población', 'describen solo la muestra'] },
     },
     {
       say: 'Cada muestra da una media distinta: $\\bar x$ también es aleatoria. Saca varias y mira dónde caen.',
@@ -127,17 +127,17 @@ const lesson: LessonStep = {
     {
       say: 'Con cientos de muestras, las medias forman una **campana** centrada en $\\mu$, aunque la población esté torcida. Es el **teorema central del límite**.',
       dur: 4,
-      board: { label: 'Teorema central del límite', tex: '\\bar X\\approx N\\!\\left(\\p{1}{\\mu},\\ \\p{2}{\\frac{\\sigma^2}{n}}\\right)', body: 'Para $n$ grande; en la práctica, desde $n\\approx30$ suele bastar.' },
+      board: { label: 'Teorema central del límite', tex: '\\bar X\\approx N\\!\\left(\\p{1}{\\mu},\\ \\p{2}{\\frac{\\sigma^2}{n}}\\right)', body: 'Para $n$ grande; en la práctica, desde $n\\approx30$ suele bastar.', parts: ['centro de las medias', 'varianza de las medias'] },
     },
     {
       say: 'El ancho de esa campana es el **error estándar**: la desviación típica de $\\bar x$. Disminuye con la raíz del tamaño de la muestra.',
       ask: { prompt: 'Si $n$ se multiplica por 4, ¿qué le pasa al error estándar?', options: ['Se reduce a la mitad', 'Se reduce a la cuarta parte', 'No cambia'], answer: 0, explain: '$\\sigma/\\sqrt{4n}=\\tfrac12\\,\\sigma/\\sqrt n$. Prueba con $n=4$, 16 y 64: cada salto parte el ancho a la mitad.' },
-      board: { label: 'Error estándar', tex: '\\text{EE}=\\frac{\\p{1}{\\sigma}}{\\p{2}{\\sqrt n}}' },
+      board: { label: 'Error estándar', tex: '\\text{EE}=\\frac{\\p{1}{\\sigma}}{\\p{2}{\\sqrt n}}', parts: ['dispersión de la población', 'reducción por tamaño'] },
     },
     {
       say: 'Con el error estándar se puede medir qué tan lejos de $\\mu$ cae una media, igual que con un dato: en errores estándar.',
       ask: { prompt: 'Con $\\mu=40$, $\\sigma=12$ y $n=36$, ¿qué tan probable es obtener $\\bar x>44$?', options: ['≈ 2,5 %', '≈ 16 %', '≈ 50 %'], answer: 0, explain: '$\\text{EE}=12/6=2$, así que $z=(44-40)/2=2$. Sobre $z=2$ queda la mitad del 5 %: 2,5 %.' },
-      board: { label: 'z de una media', tex: '\\p{1}{z}=\\p{2}{\\frac{\\bar x-\\mu}{\\sigma/\\sqrt n}}' },
+      board: { label: 'z de una media', tex: '\\p{1}{z}=\\p{2}{\\frac{\\bar x-\\mu}{\\sigma/\\sqrt n}}', parts: ['distancia estandarizada', 'diferencia sobre su error'] },
     },
   ],
 };

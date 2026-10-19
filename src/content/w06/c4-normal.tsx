@@ -101,7 +101,7 @@ const lesson: LessonStep = {
     {
       say: 'Para decir si un dato es raro hay que medir su distancia a la media **en desviaciones estándar**. Ese número es el **puntaje z**: positivo sobre la media, negativo bajo ella.',
       dur: 3,
-      board: { label: 'Puntaje z', tex: 'z=\\frac{\\p{1}{x-\\mu}}{\\p{2}{\\sigma}}', body: 'Un 85 en una prueba con media 60 y $\\sigma=10$ está 2,5 desviaciones sobre la media.' },
+      board: { label: 'Puntaje z', tex: 'z=\\frac{\\p{1}{x-\\mu}}{\\p{2}{\\sigma}}', body: 'Un 85 en una prueba con media 60 y $\\sigma=10$ está 2,5 desviaciones sobre la media.', parts: ['distancia a la media', 'unidad de comparación'] },
     },
     {
       say: 'El puntaje z permite comparar datos medidos en escalas distintas.',
@@ -110,17 +110,17 @@ const lesson: LessonStep = {
     {
       say: 'Muchas mediciones repetidas (estaturas, errores de medición, sumas de muchos efectos pequeños) forman una campana: la **distribución normal**. Su media $\\mu$ la desplaza y su desviación $\\sigma$ la ensancha. El área total bajo la curva es 1.',
       gate: 'Mueve $\\mu$ y $\\sigma$ y mira cómo cambia la campana.',
-      board: { label: 'Distribución normal', tex: 'X\\sim N(\\p{1}{\\mu},\\,\\p{2}{\\sigma^2})', body: 'Simétrica alrededor de $\\mu$. El área bajo la curva entre $a$ y $b$ es la probabilidad de caer ahí.' },
+      board: { label: 'Distribución normal', tex: 'X\\sim N(\\p{1}{\\mu},\\,\\p{2}{\\sigma^2})', body: 'Simétrica alrededor de $\\mu$. El área bajo la curva entre $a$ y $b$ es la probabilidad de caer ahí.', parts: ['centro de la campana', 'dispersión de la campana'] },
     },
     {
       say: 'En cualquier normal, cerca del 68 % de los datos queda a menos de una desviación de la media, el 95 % a menos de dos y el 99,7 % a menos de tres.',
       dur: 3.6,
-      board: { label: 'Regla 68–95–99,7', tex: '\\begin{aligned}P(|z|<1)&\\approx\\p{1}{0{,}68}\\\\P(|z|<2)&\\approx\\p{2}{0{,}95}\\\\P(|z|<3)&\\approx\\p{3}{0{,}997}\\end{aligned}' },
+      board: { label: 'Regla 68–95–99,7', tex: '\\begin{aligned}P(|z|<1)&\\approx\\p{1}{0{,}68}\\\\P(|z|<2)&\\approx\\p{2}{0{,}95}\\\\P(|z|<3)&\\approx\\p{3}{0{,}997}\\end{aligned}', parts: ['proporción dentro de una', 'proporción dentro de dos', 'proporción dentro de tres'] },
     },
     {
       say: 'Estandarizar convierte cualquier normal en la **normal estándar** $Z\\sim N(0,1)$. Sus áreas acumuladas están en tablas: $\\Phi(z)=P(Z\\le z)$.',
       ask: { prompt: 'Si $\\Phi(1)\\approx0{,}84$, ¿qué fracción de los datos supera $z=1$?', options: ['0,16', '0,84', '0,34'], answer: 0, explain: 'El área total es 1: $1-0{,}84=0{,}16$. Coincide con la regla: fuera de $\\pm1\\sigma$ queda el 32 %, la mitad a cada lado.' },
-      board: { label: 'Normal estándar', tex: '\\begin{gathered}\\p{1}{Z=\\frac{X-\\mu}{\\sigma}\\sim N(0,1)}\\\\\\p{2}{\\Phi(z)=P(Z\\le z)}\\end{gathered}' },
+      board: { label: 'Normal estándar', tex: '\\begin{gathered}\\p{1}{Z=\\frac{X-\\mu}{\\sigma}\\sim N(0,1)}\\\\\\p{2}{\\Phi(z)=P(Z\\le z)}\\end{gathered}', parts: ['dato en escala estándar', 'área acumulada a izquierda'] },
     },
   ],
 };

@@ -223,20 +223,20 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Cambio proporcional',
-        tex: '\\p{1}{\\text{cambio}}\\propto\\p{2}{\\cC{\\text{nivel}}}',
+        tex: '\\p{1}{\\text{cambio}}\\propto\\p{2}{\\cC{\\text{nivel}}}', parts: ['rapidez de cambio', 'nivel que cambia'],
       },
     },
     {
       say: 'Detén el reloj cuando quede la mitad. Primero lleva el marcador a 4 y luego alinea la barra con esa altura.',
       gate: 'Arrastra el marcador amarillo a 4; mueve el reloj hasta que la barra decreciente llegue a 4.',
-      board: { label: 'Mitad del inicio', tex: '\\p{1}{\\cM{z(t)}}=\\p{2}{4}' },
+      board: { label: 'Mitad del inicio', tex: '\\p{1}{\\cM{z(t)}}=\\p{2}{4}', parts: ['nivel que queda', 'mitad del nivel inicial'] },
     },
     {
       say: 'La **tasa** k mide el cambio proporcional por unidad de tiempo. Su signo decide crecimiento o decaimiento; comprueba el inicio y deriva la solución.',
       dur: 4,
       board: [
-        { label: 'Regla exponencial', tex: "\\p{1}{y'=\\cA{k}y}" },
-        { label: 'Solución con inicio', tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{y_0e^{\\cA{k}t}}' },
+        { label: 'Regla exponencial', tex: "\\p{1}{y'=\\cA{k}y}", parts: ['cambio proporcional al nivel'] },
+        { label: 'Solución con inicio', tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{y_0e^{\\cA{k}t}}', parts: ['nivel con el tiempo', 'evolución desde el inicio'] },
       ],
     },
     {
@@ -251,7 +251,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Datos del banco',
         tex: "\\p{1}{y'=y},\\quad\\p{2}{y(0)=\\cC{2}}",
-        body: 'Comprueba ambos datos antes de elegir.',
+        body: 'Comprueba ambos datos antes de elegir.', parts: ['regla de crecimiento', 'nivel al inicio'],
       },
     },
     {
@@ -260,7 +260,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Vida media',
         tex: '\\p{1}{T_{1/2}}=\\p{2}{\\frac{\\ln2}{|\\cA{k}|}},\\quad\\p{3}{k<0}',
-        body: 'Con k = −1 por hora, la vida media es ln 2 horas.',
+        body: 'Con k = −1 por hora, la vida media es ln 2 horas.', parts: ['tiempo hasta la mitad', 'cálculo con la tasa', 'condición de decaimiento'],
       },
     },
     {
@@ -268,7 +268,7 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Duplicación por hora',
-        tex: '\\p{1}{4e^{(\\ln2)t}}=\\p{2}{\\cC{4\\cdot2^t}}',
+        tex: '\\p{1}{4e^{(\\ln2)t}}=\\p{2}{\\cC{4\\cdot2^t}}', parts: ['nivel según la tasa', 'duplicación por hora'],
       },
     },
   ],

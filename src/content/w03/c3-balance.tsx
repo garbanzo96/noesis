@@ -121,22 +121,22 @@ const lesson: LessonStep = {
     {
       say: 'Un ritmo **neto** puede ser negativo: si sale más agua de la que entra, la curva baja del eje. Las franjas bajo el eje tienen altura negativa, así que **restan**.',
       dur: 2.8,
-      board: { label: 'Área con signo', tex: '\\int_a^b r(t)\\,dt=\\p{1}{\\cG{A_{\\text{arriba}}}}-\\p{2}{\\cR{A_{\\text{abajo}}}}' },
+      board: { label: 'Área con signo', tex: '\\int_a^b r(t)\\,dt=\\p{1}{\\cG{A_{\\text{arriba}}}}-\\p{2}{\\cR{A_{\\text{abajo}}}}', parts: ['aporte que suma', 'aporte que resta'] },
     },
     {
       say: 'Por eso la integral de un ritmo da el **cambio neto**: cuánto subió o bajó la cantidad entre el comienzo y el final.',
       dur: 4,
-      board: { label: 'Cambio neto', tex: '\\int_a^b r(t)\\,dt=\\p{1}{V(b)}-\\p{2}{V(a)}', body: 'El nivel del estanque sube con el área verde y baja con la roja.' },
+      board: { label: 'Cambio neto', tex: '\\int_a^b r(t)\\,dt=\\p{1}{V(b)}-\\p{2}{V(a)}', body: 'El nivel del estanque sube con el área verde y baja con la roja.', parts: ['volumen al final', 'volumen al inicio'] },
     },
     {
       say: 'Si se corta el intervalo en un punto $b$, la integral total es la suma de las dos partes, sin importar dónde se corte.',
       gate: 'Mueve el corte b por el intervalo.',
-      board: { label: 'Aditividad', tex: '\\int_a^c f=\\p{1}{\\cC{\\int_a^b f}}+\\p{2}{\\cA{\\int_b^c f}}' },
+      board: { label: 'Aditividad', tex: '\\int_a^c f=\\p{1}{\\cC{\\int_a^b f}}+\\p{2}{\\cA{\\int_b^c f}}', parts: ['área antes del corte', 'área después del corte'] },
     },
     {
       say: 'Integrar respeta sumas y constantes: el área de $f+g$ es el área de $f$ más la de $g$, y duplicar la altura duplica el área.',
       dur: 2.6,
-      board: { label: 'Linealidad', tex: '\\int(\\p{1}{\\alpha f}+\\p{2}{\\beta g})=\\p{1}{\\alpha\\int f}+\\p{2}{\\beta\\int g}' },
+      board: { label: 'Linealidad', tex: '\\int(\\p{1}{\\alpha f}+\\p{2}{\\beta g})=\\p{1}{\\alpha\\int f}+\\p{2}{\\beta\\int g}', parts: ['primer aporte escalado', 'segundo aporte escalado'] },
     },
     {
       say: 'Un intervalo sin ancho no acumula nada. Y recorrer el intervalo al revés cambia el signo.',
@@ -154,7 +154,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Área dividida por el ancho: $24/6=4$.',
       },
-      board: { label: 'Valor medio', tex: '\\bar f=\\frac{\\p{2}{1}}{\\p{2}{b-a}}\\p{1}{\\int_a^b f(x)\\,dx}' },
+      board: { label: 'Valor medio', tex: '\\bar f=\\frac{\\p{2}{1}}{\\p{2}{b-a}}\\p{1}{\\int_a^b f(x)\\,dx}', parts: ['área total acumulada', 'por unidad de intervalo'] },
     },
   ],
 };

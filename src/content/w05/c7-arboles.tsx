@@ -649,19 +649,19 @@ const lesson: LessonStep = {
       say: 'En la urna hay 3 rojas y 2 azules. La primera extracción abre dos ramas, con sus probabilidades.',
       board: {
         label: 'Primer nivel',
-        tex: '\\p{1}{P(R_1)=\\tfrac35},\\quad\\p{2}{P(A_1)=\\tfrac25}',
+        tex: '\\p{1}{P(R_1)=\\tfrac35},\\quad\\p{2}{P(A_1)=\\tfrac25}', parts: ['roja en primera extracción', 'azul en primera extracción'],
       },
     },
     {
       say: 'Sin devolver, lo que sale cambia la urna. Saca una roja y mira cómo cambian las ramas siguientes.',
       gate: 'Arrastra la bola roja del centro fuera de la urna.',
-      board: { label: 'Segundo nivel', tex: '\\p{1}{P(R_2\\mid R_1)}=\\p{2}{\\tfrac24}' },
+      board: { label: 'Segundo nivel', tex: '\\p{1}{P(R_2\\mid R_1)}=\\p{2}{\\tfrac24}', parts: ['otra roja tras roja', 'rojas entre las restantes'] },
     },
     {
       say: 'Para un camino completo se multiplican las probabilidades de sus ramas.',
       board: {
         label: 'Un camino',
-        tex: '\\p{1}{P(R_1\\cap R_2)}=\\p{2}{\\tfrac35\\cdot\\tfrac24}=\\p{3}{\\tfrac{3}{10}}',
+        tex: '\\p{1}{P(R_1\\cap R_2)}=\\p{2}{\\tfrac35\\cdot\\tfrac24}=\\p{3}{\\tfrac{3}{10}}', parts: ['dos rojas seguidas', 'producto de las ramas', 'probabilidad de dos rojas'],
       },
     },
     {
@@ -672,13 +672,13 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'RA vale 3/5·2/4 = 6/20 y AR vale 2/5·3/4 = 6/20. Juntos, 12/20 = 3/5.',
       },
-      board: { label: 'Varios caminos', tex: '\\p{1}{P(RA)+P(AR)}=\\p{2}{\\tfrac{12}{20}}' },
+      board: { label: 'Varios caminos', tex: '\\p{1}{P(RA)+P(AR)}=\\p{2}{\\tfrac{12}{20}}', parts: ['caminos de distinto color', 'probabilidad de dos colores'] },
     },
     {
       say: 'Para la segunda roja se suman los caminos que terminan en roja. Es la **probabilidad total**.',
       board: {
         label: 'Probabilidad total',
-        tex: '\\p{1}{P(B)}=\\p{2}{\\sum_i P(A_i)\\,P(B\\mid A_i)}',
+        tex: '\\p{1}{P(B)}=\\p{2}{\\sum_i P(A_i)\\,P(B\\mid A_i)}', parts: ['probabilidad del destino', 'suma de todos los caminos'],
       },
     },
   ],

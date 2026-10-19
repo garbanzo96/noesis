@@ -113,32 +113,32 @@ const lesson: LessonStep = {
     {
       say: 'Una **prueba de hipótesis** pone a prueba una afirmación con datos. Se parte suponiendo que la afirmación es cierta: es la **hipótesis nula** $H_0$. La **alternativa** $H_1$ es lo que sospechamos.',
       dur: 3.4,
-      board: { label: 'Hipótesis', tex: '\\p{1}{H_0:\\ p=p_0}\\qquad \\p{2}{H_1:\\ p<p_0}' },
+      board: { label: 'Hipótesis', tex: '\\p{1}{H_0:\\ p=p_0}\\qquad \\p{2}{H_1:\\ p<p_0}', parts: ['afirmación puesta a prueba', 'sospecha de menor proporción'] },
     },
     {
       say: 'Una proporción es una media de ceros y unos: se anota 1 si la ficha dice «vacunado» y 0 si no. Por eso valen las mismas herramientas que para la media; su error estándar es $\\sqrt{p(1-p)/n}$.',
       dur: 3.6,
-      board: { label: 'Proporción muestral', tex: '\\hat p=\\frac{\\p{1}{\\#\\text{éxitos}}}{\\p{2}{n}},\\qquad \\text{EE}=\\p{3}{\\sqrt{\\frac{p_0(1-p_0)}{n}}}' },
+      board: { label: 'Proporción muestral', tex: '\\hat p=\\frac{\\p{1}{\\#\\text{éxitos}}}{\\p{2}{n}},\\qquad \\text{EE}=\\p{3}{\\sqrt{\\frac{p_0(1-p_0)}{n}}}', parts: ['fichas que dicen vacunado', 'total de fichas', 'error bajo hipótesis nula'] },
     },
     {
       say: 'Si $H_0$ fuera cierta, ¿qué tan lejos podría caer $\\hat p$ solo por azar? Se mide en errores estándar: es el **estadístico de prueba** $z$.',
       dur: 3,
-      board: { label: 'Estadístico de prueba', tex: 'z=\\frac{\\p{1}{\\hat p-p_0}}{\\p{2}{\\sqrt{p_0(1-p_0)/n}}}' },
+      board: { label: 'Estadístico de prueba', tex: 'z=\\frac{\\p{1}{\\hat p-p_0}}{\\p{2}{\\sqrt{p_0(1-p_0)/n}}}', parts: ['diferencia con lo supuesto', 'variación esperable por azar'] },
     },
     {
       say: 'El **valor p** es la probabilidad de obtener un resultado al menos así de extremo si $H_0$ fuera cierta: el área de la cola más allá de $z$. Mientras más chico, más difícil de creer $H_0$.',
       gate: 'Mueve $z$ hasta que el valor p sea menor que 0,05.',
-      board: { label: 'Valor p', tex: '\\p{1}{p}=\\p{2}{P(Z\\le z_{\\text{obs}}\\mid H_0)}' },
+      board: { label: 'Valor p', tex: '\\p{1}{p}=\\p{2}{P(Z\\le z_{\\text{obs}}\\mid H_0)}', parts: ['probabilidad de esta cola', 'área bajo hipótesis nula'] },
     },
     {
       say: 'Regla de decisión: si el valor p es menor que el **nivel de significación** $\\alpha$ (habitualmente 0,05), se **rechaza** $H_0$. Si no, no se rechaza, lo que no prueba que $H_0$ sea cierta.',
       ask: { prompt: 'Valor p 0,023 con $\\alpha=0{,}05$. ¿Qué se decide?', options: ['Se rechaza $H_0$', 'No se rechaza $H_0$', 'Se demuestra $H_0$'], answer: 0, explain: '$0{,}023<0{,}05$: un resultado así sería muy raro si $H_0$ fuera cierta.' },
-      board: { label: 'Decisión', tex: '\\p{1}{\\text{valor }p<\\alpha\\ }\\Rightarrow\\p{2}{\\ \\text{rechazar }H_0}' },
+      board: { label: 'Decisión', tex: '\\p{1}{\\text{valor }p<\\alpha\\ }\\Rightarrow\\p{2}{\\ \\text{rechazar }H_0}', parts: ['evidencia supera el umbral', 'descartar la afirmación'] },
     },
     {
       say: 'Hay dos formas de equivocarse: rechazar una $H_0$ verdadera (**error tipo I**, con probabilidad $\\alpha$) o no rechazar una falsa (**error tipo II**).',
       dur: 3,
-      board: { label: 'Errores', tex: '\\p{1}{\\alpha}=\\p{2}{P(\\text{tipo I})},\\quad\\p{3}{ \\beta}=\\p{4}{P(\\text{tipo II})}' },
+      board: { label: 'Errores', tex: '\\p{1}{\\alpha}=\\p{2}{P(\\text{tipo I})},\\quad\\p{3}{ \\beta}=\\p{4}{P(\\text{tipo II})}', parts: ['riesgo de rechazo erróneo', 'rechazar siendo cierta', 'riesgo de omisión', 'no rechazar siendo falsa'] },
     },
   ],
 };

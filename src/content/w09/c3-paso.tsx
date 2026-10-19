@@ -170,21 +170,21 @@ const lesson: LessonStep = {
     {
       say: 'Podemos avanzar un trecho con la pendiente que conocemos. La regla recta se aparta de la curva cuando esta se dobla.',
       dur: 4,
-      board: { label: 'Un paso', tex: '\\p{1}{\\text{paso horizontal}}\\ \\p{2}{\\cA{h}}' },
+      board: { label: 'Un paso', tex: '\\p{1}{\\text{paso horizontal}}\\ \\p{2}{\\cA{h}}', parts: ['avance del reloj', 'duración del paso'] },
     },
     {
       say: 'Acorta el paso y mira cuánto se acerca el final. Cada cambio rehace la poligonal hasta la misma hora.',
       gate: 'Arrastra la perilla de h hasta 1/4; lleva el cursor inferior al último nodo, t = 1.',
-      board: { label: 'Paso corto', tex: '\\p{1}{\\cA{h}}=\\p{2}{\\tfrac14}' },
+      board: { label: 'Paso corto', tex: '\\p{1}{\\cA{h}}=\\p{2}{\\tfrac14}', parts: ['duración del paso', 'un cuarto de tiempo'] },
     },
     {
       say: '**Euler** recalcula la pendiente en cada nodo. La usa durante el próximo paso: primero avanza el reloj y después suma pendiente por paso.',
       dur: 4,
       board: [
-        { label: 'Actualizar tiempo', tex: '\\p{1}{t_{n+1}}=\\p{2}{t_n+\\cA{h}}' },
+        { label: 'Actualizar tiempo', tex: '\\p{1}{t_{n+1}}=\\p{2}{t_n+\\cA{h}}', parts: ['tiempo del próximo nodo', 'tiempo más un paso'] },
         {
           label: 'Actualizar estado',
-          tex: '\\begin{aligned}\\p{1}{y_{n+1}}&=\\p{2}{y_n}\\\\&\\quad+\\p{3}{\\cA{h}\\cM{f(t_n,y_n)}}\\end{aligned}',
+          tex: '\\begin{aligned}\\p{1}{y_{n+1}}&=\\p{2}{y_n}\\\\&\\quad+\\p{3}{\\cA{h}\\cM{f(t_n,y_n)}}\\end{aligned}', parts: ['nivel del próximo nodo', 'nivel del nodo actual', 'cambio durante el paso'],
         },
       ],
     },
@@ -196,7 +196,7 @@ const lesson: LessonStep = {
         answer: 1,
         explain: '$hf=(1/2)\\cdot1=1/2$. La pendiente inicial es 1; el nuevo nivel es 3/2.',
       },
-      board: { label: 'Cambio vertical', tex: '\\p{1}{\\Delta y}=\\p{2}{\\cA{h}\\cM{f(t_0,y_0)}}' },
+      board: { label: 'Cambio vertical', tex: '\\p{1}{\\Delta y}=\\p{2}{\\cA{h}\\cM{f(t_0,y_0)}}', parts: ['cambio de nivel', 'pendiente por paso'] },
     },
     {
       say: 'A t = 1, los tres pasos dan 2, 9/4 y 625/256. En este ejemplo, el error final aumenta al agrandar el paso.',
@@ -204,17 +204,17 @@ const lesson: LessonStep = {
       board: {
         label: 'Error al mismo tiempo',
         tex: '\\p{1}{E_h}=\\p{2}{|\\cC{e}-(1+\\cA{h})^{1/h}|}',
-        body: 'La referencia exacta es e; el final de Euler es (1 + h) elevado al número de pasos.',
+        body: 'La referencia exacta es e; el final de Euler es (1 + h) elevado al número de pasos.', parts: ['error al terminar', 'distancia al valor exacto'],
       },
     },
     {
       say: 'Comparaste en el mismo tiempo final. Un paso chico suele ayudar con una regla suave y dentro de un rango estable; otras ecuaciones pueden exigir otros pasos.',
       dur: 3,
       board: [
-        { label: 'Aproximación', tex: '\\p{1}{\\text{Euler aproxima}}' },
+        { label: 'Aproximación', tex: '\\p{1}{\\text{Euler aproxima}}', parts: ['solución por pasos'] },
         {
           label: 'Referencia',
-          tex: '\\p{1}{\\text{referencia exacta}}\\Rightarrow\\p{2}{\\text{medir el error}}',
+          tex: '\\p{1}{\\text{referencia exacta}}\\Rightarrow\\p{2}{\\text{medir el error}}', parts: ['valor para comparar', 'error de la aproximación'],
         },
       ],
     },

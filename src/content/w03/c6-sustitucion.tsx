@@ -100,28 +100,28 @@ const lesson: LessonStep = {
     {
       say: 'La regla de la cadena deja una huella: una función **de adentro** y su derivada multiplicando. Si reconocemos esa huella en un integrando, sabemos integrarlo.',
       dur: 3.4,
-      board: { label: 'La cadena al revés', tex: "\\int f'\\big(\\p{1}{\\cC{g(x)}}\\big)\\,\\p{2}{\\cA{g'(x)}}\\,dx=\\p{3}{f\\big(g(x)\\big)}+C" },
+      board: { label: 'La cadena al revés', tex: "\\int f'\\big(\\p{1}{\\cC{g(x)}}\\big)\\,\\p{2}{\\cA{g'(x)}}\\,dx=\\p{3}{f\\big(g(x)\\big)}+C", parts: ['función de adentro', 'derivada de adentro', 'primitiva de la composición'] },
     },
     {
       say: 'El procedimiento: se llama $u$ a la función de adentro, se calcula $du$, se reemplaza todo y se integra en $u$. Al final se vuelve a $x$.',
       dur: 4,
       board: [
-        { label: 'Sustitución', tex: '\\p{1}{u=g(x)},\\qquad \\p{2}{du=g\'(x)\\,dx}' },
-        { tex: "\\int f\\big(g(x)\\big)\\,g'(x)\\,dx=\\p{1}{\\int f(u)\\,du}" },
+        { label: 'Sustitución', tex: '\\p{1}{u=g(x)},\\qquad \\p{2}{du=g\'(x)\\,dx}', parts: ['nueva variable', 'cambio de ancho'] },
+        { tex: "\\int f\\big(g(x)\\big)\\,g'(x)\\,dx=\\p{1}{\\int f(u)\\,du}", parts: ['integral en nueva variable'] },
       ],
     },
     {
       say: 'Por qué funciona: una franja de ancho $dx$ en el eje $x$ corresponde a una franja de ancho $du=g\'(x)\\,dx$ en el eje $u$. El factor $g\'(x)$ corrige el estiramiento, así que las áreas coinciden.',
       dur: 4,
-      board: { label: 'Con límites', tex: "\\int_a^b f(g(x))\\,g'(x)\\,dx=\\int_{\\p{1}{g(a)}}^{\\p{2}{g(b)}}f(u)\\,du", body: 'En una integral definida, los límites también se transforman.' },
+      board: { label: 'Con límites', tex: "\\int_a^b f(g(x))\\,g'(x)\\,dx=\\int_{\\p{1}{g(a)}}^{\\p{2}{g(b)}}f(u)\\,du", body: 'En una integral definida, los límites también se transforman.', parts: ['inicio en nueva variable', 'final en nueva variable'] },
     },
     {
       say: 'Un caso que aparece en todas partes: la exponencial que decae. Con $u=-kt$ se obtiene su primitiva.',
       dur: 3.4,
       board: [
         { tex: 'u=-kt,\\qquad du=-k\\,dt' },
-        { label: 'Exponencial que decae', tex: '\\int e^{-kt}\\,dt=\\p{1}{-\\frac{1}{k}}\\,e^{-kt}+C' },
-        { tex: '\\int_0^T e^{-kt}\\,dt=\\p{1}{\\frac{1-e^{-kT}}{k}}' },
+        { label: 'Exponencial que decae', tex: '\\int e^{-kt}\\,dt=\\p{1}{-\\frac{1}{k}}\\,e^{-kt}+C', parts: ['factor que compensa'] },
+        { tex: '\\int_0^T e^{-kt}\\,dt=\\p{1}{\\frac{1-e^{-kT}}{k}}', parts: ['acumulación hasta el final'] },
       ],
     },
     {
@@ -132,7 +132,7 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Con $u=x^2$, $du=2x\\,dx$ y los límites pasan a 0 y 1: $\\int_0^1e^u\\,du=e-1$.',
       },
-      board: { tex: '\\int_0^1 2x\\,e^{x^2}dx=\\int_0^1 e^u\\,du=\\p{1}{e-1}' },
+      board: { tex: '\\int_0^1 2x\\,e^{x^2}dx=\\int_0^1 e^u\\,du=\\p{1}{e-1}', parts: ['área bajo la curva'] },
     },
   ],
 };
