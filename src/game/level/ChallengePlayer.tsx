@@ -38,6 +38,8 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   const [prompt, setPrompt] = useState<{ text: string; tex?: string }>({ text: '…' });
   const [hints, setHints] = useState<string[]>([]);
   const [shownHints, setShownHints] = useState(0);
+  // wrong answers in this round: after the second, the whole resolution is shown, free
+  const [roundErrors, setRoundErrors] = useState(0);
   const [feedback, setFeedback] = useState<{ ok: boolean; msg: string } | null>(null);
   const [phase, setPhase] = useState<'play' | 'solved' | 'desync'>('play');
   const [shaking, setShaking] = useState(false);
@@ -47,6 +49,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     setPrompt({ text: '…' });
     setFeedback(null);
     setShownHints(0);
+    setRoundErrors(0);
     setHints([]);
   };
   const live = useRef({ phase, integrity, round, streak });
@@ -72,6 +75,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           setShaking(true);
           setTimeout(() => setShaking(false), 420);
           setFeedback({ ok: false, msg: msg ?? 'No es correcto.' });
+          setRoundErrors((e) => e + 1);
           const left = L.integrity - 1;
           setIntegrity(left);
           if (left <= 0) {
@@ -115,9 +119,11 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   const revealHint = () => {
     if (shownHints >= hints.length) return;
     sfx.hint();
-    run.hint();
+    // the first hint of a round is free; from the second on it costs the «sin pistas» star
+    if (shownHints >= 1 && roundErrors < 2) run.hint();
     setShownHints((h) => h + 1);
   };
+  const solving = roundErrors >= 2 && hints.length > 0;
   useKey(['h', 'H'], revealHint, !run.paused && phase === 'play');
   // inside a number field H is a letter; «?» asks for a hint from anywhere
   useEffect(() => {
@@ -240,9 +246,10 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
             <Rich text={prompt.text} />
           </p>
         )}
-        {shownHints > 0 && (
-          <ol className="hints">
-            {hints.slice(0, shownHints).map((h, i) => (
+        {(shownHints > 0 || solving) && (
+          <ol className={`hints ${solving ? 'solving' : ''}`}>
+            {solving && <li className="hints-title">Así se resuelve</li>}
+            {hints.slice(0, solving ? hints.length : shownHints).map((h, i) => (
               <li key={i}>
                 <Rich text={h} />
               </li>

@@ -250,7 +250,7 @@ export function SectorMap({
                 <rect x={x - w / 2} y={y - h / 2} width={w} height={h} fill="transparent" />
                 <Html x={x} y={y} size={18}>
                   <div
-                    className={`case-card2 ${boss ? 'boss' : ''} ${locked ? 'locked' : ''} ${st === 'done' ? 'done' : ''} ${hover === l.id ? 'hover' : ''} ${isRec ? 'rec' : ''}`}
+                    className={`case-card2 ${boss ? 'boss' : ''} ${locked ? 'locked' : ''} ${st === 'done' ? 'done' : ''} ${st === 'done' && !got[2] ? 'review' : ''} ${hover === l.id ? 'hover' : ''} ${isRec ? 'rec' : ''}`}
                     style={{
                       width: `calc(var(--su) * ${w})`,
                       height: `calc(var(--su) * ${h})`,
@@ -277,7 +277,7 @@ export function SectorMap({
                             </b>
                           ))}
                         </span>
-                        <span className="cc-stamp">CERRADO</span>
+                        <span className="cc-stamp">{got[2] ? 'CERRADO' : 'REPASAR'}</span>
                       </>
                     )}
                   </div>

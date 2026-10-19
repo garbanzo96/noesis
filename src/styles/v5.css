@@ -2168,3 +2168,20 @@
 .console-keys {
   margin-top: 4px;
 }
+.hints.solving {
+  border-left: 3px solid var(--amber);
+  padding-left: 12px;
+}
+.hints .hints-title {
+  list-style: none;
+  margin-left: -1.2em;
+  font-family: var(--mono);
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--amber);
+}
+.case-card2.review .cc-stamp {
+  color: #c27a12;
+  border-color: #c27a12;
+}

@@ -14,7 +14,7 @@ export interface ResultsData {
   seconds: number;
 }
 
-const STAR_LABEL = ['Caso resuelto', 'Sin pistas', 'Sin errores'];
+const STAR_LABEL = ['Caso resuelto', 'Sin pistas extra', 'Sin errores'];
 
 export function Results({
   level,

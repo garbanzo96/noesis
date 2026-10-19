@@ -193,13 +193,14 @@ function Guide({ onDone, returning }: { onDone: () => void; returning: boolean }
                 explicación aparece apenas respondes.
               </li>
               <li>
-                <b>Práctica.</b> Escribes o eliges tu respuesta y la confirmas. Hay dos pistas por
-                ronda. Cada error gasta una celda de <b>credibilidad</b>; si se acaban, el caso se
-                reabre con datos nuevos.
+                <b>Práctica.</b> Escribes o eliges tu respuesta y la confirmas. Cada ronda trae
+                pistas (la primera es gratis) y, si te equivocas dos veces, NÓESIS te muestra cómo
+                se resuelve. Cada error gasta una celda de <b>credibilidad</b>; si se acaban, esa
+                ronda se repite con datos nuevos.
               </li>
               <li>
-                <b>Estrellas.</b> Tres por caso: resolverlo, hacerlo sin pistas y hacerlo sin
-                errores.
+                <b>Estrellas.</b> Tres por caso: resolverlo, no usar más de una pista por ronda y no
+                cometer errores. Los casos cerrados con errores quedan marcados para repasar.
               </li>
               <li>
                 <b>Cuaderno y Recursos.</b> El cuaderno guarda lo que descubres en cada caso.
