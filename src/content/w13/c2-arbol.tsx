@@ -222,7 +222,10 @@ const lesson: LessonStep = {
     },
     {
       say: 'Llegaste al cuadrado inicial. Compara 20 por invertir ahora con 25 por esperar: eliges esperar y conservas un margen esperado de 5.',
-      board: { label: 'Decisión inicial', tex: '\\p{1}{V_{\\text{inicio}}}=\\p{2}{\\max(20,25)}=\\p{3}{25}' },
+      board: {
+        label: 'Decisión inicial',
+        tex: '\\p{1}{V_{\\text{inicio}}}=\\p{2}{\\max(20,25)}=\\p{3}{25}',
+      },
     },
     {
       say: 'Una **política** especifica qué harás en cada decisión: esperar ahora e invertir solo si el dato es bueno. Resuelve cada nodo cuando ya tengas los valores de sus ramas.',
@@ -455,16 +458,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La Bolsa, 21:54. El reloj de cierre parpadea sobre el vidrio; Valentina mantiene el cursor encima de una orden pendiente.',
+          text: 'La Bolsa, seis para las diez de la noche. El reloj de cierre parpadeaba sobre el vidrio, y Valentina tenía el cursor encima de una orden pendiente.',
         },
         {
           who: 'valentina',
-          text: 'Entrar ahora deja sesenta si el anuncio es bueno y pierde veinte si es malo. Mitad y mitad; la posición sigue abierta.',
+          text: 'Entrar ahora deja sesenta si el anuncio es bueno y pierde veinte si es malo. Mitad y mitad, y la posición sigue abierta.',
         },
         { who: 'tu', text: 'Podemos esperar el anuncio y entrar después.' },
         {
           who: 'valentina',
-          text: 'Diez de costo por entrar tarde. Con dato malo puedo quedarme fuera, siempre que mi jefe no cierre la mesa antes.',
+          text: 'Entrar tarde cuesta diez. Con un dato malo puedo quedarme fuera, siempre que mi jefe no cierre la mesa antes.',
         },
         { who: 'iris', text: 'Deja esa orden pendiente. Quiero ver las dos rutas.' },
       ],
@@ -517,18 +520,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Valentina retira el cursor de la orden. En la pantalla contigua, una posición ya cerrada conserva la hora de entrada.',
+          text: 'Valentina retiró el cursor de la orden. En la pantalla de al lado, una posición ya cerrada conservaba la hora de entrada.',
         },
         {
           who: 'valentina',
-          text: 'Esperar deja cinco más de margen esperado. Esta cuenta entró antes del anuncio y justo eligió la rama buena.',
+          text: 'Esperar deja cinco más de margen esperado. Esta cuenta entró antes del anuncio y eligió justo la rama buena.',
         },
         { who: 'iris', text: 'Una vez puede ser suerte.' },
         {
           who: 'valentina',
           text: 'Sí. Por eso guardé los otros horarios fuera del sistema de la mesa.',
         },
-        { who: 'nar', text: 'Se quita el audífono y desliza una libreta debajo del teclado.' },
+        { who: 'nar', text: 'Se sacó el audífono y deslizó una libreta debajo del teclado.' },
       ],
     },
   ],

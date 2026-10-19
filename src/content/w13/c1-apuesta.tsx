@@ -339,16 +339,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Bolsa de Valparaíso, 16:55. Cinco minutos para el cierre; las pantallas de cotizaciones tiñen de verde la sala vacía.',
+          text: 'Bolsa de Valparaíso, cinco para las cinco. Quedaban minutos para el cierre, y las pantallas de cotizaciones teñían de verde una sala casi vacía.',
         },
         {
           who: 'valentina',
-          text: 'Contratos de seguro sanitario. Pagan si hay brote. Una cuenta los compra justo antes de cada anuncio.',
+          text: 'Contratos de seguro sanitario: pagan si hay brote. Una cuenta los compra justo antes de cada anuncio.',
         },
-        { who: 'iris', text: '¿Siempre gana?' },
+        { who: 'iris', text: '¿Y siempre gana?' },
         {
           who: 'valentina',
-          text: 'Siempre. Nadie gana siempre en este piso. Ni con suerte, ni con buen olfato.',
+          text: 'Siempre, y en este piso nadie gana siempre, ni con suerte ni con buen olfato.',
         },
       ],
     },
@@ -408,11 +408,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Suena la campana de cierre. Valentina marca la orden del jueves con un círculo rojo.',
+          text: 'Sonó la campana de cierre. Valentina marcó la orden del jueves con un círculo rojo.',
         },
         {
           who: 'valentina',
-          text: 'Compró con valor esperado −14. Nadie compra así. Salvo que sepa.',
+          text: 'Compró con valor esperado −14. Nadie compra así, salvo que sepa algo.',
         },
         {
           who: 'teo',

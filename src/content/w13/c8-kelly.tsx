@@ -307,16 +307,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sala de operaciones, 22:30. Valentina abre el historial completo de la cuenta; las órdenes forman una columna perfectamente pareja.',
+          text: 'Sala de operaciones, diez y media. Valentina abrió el historial completo de la cuenta, y las órdenes formaban una columna perfectamente pareja.',
         },
         {
           who: 'valentina',
           text: 'Veinte por ciento del capital, cada vez. Nunca más, nunca menos.',
         },
-        { who: 'iris', text: 'Un número muy prudente para alguien que siempre gana.' },
+        { who: 'iris', text: 'Es un número muy prudente para alguien que siempre gana.' },
         {
           who: 'valentina',
-          text: 'Prudente no. Exacto. Es la fracción justa si ganas seis de cada diez.',
+          text: 'Es exacto: la fracción justa si ganas seis de cada diez.',
         },
       ],
     },
@@ -359,12 +359,12 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo cruza el número de la cuenta con el registro de titulares. La pantalla tarda en responder.',
+          text: 'Teo cruzó el número de la cuenta con el registro de titulares. La pantalla tardó en responder.',
         },
         { who: 'teo', text: 'Titular: una sociedad sin nombre. Domicilio: Torre Halcón, piso 40.' },
         {
           who: 'valentina',
-          text: 'El último piso. Desde ahí se ve toda la bahía, y todos los anuncios antes que nadie.',
+          text: 'Es el último piso. Ahí no sube nadie sin que lo llamen.',
         },
       ],
     },

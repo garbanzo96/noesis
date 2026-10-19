@@ -355,16 +355,19 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La Bolsa, 21:58. El audífono de Valentina chasquea mientras tres horarios de cierre quedan abiertos en la pantalla.',
+          text: 'La Bolsa, dos para las diez. El audífono de Valentina chasqueaba, y en la pantalla seguían abiertos tres horarios de cierre.',
         },
         {
           who: 'valentina',
           text: 'Tres ahora, cinco en el próximo corte, diez al final. Mi jefe quiere la firma antes de que cierre la mesa.',
         },
-        { who: 'tu', text: 'Partamos por el último cobro y volvamos hasta esta orden.' },
+        {
+          who: 'tu',
+          text: 'Partamos por el último cobro y volvamos hacia atrás hasta esta orden.',
+        },
         {
           who: 'valentina',
-          text: 'Bien. Cada intervalo conserva nueve décimos del valor; el margen hay que traerlo hasta acá.',
+          text: 'Bien. Cada intervalo conserva nueve décimos del valor, y el margen hay que traerlo hasta acá.',
         },
         { who: 'iris', text: 'La firma puede esperar un cálculo.' },
       ],
@@ -409,7 +412,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Valentina firma el cierre por siete. Al retirar la orden, queda visible otra posición con la misma secuencia de horarios.',
+          text: 'Valentina firmó el cierre por siete. Al retirar la orden quedó a la vista otra posición con la misma secuencia de horarios.',
         },
         {
           who: 'valentina',
@@ -422,7 +425,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'nar',
-          text: 'El reloj marca el cierre; Valentina tapa con la mano el nombre de quien autorizó la orden.',
+          text: 'El reloj marcó el cierre. Valentina tapó con la mano el nombre de quien había autorizado la orden.',
         },
       ],
     },

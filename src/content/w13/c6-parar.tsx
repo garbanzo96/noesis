@@ -352,16 +352,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sala de operaciones, 20:10. Valentina despliega doce meses de cierres en el muro de pantallas.',
+          text: 'Sala de operaciones, ocho y diez de la noche. Valentina desplegó doce meses de cierres en el muro de pantallas.',
         },
         {
           who: 'valentina',
-          text: 'Cerrar una posición es como recibir ofertas: si esperas, puede mejorar; si te pasas, se fue.',
+          text: 'Cerrar una posición se parece a recibir ofertas: si esperas, puede mejorar, y si te pasas, se fue.',
         },
         { who: 'iris', text: '¿Y la cuenta?' },
         {
           who: 'valentina',
-          text: 'Cerró en el mejor momento los doce meses. Ni yo, que hago esto hace quince años.',
+          text: 'Cerró en el mejor momento los doce meses. Yo llevo quince años en esto y nunca lo he logrado.',
         },
       ],
     },
@@ -403,9 +403,15 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'bolsa',
       lines: [
-        { who: 'nar', text: 'Teo marca los doce cierres en verde. Ninguno falla.' },
-        { who: 'teo', text: 'Si sabía qué venía, igual tuvo que decidir cuánto apostar cada vez.' },
-        { who: 'valentina', text: 'Y nunca apostó todo. Eso también dice mucho.' },
+        { who: 'nar', text: 'Teo marcó los doce cierres en verde, y ninguno fallaba.' },
+        {
+          who: 'teo',
+          text: 'Aunque supiera lo que venía, igual tuvo que decidir cuánto apostar cada vez.',
+        },
+        {
+          who: 'valentina',
+          text: 'Y nunca apostó todo, lo que es raro en alguien que no puede perder.',
+        },
       ],
     },
   ],

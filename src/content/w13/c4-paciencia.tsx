@@ -391,18 +391,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La Bolsa, 21:57. El reloj de cierre se refleja en el café frío de Valentina; dos órdenes esperan su firma.',
+          text: 'La Bolsa, tres para las diez. El reloj de cierre se reflejaba en el café frío de Valentina, y dos órdenes esperaban su firma.',
         },
         {
           who: 'valentina',
           text: 'Ocho hoy o diez en tres días. El jefe mira el diez; a mí me toca sostener el margen hasta que paguen.',
         },
-        { who: 'tu', text: 'Pondría las dos órdenes a la misma fecha antes de firmar.' },
+        { who: 'tu', text: 'Pondría las dos órdenes en la misma fecha antes de firmar.' },
         {
           who: 'valentina',
-          text: 'Mi mesa conserva el noventa por ciento del valor por día de espera. Te quedan tres minutos para revisar la posición.',
+          text: 'Mi mesa conserva el noventa por ciento del valor por cada día de espera. Te quedan tres minutos para revisar la posición.',
         },
-        { who: 'iris', text: 'El café puede esperar.' },
+        { who: 'iris', text: 'Tres minutos alcanzan para una cuenta.' },
       ],
     },
     {
@@ -454,20 +454,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Valentina firma la orden de ocho. El reloj cambia a las 22:00 y las cotizaciones quedan inmóviles.',
+          text: 'Valentina firmó la orden de ocho. El reloj pasó a las 22:00, y las cotizaciones quedaron inmóviles.',
         },
         {
           who: 'valentina',
           text: 'Cero coma setenta y uno de margen. Mi jefe va a reclamar por los dos que dejó de ver en la pantalla.',
         },
-        { who: 'iris', text: 'Que reclame por escrito.' },
+        { who: 'iris', text: 'Si reclama, muéstrale el cálculo.' },
         {
           who: 'valentina',
           text: 'Esta otra cuenta dejó su posición abierta. Tenía tres oportunidades de cerrar antes del anuncio.',
         },
         {
           who: 'nar',
-          text: 'Bajo el último horario de cierre, Valentina apoya la punta del lápiz sin marcar el papel.',
+          text: 'Valentina apoyó la punta del lápiz bajo el último horario de cierre, sin marcar el papel.',
         },
       ],
     },

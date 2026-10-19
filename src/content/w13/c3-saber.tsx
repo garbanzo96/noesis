@@ -309,7 +309,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sala de operaciones, 18:20. Los operadores se fueron; quedan las pantallas y el zumbido del aire acondicionado.',
+          text: 'Sala de operaciones, seis y veinte de la tarde. Los operadores se habían ido; quedaban las pantallas y el zumbido del aire acondicionado.',
         },
         {
           who: 'valentina',
@@ -362,14 +362,14 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'bolsa',
       lines: [
-        { who: 'nar', text: 'Valentina apaga una pantalla y la sala se oscurece un tono.' },
+        { who: 'nar', text: 'Valentina apagó una pantalla, y la sala se oscureció un tono.' },
         {
           who: 'valentina',
           text: 'Ocho mil por saber un día antes. Y lo hicieron todos los meses.',
         },
         {
           who: 'iris',
-          text: 'Entonces la plata no está en un día. Está en cuánto esperan para cobrar.',
+          text: 'Entonces la ganancia depende también de cuánto esperan para cobrar.',
         },
       ],
     },

@@ -442,20 +442,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '20:18. El audífono de Valentina crepita mientras deja dos registros de prueba frente al reloj de cierre.',
+          text: 'Ocho y dieciocho. El audífono de Valentina crepitaba mientras ponía dos registros de prueba frente al reloj de cierre.',
         },
         {
           who: 'valentina',
-          text: 'Tres aciertos en A, uno en B. El operador cargó toda la posición a A y dejó de probar B.',
+          text: 'Tres aciertos en A y uno en B. El operador cargó toda la posición a A y dejó de probar B.',
         },
-        { who: 'iris', text: 'Cómodo para A.' },
+        { who: 'iris', text: '¿Y le fue bien?' },
         {
           who: 'valentina',
-          text: 'Cómodo hasta perder margen. Tengo cinco pruebas por mesa y ocho minutos para revisar el criterio.',
+          text: 'Hasta que empezó a perder margen. Tengo cinco pruebas por mesa y ocho minutos para revisar el criterio.',
         },
         {
           who: 'tu',
-          text: 'Deja ambas abiertas en pantalla. Cinco pruebas no me alcanzan para descartar B.',
+          text: 'Deja las dos abiertas en pantalla. Con cinco pruebas no me alcanza para descartar B.',
         },
       ],
     },
@@ -503,7 +503,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Valentina reduce la ventana de pruebas. Detrás aparece una orden con hora de entrada anterior al anuncio sanitario.',
+          text: 'Valentina achicó la ventana de pruebas. Detrás apareció una orden con hora de entrada anterior al anuncio sanitario.',
         },
         {
           who: 'valentina',
@@ -516,7 +516,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'nar',
-          text: 'El reloj cambia a 20:19; Valentina mantiene el cursor sobre su propia firma.',
+          text: 'El reloj pasó a las 20:19. Valentina mantenía el cursor sobre su propia firma.',
         },
       ],
     },

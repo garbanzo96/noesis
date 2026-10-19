@@ -479,13 +479,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Bolsa de Valparaíso, 16:58. Valentina se saca el audífono; una orden pendiente parpadea junto al reloj de cierre.',
+          text: 'Bolsa de Valparaíso, dos para las cinco. Valentina se sacó el audífono; junto al reloj de cierre parpadeaba una orden pendiente.',
         },
         {
           who: 'valentina',
           text: 'Dos minutos. Tengo la posición retenida, pero el registro del titular se cierra con la mesa.',
         },
-        { who: 'iris', text: 'La cuenta tiene mejor horario que los pacientes.' },
+        { who: 'iris', text: 'Entonces hay que leerlo ahora.' },
         {
           who: 'valentina',
           text: 'Cinco lecturas antes de abrir el titular. Si el margen no calza, la firma queda conmigo.',
@@ -539,24 +539,24 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La campana de cierre corta el zumbido de la mesa. Valentina abre el titular y deja la mano inmóvil sobre el teclado.',
+          text: 'La campana de cierre cortó el zumbido de la mesa. Valentina abrió el titular y dejó la mano quieta sobre el teclado.',
         },
         {
           who: 'valentina',
-          text: 'Misma cuenta en todas las posiciones previas al anuncio. Titular registrado en Torre Halcón, piso 40.',
+          text: 'La misma cuenta en todas las posiciones anteriores a un anuncio. Titular registrado en Torre Halcón, piso 40.',
         },
         {
           who: 'teo',
-          text: '¡Está la dirección completa! La copié con las horas y el número de cuenta.',
+          text: 'Está la dirección completa. La copié con las horas y el número de cuenta.',
         },
-        { who: 'iris', text: 'Cuarenta pisos para alejarse de una firma.' },
+        { who: 'iris', text: '¿Quién trabaja en el piso 40?' },
         {
           who: 'valentina',
           text: 'Mi firma queda en la retención. La de arriba acaba de aparecer en tu copia.',
         },
         {
           who: 'nar',
-          text: 'Tras el vidrio, la bahía ya está oscura. Teo abre «Mundo 14 · Torre Halcón»; en la foto del edificio queda una sola ventana encendida, en el último piso.',
+          text: 'Tras el vidrio, la bahía ya estaba oscura. Teo abrió la carpeta de Torre Halcón; en la foto del edificio había una sola ventana encendida, en el último piso.',
         },
       ],
     },
