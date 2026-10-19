@@ -105,7 +105,8 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Probabilidad conjunta',
-        tex: '\\p{1}{\\cC{p(x,y)}}=\\p{2}{\\frac{\\text{fichas de la celda}}{\\text{total de fichas}}}', parts: ['probabilidad del par', 'proporción de la celda'],
+        tex: '\\p{1}{\\cC{p(x,y)}}=\\p{2}{\\frac{\\text{fichas de la celda}}{\\text{total de fichas}}}',
+        parts: ['probabilidad del par', 'proporción de la celda'],
       },
     },
     {
@@ -114,7 +115,8 @@ const lesson: LessonStep = {
       board: {
         label: 'Renormalizar una fila',
         tex: '\\p{1}{\\cA{p(y\\mid x)}}=\\p{2}{\\frac{\\cC{p(x,y)}}{\\cM{p(x)}}}',
-        body: 'Requiere p(x) > 0.', parts: ['probabilidad tras filtrar', 'proporción dentro de torre'],
+        body: 'Requiere p(x) > 0.',
+        parts: ['probabilidad tras filtrar', 'proporción dentro de torre'],
       },
     },
     {
@@ -123,11 +125,13 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía conjunta',
-          tex: '\\p{1}{H(X,Y)}=\\p{2}{-\\sum_{x,y}p(x,y)\\log_2p(x,y)}', parts: ['información media del par', 'rareza media de pares'],
+          tex: '\\p{1}{H(X,Y)}=\\p{2}{-\\sum_{x,y}p(x,y)\\log_2p(x,y)}',
+          parts: ['información media del par', 'rareza media de pares'],
         },
         {
           label: 'Cuatro pares equiprobables',
-          tex: '\\p{1}{H(X,Y)}=\\p{2}{4\\cdot\\tfrac14\\cdot2}=\\p{3}{\\cM{2}}', parts: ['información media del par', 'con los cuatro pares', 'bits por par'],
+          tex: '\\p{1}{H(X,Y)}=\\p{2}{4\\cdot\\tfrac14\\cdot2}=\\p{3}{\\cM{2}}',
+          parts: ['información media del par', 'con los cuatro pares', 'bits por par'],
         },
       ],
     },
@@ -137,11 +141,13 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Entropía condicional',
-          tex: '\\p{1}{H(Y\\mid X)}=\\p{2}{\\sum_x\\cC{p(x)}H(Y\\mid X=x)}', parts: ['incertidumbre restante', 'promedio entre torres'],
+          tex: '\\p{1}{H(Y\\mid X)}=\\p{2}{\\sum_x\\cC{p(x)}H(Y\\mid X=x)}',
+          parts: ['incertidumbre restante', 'promedio entre torres'],
         },
         {
           label: 'Promedio entre filas',
-          tex: '\\p{1}{\\tfrac12\\cdot1}+\\p{2}{\\tfrac12\\cdot1}=\\p{3}{\\cA{1}}', parts: ['aporte de norte', 'aporte de sur', 'bits restantes de ruta'],
+          tex: '\\p{1}{\\tfrac12\\cdot1}+\\p{2}{\\tfrac12\\cdot1}=\\p{3}{\\cA{1}}',
+          parts: ['aporte de norte', 'aporte de sur', 'bits restantes de ruta'],
         },
       ],
     },
@@ -156,7 +162,8 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Regla de la cadena',
-        tex: '\\p{1}{\\cM{H(X,Y)}}=\\p{2}{\\cC{H(X)}}+\\p{3}{\\cA{H(Y\\mid X)}}', parts: ['información total del par', 'incertidumbre de torre', 'ruta pendiente dada torre'],
+        tex: '\\p{1}{\\cM{H(X,Y)}}=\\p{2}{\\cC{H(X)}}+\\p{3}{\\cA{H(Y\\mid X)}}',
+        parts: ['información total del par', 'incertidumbre de torre', 'ruta pendiente dada torre'],
       },
     },
     {
@@ -164,7 +171,8 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Cadena en sentido inverso',
-        tex: '\\begin{aligned}\\p{1}{H(X,Y)}&=\\p{2}{H(Y)+H(X\\mid Y)}\\\\&=\\p{3}{\\cA{2}+\\cC{0}=2}\\end{aligned}', parts: ['información total del par', 'ruta y torre pendiente', 'bits por par'],
+        tex: '\\begin{aligned}\\p{1}{H(X,Y)}&=\\p{2}{H(Y)+H(X\\mid Y)}\\\\&=\\p{3}{\\cA{2}+\\cC{0}=2}\\end{aligned}',
+        parts: ['información total del par', 'ruta y torre pendiente', 'bits por par'],
       },
     },
   ],
@@ -403,11 +411,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Caseta, 04:25. La puerta golpea con el viento; Teo intenta sujetarla con el pie sin soltar el lector.',
+          text: 'Caseta, cuatro y veinticinco. La puerta golpeaba con el viento, y Teo intentaba sujetarla con el pie sin soltar el lector.',
         },
-        { who: 'teo', text: 'Dos torres, cuatro rutas. Puedo guardar las listas por separado.' },
+        { who: 'teo', text: 'Dos torres y cuatro rutas. Puedo guardar las listas por separado.' },
         { who: 'ines', text: 'Y mandar una ruta por una torre que nunca la tuvo.' },
-        { who: 'iris', text: 'Abre los cruces. El informe dejó justo esa columna fuera.' },
+        { who: 'iris', text: 'Abre los cruces. El informe dejó fuera justo esa columna.' },
       ],
     },
     {
@@ -454,13 +462,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El filtro Sur deja c y d encendidas. Por debajo de la puerta entra olor a cable húmedo.',
+          text: 'El filtro Sur dejó encendidas c y d. Por debajo de la puerta entraba olor a cable húmedo.',
         },
         { who: 'ines', text: 'Ese tramo lo mantuvimos andando cuando Halcón dejó de pagar.' },
-        { who: 'iris', text: 'Alguien encontró un uso rentable.' },
+        { who: 'iris', text: '¿Quién más sabía que seguía andando?' },
         {
           who: 'nar',
-          text: 'La ruta d termina en el repetidor de reserva. En el plano oficial, ese espacio es una mancha gris.',
+          text: 'La ruta d terminaba en el repetidor de reserva. En el plano oficial, ese lugar era una mancha gris.',
         },
       ],
     },

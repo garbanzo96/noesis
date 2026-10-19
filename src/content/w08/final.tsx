@@ -231,7 +231,8 @@ export const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Evento de reserva',
-        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2(8/64)}=\\p{3}{\\cC{3}}', parts: ['información de d', 'con los datos del lote', 'bits del evento'],
+        tex: '\\p{1}{I(D)}=\\p{2}{-\\log_2(8/64)}=\\p{3}{\\cC{3}}',
+        parts: ['información de d', 'con los datos del lote', 'bits del evento'],
       },
     },
     {
@@ -239,7 +240,8 @@ export const lesson: LessonStep = {
       gate: 'Arrastra D al centro del nodo de su hoja 111, sobre la etiqueta D.',
       board: {
         label: 'Palabra y media',
-        tex: '\\p{1}{c(D)=\\cC{111}},\\quad\\p{2}{\\bar L=H(P)=\\tfrac74}', parts: ['palabra asignada a d', 'media igual a entropía'],
+        tex: '\\p{1}{c(D)=\\cC{111}},\\quad\\p{2}{\\bar L=H(P)=\\tfrac74}',
+        parts: ['palabra asignada a d', 'media igual a entropía'],
       },
     },
     {
@@ -251,7 +253,11 @@ export const lesson: LessonStep = {
         explain:
           'Solo Sur usa d: la torre queda determinada. El 1 mide la torre antes del filtro; el 2 mide la ruta antes de conocer nada.',
       },
-      board: { label: 'Entropía condicional', tex: '\\p{1}{H(X\\mid Y)}=\\p{2}{H(X,Y)-H(Y)}', parts: ['torre pendiente dada ruta', 'par menos ruta conocida'] },
+      board: {
+        label: 'Entropía condicional',
+        tex: '\\p{1}{H(X\\mid Y)}=\\p{2}{H(X,Y)-H(Y)}',
+        parts: ['torre pendiente dada ruta', 'par menos ruta conocida'],
+      },
     },
     {
       say: 'Compara las cintas y la capacidad. KL mide espacio extra por símbolo; C mide información útil por uso del canal: conserva las unidades al comparar.',
@@ -259,11 +265,13 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Perfil cambiado',
-          tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{\\cA{\\tfrac58}\\ \\mathrm{bits/símbolo}}', parts: ['exceso por perfil ajeno', 'bits extra por símbolo'],
+          tex: '\\p{1}{D(P\\Vert Q)}=\\p{2}{\\cA{\\tfrac58}\\ \\mathrm{bits/símbolo}}',
+          parts: ['exceso por perfil ajeno', 'bits extra por símbolo'],
         },
         {
           label: 'Enlace de inversiones',
-          tex: '\\p{1}{C}\\approx\\p{2}{\\cC{0{,}1887}\\ \\mathrm{bits/uso}}', parts: ['información máxima por uso', 'bits útiles por uso'],
+          tex: '\\p{1}{C}\\approx\\p{2}{\\cC{0{,}1887}\\ \\mathrm{bits/uso}}',
+          parts: ['información máxima por uso', 'bits útiles por uso'],
         },
       ],
     },
@@ -271,8 +279,16 @@ export const lesson: LessonStep = {
       say: 'Las comprobaciones proponen una posición bajo el límite de una inversión. La copia reconstruida entra al expediente después de la validación del paquete completo.',
       dur: 3,
       board: [
-        { label: 'Posición de corrección', tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}', parts: ['posición que corregir', 'posición según paridades'] },
-        { label: 'Orden del síndrome', tex: '\\p{1}{(s_4s_2s_1)_2}=\\p{2}{101_2}=\\p{3}{5}', parts: ['paridades ordenadas por peso', 'síndrome del caso', 'quinto bit'] },
+        {
+          label: 'Posición de corrección',
+          tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}',
+          parts: ['posición que corregir', 'posición según paridades'],
+        },
+        {
+          label: 'Orden del síndrome',
+          tex: '\\p{1}{(s_4s_2s_1)_2}=\\p{2}{101_2}=\\p{3}{5}',
+          parts: ['paridades ordenadas por peso', 'síndrome del caso', 'quinto bit'],
+        },
       ],
     },
   ],
@@ -581,14 +597,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Caseta, 06:40. La luz del monitor se refleja en el auricular abandonado; Iris todavía no cierra el informe.',
+          text: 'Caseta, veinte para las siete. La luz del monitor se reflejaba en el auricular que Inés había dejado sobre la mesa, e Iris todavía no cerraba el informe.',
         },
-        { who: 'ines', text: 'Mi autorización queda. El cambio de perfil también.' },
-        { who: 'iris', text: 'Quedan las dos cosas. El informe aguanta si aguanta cada lectura.' },
+        {
+          who: 'ines',
+          text: 'Mi autorización queda en el informe, y el cambio de perfil también.',
+        },
+        {
+          who: 'iris',
+          text: 'Quedan las dos. El informe se sostiene si se sostiene cada lectura.',
+        },
         { who: 'tu', text: 'La ruta d, la copia original y el paquete validado van juntos.' },
         {
           who: 'nar',
-          text: 'Teo abre el mensaje; bajo el destino aparece un campo meteorológico.',
+          text: 'Teo abrió el mensaje. Bajo el destino aparecía un campo meteorológico.',
         },
       ],
     },
@@ -635,18 +657,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '06:55. La lluvia golpea el plato de reserva; Teo muestra el mensaje validado: «Entrega de vacunas: El Observatorio. 18 de agosto de 2089, de 02:00 a 02:30. Usar ventana de tormenta. Mantener el horario fuera del pronóstico público».',
+          text: 'Cinco para las siete. La lluvia golpeaba el plato de reserva cuando Teo mostró el mensaje validado: «Entrega de vacunas: El Observatorio. 18 de agosto de 2089, de 02:00 a 02:30. Usar ventana de tormenta. Mantener el horario fuera del pronóstico público».',
         },
         {
           who: 'teo',
           text: 'La fecha estaba en el cuerpo. La cabecera solo nos trajo hasta esta copia.',
         },
         { who: 'ines', text: 'A mí me pidieron sostener el enlace. Nadie habló de vacunas.' },
-        { who: 'iris', text: 'Alguien sí miró el cielo antes de fijar la entrega.' },
+        { who: 'iris', text: 'Entonces alguien miró el cielo antes de fijar la entrega.' },
         { who: 'tu', text: 'El pronóstico público para esa ventana sigue despejado.' },
         {
           who: 'nar',
-          text: 'Teo abre el mapa de El Observatorio; una estación de ladera registra una ráfaga que el modelo dejó fuera. El aviso oficial conserva su fondo azul.',
+          text: 'Teo abrió el mapa de El Observatorio. Una estación de ladera había registrado una ráfaga que el modelo dejó fuera, y el aviso oficial seguía con su fondo azul.',
         },
       ],
     },

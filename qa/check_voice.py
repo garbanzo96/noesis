@@ -20,7 +20,8 @@ for f in files:
         for b in BLACK:
             if re.search(b, low):
                 issues.append(f"{f.split('src/content/')[-1]}: «{t[:90]}» → {b}")
-        if len(re.findall(r'[.!?…](?:\s|$)', t)) > 3:
+        # quoted documents («…») do not count as narration
+        if len(re.findall(r'[.!?…](?:\s|$)', re.sub(r'«[^»]*»', '«»', t))) > 3:
             issues.append(f"{f.split('src/content/')[-1]}: más de tres frases: «{t[:90]}»")
 print(f'líneas revisadas: {n}, alertas: {len(issues)}')
 for i in issues:

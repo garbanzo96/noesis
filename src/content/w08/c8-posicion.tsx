@@ -270,7 +270,8 @@ export const lesson: LessonStep = {
       board: {
         label: 'Paridad par',
         tex: '\\p{1}{b_1\\oplus\\cdots\\oplus b_n}\\oplus\\p{2}{\\cA{p}}=\\p{3}{0}',
-        body: 'XOR es suma módulo dos.', parts: ['paridad de los datos', 'bit de comprobación', 'paridad total esperada'],
+        body: 'XOR es suma módulo dos.',
+        parts: ['paridad de los datos', 'bit de comprobación', 'paridad total esperada'],
       },
     },
     {
@@ -278,7 +279,13 @@ export const lesson: LessonStep = {
       gate: 'Arrastra el voto 1 al círculo «Salida» del bloque 101.',
       board: {
         label: 'Votación y tasa',
-        tex: '\\p{1}{111}\\to\\p{2}{101}\\to\\p{3}{\\cC{1}},\\quad\\p{4}{R=\\tfrac13}', parts: ['triple copia enviada', 'copia con una inversión', 'dato por mayoría', 'datos por bit enviado'],
+        tex: '\\p{1}{111}\\to\\p{2}{101}\\to\\p{3}{\\cC{1}},\\quad\\p{4}{R=\\tfrac13}',
+        parts: [
+          'triple copia enviada',
+          'copia con una inversión',
+          'dato por mayoría',
+          'datos por bit enviado',
+        ],
       },
     },
     {
@@ -287,9 +294,20 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Posiciones de Hamming',
-          tex: '\\p{1}{w}=(\\p{2}{\\cA{p_1,p_2}},\\p{3}{d_1},\\p{4}{\\cA{p_4}},\\p{5}{d_2,d_3,d_4})', parts: ['palabra codificada', 'primeras dos comprobaciones', 'primer dato', 'tercera comprobación', 'otros tres datos'],
+          tex: '\\p{1}{w}=(\\p{2}{\\cA{p_1,p_2}},\\p{3}{d_1},\\p{4}{\\cA{p_4}},\\p{5}{d_2,d_3,d_4})',
+          parts: [
+            'palabra codificada',
+            'primeras dos comprobaciones',
+            'primer dato',
+            'tercera comprobación',
+            'otros tres datos',
+          ],
         },
-        { label: 'Tasa de Hamming(7,4)', tex: '\\p{1}{R}=\\p{2}{\\tfrac47}', parts: ['datos por bit enviado', 'cuatro datos entre siete'] },
+        {
+          label: 'Tasa de Hamming(7,4)',
+          tex: '\\p{1}{R}=\\p{2}{\\tfrac47}',
+          parts: ['datos por bit enviado', 'cuatro datos entre siete'],
+        },
       ],
     },
     {
@@ -298,9 +316,14 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Comprobaciones',
-          tex: '\\p{1}{s_1=\\cM{1}},\\quad\\p{2}{s_2=0},\\quad\\p{3}{s_4=\\cM{1}}', parts: ['falla del primer grupo', 'segundo grupo sin falla', 'falla del tercer grupo'],
+          tex: '\\p{1}{s_1=\\cM{1}},\\quad\\p{2}{s_2=0},\\quad\\p{3}{s_4=\\cM{1}}',
+          parts: ['falla del primer grupo', 'segundo grupo sin falla', 'falla del tercer grupo'],
         },
-        { label: 'Índice del síndrome', tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}=\\p{3}{5}', parts: ['posición que corregir', 'posición según paridades', 'quinto bit'] },
+        {
+          label: 'Índice del síndrome',
+          tex: '\\p{1}{j}=\\p{2}{s_1+2s_2+4s_4}=\\p{3}{5}',
+          parts: ['posición que corregir', 'posición según paridades', 'quinto bit'],
+        },
       ],
     },
     {
@@ -308,7 +331,8 @@ export const lesson: LessonStep = {
       gate: 'Arrastra el marcador ↺ al quinto bit. Debe quedar 0110011 y síndrome 000.',
       board: {
         label: 'Recalcular después de invertir',
-        tex: '\\p{1}{\\operatorname{síndrome}(w)}=\\p{2}{000}', parts: ['comprobaciones tras corregir', 'sin fallas de paridad'],
+        tex: '\\p{1}{\\operatorname{síndrome}(w)}=\\p{2}{000}',
+        parts: ['comprobaciones tras corregir', 'sin fallas de paridad'],
       },
     },
     {
@@ -322,18 +346,24 @@ export const lesson: LessonStep = {
       },
       board: {
         label: 'Extraer datos',
-        tex: '\\p{1}{\\operatorname{datos}(w)}=(\\p{2}{w_3},\\p{3}{w_5},\\p{4}{w_6},\\p{5}{w_7})', parts: ['datos recuperados', 'primer dato', 'segundo dato', 'tercer dato', 'cuarto dato'],
+        tex: '\\p{1}{\\operatorname{datos}(w)}=(\\p{2}{w_3},\\p{3}{w_5},\\p{4}{w_6},\\p{5}{w_7})',
+        parts: ['datos recuperados', 'primer dato', 'segundo dato', 'tercer dato', 'cuarto dato'],
       },
     },
     {
       say: 'Con dos inversiones, el síndrome puede señalar otro bit y el intento dar una palabra válida con datos equivocados. Hamming corrige una inversión; estos códigos cortos también tienen tasas superiores a la capacidad del enlace anterior.',
       dur: 3,
       board: [
-        { label: 'Distancia mínima', tex: '\\p{1}{d_{\\min}}=\\p{2}{3}', parts: ['separación mínima de códigos', 'bits que los separan'] },
+        {
+          label: 'Distancia mínima',
+          tex: '\\p{1}{d_{\\min}}=\\p{2}{3}',
+          parts: ['separación mínima de códigos', 'bits que los separan'],
+        },
         {
           label: 'Límite de la garantía',
           tex: '\\p{1}{\\text{corrección}}:\\ \\p{2}{\\text{hasta una inversión}}',
-          body: 'Sin el límite, síndrome cero tampoco prueba ausencia de errores. Hamming(7,4) sin paridad adicional no detecta de manera segura dos errores.', parts: ['garantía de recuperación', 'una inversión como máximo'],
+          body: 'Sin el límite, síndrome cero tampoco prueba ausencia de errores. Hamming(7,4) sin paridad adicional no detecta de manera segura dos errores.',
+          parts: ['garantía de recuperación', 'una inversión como máximo'],
         },
       ],
     },
@@ -584,20 +614,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Copia local del terminal, 06:15. El chip descansa sobre una toalla húmeda; Teo abre un archivo de trabajo.',
+          text: 'Copia local del terminal, seis y cuarto. El chip descansaba sobre una toalla húmeda, y Teo abrió un archivo de trabajo.',
         },
         {
           who: 'teo',
           text: 'Las comprobaciones apuntan a una posición. Voy a corregir solo la copia de trabajo.',
         },
-        { who: 'iris', text: 'Y el mensaje entero se valida después.' },
+        { who: 'iris', text: 'Y después se valida el mensaje entero.' },
         {
           who: 'ines',
           text: 'Esos dos bloques llegaron separados. El hueco entre ellos ya está recuperado.',
         },
         {
           who: 'nar',
-          text: 'Los originales quedan abiertos al lado: ambos fallan en los mismos grupos.',
+          text: 'Los originales quedaron abiertos al lado, y los dos fallaban en los mismos grupos.',
         },
       ],
     },
@@ -652,13 +682,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El paquete reconstruido pasa la validación. Inés se saca el auricular; se oye el agua correr por el desagüe.',
+          text: 'El paquete reconstruido pasó la validación. Inés se sacó el auricular, y se oyó el agua correr por el desagüe.',
         },
         { who: 'teo', text: 'La copia pasó. Ya puedo abrir el cuerpo con la credencial del chip.' },
-        { who: 'iris', text: 'Déjalo completo. Esta vez el horario también entra al expediente.' },
+        { who: 'iris', text: 'Ábrelo completo. Esta vez el horario también entra al expediente.' },
         {
           who: 'nar',
-          text: 'La primera línea nombra El Observatorio; el horario está bajo «ventana meteorológica».',
+          text: 'La primera línea nombraba El Observatorio, y el horario aparecía bajo «ventana meteorológica».',
         },
       ],
     },
