@@ -171,8 +171,8 @@ export function Html({
         top: `${(y / H) * 100}%`,
         transform: `translate(${tx})`,
         opacity: op,
-        // labels scale with the stage but never drop below a legible floor (see --label-min)
-        fontSize: `max(calc(var(--su) * ${size}), var(--label-min, 0px))`,
+        // labels scale with the stage (times --stage-text) and never drop below a legible floor
+        fontSize: `max(calc(var(--su) * ${size} * var(--stage-text, 1)), var(--label-min, 0px))`,
         color,
         pointerEvents: interactive ? 'auto' : 'none',
         ...style,

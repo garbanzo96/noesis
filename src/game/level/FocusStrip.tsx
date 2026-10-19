@@ -51,24 +51,32 @@ export function FocusStrip({
   tone?: 'note';
   instant?: boolean;
 }) {
-  const parts = lines.reduce((n, l) => n + Math.max(1, (l.tex.match(/\\p\{/g) ?? []).length), 0);
+  // one line after another: each line owns a share of the progress proportional to its parts
+  const sizes = lines.map((l) => Math.max(1, (l.tex.match(/\\p\{/g) ?? []).length));
+  const parts = sizes.reduce((a, b) => a + b, 0);
   const p = usePaced(progress, parts, instant);
+  let before = 0;
+  const local = sizes.map((n) => {
+    const v = Math.min(1, Math.max(0, (p * parts - before) / n));
+    before += n;
+    return v;
+  });
   return (
     <div className={`focus-strip ${lines.length ? 'on' : ''} ${tone ?? ''}`} aria-live="polite">
       {lines.map((line, i) => (
         <div
           key={i}
-          className={`focus-line ${line.parts?.length ? 'with-parts' : ''}`}
+          className={`focus-line ${line.parts?.length ? 'with-parts' : ''} ${i > 0 && local[i] <= 0 ? 'waiting' : ''}`}
           data-focus-line
         >
           {line.label && <span className="focus-label">{line.label}</span>}
           {line.tex && (
             <div className="focus-tex">
-              <AnimTex tex={line.tex} progress={p} display labels={line.parts} />
+              <AnimTex tex={line.tex} progress={local[i]} display labels={line.parts} />
             </div>
           )}
           {line.body && (
-            <p className="focus-body" style={{ opacity: p > 0.6 ? 1 : 0 }}>
+            <p className="focus-body" style={{ opacity: local[i] > 0.6 ? 1 : 0 }}>
               <Rich text={line.body} />
             </p>
           )}

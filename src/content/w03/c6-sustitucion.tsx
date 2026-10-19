@@ -198,6 +198,10 @@ function SubstLesson({ beats, answer, unlock }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Sustitución',
+  intro: {
+    question: '¿Cómo se integra una función que tiene otra función adentro?',
+    text: 'Esta clase es de cálculo integral. Al derivar una composición queda una marca: la función de adentro y su derivada multiplicando. Si reconocemos esa marca en un integrando, podemos integrarlo cambiando de variable. La necesitamos para medir la fuga de la válvula vieja, cuyo caudal decae con el tiempo.',
+  },
   Scene: SubstLesson,
   beats: [
     {

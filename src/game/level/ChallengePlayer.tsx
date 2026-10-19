@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
 import { CueCtx, useSingleGhost } from '../../engine/cue';
+import { useStageBuild } from '../../engine/build';
 import { useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
@@ -43,6 +44,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   const [feedback, setFeedback] = useState<{ ok: boolean; msg: string } | null>(null);
   const [phase, setPhase] = useState<'play' | 'solved' | 'desync'>('play');
   const [shaking, setShaking] = useState(false);
+  useStageBuild(stageArea, `${round}-${cycle}`, undefined, run.reduced);
   const seed = hashSeed(run.level.id, run.stepIndex, round, cycle, salt.current);
 
   const resetRoundUi = () => {
@@ -100,6 +102,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
     (window as unknown as { __round: unknown }).__round = {
       pass: () => api.result(true, 'QA'),
+      fail: () => api.result(false, 'QA'),
       round,
       phase,
     };

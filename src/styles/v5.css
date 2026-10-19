@@ -923,7 +923,9 @@
   border-radius: 8px;
   padding: 14px 16px 12px;
   box-shadow: 0 20px 50px #000c;
-  transition: top 0.35s ease, left 0.35s ease;
+  transition:
+    top 0.35s ease,
+    left 0.35s ease;
 }
 .coach-step {
   font-family: var(--mono);
@@ -1256,7 +1258,9 @@
   opacity: 0.32;
 }
 .cm-station .cm-disc {
-  transition: stroke-width 0.2s, filter 0.2s;
+  transition:
+    stroke-width 0.2s,
+    filter 0.2s;
 }
 .cm-station:hover .cm-disc,
 .cm-station.hl .cm-disc {
@@ -1270,7 +1274,10 @@
   width: 8.2em;
   line-height: 1.15;
   font-family: var(--mono);
-  text-shadow: 0 0 4px #07051a, 0 0 8px #07051a, 0 0 2px #07051a;
+  text-shadow:
+    0 0 4px #07051a,
+    0 0 8px #07051a,
+    0 0 2px #07051a;
 }
 .cm-label b {
   font-family: var(--display);
@@ -1322,7 +1329,9 @@
   border: 1px solid color-mix(in srgb, var(--accent) 45%, #2a2350);
   border-radius: 10px;
   background: linear-gradient(180deg, #0c0a1ce6, #080713f0);
-  box-shadow: 0 18px 50px #000a, 0 0 0 1px #0006 inset;
+  box-shadow:
+    0 18px 50px #000a,
+    0 0 0 1px #0006 inset;
   display: grid;
   grid-template-columns: 1fr auto;
   column-gap: 18px;
@@ -1383,7 +1392,10 @@
 .portrait-art {
   position: relative;
   display: block;
-  transition: filter 0.35s ease, opacity 0.35s ease, transform 0.35s ease;
+  transition:
+    filter 0.35s ease,
+    opacity 0.35s ease,
+    transform 0.35s ease;
 }
 .portrait-art img {
   display: block;
@@ -1435,11 +1447,19 @@
 .portrait-art.face {
   border-radius: 50%;
   overflow: hidden;
-  background: radial-gradient(circle at 50% 40%, color-mix(in srgb, var(--who) 30%, #0c0a1c), #0c0a1c 70%);
-  box-shadow: 0 0 0 2px var(--who), 0 0 14px color-mix(in srgb, var(--who) 45%, transparent);
+  background: radial-gradient(
+    circle at 50% 40%,
+    color-mix(in srgb, var(--who) 30%, #0c0a1c),
+    #0c0a1c 70%
+  );
+  box-shadow:
+    0 0 0 2px var(--who),
+    0 0 14px color-mix(in srgb, var(--who) 45%, transparent);
 }
 .portrait-art.holo img {
-  animation: holo-flicker 4.6s steps(1) infinite, portrait-breathe 5.2s ease-in-out infinite;
+  animation:
+    holo-flicker 4.6s steps(1) infinite,
+    portrait-breathe 5.2s ease-in-out infinite;
   mix-blend-mode: screen;
 }
 .portrait-art.holo::after {
@@ -1489,23 +1509,34 @@
   padding: 0 calc(var(--su) * 12) calc(var(--su) * 10);
   background: linear-gradient(180deg, #efe7d6, #e2d8c3);
   color: #1a1410;
-  box-shadow: calc(var(--su) * 6) calc(var(--su) * 9) 0 #0008, 0 0 0 calc(var(--su) * 1) #0003;
+  box-shadow:
+    calc(var(--su) * 6) calc(var(--su) * 9) 0 #0008,
+    0 0 0 calc(var(--su) * 1) #0003;
   font-size: calc(var(--su) * 18);
-  transition: transform 0.2s ease, box-shadow 0.2s ease, filter 0.2s;
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    filter 0.2s;
   overflow: hidden;
 }
 .case-card2.hover {
   transform: translateY(calc(var(--su) * -6)) scale(1.04);
-  box-shadow: calc(var(--su) * 8) calc(var(--su) * 14) 0 #0008, 0 0 0 calc(var(--su) * 3) var(--accent),
+  box-shadow:
+    calc(var(--su) * 8) calc(var(--su) * 14) 0 #0008,
+    0 0 0 calc(var(--su) * 3) var(--accent),
     0 0 calc(var(--su) * 24) color-mix(in srgb, var(--accent) 50%, transparent);
 }
 .case-card2.rec:not(.hover) {
-  box-shadow: calc(var(--su) * 6) calc(var(--su) * 9) 0 #0008, 0 0 0 calc(var(--su) * 3) var(--accent);
+  box-shadow:
+    calc(var(--su) * 6) calc(var(--su) * 9) 0 #0008,
+    0 0 0 calc(var(--su) * 3) var(--accent);
   animation: rec-pulse 1.8s ease-in-out infinite;
 }
 @keyframes rec-pulse {
   50% {
-    box-shadow: calc(var(--su) * 6) calc(var(--su) * 9) 0 #0008, 0 0 0 calc(var(--su) * 3) transparent;
+    box-shadow:
+      calc(var(--su) * 6) calc(var(--su) * 9) 0 #0008,
+      0 0 0 calc(var(--su) * 3) transparent;
   }
 }
 .case-card2.boss {
@@ -1622,7 +1653,8 @@
 .chapter-shade {
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, #07051af2 0%, #07051ad0 38%, #07051a55 70%, #07051a99 100%),
+  background:
+    linear-gradient(90deg, #07051af2 0%, #07051ad0 38%, #07051a55 70%, #07051a99 100%),
     linear-gradient(0deg, #07051ae0 0%, transparent 40%);
 }
 .chapter-copy {
@@ -1657,7 +1689,9 @@
   border: 3px solid var(--accent);
   border-radius: 50%;
   font-size: 0.6em;
-  box-shadow: 0 0 24px color-mix(in srgb, var(--accent) 50%, transparent), inset 0 0 18px #000;
+  box-shadow:
+    0 0 24px color-mix(in srgb, var(--accent) 50%, transparent),
+    inset 0 0 18px #000;
   background: #0c0a1ccc;
 }
 .chapter-area {
@@ -1804,7 +1838,9 @@
   right: 22px;
   bottom: 22px;
   z-index: 3;
-  box-shadow: 0 10px 30px #000a, 0 0 24px color-mix(in srgb, var(--accent, #28e7fa) 40%, transparent);
+  box-shadow:
+    0 10px 30px #000a,
+    0 0 24px color-mix(in srgb, var(--accent, #28e7fa) 40%, transparent);
 }
 @media (max-width: 760px) {
   .atlas-continue {
@@ -1887,7 +1923,8 @@
   content: '';
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 40%, transparent 45%, #05040cb0 100%),
+  background:
+    radial-gradient(ellipse at 50% 40%, transparent 45%, #05040cb0 100%),
     linear-gradient(0deg, #05040ce0 0%, transparent 35%);
   pointer-events: none;
 }
@@ -1977,7 +2014,8 @@
   inset: 0;
   z-index: 1;
   pointer-events: none;
-  background: linear-gradient(90deg, #07051af0 0%, #07051ac4 32%, #07051a40 62%, transparent 80%),
+  background:
+    linear-gradient(90deg, #07051af0 0%, #07051ac4 32%, #07051a40 62%, transparent 80%),
     linear-gradient(0deg, #07051acc 0%, transparent 30%);
 }
 .title-screen .title-block,
@@ -2123,7 +2161,9 @@
   line-height: 1.2;
   white-space: nowrap;
   color: var(--part);
-  text-shadow: 0 0 6px #070613, 0 0 2px #070613;
+  text-shadow:
+    0 0 6px #070613,
+    0 0 2px #070613;
 }
 @media (prefers-reduced-motion: reduce) {
   .part-note {
@@ -2139,7 +2179,6 @@
 .part-tint [class*='k-'] {
   color: inherit !important;
 }
-
 
 /* ---------------------------------------------------------------- foco y proporción
    la franja de la fórmula flota sobre el borde inferior del escenario (solo el 1,6 % de los
@@ -2184,4 +2223,335 @@
 .case-card2.review .cc-stamp {
   color: #c27a12;
   border-color: #c27a12;
+}
+
+/* =====================================================================================
+   V6.2 · lectura. Nada tapa el escenario: la fórmula tiene su propia franja bajo el dibujo y,
+   en pantallas apaisadas, la consola pasa a una columna a la derecha con toda la altura.
+   El texto del escenario sube de tamaño y se construye paso a paso con la narración.
+   ===================================================================================== */
+:root {
+  --label-min: 15px;
+  --stage-text: 1.18;
+  --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (max-width: 900px), (max-height: 520px) {
+  :root {
+    --label-min: 12px;
+    --stage-text: 1.05;
+  }
+}
+
+/* el escenario se arma de a un elemento (useStageBuild) */
+.stage-html[data-build='hold'] {
+  opacity: 0 !important;
+}
+.stage-html[data-build='in'] {
+  animation: build-in 0.55s var(--ease-out) both;
+}
+@keyframes build-in {
+  from {
+    opacity: 0;
+    translate: 0 10px;
+    filter: blur(3px);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .stage-html[data-build] {
+    animation: none;
+    opacity: 1 !important;
+  }
+}
+
+/* la franja de la fórmula es una fila propia, no flota sobre el dibujo */
+.play-stage > .focus-strip,
+.play-stage > .focus-strip:not(.on) {
+  position: static;
+  display: flex;
+  max-height: none;
+  overflow: visible;
+  padding: 10px 12px 12px;
+  background: none !important;
+  pointer-events: auto;
+}
+.play.lesson .play-stage > .focus-strip,
+.play.demo .play-stage > .focus-strip {
+  /* altura reservada: el escenario no salta de tamaño entre pasos */
+  min-height: clamp(104px, 17vh, 176px);
+  justify-content: center;
+  border-top: 1px solid var(--line) !important;
+}
+.play.lesson .play-stage > .focus-strip {
+  border-top-color: #1f3a33 !important;
+}
+.focus-tex {
+  font-size: clamp(22px, 2.35vw, 40px);
+}
+.focus-strip:has(.focus-line + .focus-line) .focus-tex {
+  font-size: clamp(19px, 1.85vw, 31px);
+}
+.focus-label {
+  font-size: 13px;
+}
+.focus-body {
+  font-size: 17px;
+  max-width: 70ch;
+}
+.focus-line {
+  transition: opacity 0.4s var(--ease-out);
+}
+.focus-line.waiting {
+  opacity: 0;
+}
+
+/* consola: texto más grande */
+.console-text {
+  font-size: 19px;
+  line-height: 1.55;
+}
+.ask-prompt {
+  font-size: 17px;
+}
+.opt {
+  font-size: 17px;
+}
+.ask-explain,
+.hints {
+  font-size: 16px;
+  line-height: 1.5;
+}
+.console-tex {
+  font-size: 26px;
+}
+.console-sub {
+  font-size: 16px;
+}
+
+/* apaisado y con espacio: consola en columna a la derecha, toda la altura */
+@media (min-width: 1100px) and (min-aspect-ratio: 13/10) {
+  .play.with-notes,
+  .play.with-notes.lesson {
+    --side-w: clamp(340px, 26vw, 460px);
+    grid-template-columns: minmax(0, 1fr) var(--side-w);
+    grid-template-rows: minmax(0, 1fr);
+  }
+  .play.with-notes > .play-stage {
+    grid-column: 1;
+    grid-row: 1;
+  }
+  .play.with-notes > .console {
+    grid-column: 2;
+    grid-row: 1;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) auto;
+    gap: 14px;
+    height: 100%;
+    min-height: 0;
+    max-height: none;
+    padding: 18px 20px 16px;
+    overflow: hidden;
+    border-top: none;
+    border-left: 1px solid var(--line2);
+    box-shadow: -14px 0 40px #0007;
+  }
+  .play.with-notes > .console::before {
+    top: 0;
+    left: -1px;
+    width: 2px;
+    height: 120px;
+  }
+  .play.with-notes > .console.tone-ok::before,
+  .play.with-notes > .console.tone-bad::before {
+    width: 2px;
+    height: 100%;
+  }
+  .play.with-notes > .console .console-speaker {
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    font-size: 11px;
+  }
+  .play.with-notes > .console .console-face {
+    width: 52px;
+    height: 52px;
+  }
+  .play.with-notes > .console .console-body {
+    min-height: 0;
+    overflow-y: auto;
+    padding-right: 6px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--line2) transparent;
+  }
+  .play.with-notes > .console .console-text {
+    max-width: none;
+  }
+  .play.with-notes > .console .console-actions {
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    min-width: 0;
+  }
+  .play.with-notes > .console .console-actions .btn,
+  .play.with-notes > .console .console-actions > div + button {
+    min-width: 0;
+  }
+  .play.with-notes > .console .wait-reason {
+    flex-basis: 100%;
+    text-align: left;
+    order: 3;
+  }
+  .play.with-notes > .console .ask-options {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .play.with-notes > .console .opt {
+    justify-content: flex-start;
+    text-align: left;
+  }
+  /* el escenario recupera el ancho que antes usaba la franja flotante */
+  .play.with-notes > .play-stage {
+    padding: 6px 14px 0 14px;
+  }
+}
+/* con 1700 px o más la pizarra también tiene columna propia */
+@media (min-width: 1700px) and (min-height: 641px) and (min-aspect-ratio: 13/10) {
+  .play.with-notes,
+  .play.with-notes.lesson {
+    grid-template-columns: minmax(0, 1fr) var(--side-w) 300px;
+  }
+  .play.with-notes > .rail {
+    grid-column: 3;
+    grid-row: 1;
+  }
+}
+@media (min-width: 1100px) and (min-aspect-ratio: 13/10) {
+  /* el botón de la pizarra vive en la columna del escenario, no sobre la consola */
+  .play.with-notes .rail-toggle {
+    right: calc(var(--side-w) + 14px);
+  }
+}
+
+/* tarjeta de contexto al abrir cada clase */
+.lesson-intro {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: grid;
+  align-content: center;
+  justify-items: start;
+  gap: clamp(18px, 3.4vh, 36px);
+  padding: 5% 8%;
+}
+.li-question {
+  margin: 0;
+  max-width: 24ch;
+  font-family: var(--body);
+  font-weight: 600;
+  font-size: clamp(28px, 3.3vw, 54px);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  color: #f2fffb;
+  text-wrap: balance;
+}
+.li-steps {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: li;
+  display: grid;
+  gap: 10px;
+  max-width: 64ch;
+}
+.li-steps li {
+  counter-increment: li;
+  display: grid;
+  grid-template-columns: 2.6em minmax(0, 1fr);
+  align-items: baseline;
+  font-size: clamp(16px, 1.3vw, 21px);
+  line-height: 1.4;
+  color: #bfe6dc;
+}
+.li-steps li::before {
+  content: counter(li, decimal-leading-zero);
+  font-family: var(--mono);
+  font-size: 0.78em;
+  color: #3df5c9;
+}
+.lesson-intro.animate .li-question {
+  animation: li-in 0.7s var(--ease-out) both;
+}
+.lesson-intro.animate .li-steps li {
+  animation: li-in 0.55s var(--ease-out) both;
+  animation-delay: calc(0.45s + var(--i) * 0.09s);
+}
+@keyframes li-in {
+  from {
+    opacity: 0;
+    translate: 0 14px;
+    filter: blur(4px);
+  }
+}
+/* la lista de pistas no se corta en el borde de la consola */
+.console .hints {
+  padding-left: 1.9em;
+}
+.console .hints.solving {
+  border-left: 0;
+  padding-left: 1.9em;
+}
+.console .hints .hints-title {
+  margin-left: -1.9em;
+  margin-bottom: 6px;
+}
+/* mientras se muestra la tarjeta de contexto no hay fórmula que reservar */
+.play.intro .play-stage > .focus-strip {
+  display: none;
+}
+
+/* pantallas angostas o bajas: la tarjeta de contexto se compacta y se desplaza dentro del escenario */
+@media (max-width: 700px), (max-height: 560px) {
+  .lesson-intro {
+    align-content: start;
+    gap: 10px;
+    padding: 36px 5% 12px;
+    overflow-y: auto;
+  }
+  .li-question {
+    font-size: clamp(19px, 5.2vw, 28px);
+  }
+  .li-steps {
+    gap: 4px;
+  }
+  .li-steps li {
+    font-size: 14px;
+  }
+}
+/* teléfono vertical: la etiqueta de la fórmula va encima, la fórmula baja de tamaño y el texto
+   corrido del escenario se parte en líneas en vez de salirse por los bordes */
+@media (max-width: 700px) and (orientation: portrait) {
+  .focus-line {
+    grid-template-columns: minmax(0, 1fr);
+    row-gap: 2px;
+  }
+  .focus-label,
+  .focus-tex,
+  .focus-body {
+    grid-column: 1;
+  }
+  .focus-tex,
+  .focus-strip:has(.focus-line + .focus-line) .focus-tex {
+    font-size: clamp(15px, 4.4vw, 21px);
+  }
+  .focus-body {
+    font-size: 15px;
+  }
+  .stage-html > span:not(:has(.katex)) {
+    display: inline-block;
+    max-width: calc(100cqw * 0.72);
+    white-space: normal;
+    text-align: center;
+  }
 }

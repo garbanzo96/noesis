@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
 import { CueCtx, useSingleGhost } from '../../engine/cue';
+import { useStageBuild } from '../../engine/build';
 import { useDrawOn } from '../../engine/draw';
 import { useBeats, useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
@@ -9,6 +10,7 @@ import { recordPrediction } from '../state';
 import { Board, linesOf } from './Board';
 import { Console, KeyHint } from './Console';
 import { FocusStrip } from './FocusStrip';
+import { LessonIntro } from './LessonIntro';
 import { Notebook } from './Notebook';
 import { Rail, flyToRail } from './Rail';
 import { hashSeed, useRun } from './context';
@@ -27,6 +29,9 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const n = step.beats.length;
   const beats = useBeats(n, (b) => step.beats[b]?.dur ?? (lesson ? 2.2 : 1.4), run.reduced);
   const [typedBeat, setTypedBeat] = useState(-1);
+  // a lesson opens with its context card before the first beat
+  const intro = lesson ? step.intro : undefined;
+  const [inIntro, setInIntro] = useState(!!intro);
   // how far NÓESIS has spoken the current beat: the formula is written at that pace
   const [spoken, setSpoken] = useState({ beat: -1, f: 0 });
   const typed = typedBeat === beats.beat;
@@ -37,7 +42,14 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const noted = useRef(new Set<number>());
   const stageArea = useRef<HTMLDivElement>(null);
   useSingleGhost(stageArea);
-  useDrawOn(stageArea, beats.beat, run.reduced);
+  useDrawOn(stageArea, inIntro ? -1 : beats.beat, run.reduced);
+  // labels and formulas on the stage appear one by one while NÓESIS speaks the beat
+  useStageBuild(
+    stageArea,
+    inIntro ? -1 : beats.beat,
+    typed ? 1 : spoken.beat === beats.beat ? spoken.f : 0,
+    run.reduced,
+  );
   // options are shown in a fixed shuffled order per case and beat, so the answer is never "always the first"
   const orders = useMemo(
     () =>
@@ -93,6 +105,12 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   }, [unlocked[beats.beat], typed, beats.beat]);
 
   const advance = () => {
+    if (inIntro) {
+      sfx.advance();
+      setInIntro(false);
+      beats.goto(0);
+      return;
+    }
     if (!typed) {
       setSkip((s) => s + 1);
       return;
@@ -205,7 +223,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [answer, beats.beat, unlocked[beats.beat]]);
   return (
-    <div className={`play with-notes ${lesson ? 'lesson' : 'demo'}`}>
+    <div className={`play with-notes ${lesson ? 'lesson' : 'demo'} ${inIntro ? 'intro' : ''}`}>
       <div className={`play-stage ${cueActive ? 'cue-on' : ''}`}>
         <div
           className="stage-area"
@@ -217,9 +235,21 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
           ) : (
             <Backdrop place={run.place} dim={0.82} className="stage-backdrop" />
           )}
-          <CueCtx.Provider value={cue}>
-            <Scene beats={beats} reduced={run.reduced} unlock={unlock} answer={answer} />
-          </CueCtx.Provider>
+          {intro && inIntro ? (
+            <LessonIntro
+              question={intro.question}
+              steps={[
+                ...new Set(
+                  step.beats.flatMap((b) => linesOf(b).map((l) => l.label ?? '')).filter(Boolean),
+                ),
+              ]}
+              reduced={run.reduced}
+            />
+          ) : (
+            <CueCtx.Provider value={cue}>
+              <Scene beats={beats} reduced={run.reduced} unlock={unlock} answer={answer} />
+            </CueCtx.Provider>
+          )}
           <div className="stage-meta">
             <span className="stage-kicker">{lesson ? `Clase · ${step.title}` : step.title}</span>
             <div className="beat-dots" aria-label={`Paso ${beats.beat + 1} de ${n}`}>
@@ -238,7 +268,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
         </div>
         <FocusStrip
           key={`${beats.beat}-${lesson ? '' : done ? 1 : 0}-${answer === null ? 0 : 1}-${unlocked[beats.beat] ? 1 : 0}`}
-          lines={focus}
+          lines={inIntro ? [] : focus}
           progress={
             !lesson
               ? 1
@@ -272,38 +302,45 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
       </Rail>
       <Console
         who={lesson ? 'noesis' : undefined}
-        text={beat.say}
+        text={intro && inIntro ? intro.text : beat.say}
         skip={skip}
-        onTyped={() => setTypedBeat(beats.beat)}
-        onProgress={(f) => setSpoken({ beat: beats.beat, f })}
+        onTyped={() => !inIntro && setTypedBeat(beats.beat)}
+        onProgress={(f) => !inIntro && setSpoken({ beat: beats.beat, f })}
         tone={tone}
         actions={
-          <>
-            {(!beat.gate || beats.beat === n - 1) && (
-              <button
-                className={`btn ${done ? 'primary pulse' : ''}`}
-                onClick={advance}
-                disabled={waiting}
-              >
-                {beats.beat < n - 1 ? 'Seguir' : lesson ? 'A la investigación' : 'A la práctica'} ▸
-              </button>
-            )}
-            {waiting && (
-              <span className="wait-reason">
-                {needsAnswer ? 'Elige una respuesta' : 'Haz la acción indicada'}
-              </span>
-            )}
-            <button
-              className="btn ghost small"
-              onClick={() => beats.prev()}
-              disabled={beats.beat === 0}
-            >
-              ◂ Atrás
+          inIntro ? (
+            <button className="btn primary pulse" onClick={advance}>
+              Empezar la clase ▸
             </button>
-          </>
+          ) : (
+            <>
+              {(!beat.gate || beats.beat === n - 1) && (
+                <button
+                  className={`btn ${done ? 'primary pulse' : ''}`}
+                  onClick={advance}
+                  disabled={waiting}
+                >
+                  {beats.beat < n - 1 ? 'Seguir' : lesson ? 'A la investigación' : 'A la práctica'}{' '}
+                  ▸
+                </button>
+              )}
+              {waiting && (
+                <span className="wait-reason">
+                  {needsAnswer ? 'Elige una respuesta' : 'Haz la acción indicada'}
+                </span>
+              )}
+              <button
+                className="btn ghost small"
+                onClick={() => beats.prev()}
+                disabled={beats.beat === 0}
+              >
+                ◂ Atrás
+              </button>
+            </>
+          )
         }
       >
-        {beat.ask && typed && (
+        {!inIntro && beat.ask && typed && (
           <div className="ask">
             <div className="ask-prompt">
               <span className={`ask-tag ${lesson ? 'check' : ''}`}>
@@ -330,7 +367,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
             )}
           </div>
         )}
-        {beat.gate && typed && (
+        {!inIntro && beat.gate && typed && (
           <p className={`gate ${unlocked[beats.beat] ? 'done' : ''}`}>
             <span className="gate-icon" aria-hidden>
               {unlocked[beats.beat] ? '✓' : '☝'}

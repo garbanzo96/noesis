@@ -110,6 +110,8 @@ export interface BoardLine {
 export interface LessonStep {
   kind: 'lesson';
   title: string;
+  /** opening card: the question the class answers and two or three sentences of context, said by NÓESIS */
+  intro?: { question: string; text: string };
   Scene: ComponentType<DemoProps>;
   beats: Beat[];
 }
