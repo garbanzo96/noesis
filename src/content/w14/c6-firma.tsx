@@ -363,15 +363,15 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Piso 33, oficina de contabilidad. Diez escritorios, diez credenciales con acceso a la cuenta que apostaba con ventaja.',
+          text: 'Piso 33, oficina de contabilidad. Había diez escritorios y diez credenciales con acceso a la cuenta que apostaba con ventaja.',
         },
         {
           who: 'iris',
-          text: 'Cualquiera de los diez pudo operar la cuenta. Necesito saber cuánto pesa lo que encontramos, no lo que sospecho.',
+          text: 'Cualquiera de los diez pudo operar la cuenta. Necesito saber cuánto pesa lo que encontramos; lo que yo sospeche no cuenta.',
         },
         {
           who: 'teo',
-          text: 'Tres cosas: el horario de conexión, una firma en la apertura y una ficha del casino en el cajón.',
+          text: 'Son tres cosas: el horario de conexión, una firma en la apertura y una ficha del casino en un cajón.',
         },
       ],
     },
@@ -414,7 +414,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Iris fotografía la firma y guarda la ficha en una bolsa de evidencia.',
+          text: 'Iris fotografió la firma y guardó la ficha en una bolsa de evidencia.',
         },
         { who: 'iris', text: 'Cuarenta contra uno. Con eso pido la orden.' },
         {

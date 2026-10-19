@@ -505,13 +505,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Piso 40. La bahía se refleja en el vidrio; el Contador espera junto a la ventana, con una ficha del Casino Aurora entre los dedos.',
+          text: 'Piso 40. La bahía se reflejaba en el vidrio, y el Contador esperaba junto a la ventana con una ficha del Casino Aurora entre los dedos.',
         },
         {
           who: 'contador',
-          text: 'Si hubieran esperado otra ronda, habría terminado mi trabajo. Todavía podrían ahorrarse el suyo.',
+          text: 'Si hubieran esperado otra ronda, yo habría terminado mi trabajo. Todavía están a tiempo de ahorrarse el suyo.',
         },
-        { who: 'iris', text: 'Subimos ahora. Deja la ficha en el escritorio.' },
+        { who: 'iris', text: 'Ya subimos. Deja la ficha sobre el escritorio, por favor.' },
         {
           who: 'teo',
           text: 'Los servidores siguen escribiendo. Puedo copiar la cuenta, los horarios y el modelo con sus versiones.',
@@ -572,19 +572,19 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La copia termina con un clic. Iris gira la pantalla hacia la ventana para que el Contador vea las cifras.',
+          text: 'La copia terminó con un clic. Iris giró la pantalla hacia la ventana para que el Contador viera las cifras.',
         },
         {
           who: 'iris',
-          text: 'Tu credencial, cargada hace veinticuatro horas. El ascensor, ciento veinte metros por minuto en su tramo más rápido. La sala, dieciséis kilovatios-hora antes de cada anuncio. La firma, cuarenta contra uno. Y un modelo que manda recursos a los barrios donde tienes contratos.',
+          text: 'Tu credencial se cargó hace veinticuatro horas, el ascensor sube ciento veinte metros por minuto en su tramo más rápido y la sala gastó dieciséis kilovatios-hora antes de cada anuncio. La firma pesa cuarenta contra uno. Y el modelo manda recursos a los barrios donde tienes contratos.',
         },
         {
           who: 'contador',
-          text: 'Números. En el casino aprendí que la casa siempre gana porque nadie revisa la cuenta.',
+          text: 'Números. En el casino aprendí que la casa gana porque nadie revisa la cuenta.',
         },
         {
           who: 'teo',
-          text: 'Esta cuenta ya está copiada, con cada versión y su hora. También los cambios que intentaron borrar.',
+          text: 'Esta cuenta ya está copiada, con cada versión y su hora, y también con los cambios que intentaron borrar.',
         },
         {
           who: 'iris',
@@ -592,11 +592,11 @@ export const level: LevelSpec = {
         },
         {
           who: 'nar',
-          text: 'El Contador deja la ficha sobre el escritorio vacío. Iris la guarda en una bolsa de evidencia; por primera vez, él mira hacia la puerta.',
+          text: 'El Contador dejó la ficha sobre el escritorio vacío. Iris la guardó en una bolsa de evidencia, y por primera vez él miró hacia la puerta.',
         },
         {
           who: 'noesis',
-          text: 'Empezaste en el muelle contando cajas. Cada piso de esta torre fue una herramienta que aprendiste desde cero, y cada cifra del expediente es un cálculo que cualquiera puede repetir.',
+          text: 'Empezaste en el muelle contando cajas. Cada cifra de este expediente es un cálculo que aprendiste a hacer, y cualquiera puede repetirlo.',
         },
       ],
     },
@@ -606,7 +606,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Puerto, al amanecer. El motor del camión refrigerado sigue encendido mientras Rosa comprueba el sello del cargamento recuperado.',
+          text: 'Puerto, al amanecer. El motor del camión refrigerado seguía encendido mientras Rosa revisaba el sello del cargamento recuperado.',
         },
         {
           who: 'rosa',
@@ -615,11 +615,11 @@ export const level: LevelSpec = {
         { who: 'iris', text: 'Me quedo hasta que firmen la recepción.' },
         {
           who: 'nar',
-          text: 'Rosa baja la cortina del camión. Sobre el muelle, la ciudad amanece con las cuentas a la vista.',
+          text: 'Rosa bajó la cortina del camión. En el muelle, los estibadores empezaban el turno contando cajas, igual que el primer día.',
         },
         {
           who: 'noesis',
-          text: 'Caso cerrado. Las herramientas quedan en tu cuaderno; los recursos de estudio siguen abiertos para repasar cualquier mundo.',
+          text: 'Caso cerrado. Las herramientas quedan en tu cuaderno, y los recursos de estudio siguen abiertos para repasar cualquier mundo.',
         },
       ],
     },

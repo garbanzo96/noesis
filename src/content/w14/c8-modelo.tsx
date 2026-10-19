@@ -161,12 +161,18 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Cada par de barras muestra un sector: q es la proporción del modelo y p la de los registros. Aquí los registros reparten un cuarto en cada sector.',
-      board: { label: 'Dos distribuciones', tex: '\\p{1}{\\sum_i p_i}=\\p{2}{\\sum_i q_i}=\\p{3}{1}' },
+      board: {
+        label: 'Dos distribuciones',
+        tex: '\\p{1}{\\sum_i p_i}=\\p{2}{\\sum_i q_i}=\\p{3}{1}',
+      },
     },
     {
       say: 'La **divergencia KL** mide cuánto se aleja q de p, dando peso según p. Acerca el modelo a los registros: Centro y Sur ganan lo que Norte y Bahía ceden.',
       gate: 'Arrastra la perilla hasta 0,25 para que las cuatro proporciones del modelo coincidan con los registros.',
-      board: { label: 'Coincidencia', tex: '\\p{1}{p}=\\p{2}{q}\\Rightarrow\\p{3}{ KL(p\\Vert q)}=\\p{4}{0}' },
+      board: {
+        label: 'Coincidencia',
+        tex: '\\p{1}{p}=\\p{2}{q}\\Rightarrow\\p{3}{ KL(p\\Vert q)}=\\p{4}{0}',
+      },
     },
     {
       say: 'Vuelve el modelo original: 0,4; 0,1; 0,1; 0,4. Calcula cada término con logaritmo en base 2 y suma, incluidos los términos negativos.',
@@ -177,7 +183,10 @@ const lesson: LessonStep = {
         explain:
           '0,5 · log₂(0,625) + 0,5 · log₂(2,5) = 0,3219 bits. El 0,28 resulta de invertir p y q; KL tiene dirección.',
       },
-      board: { label: 'KL en bits', tex: '\\p{1}{KL(p\\Vert q)}=\\p{2}{\\sum_i p_i\\log_2\\frac{p_i}{q_i}}' },
+      board: {
+        label: 'KL en bits',
+        tex: '\\p{1}{KL(p\\Vert q)}=\\p{2}{\\sum_i p_i\\log_2\\frac{p_i}{q_i}}',
+      },
     },
     {
       say: 'Para **χ²**, pasa de proporciones a conteos: multiplica por el total N. En un lote de 200, el modelo espera 80, 20, 20 y 80; se observan 50 en cada sector.',
@@ -398,7 +407,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El último descanso antes del piso 40 huele a cable caliente; en una pantalla, Norte y Bahía ocupan casi todo el mapa de recursos.',
+          text: 'El último descanso antes del piso 40 olía a cable caliente. En una pantalla, Norte y Bahía ocupaban casi todo el mapa de recursos.',
         },
         {
           who: 'teo',
@@ -408,7 +417,7 @@ export const level: LevelSpec = {
           who: 'tu',
           text: 'En los registros hay un cuarto por sector. Esa tabla cambia el destino de los recursos.',
         },
-        { who: 'iris', text: 'Cuánto cambia. Con una cifra que podamos llevar arriba.' },
+        { who: 'iris', text: '¿Cuánto lo cambia? Necesito una cifra que podamos llevar arriba.' },
       ],
     },
     {
@@ -455,16 +464,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo termina la copia; la pantalla deja el mapa a la izquierda y los contratos de Norte y Bahía a la derecha.',
+          text: 'Teo terminó la copia. La pantalla dejó el mapa a la izquierda y los contratos de Norte y Bahía a la derecha.',
         },
         {
           who: 'teo',
-          text: 'Los registros quedaron parejos. La tabla de reparto concentra los recursos justo donde Halcón tiene contratos; guardé ambas versiones y sus fechas.',
+          text: 'Los registros salieron parejos, y la tabla de reparto concentra los recursos justo donde Halcón tiene contratos. Guardé las dos versiones con sus fechas.',
         },
-        { who: 'iris', text: 'La tabla también lleva firma. Esa va arriba con nosotros.' },
+        { who: 'iris', text: 'La tabla también lleva firma. Esa sube con nosotros.' },
         {
           who: 'nar',
-          text: 'Iris guarda el informe de 0,32 bits bajo el brazo; sobre la puerta de vidrio se enciende el número 40.',
+          text: 'Iris guardó bajo el brazo el informe de 0,32 bits. Sobre la puerta de vidrio se encendió el número 40.',
         },
       ],
     },

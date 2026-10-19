@@ -218,11 +218,17 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Al sumar queda 2x = 8, así que x = 4. De 4 − y = 1 resulta y = 3; 4 es x.',
       },
-      board: { label: 'Sustituir', tex: '\\p{1}{2x}=\\p{2}{8}\\Rightarrow\\p{3}{ x}=\\p{4}{4},\\quad\\p{5}{ y}=\\p{6}{x-1}=\\p{7}{3}' },
+      board: {
+        label: 'Sustituir',
+        tex: '\\p{1}{2x}=\\p{2}{8}\\Rightarrow\\p{3}{ x}=\\p{4}{4},\\quad\\p{5}{ y}=\\p{6}{x-1}=\\p{7}{3}',
+      },
     },
     {
       say: 'Vuelve al par (3, 2) del repaso. Comprueba las dos ecuaciones: acertar una sola deja tiempos que el otro registro descarta.',
-      board: { label: 'Comprobar ambos registros', tex: '\\p{1}{3+2}=\\p{2}{5},\\quad\\p{3}{3-2}=\\p{4}{1}' },
+      board: {
+        label: 'Comprobar ambos registros',
+        tex: '\\p{1}{3+2}=\\p{2}{5},\\quad\\p{3}{3-2}=\\p{4}{1}',
+      },
     },
   ],
 };
@@ -379,7 +385,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La radio de un guardia cruje detrás de la puerta cortafuego. Iris apoya la mano en la barra, pero todavía no empuja.',
+          text: 'La radio de un guardia crujió detrás de la puerta cortafuego. Iris apoyó la mano en la barra, todavía sin empujar.',
         },
         {
           who: 'teo',
@@ -436,16 +442,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La radio se aleja. Iris abre apenas la puerta; una franja de luz blanca corta el piso.',
+          text: 'La radio se alejó. Iris entreabrió la puerta, y una franja de luz blanca cortó el piso.',
         },
         {
           who: 'teo',
-          text: 'Cuatro minutos el largo, dos el corto. Los dos registros calzan; dejé el aviso del sistema en silencio.',
+          text: 'Cuatro minutos el largo y dos el corto. Los dos registros calzan, y dejé el aviso del sistema en silencio.',
         },
-        { who: 'iris', text: 'Dos minutos. La puerta queda en mi mano.' },
+        { who: 'iris', text: 'Dos minutos, entonces. Yo sostengo la puerta.' },
         {
           who: 'nar',
-          text: 'Cruzas junto a Teo. Al fondo, el teclado del servidor enciende una luz roja y pide una clave.',
+          text: 'Cruzaste junto a Teo. Al fondo, el teclado del servidor encendió una luz roja y pidió una clave.',
         },
       ],
     },

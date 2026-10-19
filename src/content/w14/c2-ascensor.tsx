@@ -161,7 +161,10 @@ const lesson: LessonStep = {
     },
     {
       say: 'En un intervalo cerrado, compara el punto crítico con los extremos. La velocidad vale 0 al partir y al llegar, y 120 m/min al minuto 1.',
-      board: { label: 'Comparación completa', tex: '\\p{1}{v(0)}=\\p{2}{0},\\quad\\p{3}{ v(1)}=\\p{4}{120},\\quad\\p{5}{ v(2)}=\\p{6}{0}' },
+      board: {
+        label: 'Comparación completa',
+        tex: '\\p{1}{v(0)}=\\p{2}{0},\\quad\\p{3}{ v(1)}=\\p{4}{120},\\quad\\p{5}{ v(2)}=\\p{6}{0}',
+      },
     },
   ],
 };
@@ -377,13 +380,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La cabina de vidrio vibra al cerrar las puertas. Abajo, las luces de la bahía quedan partidas por el marco metálico.',
+          text: 'La cabina de vidrio vibró al cerrar las puertas. Abajo, el marco metálico partía en dos las luces de la bahía.',
         },
         {
           who: 'teo',
-          text: 'El controlador guarda la altura por minuto y tiene dos minutos de recorrido. Puedo revisar la subida antes de que nos encierre arriba.',
+          text: 'El controlador guarda la altura minuto a minuto, y el recorrido dura dos minutos. Puedo revisar la subida antes de que nos encierre arriba.',
         },
-        { who: 'iris', text: 'Revisa el frenado. Quiero llegar con las piernas enteras.' },
+        { who: 'iris', text: 'Revisa el frenado, por favor.' },
         { who: 'tu', text: 'La curva se aplana al final. Voy a comprobar la velocidad.' },
       ],
     },
@@ -431,16 +434,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La cabina se detiene sin un golpe, a 160 metros. Iris suelta el pasamanos cuando las puertas empiezan a abrirse.',
+          text: 'La cabina se detuvo sin un golpe, a 160 metros. Iris soltó el pasamanos cuando las puertas empezaron a abrirse.',
         },
         {
           who: 'teo',
-          text: 'El frenado calza con el registro. Pero el sistema de ventilación sigue al máximo, aunque este piso figura vacío.',
+          text: 'El frenado calza con el registro. Pero la ventilación sigue al máximo, aunque este piso figura vacío.',
         },
-        { who: 'iris', text: 'Vacío y gastando luz. Qué oficina tan aplicada.' },
+        { who: 'iris', text: 'Un piso vacío no necesita tanto aire. ¿Qué hay al fondo?' },
         {
           who: 'nar',
-          text: 'Por la abertura entra aire caliente. Al fondo del pasillo, una hilera de servidores tiñe el vidrio de rojo.',
+          text: 'Por la abertura entraba aire caliente. Al fondo del pasillo, una hilera de servidores teñía el vidrio de rojo.',
         },
       ],
     },

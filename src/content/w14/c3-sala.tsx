@@ -207,7 +207,10 @@ const lesson: LessonStep = {
     },
     {
       say: 'El área tiene un rectángulo de base 4 y altura 1, más un triángulo de base 4 y altura 4. Sus áreas suman 12 kWh.',
-      board: { label: 'Dos áreas', tex: '\\p{1}{E}=\\p{2}{1\\cdot4+\\frac{4\\cdot4}{2}}=\\p{3}{12}' },
+      board: {
+        label: 'Dos áreas',
+        tex: '\\p{1}{E}=\\p{2}{1\\cdot4+\\frac{4\\cdot4}{2}}=\\p{3}{12}',
+      },
     },
     {
       say: 'Ahora recorta el mismo registro a sus primeras dos horas.',
@@ -374,7 +377,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Piso 21, sala técnica. El aire que sale de la rejilla quema los dedos: aquí descargan su calor los servidores del piso 40.',
+          text: 'Piso 21, sala técnica. El aire de la rejilla quemaba los dedos; ahí descargaban su calor los servidores del piso 40.',
         },
         {
           who: 'teo',
@@ -431,19 +434,19 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo guarda la curva completa. El ventilador acelera y tapa por un momento el ruido de pasos al otro lado del pasillo.',
+          text: 'Teo guardó la curva completa. El ventilador aceleró y tapó por un momento un ruido de pasos al otro lado del pasillo.',
         },
         {
           who: 'teo',
-          text: 'Dieciséis kWh antes del anuncio. El panel dice reposo, pero el sistema estuvo trabajando cada vez más.',
+          text: 'Dieciséis kWh antes del anuncio. El panel dice reposo, pero el sistema trabajó cada vez más.',
         },
         {
           who: 'iris',
-          text: 'Guarda también ese panel. Alguien va a tener que explicar su idea de descanso.',
+          text: 'Guarda también ese panel. Alguien tendrá que explicar por qué dice reposo.',
         },
         {
           who: 'nar',
-          text: 'En el reflejo del vidrio aparece una linterna. Se detiene junto a la puerta y luego sigue de largo.',
+          text: 'En el reflejo del vidrio apareció una linterna. Se detuvo junto a la puerta y después siguió de largo.',
         },
       ],
     },

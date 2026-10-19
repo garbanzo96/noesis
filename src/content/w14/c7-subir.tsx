@@ -164,7 +164,10 @@ const lesson: LessonStep = {
         explain:
           '0,6·40 − 0,4·20 = 24 − 8 = 16. El 32 suma la pérdida como ganancia; el 24 omite el fracaso.',
       },
-      board: { label: 'Ponderar ambos resultados', tex: '\\p{1}{E_a}=\\p{2}{0{,}6\\cdot40-0{,}4\\cdot20}' },
+      board: {
+        label: 'Ponderar ambos resultados',
+        tex: '\\p{1}{E_a}=\\p{2}{0{,}6\\cdot40-0{,}4\\cdot20}',
+      },
     },
     {
       say: 'Esperar conserva esas probabilidades, pero demora una ronda. El **descuento** γ convierte el valor futuro a valor de ahora: prueba γ = 0,8.',
@@ -371,7 +374,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La puerta de vidrio vibra cuando pasa la ronda de guardias. Iris mantiene un pie en el primer peldaño.',
+          text: 'La puerta de vidrio vibró al pasar la ronda de guardias. Iris tenía un pie en el primer peldaño.',
         },
         {
           who: 'teo',
@@ -427,16 +430,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Iris apoya la mano en la barra de la puerta. El indicador cambia de rojo a blanco antes de que termine el zumbido del cierre.',
+          text: 'Iris apoyó la mano en la barra de la puerta. El indicador pasó de rojo a blanco antes de que terminara el zumbido del cierre.',
         },
-        { who: 'iris', text: 'Subimos. Esperar nos cuesta y no abre nada mejor.' },
+        { who: 'iris', text: 'Subimos. Esperar tiene un costo y no abre una puerta mejor.' },
         {
           who: 'teo',
           text: 'El acceso quedó registrado. Desde arriba puedo copiar los servidores antes de que el sistema cambie de turno.',
         },
         {
           who: 'nar',
-          text: 'Los pasos de la ronda se pierden abajo. Tras el vidrio del piso 40, una pantalla sigue dibujando el mapa de la ciudad.',
+          text: 'Los pasos de la ronda se perdieron abajo. Detrás del vidrio del piso 40, una pantalla seguía dibujando el mapa de la ciudad.',
         },
       ],
     },

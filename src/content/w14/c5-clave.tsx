@@ -404,17 +404,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El ventilador del servidor vibra bajo la mesa; en la pantalla, el campo de acceso vuelve a quedar vacío.',
+          text: 'El ventilador del servidor vibraba bajo la mesa, y en la pantalla el campo de acceso volvía a quedar vacío.',
         },
         {
           who: 'teo',
-          text: 'Cuarenta bits y mil millones de intentos por segundo en esta copia local. Si la correcta queda al final, el recorrido completo nos toma unos dieciocho minutos.',
+          text: 'Cuarenta bits y mil millones de intentos por segundo en esta copia local. Si la clave correcta queda al final, el recorrido completo toma unos dieciocho minutos.',
         },
-        { who: 'iris', text: 'Demasiado. Revisa lo que ya tenemos.' },
+        { who: 'iris', text: 'Es demasiado. Revisa lo que ya tenemos.' },
         { who: 'tu', text: 'Las claves de los registros repiten fechas.' },
         {
           who: 'teo',
-          text: 'Sí, el formato se repite en el sistema. Con ese patrón quedan dieciséis bits efectivos de candidatas.',
+          text: 'Sí, el formato se repite en todo el sistema. Con ese patrón, las candidatas se reducen a dieciséis bits efectivos.',
         },
       ],
     },
@@ -462,7 +462,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo carga la lista de fechas; el indicador de acceso cambia a verde antes de que Iris retire la mano del respaldo.',
+          text: 'Teo cargó la lista de fechas. El indicador de acceso pasó a verde antes de que Iris retirara la mano del respaldo.',
         },
         {
           who: 'teo',
@@ -471,7 +471,7 @@ export const level: LevelSpec = {
         { who: 'iris', text: 'Guarda también la firma. La cuenta sola no alcanza.' },
         {
           who: 'nar',
-          text: 'En el vidrio se refleja una carpeta recién abierta: autorizaciones del piso 40.',
+          text: 'En el vidrio se reflejaba una carpeta recién abierta: autorizaciones del piso 40.',
         },
       ],
     },

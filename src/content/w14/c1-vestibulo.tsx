@@ -259,7 +259,10 @@ function BadgePractice({ seed, round, api }: ChallengeProps) {
         return api.result(true, `$${d.half}\\log_2 ${2 ** d.k}=${d.hours}$ horas.`);
       if (Math.abs(v - d.k) < 0.01)
         return api.result(false, 'Eso son semividas. Multiplica por las horas de cada una.');
-      return api.result(false, `De 100 a ${fmt(d.left, 2)} hay ${d.k === 1 ? 'una mitad' : `${d.k} mitades`}.`);
+      return api.result(
+        false,
+        `De 100 a ${fmt(d.left, 2)} hay ${d.k === 1 ? 'una mitad' : `${d.k} mitades`}.`,
+      );
     }
     if (Math.abs(v - d.t) < 0.06)
       return api.result(
@@ -314,7 +317,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Torre Halcón, 01:10. El vestíbulo está a oscuras; solo brilla el lector de credenciales junto a los ascensores.',
+          text: 'Torre Halcón, una y diez de la madrugada. El vestíbulo estaba a oscuras; solo brillaba el lector de credenciales junto a los ascensores.',
         },
         {
           who: 'iris',
@@ -322,7 +325,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'teo',
-          text: 'El guardia nos pasó la credencial que el Contador olvidó en el casino. Abre todas las puertas, pero la batería se está muriendo.',
+          text: 'El guardia nos pasó la credencial que el Contador olvidó en el casino. Abre todas las puertas, pero la batería se está agotando.',
         },
       ],
     },
@@ -366,9 +369,9 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El lector se pone verde. Las puertas del ascensor de vidrio se abren solas.',
+          text: 'El lector se puso verde, y las puertas del ascensor de vidrio se abrieron solas.',
         },
-        { who: 'iris', text: 'Ocho horas. Antes del amanecer estamos arriba.' },
+        { who: 'iris', text: 'Ocho horas. Antes del amanecer tenemos que estar arriba.' },
         {
           who: 'teo',
           text: 'El ascensor tiene su propia bitácora. Si la leemos bien, sabremos a qué hora subió él.',
