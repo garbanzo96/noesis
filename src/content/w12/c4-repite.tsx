@@ -192,6 +192,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Propiedad de Markov',
         tex: '\\p{1}{P(X_{t+1}\\mid X_t,\\ldots,X_0)}=\\p{2}{P(X_{t+1}\\mid X_t)}',
+        parts: ['mañana con toda la historia', 'mañana según hoy'],
       },
     },
     {
@@ -206,11 +207,22 @@ const lesson: LessonStep = {
       board: {
         label: 'Probabilidad de una secuencia',
         tex: '\\p{1}{P(X_1}=\\p{2}{S,X_2}=\\p{3}{N\\mid X_0}=\\p{4}{S)}=\\p{5}{P(S\\to S)\\,P(S\\to N)}',
+        parts: [
+          'estado de mañana',
+          'sano al día siguiente',
+          'enfermo al segundo día',
+          'inicio fijado en sano',
+          'producto de transiciones',
+        ],
       },
     },
     {
       say: 'Llama qₜ a la fracción esperada de sanos en el lote. Mañana siguen sanos el 90 % de los sanos y se recupera el 50 % de los enfermos.',
-      board: { label: 'Avanzar un día', tex: '\\p{1}{q_{t+1}}=\\p{2}{0{,}9q_t+0{,}5(1-q_t)}' },
+      board: {
+        label: 'Avanzar un día',
+        tex: '\\p{1}{q_{t+1}}=\\p{2}{0{,}9q_t+0{,}5(1-q_t)}',
+        parts: ['sanos esperados mañana', 'sanos que siguen o vuelven'],
+      },
     },
     {
       say: 'Parte con un lote completamente sano. Avanza los días: la fracción esperada se acerca a 5/6; un lote sorteado puede fluctuar alrededor de ese valor.',
@@ -218,6 +230,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Acercarse al equilibrio',
         tex: '\\p{1}{q_0}=\\p{2}{1},\\quad\\p{3}{ q_t}=\\p{4}{\\frac56+\\frac16(0{,}4)^t}',
+        parts: [
+          'fracción sana inicial',
+          'todo el lote sano',
+          'sanos tras varios días',
+          'equilibrio más transitorio',
+        ],
       },
     },
     {
@@ -225,6 +243,13 @@ const lesson: LessonStep = {
       board: {
         label: 'Distribución estacionaria',
         tex: '\\p{1}{\\pi_S}=\\p{2}{\\frac{P(N\\to S)}{P(S\\to N)+P(N\\to S)}}=\\p{3}{\\frac56},\\quad\\p{4}{\\pi_N}=\\p{5}{\\frac16}',
+        parts: [
+          'sanos en equilibrio',
+          'balance entre transiciones',
+          'fracción sana estable',
+          'enfermos en equilibrio',
+          'fracción enferma estable',
+        ],
       },
     },
   ],

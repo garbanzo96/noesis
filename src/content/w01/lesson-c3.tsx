@@ -249,18 +249,24 @@ export const lesson: LessonStep = {
       board: {
         label: 'Signo de m',
         tex: '\\begin{aligned}\\p{1}{\\cG{m>0}}&\\p{1}{:\\ \\text{sube}}\\\\ \\p{2}{\\cA{m=0}}&\\p{2}{:\\ \\text{horizontal}}\\\\ \\p{3}{\\cR{m<0}}&\\p{3}{:\\ \\text{baja}}\\end{aligned}',
+        parts: ['la recta sube', 'altura constante', 'la recta baja'],
       },
     },
     {
       say: 'Con dos puntos se determina la recta: primero la pendiente, después se usa uno de los puntos.',
       dur: 3.2,
       board: [
-        { label: 'Recta por dos puntos', tex: 'm=\\frac{6-2}{3-1}=\\p{1}{2}' },
+        {
+          label: 'Recta por dos puntos',
+          tex: 'm=\\frac{6-2}{3-1}=\\p{1}{2}',
+          parts: ['pendiente calculada'],
+        },
         {
           tex: 'y-\\p{1}{2}=\\p{2}{2}\\,(x-\\p{3}{1})',
           body: 'Forma punto–pendiente: $y-y_1=m(x-x_1)$.',
+          parts: ['altura del punto', 'cuánto sube por unidad', 'posición del punto'],
         },
-        { tex: 'y=\\p{1}{2x}' },
+        { tex: 'y=\\p{1}{2x}', parts: ['altura de la recta'] },
       ],
     },
     {
@@ -274,7 +280,10 @@ export const lesson: LessonStep = {
       },
       board: [
         { label: 'Intersección', tex: '2x=-x+6' },
-        { tex: '\\p{1}{3x=6}\\ \\Rightarrow\\ \\p{2}{x=2},\\ \\p{3}{y=4}' },
+        {
+          tex: '\\p{1}{3x=6}\\ \\Rightarrow\\ \\p{2}{x=2},\\ \\p{3}{y=4}',
+          parts: ['ecuación para el cruce', 'posición del cruce', 'altura del cruce'],
+        },
       ],
     },
   ],

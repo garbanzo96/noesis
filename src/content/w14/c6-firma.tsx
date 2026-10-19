@@ -175,6 +175,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Chances iniciales',
         tex: '\\p{1}{O_0}=\\p{2}{\\frac{P}{1-P}=\\frac{0{,}1}{0{,}9}=\\frac19}',
+        parts: ['chances antes de las pruebas', 'un caso contra nueve'],
       },
     },
     {
@@ -182,6 +183,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Una prueba',
         tex: '\\p{1}{O_1}=\\p{2}{O_0\\cdot\\frac{P(E\\mid C)}{P(E\\mid\\neg C)}}=\\p{3}{\\tfrac19\\cdot18=2}',
+        parts: ['chances tras el horario', 'chances por nueva evidencia', 'dos casos contra uno'],
       },
     },
     {
@@ -190,6 +192,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Tres pruebas',
         tex: '\\p{1}{O}=\\p{2}{\\tfrac19\\cdot18\\cdot4\\cdot5}=\\p{3}{40}',
+        parts: [
+          'chances tras tres pruebas',
+          'aporte de las tres pruebas',
+          'cuarenta casos contra uno',
+        ],
       },
     },
     {
@@ -204,6 +211,7 @@ const lesson: LessonStep = {
       board: {
         label: 'De vuelta a probabilidad',
         tex: '\\p{1}{P}=\\p{2}{\\frac{O}{1+O}=\\frac{40}{41}\\approx0{,}976}',
+        parts: ['probabilidad de autoría', 'probabilidad con las pruebas'],
       },
     },
     {
@@ -211,6 +219,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Cuidado',
         tex: '\\p{1}{O=O_0\\prod_i \\mathrm{LR}_i}\\p{2}{\\ \\text{(pruebas independientes)}}',
+        parts: ['acumulación de evidencia', 'condición para multiplicar'],
       },
     },
   ],

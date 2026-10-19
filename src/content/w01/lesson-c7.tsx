@@ -332,6 +332,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Potencia',
         tex: '\\p{1}{\\cC{b}}^{\\p{2}{\\cA{n}}}=\\p{3}{\\underbrace{b\\cdot b\\cdots b}_{n\\ \\text{veces}}}',
+        parts: ['factor que se repite', 'cantidad de repeticiones', 'producto de los factores'],
       },
     },
     {
@@ -341,22 +342,38 @@ export const lesson: LessonStep = {
         label: 'Crecimiento exponencial',
         tex: 'N(t)=\\p{1}{\\cC{N_0}}\\cdot\\p{2}{\\cA{b}}^{\\,t}',
         body: '$N_0$: valor inicial. $b$: factor por paso.',
+        parts: ['cantidad al inicio', 'factor por paso'],
       },
     },
     {
       say: 'Las **leyes de potencias** salen de contar factores: al multiplicar se juntan los factores, así que los exponentes se suman.',
       dur: 3.2,
       board: [
-        { label: 'Leyes de potencias', tex: 'a^m\\,a^n=\\p{1}{a^{m+n}}' },
-        { tex: '\\frac{a^m}{a^n}=\\p{1}{a^{m-n}},\\qquad (a^m)^n=\\p{2}{a^{mn}}' },
+        {
+          label: 'Leyes de potencias',
+          tex: 'a^m\\,a^n=\\p{1}{a^{m+n}}',
+          parts: ['factores reunidos'],
+        },
+        {
+          tex: '\\frac{a^m}{a^n}=\\p{1}{a^{m-n}},\\qquad (a^m)^n=\\p{2}{a^{mn}}',
+          parts: ['factores que quedan', 'factores del producto'],
+        },
       ],
     },
     {
       say: 'Bajar el exponente en 1 es dividir por la base. Siguiendo el patrón aparecen el exponente 0 y los negativos.',
       dur: 3.2,
       board: [
-        { label: 'Exponente cero', tex: 'a^0=\\p{1}{1}\\qquad(a\\ne0)' },
-        { label: 'Exponente negativo', tex: 'a^{-n}=\\p{1}{\\frac{1}{a^n}}' },
+        {
+          label: 'Exponente cero',
+          tex: 'a^0=\\p{1}{1}\\qquad(a\\ne0)',
+          parts: ['producto sin factores'],
+        },
+        {
+          label: 'Exponente negativo',
+          tex: 'a^{-n}=\\p{1}{\\frac{1}{a^n}}',
+          parts: ['inverso de la potencia'],
+        },
       ],
     },
     {
@@ -371,6 +388,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Exponente fraccionario',
         tex: 'a^{1/n}=\\p{1}{\\sqrt[n]{a}},\\qquad a^{m/n}=\\p{2}{\\sqrt[n]{a^m}}',
+        parts: ['factor que recupera la base', 'raíz de la potencia'],
       },
     },
     {
@@ -379,6 +397,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Función exponencial',
         tex: '\\p{1}{b>1}:\\ \\text{crece},\\qquad \\p{2}{0<b<1}:\\ \\text{decrece}',
+        parts: ['factor de crecimiento', 'factor de disminución'],
       },
     },
     {
@@ -390,6 +409,7 @@ export const lesson: LessonStep = {
           label: 'Número e',
           tex: 'e=\\lim_{n\\to\\infty}\\left(1+\\tfrac1n\\right)^n\\approx\\p{1}{2{,}71828}',
           body: '$\\lim_{n\\to\\infty}$ se lee «el valor al que se acerca cuando $n$ crece sin fin». Los límites se estudian a fondo en Cálculo diferencial.',
+          parts: ['factor de crecimiento límite'],
         },
       ],
     },

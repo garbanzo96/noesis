@@ -163,6 +163,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Objetivo y generador',
         tex: '\\p{1}{p}=\\p{2}{(\\tfrac12;\\tfrac13;\\tfrac16)},\\quad\\p{3}{ q}=\\p{4}{(\\tfrac13;\\tfrac13;\\tfrac13)}',
+        parts: [
+          'distribución objetivo',
+          'probabilidades buscadas',
+          'generador de muestras',
+          'probabilidades uniformes',
+        ],
       },
     },
     {
@@ -171,6 +177,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Pesos de importancia',
         tex: '\\p{1}{w(x)=\\frac{p(x)}{q(x)}},\\quad \\p{2}{w=(\\tfrac32;1;\\tfrac12)}',
+        parts: ['corrección por importancia', 'pesos del caso'],
       },
     },
     {
@@ -178,6 +185,13 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos sumas',
         tex: '\\p{1}{\\sum_i w_i f(x_i)}=\\p{2}{0\\cdot1{,}5+1\\cdot1+2\\cdot0{,}5}=\\p{3}{2},\\quad\\p{4}{\\sum_i w_i}=\\p{5}{3}',
+        parts: [
+          'suma ponderada',
+          'con los datos del caso',
+          'total ponderado',
+          'suma de pesos',
+          'peso total',
+        ],
       },
     },
     {
@@ -192,6 +206,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Promedio ponderado',
         tex: '\\p{1}{\\widehat E_p[f]}=\\p{2}{\\frac{\\sum_i w_i f(x_i)}{\\sum_i w_i}}=\\p{3}{\\tfrac23}',
+        parts: ['promedio estimado', 'productos sobre pesos', 'promedio ponderado'],
       },
     },
     {
@@ -200,6 +215,13 @@ const lesson: LessonStep = {
         label: 'Muestreo por importancia',
         tex: '\\p{1}{E_p[f]}\\approx\\p{2}{\\frac{\\sum_{i=1}^n w_i f(x_i)}{\\sum_{i=1}^n w_i}},\\quad\\p{3}{ x_i\\sim q},\\quad\\p{4}{ w_i}=\\p{5}{\\frac{p(x_i)}{q(x_i)}}',
         body: 'q debe ser positiva donde p es positiva; los pesos pueden variar mucho y volver inestable la estimación.',
+        parts: [
+          'promedio buscado',
+          'promedio con pesos',
+          'muestras del generador',
+          'peso de cada muestra',
+          'corrección de probabilidad',
+        ],
       },
     },
   ],

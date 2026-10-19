@@ -173,12 +173,17 @@ const lesson: LessonStep = {
       board: {
         label: 'Normalizar',
         tex: '\\p{1}{P(\\theta\\mid D)}=\\p{2}{\\frac{P(D\\mid\\theta)P(\\theta)}{\\sum_{\\theta}P(D\\mid\\theta)P(\\theta)}}',
+        parts: ['posterior buscado', 'producto normalizado'],
       },
     },
     {
       say: 'Un modelo real tiene muchos parámetros. Si cada uno se prueba en 10 valores, la grilla crece como 10 elevado al número de parámetros.',
       gate: 'Arrastra la perilla hasta 6 parámetros.',
-      board: { label: 'Tamaño de la grilla', tex: '\\p{1}{\\#\\text{puntos}}=\\p{2}{10^{d}}' },
+      board: {
+        label: 'Tamaño de la grilla',
+        tex: '\\p{1}{\\#\\text{puntos}}=\\p{2}{10^{d}}',
+        parts: ['total de combinaciones', 'crecimiento por parámetro'],
+      },
     },
     {
       say: 'Con seis parámetros ya es un millón de cuentas, y apenas para el denominador.',
@@ -189,13 +194,18 @@ const lesson: LessonStep = {
         explain:
           'Cada parámetro multiplica por 10 las combinaciones: 10·10·…·10, veinte veces. 200 sería sumar, no combinar.',
       },
-      board: { label: 'Veinte parámetros', tex: '\\p{1}{10^{20}}\\p{2}{\\ \\text{combinaciones}}' },
+      board: {
+        label: 'Veinte parámetros',
+        tex: '\\p{1}{10^{20}}\\p{2}{\\ \\text{combinaciones}}',
+        parts: ['cantidad de cuentas', 'valores por recorrer'],
+      },
     },
     {
       say: 'Un computador que haga mil millones de cuentas por segundo tardaría unos 3 mil años en sumar esa grilla.',
       board: {
         label: 'Imposible a mano y a máquina',
         tex: '\\p{1}{\\tfrac{10^{20}}{10^{9}}}=\\p{2}{10^{11}\\ \\text{s}}\\p{3}{\\approx3\\,000\\ \\text{años}}',
+        parts: ['cuentas por velocidad', 'tiempo en segundos', 'tiempo en años'],
       },
     },
     {
@@ -203,6 +213,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos salidas',
         tex: '\\p{1}{\\text{muestrear}}\\quad\\p{2}{\\text{o}}\\quad\\p{3}{q(\\theta)\\approx P(\\theta\\mid D)}',
+        parts: ['tomar muestras', 'otra salida', 'aproximar el posterior'],
       },
     },
   ],

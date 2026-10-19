@@ -144,6 +144,13 @@ const lesson: LessonStep = {
       board: {
         label: 'La familia de dos valores',
         tex: '\\p{1}{p}=\\p{2}{(\\tfrac14;\\tfrac12;\\tfrac14)},\\quad\\p{3}{ q(a)}=\\p{4}{(a;1-a;0)},\\quad\\p{5}{ 0\\le a\\le1}',
+        parts: [
+          'posterior objetivo',
+          'probabilidades del caso',
+          'aproximación elegible',
+          'reparto permitido',
+          'rango del ajuste',
+        ],
       },
     },
     {
@@ -171,6 +178,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Elegir dentro de la familia',
         tex: '\\p{1}{q^*}=\\p{2}{\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',
+        parts: ['mejor aproximación', 'menor desajuste permitido'],
       },
     },
     {
@@ -179,6 +187,13 @@ const lesson: LessonStep = {
         label: 'El límite del molde',
         tex: '\\p{1}{q^*}=\\p{2}{(\\tfrac13;\\tfrac23;0)},\\quad\\p{3}{ KL(q^*\\Vert p)}=\\p{4}{\\log_2\\tfrac43}\\approx\\p{5}{0{,}415}',
         body: 'KL = 0 requiere q = p en todos los valores; con esta familia es imposible.',
+        parts: [
+          'mejor aproximación',
+          'reparto óptimo',
+          'desajuste mínimo',
+          'cálculo del desajuste',
+          'desajuste en bits',
+        ],
       },
     },
   ],

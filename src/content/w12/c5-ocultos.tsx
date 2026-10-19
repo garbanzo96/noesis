@@ -174,11 +174,21 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos columnas, una perilla',
         tex: '\\p{1}{x_1}=\\p{2}{5+0{,}6z},\\quad\\p{3}{ x_2}=\\p{4}{5+0{,}8z}',
+        parts: [
+          'primera medición',
+          'efecto en primera columna',
+          'segunda medición',
+          'efecto en segunda columna',
+        ],
       },
     },
     {
       say: 'La medición (5,6; 6,2) queda fuera de la recta. Resta el centro antes de buscar el rasgo: el desplazamiento observado es (0,6; 1,2).',
-      board: { label: 'Centrar la medición', tex: '\\p{1}{x-\\mu}=\\p{2}{(0{,}6;1{,}2)}' },
+      board: {
+        label: 'Centrar la medición',
+        tex: '\\p{1}{x-\\mu}=\\p{2}{(0{,}6;1{,}2)}',
+        parts: ['desplazamiento observado', 'medición sin el centro'],
+      },
     },
     {
       say: 'Para una dirección de longitud uno, proyecta el desplazamiento sobre w. Multiplica las coordenadas correspondientes y suma.',
@@ -197,6 +207,7 @@ const lesson: LessonStep = {
         label: 'Reconstruir',
         tex: '\\p{1}{\\hat x}=\\p{2}{\\mu+\\hat z\\,w}=\\p{3}{(5{,}792;6{,}056)}',
         body: 'Un solo rasgo resume dos mediciones, pero no reproduce cualquier par exacto.',
+        parts: ['medición reconstruida', 'centro más rasgo estimado', 'punto más cercano'],
       },
     },
   ],

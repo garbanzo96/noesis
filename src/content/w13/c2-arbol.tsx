@@ -207,6 +207,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Resolver hacia atrás',
         tex: '\\p{1}{V(A)}=\\p{2}{\\max(60-10,0)},\\quad\\p{3}{ V(B)}=\\p{4}{\\max(-20-10,0)}',
+        parts: [
+          'valor con dato bueno',
+          'mejor pago disponible',
+          'valor con dato malo',
+          'mejor pago disponible',
+        ],
       },
     },
     {
@@ -218,13 +224,18 @@ const lesson: LessonStep = {
         explain:
           'En el círculo promedias: 0,5 · 50 + 0,5 · 0 = 25. El 50 corresponde solo al dato bueno; 20 es el valor de invertir ahora.',
       },
-      board: { label: 'Nodo de azar', tex: '\\p{1}{V(s)}=\\p{2}{\\sum_j p_j\\,V(s_j)}' },
+      board: {
+        label: 'Nodo de azar',
+        tex: '\\p{1}{V(s)}=\\p{2}{\\sum_j p_j\\,V(s_j)}',
+        parts: ['valor antes del dato', 'promedio de las ramas'],
+      },
     },
     {
       say: 'Llegaste al cuadrado inicial. Compara 20 por invertir ahora con 25 por esperar: eliges esperar y conservas un margen esperado de 5.',
       board: {
         label: 'Decisión inicial',
         tex: '\\p{1}{V_{\\text{inicio}}}=\\p{2}{\\max(20,25)}=\\p{3}{25}',
+        parts: ['valor al inicio', 'comparar las opciones', 'valor de esperar'],
       },
     },
     {

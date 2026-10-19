@@ -150,6 +150,7 @@ const lesson: LessonStep = {
       board: {
         label: 'La distribución real',
         tex: '\\p{1}{P(x=y)}=\\p{2}{0{,}4+0{,}4}=\\p{3}{0{,}8}',
+        parts: ['probabilidad de coincidir', 'suma de coincidencias', 'coincidencia real'],
       },
     },
     {
@@ -157,12 +158,17 @@ const lesson: LessonStep = {
       board: {
         label: 'Marginales',
         tex: '\\p{1}{p(x)=(0{,}5;0{,}5)},\\ \\p{2}{p(y)=(0{,}5;0{,}5)}',
+        parts: ['fiebre por separado', 'tos por separado'],
       },
     },
     {
       say: 'La aproximación más simple trata cada síntoma por su cuenta y multiplica. Llévala de p a q.',
       gate: 'Arrastra la perilla hasta q(x)q(y).',
-      board: { label: 'Campo medio', tex: '\\p{1}{q(x,y)}=\\p{2}{q(x)\\,q(y)}' },
+      board: {
+        label: 'Campo medio',
+        tex: '\\p{1}{q(x,y)}=\\p{2}{q(x)\\,q(y)}',
+        parts: ['aproximación conjunta', 'síntomas por separado'],
+      },
     },
     {
       say: 'Ahora cada celda vale 0,25. Mira la diagonal.',
@@ -173,13 +179,18 @@ const lesson: LessonStep = {
         explain:
           '0,25 + 0,25 = 0,5. La aproximación conserva las marginales, pero borra que los síntomas van juntos.',
       },
-      board: { label: 'Lo que se pierde', tex: '\\p{1}{0{,}8}\\p{2}{\\ \\to\\ 0{,}5}' },
+      board: {
+        label: 'Lo que se pierde',
+        tex: '\\p{1}{0{,}8}\\p{2}{\\ \\to\\ 0{,}5}',
+        parts: ['coincidencia real', 'coincidencia aproximada'],
+      },
     },
     {
       say: 'La KL mide el costo: unas 0,32 bits por caso. Es la mejor aproximación por partes, y aun así no ve la relación.',
       board: {
         label: 'Costo',
         tex: '\\p{1}{KL(q\\Vert p)}=\\p{2}{\\sum q\\log_2\\tfrac qp}\\p{3}{\\approx0{,}32}',
+        parts: ['costo de separar', 'promedio del desajuste', 'costo en bits'],
       },
     },
   ],

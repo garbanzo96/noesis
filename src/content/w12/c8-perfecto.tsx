@@ -146,7 +146,11 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Para medir cuánto se aleja lo observado de lo esperado, se suma cada diferencia al cuadrado dividida por lo esperado.',
-      board: { label: 'Estadístico χ²', tex: '\\p{1}{\\chi^2}=\\p{2}{\\sum\\frac{(O-E)^2}{E}}' },
+      board: {
+        label: 'Estadístico χ²',
+        tex: '\\p{1}{\\chi^2}=\\p{2}{\\sum\\frac{(O-E)^2}{E}}',
+        parts: ['desajuste total', 'diferencias ponderadas'],
+      },
     },
     {
       say: 'Mueve el conteo de A: cuanto más se aleja de 50, más crece χ². B compensa para que el total siga en 100.',
@@ -154,6 +158,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Con A = 60',
         tex: '\\p{1}{\\tfrac{10^2}{50}+\\tfrac{10^2}{30}}=\\p{2}{5{,}33}',
+        parts: ['con los conteos del caso', 'desajuste del lote'],
       },
     },
     {
@@ -161,6 +166,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Decidir',
         tex: '\\p{1}{5{,}33<5{,}99}\\p{2}{\\ \\Rightarrow\\ \\text{compatible}}',
+        parts: ['desajuste bajo el corte', 'compatible con el modelo'],
       },
     },
     {
@@ -176,13 +182,18 @@ const lesson: LessonStep = {
         explain:
           'Un χ² tan chico pasa menos del 5 % de las veces (corte inferior 2,73). El lote copia las proporciones con una precisión que el azar no da.',
       },
-      board: { label: 'Cola inferior', tex: '\\p{1}{0{,}002}\\p{2}{\\ll2{,}73}' },
+      board: {
+        label: 'Cola inferior',
+        tex: '\\p{1}{0{,}002}\\p{2}{\\ll2{,}73}',
+        parts: ['desajuste del lote', 'muy bajo el corte inferior'],
+      },
     },
     {
       say: 'χ² sirve en las dos direcciones: muy grande, los datos no siguen el modelo; muy chico, alguien los ajustó a mano.',
       board: {
         label: 'Dos colas',
         tex: '\\p{1}{\\chi^2\\ \\text{grande}:\\ \\text{no calza}},\\ \\p{2}{\\chi^2\\ \\text{chico}:\\ \\text{demasiado perfecto}}',
+        parts: ['desajuste por exceso', 'ajuste demasiado exacto'],
       },
     },
   ],

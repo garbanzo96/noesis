@@ -159,12 +159,17 @@ const lesson: LessonStep = {
       board: {
         label: 'El modelo',
         tex: '\\p{1}{P(\\text{bajo},\\text{medio},\\text{alto})}=\\p{2}{(0{,}2;\\,0{,}5;\\,0{,}3)}',
+        parts: ['probabilidad de cada nivel', 'proporciones del modelo'],
       },
     },
     {
       say: 'Para sacar un dato, sortea un número u entre 0 y 1 y mira en qué tramo cae. Los tramos miden lo mismo que las probabilidades.',
       gate: 'Arrastra u por la cinta hasta pasar por los tres niveles.',
-      board: { label: 'La acumulada', tex: '\\p{1}{F(x)}=\\p{2}{P(X\\le x)}' },
+      board: {
+        label: 'La acumulada',
+        tex: '\\p{1}{F(x)}=\\p{2}{P(X\\le x)}',
+        parts: ['probabilidad acumulada', 'hasta este valor'],
+      },
     },
     {
       say: 'El tramo de «medio» va de 0,2 a 0,7.',
@@ -174,15 +179,27 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '0,65 está entre 0,2 y 0,7: el tramo de «medio».',
       },
-      board: { label: 'Sacar un dato', tex: '\\p{1}{x}=\\p{2}{F^{-1}(u)}' },
+      board: {
+        label: 'Sacar un dato',
+        tex: '\\p{1}{x}=\\p{2}{F^{-1}(u)}',
+        parts: ['dato generado', 'tramo del sorteo'],
+      },
     },
     {
       say: 'Con mil sorteos, las frecuencias quedan cerca de las probabilidades del modelo. Así se fabrican datos que «se ven» como los reales.',
-      board: { label: 'Muchos datos', tex: '\\p{1}{\\frac{\\#x}{n}}\\p{2}{\\approx P(x)}' },
+      board: {
+        label: 'Muchos datos',
+        tex: '\\p{1}{\\frac{\\#x}{n}}\\p{2}{\\approx P(x)}',
+        parts: ['frecuencia del resultado', 'probabilidad del modelo'],
+      },
     },
     {
       say: 'La Fábrica hace lo mismo con miles de columnas a la vez. Primero aprende el modelo de los datos reales; después sortea.',
-      board: { label: 'Generar', tex: '\\p{1}{u\\sim U(0,1)}\\ \\p{2}{\\to\\ x=F^{-1}(u)}' },
+      board: {
+        label: 'Generar',
+        tex: '\\p{1}{u\\sim U(0,1)}\\ \\p{2}{\\to\\ x=F^{-1}(u)}',
+        parts: ['sorteo uniforme', 'dato según la receta'],
+      },
     },
   ],
 };

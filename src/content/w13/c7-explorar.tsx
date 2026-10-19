@@ -192,6 +192,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Frecuencia observada',
         tex: '\\p{1}{\\widehat\\mu_a}=\\p{2}{\\frac{\\text{aciertos en }a}{\\text{pruebas en }a}}',
+        parts: ['tasa de acierto estimada', 'proporción de aciertos'],
       },
     },
     {
@@ -207,7 +208,11 @@ const lesson: LessonStep = {
         explain:
           'Las frecuencias describen estas pruebas. No garantizan el orden de las tasas reales; dejar de probar B puede mantener una elección equivocada.',
       },
-      board: { label: 'Explotar', tex: '\\p{1}{a}=\\p{2}{\\arg\\max_a\\widehat\\mu_a}' },
+      board: {
+        label: 'Explotar',
+        tex: '\\p{1}{a}=\\p{2}{\\arg\\max_a\\widehat\\mu_a}',
+        parts: ['mesa elegida', 'mejor frecuencia observada'],
+      },
     },
     {
       say: 'En este ejemplo, las tasas reales son A: 0,4 y B: 0,6. **Explorar** permite reunir más pruebas de una mesa que al principio parecía peor.',
@@ -222,6 +227,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Exploración uniforme',
         tex: '\\p{1}{P(B)}=\\p{2}{\\frac\\varepsilon2},\\quad\\p{3}{ P(A)}=\\p{4}{1-\\varepsilon+\\frac\\varepsilon2}',
+        parts: [
+          'probabilidad de elegir b',
+          'exploración hacia b',
+          'probabilidad de elegir a',
+          'explotación más exploración',
+        ],
       },
     },
     {
@@ -229,6 +240,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Arrepentimiento esperado',
         tex: '\\p{1}{R_T}=\\p{2}{\\sum_{t=1}^T(\\mu^*-\\mu_{a_t})},\\quad\\p{3}{\\mu^*}=\\p{4}{\\max_a\\mu_a}',
+        parts: [
+          'pérdida esperada acumulada',
+          'ganancias que dejamos pasar',
+          'mejor tasa real',
+          'mayor tasa entre mesas',
+        ],
       },
     },
   ],

@@ -293,14 +293,19 @@ export const lesson: LessonStep = {
         label: 'Proporcionalidad',
         tex: 'y=\\p{1}{\\cC{k}}\\,x',
         body: '$k=\\tfrac{y}{x}$ es la constante de proporcionalidad.',
+        parts: ['factor por unidad'],
       },
     },
     {
       say: '**Normalizar** es dividir cada cantidad por el total. Se obtienen fracciones que siempre suman 1, sean cuales sean las cantidades.',
       gate: 'Arrastra la barra rosada hasta que valga la mitad del total.',
       board: [
-        { label: 'Normalizar', tex: 'w_i=\\frac{\\p{1}{n_i}}{\\p{2}{\\sum_j n_j}}' },
-        { tex: '\\sum_i w_i=\\p{1}{1}' },
+        {
+          label: 'Normalizar',
+          tex: 'w_i=\\frac{\\p{1}{n_i}}{\\p{2}{\\sum_j n_j}}',
+          parts: ['cantidad de este grupo', 'cantidad de todos juntos'],
+        },
+        { tex: '\\sum_i w_i=\\p{1}{1}', parts: ['total de las fracciones'] },
       ],
     },
     {
@@ -308,7 +313,10 @@ export const lesson: LessonStep = {
       dur: 2.8,
       board: [
         { label: 'Porcentaje', tex: 'p\\,\\%=\\frac{p}{100}' },
-        { tex: '75\\,\\%\\ \\text{de}\\ 600=\\p{1}{0{,}75\\cdot600}=\\p{2}{450}' },
+        {
+          tex: '75\\,\\%\\ \\text{de}\\ 600=\\p{1}{0{,}75\\cdot600}=\\p{2}{450}',
+          parts: ['con los datos del caso', 'cantidad correspondiente'],
+        },
       ],
     },
     {
@@ -319,6 +327,12 @@ export const lesson: LessonStep = {
         {
           tex: '\\p{1}{0{,}5\\cdot2}+\\p{2}{0{,}3\\cdot3}+\\p{3}{0{,}2\\cdot5}=\\p{4}{2{,}9}',
           body: 'El promedio simple $(2+3+5)/3\\approx3{,}3$ ignora los pesos.',
+          parts: [
+            'aporte del primer valor',
+            'aporte del segundo valor',
+            'aporte del tercer valor',
+            'promedio ponderado',
+          ],
         },
       ],
     },
@@ -334,6 +348,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Variación porcentual',
         tex: '\\frac{\\p{1}{\\text{final}-\\text{inicial}}}{\\p{2}{\\text{inicial}}}\\cdot100\\,\\%',
+        parts: ['cambio de la cantidad', 'valor de referencia'],
       },
     },
   ],

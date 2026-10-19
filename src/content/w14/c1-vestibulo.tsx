@@ -145,7 +145,11 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'La credencial del Contador pierde la mitad de su carga cada 8 horas: 100, 50, 25, 12,5. Cada tramo igual de tiempo divide por 2.',
-      board: { label: 'Descarga', tex: '\\p{1}{C(t)}=\\p{2}{C_0\\,2^{-t/8}}' },
+      board: {
+        label: 'Descarga',
+        tex: '\\p{1}{C(t)}=\\p{2}{C_0\\,2^{-t/8}}',
+        parts: ['carga restante', 'descarga por mitades'],
+      },
     },
     {
       say: 'El lector de la puerta marcó 12,5 %. Busca en la curva cuántas horas pasaron.',
@@ -153,6 +157,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Leer la curva',
         tex: '\\p{1}{2^{-t/8}}=\\p{2}{\\tfrac{12{,}5}{100}=\\tfrac18}',
+        parts: ['fracción de carga restante', 'lectura respecto al inicio'],
       },
     },
     {
@@ -160,6 +165,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Despejar el tiempo',
         tex: '\\p{1}{t}=\\p{2}{8\\log_2\\tfrac{100}{12{,}5}}=\\p{3}{8\\cdot3=24}',
+        parts: ['tiempo transcurrido', 'semivida por mitades', 'horas desde la carga'],
       },
     },
     {
@@ -170,13 +176,18 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '100 → 50 → 25: dos mitades, 2·8 = 16 horas.',
       },
-      board: { label: 'Con 25 %', tex: '\\p{1}{t}=\\p{2}{8\\log_2 4=16}' },
+      board: {
+        label: 'Con 25 %',
+        tex: '\\p{1}{t}=\\p{2}{8\\log_2 4=16}',
+        parts: ['tiempo transcurrido', 'horas desde la carga'],
+      },
     },
     {
       say: 'La regla sirve para cualquier semivida T: el exponente dice cuántas mitades pasaron y el logaritmo lo recupera.',
       board: {
         label: 'Regla',
         tex: '\\p{1}{C=C_0\\,2^{-t/T}}\\p{2}{\\ \\Leftrightarrow\\ t=T\\log_2\\tfrac{C_0}{C}}',
+        parts: ['carga según el tiempo', 'tiempo según la carga'],
       },
     },
   ],

@@ -255,12 +255,17 @@ export const lesson: LessonStep = {
         label: 'Composición',
         tex: '(g\\circ f)(x)=\\p{1}{g(}\\p{2}{\\cC{f(x)}}\\p{1}{)}',
         body: 'Se lee «$g$ compuesta con $f$»: primero $f$, después $g$.',
+        parts: ['función aplicada después', 'salida del primer paso'],
       },
     },
     {
       say: 'Si se invierte el orden de las máquinas, el resultado cambia.',
       dur: 3,
-      board: { label: 'El orden importa', tex: '\\p{1}{g(f(3))=8}\\ \\ne\\ \\p{2}{f(g(3))=7}' },
+      board: {
+        label: 'El orden importa',
+        tex: '\\p{1}{g(f(3))=8}\\ \\ne\\ \\p{2}{f(g(3))=7}',
+        parts: ['sumar y luego duplicar', 'duplicar y luego sumar'],
+      },
     },
     {
       say: 'La **inversa** deshace la función. Para deshacer una cadena se empieza por el último paso, como quitarse primero los zapatos y después los calcetines.',
@@ -274,6 +279,7 @@ export const lesson: LessonStep = {
         {
           label: 'Inversa de una cadena',
           tex: '(g\\circ f)^{-1}=\\p{1}{f^{-1}}\\circ\\p{2}{g^{-1}}',
+          parts: ['deshacer el primer paso', 'deshacer el último paso'],
         },
       ],
     },
@@ -282,8 +288,14 @@ export const lesson: LessonStep = {
       dur: 3.4,
       board: [
         { tex: 'y=3x+7' },
-        { tex: '\\p{1}{y-7}=3x\\qquad\\p{2}{\\text{(restar 7)}}' },
-        { tex: '\\p{1}{\\frac{y-7}{3}}=x\\qquad\\p{2}{\\text{(dividir por 3)}}' },
+        {
+          tex: '\\p{1}{y-7}=3x\\qquad\\p{2}{\\text{(restar 7)}}',
+          parts: ['salida sin el aumento', 'quitar el aumento'],
+        },
+        {
+          tex: '\\p{1}{\\frac{y-7}{3}}=x\\qquad\\p{2}{\\text{(dividir por 3)}}',
+          parts: ['entrada recuperada', 'deshacer el factor'],
+        },
         { label: 'Despejar', tex: 'f^{-1}(y)=\\frac{y-7}{3}' },
       ],
     },
@@ -293,6 +305,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Gráfica de la inversa',
         tex: '(a,b)\\in\\mathrm{graf}(f)\\iff \\p{1}{(b,a)}\\in\\mathrm{graf}(f^{-1})',
+        parts: ['coordenadas intercambiadas'],
       },
     },
     {
@@ -312,6 +325,7 @@ export const lesson: LessonStep = {
         label: 'Inyectiva',
         tex: 'f(a)=f(b)\\ \\Rightarrow\\ \\p{1}{a=b}',
         body: 'Solo las funciones inyectivas tienen inversa. Prueba: toda recta horizontal la corta a lo más una vez.',
+        parts: ['la misma entrada'],
       },
     },
   ],

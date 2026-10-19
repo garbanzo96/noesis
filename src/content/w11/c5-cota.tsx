@@ -172,6 +172,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Cota inferior',
         tex: '\\p{1}{KL\\ge0}\\quad\\Rightarrow\\quad\\p{2}{\\operatorname{ELBO}(q)\\le\\log_2 p(D)}',
+        parts: ['desajuste no negativo', 'techo de la cota'],
       },
     },
     {
@@ -180,6 +181,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Ajustar q',
         tex: '\\p{1}{q_t}=\\p{2}{(t;\\tfrac12;\\tfrac12-t)},\\quad\\p{3}{0\\le t\\le\\tfrac12}',
+        parts: ['aproximación ajustable', 'reparto de probabilidades', 'rango del ajuste'],
       },
     },
     {
@@ -194,6 +196,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Cuando q coincide',
         tex: '\\p{1}{KL}=\\p{2}{0}\\quad\\Rightarrow\\quad\\p{3}{\\operatorname{ELBO}}=\\p{4}{\\log_2 p(D)}',
+        parts: ['desajuste al posterior', 'sin desajuste', 'cota alcanzada', 'techo de evidencia'],
       },
     },
     {
@@ -202,6 +205,7 @@ const lesson: LessonStep = {
         label: 'Objetivo calculable',
         tex: '\\p{1}{\\operatorname{ELBO}(q)}=\\p{2}{\\sum_\\theta q(\\theta)\\log_2\\frac{p(D,\\theta)}{q(\\theta)}}',
         body: 'El ejemplo pequeño permite dibujar el techo. Al ajustar un modelo grande, la ELBO no requiere calcular p(D); evaluar o estimar esta suma todavía tiene un costo.',
+        parts: ['cota calculable', 'promedio según aproximación'],
       },
     },
   ],

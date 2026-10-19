@@ -164,6 +164,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos distribuciones',
         tex: '\\p{1}{\\sum_i p_i}=\\p{2}{\\sum_i q_i}=\\p{3}{1}',
+        parts: ['total de los registros', 'total del modelo', 'probabilidad total'],
       },
     },
     {
@@ -172,6 +173,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Coincidencia',
         tex: '\\p{1}{p}=\\p{2}{q}\\Rightarrow\\p{3}{ KL(p\\Vert q)}=\\p{4}{0}',
+        parts: [
+          'distribución observada',
+          'distribución del modelo',
+          'divergencia entre ambas',
+          'sin discrepancia',
+        ],
       },
     },
     {
@@ -186,6 +193,7 @@ const lesson: LessonStep = {
       board: {
         label: 'KL en bits',
         tex: '\\p{1}{KL(p\\Vert q)}=\\p{2}{\\sum_i p_i\\log_2\\frac{p_i}{q_i}}',
+        parts: ['divergencia entre ambas', 'discrepancias ponderadas'],
       },
     },
     {
@@ -193,6 +201,14 @@ const lesson: LessonStep = {
       board: {
         label: 'De proporciones a conteos',
         tex: '\\p{1}{O_i}=\\p{2}{Np_i},\\quad\\p{3}{ E_i}=\\p{4}{Nq_i},\\quad\\p{5}{\\chi^2}=\\p{6}{\\sum_i\\frac{(O_i-E_i)^2}{E_i}}',
+        parts: [
+          'conteo observado',
+          'total por proporción medida',
+          'conteo esperado',
+          'lote por proporción prevista',
+          'discrepancia de conteos',
+          'desvíos relativos sumados',
+        ],
       },
     },
     {
@@ -201,6 +217,7 @@ const lesson: LessonStep = {
         label: 'Tamaño del lote',
         tex: '\\p{1}{\\chi^2}=\\p{2}{N\\sum_i\\frac{(p_i-q_i)^2}{q_i}}',
         body: 'Para usar una prueba de ajuste, revisa independencia, conteos esperados suficientes y un modelo fijado antes de observar el lote.',
+        parts: ['discrepancia de conteos', 'discrepancia según el lote'],
       },
     },
   ],

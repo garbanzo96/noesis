@@ -260,11 +260,21 @@ const L_SETS: LessonStep = {
         label: 'Conjunto',
         tex: 'A=\\{\\p{1}{2},\\ \\p{2}{5},\\ \\p{3}{7},\\ \\p{4}{11}\\}',
         body: 'El orden y las repeticiones no importan: $\\{2,5\\}=\\{5,2\\}$.',
+        parts: [
+          'elemento del conjunto',
+          'elemento del conjunto',
+          'elemento del conjunto',
+          'elemento del conjunto',
+        ],
       },
     },
     {
       say: 'Para decir que algo **pertenece** a un conjunto se usa $\\in$; para decir que no, $\\notin$.',
-      board: { label: 'Pertenencia', tex: '\\p{1}{5\\cC{\\in} A}\\qquad \\p{2}{4\\cR{\\notin} A}' },
+      board: {
+        label: 'Pertenencia',
+        tex: '\\p{1}{5\\cC{\\in} A}\\qquad \\p{2}{4\\cR{\\notin} A}',
+        parts: ['elemento del conjunto', 'elemento que queda fuera'],
+      },
     },
     {
       say: 'Los **números reales** son todos los puntos de una recta: enteros, fracciones y también números como $\\sqrt2$ o $\\pi$. Entre dos reales siempre hay otros.',
@@ -282,6 +292,12 @@ const L_SETS: LessonStep = {
         label: 'Intervalo cerrado',
         tex: '[2,8]=\\{\\p{1}{x\\in\\mathbb R}:\\ \\p{2}{\\cC{2\\le x}}\\ \\p{3}{\\text{y}}\\ \\p{4}{\\cA{x\\le8}}\\}',
         body: 'Se lee: los $x$ reales tales que $2\\le x$ y $x\\le 8$.',
+        parts: [
+          'valores de la recta',
+          'límite inferior incluido',
+          'ambas condiciones juntas',
+          'límite superior incluido',
+        ],
       },
     },
     {
@@ -292,6 +308,7 @@ const L_SETS: LessonStep = {
           label: 'Abierto y cerrado',
           tex: '\\begin{aligned}\\p{1}{(a,b)}&\\p{1}{=\\{x:\\ a<x<b\\}}\\\\ \\p{2}{[a,b)}&\\p{2}{=\\{x:\\ a\\le x<b\\}}\\\\ \\p{3}{(a,b]}&\\p{3}{=\\{x:\\ a<x\\le b\\}}\\end{aligned}',
           body: 'Corchete: el extremo se incluye ($\\le$). Paréntesis: no se incluye ($<$).',
+          parts: ['ambos extremos fuera', 'incluye extremo izquierdo', 'incluye extremo derecho'],
         },
       ],
     },
@@ -300,6 +317,7 @@ const L_SETS: LessonStep = {
       board: {
         label: 'Intervalos infinitos',
         tex: '[3,\\p{1}{\\infty})=\\{x:\\ \\p{2}{x\\ge3}\\}',
+        parts: ['sin límite superior', 'valores desde tres'],
       },
     },
     {
@@ -308,6 +326,7 @@ const L_SETS: LessonStep = {
       board: {
         label: 'Por comprensión',
         tex: 'A=\\{\\p{1}{x\\in U}:\\ \\p{2}{x\\ \\text{es par}}\\}=\\p{3}{\\{2,4,6,8,10,12\\}}',
+        parts: ['elementos del universo', 'condición de selección', 'elementos que cumplen'],
       },
     },
     {
@@ -315,15 +334,28 @@ const L_SETS: LessonStep = {
       board: {
         label: 'Intersección',
         tex: 'A\\p{1}{\\cM{\\cap}}B=\\{x:\\ x\\in A\\ \\p{2}{\\text{y}}\\ x\\in B\\}=\\p{3}{\\{6,12\\}}',
+        parts: ['elementos en común', 'ambas condiciones juntas', 'elementos que comparten'],
       },
     },
     {
       say: 'La **unión** $\\cup$ junta todo lo que está en al menos uno. La **diferencia** $A\\setminus B$ deja lo de $A$ que no está en $B$; el **complemento** $A^c$, lo que no está en $A$.',
       dur: 3,
       board: [
-        { label: 'Unión', tex: 'A\\cup B=\\{x:\\ x\\in A\\ \\p{1}{\\text{o}}\\ x\\in B\\}' },
-        { label: 'Diferencia', tex: 'A\\setminus B=\\p{1}{\\{2,4,8,10\\}}' },
-        { label: 'Complemento', tex: 'A^c=\\p{1}{U\\setminus A}=\\p{2}{\\{1,3,5,7,9,11\\}}' },
+        {
+          label: 'Unión',
+          tex: 'A\\cup B=\\{x:\\ x\\in A\\ \\p{1}{\\text{o}}\\ x\\in B\\}',
+          parts: ['al menos una condición'],
+        },
+        {
+          label: 'Diferencia',
+          tex: 'A\\setminus B=\\p{1}{\\{2,4,8,10\\}}',
+          parts: ['elementos solo del primero'],
+        },
+        {
+          label: 'Complemento',
+          tex: 'A^c=\\p{1}{U\\setminus A}=\\p{2}{\\{1,3,5,7,9,11\\}}',
+          parts: ['elementos fuera del conjunto', 'elementos del complemento'],
+        },
       ],
     },
     {
@@ -338,6 +370,11 @@ const L_SETS: LessonStep = {
       board: {
         label: 'Inclusión–exclusión',
         tex: '|A\\cup B|=\\p{1}{\\cC{|A|}}+\\p{2}{\\cA{|B|}}-\\p{3}{\\cM{|A\\cap B|}}',
+        parts: [
+          'total del primer conjunto',
+          'total del segundo conjunto',
+          'elementos contados dos veces',
+        ],
       },
     },
   ],

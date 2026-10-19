@@ -169,12 +169,17 @@ const lesson: LessonStep = {
         label: 'Opciones binarias',
         tex: '\\p{1}{N}=\\p{2}{2^H}',
         body: 'H decisiones binarias permiten 2 elevado a H claves.',
+        parts: ['cantidad de claves', 'opciones tras las decisiones'],
       },
     },
     {
       say: 'Agrega decisiones al árbol. Cada fila nueva duplica las claves posibles.',
       gate: 'Arrastra la perilla hasta 4 bits.',
-      board: { label: 'Duplicar las opciones', tex: '\\p{1}{2^4}=\\p{2}{16}' },
+      board: {
+        label: 'Duplicar las opciones',
+        tex: '\\p{1}{2^4}=\\p{2}{16}',
+        parts: ['cuatro decisiones binarias', 'claves posibles'],
+      },
     },
     {
       say: 'Para N claves equiprobables, la **entropía** cuenta cuántos bits necesitas para distinguirlas. El logaritmo en base 2 deshace la potencia.',
@@ -182,6 +187,7 @@ const lesson: LessonStep = {
         label: 'Información en bits',
         tex: '\\p{1}{H}=\\p{2}{\\log_2 N}',
         body: 'Esta fórmula supone que todas las candidatas tienen la misma probabilidad.',
+        parts: ['bits necesarios', 'bits para distinguir claves'],
       },
     },
     {
@@ -197,6 +203,7 @@ const lesson: LessonStep = {
         label: 'Tiempo máximo de búsqueda',
         tex: '\\p{1}{T_{\\max}}=\\p{2}{N/r}',
         body: 'r es la cantidad de intentos por segundo.',
+        parts: ['tiempo máximo de búsqueda', 'candidatas por ritmo'],
       },
     },
     {
@@ -205,6 +212,7 @@ const lesson: LessonStep = {
         label: 'Opciones efectivas',
         tex: '\\p{1}{H_{\\text{ef}}}=\\p{2}{\\log_2 N_{\\text{candidatas}}}',
         body: 'Si no son equiprobables, log₂ N es una cota máxima de entropía.',
+        parts: ['información efectiva', 'bits según las candidatas'],
       },
     },
   ],

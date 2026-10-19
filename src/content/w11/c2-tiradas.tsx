@@ -190,6 +190,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Una proporción de áreas',
         tex: '\\p{1}{P(\\text{dentro})}=\\p{2}{\\pi/4}\\p{3}{\\approx0{,}785}',
+        parts: ['probabilidad de caer dentro', 'proporción de áreas', 'probabilidad aproximada'],
       },
     },
     {
@@ -198,6 +199,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Estimar desde conteos',
         tex: '\\p{1}{\\widehat P(\\text{dentro})}=\\p{2}{k/n}',
+        parts: ['probabilidad estimada', 'fracción de aciertos'],
       },
     },
     {
@@ -209,13 +211,18 @@ const lesson: LessonStep = {
         explain:
           '79/100 estima π/4. Multiplica por 4: 4 · 0,79 = 3,16; invertir la fracción tampoco recupera π.',
       },
-      board: { label: 'Estimar π', tex: '\\p{1}{\\widehat\\pi}=\\p{2}{4\\,k/n}' },
+      board: {
+        label: 'Estimar π',
+        tex: '\\p{1}{\\widehat\\pi}=\\p{2}{4\\,k/n}',
+        parts: ['estimación de pi', 'proporción por cuatro'],
+      },
     },
     {
       say: 'Con muestras independientes, el error típico baja como **1/√n**: de 0,1 con 100 a 0,01 con 10 000. Es una escala; una tirada particular puede acercarse o alejarse.',
       board: {
         label: 'Escala del error',
         tex: '\\p{1}{\\text{error típico}}\\p{2}{\\propto1/\\sqrt n}',
+        parts: ['error de estimación', 'cómo baja al muestrear'],
       },
     },
     {
@@ -223,6 +230,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Promedio Monte Carlo',
         tex: '\\p{1}{E[f]}\\p{2}{\\approx\\frac1n\\sum_{i=1}^n f(x_i)}',
+        parts: ['promedio buscado', 'promedio de las muestras'],
       },
     },
   ],

@@ -162,13 +162,22 @@ const lesson: LessonStep = {
       board: {
         label: 'Objetivo de práctica',
         tex: '\\p{1}{g(m)=-(m-3)^2}\\qquad\\p{2}{\\max_m g(m)=g(3)=0}',
+        parts: ['objetivo de práctica', 'máximo del objetivo'],
       },
     },
     {
       say: 'La pendiente señala hacia dónde subir. Desde m = 0 vale 6; con un cuarto de esa pendiente avanzas a 1,5 y vuelves a calcularla en cada paso.',
       board: [
-        { label: 'Pendiente', tex: "\\p{1}{g'(m)}=\\p{2}{-2(m-3)}" },
-        { label: 'Paso de gradiente', tex: "\\p{1}{m_{t+1}}=\\p{2}{m_t+\\eta\\,g'(m_t)}" },
+        {
+          label: 'Pendiente',
+          tex: "\\p{1}{g'(m)}=\\p{2}{-2(m-3)}",
+          parts: ['pendiente para subir', 'cálculo de la pendiente'],
+        },
+        {
+          label: 'Paso de gradiente',
+          tex: "\\p{1}{m_{t+1}}=\\p{2}{m_t+\\eta\\,g'(m_t)}",
+          parts: ['posición siguiente', 'avance según pendiente'],
+        },
       ],
     },
     {
@@ -177,6 +186,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Paso demasiado grande',
         tex: '\\p{1}{\\eta=1}\\quad\\p{2}{0\\to6\\to0\\to6\\to\\cdots}',
+        parts: ['tamaño del paso', 'oscilación sin avance'],
       },
     },
     {
@@ -187,7 +197,11 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'm₁ = 0 + 0,5 · 6 = 3. Llegas al máximo y la pendiente queda en cero.',
       },
-      board: { label: 'Llegar en un paso', tex: '\\p{1}{m_1=0+0{,}5\\cdot6}\\p{2}{=3}' },
+      board: {
+        label: 'Llegar en un paso',
+        tex: '\\p{1}{m_1=0+0{,}5\\cdot6}\\p{2}{=3}',
+        parts: ['con los datos del caso', 'posición del máximo'],
+      },
     },
     {
       say: 'Aquí η = 0,5 llega justo al máximo; η = 0,25 se acerca de a poco y η = 1 oscila. Para otra curva, el paso adecuado puede cambiar: revisa si el objetivo realmente sube.',
@@ -195,6 +209,7 @@ const lesson: LessonStep = {
         label: 'Distancia al máximo',
         tex: '\\p{1}{m_{t+1}-3}=\\p{2}{(1-2\\eta)(m_t-3)}',
         body: 'En esta parábola, 0 < η < 1 converge. η = 1 oscila si no partes en el máximo.',
+        parts: ['distancia siguiente', 'distancia tras el ajuste'],
       },
     },
   ],

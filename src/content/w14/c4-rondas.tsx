@@ -208,6 +208,12 @@ const lesson: LessonStep = {
         label: 'Eliminar y',
         tex: '\\p{1}{(x+y)+(x-y)}=\\p{2}{5+1}\\Rightarrow\\p{3}{2x}=\\p{4}{6}',
         body: 'x = 3. Sustituye en x − y = 1 para obtener y = 2.',
+        parts: [
+          'suma de los registros',
+          'suma de los totales',
+          'doble del primer tiempo',
+          'total al sumar',
+        ],
       },
     },
     {
@@ -221,6 +227,15 @@ const lesson: LessonStep = {
       board: {
         label: 'Sustituir',
         tex: '\\p{1}{2x}=\\p{2}{8}\\Rightarrow\\p{3}{ x}=\\p{4}{4},\\quad\\p{5}{ y}=\\p{6}{x-1}=\\p{7}{3}',
+        parts: [
+          'doble del primer tiempo',
+          'total al sumar',
+          'primer tiempo',
+          'minutos del primer tramo',
+          'segundo tiempo',
+          'despeje del segundo tiempo',
+          'minutos del segundo tramo',
+        ],
       },
     },
     {
@@ -228,6 +243,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Comprobar ambos registros',
         tex: '\\p{1}{3+2}=\\p{2}{5},\\quad\\p{3}{3-2}=\\p{4}{1}',
+        parts: [
+          'suma de los tiempos',
+          'tiempo total',
+          'diferencia de los tiempos',
+          'minuto de diferencia',
+        ],
       },
     },
   ],

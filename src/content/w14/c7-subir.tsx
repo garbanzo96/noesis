@@ -153,6 +153,7 @@ const lesson: LessonStep = {
         label: 'Promedio de los pagos',
         tex: '\\p{1}{E}=\\p{2}{p\\,G-(1-p)L}',
         body: 'G es la ganancia al tener éxito y L es la magnitud positiva de la pérdida al fallar.',
+        parts: ['valor esperado', 'pagos según su probabilidad'],
       },
     },
     {
@@ -167,6 +168,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Ponderar ambos resultados',
         tex: '\\p{1}{E_a}=\\p{2}{0{,}6\\cdot40-0{,}4\\cdot20}',
+        parts: ['valor de subir ahora', 'pagos con los datos'],
       },
     },
     {
@@ -176,6 +178,7 @@ const lesson: LessonStep = {
         label: 'Una ronda después',
         tex: '\\p{1}{Q(s,\\text{esperar})}=\\p{2}{\\gamma E_e}',
         body: 'Con las mismas probabilidades, 0,8·16 = 12,8: la demora reduce un valor esperado positivo.',
+        parts: ['valor de esperar', 'valor futuro descontado'],
       },
     },
     {
@@ -190,6 +193,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Mejora y demora',
         tex: '\\p{1}{Q(s,\\text{esperar})}=\\p{2}{0{,}8(0{,}8\\cdot40-0{,}2\\cdot20)}',
+        parts: ['valor de esperar', 'mejora con descuento'],
       },
     },
     {
@@ -198,6 +202,7 @@ const lesson: LessonStep = {
         label: 'Elegir la acción',
         tex: '\\p{1}{V(s)}=\\p{2}{\\max(E_a;\\gamma E_e)}',
         body: 'Esperar conviene si γ·E_e > E_a. Con valor positivo y la misma probabilidad, un descuento menor que 1 favorece subir ahora.',
+        parts: ['valor del estado', 'mejor acción disponible'],
       },
     },
   ],

@@ -181,13 +181,18 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Llegan diez ofertas, una por una y en orden al azar. Cada una se acepta o se rechaza en el momento, sin volver atrás. Quieres quedarte con la mejor.',
-      board: { label: 'El problema', tex: '\\p{1}{n=10}\\ \\p{2}{\\text{sin volver atrás}}' },
+      board: {
+        label: 'El problema',
+        tex: '\\p{1}{n=10}\\ \\p{2}{\\text{sin volver atrás}}',
+        parts: ['total de ofertas', 'decisión sin retorno'],
+      },
     },
     {
       say: 'Una regla: deja pasar algunas solo para mirar y después acepta la primera que supere a todas las anteriores. Aquí funcionó con 3 de muestra.',
       board: {
         label: 'La regla',
         tex: '\\p{1}{\\text{observar }r-1}\\ \\p{2}{\\to\\ \\text{aceptar la primera mejor}}',
+        parts: ['muestra para comparar', 'cuándo aceptar oferta'],
       },
     },
     {
@@ -196,6 +201,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Probabilidad de éxito',
         tex: '\\p{1}{P(r)}=\\p{2}{\\frac{r-1}{n}\\sum_{i=r}^{n}\\frac{1}{i-1}}',
+        parts: ['probabilidad de acertar', 'éxito según la muestra'],
       },
     },
     {
@@ -210,11 +216,16 @@ const lesson: LessonStep = {
       board: {
         label: 'Regla del 37 %',
         tex: '\\p{1}{\\tfrac{r-1}{n}\\to\\tfrac1e}\\p{2}{\\approx0{,}368}',
+        parts: ['fracción óptima de muestra', 'proporción que dejamos pasar'],
       },
     },
     {
       say: 'Incluso con la mejor regla, se acierta menos de la mitad de las veces. Quien acierta siempre no está usando una regla: sabe qué viene.',
-      board: { label: 'Límite honesto', tex: '\\p{1}{P_{\\max}}\\p{2}{\\approx0{,}4}' },
+      board: {
+        label: 'Límite honesto',
+        tex: '\\p{1}{P_{\\max}}\\p{2}{\\approx0{,}4}',
+        parts: ['mejor probabilidad de éxito', 'éxito con diez ofertas'],
+      },
     },
   ],
 };

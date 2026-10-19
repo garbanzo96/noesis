@@ -176,6 +176,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos recetas',
         tex: '\\p{1}{p}=\\p{2}{(0{,}2;0{,}6;0{,}2)},\\quad\\p{3}{ q}=\\p{4}{(0{,}1;0{,}8;0{,}1)}',
+        parts: [
+          'receta real',
+          'proporciones reales',
+          'receta de la máquina',
+          'proporciones de la máquina',
+        ],
       },
     },
     {
@@ -184,6 +190,14 @@ const lesson: LessonStep = {
       board: {
         label: 'Lote retenido',
         tex: '\\p{1}{n_B}=\\p{2}{1},\\quad\\p{3}{ n_M}=\\p{4}{8},\\quad\\p{5}{ n_A}=\\p{6}{1}',
+        parts: [
+          'cantidad de bajos',
+          'un registro bajo',
+          'cantidad de medios',
+          'ocho registros medios',
+          'cantidad de altos',
+          'un registro alto',
+        ],
       },
     },
     {
@@ -191,6 +205,14 @@ const lesson: LessonStep = {
       board: {
         label: 'Un factor por registro',
         tex: '\\p{1}{\\frac{p(M)}{q(M)}}=\\p{2}{\\frac{0{,}6}{0{,}8}}=\\p{3}{0{,}75},\\quad\\p{4}{ \\frac{p(B)}{q(B)}}=\\p{5}{\\frac{p(A)}{q(A)}}=\\p{6}{2}',
+        parts: [
+          'factor del nivel medio',
+          'con las dos recetas',
+          'aporte de cada medio',
+          'factor del nivel bajo',
+          'factor del nivel alto',
+          'aporte de cada extremo',
+        ],
       },
     },
     {
@@ -205,6 +227,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Razón del lote',
         tex: '\\p{1}{\\Lambda}=\\p{2}{\\prod_i\\frac{p(x_i)}{q(x_i)}}=\\p{3}{0{,}75^8\\cdot2^2}',
+        parts: ['razón del lote', 'producto de los factores', 'con los datos del lote'],
       },
     },
     {
@@ -213,6 +236,7 @@ const lesson: LessonStep = {
         label: 'Lectura del detector',
         tex: '\\p{1}{\\Lambda}\\approx\\p{2}{0{,}4005<1}',
         body: 'La máquina da al mismo lote una verosimilitud unas 2,5 veces mayor. La comparación supone estas dos recetas y registros independientes.',
+        parts: ['razón del lote', 'favorece a la máquina'],
       },
     },
   ],

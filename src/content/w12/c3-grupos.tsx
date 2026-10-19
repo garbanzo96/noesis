@@ -143,6 +143,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Las fuentes',
         tex: '\\p{1}{P_A}=\\p{2}{(0{,}5;0{,}3;0{,}15;0{,}05)},\\quad\\p{3}{ P_B}=\\p{4}{(0{,}05;0{,}15;0{,}3;0{,}5)}',
+        parts: ['receta de a', 'proporciones de a', 'receta de b', 'proporciones de b'],
       },
     },
     {
@@ -151,6 +152,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Probabilidad de mezcla',
         tex: '\\p{1}{P(x)}=\\p{2}{\\pi P_A(x)}+\\p{3}{(1-\\pi)P_B(x)}',
+        parts: ['probabilidad del valor', 'aporte de a', 'aporte de b'],
       },
     },
     {
@@ -158,6 +160,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Un valor en la cinta',
         tex: '\\p{1}{P(2)}=\\p{2}{0{,}5\\cdot0{,}15+0{,}5\\cdot0{,}3}=\\p{3}{0{,}225}',
+        parts: [
+          'probabilidad de obtener dos',
+          'suma de ambos aportes',
+          'probabilidad en la mezcla',
+        ],
       },
     },
     {
@@ -172,6 +179,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Responsabilidad de A',
         tex: '\\p{1}{r_A=P(A\\mid x)}=\\p{2}{\\frac{\\pi P_A(x)}{P(x)}}',
+        parts: ['probabilidad de venir de a', 'aporte sobre el total'],
       },
     },
     {
@@ -179,6 +187,13 @@ const lesson: LessonStep = {
       board: {
         label: 'Las responsabilidades suman uno',
         tex: '\\p{1}{r_A}=\\p{2}{\\tfrac13},\\quad\\p{3}{ r_B}=\\p{4}{1-r_A}=\\p{5}{\\tfrac23}',
+        parts: [
+          'responsabilidad de a',
+          'probabilidad de origen a',
+          'responsabilidad de b',
+          'lo que queda para b',
+          'probabilidad de origen b',
+        ],
       },
     },
   ],

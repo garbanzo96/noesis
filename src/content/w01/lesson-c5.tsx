@@ -354,6 +354,12 @@ export const lesson: LessonStep = {
           label: 'Sumatoria',
           tex: '\\p{1}{\\sum}_{\\p{2}{\\cC{i=1}}}^{\\p{3}{\\cA{7}}}\\p{4}{\\cG{x_i}}',
           body: '$\\cC{i=1}$: el índice empieza en 1. $\\cA{7}$: termina en 7 (incluido). $\\cG{x_i}$: el término que se suma en cada paso.',
+          parts: [
+            'acumular los términos',
+            'inicio del contador',
+            'fin del contador',
+            'aporte de cada paso',
+          ],
         },
       ],
     },
@@ -364,6 +370,7 @@ export const lesson: LessonStep = {
         label: 'Suma parcial',
         tex: '\\p{1}{S_n}=\\p{2}{\\sum_{i=1}^{n}x_i}',
         body: '$S_7=3+5+2+6+4+7+1=28$.',
+        parts: ['total hasta ahora', 'términos que acumulamos'],
       },
     },
     {
@@ -372,6 +379,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Expandir',
         tex: '\\sum_{i=1}^{4}i^2=\\p{1}{1}+\\p{2}{4}+\\p{3}{9}+\\p{4}{16}=\\p{5}{30}',
+        parts: ['primer aporte', 'segundo aporte', 'tercer aporte', 'cuarto aporte', 'suma total'],
       },
     },
     {
@@ -381,9 +389,18 @@ export const lesson: LessonStep = {
         {
           label: 'Sacar constantes',
           tex: '\\sum_i \\p{1}{\\cA{c}}\\,x_i=\\p{2}{\\cA{c}}\\sum_i x_i',
+          parts: ['factor de cada término', 'factor de toda la suma'],
         },
-        { label: 'Separar', tex: '\\sum_i(x_i+y_i)=\\p{1}{\\sum_i x_i}+\\p{2}{\\sum_i y_i}' },
-        { label: 'Constante', tex: '\\sum_{i=1}^{n}c=\\p{1}{n\\,c}' },
+        {
+          label: 'Separar',
+          tex: '\\sum_i(x_i+y_i)=\\p{1}{\\sum_i x_i}+\\p{2}{\\sum_i y_i}',
+          parts: ['aportes de una lista', 'aportes de la otra'],
+        },
+        {
+          label: 'Constante',
+          tex: '\\sum_{i=1}^{n}c=\\p{1}{n\\,c}',
+          parts: ['total de aportes iguales'],
+        },
       ],
     },
     {
@@ -397,6 +414,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Suma de Gauss',
         tex: '\\sum_{i=1}^{n}i=\\frac{\\p{1}{n}\\,\\p{2}{(n+1)}}{\\p{3}{2}}',
+        parts: ['alto del rectángulo', 'ancho del rectángulo', 'mitad del rectángulo'],
       },
     },
     {
@@ -405,6 +423,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Doble índice',
         tex: '\\p{1}{\\sum_i\\sum_j a_{ij}}=\\p{2}{\\sum_j\\sum_i a_{ij}}',
+        parts: ['total por filas', 'total por columnas'],
       },
     },
     {
@@ -413,6 +432,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Productoria',
         tex: '\\prod_{k=1}^{3}r_k=\\p{1}{2}\\cdot\\p{2}{1{,}5}\\cdot\\p{3}{0{,}5}=\\p{4}{1{,}5}',
+        parts: ['primer factor', 'segundo factor', 'tercer factor', 'factor acumulado'],
       },
     },
   ],

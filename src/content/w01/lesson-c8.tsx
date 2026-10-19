@@ -221,6 +221,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Logaritmo',
         tex: '\\log_{\\p{1}{\\cC{2}}}\\p{2}{8}=\\p{3}{\\cA{3}}\\iff \\p{1}{\\cC{2}}^{\\p{3}{\\cA{3}}}=\\p{2}{8}',
+        parts: ['factor que se repite', 'cantidad que queremos', 'repeticiones necesarias'],
       },
     },
     {
@@ -230,6 +231,7 @@ export const lesson: LessonStep = {
         label: 'Definición',
         tex: '\\p{1}{\\log_b N}=\\p{2}{t\\iff b^t}=\\p{3}{N}',
         body: 'Con $b>0$, $b\\ne1$ y $N>0$. Valores especiales: $\\log_b1=0$, $\\log_bb=1$.',
+        parts: ['exponente que buscamos', 'potencia que lo comprueba', 'cantidad que queremos'],
       },
     },
     {
@@ -238,6 +240,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Inversas',
         tex: '\\p{1}{b^{\\log_b N}}=\\p{2}{N,\\qquad \\log_b\\left(b^t\\right)}=\\p{3}{t}',
+        parts: ['potencia que deshace', 'logaritmo que deshace', 'exponente recuperado'],
       },
     },
     {
@@ -247,15 +250,28 @@ export const lesson: LessonStep = {
         label: 'Escala logarítmica',
         tex: '\\log_{10}(10\\,N)=\\p{1}{\\log_{10}N+1}',
         body: 'Multiplicar por 10 es avanzar un paso.',
+        parts: ['un paso de escala'],
       },
     },
     {
       say: 'Las **leyes de los logaritmos** son las leyes de potencias vistas desde los exponentes: al multiplicar, los exponentes se suman.',
       dur: 3.2,
       board: [
-        { label: 'Producto', tex: '\\log(ab)=\\p{1}{\\log a}+\\p{2}{\\log b}' },
-        { label: 'Cociente', tex: '\\log\\frac{a}{b}=\\p{1}{\\log a-\\log b}' },
-        { label: 'Potencia', tex: '\\log\\left(a^k\\right)=\\p{1}{k\\log a}' },
+        {
+          label: 'Producto',
+          tex: '\\log(ab)=\\p{1}{\\log a}+\\p{2}{\\log b}',
+          parts: ['aporte del primer factor', 'aporte del segundo factor'],
+        },
+        {
+          label: 'Cociente',
+          tex: '\\log\\frac{a}{b}=\\p{1}{\\log a-\\log b}',
+          parts: ['diferencia de los aportes'],
+        },
+        {
+          label: 'Potencia',
+          tex: '\\log\\left(a^k\\right)=\\p{1}{k\\log a}',
+          parts: ['aporte repetido'],
+        },
       ],
     },
     {
@@ -268,9 +284,10 @@ export const lesson: LessonStep = {
       },
       board: [
         { tex: '2^t=50' },
-        { tex: '\\p{1}{\\ln(2^t)=\\ln 50}' },
+        { tex: '\\p{1}{\\ln(2^t)=\\ln 50}', parts: ['igualdad con logaritmos'] },
         {
           tex: '\\p{1}{t\\ln2=\\ln50}\\ \\Rightarrow\\ \\p{2}{t=\\frac{\\ln50}{\\ln2}\\approx5{,}64}',
+          parts: ['igualdad para despejar', 'tiempo necesario'],
         },
         { label: 'Cambio de base', tex: '\\log_b N=\\frac{\\ln N}{\\ln b}' },
       ],

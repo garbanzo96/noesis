@@ -164,6 +164,14 @@ const lesson: LessonStep = {
       board: {
         label: 'Comparación completa',
         tex: '\\p{1}{v(0)}=\\p{2}{0},\\quad\\p{3}{ v(1)}=\\p{4}{120},\\quad\\p{5}{ v(2)}=\\p{6}{0}',
+        parts: [
+          'velocidad al partir',
+          'reposo inicial',
+          'velocidad al minuto uno',
+          'velocidad máxima',
+          'velocidad al llegar',
+          'reposo final',
+        ],
       },
     },
   ],

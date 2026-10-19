@@ -157,7 +157,11 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Con el contrato de antes y p = 0,2, lo mejor sin saber nada es comprar: vale 4.',
-      board: { label: 'Sin información', tex: '\\p{1}{\\max(4;\\,0)}=\\p{2}{4}' },
+      board: {
+        label: 'Sin información',
+        tex: '\\p{1}{\\max(4;\\,0)}=\\p{2}{4}',
+        parts: ['mejor opción sin saber', 'valor sin información'],
+      },
     },
     {
       say: 'Imagina que alguien te dice el resultado antes de decidir. El árbol cambia de orden: primero el azar, después la decisión.',
@@ -165,6 +169,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Con información',
         tex: '\\p{1}{0{,}2\\cdot\\max(100;0)}\\p{2}{+0{,}8\\cdot\\max(-20;0)}=\\p{3}{20}',
+        parts: ['aporte si hay brote', 'aporte sin brote', 'valor sabiendo antes'],
       },
     },
     {
@@ -179,15 +184,24 @@ const lesson: LessonStep = {
       board: {
         label: 'EVPI',
         tex: '\\p{1}{\\text{EVPI}}=\\p{2}{E[\\text{con información}]-E[\\text{sin información}]}',
+        parts: ['valor de saber antes', 'ganancia por informarse'],
       },
     },
     {
       say: 'El valor de la información nunca es negativo: con ella siempre puedes elegir lo mismo que sin ella.',
-      board: { label: 'Propiedad', tex: '\\p{1}{\\text{EVPI}\\ge0}' },
+      board: {
+        label: 'Propiedad',
+        tex: '\\p{1}{\\text{EVPI}\\ge0}',
+        parts: ['saber nunca resta valor'],
+      },
     },
     {
       say: 'Por eso un anuncio filtrado vale plata: quien lo conoce un día antes gana 16 por contrato que el mercado no puede ganar.',
-      board: { label: 'Mil contratos', tex: '\\p{1}{1000\\cdot16}=\\p{2}{16\\,000}' },
+      board: {
+        label: 'Mil contratos',
+        tex: '\\p{1}{1000\\cdot16}=\\p{2}{16\\,000}',
+        parts: ['ganancia por mil contratos', 'ganancia total'],
+      },
     },
   ],
 };

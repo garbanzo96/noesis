@@ -148,7 +148,11 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'El posterior p tiene dos **modas**, o jorobas: sano y enfermo. La familia que probaremos tiene solo tres candidatas, cada una con una sola joroba.',
-      board: { label: 'Dos jorobas', tex: '\\p{1}{p}=\\p{2}{(0{,}45;0{,}1;0{,}45)}' },
+      board: {
+        label: 'Dos jorobas',
+        tex: '\\p{1}{p}=\\p{2}{(0{,}45;0{,}1;0{,}45)}',
+        parts: ['posterior con dos jorobas', 'probabilidades del caso'],
+      },
     },
     {
       say: 'q₁ = (0,8; 0,2; 0) se queda del lado sano; q₂ = (0,1; 0,8; 0,1) se concentra en el valle. KL(q ‖ p) promedia según q: poner mucha probabilidad en ese valle cuesta más.',
@@ -157,6 +161,12 @@ const lesson: LessonStep = {
         {
           label: 'Dos candidatas',
           tex: '\\p{1}{KL(q_1\\Vert p)}\\approx\\p{2}{0{,}8641},\\quad\\p{3}{ KL(q_2\\Vert p)}\\approx\\p{4}{1{,}9660}',
+          parts: [
+            'costo del lado sano',
+            'desajuste en bits',
+            'costo del valle',
+            'desajuste en bits',
+          ],
         },
       ],
     },
@@ -166,6 +176,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Elegir entre las tres',
         tex: '\\p{1}{\\mathcal Q}=\\p{2}{\\{q_1,q_2,q_3\\}},\\quad\\p{3}{ q^*\\in\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',
+        parts: [
+          'familia de aproximaciones',
+          'tres candidatas permitidas',
+          'candidata de menor costo',
+        ],
       },
     },
     {
@@ -173,6 +188,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Al invertir la dirección',
         tex: '\\p{1}{p_i>0,\\ q_i}=\\p{2}{0}\\quad\\Rightarrow\\quad\\p{3}{ KL(p\\Vert q)}=\\p{4}{+\\infty}',
+        parts: [
+          'probabilidades en conflicto',
+          'probabilidad omitida',
+          'costo al invertir',
+          'penalización infinita',
+        ],
       },
     },
     {
@@ -188,6 +209,7 @@ const lesson: LessonStep = {
         label: 'La receta del Laboratorio',
         tex: '\\p{1}{q_3}=\\p{2}{(0;0{,}2;0{,}8)}',
         body: 'Las dos candidatas laterales empatan; la KL por sí sola no obliga a elegir enfermo.',
+        parts: ['aproximación guardada', 'reparto hacia enfermo'],
       },
     },
   ],

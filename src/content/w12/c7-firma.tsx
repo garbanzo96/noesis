@@ -136,6 +136,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Ley de Benford',
         tex: '\\p{1}{P(d)}=\\p{2}{\\log_{10}\\!\\left(1+\\tfrac1d\\right)}',
+        parts: ['probabilidad del dígito', 'proporción según benford'],
       },
     },
     {
@@ -143,6 +144,7 @@ const lesson: LessonStep = {
       board: {
         label: 'El ancho de cada dígito',
         tex: '\\p{1}{\\log_{10}(d+1)-\\log_{10}d}\\p{2}{=\\log_{10}\\!\\left(1+\\tfrac1d\\right)}',
+        parts: ['ancho en escala logarítmica', 'probabilidad del dígito'],
       },
     },
     {
@@ -151,6 +153,7 @@ const lesson: LessonStep = {
       board: {
         label: 'El dígito 1',
         tex: '\\p{1}{P(1)}=\\p{2}{\\log_{10}2}\\p{3}{\\approx0{,}301}',
+        parts: ['probabilidad de empezar en 1', 'con la ley de benford', 'proporción de unos'],
       },
     },
     {
@@ -162,13 +165,18 @@ const lesson: LessonStep = {
         explain:
           'Parejo entre 9 dígitos es 1/9 ≈ 0,111: casi tres veces menos que en los montos reales.',
       },
-      board: { label: 'Parejo', tex: '\\p{1}{P(d)}=\\p{2}{\\tfrac19\\approx0{,}111}' },
+      board: {
+        label: 'Parejo',
+        tex: '\\p{1}{P(d)}=\\p{2}{\\tfrac19\\approx0{,}111}',
+        parts: ['probabilidad del dígito', 'proporción con sorteo parejo'],
+      },
     },
     {
       say: 'Comparar los primeros dígitos con Benford es una prueba barata: los datos fabricados suelen dejar esa firma.',
       board: {
         label: 'La firma',
         tex: '\\p{1}{\\text{real}\\approx\\text{Benford}},\\ \\p{2}{\\text{fabricado}\\approx\\text{parejo}}',
+        parts: ['firma de montos reales', 'firma de montos fabricados'],
       },
     },
   ],

@@ -147,6 +147,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Tabla de pagos',
         tex: '\\p{1}{u(\\text{comprar},\\text{brote})=100},\\ \\p{2}{u(\\text{comprar},\\text{no})=-20}',
+        parts: ['pago si hay brote', 'pérdida sin brote'],
       },
     },
     {
@@ -154,6 +155,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Valor esperado',
         tex: '\\p{1}{E[a]}=\\p{2}{\\sum_s P(s)\\,u(a,s)}=\\p{3}{0{,}2\\cdot100-0{,}8\\cdot20=4}',
+        parts: ['valor de la acción', 'pagos según probabilidad', 'valor con estos datos'],
       },
     },
     {
@@ -162,6 +164,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Punto de equilibrio',
         tex: '\\p{1}{100p=20(1-p)}\\p{2}{\\ \\Rightarrow\\ p=\\tfrac16}',
+        parts: ['pagos que se equilibran', 'probabilidad de equilibrio'],
       },
     },
     {
@@ -172,11 +175,19 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '0,1·100 − 0,9·20 = −8: menos que no comprar, que vale 0.',
       },
-      board: { label: 'Con p = 0,1', tex: '\\p{1}{E}=\\p{2}{10-18=-8}' },
+      board: {
+        label: 'Con p = 0,1',
+        tex: '\\p{1}{E}=\\p{2}{10-18=-8}',
+        parts: ['valor de comprar', 'pérdida esperada'],
+      },
     },
     {
       say: 'La regla: calcula el valor esperado de cada acción y elige la mayor. Quien conoce p antes que el mercado sabe de qué lado está.',
-      board: { label: 'Regla', tex: '\\p{1}{a^*}=\\p{2}{\\arg\\max_a E[a]}' },
+      board: {
+        label: 'Regla',
+        tex: '\\p{1}{a^*}=\\p{2}{\\arg\\max_a E[a]}',
+        parts: ['mejor acción', 'mayor valor esperado'],
+      },
     },
   ],
 };

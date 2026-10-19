@@ -143,7 +143,11 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Quien conoce el anuncio gana el 60 % de sus apuestas a la par. Tener ventaja no basta: falta decidir cuánto del capital poner cada vez.',
-      board: { label: 'La ventaja', tex: '\\p{1}{p=0{,}6},\\ \\p{2}{b=1}' },
+      board: {
+        label: 'La ventaja',
+        tex: '\\p{1}{p=0{,}6},\\ \\p{2}{b=1}',
+        parts: ['probabilidad de ganar', 'ganancia por peso apostado'],
+      },
     },
     {
       say: 'Lo que importa a la larga es cuánto crece el capital por apuesta, en promedio logarítmico. Busca la fracción que lo hace crecer más rápido.',
@@ -151,11 +155,16 @@ const lesson: LessonStep = {
       board: {
         label: 'Crecimiento por apuesta',
         tex: '\\p{1}{g(f)}=\\p{2}{p\\ln(1+bf)}\\p{3}{+(1-p)\\ln(1-f)}',
+        parts: ['crecimiento del capital', 'aporte al ganar', 'aporte al perder'],
       },
     },
     {
       say: 'Apostar la mitad del capital, aun con ventaja, hace que el capital se encoja: g(0,5) ≈ −0,034.',
-      board: { label: 'Demasiado', tex: '\\p{1}{g(0{,}5)}\\p{2}{\\approx-0{,}034<0}' },
+      board: {
+        label: 'Demasiado',
+        tex: '\\p{1}{g(0{,}5)}\\p{2}{\\approx-0{,}034<0}',
+        parts: ['crecimiento apostando mitad', 'pérdida de capital'],
+      },
     },
     {
       say: 'La cima de la curva tiene una fórmula corta.',
@@ -166,11 +175,19 @@ const lesson: LessonStep = {
         explain:
           'Fracción de Kelly: f* = p − (1 − p)/b = 0,6 − 0,4 = 0,2. Apostar 0,6 o todo arruina con el tiempo.',
       },
-      board: { label: 'Fracción de Kelly', tex: '\\p{1}{f^*}=\\p{2}{p-\\frac{1-p}{b}}' },
+      board: {
+        label: 'Fracción de Kelly',
+        tex: '\\p{1}{f^*}=\\p{2}{p-\\frac{1-p}{b}}',
+        parts: ['fracción óptima del capital', 'ventaja ajustada al pago'],
+      },
     },
     {
       say: 'Con f* = 0,2, cada apuesta crece 0,0201 en promedio logarítmico: en 100 apuestas el capital se multiplica por unas 7,5.',
-      board: { label: 'Cien apuestas', tex: '\\p{1}{e^{100\\,g(f^*)}}\\p{2}{\\approx7{,}5}' },
+      board: {
+        label: 'Cien apuestas',
+        tex: '\\p{1}{e^{100\\,g(f^*)}}\\p{2}{\\approx7{,}5}',
+        parts: ['crecimiento en cien apuestas', 'multiplicador del capital'],
+      },
     },
   ],
 };

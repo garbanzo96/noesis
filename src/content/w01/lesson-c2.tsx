@@ -341,6 +341,7 @@ export const lesson: LessonStep = {
         label: 'Función',
         tex: 'f:\\p{1}{\\cA{A}}\\to\\p{2}{\\cG{B}},\\qquad \\p{3}{x\\mapsto f(x)}',
         body: '$A$: entradas posibles. $B$: donde caen las salidas.',
+        parts: ['entradas permitidas', 'conjunto de llegada', 'regla de asignación'],
       },
     },
     {
@@ -348,7 +349,11 @@ export const lesson: LessonStep = {
       dur: 2.6,
       board: [
         { label: 'Regla', tex: 'f(x)=x^2' },
-        { label: 'Evaluar', tex: 'f(\\p{1}{\\cA{-2}})=(\\p{1}{\\cA{-2}})^2=\\p{2}{\\cG{4}}' },
+        {
+          label: 'Evaluar',
+          tex: 'f(\\p{1}{\\cA{-2}})=(\\p{1}{\\cA{-2}})^2=\\p{2}{\\cG{4}}',
+          parts: ['entrada elegida', 'salida calculada'],
+        },
       ],
     },
     {
@@ -368,6 +373,7 @@ export const lesson: LessonStep = {
         label: 'Definición',
         tex: '\\p{1}{\\forall x\\in A}\\ \\p{2}{\\exists!\\ y\\in B}:\\ \\p{3}{y=f(x)}',
         body: 'Se lee: para cada $x$ en $A$ existe un único $y$ en $B$ con $y=f(x)$.',
+        parts: ['cada entrada posible', 'una única salida', 'salida de la función'],
       },
     },
     {
@@ -376,6 +382,7 @@ export const lesson: LessonStep = {
       board: {
         label: 'Gráfica',
         tex: '\\mathrm{graf}(f)=\\{\\p{1}{(x,\\ f(x))}:\\ \\p{2}{x\\in A}\\}',
+        parts: ['punto de la gráfica', 'entrada del dominio'],
       },
     },
     {
@@ -385,27 +392,38 @@ export const lesson: LessonStep = {
         label: 'Recta vertical',
         body: 'Cada recta vertical corta la gráfica de una función en a lo más un punto.',
         tex: '\\p{1}{x}=\\p{2}{c\\ }\\Rightarrow\\p{3}{\\ \\text{un solo }y}',
+        parts: ['posición horizontal', 'valor fijo', 'una única altura'],
       },
     },
     {
       say: 'El **dominio** son las entradas permitidas: la sombra de la gráfica sobre el eje $x$. La **imagen**, las salidas que ocurren: la sombra sobre el eje $y$.',
       dur: 2.6,
       board: [
-        { label: 'Dominio', tex: '\\mathrm{Dom}(f)=\\p{1}{\\cA{[0,9]}}' },
+        {
+          label: 'Dominio',
+          tex: '\\mathrm{Dom}(f)=\\p{1}{\\cA{[0,9]}}',
+          parts: ['entradas permitidas'],
+        },
         {
           label: 'Imagen',
           tex: '\\mathrm{Im}(f)=\\{f(x):x\\in\\mathrm{Dom}\\}=\\p{1}{\\cG{[0,3]}}',
+          parts: ['salidas que ocurren'],
         },
       ],
     },
     {
       say: 'Donde la gráfica sube, la función **crece**; donde baja, **decrece**. Los picos son **máximos** y los valles, **mínimos**.',
       board: [
-        { label: 'Creciente', tex: '\\p{1}{x_1<x_2}\\ \\Rightarrow\\ \\p{2}{f(x_1)<f(x_2)}' },
+        {
+          label: 'Creciente',
+          tex: '\\p{1}{x_1<x_2}\\ \\Rightarrow\\ \\p{2}{f(x_1)<f(x_2)}',
+          parts: ['avanzamos a la derecha', 'la altura aumenta'],
+        },
         {
           label: 'Máximo',
           tex: '\\p{1}{f(x^*)\\ge f(x)}\\ \\p{2}{\\text{cerca de }x^*}',
           body: 'El valor máximo es $f(x^*)$; el lugar donde ocurre es $x^*$.',
+          parts: ['altura más alta', 'entorno del máximo'],
         },
       ],
     },
@@ -415,6 +433,11 @@ export const lesson: LessonStep = {
       board: {
         label: 'Leer desigualdades',
         tex: '\\{x:\\ x^2\\ge4\\}=\\p{1}{\\cG{(-\\infty,-2]}}\\p{2}{\\cup}\\p{3}{\\cG{[2,\\infty)}}',
+        parts: [
+          'soluciones a la izquierda',
+          'cualquiera de ambos tramos',
+          'soluciones a la derecha',
+        ],
       },
     },
   ],
