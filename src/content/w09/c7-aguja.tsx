@@ -164,25 +164,39 @@ export const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Dos lecturas',
-        tex: '\\p{1}{\\cC{q}:\\text{ posición}};\\quad\\p{2}{\\cM{v}:\\text{ velocidad}}', parts: ['posición de la aguja', 'velocidad de la aguja'],
+        tex: '\\p{1}{\\cC{q}:\\text{ posición}};\\quad\\p{2}{\\cM{v}:\\text{ velocidad}}',
+        parts: ['posición de la aguja', 'velocidad de la aguja'],
       },
     },
     {
       say: 'Compara el mismo instante con dos frenos. Mira si la aguja ya cruzó el reposo.',
       gate: 'Elige c = 6 y arrastra el reloj a π/4 s; después elige c = 10 y vuelve a π/4 s.',
       board: [
-        { label: 'Cruce original', tex: '\\p{1}{q_6(\\pi/4)}=\\p{2}{\\cC{-e^{-3\\pi/4}}}<0', parts: ['posición con poco freno', 'posición tras el cruce'] },
-        { label: 'Copia frenada', tex: '\\p{1}{q_{10}(\\pi/4)}>\\p{2}{0}', parts: ['posición con freno crítico', 'marca de reposo'] },
+        {
+          label: 'Cruce original',
+          tex: '\\p{1}{q_6(\\pi/4)}=\\p{2}{\\cC{-e^{-3\\pi/4}}}<0',
+          parts: ['posición con poco freno', 'posición tras el cruce'],
+        },
+        {
+          label: 'Copia frenada',
+          tex: '\\p{1}{q_{10}(\\pi/4)}>\\p{2}{0}',
+          parts: ['posición con freno crítico', 'marca de reposo'],
+        },
       ],
     },
     {
       say: 'Llama v a la velocidad. Su cambio es la aceleración que queda después del resorte y el freno; así conviertes el segundo orden en dos ecuaciones de primer orden.',
       dur: 5,
       board: [
-        { label: 'Sistema de la aguja', tex: "\\p{1}{\\cC{q'}=v};\\quad\\p{2}{\\cM{v'}=-25q-cv}", parts: ['cambio de posición', 'aceleración con freno'] },
+        {
+          label: 'Sistema de la aguja',
+          tex: "\\p{1}{\\cC{q'}=v};\\quad\\p{2}{\\cM{v'}=-25q-cv}",
+          parts: ['cambio de posición', 'aceleración con freno'],
+        },
         {
           label: 'Matriz del instrumento',
-          tex: '\\p{1}{\\frac{d}{dt}\\binom qv}=\\p{2}{\\begin{pmatrix}0&1\\\\-25&-c\\end{pmatrix}}\\p{3}{\\binom qv}', parts: ['cambio de ambas lecturas', 'regla del instrumento', 'posición y velocidad'],
+          tex: '\\p{1}{\\frac{d}{dt}\\binom qv}=\\p{2}{\\begin{pmatrix}0&1\\\\-25&-c\\end{pmatrix}}\\p{3}{\\binom qv}',
+          parts: ['cambio de ambas lecturas', 'regla del instrumento', 'posición y velocidad'],
         },
       ],
     },
@@ -192,11 +206,20 @@ export const lesson: LessonStep = {
       board: [
         {
           label: 'Polinomio de segundo orden',
-          tex: '\\p{1}{\\lambda^2}+\\p{2}{\\cA{c}\\lambda}+\\p{3}{25}=0', parts: ['término de segundo grado', 'aporte del freno', 'aporte del resorte'],
+          tex: '\\p{1}{\\lambda^2}+\\p{2}{\\cA{c}\\lambda}+\\p{3}{25}=0',
+          parts: ['término de segundo grado', 'aporte del freno', 'aporte del resorte'],
         },
         {
           label: 'Raíces por freno',
-          tex: '\\begin{aligned}\\p{1}{c=6}&:\\ \\p{2}{-3\\pm4i}\\\\\\p{3}{c=10}&:\\ \\p{4}{-5\\text{ doble}}\\\\\\p{5}{c=26}&:\\ \\p{6}{-1,-25}\\end{aligned}', parts: ['freno que permite oscilar', 'raíces con giro', 'freno crítico', 'raíz real repetida', 'freno más intenso', 'dos raíces reales'],
+          tex: '\\begin{aligned}\\p{1}{c=6}&:\\ \\p{2}{-3\\pm4i}\\\\\\p{3}{c=10}&:\\ \\p{4}{-5\\text{ doble}}\\\\\\p{5}{c=26}&:\\ \\p{6}{-1,-25}\\end{aligned}',
+          parts: [
+            'freno que permite oscilar',
+            'raíces con giro',
+            'freno crítico',
+            'raíz real repetida',
+            'freno más intenso',
+            'dos raíces reales',
+          ],
         },
       ],
     },
@@ -212,7 +235,8 @@ export const lesson: LessonStep = {
       board: {
         label: 'Familia crítica',
         tex: '\\p{1}{q(t)}=\\p{2}{(A+Bt)}\\p{3}{\\cA{e^{-5t}}}',
-        body: 'A y B se fijan con la posición y la velocidad iniciales.', parts: ['posición con el tiempo', 'ajuste al estado inicial', 'factor de decaimiento'],
+        body: 'A y B se fijan con la posición y la velocidad iniciales.',
+        parts: ['posición con el tiempo', 'ajuste al estado inicial', 'factor de decaimiento'],
       },
     },
     {
@@ -220,7 +244,15 @@ export const lesson: LessonStep = {
       dur: 5,
       board: {
         label: 'Regímenes con c positivo',
-        tex: '\\begin{aligned}\\p{1}{c^2<100}&:\\ \\p{2}{\\text{subamortiguado}}\\\\\\p{3}{c^2=100}&:\\ \\p{4}{\\text{crítico}}\\\\\\p{5}{c^2>100}&:\\ \\p{6}{\\text{sobreamortiguado}}\\end{aligned}', parts: ['freno bajo el umbral', 'oscilaciones que decaen', 'freno en el umbral', 'retorno con freno crítico', 'freno sobre el umbral', 'retorno con mayor freno'],
+        tex: '\\begin{aligned}\\p{1}{c^2<100}&:\\ \\p{2}{\\text{subamortiguado}}\\\\\\p{3}{c^2=100}&:\\ \\p{4}{\\text{crítico}}\\\\\\p{5}{c^2>100}&:\\ \\p{6}{\\text{sobreamortiguado}}\\end{aligned}',
+        parts: [
+          'freno bajo el umbral',
+          'oscilaciones que decaen',
+          'freno en el umbral',
+          'retorno con freno crítico',
+          'freno sobre el umbral',
+          'retorno con mayor freno',
+        ],
       },
     },
   ],
@@ -493,7 +525,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '18 de agosto, 03:20. El mecanismo abierto huele a aceite; Elena sostiene el rollo lejos de la consola.',
+          text: 'Tres y veinte. El mecanismo abierto olía a aceite, y Elena sostenía el rollo lejos de la consola.',
         },
         {
           who: 'elena',
@@ -506,7 +538,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'nar',
-          text: 'Elena apoya un dedo en el tambor: debajo quedó el pulso con la hora de descarga.',
+          text: 'Elena apoyó un dedo en el tambor. Debajo había quedado el pulso, con la hora de la descarga.',
         },
       ],
     },
@@ -558,16 +590,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Elena deja el pulso bajo una lámina seca; la aguja del tambor vuelve a golpear el borde.',
+          text: 'Elena dejó el pulso bajo una lámina seca, y la aguja del tambor volvió a golpear el borde.',
         },
         {
           who: 'elena',
           text: 'La descarga fue a medianoche del día anterior. Esa marca quedó aunque editaran la pantalla.',
         },
-        { who: 'iris', text: 'La firma y el papel juntos.' },
+        { who: 'iris', text: 'Guarda la firma y el papel juntos.' },
         {
           who: 'teo',
-          text: '¡Las condiciones de entrada también tienen dos versiones! En la pública faltan las últimas cifras.',
+          text: 'Las condiciones de entrada también tienen dos versiones. En la pública faltan las últimas cifras.',
         },
       ],
     },

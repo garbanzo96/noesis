@@ -179,7 +179,8 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Estado y rapidez',
-        tex: '\\p{1}{\\text{misma ocupación}}\\Rightarrow\\p{2}{\\cC{\\text{misma pendiente}}}', parts: ['igual estado actual', 'igual rapidez de cambio'],
+        tex: '\\p{1}{\\text{misma ocupación}}\\Rightarrow\\p{2}{\\cC{\\text{misma pendiente}}}',
+        parts: ['igual estado actual', 'igual rapidez de cambio'],
       },
     },
     {
@@ -187,15 +188,29 @@ const lesson: LessonStep = {
       gate: 'Arrastra la ficha ámbar primero a B = 4 y después a B = 12, con margen de 0,05.',
       board: {
         label: 'Dos pruebas',
-        tex: "\\begin{aligned}\\p{1}{B'(4)}&=\\p{2}{\\cC{2}}\\\\\\p{3}{B'(12)}&=\\p{4}{\\cM{-6}}\\end{aligned}", parts: ['cambio con cuatro casillas', 'aumento por minuto', 'cambio con doce casillas', 'disminución por minuto'],
+        tex: "\\begin{aligned}\\p{1}{B'(4)}&=\\p{2}{\\cC{2}}\\\\\\p{3}{B'(12)}&=\\p{4}{\\cM{-6}}\\end{aligned}",
+        parts: [
+          'cambio con cuatro casillas',
+          'aumento por minuto',
+          'cambio con doce casillas',
+          'disminución por minuto',
+        ],
       },
     },
     {
       say: 'Una **ecuación autónoma** depende del estado. Un **equilibrio** mantiene ese estado porque su cambio es cero.',
       dur: 3,
       board: [
-        { label: 'Autónoma', tex: "\\p{1}{y'}=\\p{2}{\\cC{f(y)}}", parts: ['rapidez de cambio', 'regla según el estado'] },
-        { label: 'Equilibrio', tex: '\\p{1}{f(\\cA{y_*})}=\\p{2}{0}', parts: ['cambio en el equilibrio', 'ausencia de cambio'] },
+        {
+          label: 'Autónoma',
+          tex: "\\p{1}{y'}=\\p{2}{\\cC{f(y)}}",
+          parts: ['rapidez de cambio', 'regla según el estado'],
+        },
+        {
+          label: 'Equilibrio',
+          tex: '\\p{1}{f(\\cA{y_*})}=\\p{2}{0}',
+          parts: ['cambio en el equilibrio', 'ausencia de cambio'],
+        },
       ],
     },
     {
@@ -209,7 +224,8 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Comprobar el signo',
-        tex: "\\p{1}{B'}=\\p{2}{\\cA{B}}\\p{3}{(1-\\cC{B}/8)}", parts: ['cambio de ocupación', 'ocupación actual', 'freno por capacidad'],
+        tex: "\\p{1}{B'}=\\p{2}{\\cA{B}}\\p{3}{(1-\\cC{B}/8)}",
+        parts: ['cambio de ocupación', 'ocupación actual', 'freno por capacidad'],
       },
     },
     {
@@ -219,9 +235,14 @@ const lesson: LessonStep = {
         {
           label: 'Logística continua',
           tex: "\\p{1}{y'}=\\p{2}{\\cA{ry}}\\p{3}{(1-y/\\cC{K})}",
-          body: 'r > 0 y K > 0; los equilibrios son 0 y K.', parts: ['rapidez de cambio', 'crecimiento proporcional', 'freno por capacidad'],
+          body: 'r > 0 y K > 0; los equilibrios son 0 y K.',
+          parts: ['rapidez de cambio', 'crecimiento proporcional', 'freno por capacidad'],
         },
-        { label: 'Estados de reposo', tex: '\\p{1}{y_*}=\\p{2}{0},\\ \\p{3}{\\cC{K}}', parts: ['estados de equilibrio', 'ocupación vacía', 'capacidad de referencia'] },
+        {
+          label: 'Estados de reposo',
+          tex: '\\p{1}{y_*}=\\p{2}{0},\\ \\p{3}{\\cC{K}}',
+          parts: ['estados de equilibrio', 'ocupación vacía', 'capacidad de referencia'],
+        },
       ],
     },
     {
@@ -231,11 +252,13 @@ const lesson: LessonStep = {
         {
           label: 'Curva de ejemplo',
           tex: '\\p{1}{B(t)}=\\p{2}{\\frac8{1+e^{-t}}}',
-          body: 'B(0) = 4; B(ln 3) = 6. Al derivar cumple B′ = B(1 − B/8).', parts: ['ocupación con el tiempo', 'curva desde cuatro casillas'],
+          body: 'B(0) = 4; B(ln 3) = 6. Al derivar cumple B′ = B(1 − B/8).',
+          parts: ['ocupación con el tiempo', 'curva desde cuatro casillas'],
         },
         {
           label: 'Ocupación y tráfico',
-          tex: "\\p{1}{B'=0}\\ \\not\\Rightarrow\\ \\p{2}{\\cM{\\text{entrada}=0}}", parts: ['ocupación sin cambio', 'ausencia de entradas'],
+          tex: "\\p{1}{B'=0}\\ \\not\\Rightarrow\\ \\p{2}{\\cM{\\text{entrada}=0}}",
+          parts: ['ocupación sin cambio', 'ausencia de entradas'],
         },
       ],
     },
@@ -473,14 +496,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '18 de agosto, 02:50. Una gota cae sobre el cajón de repuestos; las casillas del monitor siguen llenas.',
+          text: 'Diez para las tres. Una gota cayó sobre el cajón de repuestos, y las casillas del monitor seguían llenas.',
         },
         { who: 'teo', text: 'El total no cambia. Quizás se cortó la entrada.' },
         { who: 'elena', text: 'Escucha el motor. Cada golpe trae otra línea.' },
         { who: 'tu', text: 'Guarda el paquete antes del próximo golpe.' },
         {
           who: 'nar',
-          text: 'El nombre de la primera casilla cambia mientras Teo busca cómo detener la copia.',
+          text: 'El nombre de la primera casilla cambió mientras Teo buscaba cómo detener la copia.',
         },
       ],
     },
@@ -523,14 +546,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El motor golpea otra vez. Teo deja una copia inmóvil mientras las casillas cambian de nombre.',
+          text: 'El motor golpeó otra vez. Teo dejó una copia inmóvil mientras las casillas seguían cambiando de nombre.',
         },
         {
           who: 'teo',
-          text: '¡Aquí hay dos componentes! La pantalla las mezcló en un solo indicador.',
+          text: 'Aquí hay dos componentes, y la pantalla las mezcló en un solo indicador.',
         },
-        { who: 'elena', text: 'El original tiene una flecha que se aleja. En el boletín vuelve.' },
-        { who: 'nar', text: 'Dos agujas aparecen en la copia; solo una cambió de dirección.' },
+        { who: 'elena', text: 'En el original, una flecha se aleja. En el boletín vuelve.' },
+        {
+          who: 'nar',
+          text: 'En la copia aparecieron dos agujas, y solo una había cambiado de dirección.',
+        },
       ],
     },
   ],

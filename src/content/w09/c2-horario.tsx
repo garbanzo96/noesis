@@ -223,20 +223,33 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Cambio proporcional',
-        tex: '\\p{1}{\\text{cambio}}\\propto\\p{2}{\\cC{\\text{nivel}}}', parts: ['rapidez de cambio', 'nivel que cambia'],
+        tex: '\\p{1}{\\text{cambio}}\\propto\\p{2}{\\cC{\\text{nivel}}}',
+        parts: ['rapidez de cambio', 'nivel que cambia'],
       },
     },
     {
       say: 'Detén el reloj cuando quede la mitad. Primero lleva el marcador a 4 y luego alinea la barra con esa altura.',
       gate: 'Arrastra el marcador amarillo a 4; mueve el reloj hasta que la barra decreciente llegue a 4.',
-      board: { label: 'Mitad del inicio', tex: '\\p{1}{\\cM{z(t)}}=\\p{2}{4}', parts: ['nivel que queda', 'mitad del nivel inicial'] },
+      board: {
+        label: 'Mitad del inicio',
+        tex: '\\p{1}{\\cM{z(t)}}=\\p{2}{4}',
+        parts: ['nivel que queda', 'mitad del nivel inicial'],
+      },
     },
     {
       say: 'La **tasa** k mide el cambio proporcional por unidad de tiempo. Su signo decide crecimiento o decaimiento; comprueba el inicio y deriva la solución.',
       dur: 4,
       board: [
-        { label: 'Regla exponencial', tex: "\\p{1}{y'=\\cA{k}y}", parts: ['cambio proporcional al nivel'] },
-        { label: 'Solución con inicio', tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{y_0e^{\\cA{k}t}}', parts: ['nivel con el tiempo', 'evolución desde el inicio'] },
+        {
+          label: 'Regla exponencial',
+          tex: "\\p{1}{y'=\\cA{k}y}",
+          parts: ['cambio proporcional al nivel'],
+        },
+        {
+          label: 'Solución con inicio',
+          tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{y_0e^{\\cA{k}t}}',
+          parts: ['nivel con el tiempo', 'evolución desde el inicio'],
+        },
       ],
     },
     {
@@ -251,7 +264,8 @@ const lesson: LessonStep = {
       board: {
         label: 'Datos del banco',
         tex: "\\p{1}{y'=y},\\quad\\p{2}{y(0)=\\cC{2}}",
-        body: 'Comprueba ambos datos antes de elegir.', parts: ['regla de crecimiento', 'nivel al inicio'],
+        body: 'Comprueba ambos datos antes de elegir.',
+        parts: ['regla de crecimiento', 'nivel al inicio'],
       },
     },
     {
@@ -260,7 +274,8 @@ const lesson: LessonStep = {
       board: {
         label: 'Vida media',
         tex: '\\p{1}{T_{1/2}}=\\p{2}{\\frac{\\ln2}{|\\cA{k}|}},\\quad\\p{3}{k<0}',
-        body: 'Con k = −1 por hora, la vida media es ln 2 horas.', parts: ['tiempo hasta la mitad', 'cálculo con la tasa', 'condición de decaimiento'],
+        body: 'Con k = −1 por hora, la vida media es ln 2 horas.',
+        parts: ['tiempo hasta la mitad', 'cálculo con la tasa', 'condición de decaimiento'],
       },
     },
     {
@@ -268,7 +283,8 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Duplicación por hora',
-        tex: '\\p{1}{4e^{(\\ln2)t}}=\\p{2}{\\cC{4\\cdot2^t}}', parts: ['nivel según la tasa', 'duplicación por hora'],
+        tex: '\\p{1}{4e^{(\\ln2)t}}=\\p{2}{\\cC{4\\cdot2^t}}',
+        parts: ['nivel según la tasa', 'duplicación por hora'],
       },
     },
   ],
@@ -485,17 +501,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '18 de agosto, 02:30. Una luz de respaldo zumba sobre la mesa; Elena sujeta la cabecera junto al reloj de radio.',
+          text: 'Dos y media. Una luz de respaldo zumbaba sobre la mesa, y Elena sujetaba la cabecera junto al reloj de radio.',
         },
         {
           who: 'teo',
-          text: '¡La cabecera guarda el valor inicial y la tasa! Con eso puedo dibujar la curva completa.',
+          text: 'La cabecera guarda el valor inicial y la tasa. Con eso puedo dibujar la curva completa.',
         },
         { who: 'iris', text: 'Primero la hora.' },
-        { who: 'elena', text: 'El reloj lo contrasté con la radio del puerto.' },
+        { who: 'elena', text: 'El reloj lo comparé con la radio del puerto.' },
         {
           who: 'nar',
-          text: 'Teo gira la copia: la firma quedó en el reverso, con fecha del día anterior.',
+          text: 'Teo dio vuelta la copia. La firma estaba en el reverso, con fecha del día anterior.',
         },
       ],
     },
@@ -542,17 +558,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo pone la firma privada junto al mensaje del chip. La luz de respaldo vibra sobre ambas fechas.',
+          text: 'Teo puso la firma privada junto al mensaje del chip. La luz de respaldo vibraba sobre las dos fechas.',
         },
         {
           who: 'teo',
-          text: 'Salida a las 00:00 del 17, acuse diez minutos después. La medición del 18 confirmó el inicio que habían previsto.',
+          text: 'Salida a las 00:00 del 17 y acuse diez minutos después. La medición del 18 confirmó el inicio que habían previsto.',
         },
         {
           who: 'iris',
           text: 'Confirmaron la entrega antes de que el turno recibiera el primer dato.',
         },
-        { who: 'elena', text: 'También cambiaron cuánto avanzaba el reloj entre cálculos.' },
+        {
+          who: 'elena',
+          text: 'También cambiaron cuánto avanzaba el reloj entre un cálculo y el siguiente.',
+        },
       ],
     },
   ],

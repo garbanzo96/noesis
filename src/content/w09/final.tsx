@@ -245,14 +245,26 @@ export const lesson: LessonStep = {
       say: 'Primero distingue un nivel de su pendiente. Conserva el reloj y las unidades de cada canal al leer el papel y la señal de intensidad.',
       dur: 4,
       board: [
-        { label: 'Pendiente del papel', tex: "\\p{1}{\\cC{H'}}=\\p{2}{2t}", parts: ['rapidez de subida', 'regla según el tiempo'] },
-        { label: 'Tasa del canal', tex: "\\p{1}{\\cA{R'}}=\\p{2}{(\\ln2)R}", parts: ['cambio de intensidad', 'crecimiento proporcional'] },
+        {
+          label: 'Pendiente del papel',
+          tex: "\\p{1}{\\cC{H'}}=\\p{2}{2t}",
+          parts: ['rapidez de subida', 'regla según el tiempo'],
+        },
+        {
+          label: 'Tasa del canal',
+          tex: "\\p{1}{\\cA{R'}}=\\p{2}{(\\ln2)R}",
+          parts: ['cambio de intensidad', 'crecimiento proporcional'],
+        },
       ],
     },
     {
       say: 'Vuelve a comparar Euler con la referencia en el mismo tiempo final.',
       gate: 'Arrastra el paso a h = 1/8; después lleva el cursor hasta t = 1 h.',
-      board: { label: 'Paso privado', tex: '\\p{1}{Q^E_8}=\\p{2}{4(9/8)^8}>\\p{3}{\\cM{10}}', parts: ['nivel estimado por euler', 'con ocho pasos iguales', 'umbral de comparación'] },
+      board: {
+        label: 'Paso privado',
+        tex: '\\p{1}{Q^E_8}=\\p{2}{4(9/8)^8}>\\p{3}{\\cM{10}}',
+        parts: ['nivel estimado por euler', 'con ocho pasos iguales', 'umbral de comparación'],
+      },
     },
     {
       say: 'La ocupación está en equilibrio aunque cambien las casillas. Mira qué lectura necesitas para saber si entran datos.',
@@ -269,17 +281,28 @@ export const lesson: LessonStep = {
       },
       board: {
         label: 'Cambio neto',
-        tex: "\\p{1}{B'}=\\p{2}{\\text{entrada}}-\\p{3}{\\text{salida}}", parts: ['cambio de ocupación', 'paquetes que entran', 'paquetes que salen'],
+        tex: "\\p{1}{B'}=\\p{2}{\\text{entrada}}-\\p{3}{\\text{salida}}",
+        parts: ['cambio de ocupación', 'paquetes que entran', 'paquetes que salen'],
       },
     },
     {
       say: 'Clasifica la regla antes de describir un recorrido particular. La silla original y la espiral pública tienen comportamientos distintos; la aguja requiere dos datos iniciales.',
       dur: 4,
       board: [
-        { label: 'Silla', tex: '\\p{1}{D<0}:\\ \\p{2}{\\cC{\\text{silla}}}', parts: ['producto propio negativo', 'entrada y salida'] },
+        {
+          label: 'Silla',
+          tex: '\\p{1}{D<0}:\\ \\p{2}{\\cC{\\text{silla}}}',
+          parts: ['producto propio negativo', 'entrada y salida'],
+        },
         {
           label: 'Giro y aguja',
-          tex: "\\begin{aligned}\\p{1}{\\Delta<0,\\tau<0}&:\\ \\p{2}{\\text{espiral entrante}}\\\\\\p{3}{q'}&=\\p{4}{\\cM{v}}\\end{aligned}", parts: ['condición de giro entrante', 'giro hacia el origen', 'cambio de posición', 'velocidad de la aguja'],
+          tex: "\\begin{aligned}\\p{1}{\\Delta<0,\\tau<0}&:\\ \\p{2}{\\text{espiral entrante}}\\\\\\p{3}{q'}&=\\p{4}{\\cM{v}}\\end{aligned}",
+          parts: [
+            'condición de giro entrante',
+            'giro hacia el origen',
+            'cambio de posición',
+            'velocidad de la aguja',
+          ],
         },
       ],
     },
@@ -287,10 +310,15 @@ export const lesson: LessonStep = {
       say: 'Una diferencia de cálculo y una prueba de acceso responden preguntas distintas. Mantén cada lectura junto a su documento.',
       dur: 4,
       board: [
-        { label: 'Separación', tex: '\\p{1}{\\cM{d_n}}=\\p{2}{|z_n-x_n|}', parts: ['distancia entre las series', 'diferencia al mismo turno'] },
+        {
+          label: 'Separación',
+          tex: '\\p{1}{\\cM{d_n}}=\\p{2}{|z_n-x_n|}',
+          parts: ['distancia entre las series', 'diferencia al mismo turno'],
+        },
         {
           label: 'Acceso documentado',
-          tex: '\\p{1}{\\text{recibo firmado}}\\longrightarrow\\p{2}{\\text{acceso documentado}}', parts: ['respaldo del acceso', 'acceso con evidencia'],
+          tex: '\\p{1}{\\text{recibo firmado}}\\longrightarrow\\p{2}{\\text{acceso documentado}}',
+          parts: ['respaldo del acceso', 'acceso con evidencia'],
         },
       ],
     },
@@ -673,14 +701,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '18 de agosto, 03:45. El tambor se detiene y queda un silencio áspero; Elena tiene que devolver la consola al turno.',
+          text: 'Cuarto para las cuatro. El tambor se detuvo y la sala quedó en un silencio áspero; Elena tenía que devolverle la consola al turno.',
         },
-        { who: 'elena', text: 'Puedes llevarte el duplicado. El original queda acá con mi firma.' },
-        { who: 'iris', text: 'Cinco lecturas antes de separarlos.' },
+        {
+          who: 'elena',
+          text: 'Puedes llevarte el duplicado. El original queda acá, con mi firma.',
+        },
+        { who: 'iris', text: 'Antes de separarlos, cinco lecturas.' },
         { who: 'tu', text: 'Deja cada cálculo junto al archivo del que salió.' },
         {
           who: 'teo',
-          text: '¡La guía tiene otra recepción! La misma caja llegó a la Clínica del Cerro.',
+          text: 'La guía tiene otra recepción. La misma caja llegó a la Clínica del Cerro.',
         },
       ],
     },
@@ -736,7 +767,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '04:00. Elena alisa el duplicado con el dorso de la mano; las cinco lecturas quedan junto a sus documentos.',
+          text: 'Cuatro de la mañana. Elena alisó el duplicado con el dorso de la mano, y las cinco lecturas quedaron junto a sus documentos.',
         },
         {
           who: 'elena',
@@ -745,11 +776,11 @@ export const level: LevelSpec = {
         { who: 'iris', text: 'Y la credencial de Halcón, con los archivos que cambió.' },
         {
           who: 'teo',
-          text: 'La entrega acá quedó dentro de la ventana. La guía sigue hasta la Clínica del Cerro.',
+          text: 'La entrega de acá quedó dentro de la ventana. La guía sigue hasta la Clínica del Cerro.',
         },
         {
           who: 'nar',
-          text: 'Elena conserva el original; en el duplicado, la firma de recepción reaparece sobre una ficha alterada del Archivo.',
+          text: 'Elena se quedó con el original. En el duplicado, la firma de recepción reaparecía sobre una ficha alterada del Archivo.',
         },
       ],
     },
@@ -759,21 +790,21 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '04:20, entrada de la Clínica del Cerro. Huele a cloro por la puerta entreabierta; una técnica aprieta una carpeta contra el pecho.',
+          text: 'Cuatro y veinte, entrada de la Clínica del Cerro. Por la puerta entreabierta salía olor a cloro, y una técnica apretaba una carpeta contra el pecho.',
         },
         {
           who: 'nar',
-          text: 'La técnica mira el parte de vacunas que trae Iris: «Las vacunas entraron por atrás. Esto salió del laboratorio después».',
+          text: 'La técnica miró el parte de vacunas que traía Iris: «Las vacunas entraron por atrás. Esto salió del laboratorio después».',
         },
-        { who: 'iris', text: '¿Qué te hizo guardarlo?' },
+        { who: 'iris', text: '¿Por qué lo guardaste?' },
         {
           who: 'nar',
-          text: '«Un test que da positivo demasiadas veces. Hasta en las muestras que mandaron como control», dice la técnica antes de que abra el siguiente turno.',
+          text: '«Un test que da positivo demasiadas veces, incluso en las muestras que mandaron como control», dijo la técnica antes de que empezara el turno siguiente.',
         },
         { who: 'tu', text: 'Deja juntas las etiquetas y los resultados.' },
         {
           who: 'nar',
-          text: 'En la carpeta, una etiqueta de la caja térmica cubre parte de la hoja del test.',
+          text: 'En la carpeta, una etiqueta de la caja térmica tapaba parte de la hoja del test.',
         },
       ],
     },

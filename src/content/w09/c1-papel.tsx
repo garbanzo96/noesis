@@ -158,7 +158,8 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Unidades del depósito',
-        tex: '\\p{1}{\\cA{t}:\\text{ minutos}},\\quad\\p{2}{\\cC{y}:\\text{ cm}}', parts: ['tiempo transcurrido', 'altura del nivel'],
+        tex: '\\p{1}{\\cA{t}:\\text{ minutos}},\\quad\\p{2}{\\cC{y}:\\text{ cm}}',
+        parts: ['tiempo transcurrido', 'altura del nivel'],
       },
     },
     {
@@ -166,23 +167,40 @@ const lesson: LessonStep = {
       gate: 'Arrastra el reloj inferior a t = 1 y la perilla derecha a pendiente 2.',
       board: {
         label: 'Pendiente local',
-        tex: '\\p{1}{\\text{pendiente en }t=1:}\\ \\p{2}{\\cA{2}}', parts: ['rapidez que buscamos', 'subida por minuto'],
+        tex: '\\p{1}{\\text{pendiente en }t=1:}\\ \\p{2}{\\cA{2}}',
+        parts: ['rapidez que buscamos', 'subida por minuto'],
       },
     },
     {
       say: 'Una **ecuación diferencial** da la pendiente que debe tener la solución en cada lugar. En este campo, todas las flechas de una columna tienen la misma inclinación.',
       dur: 3,
       board: [
-        { label: 'Regla de pendientes', tex: "\\p{1}{\\cC{y'}}=\\p{2}{f(t,y)}", parts: ['rapidez de cambio', 'regla de pendientes'] },
-        { label: 'Campo del depósito', tex: '\\p{1}{f(t,y)}=\\p{2}{\\cA{2t}}', parts: ['pendiente del campo', 'doble del tiempo'] },
+        {
+          label: 'Regla de pendientes',
+          tex: "\\p{1}{\\cC{y'}}=\\p{2}{f(t,y)}",
+          parts: ['rapidez de cambio', 'regla de pendientes'],
+        },
+        {
+          label: 'Campo del depósito',
+          tex: '\\p{1}{f(t,y)}=\\p{2}{\\cA{2t}}',
+          parts: ['pendiente del campo', 'doble del tiempo'],
+        },
       ],
     },
     {
       say: 'El **valor inicial** elige por dónde parte la curva. La tangente de esta solución sigue las flechas del campo.',
       dur: 4,
       board: [
-        { label: 'Solución del depósito', tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{1+t^2}', parts: ['altura del nivel', 'curva del depósito'] },
-        { label: 'Comprobar inicio y pendiente', tex: "\\p{1}{y(0)=1},\\quad\\p{2}{y'=2t}", parts: ['altura al inicio', 'rapidez de subida'] },
+        {
+          label: 'Solución del depósito',
+          tex: '\\p{1}{\\cC{y(t)}}=\\p{2}{1+t^2}',
+          parts: ['altura del nivel', 'curva del depósito'],
+        },
+        {
+          label: 'Comprobar inicio y pendiente',
+          tex: "\\p{1}{y(0)=1},\\quad\\p{2}{y'=2t}",
+          parts: ['altura al inicio', 'rapidez de subida'],
+        },
       ],
     },
     {
@@ -201,7 +219,8 @@ const lesson: LessonStep = {
       board: {
         label: 'Nivel y pendiente',
         tex: "\\p{1}{\\cC{y(2)}};\\quad\\p{2}{\\cA{y'(2)}}",
-        body: 'Uno se mide en cm; la otra, en cm/min.', parts: ['altura a dos minutos', 'rapidez a dos minutos'],
+        body: 'Uno se mide en cm; la otra, en cm/min.',
+        parts: ['altura a dos minutos', 'rapidez a dos minutos'],
       },
     },
     {
@@ -209,7 +228,8 @@ const lesson: LessonStep = {
       dur: 4,
       board: {
         label: 'Familia de soluciones',
-        tex: '\\p{1}{y(t)=\\cM{C}+t^2};\\quad\\p{2}{y(0)=\\cM{C}}', parts: ['curvas con distintos inicios', 'altura al inicio'],
+        tex: '\\p{1}{y(t)=\\cM{C}+t^2};\\quad\\p{2}{y(0)=\\cM{C}}',
+        parts: ['curvas con distintos inicios', 'altura al inicio'],
       },
     },
   ],
@@ -401,12 +421,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Observatorio, 18 de agosto, 02:20. El papel húmedo raspa al salir del tambor; Elena sostiene el rollo antes de que Iris lo tire.',
+          text: 'Observatorio, madrugada del 18 de agosto, dos y veinte. El papel húmedo raspaba al salir del tambor, y Elena sujetó el rollo antes de que Iris tirara de él.',
         },
-        { who: 'elena', text: 'Mira la subida del trazo. La pantalla dejó la aguja horizontal.' },
-        { who: 'iris', text: 'La pantalla tuvo mejor noche que nosotros.' },
+        {
+          who: 'elena',
+          text: 'Mira la subida del trazo. En la pantalla, la aguja quedó horizontal.',
+        },
+        {
+          who: 'iris',
+          text: '¿Y el boletín salió con lo que dice la pantalla o con lo que dice el papel?',
+        },
         { who: 'tu', text: 'Guardemos el papel antes de tocar la consola.' },
-        { who: 'nar', text: 'El botón de sobrescritura parpadea sobre la firma del turno.' },
+        { who: 'nar', text: 'El botón de sobrescritura parpadeaba sobre la firma del turno.' },
       ],
     },
     {
@@ -448,14 +474,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Elena tapa el botón de sobrescritura con la mano; el tambor sigue raspando bajo la mesa.',
+          text: 'Elena tapó el botón con la mano. Bajo la mesa, el tambor seguía raspando.',
         },
         {
           who: 'teo',
-          text: 'El canal auxiliar salió a una dirección de Halcón. La pantalla del turno ni lo menciona.',
+          text: 'El canal auxiliar salió a una dirección de Halcón, y la pantalla del turno ni lo menciona.',
         },
         { who: 'elena', text: 'Mi compañera firmó lo que pudo ver.' },
-        { who: 'iris', text: 'Entonces habrá que leer lo que le escondieron.' },
+        { who: 'iris', text: 'Entonces hay que leer lo que no le dejaron ver.' },
       ],
     },
   ],

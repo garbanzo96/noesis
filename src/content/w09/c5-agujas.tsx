@@ -271,7 +271,8 @@ const lesson: LessonStep = {
       dur: 3,
       board: {
         label: 'Estado conjunto',
-        tex: '\\p{1}{\\mathbf x}=\\p{2}{(\\cA{u},\\cM{v})^{\\mathsf T}}', parts: ['estado de ambas agujas', 'lecturas de las agujas'],
+        tex: '\\p{1}{\\mathbf x}=\\p{2}{(\\cA{u},\\cM{v})^{\\mathsf T}}',
+        parts: ['estado de ambas agujas', 'lecturas de las agujas'],
       },
     },
     {
@@ -279,17 +280,28 @@ const lesson: LessonStep = {
       gate: 'Arrastra el inicio ámbar hasta (2, 2), con margen de 0,05 por componente.',
       board: {
         label: 'Cambio conjunto',
-        tex: '\\p{1}{A(2,2)^{\\mathsf T}}=\\p{2}{\\cC{(-2,-2)^{\\mathsf T}}}', parts: ['cambio desde ambas marcas', 'velocidades de las agujas'],
+        tex: '\\p{1}{A(2,2)^{\\mathsf T}}=\\p{2}{\\cC{(-2,-2)^{\\mathsf T}}}',
+        parts: ['cambio desde ambas marcas', 'velocidades de las agujas'],
       },
     },
     {
       say: 'La matriz transforma el estado en su velocidad de cambio. Cada fila produce una de las dos pendientes.',
       dur: 4,
       board: [
-        { label: 'Sistema lineal', tex: "\\p{1}{\\mathbf x'}=\\p{2}{\\cC{A}}\\p{3}{\\mathbf x}", parts: ['velocidad del estado', 'regla de transformación', 'estado de ambas agujas'] },
+        {
+          label: 'Sistema lineal',
+          tex: "\\p{1}{\\mathbf x'}=\\p{2}{\\cC{A}}\\p{3}{\\mathbf x}",
+          parts: ['velocidad del estado', 'regla de transformación', 'estado de ambas agujas'],
+        },
         {
           label: 'Dos ecuaciones',
-          tex: "\\begin{aligned}\\p{1}{u'}&=\\p{2}{\\cA{-2u}+v}\\\\\\p{3}{v'}&=\\p{4}{u\\cM{-2v}}\\end{aligned}", parts: ['cambio de primera aguja', 'regla de primera aguja', 'cambio de segunda aguja', 'regla de segunda aguja'],
+          tex: "\\begin{aligned}\\p{1}{u'}&=\\p{2}{\\cA{-2u}+v}\\\\\\p{3}{v'}&=\\p{4}{u\\cM{-2v}}\\end{aligned}",
+          parts: [
+            'cambio de primera aguja',
+            'regla de primera aguja',
+            'cambio de segunda aguja',
+            'regla de segunda aguja',
+          ],
         },
       ],
     },
@@ -300,11 +312,18 @@ const lesson: LessonStep = {
         {
           label: 'Dirección propia',
           tex: '\\p{1}{A\\mathbf v}=\\p{2}{\\cC{\\lambda}}\\p{3}{\\mathbf v}',
-          body: 'El vector propio debe ser distinto de cero.', parts: ['dirección transformada', 'factor de la dirección', 'dirección que se conserva'],
+          body: 'El vector propio debe ser distinto de cero.',
+          parts: ['dirección transformada', 'factor de la dirección', 'dirección que se conserva'],
         },
         {
           label: 'Modos de este banco',
-          tex: '\\begin{aligned}\\p{1}{\\mathbf v_1=(1,1)}&;\\ \\p{2}{\\cA{\\lambda_1=-1}}\\\\\\p{3}{\\mathbf v_2=(1,-1)}&;\\ \\p{4}{\\cM{\\lambda_2=-3}}\\end{aligned}', parts: ['agujas en igual sentido', 'decaimiento más lento', 'agujas en sentido opuesto', 'decaimiento más rápido'],
+          tex: '\\begin{aligned}\\p{1}{\\mathbf v_1=(1,1)}&;\\ \\p{2}{\\cA{\\lambda_1=-1}}\\\\\\p{3}{\\mathbf v_2=(1,-1)}&;\\ \\p{4}{\\cM{\\lambda_2=-3}}\\end{aligned}',
+          parts: [
+            'agujas en igual sentido',
+            'decaimiento más lento',
+            'agujas en sentido opuesto',
+            'decaimiento más rápido',
+          ],
         },
       ],
     },
@@ -319,7 +338,8 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Sumar los modos',
-        tex: '\\begin{aligned}\\p{1}{\\mathbf x(t)}&=\\p{2}{\\cA{c_1e^{-t}}(1,1)}\\\\&\\quad+\\p{3}{\\cM{c_2e^{-3t}}(1,-1)}\\end{aligned}', parts: ['estado con el tiempo', 'aporte del modo lento', 'aporte del modo rápido'],
+        tex: '\\begin{aligned}\\p{1}{\\mathbf x(t)}&=\\p{2}{\\cA{c_1e^{-t}}(1,1)}\\\\&\\quad+\\p{3}{\\cM{c_2e^{-3t}}(1,-1)}\\end{aligned}',
+        parts: ['estado con el tiempo', 'aporte del modo lento', 'aporte del modo rápido'],
       },
     },
     {
@@ -328,11 +348,13 @@ const lesson: LessonStep = {
       board: [
         {
           label: 'Modo que decae',
-          tex: '\\p{1}{\\lambda<0}\\Rightarrow\\p{2}{\\cC{e^{\\lambda t}\\to0}}', parts: ['factor propio negativo', 'amplitud que se apaga'],
+          tex: '\\p{1}{\\lambda<0}\\Rightarrow\\p{2}{\\cC{e^{\\lambda t}\\to0}}',
+          parts: ['factor propio negativo', 'amplitud que se apaga'],
         },
         {
           label: 'Modo que crece',
-          tex: '\\p{1}{\\lambda>0}\\Rightarrow\\p{2}{\\cM{e^{\\lambda t}\\text{ crece}}}', parts: ['factor propio positivo', 'amplitud que aumenta'],
+          tex: '\\p{1}{\\lambda>0}\\Rightarrow\\p{2}{\\cM{e^{\\lambda t}\\text{ crece}}}',
+          parts: ['factor propio positivo', 'amplitud que aumenta'],
         },
       ],
     },
@@ -580,14 +602,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: '18 de agosto, 03:00. Elena frota el vidrio empañado de los dos indicadores; el paquete recuperado queda abierto sobre la mesa.',
+          text: 'Tres de la mañana. Elena frotó el vidrio empañado de los dos indicadores; el paquete recuperado seguía abierto sobre la mesa.',
         },
-        { who: 'iris', text: 'Mismos datos de entrada. Distintas salidas.' },
+        { who: 'iris', text: 'Los mismos datos de entrada y salidas distintas.' },
         { who: 'elena', text: 'Las agujas estaban bien. Revisa la tabla que las juntaba.' },
-        { who: 'tu', text: 'Dejemos el inicio fijo al comparar.' },
+        { who: 'tu', text: 'Dejemos fijo el inicio al comparar.' },
         {
           who: 'nar',
-          text: 'Teo superpone los archivos de entrada. Coinciden hasta la última marca.',
+          text: 'Teo superpuso los archivos de entrada, y coincidían hasta la última marca.',
         },
       ],
     },
@@ -644,11 +666,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Iris deja las matrices abiertas junto al vidrio frío. Elena mantiene un dedo sobre el archivo de inicio.',
+          text: 'Iris dejó las matrices abiertas junto al vidrio frío. Elena mantenía un dedo sobre el archivo de inicio.',
         },
         { who: 'iris', text: 'Le cambiaron el signo a una dirección que crecía.' },
-        { who: 'elena', text: 'Hay otro canal. Ese daba vueltas antes de salir de la escala.' },
-        { who: 'nar', text: 'En la segunda copia, las vueltas se aprietan hacia el centro.' },
+        { who: 'elena', text: 'Hay otro canal. Ese daba vueltas antes de salirse de la escala.' },
+        { who: 'nar', text: 'En la segunda copia, las vueltas se apretaban hacia el centro.' },
       ],
     },
   ],
