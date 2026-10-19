@@ -160,9 +160,18 @@ const lesson: LessonStep = {
         {
           label: 'Buscar puntos críticos',
           tex: '\\begin{aligned}\\p{1}{\\cA{f_x}=3x^2-3=0}&\\Rightarrow\\p{2}{x=\\pm1}\\\\\\p{3}{\\cM{f_y}=2y=0}&\\Rightarrow\\p{4}{y=0}\\end{aligned}',
-          parts: ['anular pendiente al este', 'posiciones al este posibles', 'anular pendiente al norte', 'posición al norte posible'],
+          parts: [
+            'anular pendiente al este',
+            'posiciones al este posibles',
+            'anular pendiente al norte',
+            'posición al norte posible',
+          ],
         },
-        { label: 'Candidatos', tex: '\\p{1}{(1,0)},\\quad\\p{2}{(-1,0)}', parts: ['primer punto crítico', 'segundo punto crítico'] },
+        {
+          label: 'Candidatos',
+          tex: '\\p{1}{(1,0)},\\quad\\p{2}{(-1,0)}',
+          parts: ['primer punto crítico', 'segundo punto crítico'],
+        },
       ],
     },
     {
@@ -184,7 +193,16 @@ const lesson: LessonStep = {
           body: 'Aplica el criterio en un punto crítico con segundas parciales continuas cerca de él.',
           parts: ['criterio de curvatura', 'producto de curvaturas', 'efecto del cambio cruzado'],
         },
-        { label: 'Hessiano del ejemplo', tex: '\\p{1}{D}=(\\p{2}{6x})(\\p{3}{2})-0=\\p{4}{12x}', parts: ['criterio de curvatura', 'curvatura hacia el este', 'curvatura hacia el norte', 'criterio según la posición'] },
+        {
+          label: 'Hessiano del ejemplo',
+          tex: '\\p{1}{D}=(\\p{2}{6x})(\\p{3}{2})-0=\\p{4}{12x}',
+          parts: [
+            'criterio de curvatura',
+            'curvatura hacia el este',
+            'curvatura hacia el norte',
+            'criterio según la posición',
+          ],
+        },
       ],
     },
     {
@@ -208,7 +226,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Criterio de la segunda derivada',
         tex: '\\begin{aligned}\\p{1}{D>0,\\ f_{xx}>0}&:\\cA{\\text{mínimo}}\\\\\\p{2}{D>0,\\ f_{xx}<0}&:\\cC{\\text{máximo}}\\\\\\p{3}{D<0}&:\\cM{\\text{silla}}\\\\\\p{4}{D=0}&:\\text{sin conclusión}\\end{aligned}',
-        parts: ['curvatura hacia arriba', 'curvatura hacia abajo', 'sube y baja según dirección', 'criterio que no decide'],
+        parts: [
+          'curvatura hacia arriba',
+          'curvatura hacia abajo',
+          'sube y baja según dirección',
+          'criterio que no decide',
+        ],
       },
     },
   ],
@@ -441,17 +464,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La niebla abre un hueco entre las casas. Tomás apunta la linterna al paso y la baja apenas oye un motor.',
+          text: 'La niebla abrió un hueco entre las casas. Tomás apuntó la linterna hacia el paso y la bajó apenas oyó un motor.',
         },
         {
           who: 'tomas',
-          text: 'Entre Barón y Los Placeres hay un portezuelo. Los drones cruzan por ahí bajo el radar; desde la calle parecen luces de una casa.',
+          text: 'Entre Barón y Los Placeres hay un portezuelo. Los drones cruzan por ahí bajo el radar; desde la calle parecen las luces de una casa.',
         },
         {
           who: 'teo',
-          text: 'Lo tengo en el mapa, pero hacia un lado sube y hacia el otro baja. Si marco una cumbre, la ruta queda mal.',
+          text: 'Lo tengo en el mapa, pero hacia un lado sube y hacia el otro baja. Si lo marco como cumbre, la ruta queda mal.',
         },
-        { who: 'iris', text: 'Una ruta que les sirve. Quiero saber qué encontraron ahí.' },
+        { who: 'iris', text: 'A ellos les sirve esa ruta. Quiero saber por qué.' },
       ],
     },
     {
@@ -496,18 +519,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El motor se apaga tras las casas. La luz del paso sigue encendida, quieta sobre el techo.',
+          text: 'El motor se apagó detrás de las casas. La luz del paso siguió encendida, quieta sobre un techo.',
         },
-        { who: 'tu', text: 'Es una silla. Esa ruta puede cruzar sin alcanzar la cumbre.' },
+        { who: 'tu', text: 'Es una silla. Por ahí se puede cruzar sin subir a la cumbre.' },
         {
           who: 'tomas',
-          text: 'La usaba para rescates cuando se cortaba el camino. Ahora prefiero no levantar la radio.',
+          text: 'Yo la usaba para rescates cuando se cortaba el camino. Ahora prefiero no levantar la radio.',
         },
         {
           who: 'teo',
-          text: 'Para escuchar el chip desde ahí necesito levantar una antena. La batería del dron de búsqueda ya no alcanza para probar todo el cerro.',
+          text: 'Para escuchar el chip desde ahí necesito subir una antena. La batería del dron de búsqueda no alcanza para recorrer todo el cerro.',
         },
-        { who: 'iris', text: 'La luz de arriba sigue demasiado quieta.' },
+        { who: 'iris', text: '¿Desde cuándo hay una luz encendida en ese techo?' },
       ],
     },
   ],

@@ -265,21 +265,24 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Quebrada Jaime, 03:00. La lluvia golpea el casco de Tomás mientras prueba el peso de la cuerda.',
+          text: 'Quebrada Jaime, tres de la mañana. La lluvia golpeaba el casco de Tomás mientras probaba el peso de la cuerda.',
         },
         {
           who: 'tomas',
-          text: 'El anclaje aguanta. Necesito las lecturas revisadas antes de bajar; desde abajo la radio se corta.',
+          text: 'El anclaje aguanta. Necesito las lecturas revisadas antes de bajar, porque desde abajo la radio se corta.',
         },
         {
           who: 'teo',
-          text: 'La luz sigue dentro de la zona de búsqueda. Puedo mantener la antena ahí mientras queda batería.',
+          text: 'La luz sigue dentro de la zona de búsqueda. Puedo mantener la antena ahí mientras dure la batería.',
         },
         {
           who: 'iris',
-          text: 'Cinco lecturas. Después me dices si esa cuerda también aguanta el chip.',
+          text: 'Analista, son cinco lecturas. Tomás baja cuando estén revisadas.',
         },
-        { who: 'tomas', text: 'El chip pesa poco. Lo complicado suele venir con él.' },
+        {
+          who: 'tomas',
+          text: 'El dron pesa poco. Lo que me preocupa es la caja térmica que lleva.',
+        },
       ],
     },
     { kind: 'challenge', title: 'Rescate nocturno', Comp: Rescue, rounds: 5 },
@@ -289,13 +292,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La cuerda vuelve mojada y tensa. Tomás aparece con el dron sujeto al arnés; la luz roja le ilumina los guantes.',
+          text: 'La cuerda volvió mojada y tensa. Tomás apareció con el dron sujeto al arnés, y la luz roja le iluminaba los guantes.',
         },
         {
           who: 'tomas',
           text: 'Está entero. La caja térmica está vacía; alguien la abrió antes de que llegara el agua.',
         },
-        { who: 'iris', text: 'Las vacunas siguieron viaje. ¿Y el chip?' },
+        { who: 'iris', text: 'Entonces las vacunas siguieron viaje. ¿Y el chip?' },
         {
           who: 'teo',
           text: 'Sigue transmitiendo mensajes cifrados. Las rutas guardadas enlazan una red de antenas, y varios mensajes llegan con bits perdidos.',
@@ -303,7 +306,7 @@ export const level: LevelSpec = {
         { who: 'tu', text: 'Guarda las rutas y los mensajes tal como llegaron.' },
         {
           who: 'nar',
-          text: 'Teo abre el mapa de Las Antenas. Sobre los cerros, una luz distante parpadea al mismo ritmo que el chip.',
+          text: 'Teo abrió el mapa de Las Antenas. Sobre los cerros, una luz lejana parpadeaba al mismo ritmo que el chip.',
         },
       ],
     },

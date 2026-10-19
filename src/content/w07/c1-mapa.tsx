@@ -145,12 +145,20 @@ const lesson: LessonStep = {
     {
       say: 'El punto del mapa tiene un punto encima, sobre la superficie. Su altura cambia al arrastrarlo.',
       gate: 'Arrastra el punto hasta que su altura sea 5; el círculo verde te orienta.',
-      board: { label: 'Evaluar', tex: '\\p{1}{h(2,0)}=\\p{2}{9-4-0}=\\p{3}{\\cC{5}}', parts: ['altura que buscamos', 'con los datos del caso', 'altura en el punto'] },
+      board: {
+        label: 'Evaluar',
+        tex: '\\p{1}{h(2,0)}=\\p{2}{9-4-0}=\\p{3}{\\cC{5}}',
+        parts: ['altura que buscamos', 'con los datos del caso', 'altura en el punto'],
+      },
     },
     {
       say: 'Corta a alturas fijas: 0, 3, 6 y 8. Cada corte, visto desde arriba, forma una **curva de nivel**.',
       dur: 4,
-      board: { label: 'Curva de nivel', tex: '\\p{1}{\\{(x,y):}\\ \\p{2}{f(x,y)=\\cC{c}\\}}', parts: ['puntos del mapa', 'una misma altura'] },
+      board: {
+        label: 'Curva de nivel',
+        tex: '\\p{1}{\\{(x,y):}\\ \\p{2}{f(x,y)=\\cC{c}\\}}',
+        parts: ['puntos del mapa', 'una misma altura'],
+      },
     },
     {
       say: 'La ecuación del corte permite reconocer su forma.',
@@ -161,7 +169,11 @@ const lesson: LessonStep = {
         explain:
           '$9-x^2-y^2=c$ equivale a $x^2+y^2=9-c$. Para $c<9$ son círculos; con $c=9$ queda solo el origen.',
       },
-      board: { label: 'Cerro redondo', tex: '\\p{1}{x^2+y^2}=\\p{2}{9-c}', parts: ['distancia al centro cuadrada', 'radio del corte cuadrado'] },
+      board: {
+        label: 'Cerro redondo',
+        tex: '\\p{1}{x^2+y^2}=\\p{2}{9-c}',
+        parts: ['distancia al centro cuadrada', 'radio del corte cuadrado'],
+      },
     },
     {
       say: 'Este otro terreno tiene curvas desparejas. Entre niveles igualmente espaciados en altura, curvas juntas indican mayor pendiente.',
@@ -181,7 +193,11 @@ const lesson: LessonStep = {
     {
       say: 'El mapa reúne los cortes de la superficie vistos desde arriba. Una curva entera representa una sola altura.',
       dur: 2.4,
-      board: { label: 'Mapa de alturas', tex: '\\p{1}{z=f(x,y)}\\longrightarrow\\p{2}{f(x,y)=c}', parts: ['altura sobre el mapa', 'puntos de igual altura'] },
+      board: {
+        label: 'Mapa de alturas',
+        tex: '\\p{1}{z=f(x,y)}\\longrightarrow\\p{2}{f(x,y)=c}',
+        parts: ['altura sobre el mapa', 'puntos de igual altura'],
+      },
     },
   ],
 };
@@ -362,23 +378,23 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Cuartel de Bomberos de Cerro Barón, 05:30. Huele a café recalentado; las radios siguen encendidas.',
+          text: 'Cuartel de Bomberos de Cerro Barón, cinco y media de la mañana. Las radios seguían encendidas, y el café se había recalentado tantas veces que ya nadie lo tomaba.',
         },
         {
           who: 'tomas',
-          text: 'Tomás Leiva, bombero y piloto de rescate. Su dron marcó 120 metros de altitud y 20 sobre el suelo antes de cortarse.',
+          text: 'Tomás Leiva, bombero y piloto de rescate. El dron que buscan marcó 120 metros de altitud y 20 sobre el suelo antes de cortarse.',
         },
         {
           who: 'iris',
-          text: 'Del Archivo salieron 140 dosis hacia Halcón Drones. Ese chip sabe dónde las dejaron.',
+          text: 'Las 140 dosis que faltan en el Archivo salieron en drones de Halcón. El chip de ese dron debe saber dónde las dejaron.',
         },
         {
           who: 'tomas',
-          text: 'Tengo dos marcas posibles y lluvia para toda la noche. El café alcanza; el tiempo, menos.',
+          text: 'Tengo dos marcas posibles en el mapa, y el pronóstico da lluvia para toda la noche.',
         },
         {
           who: 'iris',
-          text: 'Ubica el suelo bajo esa señal. No pienso registrar dos cerros a ciegas.',
+          text: 'Ubica el suelo bajo esa señal. No quiero registrar dos cerros a ciegas.',
         },
       ],
     },
@@ -422,13 +438,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Tomás despliega el mapa sobre el capó mojado; una gota corre por el sendero marcado.',
+          text: 'Tomás desplegó el mapa sobre el capó mojado de la camioneta. Una gota bajó por el sendero marcado con lápiz rojo.',
         },
-        { who: 'tu', text: 'El punto del este. El suelo estaba a 100 metros.' },
-        { who: 'iris', text: '¿Lo encontramos ahí?' },
+        { who: 'tu', text: 'El punto del este. Ahí el suelo está a 100 metros.' },
+        { who: 'iris', text: '¿Y el dron sigue ahí?' },
         {
           who: 'tomas',
-          text: 'Ahí empieza el sendero a la quebrada. Un dron no se queda quieto en una ladera mojada.',
+          text: 'Ahí empieza el sendero que baja a la quebrada. En una ladera mojada, un dron caído no se queda quieto.',
         },
       ],
     },

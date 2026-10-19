@@ -112,7 +112,12 @@ const lesson: LessonStep = {
         label: 'Aproximación lineal',
         tex: '\\begin{aligned}\\p{1}{L(x,y)}&=\\p{2}{\\cC{f(a,b)}}\\\\&\\quad+\\p{3}{\\cA{f_x(a,b)(x-a)}}\\\\&\\quad+\\p{4}{\\cM{f_y(a,b)(y-b)}}\\end{aligned}',
         body: 'Para el ejemplo: $f(1,2)=3$, $f_x(1,2)=8$ y $f_y(1,2)=-1$.',
-        parts: ['altura que estimamos', 'altura de partida', 'cambio por avanzar al este', 'cambio por avanzar al norte'],
+        parts: [
+          'altura que estimamos',
+          'altura de partida',
+          'cambio por avanzar al este',
+          'cambio por avanzar al norte',
+        ],
       },
     },
     {
@@ -121,7 +126,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Plano del ejemplo',
         tex: '\\begin{aligned}\\p{1}{L(x,y)}&=\\p{2}{\\cC{3}}+\\p{3}{\\cA{8(x-1)}}\\\\&\\quad-\\p{4}{\\cM{(y-2)}}\\end{aligned}',
-        parts: ['altura que estimamos', 'altura de partida', 'cambio por avanzar al este', 'cambio por avanzar al norte'],
+        parts: [
+          'altura que estimamos',
+          'altura de partida',
+          'cambio por avanzar al este',
+          'cambio por avanzar al norte',
+        ],
       },
     },
     {
@@ -136,7 +146,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Cambios pequeños',
         tex: '\\p{1}{\\Delta x}=\\p{2}{\\cA{0{,}1}},\\quad\\p{3}{\\Delta y}=\\p{4}{\\cM{-0{,}1}}',
-        parts: ['desplazamiento hacia el este', 'avance hacia el este', 'desplazamiento al norte', 'retroceso hacia el sur'],
+        parts: [
+          'desplazamiento hacia el este',
+          'avance hacia el este',
+          'desplazamiento al norte',
+          'retroceso hacia el sur',
+        ],
       },
     },
     {
@@ -285,7 +300,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'tomas',
   teaser:
-    'El barómetro del dron guarda una bajada; el desplazamiento estimado permite contrastarla con el terreno.',
+    'El barómetro del dron guarda una bajada, y el desplazamiento estimado permite compararla con el terreno.',
   learn:
     'Construir el plano tangente y estimar valores cercanos usando la altura y las dos parciales.',
   glyphs: ['mv-tangent', 'mv-linearization'],
@@ -301,18 +316,21 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Borde de la quebrada Jaime. Teo acerca la pantalla a la linterna; una gota tapa la última lectura.',
+          text: 'Borde de la quebrada Jaime. Teo acercó la pantalla a la linterna, y una gota cayó justo sobre la última lectura.',
         },
         {
           who: 'teo',
-          text: 'Quedó un dato del barómetro: una bajada equivalente a siete metros. El desplazamiento al este sería medio kilómetro; ese dato está estimado.',
+          text: 'Quedó un dato del barómetro: una bajada equivalente a siete metros. El desplazamiento al este sería medio kilómetro, pero ese dato es estimado.',
         },
         {
           who: 'tomas',
-          text: 'En (3, 4), el terreno está a 166 metros. Antes de soltar cuerda necesito saber qué altura esperar más abajo.',
+          text: 'En (3, 4) el terreno está a 166 metros. Antes de soltar cuerda necesito saber qué altura esperar más abajo.',
         },
-        { who: 'tu', text: 'Podemos estimarla con la pendiente y después contrastar el registro.' },
-        { who: 'iris', text: 'Anota también la diferencia. Esa pantalla ya nos debe bastante.' },
+        {
+          who: 'tu',
+          text: 'Podemos estimarla con la pendiente y después compararla con el registro.',
+        },
+        { who: 'iris', text: 'Anota también la diferencia, aunque sea pequeña.' },
       ],
     },
     {
@@ -355,16 +373,19 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Tomás hace una marca en la cuerda mojada; el extremo desaparece sobre el borde.',
+          text: 'Tomás hizo una marca en la cuerda mojada. El extremo desapareció por el borde.',
         },
         {
           who: 'teo',
           text: 'El plano da 160 metros y el terreno, 159,5. La bajada del modelo queda medio metro corta respecto del barómetro.',
         },
-        { who: 'iris', text: 'Medio metro pendiente. No lo borres para que cierre bonito.' },
+        {
+          who: 'iris',
+          text: 'Ese medio metro va en el informe. Si lo borramos, mañana alguien nos va a preguntar por él.',
+        },
         {
           who: 'tomas',
-          text: 'Desde acá se ve el paso entre Barón y Los Placeres. Siempre me llamó la atención lo bajo que cruzaban esos drones.',
+          text: 'Desde acá se ve el paso entre Barón y Los Placeres. Siempre me llamó la atención lo bajo que cruzan los drones por ahí.',
         },
       ],
     },

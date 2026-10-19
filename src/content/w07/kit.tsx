@@ -120,7 +120,10 @@ export function niceLevels(P: Plane, f: Field, count = 6): number[] {
   const vals: number[] = [];
   for (let i = 0; i <= 24; i++)
     for (let j = 0; j <= 24; j++) {
-      const v = f(P.xr[0] + ((P.xr[1] - P.xr[0]) * i) / 24, P.yr[0] + ((P.yr[1] - P.yr[0]) * j) / 24);
+      const v = f(
+        P.xr[0] + ((P.xr[1] - P.xr[0]) * i) / 24,
+        P.yr[0] + ((P.yr[1] - P.yr[0]) * j) / 24,
+      );
       if (Number.isFinite(v)) vals.push(v);
     }
   vals.sort((a, b) => a - b);
@@ -191,7 +194,11 @@ export function ContourMap({
             else segments.push([hits[0].p, hits[3].p], [hits[1].p, hits[2].p]);
           }
         }
-      return { level, segments, d: segments.map(([a, b]) => `M${a.join(' ')}L${b.join(' ')}`).join(' ') };
+      return {
+        level,
+        segments,
+        d: segments.map(([a, b]) => `M${a.join(' ')}L${b.join(' ')}`).join(' '),
+      };
     });
     // One label per visible level, toward the upper right of its curve, skipping spots
     // already taken by another level's label so crowded contours stay readable.
@@ -201,7 +208,8 @@ export function ContourMap({
         .map((s) => s[0])
         .filter((q) => q[0] > P.box.x + 24 && q[1] > P.box.y + 24)
         .sort((a, b) => b[0] - b[1] - (a[0] - a[1]));
-      const free = (q: V2) => placed.every((o) => Math.abs(o[0] - q[0]) > 52 || Math.abs(o[1] - q[1]) > 30);
+      const free = (q: V2) =>
+        placed.every((o) => Math.abs(o[0] - q[0]) > 52 || Math.abs(o[1] - q[1]) > 30);
       const label = spots.find(free) ?? null;
       if (label) placed.push(label);
       return { level, label, d };

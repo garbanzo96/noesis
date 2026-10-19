@@ -150,7 +150,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Una columna',
         tex: '\\p{1}{\\Delta V}=\\p{2}{\\cC{f(x_i,y_j)}}\\,\\p{3}{\\cA{\\Delta x}}\\,\\p{4}{\\cM{\\Delta y}}',
-        parts: ['volumen de una columna', 'altura de la columna', 'ancho de la base', 'largo de la base'],
+        parts: [
+          'volumen de una columna',
+          'altura de la columna',
+          'ancho de la base',
+          'largo de la base',
+        ],
       },
     },
     {
@@ -183,7 +188,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Valor medio',
         tex: '\\p{1}{f_{\\mathrm{med}}}=\\p{2}{\\frac{1}{\\operatorname{área}(R)}\\iint_R f\\,dA}=\\p{3}{\\cA{\\tfrac32}}',
-        parts: ['altura media que buscamos', 'volumen dividido por área', 'altura media del terreno'],
+        parts: [
+          'altura media que buscamos',
+          'volumen dividido por área',
+          'altura media del terreno',
+        ],
       },
     },
     {
@@ -387,7 +396,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'En el borde de la quebrada, el agua se junta en el pliegue del mapa. Tomás lo sacude lejos de la radio.',
+          text: 'En el borde de la quebrada, el agua se juntaba en el pliegue del mapa. Tomás lo sacudió lejos de la radio.',
         },
         {
           who: 'teo',
@@ -397,7 +406,7 @@ export const level: LevelSpec = {
           who: 'tomas',
           text: 'Necesito el total de las próximas tres horas. Cuando el agua suba, la cuerda va a tener menos lugares donde apoyarse.',
         },
-        { who: 'iris', text: 'Calcula cuánto cae. El chip sigue abajo.' },
+        { who: 'iris', text: 'Calcula cuánto cae. El chip sigue allá abajo.' },
       ],
     },
     {
@@ -443,7 +452,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Una piedra suelta golpea el fondo. Tomás deja de enrollar la cuerda hasta que termina el ruido.',
+          text: 'Una piedra suelta golpeó el fondo. Tomás dejó de enrollar la cuerda hasta que terminó el ruido.',
         },
         {
           who: 'teo',
@@ -451,10 +460,13 @@ export const level: LevelSpec = {
         },
         {
           who: 'tomas',
-          text: 'Entonces necesito achicar la búsqueda. La linterna no alcanza de un borde al otro.',
+          text: 'Entonces hay que achicar la búsqueda. La linterna no alcanza de un borde al otro.',
         },
         { who: 'tu', text: 'La señal tiene una zona más probable. Podemos ponerle un radio.' },
-        { who: 'iris', text: 'La piedra sí llegó de golpe.' },
+        {
+          who: 'iris',
+          text: 'Hazlo antes de que suba el agua. Tomás no va a poder bajar dos veces.',
+        },
       ],
     },
   ],

@@ -137,7 +137,11 @@ const lesson: LessonStep = {
     {
       say: 'Mueve el plano de corte y mira cómo cambian la curva y su tangente.',
       gate: 'Arrastra la perilla hasta y = 2, donde está la marca verde.',
-      board: { label: 'Corte', tex: '\\p{1}{f(x,2)}=\\p{2}{x^2+6x-4}', parts: ['altura con norte fijo', 'altura según el este'] },
+      board: {
+        label: 'Corte',
+        tex: '\\p{1}{f(x,2)}=\\p{2}{x^2+6x-4}',
+        parts: ['altura con norte fijo', 'altura según el este'],
+      },
     },
     {
       say: 'Al derivar en x, el término que depende solo de y queda constante. En el punto (1, 2), la pendiente hacia el este vale 8.',
@@ -145,7 +149,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Parcial en x',
         tex: '\\begin{aligned}\\p{1}{\\cA{f_x}}&=\\p{2}{2x+3y}\\\\\\p{3}{f_x(1,2)}&=\\p{4}{2+6=8}\\end{aligned}',
-        parts: ['pendiente hacia el este', 'pendiente según la posición', 'pendiente en el punto', 'subida por unidad'],
+        parts: [
+          'pendiente hacia el este',
+          'pendiente según la posición',
+          'pendiente en el punto',
+          'subida por unidad',
+        ],
       },
     },
     {
@@ -160,7 +169,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Parcial en y',
         tex: '\\begin{aligned}\\p{1}{\\cM{f_y}}&=\\p{2}{3x-2y}\\\\\\p{3}{f_y(1,2)}&=\\p{4}{-1}\\end{aligned}',
-        parts: ['pendiente hacia el norte', 'pendiente según la posición', 'pendiente en el punto', 'bajada por unidad'],
+        parts: [
+          'pendiente hacia el norte',
+          'pendiente según la posición',
+          'pendiente en el punto',
+          'bajada por unidad',
+        ],
       },
     },
     {
@@ -333,16 +347,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Escalera Fischer. La garúa deja una película brillante en los peldaños.',
+          text: 'Escalera Fischer. La garúa dejaba una película brillante en los peldaños, y Teo bajaba de lado, agarrado de la baranda.',
         },
         {
           who: 'tomas',
           text: 'Si cayó en ese sendero, resbaló. Las patas de un dron agarran menos que estas botas.',
         },
-        { who: 'iris', text: 'Tus botas siguen aquí. Dame una dirección para el dron.' },
+        { who: 'iris', text: 'Entonces dime hacia dónde resbaló.' },
         {
           who: 'tomas',
-          text: 'Primero midamos la bajada hacia el este y hacia el norte. En esta niebla prefiero una coordenada a una corazonada.',
+          text: 'Primero midamos cuánto baja el terreno hacia el este y hacia el norte. Con esta niebla prefiero una coordenada a una corazonada.',
         },
       ],
     },
@@ -376,17 +390,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El sendero se abre en abanico; un hilo de agua cruza entre las suelas de Teo.',
+          text: 'El sendero se abría en abanico, y un hilo de agua pasó entre las suelas de Teo.',
         },
         {
           who: 'tomas',
-          text: 'En el punto medido, doce metros por kilómetro al este; ocho al norte. Hasta ahí llegan los ejes.',
+          text: 'En el punto medido baja doce metros por kilómetro al este y ocho al norte. Eso es todo lo que dicen los ejes.',
         },
         {
           who: 'teo',
-          text: 'Pero mira el agua: ya está bajando en diagonal. Puedo seguirla en el mapa si junto las dos pendientes.',
+          text: 'Pero el agua ya está bajando en diagonal. Si junto las dos pendientes, puedo seguirla en el mapa.',
         },
-        { who: 'iris', text: 'El agua encontró un atajo antes que nosotros.' },
+        {
+          who: 'iris',
+          text: 'Sigamos el agua, entonces. Lo más probable es que el dron haya hecho el mismo camino.',
+        },
       ],
     },
   ],

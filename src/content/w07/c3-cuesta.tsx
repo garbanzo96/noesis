@@ -202,12 +202,22 @@ const lesson: LessonStep = {
         {
           label: 'Máximo ascenso',
           tex: '\\begin{aligned}\\p{1}{\\text{dirección}}&:\\p{2}{\\cC{\\nabla f}}\\\\\\p{3}{\\text{tasa máxima}}&=\\p{4}{\\|\\nabla f\\|}\\end{aligned}',
-          parts: ['hacia dónde subir', 'flecha de máxima subida', 'cuánto se puede subir', 'mayor subida por unidad'],
+          parts: [
+            'hacia dónde subir',
+            'flecha de máxima subida',
+            'cuánto se puede subir',
+            'mayor subida por unidad',
+          ],
         },
         {
           label: 'Máximo descenso',
           tex: '\\begin{aligned}\\p{1}{\\text{dirección}}&:\\p{2}{-\\cC{\\nabla f}}\\\\\\p{3}{\\text{tasa mínima}}&=\\p{4}{-\\|\\nabla f\\|}\\end{aligned}',
-          parts: ['hacia dónde bajar', 'flecha de máxima bajada', 'cuánto cambia la altura', 'mayor bajada por unidad'],
+          parts: [
+            'hacia dónde bajar',
+            'flecha de máxima bajada',
+            'cuánto cambia la altura',
+            'mayor bajada por unidad',
+          ],
         },
       ],
     },
@@ -463,18 +473,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sobre el sendero abierto, el agua golpea una lata escondida entre los pastos.',
+          text: 'Más abajo, en el sendero abierto, el agua golpeaba una lata escondida entre el pasto.',
         },
         {
           who: 'teo',
-          text: 'La bajada al este es mayor, pero el agua se va hacia el norte también. Si sigo solo el eje, me paso de largo.',
+          text: 'La bajada al este es mayor, pero el agua también se va hacia el norte. Si sigo solo un eje, me paso de largo.',
         },
         { who: 'tu', text: 'Juntemos las dos pendientes. El dron pudo seguir esa misma diagonal.' },
         {
           who: 'tomas',
-          text: 'Puedo bajar con cuerda, cuando tengamos una ruta. A tientas solo sumamos otro rescate.',
+          text: 'Puedo bajar con cuerda cuando tengamos una ruta. A tientas solo sumamos otro rescate.',
         },
-        { who: 'iris', text: 'Uno por noche me basta.' },
+        { who: 'iris', text: 'Entonces nadie baja hasta que la ruta esté en el mapa.' },
       ],
     },
     {
@@ -519,17 +529,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Tomás limpia la pantalla con la manga; la radio al hombro suelta un chasquido y queda muda.',
+          text: 'Tomás limpió la pantalla con la manga. La radio que llevaba al hombro soltó un chasquido y quedó muda.',
         },
         {
           who: 'teo',
-          text: 'La trayectoria llega a la quebrada Jaime. No sigue una recta: se dobla con la ladera.',
+          text: 'La trayectoria llega a la quebrada Jaime, y en vez de seguir una recta se va doblando con la ladera.',
         },
         {
           who: 'tomas',
-          text: 'Justo ahí dejé de tener señal. Conozco el borde; el fondo todavía me debe una respuesta.',
+          text: 'Ahí mismo perdí la señal. Conozco el borde, pero nunca he bajado al fondo.',
         },
-        { who: 'iris', text: 'Y al dron lo dejamos hablando solo, abajo.' },
+        { who: 'iris', text: 'El chip del dron debería seguir transmitiendo desde abajo.' },
       ],
     },
   ],

@@ -64,7 +64,13 @@ function SearchDisk({
       <Line a={MAP.pt(0, 0)} b={MAP.pt(R, 0)} color={C.amber} width={4} />
       <Dot x={MAP.x(0)} y={MAP.y(0)} color={C.text} r={7} />
       {label && (
-        <Cap x={Math.max(MAP.x(R / 2), MAP.x(0) + 60)} y={MAP.y(0) - 26} tex={`R=${num(R)}`} color={C.amber} size={18} />
+        <Cap
+          x={Math.max(MAP.x(R / 2), MAP.x(0) + 60)}
+          y={MAP.y(0) - 26}
+          tex={`R=${num(R)}`}
+          color={C.amber}
+          size={18}
+        />
       )}
     </>
   );
@@ -182,12 +188,22 @@ const lesson: LessonStep = {
           label: 'Coordenadas polares',
           tex: '\\begin{aligned}\\p{1}{x}&=\\p{2}{\\cA{r}\\cos\\cM{\\theta}}\\\\\\p{3}{y}&=\\p{4}{\\cA{r}\\sin\\cM{\\theta}}\\end{aligned}',
           body: 'r ≥ 0; θ se mide en radianes.',
-          parts: ['posición hacia el este', 'proyección hacia el este', 'posición hacia el norte', 'proyección hacia el norte'],
+          parts: [
+            'posición hacia el este',
+            'proyección hacia el este',
+            'posición hacia el norte',
+            'proyección hacia el norte',
+          ],
         },
         {
           label: 'Elemento de área polar',
           tex: '\\p{1}{dA}=\\p{2}{\\cA{r}}\\,\\p{3}{dr}\\,\\p{4}{\\cM{d\\theta}}',
-          parts: ['área del pequeño sector', 'crecimiento del arco', 'espesor del sector', 'apertura del sector'],
+          parts: [
+            'área del pequeño sector',
+            'crecimiento del arco',
+            'espesor del sector',
+            'apertura del sector',
+          ],
         },
       ],
     },
@@ -212,7 +228,12 @@ const lesson: LessonStep = {
       board: {
         label: 'Integrando y área',
         tex: '\\begin{aligned}\\p{1}{x^2+y^2}&=\\p{2}{\\cC{r^2}}\\\\\\p{3}{(x^2+y^2)\\,dA}&=\\p{4}{r^3\\,dr\\,d\\theta}\\end{aligned}',
-        parts: ['distancia al centro cuadrada', 'distancia polar al cuadrado', 'aporte en cartesianas', 'aporte en polares'],
+        parts: [
+          'distancia al centro cuadrada',
+          'distancia polar al cuadrado',
+          'aporte en cartesianas',
+          'aporte en polares',
+        ],
       },
     },
     {
@@ -232,7 +253,11 @@ const lesson: LessonStep = {
         {
           label: 'Integrar la densidad',
           tex: '\\begin{aligned}\\p{1}{P(r\\le R)}&=\\p{2}{2\\int_0^R e^{-r^2}r\\,dr}\\\\&=\\p{3}{1-e^{-R^2}}\\end{aligned}',
-          parts: ['probabilidad que buscamos', 'sumar densidad por anillos', 'probabilidad según el radio'],
+          parts: [
+            'probabilidad que buscamos',
+            'sumar densidad por anillos',
+            'probabilidad según el radio',
+          ],
         },
         {
           label: 'Radio del 95 %',
@@ -420,17 +445,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo limpia la pantalla con la manga; la mancha de la señal vuelve a aparecer alrededor de la última marca.',
+          text: 'Teo limpió la pantalla con la manga, y la mancha de la señal volvió a aparecer alrededor de la última marca.',
         },
         {
           who: 'teo',
-          text: 'La antena recibe, pero no me da un punto exacto. Tengo una zona más cargada cerca del centro y más débil hacia afuera.',
+          text: 'La antena recibe, pero no me da un punto exacto. La zona es más intensa cerca del centro y se debilita hacia afuera.',
         },
         {
           who: 'tomas',
           text: 'Dame un radio en kilómetros. Si busco demasiado cerca, puedo pasar sobre él sin verlo.',
         },
-        { who: 'iris', text: 'Y demasiado lejos nos come la noche.' },
+        { who: 'iris', text: 'Y si buscamos demasiado lejos, se nos va la noche.' },
       ],
     },
     {
@@ -473,18 +498,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Tomás ajusta el arnés. El círculo ámbar de la pantalla abarca el fondo que la linterna no alcanza.',
+          text: 'Tomás ajustó el arnés. El círculo ámbar de la pantalla abarcaba el fondo que la linterna no alcanzaba.',
         },
         {
           who: 'tu',
-          text: 'Un radio de aproximadamente 1,73 kilómetros cubre el 95 % con este modelo.',
+          text: 'Con este modelo, un radio de aproximadamente 1,73 kilómetros cubre el 95 %.',
         },
         {
           who: 'tomas',
-          text: 'Anotado. El cinco por ciento restante igual pesa cuando estás colgando.',
+          text: 'Anotado. El cinco por ciento que falta igual pesa cuando uno va colgado.',
         },
         { who: 'teo', text: 'Hay un destello dentro del círculo. Espera… volvió.' },
-        { who: 'iris', text: 'Rojo. Como la luz del dron.' },
+        { who: 'iris', text: 'Es rojo, del mismo color que la luz del dron.' },
       ],
     },
   ],
