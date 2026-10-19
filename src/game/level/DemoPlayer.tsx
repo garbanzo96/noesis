@@ -214,7 +214,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
           {lesson ? (
             <div className="lesson-bg" aria-hidden />
           ) : (
-            <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
+            <Backdrop place={run.place} dim={0.82} className="stage-backdrop" />
           )}
           <CueCtx.Provider value={cue}>
             <Scene beats={beats} reduced={run.reduced} unlock={unlock} answer={answer} />

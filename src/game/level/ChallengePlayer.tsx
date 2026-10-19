@@ -119,6 +119,17 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     setShownHints((h) => h + 1);
   };
   useKey(['h', 'H'], revealHint, !run.paused && phase === 'play');
+  // inside a number field H is a letter; «?» asks for a hint from anywhere
+  useEffect(() => {
+    if (run.paused || phase !== 'play') return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== '?') return;
+      e.preventDefault();
+      revealHint();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  });
   useKey(
     [' ', 'Enter'],
     (e) => {
@@ -239,7 +250,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           </ol>
         )}
         <div className="console-keys">
-          <KeyHint k="H">pista</KeyHint>
+          <KeyHint k="H / ?">pista</KeyHint>
         </div>
       </Console>
     </div>

@@ -1,7 +1,7 @@
 /* =====================================================================================
    UX V5 · layout adaptable, foco, affordances. Se carga después de game.css.
    Breakpoints:
-     compacto   (max-width: 1100px), (max-height: 640px)  → pizarra/cuaderno en cajón
+     cajón      (max-width: 1699px), (max-height: 640px)  → pizarra/cuaderno en cajón
      horizontal bajo (max-height: 520px) and (orientation: landscape) → escenario | consola
      vertical   (max-width: 700px) and (orientation: portrait)
    ===================================================================================== */
@@ -477,8 +477,9 @@
   box-shadow: 0 0 0 3px #28e7fa44;
 }
 
-/* ---------------------------------------------------------------- compacto: cajón */
-@media (max-width: 1100px), (max-height: 640px) {
+/* ---------------------------------------------------------------- cajón: pizarra y cuaderno
+   bajo 1700 px de ancho el escenario necesita ese ancho; el registro se abre a pedido */
+@media (max-width: 1699px), (max-height: 640px) {
   .play.with-notes,
   .play.with-notes.lesson {
     grid-template-columns: minmax(0, 1fr);
@@ -2137,4 +2138,33 @@
 .part-tint [class*='lc-'],
 .part-tint [class*='k-'] {
   color: inherit !important;
+}
+
+
+/* ---------------------------------------------------------------- foco y proporción
+   la franja de la fórmula flota sobre el borde inferior del escenario (solo el 1,6 % de los
+   rótulos de las escenas vive ahí), así el dibujo usa todo el alto */
+.play-stage {
+  position: relative;
+}
+.play-stage > .focus-strip {
+  position: absolute;
+  left: 12px;
+  right: 12px;
+  bottom: 0;
+  z-index: 4;
+  max-height: 42%;
+  padding-top: 26px;
+  border-top: none !important;
+  background: linear-gradient(180deg, #07061300 0%, #070613d9 36%, #070613f2 100%) !important;
+  pointer-events: none;
+}
+.play-stage > .focus-strip:not(.on) {
+  display: none;
+}
+.console {
+  padding: 8px 20px 10px;
+}
+.console-keys {
+  margin-top: 4px;
 }
