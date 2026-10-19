@@ -172,6 +172,10 @@ function ChannelLesson({ beats, unlock, answer, reduced }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Canal binario simétrico y capacidad',
+  intro: {
+    question: '¿Cuánta información puede pasar por un canal que a veces invierte bits?',
+    text: 'Un canal ruidoso cambia algunos bits al azar. Su capacidad es la cantidad máxima de información útil por bit enviado, y transmitir por encima de ella garantiza errores. La nueva configuración del enlace pide cuatro veces la tasa anterior.',
+  },
   Scene: ChannelLesson,
   beats: [
     {

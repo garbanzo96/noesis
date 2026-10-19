@@ -206,6 +206,10 @@ function CriticalLesson({ beats, answer, unlock }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Puntos críticos y segunda derivada',
+  intro: {
+    question: '¿Cómo se distingue una cumbre, un hoyo y un paso entre dos cerros?',
+    text: 'En los puntos críticos el gradiente se anula y el terreno queda plano por un instante. Las segundas derivadas, ordenadas en la matriz hessiana, dicen si ahí hay un máximo, un mínimo o una silla. Entre Barón y Los Placeres hay un paso con esa forma, y los drones lo usan para cruzar bajo el radar.',
+  },
   Scene: CriticalLesson,
   beats: [
     {

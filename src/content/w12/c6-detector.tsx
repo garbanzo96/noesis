@@ -169,6 +169,10 @@ function DetectorLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Comparar el mismo lote',
+  intro: {
+    question: '¿Cuál de dos recetas explica mejor un lote de datos?',
+    text: 'La verosimilitud mide qué tan probable es un lote bajo un modelo. Comparando dos modelos, la razón de verosimilitudes de todo el lote es el producto de las razones de cada registro. Halcón marcó un lote como real, y hay que ver qué receta lo explica mejor.',
+  },
   Scene: DetectorLesson,
   beats: [
     {

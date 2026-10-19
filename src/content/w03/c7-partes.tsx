@@ -198,6 +198,10 @@ function PartsLesson({ beats, answer, unlock }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Integración por partes',
+  intro: {
+    question: '¿Cómo se integra el producto de dos funciones distintas?',
+    text: 'La regla del producto, leída al revés, da la integración por partes: cambia una integral difícil por otra más sencilla. Lo importante es elegir bien qué factor se deriva y cuál se integra. La bomba del canal 7 arranca a medianoche con un caudal que es producto de dos efectos.',
+  },
   Scene: PartsLesson,
   beats: [
     {

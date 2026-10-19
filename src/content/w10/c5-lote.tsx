@@ -170,6 +170,10 @@ function LotLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Prior y posterior para una proporción',
+  intro: {
+    question: '¿Cómo se estima una proporción desconocida a partir de conteos?',
+    text: 'Cuando lo desconocido es una proporción, Bayes no da un número sino una curva de valores posibles. Lo que se sabía antes, el prior, se combina con los conteos y da el posterior. Cada lote de tests trae su propia tasa de positivos, y hay que estimar la del lote de agosto.',
+  },
   Scene: LotLesson,
   beats: [
     {

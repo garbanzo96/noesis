@@ -160,6 +160,10 @@ function ComboLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Combinaciones lineales',
+  intro: {
+    question: '¿A qué puntos se llega combinando dos direcciones fijas?',
+    text: 'Una combinación lineal escala dos vectores y los suma. Con dos direcciones independientes se alcanza cualquier punto del plano, y los coeficientes son sus coordenadas en esa base. La grúa de las cocheras se mueve sobre dos rieles inclinados, y su contador guarda cuántos pasos dio en cada uno.',
+  },
   Scene: ComboLesson,
   beats: [
     {

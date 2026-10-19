@@ -156,6 +156,10 @@ function ImportanceLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Muestras prestadas',
+  intro: {
+    question: '¿Cómo se usan muestras de una distribución para estimar otra?',
+    text: 'Cuando no se puede muestrear la distribución que interesa, se toman muestras de otra y se corrige cada una con un peso. Ese es el muestreo por importancia, y sin los pesos el resultado sale sesgado. El control del Laboratorio usa muestras prestadas, y el informe las cuenta como si fueran originales.',
+  },
   Scene: ImportanceLesson,
   beats: [
     {

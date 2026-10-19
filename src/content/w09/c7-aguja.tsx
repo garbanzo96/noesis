@@ -157,6 +157,10 @@ function NeedleLesson({ beats, unlock, reduced, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Oscilador amortiguado',
+  intro: {
+    question: '¿Cómo se mueve una aguja que oscila mientras algo la frena?',
+    text: 'El oscilador amortiguado combina un resorte que devuelve la aguja al reposo y un freno que le quita energía. Según el freno, la aguja oscila, vuelve justo sin pasarse o se arrastra hasta el reposo. El papel guarda el pulso de la descarga, y la copia pública dibuja otra aguja.',
+  },
   Scene: NeedleLesson,
   beats: [
     {

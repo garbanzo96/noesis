@@ -165,6 +165,10 @@ function EulerLesson({ beats, unlock, reduced, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Método de Euler',
+  intro: {
+    question: '¿Cómo se calcula una solución paso a paso cuando no hay fórmula?',
+    text: 'El método de Euler avanza en pasos cortos siguiendo la pendiente del punto donde está. Con pasos más cortos el error baja, a cambio de más cálculos. El exportador público saltaba entre muestras, y el paso corto que Elena calibró seguía guardado en la consola.',
+  },
   Scene: EulerLesson,
   beats: [
     {

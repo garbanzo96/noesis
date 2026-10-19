@@ -246,6 +246,10 @@ function CompositionLesson({ beats, unlock, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Composición e inversas',
+  intro: {
+    question: '¿Cómo se encadenan dos funciones y cómo se deshace la cadena?',
+    text: 'Componer es aplicar una función a la salida de otra. Invertir es recorrer el camino al revés, desde el último paso hacia el primero. La máquina del km 60 cifra cada letra con dos engranajes, y para leer su nota hay que deshacerlos en el orden correcto.',
+  },
   Scene: CompositionLesson,
   beats: [
     {

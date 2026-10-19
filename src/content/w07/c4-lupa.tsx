@@ -93,6 +93,10 @@ function TangentLesson({ beats, unlock, answer, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Plano tangente y aproximación lineal',
+  intro: {
+    question: '¿Cómo se estima la altura cerca de un punto sin conocer toda la superficie?',
+    text: 'Muy cerca de un punto, una superficie suave se parece a un plano, el plano tangente. Con él se estiman cambios pequeños usando solo las dos pendientes. El barómetro del dron guarda una bajada, y la comparamos con lo que el plano predice para el terreno.',
+  },
   Scene: TangentLesson,
   beats: [
     {

@@ -139,6 +139,10 @@ function KellyLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Tamaño de apuesta con ventaja',
+  intro: {
+    question: '¿Qué fracción del capital conviene apostar cuando se tiene ventaja?',
+    text: 'Apostar todo arruina tarde o temprano; apostar poco desperdicia la ventaja. El criterio de Kelly da la fracción que hace crecer el capital lo más rápido posible a largo plazo. La cuenta apostó siempre el 20 %, justo lo que conviene si se gana seis de cada diez veces.',
+  },
   Scene: KellyLesson,
   beats: [
     {

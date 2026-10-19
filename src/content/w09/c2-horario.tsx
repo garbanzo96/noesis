@@ -216,6 +216,10 @@ function ExponentialLesson({ beats, unlock, reduced, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Crecimiento y decaimiento exponencial',
+  intro: {
+    question: '¿Qué curva sigue algo que cambia en proporción a lo que hay?',
+    text: 'Si la rapidez del cambio es proporcional a la cantidad, la solución es una exponencial: crece o decae con un tiempo fijo de duplicación o de vida media. La salida privada del Observatorio anticipaba la ventana de tormenta, y la hora hay que contrastarla con esa curva.',
+  },
   Scene: ExponentialLesson,
   beats: [
     {

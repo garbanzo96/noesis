@@ -190,6 +190,10 @@ function NormalLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Puntaje z y distribución normal',
+  intro: {
+    question: '¿Cuándo un valor se sale de lo habitual?',
+    text: 'El puntaje z dice a cuántas desviaciones estándar está un valor del promedio. Muchas mediciones siguen la curva normal, con forma de campana, y con ella se sabe qué tan raro es un valor lejano. La semana 31 del Cerro reportó 171 dosis, y hay que medir cuánto se sale de la campana.',
+  },
   Scene: NormalLesson,
   beats: [
     {

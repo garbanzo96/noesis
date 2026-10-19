@@ -420,6 +420,10 @@ function ConditionalLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Probabilidad condicional',
+  intro: {
+    question: '¿Cómo cambia una probabilidad cuando ya sabemos algo?',
+    text: 'Saber que ocurrió un evento reduce el universo a ese evento, y las probabilidades se recalculan dentro de él. La condicional no es simétrica: no es lo mismo la fracción de VIP que ganó que la fracción de ganadores que era VIP. El Barón juega justo con esa confusión.',
+  },
   Scene: ConditionalLesson,
   beats: [
     {

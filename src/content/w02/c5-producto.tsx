@@ -137,6 +137,10 @@ function ProductLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Producto y cociente',
+  intro: {
+    question: '¿Cómo cambia un producto cuando sus dos factores cambian a la vez?',
+    text: 'Cuando dos cantidades crecen juntas, su producto recibe dos aportes, uno de cada factor. La regla del producto los suma; el error típico es multiplicar las dos derivadas. El transformador sin registro sube voltaje y corriente a la vez, y su potencia es el producto de ambos.',
+  },
   Scene: ProductLesson,
   beats: [
     {

@@ -163,6 +163,10 @@ function HuffmanLesson({ beats, unlock, answer, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Códigos de prefijo y Huffman',
+  intro: {
+    question: '¿Cómo se escribe un mensaje con la menor cantidad de bits posible?',
+    text: 'Un buen código da palabras cortas a los símbolos frecuentes y largas a los raros, sin que ninguna sea el comienzo de otra. El algoritmo de Huffman arma ese código como un árbol, y su largo medio queda pegado a la entropía. La cabecera del chip está escrita así y se lee bajando por las ramas.',
+  },
   Scene: HuffmanLesson,
   beats: [
     {

@@ -131,6 +131,10 @@ function RiemannLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Sumas de Riemann',
+  intro: {
+    question: '¿Cómo se calcula un área bajo una curva con rectángulos?',
+    text: 'Una suma de Riemann corta el área en franjas angostas y suma sus rectángulos. Con más franjas, la estimación mejora, y el valor al que se acerca es la integral definida. El caudalímetro guarda un dato por hora, y entre una lectura y otra hay agua que estimar.',
+  },
   Scene: RiemannLesson,
   beats: [
     {

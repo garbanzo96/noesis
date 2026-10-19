@@ -177,6 +177,10 @@ function StopLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Parada óptima',
+  intro: {
+    question: '¿Cuándo conviene dejar de esperar una oferta mejor?',
+    text: 'En un problema de parada óptima las ofertas llegan una por una y no se puede volver atrás. La mejor regla honesta observa primero cerca de un 37 % de las ofertas y después toma la primera que supere a todas. Aun así falla seguido, y la cuenta de la Bolsa acertó los doce meses.',
+  },
   Scene: StopLesson,
   beats: [
     {

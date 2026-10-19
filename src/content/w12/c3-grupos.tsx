@@ -136,6 +136,10 @@ function MixtureLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Dos grupos en una mezcla',
+  intro: {
+    question: '¿De qué grupo viene un dato cuando dos fuentes se mezclan?',
+    text: 'Una mezcla combina dos distribuciones con ciertas proporciones. Para un dato observado, Bayes da la responsabilidad de cada fuente: qué tan probable es que venga de una o de otra. Dos máquinas alimentan la misma cinta, y las carpetas perdieron su etiqueta de origen.',
+  },
   Scene: MixtureLesson,
   beats: [
     {

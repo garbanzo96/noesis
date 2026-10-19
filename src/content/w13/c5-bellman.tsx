@@ -140,6 +140,10 @@ function BellmanLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Resolver una etapa a la vez',
+  intro: {
+    question: '¿Cómo se decide bien en cada etapa de un proceso largo?',
+    text: 'La ecuación de Bellman resuelve un problema de varias etapas desde el final: el valor de hoy es lo mejor entre cobrar ahora o seguir, con el valor de mañana descontado. Así cada decisión se toma mirando una sola etapa. Tres horarios de cierre esperan una firma que Valentina no quiere dar a ciegas.',
+  },
   Scene: BellmanLesson,
   beats: [
     {

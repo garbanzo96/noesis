@@ -145,6 +145,10 @@ function ReaderLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Factor de Bayes',
+  intro: {
+    question: '¿Cómo se decide cuál de dos explicaciones apoya más la evidencia?',
+    text: 'El factor de Bayes compara qué tan probables son los datos bajo dos modelos distintos. Multiplicado por las chances previas, da cuánto preferir uno sobre el otro. Los positivos de más pueden venir del lote o de la máquina que lo lee, y el lector guarda sus controles.',
+  },
   Scene: ReaderLesson,
   beats: [
     {

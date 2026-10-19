@@ -143,6 +143,10 @@ function MeanFieldLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Aproximación por partes',
+  intro: {
+    question: '¿Qué se pierde al tratar por separado cosas que van juntas?',
+    text: 'El campo medio aproxima una distribución de varias variables como si fueran independientes. Es barato de calcular, pero pierde las correlaciones. El lector trata cada síntoma por su cuenta, y la fiebre y la tos casi siempre vienen juntas.',
+  },
   Scene: MeanFieldLesson,
   beats: [
     {

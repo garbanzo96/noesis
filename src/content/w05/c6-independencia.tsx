@@ -638,6 +638,10 @@ function IndependenceLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Eventos independientes',
+  intro: {
+    question: '¿Cuándo saber una cosa no cambia nada sobre otra?',
+    text: 'Dos eventos son independientes si conocer uno no cambia la probabilidad del otro; entonces la probabilidad de ambos es el producto. En un casino honesto, la mesa donde juegas no debería cambiar tus chances. Las manos del viernes dirán si en la mesa 7 eso se cumple.',
+  },
   Scene: IndependenceLesson,
   beats: [
     {

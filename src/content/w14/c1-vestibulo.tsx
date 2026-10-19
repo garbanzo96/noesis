@@ -141,6 +141,10 @@ function BadgeLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Repaso: la mitad cada tanto',
+  intro: {
+    question: '¿Cuánto tiempo queda si algo se reduce a la mitad cada cierto periodo?',
+    text: 'Torre Halcón repasa herramientas de los mundos anteriores, una por piso. Esta vuelve a las exponenciales y los logaritmos del Puerto: una cantidad que se reduce a la mitad cada periodo fijo, y el logaritmo para despejar el tiempo. La credencial del Contador se descarga a la mitad cada 8 horas.',
+  },
   Scene: BadgeLesson,
   beats: [
     {

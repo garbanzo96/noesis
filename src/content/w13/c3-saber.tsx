@@ -153,6 +153,10 @@ function InfoLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Valor de la información perfecta',
+  intro: {
+    question: '¿Cuánto vale saber el resultado antes de decidir?',
+    text: 'El valor de la información perfecta compara lo que se gana decidiendo sabiendo el resultado con lo que se gana decidiendo antes. Nunca es negativo, y pone un techo a lo que vale cualquier dato. Un anuncio filtrado un día antes vale plata, y Valentina quiere saber cuánta.',
+  },
   Scene: InfoLesson,
   beats: [
     {

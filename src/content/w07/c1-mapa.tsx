@@ -130,6 +130,10 @@ function MapLesson({ beats, unlock, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Funciones de dos variables y curvas de nivel',
+  intro: {
+    question: '¿Cómo se describe una cantidad que depende de dos posiciones a la vez?',
+    text: 'Empieza el cálculo en varias variables. Una función de dos variables asigna una altura a cada punto del plano y dibuja una superficie, como un cerro. Las curvas de nivel la convierten en un mapa plano. El último registro del dron da su altitud y su distancia al suelo, y eso deja dos puntos posibles entre los cerros.',
+  },
   Scene: MapLesson,
   beats: [
     {

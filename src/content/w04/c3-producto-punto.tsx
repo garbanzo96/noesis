@@ -167,6 +167,10 @@ function DotLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Producto punto',
+  intro: {
+    question: '¿Cuánto de un vector apunta en la dirección de otro?',
+    text: 'El producto punto multiplica componentes y suma. Su signo dice si dos vectores van en el mismo sentido, y con él se proyecta un vector sobre una dirección. Los sensores de la vía cerrada miden justo eso: cuánto de la velocidad de un tren va a lo largo de la vía.',
+  },
   Scene: DotLesson,
   beats: [
     {

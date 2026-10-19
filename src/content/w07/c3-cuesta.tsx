@@ -148,6 +148,10 @@ function GradientLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Gradiente y derivada direccional',
+  intro: {
+    question: '¿Hacia dónde sube más rápido una superficie?',
+    text: 'El gradiente junta las dos derivadas parciales en un vector que apunta hacia la subida más empinada. Con él se calcula la pendiente en cualquier dirección. El agua baja justo en sentido contrario, y por ahí debió rodar el dron hasta la quebrada.',
+  },
   Scene: GradientLesson,
   beats: [
     {

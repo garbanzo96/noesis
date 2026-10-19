@@ -215,6 +215,10 @@ function ChainLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Regla de la cadena',
+  intro: {
+    question: '¿Cómo se deriva cuando una cantidad depende de otra que también cambia?',
+    text: 'Si una magnitud pasa por varias etapas, sus razones de cambio se multiplican. Esa es la regla de la cadena, la más usada de todas las reglas de derivación. Entre la turbina 3 y su generador hay una caja de engranajes, y cada etapa cambia la velocidad de giro.',
+  },
   Scene: ChainLesson,
   beats: [
     {

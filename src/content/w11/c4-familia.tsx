@@ -137,6 +137,10 @@ function FamilyLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'La familia q y la distancia KL',
+  intro: {
+    question: '¿Cómo se elige la mejor aproximación dentro de una familia simple?',
+    text: 'La inferencia variacional aproxima el posterior con una distribución q de una familia fácil de manejar. La divergencia KL mide cuánto se aleja q del posterior, y se elige la q que la hace más pequeña. Si la familia es demasiado angosta, ni la mejor q se acerca. La receta del lector admite dos valores; el control tiene tres.',
+  },
   Scene: FamilyLesson,
   beats: [
     {

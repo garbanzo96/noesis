@@ -243,6 +243,10 @@ function VectorLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Vectores',
+  intro: {
+    question: '¿Cómo se describe un desplazamiento que tiene tamaño y dirección?',
+    text: 'Empieza el álgebra lineal, el estudio de los vectores y de las transformaciones que los mueven. Un vector es una flecha con componentes, y sumar vectores es encadenar desplazamientos. El GPS del M-7 solo guarda cuánto se movió en cada tramo, y sumándolos sabremos adónde fue.',
+  },
   Scene: VectorLesson,
   beats: [
     {

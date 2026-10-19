@@ -145,6 +145,10 @@ function DecisionLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Una ronda tiene costo',
+  intro: {
+    question: '¿Conviene actuar ahora o esperar una oportunidad mejor?',
+    text: 'Este piso repasa la decisión de La Bolsa: comparar el valor esperado de actuar ahora con el de esperar una ronda, descontando la demora. La puerta del piso 40 está al alcance, y esperar puede costar la oportunidad.',
+  },
   Scene: DecisionLesson,
   beats: [
     {

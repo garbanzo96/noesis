@@ -343,6 +343,10 @@ function SumsLesson({ beats, unlock }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Sumatorias e índices',
+  intro: {
+    question: '¿Cómo se escribe una suma larga sin anotar cada término?',
+    text: 'La sumatoria resume una suma con una regla y un contador. Es la notación que usan la estadística, la probabilidad y casi todo lo que sigue. El libro del Contador tiene una cifra por caja y por semana, y una mancha tapa justo el total que necesitamos.',
+  },
   Scene: SumsLesson,
   beats: [
     {

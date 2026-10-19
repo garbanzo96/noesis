@@ -155,6 +155,10 @@ function SlopeLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Ajustar el paso',
+  intro: {
+    question: '¿Cómo se sube a la cima de una función sin pasarse de largo?',
+    text: 'El ascenso por gradiente avanza en la dirección en que la función sube, con un paso de tamaño elegido. Con un paso demasiado grande salta de un lado al otro y nunca se asienta. El simulador del Laboratorio salta entre dos valores, como si alguien hubiera dejado la perilla muy alta.',
+  },
   Scene: SlopeLesson,
   beats: [
     {

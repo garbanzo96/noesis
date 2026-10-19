@@ -178,6 +178,10 @@ function PolarLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Coordenadas polares',
+  intro: {
+    question: '¿Cómo se integra con comodidad sobre un círculo?',
+    text: 'En coordenadas polares, un punto se describe por su distancia al centro y su ángulo. Para regiones redondas la integral doble se vuelve mucho más simple, con un factor r que corrige el área. La señal del dron deja una zona redonda de búsqueda, y hay que fijar el radio que la cubre casi por completo.',
+  },
   Scene: PolarLesson,
   beats: [
     {

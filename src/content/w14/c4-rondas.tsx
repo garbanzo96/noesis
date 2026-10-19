@@ -188,6 +188,10 @@ function SystemsLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Repaso: dos ecuaciones a la vez',
+  intro: {
+    question: '¿Cómo se encuentran dos valores que cumplen dos condiciones al mismo tiempo?',
+    text: 'Este piso repasa los sistemas lineales del Metro: dos ecuaciones, dos incógnitas, y la eliminación para despejarlas. Dos guardias recorren el piso 40, y sus registros dejan un hueco para cruzar el pasillo.',
+  },
   Scene: SystemsLesson,
   beats: [
     {

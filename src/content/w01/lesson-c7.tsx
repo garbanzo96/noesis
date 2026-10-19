@@ -324,6 +324,10 @@ function ExpLesson({ beats, unlock, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Exponenciales',
+  intro: {
+    question: '¿Qué pasa cuando algo se multiplica por lo mismo en cada paso?',
+    text: 'Sumar lo mismo en cada paso da una recta; multiplicar por lo mismo da una exponencial, que al principio parece lenta y después no hay cómo alcanzarla. El virus de la red del puerto se duplica cada hora, y los registros de la salida muestran cuánto ha crecido.',
+  },
   Scene: ExpLesson,
   beats: [
     {

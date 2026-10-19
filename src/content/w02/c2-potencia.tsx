@@ -148,6 +148,10 @@ function PowerLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'La derivada',
+  intro: {
+    question: '¿Cómo se mide la rapidez de un cambio en un instante preciso?',
+    text: 'La derivada es la pendiente de una curva en un punto: el límite de las pendientes entre puntos cada vez más cercanos. Convierte un total acumulado en una rapidez instantánea. El medidor nuevo guarda la energía acumulada, y Nadia necesita la potencia en cada momento.',
+  },
   Scene: PowerLesson,
   beats: [
     {

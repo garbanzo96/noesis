@@ -166,6 +166,10 @@ function DenominatorLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'El denominador',
+  intro: {
+    question: '¿Por qué un posterior exacto puede ser imposible de calcular?',
+    text: 'Empieza la inferencia aproximada. En Bayes, el denominador suma sobre todas las combinaciones posibles de los parámetros, y con muchos parámetros esa suma no cabe en ninguna máquina. Hay dos salidas honestas: muestrear o aproximar. El Laboratorio dice que su modelo no se puede calcular exacto.',
+  },
   Scene: DenominatorLesson,
   beats: [
     {

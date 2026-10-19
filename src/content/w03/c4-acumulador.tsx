@@ -142,6 +142,10 @@ function AccLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'El teorema fundamental (I)',
+  intro: {
+    question: '¿Cómo crece un total acumulado mientras va pasando el tiempo?',
+    text: 'Si dejamos libre el extremo derecho de la integral, obtenemos una función que acumula hasta cada instante. El teorema fundamental dice que su derivada es la función que se acumula. Con eso vamos a encontrar la hora en que el lago empezó a bajar.',
+  },
   Scene: AccLesson,
   beats: [
     {

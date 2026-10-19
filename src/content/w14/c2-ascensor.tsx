@@ -133,6 +133,10 @@ function LiftLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Repaso: la pendiente de la subida',
+  intro: {
+    question: '¿Cómo se lee la velocidad en una curva de altura?',
+    text: 'Este piso repasa la derivada de La Planta: la pendiente de la curva de altura es la velocidad, y su máximo está donde la derivada de la velocidad se anula. El ascensor de vidrio guarda su curva de subida, y hay que comprobar cómo llega al piso alto.',
+  },
   Scene: LiftLesson,
   beats: [
     {

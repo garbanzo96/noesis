@@ -90,6 +90,16 @@ describe('content contract', () => {
     }
   });
 
+  it('every lesson opens with a context card: a question and a short paragraph', () => {
+    for (const l of Object.values(LEVELS))
+      for (const st of l.steps) {
+        if (st.kind !== 'lesson') continue;
+        expect(st.intro?.question, `${l.id}: falta la pregunta de contexto`).toMatch(/\?$/);
+        expect(st.intro!.text.length, `${l.id}: contexto muy corto o muy largo`).toBeGreaterThan(80);
+        expect(st.intro!.text.length, `${l.id}: contexto muy largo`).toBeLessThan(460);
+      }
+  });
+
   it('demo beats are well formed', () => {
     for (const l of levels)
       for (const st of l.steps)

@@ -332,6 +332,10 @@ function FunctionsLesson({ beats, unlock }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Funciones y gráficas',
+  intro: {
+    question: '¿Cómo se describe una cantidad que depende de otra?',
+    text: 'Seguimos en precálculo. Una función asigna a cada entrada exactamente una salida, y su gráfica permite ver de un vistazo cómo cambia. El mareógrafo del muelle 3 es una función: a cada minuto del día le corresponde una altura del mar.',
+  },
   Scene: FunctionsLesson,
   beats: [
     {

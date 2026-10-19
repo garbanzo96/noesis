@@ -144,6 +144,10 @@ function HumpsLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Dos jorobas y una KL con dirección',
+  intro: {
+    question: '¿Qué pasa cuando se aproxima una curva de dos jorobas con una sola?',
+    text: 'La divergencia KL no es simétrica, y la dirección que se use decide el resultado. En una dirección, q se queda con una sola joroba y deja la otra fuera; en la otra, se reparte entre las dos. El posterior del lector tiene dos jorobas, y la receta guardada conserva solo la de los enfermos.',
+  },
   Scene: HumpsLesson,
   beats: [
     {

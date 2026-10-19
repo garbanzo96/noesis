@@ -137,6 +137,10 @@ function OptimumLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Optimización',
+  intro: {
+    question: '¿Cómo se encuentra el mejor valor posible bajo una restricción?',
+    text: 'En un máximo o un mínimo la pendiente es cero, así que basta buscar dónde se anula la derivada y comparar con los extremos. Para hacerlo primero hay que escribir el problema como una función. Quien instaló la carga oculta sacó la mayor potencia posible sin pasarse del fusible.',
+  },
   Scene: OptimumLesson,
   beats: [
     {

@@ -138,6 +138,10 @@ function BatteryLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Optimización con restricción',
+  intro: {
+    question: '¿Cómo se encuentra el mejor punto cuando no se puede ir a cualquier parte?',
+    text: 'Muchas veces se maximiza algo dentro de un límite. En el mejor punto, el gradiente de lo que queremos maximizar es paralelo al de la restricción; ese es el método de Lagrange. La batería del dron de búsqueda solo alcanza dos kilómetros, y dentro de ese radio hay que elegir dónde recibir mejor la señal.',
+  },
   Scene: BatteryLesson,
   beats: [
     {

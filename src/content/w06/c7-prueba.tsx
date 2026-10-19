@@ -228,6 +228,10 @@ function TestLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Pruebas de hipótesis',
+  intro: {
+    question: '¿Cómo se pone a prueba una cifra oficial con una muestra?',
+    text: 'Una prueba de hipótesis supone que la cifra oficial es cierta y calcula qué tan raro sería ver lo que vemos. Si es demasiado raro, se rechaza la cifra. El informe dice que el 95 % de los inscritos se vacunó, y 400 fichas al azar bastan para ponerlo a prueba.',
+  },
   Scene: TestLesson,
   beats: [
     {

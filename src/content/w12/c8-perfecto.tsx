@@ -142,6 +142,10 @@ function Chi2Lesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Prueba χ² de ajuste',
+  intro: {
+    question: '¿Cómo se mide si unos conteos se parecen a lo esperado, o si se parecen demasiado?',
+    text: 'La prueba χ² suma cuánto se alejan los conteos observados de los esperados. Un valor muy alto indica que los datos no siguen el modelo; uno demasiado bajo indica que lo siguen con una exactitud sospechosa. El lote nuevo sigue a Benford casi al decimal.',
+  },
   Scene: Chi2Lesson,
   beats: [
     {

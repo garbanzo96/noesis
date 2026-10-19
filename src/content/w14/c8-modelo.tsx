@@ -157,6 +157,10 @@ function ModelLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Comparar el mapa con los registros',
+  intro: {
+    question: '¿Cuánto se aleja el reparto de Halcón de lo que dicen los registros?',
+    text: 'Este piso junta dos herramientas: la divergencia KL de Las Antenas y la prueba χ² de La Fábrica. Las dos comparan una distribución con otra, una en bits y la otra en conteos. El servidor reparte los recursos de la ciudad con una tabla que los registros no sostienen.',
+  },
   Scene: ModelLesson,
   beats: [
     {

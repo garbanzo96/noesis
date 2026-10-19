@@ -175,6 +175,10 @@ function HistLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Datos y distribuciones',
+  intro: {
+    question: '¿Cómo se ve de un vistazo la forma de un montón de datos?',
+    text: 'Empieza la estadística, que saca conclusiones a partir de datos reales. El primer paso es ordenarlos: contar frecuencias y dibujar un histograma para ver dónde se concentran y qué forma tienen. La copia del registro de vacunación tiene sesenta pacientes, y su forma ya dice algo.',
+  },
   Scene: HistLesson,
   beats: [
     {

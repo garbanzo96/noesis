@@ -152,6 +152,10 @@ function RecipeLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Modelos generativos',
+  intro: {
+    question: '¿Cómo se fabrican datos nuevos que se parezcan a los reales?',
+    text: 'Empiezan los modelos generativos: distribuciones que no solo describen datos, sino que permiten sortear datos nuevos. El truco básico pasa un número al azar entre 0 y 1 por la función acumulada. En La Fábrica cada carpeta sale de un sorteo así.',
+  },
   Scene: RecipeLesson,
   beats: [
     {

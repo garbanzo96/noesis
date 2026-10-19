@@ -212,6 +212,10 @@ function EigenLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Valores y vectores propios',
+  intro: {
+    question: '¿Qué direcciones conserva una transformación cuando se repite muchas veces?',
+    text: 'Un vector propio solo cambia de largo al aplicar la matriz, y su valor propio dice por cuánto se multiplica. Al repetir la transformación, esas direcciones mandan sobre todo lo demás. La tabla de carga reparte los vagones cada noche, y repetida lleva todo hacia un reparto que ya no cambia.',
+  },
   Scene: EigenLesson,
   beats: [
     {

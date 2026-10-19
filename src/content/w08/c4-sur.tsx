@@ -98,6 +98,10 @@ function JointLesson({ beats, unlock, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Entropía conjunta y condicional',
+  intro: {
+    question: '¿Cuánta incertidumbre queda sobre una cosa cuando ya se sabe otra?',
+    text: 'La entropía conjunta mide la incertidumbre de dos variables juntas, y la condicional, lo que queda de una cuando se conoce la otra. La regla de la cadena las une. La reserva nombra la ruta d, y falta saber de qué torre sale, la columna que el informe dejó fuera.',
+  },
   Scene: JointLesson,
   beats: [
     {

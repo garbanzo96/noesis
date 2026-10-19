@@ -179,6 +179,10 @@ function EstimateLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Aproximación lineal y Newton',
+  intro: {
+    question: '¿Cómo se estima un valor difícil usando la recta tangente?',
+    text: 'Cerca de un punto, una curva se parece a su tangente, y esa recta permite estimar valores sin calcularlos exactos. Repetir la idea da el método de Newton, que encuentra soluciones de ecuaciones paso a paso. El transformador se quema a 110 °C, y hay que estimar cuánto falta sin esperar la alarma.',
+  },
   Scene: EstimateLesson,
   beats: [
     {

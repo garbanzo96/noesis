@@ -168,6 +168,10 @@ function SignatureLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Repaso: multiplicar chances',
+  intro: {
+    question: '¿Cuánto pesan juntas tres pruebas independientes?',
+    text: 'Este piso repasa Bayes con chances de La Clínica: cada prueba independiente multiplica las chances por su razón de verosimilitud. Diez personas tenían acceso a la cuenta del piso 40, y tres pruebas apuntan a una.',
+  },
   Scene: SignatureLesson,
   beats: [
     {

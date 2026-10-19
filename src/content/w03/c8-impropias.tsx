@@ -144,6 +144,10 @@ function ImproperLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Integrales impropias',
+  intro: {
+    question: '¿Puede sumar un total finito algo que nunca se detiene?',
+    text: 'Una integral impropia tiene un extremo infinito o una función que se dispara. Se calcula como límite, y a veces da un número finito aunque el intervalo no termine. La válvula vieja gotea cada vez menos sin llegar a cero, y hay que saber cuánto suma la fuga completa.',
+  },
   Scene: ImproperLesson,
   beats: [
     {

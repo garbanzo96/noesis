@@ -242,6 +242,10 @@ function SystemLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Sistemas de ecuaciones lineales',
+  intro: {
+    question: '¿Cómo se despejan varias incógnitas con varias ecuaciones a la vez?',
+    text: 'Cada ecuación lineal es una recta, y resolver el sistema es buscar dónde se cruzan. La eliminación va combinando ecuaciones hasta despejar una incógnita por vez. Con los trenes y los vagones que contó el sensor del puente Barón vamos a deducir cuántos trenes de cada tipo pasaron.',
+  },
   Scene: SystemLesson,
   beats: [
     {

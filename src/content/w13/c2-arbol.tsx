@@ -192,6 +192,10 @@ function TreeLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Resolver desde las hojas',
+  intro: {
+    question: '¿Cómo se decide cuando una elección lleva a otra?',
+    text: 'Un árbol de decisión alterna nodos donde elegimos y nodos donde decide el azar. Se resuelve desde las hojas hacia la raíz: en el azar se promedia y en la decisión se toma lo mejor. La mesa de Valentina tiene dos horarios de entrada, y hay que elegir antes del cierre.',
+  },
   Scene: TreeLesson,
   beats: [
     {

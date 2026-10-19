@@ -262,6 +262,10 @@ function CorrectionLesson({ beats, unlock, answer, reduced }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Paridad, repetición y Hamming(7,4)',
+  intro: {
+    question: '¿Cómo se detecta y se corrige un bit que llegó cambiado?',
+    text: 'Los códigos correctores agregan bits de comprobación calculados a partir de los datos. La paridad detecta un error; Hamming(7,4) además dice en qué posición está y permite corregirlo. Dos bloques del chip siguen fallando sus comprobaciones, y hay que repararlos sin tocar los originales.',
+  },
   Scene: CorrectionLesson,
   beats: [
     {

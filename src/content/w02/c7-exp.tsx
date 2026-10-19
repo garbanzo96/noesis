@@ -161,6 +161,10 @@ function ExpLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Derivadas de exp y log',
+  intro: {
+    question: '¿Qué función crece a un ritmo igual a su propio valor?',
+    text: 'La exponencial de base e tiene una propiedad única: su pendiente es igual a su altura. Por eso aparece en todo lo que crece o decae en proporción a lo que hay, y el logaritmo natural la deshace. El agua de la torre de enfriamiento se enfría primero rápido y después despacio, como una exponencial.',
+  },
   Scene: ExpLesson,
   beats: [
     {

@@ -252,6 +252,10 @@ function SetsLesson({ beats, unlock }: DemoProps) {
 const L_SETS: LessonStep = {
   kind: 'lesson',
   title: 'Conjuntos e intervalos',
+  intro: {
+    question: '¿Cómo se describe con precisión un grupo de cosas o de valores?',
+    text: 'Esto es precálculo, el lenguaje que usan todos los mundos que vienen. Un conjunto reúne objetos bien definidos y un intervalo reúne todos los números entre dos extremos. Con eso vamos a separar las cajas que pasaron la noche entre 2 y 8 °C de las que no.',
+  },
   Scene: SetsLesson,
   beats: [
     {

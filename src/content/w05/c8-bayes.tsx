@@ -511,6 +511,10 @@ function BayesLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Teorema de Bayes',
+  intro: {
+    question: '¿Cuánto debe cambiar una sospecha cuando aparece una pista?',
+    text: 'El teorema de Bayes invierte una condicional: de la probabilidad de la pista si la sospecha es cierta pasa a la probabilidad de la sospecha dada la pista. Combina lo que creíamos antes con lo que muestran los datos. En la mesa 7 hay un dado honesto o uno cargado, y cada tirada es una pista.',
+  },
   Scene: BayesLesson,
   beats: [
     {

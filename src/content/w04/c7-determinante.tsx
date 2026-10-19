@@ -186,6 +186,10 @@ function DetLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Determinante e inversa',
+  intro: {
+    question: '¿Cuánto agranda o achica las áreas una matriz, y se puede deshacer?',
+    text: 'El determinante mide por cuánto multiplica las áreas una transformación. Si vale cero, aplasta el plano y ya no se puede volver atrás; si no, existe la matriz inversa. Para saber dónde estaba de verdad el M-7 cada noche hay que deshacer la tabla de la pantalla.',
+  },
   Scene: DetLesson,
   beats: [
     {

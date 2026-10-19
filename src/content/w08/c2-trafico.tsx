@@ -140,6 +140,10 @@ function EntropyLesson({ beats, unlock, answer, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Entropía de una fuente',
+  intro: {
+    question: '¿Cuántos bits por símbolo produce en promedio una fuente de mensajes?',
+    text: 'La entropía es la información promedio de una fuente: pondera la rareza de cada símbolo por su frecuencia. Es máxima cuando todos los símbolos son igual de probables y cero cuando el resultado es seguro. El terminal pide calcular cuánto espacio ocupa copiar el tráfico sin cortar el servicio del barrio.',
+  },
   Scene: EntropyLesson,
   beats: [
     {

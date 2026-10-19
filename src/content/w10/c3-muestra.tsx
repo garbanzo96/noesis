@@ -126,6 +126,10 @@ function SequenceLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Actualización secuencial',
+  intro: {
+    question: '¿Qué cambia cuando se repite un test a quien dio positivo?',
+    text: 'Con Bayes, el resultado de un test se convierte en el punto de partida para el siguiente. Cada evidencia nueva actualiza la probabilidad anterior, una después de otra. Rocío guardó la segunda muestra de cada positivo, y repetirlas cambia la cuenta.',
+  },
   Scene: SequenceLesson,
   beats: [
     {

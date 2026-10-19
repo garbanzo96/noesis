@@ -207,6 +207,10 @@ function PredictionLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Predicción y decisión',
+  intro: {
+    question: '¿Cuántos positivos deberían salir si el test fuera honesto?',
+    text: 'Con todo lo que sabemos del test se puede predecir cuántos positivos esperar antes de mirar el informe. Si lo observado se aleja mucho de lo esperado, hay una decisión que tomar. El informe de agosto pide dosis para 600 positivos.',
+  },
   Scene: PredictionLesson,
   beats: [
     {

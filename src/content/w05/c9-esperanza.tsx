@@ -602,6 +602,10 @@ function ExpectationLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Variable aleatoria y esperanza',
+  intro: {
+    question: '¿Cuánto deja un juego en promedio si se juega muchas veces?',
+    text: 'Una variable aleatoria asigna un número a cada resultado, como lo que se gana o se pierde. Su esperanza es el promedio que se obtiene después de muchas repeticiones, y explica por qué la casa gana a la larga. En la mesa 7, con los VIP, la cuenta da al revés.',
+  },
   Scene: ExpectationLesson,
   beats: [
     {

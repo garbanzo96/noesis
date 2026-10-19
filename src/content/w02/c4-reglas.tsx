@@ -228,6 +228,10 @@ function RulesLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Reglas de derivación',
+  intro: {
+    question: '¿Cómo se deriva sin calcular un límite cada vez?',
+    text: 'Las reglas de derivación resumen lo que darían los límites para las funciones más comunes. La más usada es la de la potencia, que se entiende mirando cómo crece un cuadrado o un cubo. Con ellas vamos a derivar el modelo de consumo de cada equipo de la sala de máquinas.',
+  },
   Scene: RulesLesson,
   beats: [
     {

@@ -185,6 +185,10 @@ function MarkovLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Generar días con una cadena de Markov',
+  intro: {
+    question: '¿Cómo se genera una secuencia en la que cada día depende del anterior?',
+    text: 'En una cadena de Markov el próximo estado depende solo del actual, a través de una matriz de transición. Repetida muchas veces, la cadena llega a una distribución que ya no cambia. La cinta imprime historias clínicas día por día, y a largo plazo los sanos ocupan una proporción fija.',
+  },
   Scene: MarkovLesson,
   beats: [
     {

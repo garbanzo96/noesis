@@ -174,6 +174,10 @@ function MutualLesson({ beats, unlock, answer, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Información mutua',
+  intro: {
+    question: '¿Cuánto dice una señal sobre otra?',
+    text: 'La información mutua mide cuántos bits de incertidumbre quita conocer una variable sobre otra. Es simétrica, y vale cero cuando son independientes. Una luz piloto aparece en todos los registros, y hay que decidir si de verdad informa algo sobre la torre.',
+  },
   Scene: MutualLesson,
   beats: [
     {

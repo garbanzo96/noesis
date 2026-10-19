@@ -239,6 +239,11 @@ function ReviewLesson({ beats, unlock, reduced, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Revisar las lecturas del Observatorio',
+  intro: {
+    question:
+      '¿Se sostiene cada lectura del Observatorio con lo aprendido sobre sistemas dinámicos?',
+    text: 'Este es el repaso del mundo: pendientes, crecimiento exponencial, el paso de Euler, equilibrios, sillas, giros y sensibilidad inicial. Cada lectura respalda una pieza del expediente. Elena tiene que devolver la consola al turno cuando terminemos.',
+  },
   Scene: ReviewLesson,
   beats: [
     {

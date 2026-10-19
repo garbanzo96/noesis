@@ -148,6 +148,10 @@ function ProfileLesson({ beats, unlock, answer, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Divergencia de Kullback–Leibler',
+  intro: {
+    question: '¿Cuánto se pierde al usar un código pensado para otra fuente?',
+    text: 'Si se codifica una fuente con un código armado para otra, cada símbolo cuesta más bits de lo necesario. La divergencia de Kullback–Leibler mide ese exceso; nunca es negativa y no es simétrica. El perfil cargado en el chip reparte las ramas distinto que el archivo anterior.',
+  },
   Scene: ProfileLesson,
   beats: [
     {

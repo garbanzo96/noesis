@@ -94,6 +94,10 @@ function BaseRateLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Tasa base y valor predictivo',
+  intro: {
+    question: '¿Por qué el mismo test vale distinto en dos poblaciones?',
+    text: 'El valor predictivo positivo es la probabilidad de estar enfermo después de un positivo, y depende mucho de qué tan común es la enfermedad, la tasa base. Con una tasa base inflada, cualquier positivo parece confirmado. El sistema de la Clínica usa una prevalencia que nadie del laboratorio eligió.',
+  },
   Scene: BaseRateLesson,
   beats: [
     {

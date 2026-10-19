@@ -152,6 +152,10 @@ function PatienceLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Traer un cobro al presente',
+  intro: {
+    question: '¿Vale más un pago hoy o uno mayor dentro de unos días?',
+    text: 'Un pago futuro vale menos que uno inmediato, y el factor de descuento dice cuánto menos por cada día de espera. Traer todos los pagos al presente permite compararlos. Valentina tiene dos órdenes: ocho hoy o diez en tres días.',
+  },
   Scene: PatienceLesson,
   beats: [
     {

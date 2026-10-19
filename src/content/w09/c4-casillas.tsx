@@ -174,6 +174,10 @@ function BufferLesson({ beats, unlock, reduced, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Ecuaciones autónomas, equilibrios y logística',
+  intro: {
+    question: '¿Hacia dónde va un sistema cuya regla de cambio depende solo de su estado?',
+    text: 'En una ecuación autónoma, la rapidez depende solo del estado actual. Los equilibrios son los estados donde el cambio se detiene, y el signo alrededor dice si atraen o repelen. La ocupación de las casillas queda fija aunque sigan llegando paquetes, como una curva logística en su techo.',
+  },
   Scene: BufferLesson,
   beats: [
     {

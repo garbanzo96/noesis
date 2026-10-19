@@ -643,6 +643,10 @@ function TreeLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Árboles y probabilidad total',
+  intro: {
+    question: '¿Cómo se calculan probabilidades cuando las cosas pasan en etapas?',
+    text: 'Un árbol separa un experimento en etapas: las probabilidades se multiplican a lo largo de cada camino y se suman entre caminos. Así se obtiene la probabilidad total de un resultado. En la mesa 7 las cartas no vuelven al zapato, y cada carta que sale cambia lo que queda.',
+  },
   Scene: TreeLesson,
   beats: [
     {

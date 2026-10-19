@@ -230,6 +230,10 @@ function AccumLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Acumulación',
+  intro: {
+    question: '¿Cuánto se junta cuando algo fluye a un ritmo que cambia?',
+    text: 'Empieza el cálculo integral, que hace el camino inverso de la derivada: de la rapidez de un cambio al total acumulado. Si el caudal fuera constante bastaría multiplicar; cuando cambia, el total es el área bajo la curva del caudal. Así vamos a contar cuánta agua salió de la represa anoche.',
+  },
   Scene: AccumLesson,
   beats: [
     {

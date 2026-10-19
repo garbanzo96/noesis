@@ -371,6 +371,10 @@ function SampleLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Espacio muestral y eventos',
+  intro: {
+    question: '¿Qué puede pasar en un juego de azar, y cómo se nombra cada posibilidad?',
+    text: 'Empieza la probabilidad, que mide qué tan esperable es lo que todavía no ocurre. El primer paso es listar todos los resultados posibles, el espacio muestral, y agrupar los que nos interesan en eventos. En el Casino Aurora, antes de sospechar de un juego, hay que saber todo lo que puede salir.',
+  },
   Scene: SampleLesson,
   beats: [
     {

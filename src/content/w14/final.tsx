@@ -216,6 +216,10 @@ function FinalLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Cinco herramientas en el expediente',
+  intro: {
+    question: '¿Qué cifras sostienen el expediente contra el Contador?',
+    text: 'Este es el cierre: cinco lecturas que usan herramientas de mundos distintos, desde la exponencial del Puerto hasta las chances de La Clínica. Cada cifra del expediente es un cálculo que cualquiera puede repetir. El Contador espera en el piso 40.',
+  },
   Scene: FinalLesson,
   beats: [
     {

@@ -432,6 +432,10 @@ function JointLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Probabilidad conjunta y marginal',
+  intro: {
+    question: '¿Cómo se lee una tabla que cruza dos características a la vez?',
+    text: 'Una tabla de doble entrada da la probabilidad de cada combinación, la conjunta. Sumando una fila o una columna se recupera la probabilidad de una sola característica, la marginal. El registro de octubre cruza si los jugadores eran VIP con si terminaron ganando.',
+  },
   Scene: JointLesson,
   beats: [
     {

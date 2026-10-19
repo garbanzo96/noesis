@@ -171,6 +171,10 @@ function SummaryLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Resumir un posterior',
+  intro: {
+    question: '¿Cómo se resume una curva de probabilidades en una frase defendible?',
+    text: 'Un posterior se resume con su moda, que es el valor más probable, con su media y con un intervalo que contiene casi toda la probabilidad. Cada resumen responde una pregunta distinta. La fiscalía no va a leer una curva, y la frase tiene que llevar su margen.',
+  },
   Scene: SummaryLesson,
   beats: [
     {

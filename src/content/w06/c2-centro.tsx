@@ -164,6 +164,10 @@ function CenterLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Medidas de tendencia central',
+  intro: {
+    question: '¿Qué número representa mejor el valor típico de unos datos?',
+    text: 'La media, la mediana y la moda resumen un conjunto de datos en un solo valor, y cada una responde a una pregunta distinta. La media se deja arrastrar por los valores extremos; la mediana, no. El informe presume 46 dosis diarias en promedio, y un solo día explica casi todo ese número.',
+  },
   Scene: CenterLesson,
   beats: [
     {

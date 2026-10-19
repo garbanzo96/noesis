@@ -161,6 +161,10 @@ function InformationLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Repaso: contar en bits',
+  intro: {
+    question: '¿Cuántas claves posibles hay, y cuánto tarda probarlas todas?',
+    text: 'Este piso repasa la información de Las Antenas: cada bit duplica las opciones, y un patrón conocido reduce los bits efectivos. Con eso se calcula cuánto tarda una búsqueda completa. El servidor del piso 40 está cerrado con una clave.',
+  },
   Scene: InformationLesson,
   beats: [
     {

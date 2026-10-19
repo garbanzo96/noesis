@@ -138,6 +138,10 @@ function BellLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Ajustar una campana',
+  intro: {
+    question: '¿Cómo se ajusta una normal a unos datos y se sacan valores nuevos?',
+    text: 'Para ajustar una normal basta estimar su centro y su ancho con la media y la desviación de los datos. Después, cada sorteo de una normal estándar se transforma en un dato nuevo. Cinco registros entran al tablero de La Fábrica, y salen carpetas que nadie llenó.',
+  },
   Scene: BellLesson,
   beats: [
     {

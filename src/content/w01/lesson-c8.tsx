@@ -213,6 +213,10 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Logaritmos',
+  intro: {
+    question: '¿Cuántas veces hay que multiplicar para llegar a un número?',
+    text: 'El logaritmo responde la pregunta inversa de la potencia: dado el resultado, encuentra el exponente. Convierte productos en sumas y permite comparar cantidades de tamaños muy distintos. Lo necesitamos para saber cuántas horas faltan antes de que la cepa llegue al millón de registros.',
+  },
   Scene: LogLesson,
   beats: [
     {

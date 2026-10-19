@@ -158,6 +158,10 @@ function LatentLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Un rasgo mueve dos columnas',
+  intro: {
+    question: '¿Qué explica que dos mediciones cambien siempre juntas?',
+    text: 'Una variable latente es un rasgo que no se mide pero mueve varias mediciones a la vez. Estimarla a partir de las mediciones permite reconstruir lo que el modelo supone. En cada carpeta dos columnas cambian juntas, y el tablero tiene una sola perilla.',
+  },
   Scene: LatentLesson,
   beats: [
     {

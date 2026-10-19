@@ -151,6 +151,10 @@ function PaperLesson({ beats, unlock, reduced, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Pendiente, solución y valor inicial',
+  intro: {
+    question: '¿Cómo se describe algo cuando solo conocemos la regla de su cambio?',
+    text: 'Empiezan las ecuaciones diferenciales y los sistemas dinámicos. Una ecuación diferencial da la pendiente en cada estado, y una solución es una curva que sigue esas pendientes desde un valor inicial. El papel del registrador guarda una subida que el boletín público dejó horizontal.',
+  },
   Scene: PaperLesson,
   beats: [
     {

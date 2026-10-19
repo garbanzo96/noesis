@@ -190,6 +190,10 @@ function AreaLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Repaso: acumular bajo la curva',
+  intro: {
+    question: '¿Cuánta energía se juntó en unas horas si la potencia cambiaba?',
+    text: 'Este piso repasa la integral de La Represa: la energía es el área bajo la curva de potencia, y una primitiva la da exacta. Los servidores del piso 40 suben su potencia antes de cada anuncio, y el registro guarda cuatro horas de consumo.',
+  },
   Scene: AreaLesson,
   beats: [
     {

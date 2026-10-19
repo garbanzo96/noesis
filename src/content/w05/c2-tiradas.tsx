@@ -501,6 +501,10 @@ function FrequencyLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Probabilidad y frecuencia',
+  intro: {
+    question: '¿Qué relación hay entre una probabilidad y lo que de verdad sale?',
+    text: 'Cuando todos los resultados son igual de probables, la probabilidad se calcula contando. Al repetir el experimento muchas veces, la frecuencia observada se acerca a esa probabilidad. Las cámaras de las mesas guardan miles de tiradas, y un dado cargado se nota en los números.',
+  },
   Scene: FrequencyLesson,
   beats: [
     {

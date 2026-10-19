@@ -104,6 +104,10 @@ function InformationLesson({ beats, unlock, answer, reduced }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Información de un evento en bits',
+  intro: {
+    question: '¿Cuánta información trae saber que ocurrió algo?',
+    text: 'Empieza la teoría de la información, que mide cuánto se aprende con un mensaje. Un evento raro informa más que uno esperado, y la información se cuenta en bits: preguntas de sí o no. El chip guarda una reserva de entrega que alguien borró de la bitácora visible.',
+  },
   Scene: InformationLesson,
   beats: [
     {

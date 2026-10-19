@@ -140,6 +140,10 @@ function BetLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Valor esperado de una decisión',
+  intro: {
+    question: '¿Cómo se elige entre opciones cuando el resultado depende del azar?',
+    text: 'Empieza la decisión secuencial: cómo elegir bien cuando hay azar y el tiempo pasa. La primera regla es comparar el valor esperado de cada opción, ponderando cada pago por su probabilidad. Una cuenta de la Bolsa compra contratos con valor esperado negativo, cosa que nadie hace sin saber algo.',
+  },
   Scene: BetLesson,
   beats: [
     {

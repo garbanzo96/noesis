@@ -303,6 +303,11 @@ function RegLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Correlación y regresión lineal',
+  intro: {
+    question:
+      '¿Cómo se mide la relación entre dos cantidades y se traza la recta que mejor la describe?',
+    text: 'La correlación mide qué tan alineados están los puntos de dos variables, y la regresión traza la recta que mejor los ajusta. Lo que queda lejos de la recta, el residuo, es lo interesante. En cada clínica, las dosis recibidas y las registradas deberían ir juntas, y una se aparta.',
+  },
   Scene: RegLesson,
   beats: [
     {

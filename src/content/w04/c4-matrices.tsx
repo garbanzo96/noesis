@@ -219,6 +219,10 @@ function MatrixLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Matrices como transformaciones',
+  intro: {
+    question: '¿Cómo se escribe con cuatro números una manera de deformar el plano?',
+    text: 'Una transformación lineal mueve el plano entero sin curvar sus líneas, y queda determinada por adónde manda los dos vectores base. Esos dos destinos, escritos como columnas, forman su matriz. Las pantallas del Metro pasan el GPS de los trenes por una tabla así antes de dibujarlo.',
+  },
   Scene: MatrixLesson,
   beats: [
     {

@@ -280,6 +280,10 @@ function Balance({
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Proporciones',
+  intro: {
+    question: '¿Cómo se reparte un total de manera justa entre partes distintas?',
+    text: 'Una razón compara dos cantidades dividiendo, y una proporción mantiene esa razón fija. Normalizar convierte cantidades cualesquiera en partes que suman uno. Con eso vamos a calcular cuántas de las 1 200 dosis le tocaban a cada sede de la clínica.',
+  },
   Scene: ProportionsLesson,
   beats: [
     {

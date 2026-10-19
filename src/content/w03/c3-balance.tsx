@@ -192,6 +192,10 @@ function BalanceLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Área con signo y propiedades',
+  intro: {
+    question: '¿Qué pasa con la cuenta cuando unas veces entra y otras veces sale?',
+    text: 'La integral cuenta con signo: lo que queda bajo el eje resta. Por eso mide un cambio neto, y sus propiedades permiten partirla en tramos y sumar los pedazos. De día los ríos reponen el lago y de noche la tubería 7 lo vacía, y falta el balance de las 24 horas.',
+  },
   Scene: BalanceLesson,
   beats: [
     {

@@ -219,6 +219,10 @@ function SpreadLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Medidas de dispersión',
+  intro: {
+    question: '¿Cómo se mide cuánto se alejan los datos de su promedio?',
+    text: 'Dos registros pueden tener el mismo promedio y comportarse muy distinto. La varianza y la desviación estándar miden cuánto se apartan los datos de su centro. Dos clínicas promedian 20 dosis diarias, y una de ellas casi no varía, cosa rara en un registro real.',
+  },
   Scene: SpreadLesson,
   beats: [
     {

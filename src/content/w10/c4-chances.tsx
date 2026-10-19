@@ -113,6 +113,10 @@ function OddsLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Chances y razón de verosimilitud',
+  intro: {
+    question: '¿Cómo se mide en un solo número cuánto pesa un resultado?',
+    text: 'Las chances comparan la probabilidad de que algo sea cierto con la de que no lo sea. Cada resultado las multiplica por un factor fijo, la razón de verosimilitud, así que actualizar es solo multiplicar. Iris quiere saber cuánto tranquiliza un negativo, en un solo número.',
+  },
   Scene: OddsLesson,
   beats: [
     {

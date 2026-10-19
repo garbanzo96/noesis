@@ -122,6 +122,11 @@ function PartialLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Derivadas parciales',
+  intro: {
+    question:
+      '¿Qué tan empinado está el terreno si se camina solo hacia el este o solo hacia el norte?',
+    text: 'Una derivada parcial mide la pendiente en una sola dirección, dejando fija la otra variable. Es como cortar la superficie con un plano y derivar la curva del corte. En el sendero donde cayó el dron hay que medir cuánto baja el terreno hacia el este y hacia el norte.',
+  },
   Scene: PartialLesson,
   beats: [
     {

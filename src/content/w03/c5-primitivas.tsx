@@ -223,6 +223,10 @@ function PrimitivesLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Primitivas y teorema fundamental (II)',
+  intro: {
+    question: '¿Cómo se calcula una integral exacta sin sumar rectángulos?',
+    text: 'Una primitiva es una función cuya derivada es la que queremos integrar. El teorema fundamental dice que la integral entre dos puntos es la diferencia de una primitiva en sus extremos. El manual de la tubería 7 da el caudal con una fórmula, así que el volumen de la noche sale exacto.',
+  },
   Scene: PrimitivesLesson,
   beats: [
     {

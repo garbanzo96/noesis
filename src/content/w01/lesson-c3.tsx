@@ -212,6 +212,10 @@ function LinesLesson({ beats, unlock, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Rectas y pendiente',
+  intro: {
+    question: '¿Qué tienen en común las cantidades que cambian siempre al mismo ritmo?',
+    text: 'Las funciones más simples son las rectas: avanzan lo mismo en cada paso. La pendiente dice cuánto, y con dos puntos basta para conocer la recta entera. Con los GPS de los camiones vamos a ver si cuatro choferes que dicen lo mismo viajaron de verdad al mismo ritmo.',
+  },
   Scene: LinesLesson,
   beats: [
     {

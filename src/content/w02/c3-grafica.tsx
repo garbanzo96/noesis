@@ -209,6 +209,10 @@ function GraphLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'La derivada como función',
+  intro: {
+    question: '¿Qué dice la pendiente de una curva sobre su forma?',
+    text: 'Si calculamos la pendiente en cada punto obtenemos otra función, la derivada. Su signo dice dónde sube la curva y dónde baja, y la segunda derivada dice hacia dónde se curva. La curva de energía de la central sube toda la noche, y el pico de consumo está en su pendiente.',
+  },
   Scene: GraphLesson,
   beats: [
     {

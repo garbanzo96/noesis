@@ -142,6 +142,10 @@ function RainLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Integrales dobles',
+  intro: {
+    question: '¿Cómo se suma una cantidad repartida sobre toda una región?',
+    text: 'Una integral doble suma pequeñas columnas sobre una región del plano, igual que la integral simple sumaba franjas. Se calcula integrando por turnos, primero en una variable y después en la otra. La lluvia cae con intensidad distinta en cada zona de la cuenca, y hay que saber cuánta agua cae en total.',
+  },
   Scene: RainLesson,
   beats: [
     {

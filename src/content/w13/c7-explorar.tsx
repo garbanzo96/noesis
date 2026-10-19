@@ -185,6 +185,10 @@ function ExploreLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Explorar o explotar',
+  intro: {
+    question: '¿Cuándo conviene probar una opción nueva y cuándo quedarse con la que parece mejor?',
+    text: 'En el problema del bandido hay que repartir intentos entre opciones de rendimiento desconocido. Explotar la que parece mejor demasiado pronto puede dejar fuera a la verdadera mejor; explorar cuesta intentos. El operador cargó toda la posición a la mesa A después de pocas pruebas.',
+  },
   Scene: ExploreLesson,
   beats: [
     {

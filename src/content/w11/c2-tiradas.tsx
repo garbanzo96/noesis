@@ -183,6 +183,10 @@ function MonteCarloLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Tiradas al azar',
+  intro: {
+    question: '¿Cómo se calcula algo difícil tirando dados?',
+    text: 'El método de Monte Carlo reemplaza una cuenta exacta por muchas muestras al azar y un promedio. El error baja a medida que aumentan las muestras, y se puede estimar. El simulador del Laboratorio guarda sus tiradas, y con ellas se puede repetir la cuenta.',
+  },
   Scene: MonteCarloLesson,
   beats: [
     {

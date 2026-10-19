@@ -614,6 +614,10 @@ function RulesLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Reglas de la probabilidad',
+  intro: {
+    question: '¿Cómo se combinan probabilidades con «o» y con «no» sin contar dos veces?',
+    text: 'La probabilidad de que algo no ocurra es uno menos la de que ocurra. Para un «o» se suman las probabilidades y se resta lo que está en ambos eventos, porque si no se cuenta dos veces. La tabla de pagos del casino usa esas apuestas, y hay que ver si cobra lo justo.',
+  },
   Scene: RulesLesson,
   beats: [
     {

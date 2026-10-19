@@ -238,6 +238,10 @@ function PortraitLesson({ beats, unlock, reduced, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Traza, determinante y tipos de equilibrio',
+  intro: {
+    question: '¿Cómo se sabe si un equilibrio atrae, repele o hace girar sin resolver nada?',
+    text: 'La traza y el determinante de la matriz bastan para clasificar el equilibrio: nodo, silla, espiral o centro. No hace falta calcular las soluciones completas. Un canal gira entrando en la copia pública y saliendo en el original, y el historial guarda quién hizo el cambio.',
+  },
   Scene: PortraitLesson,
   beats: [
     {

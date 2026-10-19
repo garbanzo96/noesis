@@ -224,6 +224,10 @@ function ReviewLesson({ beats, unlock, answer, reduced }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Revisar la cadena de pruebas',
+  intro: {
+    question: '¿Se sostiene cada lectura del chip con lo aprendido en Las Antenas?',
+    text: 'Este es el repaso del mundo: cinco lecturas que usan bits, entropía, códigos, información mutua y corrección de errores. Cada una respalda una pieza del informe sobre la entrega. Si una falla, el informe completo pierde fuerza.',
+  },
   Scene: ReviewLesson,
   beats: [
     {

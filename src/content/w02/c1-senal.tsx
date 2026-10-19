@@ -173,6 +173,10 @@ function SignalLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Límites y continuidad',
+  intro: {
+    question: '¿A qué valor se acerca una función cuando nos acercamos a un punto?',
+    text: 'Empieza el cálculo diferencial, el estudio de cómo cambian las cantidades en cada instante. Su herramienta básica es el límite, que describe hacia dónde va una función aunque en ese punto haya un hueco o un salto. La caída de tensión de las 03:12 es un salto, y hay que distinguirlo de una falla.',
+  },
   Scene: SignalLesson,
   beats: [
     {

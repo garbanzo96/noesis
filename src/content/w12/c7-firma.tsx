@@ -129,6 +129,10 @@ function BenfordLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'La ley de Benford',
+  intro: {
+    question: '¿Por qué en las cifras reales el primer dígito es 1 tan seguido?',
+    text: 'En muchos datos reales, como montos o poblaciones, el primer dígito no es parejo: el 1 aparece cerca de un 30 % de las veces. Esa es la ley de Benford, y los datos inventados suelen romperla. Las facturas de La Fábrica pasan los controles de proporciones, pero los montos no tienen esa firma.',
+  },
   Scene: BenfordLesson,
   beats: [
     {

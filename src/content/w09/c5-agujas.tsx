@@ -262,6 +262,10 @@ function LinearLesson({ beats, unlock, reduced, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Sistemas lineales y direcciones propias',
+  intro: {
+    question: '¿Cómo evolucionan juntas dos cantidades que se afectan entre sí?',
+    text: 'Un sistema lineal describe el cambio de un vector con una matriz. Sus direcciones propias son caminos rectos que cada solución sigue creciendo o decayendo, y cualquier solución es una suma de esos modos. El paquete guarda dos lecturas de presión y viento, y en una copia cambió el signo de una entrada.',
+  },
   Scene: LinearLesson,
   beats: [
     {

@@ -159,6 +159,10 @@ function AccountLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Cinco lecturas de una cuenta',
+  intro: {
+    question: '¿Se sostiene cada lectura de la cuenta con lo aprendido sobre decisiones?',
+    text: 'Este es el repaso del mundo: valor esperado, información previa, descuento, parada y tamaño de apuesta. Cada lectura muestra un aspecto de la misma cuenta. Juntas dicen quién compra antes de cada anuncio.',
+  },
   Scene: AccountLesson,
   beats: [
     {

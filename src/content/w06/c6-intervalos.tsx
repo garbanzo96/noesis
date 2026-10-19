@@ -193,6 +193,10 @@ function CILesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Intervalos de confianza',
+  intro: {
+    question: '¿Qué rango de valores se puede afirmar a partir de una muestra?',
+    text: 'Una muestra no da el valor exacto de la población, pero sí un intervalo que lo contiene con una confianza conocida. Su ancho depende de cuánto varían los datos y del tamaño de la muestra. Hay que dar un rango para la edad media real de los vacunados que se pueda firmar.',
+  },
   Scene: CILesson,
   beats: [
     {

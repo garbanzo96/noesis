@@ -157,6 +157,10 @@ function BoundLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'La cota inferior de la evidencia',
+  intro: {
+    question: '¿Qué se puede afirmar cuando una cota sube durante un ajuste?',
+    text: 'La ELBO es una cota inferior de la evidencia que sí se puede calcular. Subirla equivale a acercar q al posterior, pero que suba no garantiza que haya llegado. El registro del Laboratorio termina con la palabra «convergió», y hay que ver cuánto espacio queda hasta el techo.',
+  },
   Scene: BoundLesson,
   beats: [
     {

@@ -84,6 +84,10 @@ function CrowdLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Bayes con frecuencias',
+  intro: {
+    question: '¿Cuántos de los positivos de un test están enfermos de verdad?',
+    text: 'Empieza la inferencia bayesiana: cómo pasar de un dato a una conclusión sobre lo que no se ve. Contar con mil personas imaginarias es la manera más clara de hacerlo: cuántas están enfermas, cuántas dan positivo, cuántos positivos son falsos. El lector de la Clínica pitó 67 veces este turno.',
+  },
   Scene: CrowdLesson,
   beats: [
     {

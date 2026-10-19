@@ -223,6 +223,10 @@ function ProductLesson({ beats, answer, unlock }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Producto de matrices',
+  intro: {
+    question: '¿Qué matriz resulta de aplicar una transformación después de otra?',
+    text: 'Aplicar dos transformaciones seguidas da otra transformación, y su matriz es el producto. Se lee de derecha a izquierda y el orden importa. En el servidor, la tabla del M-7 no está escrita: se arma con dos transformaciones aplicadas una tras otra.',
+  },
   Scene: ProductLesson,
   beats: [
     {

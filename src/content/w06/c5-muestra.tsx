@@ -206,6 +206,10 @@ function SampleLesson({ beats, unlock, answer }: DemoProps) {
 const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Distribución muestral de la media',
+  intro: {
+    question: '¿Cuánto puede variar el promedio de una muestra elegida al azar?',
+    text: 'Una muestra al azar permite conocer una población sin revisarla entera. Su promedio cambia de una muestra a otra, pero de manera predecible: se agrupa alrededor del promedio real, y el error estándar dice cuánto. El registro tiene 48 000 fichas, y no hay tiempo de leerlas todas.',
+  },
   Scene: SampleLesson,
   beats: [
     {

@@ -213,6 +213,10 @@ function MapLesson({ beats, unlock, reduced, answer }: DemoProps) {
 export const lesson: LessonStep = {
   kind: 'lesson',
   title: 'Sensibilidad inicial y caos',
+  intro: {
+    question: '¿Por qué una diferencia mínima al inicio puede cambiar todo el pronóstico?',
+    text: 'En un sistema caótico, dos inicios casi iguales se separan muy rápido, aunque la regla sea simple y sin azar. Eso pone un límite a cualquier pronóstico. Dos copias usan la misma regla, pero una recortó cifras del valor inicial.',
+  },
   Scene: MapLesson,
   beats: [
     {
