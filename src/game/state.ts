@@ -46,7 +46,7 @@ export function initialState(): GameState {
     predictions: { right: 0, total: 0 },
     settings: {
       sfx: true,
-      music: false,
+      music: true,
       volume: 0.7,
       reducedMotion: false,
       textSpeed: 'normal',
@@ -198,6 +198,16 @@ function save(s: GameState) {
 let state: GameState = load();
 const listeners = new Set<() => void>();
 configureAudio({ sfx: state.settings.sfx, music: false, volume: state.settings.volume });
+// browsers only let audio start after a gesture: the score begins on the first click or key
+if (typeof window !== 'undefined') {
+  const wake = () => {
+    window.removeEventListener('pointerdown', wake);
+    window.removeEventListener('keydown', wake);
+    configureAudio({ music: store.get().settings.music });
+  };
+  window.addEventListener('pointerdown', wake);
+  window.addEventListener('keydown', wake);
+}
 
 export const store = {
   get: () => state,

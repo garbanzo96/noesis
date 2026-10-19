@@ -14,6 +14,7 @@ import { GameRoot } from './game/GameRoot';
 import { CastGallery } from './game/dev/CastGallery';
 import { TexLab } from './game/dev/TexLab';
 import { LEVELS } from './content/registry';
+import { audioTap, music, sfx } from './game/audio';
 
 if (import.meta.env.DEV || import.meta.env.MODE === 'qa') {
   // level index for the QA scripts (qa/overlap.mjs)
@@ -22,6 +23,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === 'qa') {
     steps: l.steps.map((s) => s.kind),
     rounds: l.steps.map((s) => (s.kind === 'challenge' ? s.rounds : 0)),
   }));
+  (window as unknown as { __audio: unknown }).__audio = { music, sfx, tap: audioTap };
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

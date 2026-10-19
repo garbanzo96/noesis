@@ -1,7 +1,8 @@
-import { useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useKey } from '../../engine/hooks';
 import { Backdrop } from '../../art/places';
-import { sfx } from '../audio';
+import { music, sfx } from '../audio';
+import { SECTOR_BY_ID } from '../../content/registry';
 import { completeLevel, starsFor, store, useGame } from '../state';
 import { ChallengePlayer } from './ChallengePlayer';
 import { DemoPlayer } from './DemoPlayer';
@@ -186,6 +187,23 @@ export function LevelRunner({
   const [rotateOk, setRotateOk] = useState(false);
   const step = level.steps[stepIndex];
   const record = game.levels[level.id];
+  useEffect(() => {
+    music.world(SECTOR_BY_ID[level.world].number);
+    const boss = level.kind === 'boss';
+    music.mood(
+      results
+        ? 'results'
+        : step.kind === 'scene'
+          ? 'scene'
+          : step.kind === 'lesson'
+            ? 'lesson'
+            : boss
+              ? 'boss'
+              : step.kind === 'challenge'
+                ? 'challenge'
+                : 'demo',
+    );
+  }, [level, step.kind, results]);
   const liveStars = [stepIndex >= level.steps.length - 1, hints === 0, errors === 0];
 
   return (

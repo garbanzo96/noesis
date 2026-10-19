@@ -10,7 +10,7 @@ import {
 } from '../content/registry';
 import { LevelRunner } from './level/LevelRunner';
 import type { WorldId } from './level/types';
-import { sfx } from './audio';
+import { music, sfx } from './audio';
 import { store, useGame } from './state';
 import { Atlas } from './screens/Atlas';
 import { Chapter } from './screens/Chapter';
@@ -98,6 +98,15 @@ export function GameRoot() {
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [route]);
+
+  // score outside a case (LevelRunner sets its own per step)
+  useEffect(() => {
+    if (shown.name === 'level') return;
+    music.world(
+      shown.name === 'chapter' || shown.name === 'sector' ? SECTOR_BY_ID[shown.world].number : 0,
+    );
+    music.mood(shown.name === 'title' ? 'title' : shown.name === 'prologue' ? 'scene' : 'map');
+  }, [shown]);
 
   const go = (r: Route) => {
     window.location.hash = toHash(r);
