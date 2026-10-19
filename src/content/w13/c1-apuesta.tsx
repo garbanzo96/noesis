@@ -181,18 +181,41 @@ const lesson: LessonStep = {
   ],
 };
 
-function TapeDemo({ beats, answer }: DemoProps) {
+/** the order tape: the player moves the forecast to each day's public value and reads the price */
+function TapeDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const target = beat <= 1 ? 0.25 : 0.05;
+  const [p, setP] = useState(0.4);
+  useEffect(() => setP(beat === 0 || beat === 2 ? 0.4 : target), [beat, target]);
+  const acting = beat === 0 || beat === 2;
+  const drag = useSvgDrag(svg, (x) => {
+    const v = Math.round(clamp(((x - PLOT.x0) / (PLOT.x1 - PLOT.x0)) * 0.5, 0, 0.5) * 100) / 100;
+    setP(v);
+    if (Math.abs(v - target) < 0.006) {
+      setP(target);
+      unlock();
+    }
+  });
+  const here = acting ? p : target;
+  const day = beat <= 1 ? 'Lunes' : 'Jueves';
   return (
-    <Stage>
-      <EvPlot p={beat === 0 ? 0.25 : 0.05} showCross />
-      {answer !== null && (
-        <Cap
-          x={1270}
-          y={260}
-          tex={beat === 0 ? 'E=25-15=10' : 'E=5-19=-14'}
-          color={beat === 0 ? C.green : C.magenta}
-        />
+    <Stage ref={svg}>
+      <EvPlot p={here} showCross={beat >= 1} />
+      {acting && <Knob x={px(p)} y={py(buy(p))} onPointerDown={drag} axis="x" color={C.amber} />}
+      <Cap x={1270} y={200} size={22} color={C.muted}>
+        {`${day}: boletín p = ${fmt(target, 2)}`}
+      </Cap>
+      <Cap
+        x={1270}
+        y={270}
+        tex={`p=${tnum(here, 2)}:\\ E=${tnum(buy(here), 0)}`}
+        color={buy(here) > 0 ? C.green : C.magenta}
+      />
+      {beat === 3 && answer !== null && (
+        <Cap x={1270} y={350} size={20} color={C.cyan}>
+          Compró igual: sabía antes.
+        </Cap>
       )}
     </Stage>
   );
@@ -335,26 +358,43 @@ export const level: LevelSpec = {
       Scene: TapeDemo,
       beats: [
         {
-          say: 'El lunes, el boletín sanitario daba p = 0,25 de brote. La cuenta compró.',
-          ask: {
-            prompt: '¿Cuánto valía comprar con p = 0,25?',
-            options: ['10', '25', '−5'],
-            answer: 0,
-            explain: '0,25·100 − 0,75·20 = 25 − 15 = 10. Comprar era razonable.',
-          },
-          note: { label: 'Lunes', tex: 'E=10>0' },
+          say: 'El lunes, el boletín sanitario publicó p = 0,25 de brote, y la cuenta compró. Lleva el pronóstico a 0,25 en la recta del contrato.',
+          gate: 'Arrastra el punto hasta p = 0,25.',
+          note: { label: 'Lunes', tex: 'E(0{,}25)=10' },
         },
         {
-          say: 'El jueves, el boletín público daba p = 0,05. La cuenta compró igual, y al día siguiente se anunció un brote.',
+          say: 'Con el boletín del lunes, comprar valía 10.',
           ask: {
-            prompt: 'Con la información pública (p = 0,05), ¿qué valor esperado tenía comprar?',
-            options: ['−14', '5', '0'],
+            prompt: '¿Era razonable comprar el lunes?',
+            options: [
+              'Sí: vale 10, más que no comprar',
+              'No: el brote era poco probable',
+              'Da lo mismo',
+            ],
+            answer: 0,
+            explain: '0,25·100 − 0,75·20 = 10, y no comprar vale 0. Cualquiera habría comprado.',
+          },
+        },
+        {
+          say: 'El jueves, el boletín público bajó a p = 0,05. La cuenta compró de nuevo, y al día siguiente se anunció un brote. Lleva el pronóstico a 0,05.',
+          gate: 'Arrastra el punto hasta p = 0,05.',
+          note: { label: 'Jueves', tex: 'E(0{,}05)=-14' },
+        },
+        {
+          say: 'Con la información pública, comprar el jueves valía −14.',
+          ask: {
+            prompt: '¿Qué explica que la cuenta comprara el jueves?',
+            options: [
+              'Sabía del brote antes que el boletín',
+              'Tuvo suerte',
+              'El contrato estaba barato',
+            ],
             answer: 0,
             explain:
-              '0,05·100 − 0,95·20 = 5 − 19 = −14. Nadie compra eso, salvo que sepa algo que el mercado no sabe.',
+              'Con p = 0,05 nadie compra un contrato que vale −14. Quien compra así conoce el resultado antes que el mercado.',
           },
           note: {
-            label: 'Jueves',
+            label: 'La orden del jueves',
             tex: 'E=-14<0',
             body: 'La cuenta compró contra el valor esperado público: sabía el resultado antes.',
           },
