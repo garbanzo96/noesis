@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Stage } from '../../engine/Stage';
 import type {
@@ -10,7 +12,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng, shuffle } from '../shared/rng';
-import { Choices, Confirm, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, parseNum } from '../shared/ui';
 import {
   Grid,
   I2,
@@ -50,8 +52,18 @@ const twoStep = (first: M2, second: M2, t: number): M2 =>
   t < 0.5 ? lerpM(I2, first, t * 2) : lerpM(first, mm(second, first), t * 2 - 1);
 
 // ---------------------------------------------------------------- lesson
-function ProductLesson({ beats, answer }: DemoProps) {
+/** beat 0: the student scrubs I → B → AB on a track at the right */
+const TRACK = { x0: 1230, x1: 1510, y: 560 };
+
+function ProductLesson({ beats, answer, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [t, setT] = useState(0);
+  const onT = useSvgDrag(svg, (x) => {
+    const v = clamp((x - TRACK.x0) / (TRACK.x1 - TRACK.x0), 0, 1);
+    setT(v);
+    if (v >= 0.97) unlock();
+  });
   if (beat === 3) {
     const panels: { M: M2; name: string; c: [number, number] }[] = [
       { M: mm(LA, LB), name: 'primero cizalle, después giro: AB', c: [470, 400] },
@@ -119,11 +131,11 @@ function ProductLesson({ beats, answer }: DemoProps) {
       </Stage>
     );
   }
-  const M = beat === 0 ? twoStep(LB, LA, at(0)) : mm(LA, LB);
+  const M = beat === 0 ? twoStep(LB, LA, t) : mm(LA, LB);
   const [c1, c2] = cols(M);
-  const stage = beat === 0 ? (at(0) < 0.5 ? 'primero B: cizalle' : 'después A: giro de 90°') : '';
+  const stage = beat === 0 ? (t < 0.5 ? 'primero B: cizalle' : 'después A: giro de 90°') : '';
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Grid P={P} M={M} color={C.violet} opacity={0.5} />
       <Shape P={P} M={M} />
       <Vec
@@ -154,7 +166,7 @@ function ProductLesson({ beats, answer }: DemoProps) {
           size={22}
           color={C.text}
           tex={`B=${texM(LB)}`}
-          opacity={at(0) < 0.5 ? 1 : 0.4}
+          opacity={t < 0.5 ? 1 : 0.4}
         />
       )}
       {beat === 0 && (
@@ -164,8 +176,38 @@ function ProductLesson({ beats, answer }: DemoProps) {
           size={22}
           color={C.text}
           tex={`A=${texM(LA)}`}
-          opacity={at(0) >= 0.5 ? 1 : 0.4}
+          opacity={t >= 0.5 ? 1 : 0.4}
         />
+      )}
+      {beat === 0 && (
+        <>
+          <line
+            x1={TRACK.x0}
+            x2={TRACK.x1}
+            y1={TRACK.y}
+            y2={TRACK.y}
+            stroke={C.dim}
+            strokeWidth={4}
+            strokeLinecap="round"
+          />
+          {(['I', 'B', 'AB'] as const).map((s, i) => (
+            <Cap
+              key={s}
+              x={TRACK.x0 + ((TRACK.x1 - TRACK.x0) * i) / 2}
+              y={TRACK.y + 46}
+              size={22}
+              color={C.muted}
+              tex={s}
+            />
+          ))}
+          <Knob
+            x={TRACK.x0 + (TRACK.x1 - TRACK.x0) * t}
+            y={TRACK.y}
+            color={C.green}
+            onPointerDown={onT}
+            cursor="ew-resize"
+          />
+        </>
       )}
       {beat === 1 && (
         <>
@@ -185,7 +227,7 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Hacer una transformación y después otra es una nueva transformación. Primero $B$ y después $A$ se escribe $AB$: se lee de derecha a izquierda, como $f(g(x))$.',
-      dur: 4,
+      gate: 'Arrastra el control de I hasta AB: primero actúa B y después A.',
       board: {
         label: 'Composición',
         tex: '\\p{1}{A}\\,(\\p{2}{B}\\,\\vec v)=(\\p{3}{AB})\\,\\vec v',

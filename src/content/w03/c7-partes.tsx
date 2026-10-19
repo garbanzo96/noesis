@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Group, Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve } from '../../engine/shapes';
@@ -13,7 +14,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, rng, shuffle } from '../shared/rng';
-import { Confirm, NumberField, dec, parseNum } from '../shared/ui';
+import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { AreaUnder } from './kit';
 
 // ============================================================================
@@ -23,8 +24,21 @@ import { AreaUnder } from './kit';
 // ============================================================================
 
 // ---------------------------------------------------------------- lesson
-function PartsLesson({ beats, answer }: DemoProps) {
+// the classic picture: curve from (u(a), v(a)) to (u(b), v(b)); beat 1 lets the student move b
+const PP = plane([0, 5], [0, 4], { x: 380, y: 120, w: 700, h: 560 });
+const pg = (u: number) => 0.5 + 0.12 * u * u;
+/** ∫ v du from a to b for v = 0.5 + 0.12 u² */
+const vdu = (a: number, b: number) => 0.5 * (b - a) + 0.04 * (b ** 3 - a ** 3);
+
+function PartsLesson({ beats, answer, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [ub, setUb] = useState(4.5);
+  const onB = useSvgDrag(svg, (x) => {
+    const v = Math.round(clamp(PP.inv(x, 0)[0], 2, 4.8) * 10) / 10;
+    setUb(v);
+    if (v <= 3) unlock();
+  });
   if (beat === 0) {
     const k = at(0);
     return (
@@ -50,14 +64,15 @@ function PartsLesson({ beats, answer }: DemoProps) {
     );
   }
   if (beat === 1) {
-    // the classic picture: curve from (u(a),v(a)) to (u(b),v(b))
-    const P = plane([0, 5], [0, 4], { x: 380, y: 120, w: 700, h: 560 });
-    const g = (u: number) => 0.5 + 0.12 * u * u;
+    const P = PP;
+    const g = pg;
     const ua = 1;
-    const ub = 4.5;
     const k = at(1);
+    const cyan = vdu(ua, ub);
+    const total = ub * g(ub) - ua * g(ua);
+    const n = (v: number) => dec(v, 2).replace(',', '{,}');
     return (
-      <Stage>
+      <Stage ref={svg}>
         <Axes
           P={P}
           xTicks={[ua, ub]}
@@ -94,22 +109,32 @@ function PartsLesson({ beats, answer }: DemoProps) {
         </Group>
         <Curve P={P} f={g} a={ua} b={ub} color={C.text} width={3} />
         <Cap
-          x={P.x(2.8)}
-          y={P.y(0.4)}
+          x={P.x((ua + ub) / 2)}
+          y={P.y(0.3)}
           size={22}
           color={C.cyan}
           tex="\int v\,du"
           opacity={clamp(k * 2, 0, 1)}
         />
         <Cap
-          x={P.x(0.9)}
-          y={P.y(2)}
+          x={P.x(ua * 0.55)}
+          y={P.y((g(ua) + g(ub)) / 2)}
           size={22}
           color={C.amber}
           tex="\int u\,dv"
           opacity={clamp(k * 2 - 1, 0, 1)}
         />
-        <Cap x={1300} y={300} size={24} color={C.text} tex="u_bv_b-u_av_a" />
+        <Knob
+          x={P.x(ub)}
+          y={P.y(g(ub))}
+          color={C.text}
+          onPointerDown={onB}
+          cursor="ew-resize"
+          label="b"
+        />
+        <Cap x={1330} y={260} size={24} color={C.cyan} tex={`\\int v\\,du=${n(cyan)}`} />
+        <Cap x={1330} y={320} size={24} color={C.amber} tex={`\\int u\\,dv=${n(total - cyan)}`} />
+        <Cap x={1330} y={400} size={24} color={C.text} tex={`u_bv_b-u_av_a=${n(total)}`} />
       </Stage>
     );
   }
@@ -193,7 +218,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'En una imagen: el rectángulo grande menos el chico se reparte en dos regiones. Una es $\\int u\\,dv$; la otra, $\\int v\\,du$.',
-      dur: 3.6,
+      gate: 'Arrastra el extremo b hasta u = 3: las dos áreas cambian y siguen sumando uv.',
       board: {
         label: 'Con límites',
         tex: '\\int_a^b u\\,dv=\\p{1}{\\big[uv\\big]_a^b}-\\p{2}{\\int_a^b v\\,du}',

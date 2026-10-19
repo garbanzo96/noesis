@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Group, Html, Stage, plane } from '../../engine/Stage';
 import { Arrow, Axes, Curve } from '../../engine/shapes';
@@ -13,7 +14,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng, shuffle } from '../shared/rng';
-import { Confirm, NumberField, dec, parseNum } from '../shared/ui';
+import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { AreaUnder, integrate } from './kit';
 
 // ============================================================================
@@ -24,8 +25,18 @@ import { AreaUnder, integrate } from './kit';
 // ============================================================================
 
 // ---------------------------------------------------------------- lesson
-function SubstLesson({ beats, answer }: DemoProps) {
+// strip dx at x maps to du = 2x dx in u = x² (beat 2: the student drags the strip)
+const SPX = plane([0, 2.2], [0, 9], { x: 180, y: 140, w: 560, h: 480 });
+
+function SubstLesson({ beats, answer, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [x0, setX0] = useState(0.4);
+  const onStrip = useSvgDrag(svg, (x) => {
+    const v = Math.round(clamp(SPX.inv(x, 0)[0], 0.2, 1.9) * 20) / 20;
+    setX0(v);
+    if (v >= 1.5) unlock();
+  });
   if (beat <= 1) {
     const k = at(beat);
     return (
@@ -90,15 +101,13 @@ function SubstLesson({ beats, answer }: DemoProps) {
     );
   }
   if (beat === 2) {
-    // strip dx at x maps to du = 2x dx in u = x²
-    const PX = plane([0, 2.2], [0, 9], { x: 180, y: 140, w: 560, h: 480 });
+    const PX = SPX;
     const PU = plane([0, 4.6], [0, 4.5], { x: 860, y: 140, w: 560, h: 480 });
     const fx = (x: number) => 2 * x * Math.exp(-(x * x) / 4) * 1.6;
     const fu = (u: number) => Math.exp(-u / 4) * 1.6;
-    const x0 = 0.4 + 1.4 * at(2);
     const dx = 0.15;
     return (
-      <Stage>
+      <Stage ref={svg}>
         <Axes P={PX} xTicks={[1, 2]} yTicks={[]} xLabel="x" yLabel="" grid={false} />
         <Curve P={PX} f={fx} a={0} b={2.2} color={C.cyan} width={3} />
         <AreaUnder P={PX} f={fx} a={x0} b={x0 + dx} pos={C.amber} opacity={0.8} />
@@ -120,6 +129,14 @@ function SubstLesson({ beats, answer }: DemoProps) {
           size={22}
           color={C.amber}
           tex={`dx=0{,}15\\ \\to\\ du=2x\\,dx=${dec(2 * x0 * dx, 2).replace(',', '{,}')}`}
+        />
+        <Knob
+          x={PX.x(x0 + dx / 2)}
+          y={PX.y(0)}
+          color={C.amber}
+          onPointerDown={onStrip}
+          cursor="ew-resize"
+          label="x"
         />
       </Stage>
     );
@@ -209,7 +226,7 @@ const lesson: LessonStep = {
     },
     {
       say: "Por qué funciona: una franja de ancho $dx$ en el eje $x$ corresponde a una franja de ancho $du=g'(x)\\,dx$ en el eje $u$. El factor $g'(x)$ corrige el estiramiento, así que las áreas coinciden.",
-      dur: 4,
+      gate: 'Arrastra la franja hasta x = 1,5 y mira cómo se ensancha du.',
       board: {
         label: 'Con límites',
         tex: "\\int_a^b f(g(x))\\,g'(x)\\,dx=\\int_{\\p{1}{g(a)}}^{\\p{2}{g(b)}}f(u)\\,du",

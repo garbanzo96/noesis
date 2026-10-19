@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Stage } from '../../engine/Stage';
 import { Dot, Line } from '../../engine/shapes';
@@ -11,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Choices, Confirm, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { Surface, num, ortho, pair, polynomial, saddle, type Field, type V2 } from './kit';
 
 const cubic: Field = (x, y) => x ** 3 - 3 * x + y * y;
@@ -33,7 +35,12 @@ const EXAMPLES = [
   { label: 'Silla · portezuelo', f: saddle, tex: 'x^2-y^2', color: C.magenta },
 ];
 
-function ThreeTypes() {
+/** beat 2: the student turns a vertical cut through the three shapes (angle in degrees) */
+const DIAL = { x0: 620, x1: 1020, y: 815 };
+
+function ThreeTypes({ theta }: { theta?: number }) {
+  const c = Math.cos(((theta ?? 0) * Math.PI) / 180);
+  const s = Math.sin(((theta ?? 0) * Math.PI) / 180);
   return (
     <>
       {EXAMPLES.map(({ label, f, tex, color }, i) => {
@@ -47,8 +54,31 @@ function ThreeTypes() {
         return (
           <g key={label}>
             <Surface f={f} P3={P3} color={color} n={18} opacity={0.4} />
-            <polyline points={section('x')} fill="none" stroke={C.amber} strokeWidth={4} />
-            <polyline points={section('y')} fill="none" stroke={C.magenta} strokeWidth={4} />
+            <polyline
+              points={section('x')}
+              fill="none"
+              stroke={C.amber}
+              strokeWidth={4}
+              opacity={theta === undefined ? 1 : 0.35}
+            />
+            <polyline
+              points={section('y')}
+              fill="none"
+              stroke={C.magenta}
+              strokeWidth={4}
+              opacity={theta === undefined ? 1 : 0.35}
+            />
+            {theta !== undefined && (
+              <polyline
+                points={Array.from({ length: 61 }, (_, j) => {
+                  const t = -1.5 + j / 20;
+                  return P3(t * c, t * s, f(t * c, t * s)).join(',');
+                }).join(' ')}
+                fill="none"
+                stroke={C.green}
+                strokeWidth={5}
+              />
+            )}
             <Dot x={P3(0, 0, 0)[0]} y={P3(0, 0, 0)[1]} color={C.green} r={7} />
             <Cap x={cx} y={190} color={color}>
               {label}
@@ -61,8 +91,15 @@ function ThreeTypes() {
   );
 }
 
-function CriticalLesson({ beats, answer }: DemoProps) {
+function CriticalLesson({ beats, answer, unlock }: DemoProps) {
   const { beat, at } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [th, setTh] = useState(0);
+  const onTh = useSvgDrag(svg, (x) => {
+    const v = Math.round(clamp((x - DIAL.x0) / (DIAL.x1 - DIAL.x0), 0, 1) * 90);
+    setTh(v);
+    if (v >= 60) unlock();
+  });
   const P3 = ortho({ cx: 650, cy: 420, scale: 95, zScale: 0.3, xr: [-1.8, 1.8], yr: [-1.6, 1.6] });
   const horizontalPatch = (x: number) =>
     [
@@ -74,13 +111,41 @@ function CriticalLesson({ beats, answer }: DemoProps) {
       .map((p) => p.join(','))
       .join(' ');
   return (
-    <Stage>
+    <Stage ref={svg}>
       {beat === 2 || beat === 5 ? (
         <>
-          <ThreeTypes />
+          <ThreeTypes theta={beat === 2 ? th : undefined} />
           <Cap x={820} y={745} size={20}>
-            Corte ámbar: eje x. Corte magenta: eje y.
+            {beat === 2
+              ? `Corte verde a ${th}° del eje x: en la silla ${Math.cos((2 * th * Math.PI) / 180) > 0.02 ? 'sube' : Math.cos((2 * th * Math.PI) / 180) < -0.02 ? 'baja' : 'queda plano'} desde el centro.`
+              : 'Corte ámbar: eje x. Corte magenta: eje y.'}
           </Cap>
+          {beat === 2 && (
+            <>
+              <line
+                x1={DIAL.x0}
+                x2={DIAL.x1}
+                y1={DIAL.y}
+                y2={DIAL.y}
+                stroke={C.dim}
+                strokeWidth={4}
+                strokeLinecap="round"
+              />
+              <Cap x={DIAL.x0 - 62} y={DIAL.y + 6} size={18} color={C.muted}>
+                0°
+              </Cap>
+              <Cap x={DIAL.x1 + 62} y={DIAL.y + 6} size={18} color={C.muted}>
+                90°
+              </Cap>
+              <Knob
+                x={DIAL.x0 + ((DIAL.x1 - DIAL.x0) * th) / 90}
+                y={DIAL.y}
+                color={C.green}
+                onPointerDown={onTh}
+                cursor="ew-resize"
+              />
+            </>
+          )}
         </>
       ) : (
         <>
@@ -176,7 +241,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'Una cumbre baja hacia todos lados; un hoyo sube hacia todos lados. En una **silla**, como un portezuelo, un corte sube y otro baja.',
-      dur: 3.5,
+      gate: 'Gira el corte verde de 0° a 90°: en la silla pasa de subir a bajar.',
       board: {
         label: 'Tres formas',
         tex: '\\p{1}{\\cC{\\text{máximo}}},\\quad\\p{2}{\\cA{\\text{mínimo}}},\\quad\\p{3}{\\cM{\\text{silla}}}',

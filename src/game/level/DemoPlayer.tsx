@@ -130,6 +130,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
     (window as unknown as { __demo: unknown }).__demo = {
       unlock,
       beat: beats.beat,
+      locked: !unlocked[beats.beat],
       count: n,
       answer,
       rightKey: beat.ask ? orders[beats.beat].indexOf(beat.ask.answer) + 1 : 0,
