@@ -369,10 +369,42 @@ export const lesson: LessonStep = {
     },
   ],
 };
-function BlocksDemo({ beats, answer }: DemoProps) {
+function BlocksDemo({ beats, unlock, answer }: DemoProps) {
+  const [corrected, setCorrected] = useState(() => new Set<number>()),
+    [message, setMessage] = useState('');
+  const b = beats.beat,
+    block = b === 0 ? 0 : 1,
+    original = block === 0 ? RECEIVED : '1001000',
+    acting = b < 2,
+    done = corrected.has(block) || !acting,
+    word = done ? flipBit(original, 5) : original,
+    syndrome = hammingSyndrome(word);
+  useEffect(() => setMessage(''), [b]);
   return (
     <Stage>
-      <ParityRack received="1001000" mode="hamming" showReadings={false} inspector={false} />
+      <ParityRack
+        key={block}
+        received={word}
+        mode="hamming"
+        showReadings={false}
+        inspector={false}
+        onCorrect={
+          acting && !done
+            ? (i) => {
+                const next = flipBit(original, i + 1);
+                if (i + 1 === 5 && hammingSyndrome(next).bits === '000') {
+                  setCorrected((prev) => new Set(prev).add(block));
+                  setMessage('Quinto bit invertido. Síndrome recalculado: 000.');
+                  unlock();
+                } else {
+                  setMessage(
+                    `La posición ${i + 1} deja síndrome ${hammingSyndrome(next).bits}. Revisa el índice.`,
+                  );
+                }
+              }
+            : undefined
+        }
+      />
       <Cap x={530} y={165}>
         Originales conservados: 0110111 y 1001000
       </Cap>
@@ -380,23 +412,23 @@ function BlocksDemo({ beats, answer }: DemoProps) {
         A lo sumo una inversión por bloque.
       </Cap>
       <Cap x={1250} y={320} tex="j=s_1+2s_2+4s_4" size={21} />
-      {(beats.beat > 0 || answer !== null) && (
-        <>
-          <Cap x={1250} y={420}>
-            Síndrome 101 → posición 5
-          </Cap>
-          <Cap x={1250} y={520}>
-            1001100 → datos 0100
-          </Cap>
-        </>
+      <Cap x={1250} y={420} color={done ? C.green : C.red}>
+        Síndrome {syndrome.bits} → posición {syndrome.position}
+      </Cap>
+      {done && (
+        <Cap x={1250} y={520}>
+          {word} → datos {hammingCorrect(word, true).data}
+        </Cap>
       )}
       <Cap x={1250} y={650} size={18}>
-        Los datos son fragmentos cifrados.
+        Los datos {b === 0 ? '1011' : '1011 y 0100'} son fragmentos cifrados.
       </Cap>
       <Cap x={530} y={795} size={19}>
-        {beats.beat === 1 && answer !== null
-          ? 'Reconstruir copia → validar paquete → abrir con credencial'
-          : 'La comprobación local no autentica el mensaje completo.'}
+        {acting
+          ? message
+          : b === 3 && answer !== null
+            ? 'Reconstruir copia → validar paquete → abrir con credencial'
+            : 'La comprobación local no autentica el mensaje completo.'}
       </Cap>
     </Stage>
   );
@@ -637,7 +669,15 @@ export const level: LevelSpec = {
       Scene: BlocksDemo,
       beats: [
         {
-          say: 'La copia conserva 0110111 y 1001000. Intentamos corregir bajo el límite de una inversión por bloque; las posiciones empiezan en uno a la izquierda.',
+          say: 'La copia conserva 0110111 y 1001000. Intentamos corregir bajo el límite de una inversión por bloque; las posiciones empiezan en uno a la izquierda. En 0110111 fallan los grupos 1 y 4: el síndrome 101 indica la posición 5.',
+          gate: 'Arrastra el marcador ↺ al quinto bit de 0110111 para dejar la copia en 0110011 y el síndrome en 000.',
+        },
+        {
+          say: 'La primera copia entrega 1011. El segundo bloque, 1001000, también falla en los grupos 1 y 4. Corrige su copia de trabajo y lee las posiciones de datos 3, 5, 6 y 7.',
+          gate: 'Arrastra el marcador ↺ al quinto bit de 1001000 para dejar la copia en 1001100 y el síndrome en 000.',
+        },
+        {
+          say: 'Compara la segunda copia corregida con su original y lee los cuatro bits de datos.',
           ask: {
             prompt: '¿Dónde se intenta corregir 1001000 y qué dato queda?',
             options: ['Posición 5; 1001', 'Posición 5; 0100', 'Posición 4; 0000'],

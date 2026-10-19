@@ -29,10 +29,12 @@ function BufferLesson({ beats, unlock, reduced, answer }: DemoProps) {
   const [firstDone, setFirstDone] = useState(false);
   const { beat, at } = beats;
   const onState = useSvgDrag(svg, (px) => {
-    const next = Math.round(clamp(P.inv(px, 0)[0], 0, 12) * 100) / 100;
+    const raw = clamp(P.inv(px, 0)[0], 0, 12);
+    // in the gated beat the token snaps to half units so B = 4 can be hit by hand
+    const next = beat === 1 ? Math.round(raw * 2) / 2 : Math.round(raw * 100) / 100;
     setState(next);
     if (beat !== 1) return;
-    if (near(next, 4, 0.05)) {
+    if (near(next, 4, 0.25)) {
       visitedFour.current = true;
       setFirstDone(true);
     }
@@ -185,7 +187,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'Prueba a ambos lados de la marca. El banco de clase permite exceder la capacidad de referencia.',
-      gate: 'Arrastra la ficha ámbar primero a B = 4 y después a B = 12, con margen de 0,05.',
+      gate: 'Arrastra la ficha ámbar primero a B = 4 y después a B = 12.',
       board: {
         label: 'Dos pruebas',
         tex: "\\begin{aligned}\\p{1}{B'(4)}&=\\p{2}{\\cC{2}}\\\\\\p{3}{B'(12)}&=\\p{4}{\\cM{-6}}\\end{aligned}",
@@ -265,15 +267,77 @@ const lesson: LessonStep = {
   ],
 };
 
-function QuietDemo({ beats, answer, reduced }: DemoProps) {
+function QuietDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const [elapsed, setElapsed] = useState(0);
+  const [state, setState] = useState(2);
+  const [visitedFour, setVisitedFour] = useState(false);
+  useEffect(() => {
+    if (beat === 0) setElapsed(0);
+    if (beat === 2) {
+      setState(2);
+      setVisitedFour(false);
+    }
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 0) {
+      const next = Math.round(clamp(TIME.inv(x, 0)[0], 0, 3) * 100) / 100;
+      setElapsed(next);
+      if (near(next, 3, 0.05)) {
+        setElapsed(3);
+        unlock();
+      }
+    }
+    if (beat === 2) {
+      // the token snaps to half units so B = 4 and B = 8 can be hit by hand
+      const next = Math.round(clamp(P.inv(x, 0)[0], 0, 12) * 2) / 2;
+      setState(next);
+      if (near(next, 4, 0.25)) setVisitedFour(true);
+      if (visitedFour && near(next, 8, 0.25)) {
+        setState(8);
+        unlock();
+      }
+    }
+  });
   const reveal = answer !== null;
-  const elapsed = 3 * (reduced ? 1 : beats.at(beats.beat));
+  const t = beat === 0 ? elapsed : 3;
+  const B = beat === 2 ? state : 8;
+  if (beat >= 2)
+    return (
+      <Stage ref={svg}>
+        <Axes P={P} xTicks={[4, 8, 12]} yTicks={[-6, 2]} xLabel="B" yLabel="f" />
+        <SolutionTrace P={P} solution={rate} color={C.cyan} />
+        <PhaseLine P={PHASE} f={rate} roots={[0, 8]} domain={[0, 12]} />
+        <Dot x={P.x(B)} y={P.y(rate(B))} color={C.amber} />
+        {beat === 2 && (
+          <Knob x={PHASE.x(B)} y={PHASE.y(0) - 60} onPointerDown={drag} axis="x" color={C.amber} />
+        )}
+        <Cap x={1250} y={210} tex={`B=${num(B)}`} color={C.amber} />
+        <Cap x={1250} y={300} tex={`B'=${num(rate(B))}`} color={C.cyan} />
+        <Readout x={1250} y={410} size={19}>
+          {beat === 2
+            ? visitedFour
+              ? 'En 4, la pendiente es 2. Lleva la ficha a 8.'
+              : 'Lleva la ficha primero a 4; después a 8.'
+            : 'En 8, la pendiente es cero. Revisa las flechas cercanas.'}
+        </Readout>
+        {beat === 3 && reveal && (
+          <Readout x={1250} y={540} size={19}>
+            En el modelo de llenado, 8 atrae; 4 todavía crece.
+          </Readout>
+        )}
+        <Cap x={540} y={830} size={19}>
+          Arriba: cambio según el estado · abajo: línea de fase
+        </Cap>
+      </Stage>
+    );
   return (
-    <Stage>
+    <Stage ref={svg}>
       <BufferStrip
         occupancy={8}
-        incoming={2 * elapsed}
-        outgoing={2 * elapsed}
+        incoming={2 * t}
+        outgoing={2 * t}
         y={220}
         height={400}
         readouts={false}
@@ -285,21 +349,17 @@ function QuietDemo({ beats, answer, reduced }: DemoProps) {
       <Readout x={1250} y={390}>
         Salida: 2 paquetes/min
       </Readout>
-      <Cap x={1250} y={480} tex="T=3\;\mathrm{min}" />
-      {reveal && (
-        <Cap
-          x={1250}
-          y={580}
-          tex={beats.beat === 0 ? '\\text{entradas}=2\\cdot3=6' : 'B(1-B/8)=0'}
-          color={C.green}
-        />
-      )}
-      {beats.beat === 1 && reveal && (
-        <Readout x={1250} y={690} size={19}>
-          En el modelo de llenado, 8 atrae; 4 todavía crece.
-        </Readout>
-      )}
-      <Cap x={540} y={730} size={19}>
+      <Cap x={1250} y={480} tex={`T=${num(t)}\\;\\mathrm{min}`} />
+      <Cap x={1250} y={580} tex={`\\text{entradas}=\\text{salidas}=${num(2 * t)}`} />
+      <Line a={[TIME.x(0), 710]} b={[TIME.x(3), 710]} color={C.muted} />
+      {[0, 1, 2, 3].map((minute) => (
+        <Cap key={minute} x={TIME.x(minute)} y={765} size={19}>
+          {`${minute} min`}
+        </Cap>
+      ))}
+      {beat === 0 && <Knob x={TIME.x(t)} y={710} onPointerDown={drag} axis="x" color={C.amber} />}
+      {reveal && <Cap x={1250} y={690} tex="\text{entradas}=2\cdot3=6" color={C.green} />}
+      <Cap x={540} y={830} size={19}>
         Búfer físico: reemplazo de paquetes, ocupación constante
       </Cap>
     </Stage>
@@ -514,6 +574,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El búfer real admite 8 paquetes. Empieza lleno: entran 2 paquetes/min y salen 2 por reemplazo durante 3 min. Esta regla de intercambio es distinta del llenado continuo.',
+          gate: 'Arrastra el contador de tiempo hasta 3 min, con margen de 0,05 min.',
+        },
+        {
+          say: 'El contador llegó a 3 min. Revisa las entradas acumuladas y la ocupación del búfer.',
           ask: {
             prompt: '¿Cuántos paquetes nuevos entraron durante esa prueba?',
             options: ['0', '8', '6'],
@@ -528,6 +592,10 @@ export const level: LevelSpec = {
         },
         {
           say: 'Vuelve al modelo logístico de clase. El paquete recuperado conserva la matriz original del canal de presión; la pantalla pública solo retuvo el total ocupado.',
+          gate: 'Arrastra la ficha primero a B = 4 y después a B = 8.',
+        },
+        {
+          say: 'En B = 4 la pendiente es 2; en B = 8 es cero. Revisa hacia dónde apuntan las flechas a ambos lados de 8.',
           ask: {
             prompt: 'En el modelo logístico de clase, ¿qué estado positivo atrae las trayectorias?',
             options: ['8', '0', '4'],

@@ -177,34 +177,60 @@ const lesson: LessonStep = {
     },
   ],
 };
-function CrossingsDemo({ beats, answer }: DemoProps) {
+function CrossingsDemo({ beats, unlock, answer }: DemoProps) {
   const b = beats.beat;
+  const [route, setRoute] = useState<string | null>(null);
+  const [tower, setTower] = useState<number | undefined>();
+  const column = b === 0 ? (route === null ? undefined : COLS.indexOf(route)) : 3;
+  const row = b === 2 ? tower : 1;
   return (
     <Stage>
       <JointGrid
         counts={ROUTE_COUNTS}
         rows={ROWS}
         columns={COLS}
-        columnFilter={b === 0 && answer !== null ? 3 : undefined}
-        filter={b === 1 ? 1 : undefined}
+        columnFilter={b < 2 ? column : undefined}
+        filter={b >= 2 ? row : undefined}
+        onFilter={
+          b === 2
+            ? (i) => {
+                setTower(i);
+                if (i === 1) unlock();
+              }
+            : undefined
+        }
       />
       <Cap x={1250} y={230}>
         Bitácora íntegra: {sum(ROUTE_COUNTS.flat())} registros
       </Cap>
       <Cap x={1250} y={320} color={C.amber}>
-        {b === 0 ? 'Reserva recuperada: ruta d' : 'Solo conservamos la etiqueta Sur'}
+        {b < 2 ? 'Reserva recuperada: ruta d' : 'Solo conservamos la etiqueta Sur'}
       </Cap>
-      <Cap x={1250} y={430} tex={b === 0 ? 'H(X\\mid Y=d)' : 'H(Y\\mid X=S)'} />
-      {answer !== null && (
+      {b === 0 ? (
+        <Choices
+          x={1250}
+          y={430}
+          label="Filtrar ruta"
+          options={COLS}
+          value={route}
+          onPick={(r) => {
+            setRoute(r);
+            if (r === 'd') unlock();
+          }}
+        />
+      ) : (
+        <Cap x={1250} y={430} tex={b === 1 ? 'H(X\\mid Y=d)' : 'H(Y\\mid X=S)'} />
+      )}
+      {(b === 1 || b === 3) && answer !== null && (
         <Cap
           x={1250}
           y={540}
           color={C.green}
-          tex={b === 0 ? 'p(S\\mid d)=1,\\quad H(X\\mid d)=0' : 'H(Y\\mid S)=1'}
+          tex={b === 1 ? 'p(S\\mid d)=1,\\quad H(X\\mid d)=0' : 'H(Y\\mid S)=1'}
           size={21}
         />
       )}
-      <Cap x={530} y={740} size={20}>
+      <Cap x={530} y={b === 2 ? 860 : 740} size={20}>
         Los cruces vacíos siguen siendo imposibles.
       </Cap>
     </Stage>
@@ -425,6 +451,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'La bitácora de rutas tiene 16 registros: cuatro Norte–a, cuatro Norte–b, cuatro Sur–c y cuatro Sur–d. Es un lote distinto de las cabeceras A–D; la reserva recuperada nombra d.',
+          gate: 'Selecciona la ruta d para aislar su columna y revisar a qué torre pertenece.',
+        },
+        {
+          say: 'La columna d conserva cuatro registros de Sur y ninguno de Norte. Revisa cuánto queda por saber de la torre.',
           ask: {
             prompt: 'Con ruta d, ¿qué torre corresponde y cuánto queda por saber de ella?',
             options: ['Sur; 0 bits', 'Cualquiera; 1 bit', 'Norte; 0 bits'],
@@ -439,7 +469,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Ahora conserva solo Sur y descarta el nombre de la ruta. Revisa qué alternativas quedan dentro de esa fila.',
+          say: 'Ahora descarta el nombre de la ruta y conserva solo la torre Sur. Filtra la fila para ver las probabilidades de las rutas que quedan.',
+          gate: 'Arrastra la ficha Sur al círculo Filtro y suéltala.',
+        },
+        {
+          say: 'La fila Sur conserva cuatro registros de c y cuatro de d. Cada ruta ocupa la mitad de la fila.',
           ask: {
             prompt: 'Si solo conservaras la etiqueta Sur, ¿cuánto quedaría por saber de la ruta?',
             options: ['0 bits', '2 bits', '1 bit'],

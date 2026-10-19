@@ -234,27 +234,53 @@ const lesson: LessonStep = {
     },
   ],
 };
-function PaperDemo({ beats, answer }: DemoProps) {
-  const revealed = answer !== null;
+function PaperDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [time, setTime] = useState(0),
+    [initial, setInitial] = useState(0);
+  const { beat } = beats;
+  const drag = useSvgDrag(svg, (px, py) => {
+    if (beat === 0) {
+      const t = Math.round(clamp(((px - P.x(0)) / (P.x(2) - P.x(0))) * 2, 0, 2) * 100) / 100;
+      setTime(near(t, 1, 0.03) ? 1 : t);
+      if (near(t, 1, 0.03)) unlock();
+    } else if (beat === 2) {
+      const h = Math.round(clamp(((P.y(0) - py) / (P.y(0) - P.y(4))) * 4, 0, 4) * 100) / 100;
+      setInitial(near(h, 3, 0.08) ? 3 : h);
+      if (near(h, 3, 0.08)) unlock();
+    }
+  });
+  const t = beat === 0 ? time : 1,
+    h0 = beat === 2 ? initial : 3,
+    h = h0 + t * t;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes P={P} xTicks={[0, 1, 2]} yTicks={[2, 4, 6]} xLabel="t" yLabel="H" grid />
-      <SolutionTrace P={P} solution={(t) => 3 + t * t} t0={0} t1={2} />
-      <Dot x={P.x(1)} y={P.y(4)} color={C.cyan} />
+      <SolutionTrace P={P} solution={(t) => h0 + t * t} t0={0} t1={2} />
+      <Dot x={P.x(t)} y={P.y(h)} color={C.cyan} />
       <Line a={P.pt(0.7, 4)} b={P.pt(1.3, 4)} color={C.magenta} dashed width={4} />
-      {beats.beat > 0 || revealed ? (
-        <Arrow from={P.pt(0.7, 3.4)} to={P.pt(1.3, 4.6)} color={C.amber} width={4} />
-      ) : null}
+      <Arrow
+        from={P.pt(t - 0.3, h - 0.3 * f(t))}
+        to={P.pt(t + 0.3, h + 0.3 * f(t))}
+        color={C.amber}
+        width={4}
+      />
+      {beat === 0 && <Knob x={P.x(t)} y={P.y(h)} onPointerDown={drag} axis="x" />}
+      {beat === 2 && (
+        <>
+          <DirectionField P={P} f={f} times={[0.2, 0.6, 1, 1.4, 1.8, 2]} levels={[1, 3, 5, 7]} />
+          <Dot x={P.x(0)} y={P.y(3)} color={C.green} />
+          <Knob x={P.x(0)} y={P.y(h0)} onPointerDown={drag} axis="y" />
+        </>
+      )}
       <Cap x={540} y={755} size={20}>
         t = 0: 01:00 del 18 de agosto · minutos
       </Cap>
-      <Cap x={1250} y={210} tex="H(0)=3\,\mathrm{cm}" />
-      <Cap x={1250} y={290} tex="H(1)=4\,\mathrm{cm}" color={C.cyan} />
+      <Cap x={1250} y={210} tex={`H(0)=${num(h0)}\\,\\mathrm{cm}`} />
+      <Cap x={1250} y={290} tex={`H(${num(t)})=${num(h)}\\,\\mathrm{cm}`} color={C.cyan} />
       <Cap x={1250} y={370} tex="m_{\mathrm{boletín}}=0" color={C.magenta} />
-      {(beats.beat > 0 || revealed) && (
-        <Cap x={1250} y={460} tex="H'(1)=2\,\mathrm{cm/min}" color={C.amber} />
-      )}
-      {beats.beat === 1 && revealed && <Cap x={1250} y={550} tex="H(t)=3+t^2" color={C.green} />}
+      <Cap x={1250} y={460} tex={`H'(${num(t)})=${num(f(t))}\\,\\mathrm{cm/min}`} color={C.amber} />
+      {beat === 3 && answer !== null && <Cap x={1250} y={550} tex="H(t)=3+t^2" color={C.green} />}
       <Readout x={1250} y={650} size={19}>
         Cabecera: entrada auxiliar
       </Readout>
@@ -441,7 +467,11 @@ export const level: LevelSpec = {
       Scene: PaperDemo,
       beats: [
         {
-          say: 'El colector de prueba parte en 3 cm. Un minuto después, el papel marca 4 cm; el boletín muestra ese nivel con pendiente cero.',
+          say: 'El colector de prueba parte en 3 cm. Mueve el punto sobre el papel hasta un minuto y lee el nivel y la pendiente.',
+          gate: 'Arrastra el punto de la curva hasta t = 1 min.',
+        },
+        {
+          say: 'El papel marca 4 cm y una pendiente de 2 cm/min; el boletín muestra ese nivel con pendiente cero.',
           ask: {
             prompt: '¿Qué flecha debe acompañar el papel en ese punto?',
             options: ['Horizontal, pendiente 0', 'Pendiente 4', 'Pendiente 2'],
@@ -455,7 +485,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La cabecera identifica el canal como entrada auxiliar. Revisa una curva que conserve tanto el inicio como las pendientes del papel.',
+          say: 'La cabecera identifica el canal como entrada auxiliar. Ajusta el inicio de la curva al registro de 3 cm y observa cómo conserva las pendientes del campo.',
+          gate: 'Arrastra el punto del eje vertical hasta H(0) = 3 cm, en la marca verde.',
+        },
+        {
+          say: 'La curva ajustada parte en 3 cm y pasa por 4 cm al minuto, siguiendo las pendientes del papel.',
           ask: {
             prompt: '¿Cuál conserva el inicio de 3 cm y esas pendientes?',
             options: ['$3+t^2$', '$3+2t$', '$t^2$'],

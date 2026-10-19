@@ -289,11 +289,30 @@ const lesson: LessonStep = {
     },
   ],
 };
-function ScheduleDemo({ beats, answer }: DemoProps) {
+function ScheduleDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const Q = plane([0, 2], [0, 18], { x: 180, y: 190, w: 720, h: 480 });
+  const { beat } = beats;
+  const growing = beat < 2;
+  const acting = beat === 0 || beat === 2;
+  const target = growing ? 1 : Math.log(2);
+  const plot = growing ? Q : P;
+  const [time, setTime] = useState(0);
+  useEffect(() => setTime(beat === 0 || beat === 2 ? 0 : target), [beat, target]);
+  const drag = useSvgDrag(svg, (px) => {
+    if (!acting) return;
+    const t = Math.round(clamp((px - plot.box.x) / plot.box.w, 0, 1) * plot.xr[1] * 1000) / 1000;
+    setTime(t);
+    if (near(t, target, 0.02)) {
+      setTime(target);
+      unlock();
+    }
+  });
+  const t = acting ? time : target;
+  const value = growing ? R(t) : 8 * Math.exp(-t);
   return (
-    <Stage>
-      {beats.beat === 0 ? (
+    <Stage ref={svg}>
+      {growing ? (
         <>
           <SignalPlot
             P={Q}
@@ -324,6 +343,7 @@ function ScheduleDemo({ beats, answer }: DemoProps) {
           <SignalPlot
             P={P}
             curves={[{ solution: (t) => 8 * Math.exp(-t), color: C.magenta }]}
+            threshold={4}
             clock="Banco de batería · tiempo en horas desde su inicio"
           />
           <Cap x={1250} y={210} tex="z'=-z;\quad z(0)=8" color={C.magenta} />
@@ -342,6 +362,18 @@ function ScheduleDemo({ beats, answer }: DemoProps) {
           </Readout>
         </>
       )}
+      {acting ? (
+        <Knob x={plot.x(t)} y={plot.y(value)} onPointerDown={drag} axis="x" color={C.amber} />
+      ) : (
+        <Dot x={plot.x(t)} y={plot.y(value)} color={C.amber} />
+      )}
+      <Cap
+        x={1250}
+        y={735}
+        size={20}
+        tex={`t=${num(t, 3)}\\,\\mathrm h;\\quad ${growing ? 'R' : 'z'}=${num(value)}`}
+        color={C.amber}
+      />
     </Stage>
   );
 }
@@ -522,6 +554,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El canal reducido R parte en 4 mm/h a la 01:00 del 18 y duplica por hora. La privada del 17 anticipaba ese inicio; el acuse de las 00:10 reservó la entrega para 02:00–02:30 del 18.',
+          gate: 'Arrastra el punto por la curva hasta que R llegue al umbral de 8 mm/h.',
+        },
+        {
+          say: 'El punto marca cuánto tiempo pasó desde la 01:00 del 18 hasta alcanzar el umbral de 8 mm/h.',
           ask: {
             prompt: '¿Cuándo alcanza 8 según esta salida?',
             options: ['A las 01:30', 'A las 02:00', 'A la 03:00'],
@@ -536,6 +572,10 @@ export const level: LevelSpec = {
         },
         {
           say: 'Contrasta el crecimiento con el banco de batería, que pierde carga según su nivel. El reloj de este banco mide desde su propio inicio.',
+          gate: 'Arrastra el punto por la curva hasta que la carga baje de 8 a 4.',
+        },
+        {
+          say: 'El punto marca la carga que queda al cabo de ln 2 horas desde el inicio del banco.',
           ask: {
             prompt: "En el banco, $z'=-z$ y $z(0)=8$. ¿Cuánto queda tras una vida media?",
             options: ['4', '$8e^{-1}$', '0'],

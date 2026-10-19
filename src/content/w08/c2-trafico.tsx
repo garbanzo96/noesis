@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { Stage } from '../../engine/Stage';
 import { C } from '../../engine/palette';
 import type {
@@ -10,7 +12,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { rng, randInt, pick, shuffle } from '../shared/rng';
-import { Choices, Confirm, NumberField, parseProb } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseProb } from '../shared/ui';
 import {
   ACCENT,
   COUNTS,
@@ -220,9 +222,53 @@ const lesson: LessonStep = {
     },
   ],
 };
-function CounterDemo({ beats, answer }: DemoProps) {
+function CounterDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [scanned, setScanned] = useState(8);
+  const [counts, setCounts] = useState([...COUNTS]);
+  const { beat } = beats;
+  useEffect(() => {
+    if (beat === 0) setScanned(8);
+    if (beat === 2) setCounts([...COUNTS]);
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0) return;
+    const n = Math.round(clamp((x - 170) / 720, 0, 1) * sum(COUNTS));
+    setScanned(n);
+    if (n === sum(COUNTS)) unlock();
+  });
+  const measured = beat === 0 ? scanned : sum(COUNTS);
+  if (beat >= 2)
+    return (
+      <Stage>
+        <SourceBars
+          probabilities={counts.map((n) => n / sum(COUNTS))}
+          onTransfer={
+            beat === 2
+              ? (from, to) => {
+                  if (counts[from] < 8) return;
+                  const next = [...counts];
+                  next[from] -= 8;
+                  next[to] += 8;
+                  setCounts(next);
+                  if (next.every((n) => n === 16)) unlock();
+                }
+              : undefined
+          }
+        />
+        <Cap x={530} y={200} size={20}>
+          Cada ficha representa ocho cabeceras.
+        </Cap>
+        <Cap x={1250} y={450} size={21}>
+          Conteos: ({counts.join(', ')})
+        </Cap>
+        {beat === 3 && answer !== null && (
+          <Cap x={1250} y={550} tex="H_{\max}=\log_2 4=2" color={C.amber} />
+        )}
+      </Stage>
+    );
   return (
-    <Stage>
+    <Stage ref={svg}>
       <SymbolTray counts={COUNTS} />
       <Cap x={530} y={230}>
         Distribución del lote íntegro del chip
@@ -232,17 +278,35 @@ function CounterDemo({ beats, answer }: DemoProps) {
         Contador fijo: {sum(COUNTS) * 2} bits
       </Cap>
       <Cap x={1250} y={430}>
-        Cantidad: {sum(COUNTS)} cabeceras
+        Medidas: {measured} de {sum(COUNTS)} cabeceras
       </Cap>
-      {answer !== null && (
-        <Cap
-          x={1250}
-          y={540}
-          tex={
-            beats.beat === 0
-              ? `64H(P)=${sum(COUNTS) * entropy(P)}\\ \\mathrm{bits}`
-              : 'H_{\\max}=\\log_2 4=2'
-          }
+      <Cap
+        x={1250}
+        y={540}
+        tex={`${measured}H(P)=${num(measured * entropy(P))}\\ \\mathrm{bits}`}
+        color={C.amber}
+      />
+      <line x1={170} x2={890} y1={600} y2={600} stroke={C.muted} strokeWidth={2} />
+      {[0, 32, 64].map((n) => (
+        <g key={n}>
+          <line
+            x1={170 + (n * 720) / 64}
+            x2={170 + (n * 720) / 64}
+            y1={590}
+            y2={610}
+            stroke={C.muted}
+          />
+          <Cap x={170 + (n * 720) / 64} y={640} size={18}>
+            {n}
+          </Cap>
+        </g>
+      ))}
+      {beat === 0 && (
+        <Knob
+          x={170 + (scanned * 720) / 64}
+          y={600}
+          onPointerDown={drag}
+          axis="x"
           color={C.amber}
         />
       )}
@@ -415,6 +479,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El contador reserva 128 bits para palabras fijas de dos bits. El lote conserva el reparto (32,16,8,8).',
+          gate: 'Arrastra el marcador hasta las 64 cabeceras para medir el lote completo.',
+        },
+        {
+          say: 'La medición usa la entropía de 1,75 bits por símbolo y las 64 cabeceras del lote.',
           ask: {
             prompt: '¿Cuánta información suma el lote bajo ese reparto?',
             options: ['128 bits', '112 bits', '64 bits'],
@@ -427,7 +495,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Compara la fuente observada con un reparto equiprobable de las cuatro etiquetas.',
+          say: 'Cada ficha mueve ocho cabeceras. Redistribuye el lote para comparar la fuente observada con un reparto equiprobable de las cuatro etiquetas.',
+          gate: 'Arrastra una ficha de A a C y otra de A a D hasta obtener (16,16,16,16).',
+        },
+        {
+          say: 'Las cuatro etiquetas tienen probabilidad 0,25. Lee la entropía del reparto uniforme.',
           ask: {
             prompt: '¿Cuál sería la entropía máxima con estas cuatro etiquetas?',
             options: ['2 bits/símbolo', '4 bits/símbolo', '1,75 bits/símbolo'],

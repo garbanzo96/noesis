@@ -70,9 +70,10 @@ function PortraitLesson({ beats, unlock, reduced, answer }: DemoProps) {
   });
   const onInitial = useSvgDrag(svg, (px, py) => {
     const [u, v] = P.inv(px, py);
+    // the start snaps to half units so (1, 0) can be reached by hand
     const next: V2 = [
-      Math.round(clamp(u, -2.5, 2.5) * 100) / 100,
-      Math.round(clamp(v, -2.5, 2.5) * 100) / 100,
+      Math.round(clamp(u, -2.5, 2.5) * 2) / 2,
+      Math.round(clamp(v, -2.5, 2.5) * 2) / 2,
     ];
     setInitial(next);
     if (beat !== 1 || !nearComponents(next, [1, 0], 0.05)) return;
@@ -250,7 +251,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'Compara la dirección que se aleja con la trayectoria que gira. Usa el mismo inicio para las dos pruebas.',
-      gate: 'Elige S con la perilla; arrastra el inicio ámbar a (1, 0). Después elige F y repite, con margen de 0,05 por componente.',
+      gate: 'Elige S con la perilla; arrastra el inicio ámbar a (1, 0). Después elige F y repite.',
       board: {
         label: 'Dos recorridos',
         tex: '\\p{1}{\\cA{\\text{silla}}};\\quad\\p{2}{\\cM{\\text{espiral entrante}}}',

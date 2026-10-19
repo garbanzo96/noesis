@@ -254,15 +254,23 @@ export const lesson: LessonStep = {
     },
   ],
 };
-function ReserveDemo({ beats, answer }: DemoProps) {
+function ReserveDemo({ beats, unlock }: DemoProps) {
+  const [rateIndex, setRateIndex] = useState(0);
+  const b = beats.beat;
+  const target = b <= 1 ? 2 : 1;
+  const acting = b === 0 || b === 2;
+  useEffect(() => setRateIndex(b === 0 ? 0 : b === 2 ? 2 : target), [b, target]);
+  const rate = [1 / 16, 1 / 8, 1 / 4][acting ? rateIndex : target];
   return (
     <Stage>
       <BinaryChannel
         p={1 / 4}
         inputBalance={1 / 2}
-        rate={beats.beat === 0 ? 1 / 4 : 1 / 8}
+        rate={rate}
         showReadings={false}
+        showTraceNotes={false}
       />
+      <CapacityBar p={1 / 4} rate={rate} />
       <Cap x={1250} y={190}>
         32 usos · 8 inversiones
       </Cap>
@@ -270,17 +278,34 @@ function ReserveDemo({ beats, answer }: DemoProps) {
       <Cap x={1250} y={370}>
         100 usos/s · modelo sin memoria
       </Cap>
-      <Cap x={1250} y={460} tex={beats.beat === 0 ? 'R=1/4' : 'R=1/8'} color={C.magenta} />
-      {answer !== null && (
-        <Cap
-          x={1250}
-          y={560}
-          tex={`100C\\approx${num(100 * CAPACITY)}\\ \\mathrm{bits/s}`}
-          color={C.green}
-          size={21}
+      <Cap x={1250} y={460} tex={`R=${fraction(rate)}`} color={C.magenta} />
+      {acting && (
+        <DiscreteDial
+          value={rateIndex}
+          max={2}
+          y={530}
+          labels={['1/16', '1/8', '1/4']}
+          onChange={setRateIndex}
+          onSettle={(i) => {
+            if (i === target) unlock();
+          }}
         />
       )}
-      <Cap x={530} y={795} size={19}>
+      <Cap
+        x={1250}
+        y={710}
+        tex={`100R=${num(100 * rate)}\\ \\mathrm{bits/s}`}
+        color={C.magenta}
+        size={21}
+      />
+      <Cap
+        x={1250}
+        y={780}
+        tex={`100C\\approx${num(100 * CAPACITY)}\\ \\mathrm{bits/s}`}
+        color={C.green}
+        size={21}
+      />
+      <Cap x={530} y={850} size={19}>
         Huecos «?» → copia local por cable · fuera del BSC
       </Cap>
       <Cap x={1250} y={660} size={18}>
@@ -489,6 +514,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'La calibración envió 16 ceros y 16 unos; se invirtieron cuatro de cada tipo. Adoptamos p = 1/4 y un BSC sin memoria: independencia asumida. Los huecos se solicitan aparte a la copia local.',
+          gate: 'Arrastra la perilla de tasa hasta 1/4 y suéltala para probar la configuración nueva.',
+        },
+        {
+          say: 'Compara los 25 bits útiles por segundo de la configuración nueva con el límite que muestra la barra.',
           ask: {
             prompt: 'La configuración pide 25 bits útiles por segundo. ¿Qué dice el modelo?',
             options: [
@@ -507,6 +536,10 @@ export const level: LevelSpec = {
         },
         {
           say: 'La tasa anterior era 1/16 bit útil por uso. La nueva, 1/4, es cuatro veces mayor; prueba ahora 1/8 en la copia de configuración.',
+          gate: 'Arrastra la perilla de tasa hasta 1/8 y suéltala para probar una tasa menor.',
+        },
+        {
+          say: 'Con R = 1/8, el terminal pide 12,5 bits útiles por segundo. Compara la marca de tasa con la capacidad del enlace.',
           ask: {
             prompt: '¿Qué afirmación sobre bajar a R = 1/8 es correcta?',
             options: [

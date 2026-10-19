@@ -252,15 +252,23 @@ const lesson: LessonStep = {
     },
   ],
 };
-function PilotDemo({ beats, answer }: DemoProps) {
+function PilotDemo({ beats, unlock, answer }: DemoProps) {
   const [evidence, setEvidence] = useState(0);
-  const pilot = evidence === 0;
+  const [route, setRoute] = useState(0);
+  const b = beats.beat;
+  useEffect(() => {
+    setEvidence(0);
+    setRoute(0);
+  }, [b]);
+  const pilot = b === 0 && evidence === 0;
+  const selectedRoute = b === 3 ? 3 : route;
   return (
     <Stage>
       <JointGrid
         counts={pilot ? PILOT_COUNTS : ROUTE_COUNTS}
         rows={['Norte', 'Sur']}
         columns={pilot ? ['Apagado', 'Encendido'] : ['a', 'b', 'c', 'd']}
+        columnFilter={b >= 2 ? selectedRoute : undefined}
         columnVariable={pilot ? 'Z' : 'Y'}
         columnName={pilot ? 'piloto' : 'ruta'}
       />
@@ -268,25 +276,58 @@ function PilotDemo({ beats, answer }: DemoProps) {
         16 registros de salida
       </Cap>
       <Cap x={1250} y={320} size={20}>
-        Dos apagados y dos encendidos por par.
+        {b < 2
+          ? pilot
+            ? 'Cada estado deja Norte y Sur por mitades.'
+            : 'Cada ruta identifica una sola torre.'
+          : 'La tabla identifica la torre, no al operador.'}
       </Cap>
-      <DiscreteDial
-        value={evidence}
-        max={1}
-        labels={['Piloto', 'Ruta']}
-        y={450}
-        onChange={setEvidence}
-      />
-      {answer !== null && (
+      {b === 0 && (
+        <DiscreteDial
+          value={evidence}
+          max={1}
+          labels={['Piloto', 'Ruta']}
+          y={450}
+          onChange={setEvidence}
+          onSettle={(i) => {
+            if (i === 1) unlock();
+          }}
+        />
+      )}
+      {b === 2 && (
+        <DiscreteDial
+          value={route}
+          max={3}
+          labels={['a', 'b', 'c', 'd']}
+          y={450}
+          onChange={setRoute}
+          onSettle={(i) => {
+            if (i === 3) unlock();
+          }}
+        />
+      )}
+      {b < 2 && (
         <Cap x={1250} y={590} color={C.magenta} size={20}>
-          {beats.beat === 0
-            ? `Ruta: ${bitsText(ROUTE_I)} · Piloto: ${bitsText(PILOT_I)}`
-            : 'Falta revisar el registro de acceso.'}
+          {pilot
+            ? `Piloto: ${bitsText(PILOT_I)}`
+            : `Ruta: ${bitsText(ROUTE_I)} · Piloto: ${bitsText(PILOT_I)}`}
         </Cap>
       )}
-      <Cap x={530} y={740} size={20}>
-        La ruta d conserva el enlace al repetidor de reserva.
-      </Cap>
+      {b >= 2 && (
+        <Cap x={1250} y={590} size={20}>
+          Falta revisar el registro de acceso.
+        </Cap>
+      )}
+      {b === 3 && answer !== null && (
+        <Cap x={1250} y={660} color={C.magenta} size={20}>
+          La asociación no identifica al operador.
+        </Cap>
+      )}
+      {b >= 2 && selectedRoute === 3 && (
+        <Cap x={530} y={740} size={20}>
+          La ruta d conserva el enlace al repetidor de reserva.
+        </Cap>
+      )}
     </Stage>
   );
 }
@@ -441,7 +482,11 @@ export const level: LevelSpec = {
       Scene: PilotDemo,
       beats: [
         {
-          say: 'En los 16 registros, cada par torre–ruta aparece dos veces con piloto apagado y dos con piloto encendido. Al agrupar por torre y piloto, cada celda reúne cuatro registros.',
+          say: 'En los 16 registros, cada par torre–ruta aparece dos veces con piloto apagado y dos con piloto encendido. Al agrupar por torre y piloto, cada celda reúne cuatro registros. Compara esa tabla con la de rutas.',
+          gate: 'Arrastra la perilla desde Piloto hasta Ruta y suéltala para comparar las torres que quedan.',
+        },
+        {
+          say: 'Con el piloto quedan ambas torres por mitades. Cada ruta, en cambio, deja una sola torre.',
           ask: {
             prompt: '¿Qué dato reduce más la incertidumbre sobre la torre?',
             options: ['El piloto: 1 bit', 'Ambos reducen 1 bit', 'La ruta: 1 bit; el piloto: 0'],
@@ -455,7 +500,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La ruta d sigue apuntando al repetidor de reserva. El piloto es un ciclo general de mantenimiento; todavía falta leer quién accedió al perfil.',
+          say: 'El piloto es un ciclo general de mantenimiento. Filtra la tabla por la ruta d para revisar qué torre conserva el enlace al repetidor de reserva.',
+          gate: 'Arrastra la perilla hasta d y suéltala para aislar sus registros.',
+        },
+        {
+          say: 'La ruta d sigue apuntando al repetidor de reserva y deja solamente Sur. La tabla no registra quién accedió al perfil.',
           ask: {
             prompt: '¿La información mutua de 1 bit prueba quién operó el repetidor?',
             options: [

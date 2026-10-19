@@ -28,8 +28,10 @@ export function parseExact(s: string) {
   return Number.isFinite(value) ? value : null;
 }
 export const sum = (xs: readonly number[]) => xs.reduce((a, b) => a + b, 0);
+// a drop counts inside 45 units of the target: about the size of the drawn circle, and still
+// less than half the 103-unit spacing between bits on a tape
 export const near = (x: number, y: number, tx: number, ty: number) =>
-  (x - tx) ** 2 + (y - ty) ** 2 <= 24 ** 2;
+  (x - tx) ** 2 + (y - ty) ** 2 <= 45 ** 2;
 const prob = (p: number) => {
   if (!Number.isFinite(p) || p < 0 || p > 1) throw new RangeError('Probabilidad fuera de [0,1].');
 };
@@ -705,9 +707,16 @@ export function BitTape({
 }) {
   const spacing = width / Math.max(bits.length, 1),
     svg = useRef<SVGSVGElement | null>(null);
+  // the cursor follows the finger while dragging; only the release counts as an answer
+  const [live, setLive] = useState<number | null>(null);
   const drag = useSvgDrag(svg, (px, _py, phase) => {
-    if (phase === 'end') onCursor?.(Math.round(clamp((px - x) / spacing, 0, bits.length)));
+    const n = Math.round(clamp((px - x) / spacing, 0, bits.length));
+    if (phase === 'end') {
+      setLive(null);
+      onCursor?.(n);
+    } else setLive(n);
   });
+  const at = live ?? cursor;
   return (
     <>
       {[...bits].map((b, i) => (
@@ -738,11 +747,11 @@ export function BitTape({
           strokeWidth={4}
         />
       ))}
-      {cursor !== undefined && (
+      {at !== undefined && (
         <>
           <line
-            x1={x + cursor * spacing}
-            x2={x + cursor * spacing}
+            x1={x + at * spacing}
+            x2={x + at * spacing}
             y1={y - 10}
             y2={y + 75}
             stroke={C.magenta}
@@ -750,8 +759,8 @@ export function BitTape({
           />
           {onCursor && (
             <Knob
-              x={x + cursor * spacing}
-              y={y + 140}
+              x={x + at * spacing}
+              y={y - 48}
               axis="x"
               color={C.magenta}
               onPointerDown={(e) => {

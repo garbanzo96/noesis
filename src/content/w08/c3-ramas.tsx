@@ -235,38 +235,84 @@ const lesson: LessonStep = {
     },
   ],
 };
-function HeaderDemo({ beats, answer }: DemoProps) {
-  const b = beats.beat,
-    show = answer !== null;
+function HeaderDemo({ beats, unlock, answer }: DemoProps) {
+  const b = beats.beat;
+  const [cursor, setCursor] = useState(0),
+    [measured, setMeasured] = useState(0);
+  useEffect(() => {
+    setCursor(0);
+    setMeasured(0);
+  }, [b]);
+  const decoded = decodePrefix('010110111', CODES);
+  const acting = b === 0 || b === 2;
+  const count = acting ? measured : SYMBOLS.length;
+  const symbol = SYMBOLS[Math.min(count, SYMBOLS.length - 1)];
+  const bits = b < 2 ? '010110111' : CODES[symbol];
+  const total = sum(SYMBOLS.slice(0, count).map((s, i) => COUNTS[i] * CODES[s].length));
   return (
     <Stage>
       <PrefixTree nodes={TREE.nodes} edges={TREE.edges} />
-      <BitTape bits="010110111" groups={b > 0 || show ? [1, 3, 6, 9] : []} y={745} />
-      <Cap x={1250} y={230}>
+      <BitTape
+        bits={bits}
+        groups={
+          b < 2 ? decoded.groups.slice(0, count) : count === SYMBOLS.length ? [bits.length] : []
+        }
+        cursor={acting ? cursor : undefined}
+        onCursor={
+          acting && count < SYMBOLS.length
+            ? (n) => {
+                setCursor(n);
+                const target = b === 0 ? decoded.groups[count] : bits.length;
+                if (n !== target) return;
+                const next = count + 1;
+                setMeasured(next);
+                if (next === SYMBOLS.length) unlock();
+                else if (b === 2) setCursor(0);
+              }
+            : undefined
+        }
+        y={745}
+      />
+      <Cap x={1250} y={180}>
         Cabecera pública de control
       </Cap>
-      <Cap x={1250} y={330}>
+      <Cap x={1250} y={260}>
         Lote: {sum(COUNTS)} símbolos
       </Cap>
-      {b === 0 && show && (
+      {b < 2 ? (
         <>
-          <Cap x={1250} y={430} color={ACCENT}>
-            ABCD
+          <Cap x={1250} y={370} color={ACCENT}>
+            Leído: {decoded.symbols.slice(0, count).join('') || '—'}
           </Cap>
-          <Cap x={1250} y={530} size={20}>
-            D conduce a la ruta de reserva.
+          <Cap x={1250} y={470} size={20}>
+            {count === SYMBOLS.length
+              ? 'D conduce a la ruta de reserva.'
+              : `Suelta el cursor tras el bit ${decoded.groups[count]}.`}
           </Cap>
         </>
-      )}
-      {b === 1 && (
+      ) : (
         <>
-          <Cap x={1250} y={430}>
-            Conteos: ({COUNTS.join(', ')})
+          {SYMBOLS.map((s, i) => (
+            <Cap key={s} x={1250} y={340 + i * 60} size={21} color={i < count ? ACCENT : C.muted}>
+              {i < count
+                ? `${s}: ${COUNTS[i]} × ${CODES[s].length} = ${COUNTS[i] * CODES[s].length} bits`
+                : `${s}: ${COUNTS[i]} apariciones`}
+            </Cap>
+          ))}
+          <Cap x={1250} y={610} color={C.amber}>
+            Total medido: {total} bits
           </Cap>
-          {show && <Cap x={1250} y={530} tex="32+32+24+24=112" color={C.amber} />}
+          {b === 2 && count < SYMBOLS.length && (
+            <Cap x={530} y={695} size={20}>
+              Mide {symbol} = {bits}: lleva el cursor al final.
+            </Cap>
+          )}
+          {b === 3 && answer !== null && (
+            <Cap x={1250} y={690} tex="32+32+24+24=112" color={C.amber} />
+          )}
         </>
       )}
-      <Cap x={1250} y={640} size={18}>
+      <Cap x={1250} y={780} size={18}>
         El cuerpo sigue cifrado.
       </Cap>
     </Stage>
@@ -514,7 +560,11 @@ export const level: LevelSpec = {
       Scene: HeaderDemo,
       beats: [
         {
-          say: 'El chip guarda el árbol de la fuente. El fragmento público 010110111 no tiene separadores externos.',
+          say: 'El chip guarda el árbol de la fuente. El fragmento público 010110111 no tiene separadores externos. Recorre la cinta y marca cada llegada a una hoja.',
+          gate: 'Arrastra el cursor y suéltalo después de los bits 1, 3, 6 y 9, en ese orden.',
+        },
+        {
+          say: 'Los cortes que marcaste separan cuatro palabras. Cada hoja devuelve el lector a la raíz.',
           ask: {
             prompt: '¿Cómo lees el fragmento con este árbol?',
             options: ['ABABBABBB', 'ABCD', 'Un único símbolo de nueve bits'],
@@ -529,7 +579,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El lote íntegro contiene 32 A, 16 B, 8 C y 8 D. La compresión conserva todos los símbolos.',
+          say: 'El lote íntegro contiene 32 A, 16 B, 8 C y 8 D. Mide las cuatro palabras; el registro multiplica cada longitud por su conteo y suma los bits.',
+          gate: 'Arrastra el cursor hasta el final de cada palabra: A, B, C y D, en ese orden.',
+        },
+        {
+          say: 'Las cuatro mediciones suman 112 bits para las 64 cabeceras. La compresión conserva todos los símbolos.',
           ask: {
             prompt: '¿Por qué 112 bits alcanzan para las 64 cabeceras de este lote?',
             options: [

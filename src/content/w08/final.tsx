@@ -1,6 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { C } from '../../engine/palette';
-import { useTween } from '../../engine/hooks';
+import { useSvgDrag, useTween } from '../../engine/hooks';
 import { Html, Stage } from '../../engine/Stage';
 import type {
   ChallengeProps,
@@ -11,7 +11,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, NumberField } from '../shared/ui';
+import { Confirm, Knob, NumberField } from '../shared/ui';
 import {
   ACCENT,
   BitTape,
@@ -293,24 +293,111 @@ export const lesson: LessonStep = {
     },
   ],
 };
-function FileDemo({ beats, answer }: DemoProps) {
+function FileDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [measured, setMeasured] = useState(0),
+    [corrected, setCorrected] = useState(false),
+    [validated, setValidated] = useState(false);
+  const { beat } = beats;
+  useEffect(() => {
+    if (beat === 0) setMeasured(0);
+    if (beat === 2) {
+      setCorrected(false);
+      setValidated(false);
+    }
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x, _y, phase) => {
+    if (beat !== 0) return;
+    const bits = Math.max(0, Math.min(OTHER, Math.round(((x - 170) / 720) * OTHER)));
+    setMeasured(bits);
+    if (phase === 'end' && Math.abs(bits - OTHER) <= 1) {
+      setMeasured(OTHER);
+      unlock();
+    }
+  });
+  const reading = beat === 0 ? measured : OTHER;
   return (
-    <Stage>
-      <CodeCost
-        source={P}
-        profile={Q}
-        count={COUNT}
-        showReadings={false}
-        showContributions={false}
-      />
-      <Cap x={1250} y={230}>
-        64 cabeceras · P: 112 bits
-      </Cap>
-      <Cap x={1250} y={330}>
-        Mismo lote con Q: 152 bits
-      </Cap>
-      {beats.beat === 0 && answer !== null && (
-        <Cap x={1250} y={440} tex="152-112=40\ \mathrm{bits}" color={C.amber} />
+    <Stage ref={svg}>
+      {beat <= 1 ? (
+        <>
+          <CodeCost
+            source={P}
+            profile={Q}
+            count={COUNT}
+            showReadings={false}
+            showContributions={false}
+          />
+          <line
+            x1={170}
+            x2={170 + (reading / OTHER) * 720}
+            y1={700}
+            y2={700}
+            stroke={C.amber}
+            strokeWidth={4}
+          />
+          {beat === 0 && (
+            <Knob
+              x={170 + (reading / OTHER) * 720}
+              y={700}
+              axis="x"
+              color={C.amber}
+              onPointerDown={drag}
+            />
+          )}
+          <Cap x={1250} y={230}>
+            64 cabeceras · P: 112 bits
+          </Cap>
+          <Cap x={1250} y={330}>
+            {`Medición con Q: ${reading} bits`}
+          </Cap>
+          <Cap x={530} y={810} size={19}>
+            Mide desde el inicio hasta el extremo derecho de la cinta inferior.
+          </Cap>
+          {reading === OTHER && (
+            <Cap x={1250} y={440} tex="152-112=40\ \mathrm{bits}" color={C.amber} />
+          )}
+        </>
+      ) : (
+        <>
+          <ParityRack
+            received={corrected || beat === 3 ? VALID : RECEIVED}
+            mode="hamming"
+            inspector={false}
+            showReadings={false}
+            onCorrect={
+              beat === 2 && !corrected
+                ? (i) => {
+                    if (i === 4) setCorrected(true);
+                  }
+                : undefined
+            }
+          />
+          <Cap x={1250} y={230}>
+            Original conservado: 0110111
+          </Cap>
+          <Cap x={1250} y={330}>
+            {corrected || beat === 3 ? 'Copia reconstruida: 0110011' : 'Síndrome 101 → posición 5'}
+          </Cap>
+          <Cap x={1250} y={430} size={18}>
+            A lo sumo una inversión · fragmentos 1011 y 0100
+          </Cap>
+          <Cap x={530} y={810} size={19} color={C.green}>
+            {validated || beat === 3
+              ? 'Autenticidad comprobada · cuerpo abierto con la credencial del chip'
+              : 'Registro de validación disponible después de reconstruir la copia.'}
+          </Cap>
+          {beat === 2 && (
+            <Confirm
+              label="Revisar validación"
+              disabled={!corrected || validated}
+              onClick={() => {
+                if (!corrected || validated) return;
+                setValidated(true);
+                unlock();
+              }}
+            />
+          )}
+        </>
       )}
       <Cap x={1250} y={550} size={18}>
         Perfil guardado después del reinicio.
@@ -318,11 +405,13 @@ function FileDemo({ beats, answer }: DemoProps) {
       <Cap x={1250} y={650} size={18}>
         Cuenta receptora: «Contador»
       </Cap>
-      <Cap x={530} y={760} size={19}>
-        {beats.beat === 1 && answer !== null
-          ? 'Original conservado · copia reconstruida · paquete validado'
-          : 'Ruta d → Sur · enlace con R sobre C · fragmentos 1011 y 0100'}
-      </Cap>
+      {beat !== 2 && (
+        <Cap x={530} y={760} size={19}>
+          {beat === 3 && answer !== null
+            ? 'Original conservado · copia reconstruida · paquete validado'
+            : 'Ruta d → Sur · enlace con R sobre C · fragmentos 1011 y 0100'}
+        </Cap>
+      )}
     </Stage>
   );
 }
@@ -620,6 +709,10 @@ export const level: LevelSpec = {
       Scene: FileDemo,
       beats: [
         {
+          say: 'El lote P ocupa 112 bits con su código. Mide la cinta inferior para comparar cuánto ocupa el mismo lote con Q.',
+          gate: 'Arrastra el marcador hasta el extremo derecho de la cinta inferior para medir sus 152 bits.',
+        },
+        {
           say: 'El lote P ocupa 112 bits con su código y 152 con Q. La revisión administrativa sitúa el cambio de perfil después del reinicio de Inés; el cálculo mide su costo.',
           ask: {
             prompt: '¿Qué sostiene que Q aumentó el tamaño de este lote?',
@@ -629,6 +722,10 @@ export const level: LevelSpec = {
               'Las longitudes ponderadas demuestran el aumento. La firma y la luz pertenecen a otras pruebas; no calculan el tamaño del lote.',
           },
           note: { label: 'Costo demostrado', tex: '152-112=64\\cdot5/8=40' },
+        },
+        {
+          say: 'La ruta d determina Sur y el enlace pide una tasa sobre C. La copia local permitió reconstruir los fragmentos 1011 y 0100. Conserva el original, corrige la copia bajo el límite de una inversión y revisa el registro de validación del paquete completo.',
+          gate: 'Arrastra ↺ al quinto bit de la copia y pulsa «Revisar validación».',
         },
         {
           say: 'La ruta d determina Sur. El enlace pide una tasa sobre C; la copia local permitió reconstruir los fragmentos 1011 y 0100 y comprobar el mensaje entero.',

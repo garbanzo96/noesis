@@ -243,45 +243,85 @@ const lesson: LessonStep = {
     },
   ],
 };
-function ExportDemo({ beats, answer }: DemoProps) {
+function ExportDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [cursor, setCursor] = useState(0);
+  const { beat } = beats;
+  const acting = beat === 0 || beat === 2;
+  const privateRun = beat >= 2;
+  const h = privateRun ? 1 / 8 : 1;
   const Q = plane([0, 1.1], [0, 12], { x: 180, y: 190, w: 720, h: 480 });
+  useEffect(() => setCursor(0), [beat]);
+  const drag = useSvgDrag(svg, (px) => {
+    if (!acting) return;
+    const t = clamp((px - Q.x(0)) / Q.sx, 0, 1);
+    const done = near(t, 1, 0.01);
+    setCursor(done ? 1 : t);
+    if (done) unlock();
+  });
+  const time = acting ? cursor : 1;
+  const nodes = euler(f, 0, 4, h, Math.round(1 / h));
+  const node = nodes[Math.min(nodes.length - 1, Math.floor(time / h))];
+  const color = privateRun ? C.green : C.amber;
   const reveal = answer !== null;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes P={Q} xTicks={[0, 1]} yTicks={[4, 8, 10]} xLabel="t" yLabel="Q" grid />
       <Line a={Q.pt(0, 10)} b={Q.pt(1.1, 10)} color={C.magenta} dashed width={3} />
-      <EulerWalk P={Q} f={f} initial={[0, 4]} h={1} end={1} />
-      {beats.beat === 1 && (
-        <EulerWalk P={Q} f={f} initial={[0, 4]} h={1 / 8} end={1} color={C.green} />
+      <EulerWalk P={Q} f={f} initial={[0, 4]} h={1} end={1} progress={privateRun ? 1 : node[0]} />
+      {privateRun && (
+        <EulerWalk P={Q} f={f} initial={[0, 4]} h={h} end={1} progress={node[0]} color={C.green} />
+      )}
+      <Dot x={Q.x(node[0])} y={Q.y(node[1])} color={color} ring />
+      {acting && (
+        <>
+          <Line a={[Q.x(0), 760]} b={[Q.x(1), 760]} width={4} />
+          <Knob x={Q.x(cursor)} y={760} onPointerDown={drag} axis="x" color={color} />
+          <Cap x={Q.x(0)} y={810}>
+            0
+          </Cap>
+          <Cap x={Q.x(1)} y={810}>
+            1
+          </Cap>
+        </>
       )}
       {reveal && <SolutionTrace P={Q} solution={(t) => 4 * Math.exp(t)} t0={0} t1={1} />}
       <Cap x={1250} y={200} tex="Q'=Q;\quad Q(0)=4" />
       <Cap x={1250} y={285} tex="t_{\mathrm{final}}=1\;\mathrm h" />
       <Cap x={1250} y={375} tex="h_{\mathrm{público}}=1\;\mathrm h" color={C.amber} />
-      {beats.beat === 1 && (
+      {privateRun && (
         <Cap x={1250} y={465} tex="h_{\mathrm{privado}}=\tfrac18\;\mathrm h" color={C.green} />
       )}
+      <Cap
+        x={1250}
+        y={privateRun ? 550 : 465}
+        tex={`t=${num(node[0], 3)};\\quad Q^E=${num(node[1], 6)}`}
+        color={color}
+        size={21}
+      />
       {reveal && (
         <Cap
           x={1250}
-          y={beats.beat === 0 ? 480 : 565}
-          tex={beats.beat === 0 ? 'Q^E_1=4+4=8<10' : `Q^E_8\\approx${num(final(4, 1 / 8), 6)}>10`}
-          color={beats.beat === 0 ? C.amber : C.green}
+          y={privateRun ? 610 : 555}
+          tex={privateRun ? `Q^E_8\\approx${num(final(4, 1 / 8), 6)}>10` : 'Q^E_1=4+4=8<10'}
+          color={color}
           size={21}
         />
       )}
-      {beats.beat === 1 && reveal && (
+      {privateRun && reveal && (
         <Cap
           x={1250}
-          y={665}
+          y={685}
           tex={`Q(1)=4e\\approx${num(4 * Math.E, 6)}`}
           color={C.cyan}
           size={21}
         />
       )}
-      <Cap x={540} y={755} size={19}>
-        Banco de validación · Q es un índice de alerta
-      </Cap>
+      {!acting && (
+        <Cap x={540} y={755} size={19}>
+          Banco de validación · Q es un índice de alerta
+        </Cap>
+      )}
     </Stage>
   );
 }
@@ -452,6 +492,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El banco de validación usa Q′ = Q e inicio 4, con horizonte de una hora y umbral 10. Es una prueba del cálculo, distinta del canal de lluvia R. La pública usa h = 1 h.',
+          gate: 'Arrastra el cursor inferior hasta t = 1 para medir la salida pública con h = 1 h.',
+        },
+        {
+          say: 'El cursor llegó a una hora. Lee el nivel de la salida pública y compáralo con el umbral 10.',
           ask: {
             prompt: '¿Qué publicó Euler con un solo paso?',
             options: ['$4e$', '12', '8'],
@@ -467,6 +511,10 @@ export const level: LevelSpec = {
         },
         {
           say: 'La privada conserva h = 1/8 h. Ambas salidas terminan en t = 1; revisa el efecto de recalcular más veces.',
+          gate: 'Arrastra el cursor inferior hasta t = 1 para recorrer los ocho pasos de la salida privada.',
+        },
+        {
+          say: 'Las dos salidas están en t = 1. Compara sus niveles con la línea del umbral 10.',
           ask: {
             prompt: '¿Qué salida del banco supera el umbral?',
             options: [

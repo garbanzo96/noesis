@@ -114,10 +114,8 @@ function LinearLesson({ beats, unlock, reduced, answer }: DemoProps) {
   const { beat, at } = beats;
   const onInitial = useSvgDrag(svg, (px, py) => {
     const [u, v] = P.inv(px, py);
-    const next: V2 = [
-      Math.round(clamp(u, -3, 3) * 100) / 100,
-      Math.round(clamp(v, -3, 3) * 100) / 100,
-    ];
+    // the start snaps to half units so (2, 2) can be reached by hand
+    const next: V2 = [Math.round(clamp(u, -3, 3) * 2) / 2, Math.round(clamp(v, -3, 3) * 2) / 2];
     setInitial(next);
     if (beat === 1 && nearComponents(next, [2, 2], 0.05)) unlock();
   });
@@ -277,7 +275,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'Pon ambas agujas en la misma marca. La flecha de cambio en (2, 2) sigue la diagonal hacia el origen.',
-      gate: 'Arrastra el inicio ámbar hasta (2, 2), con margen de 0,05 por componente.',
+      gate: 'Arrastra el inicio ámbar hasta (2, 2).',
       board: {
         label: 'Cambio conjunto',
         tex: '\\p{1}{A(2,2)^{\\mathsf T}}=\\p{2}{\\cC{(-2,-2)^{\\mathsf T}}}',
@@ -361,16 +359,29 @@ const lesson: LessonStep = {
   ],
 };
 
-function ChangedSignDemo({ beats, answer }: DemoProps) {
+function ChangedSignDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const acting = beat === 0 || beat === 2;
+  const [time, setTime] = useState(0);
+  useEffect(() => setTime(beat === 0 || beat === 2 ? 0 : LOG2), [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (!acting) return;
+    const next = clamp((x - 230) / 620, 0, 1) * LOG2;
+    const reached = near(next, LOG2, 0.02);
+    setTime(reached ? LOG2 : next);
+    if (reached) unlock();
+  });
+  const elapsed = acting ? time : LOG2;
+  const originalTime = beat >= 2 ? LOG2 : elapsed;
   const Q = plane([-1, 5], [-1, 5], { x: 180, y: 170, w: 720, h: 540 });
-  const reveal = answer !== null;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <LinearPhase
         P={Q}
         A={M}
         initial={[2, 4]}
-        elapsed={reveal ? LOG2 : 0}
+        elapsed={originalTime}
         end={LOG2}
         clock={false}
         color={C.amber}
@@ -379,12 +390,12 @@ function ChangedSignDemo({ beats, answer }: DemoProps) {
           [0, 1],
         ]}
       />
-      {beats.beat === 1 && (
+      {beat >= 2 && (
         <LinearPhase
           P={Q}
           A={MP}
           initial={[2, 4]}
-          elapsed={reveal ? LOG2 : 0}
+          elapsed={elapsed}
           end={LOG2}
           clock={false}
           color={C.cyan}
@@ -394,17 +405,37 @@ function ChangedSignDemo({ beats, answer }: DemoProps) {
       )}
       <Cap x={1250} y={200} tex={`M=${matrixTex(M)}`} color={C.amber} />
       <Cap x={1250} y={310} tex={`M_p=${matrixTex(MP)}`} color={C.cyan} />
-      <Cap x={1250} y={420} tex="\mathbf x_0=(2,4);\quad t=\ln2" size={21} />
-      {reveal && (
-        <>
-          <Cap x={1250} y={530} tex="\mathbf x(\ln2)=(4;1)" color={C.amber} />
-          {beats.beat === 1 && (
-            <Cap x={1250} y={620} tex="\mathbf x_p(\ln2)=(1;1)" color={C.cyan} />
-          )}
-        </>
+      <Cap x={1250} y={420} tex="\mathbf x_0=(2,4)" size={21} />
+      <Cap x={1250} y={500} tex={near(elapsed, LOG2, 0.001) ? 't=\\ln2' : `t=${num(elapsed)}`} />
+      <Cap
+        x={1250}
+        y={580}
+        tex={`\\mathbf x\\approx${pair(linearExact(M, [2, 4], originalTime))}`}
+        color={C.amber}
+      />
+      {beat >= 2 && (
+        <Cap
+          x={1250}
+          y={660}
+          tex={`\\mathbf x_p\\approx${pair(linearExact(MP, [2, 4], elapsed))}`}
+          color={C.cyan}
+        />
       )}
-      <Cap x={540} y={790} size={19}>
-        Mismo archivo de inicio · ámbar: original · cian: público
+      <Line a={[230, 760]} b={[850, 760]} color={C.muted} width={4} />
+      <Dot x={850} y={760} color={C.green} />
+      {acting && (
+        <Knob
+          x={230 + (elapsed / LOG2) * 620}
+          y={760}
+          axis="x"
+          color={beat === 0 ? C.amber : C.cyan}
+          onPointerDown={drag}
+        />
+      )}
+      <Cap x={230} y={815} tex="t=0" size={19} />
+      <Cap x={850} y={815} tex="t=\ln2" size={19} />
+      <Cap x={540} y={890} size={19}>
+        Mismo inicio · ámbar: original · cian: público · reloj adimensional
       </Cap>
     </Stage>
   );
@@ -619,7 +650,11 @@ export const level: LevelSpec = {
       Scene: ChangedSignDemo,
       beats: [
         {
-          say: 'El original usa M = diag(1, −2); la pública, Mₚ = diag(−1, −2). Ambas parten en (2, 4); comparamos en t = ln 2, tiempo adimensional de calibración.',
+          say: 'El original usa M = diag(1, −2); la pública, Mₚ = diag(−1, −2). Ambas parten en (2, 4). Avanza el reloj del original hasta t = ln 2 y observa qué lectura aumenta.',
+          gate: 'Arrastra el reloj ámbar hasta la marca verde de t = ln 2.',
+        },
+        {
+          say: 'El original pasó de (2, 4) a (4, 1) durante la calibración.',
           ask: {
             prompt: '¿Qué dirección crece en el original?',
             options: [
@@ -638,7 +673,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El archivo de medición inicial es idéntico. Solo la primera entrada de la matriz cambia de signo entre ambas copias.',
+          say: 'El archivo de medición inicial es idéntico. Solo la primera entrada de la matriz cambia de signo entre ambas copias. Avanza el reloj de la copia pública y compara con el original, que queda fijo en (4, 1).',
+          gate: 'Arrastra el reloj cian hasta la marca verde de t = ln 2.',
+        },
+        {
+          say: 'Con el mismo inicio y el mismo tiempo, la copia pública llegó a (1, 1). La segunda componente terminó en 1 en ambas copias.',
           ask: {
             prompt:
               '¿Qué cambio explica que el primer componente pase de 4 a 1 en la salida pública?',

@@ -179,25 +179,44 @@ const lesson: LessonStep = {
     },
   ],
 };
-function MissingLine({ beats, answer }: DemoProps) {
-  const reveal = answer !== null;
+function MissingLine({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const acting = beat === 0 || beat === 2;
+  const target = beat < 2 ? 3 : 1;
+  const [depth, setDepth] = useState(0);
+  useEffect(() => setDepth(0), [beat]);
+  const here = acting ? depth : target;
   return (
     <Stage>
-      <SymbolTray counts={COUNTS} selected={3} />
+      <SymbolTray counts={COUNTS} selected={beat < 2 ? 3 : 0} />
       <Cap x={530} y={220}>
         Chip: {COUNTS.reduce((a, b) => a + b)} cabeceras íntegras
       </Cap>
       <Cap x={1250} y={230} color={ACCENT}>
-        D: reserva de entrega
+        {beat < 2 ? 'D: reserva de entrega' : 'A: pulso'}
       </Cap>
-      <Cap x={1250} y={320} tex="p(D)=\frac8{64}=\frac18" />
-      <Cap x={1250} y={410} tex="p(A)=\frac{32}{64}=\frac12" />
-      {reveal && (
+      <Cap x={1250} y={320} tex={`p=\\frac{${64 / 2 ** here}}{64}=\\frac1{${2 ** here}}`} />
+      <Cap x={1250} y={410} tex={`I=${here}\\ \\mathrm{bits}`} color={C.amber} />
+      {acting && (
+        <DiscreteDial
+          value={depth}
+          max={3}
+          y={520}
+          onChange={setDepth}
+          onSettle={(n) => {
+            if (n === target) unlock();
+          }}
+        />
+      )}
+      <Cap x={530} y={610} size={20}>
+        {here} mitades: quedan {64 / 2 ** here} de 64 cabeceras.
+      </Cap>
+      {!acting && answer !== null && (
         <Cap
           x={1250}
           y={510}
           color={C.amber}
-          tex={beats.beat === 0 ? 'I(D)=3\\ \\mathrm{bits}' : 'I(D)-I(A)=3-1=2\\ \\mathrm{bits}'}
+          tex={beat === 1 ? 'I(D)=3\\ \\mathrm{bits}' : 'I(D)-I(A)=3-1=2\\ \\mathrm{bits}'}
         />
       )}
       <Cap x={530} y={690} color={C.magenta}>
@@ -363,7 +382,11 @@ export const level: LevelSpec = {
       Scene: MissingLine,
       beats: [
         {
-          say: 'El chip conserva 64 cabeceras: 32 A, 16 B, 8 C y 8 D. La etiqueta pública de D es «reserva de entrega».',
+          say: 'El chip conserva 64 cabeceras: 32 A, 16 B, 8 C y 8 D. La etiqueta pública de D es «reserva de entrega». Cada marca de la perilla reduce el grupo a la mitad; busca las 8 cabeceras D.',
+          gate: 'Arrastra la perilla hasta dejar 8 de las 64 cabeceras.',
+        },
+        {
+          say: 'La perilla llegó a 8 cabeceras tras tres mitades: D ocupa 8/64 = 1/8 del lote.',
           ask: {
             prompt: '¿Cuántos bits informa una cabecera D bajo esta distribución?',
             options: ['3', '8', '1'],
@@ -376,7 +399,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'D aparece menos que A. Compara los bits que entrega cada evento.',
+          say: 'D necesitó tres mitades. Mide ahora A, que ocupa 32 de las 64 cabeceras, con la misma perilla.',
+          gate: 'Arrastra la perilla hasta dejar 32 de las 64 cabeceras.',
+        },
+        {
+          say: 'A ocupa 32/64 = 1/2 del lote: una mitad, un bit. D necesitó tres mitades; compara las dos mediciones.',
           ask: {
             prompt: '¿Cuánto más informa D que A?',
             options: ['Cuatro veces en bits', '2 bits', '1/8 bit'],

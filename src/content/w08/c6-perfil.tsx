@@ -239,41 +239,59 @@ const lesson: LessonStep = {
     },
   ],
 };
-function AuthorizationDemo({ beats, answer }: DemoProps) {
-  const reverse = beats.beat === 1;
+function AuthorizationDemo({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const reverse = beat >= 2;
+  const acting = beat === 0 || beat === 2;
+  const [profile, setProfile] = useState(0);
+  useEffect(() => setProfile(reverse ? 1 : 0), [beat, reverse]);
+  const selected = acting ? profile : reverse ? 0 : 1;
+  const source = reverse ? Q : P;
+  const chosen = selected === 0 ? P : Q;
   return (
     <Stage>
       <CodeCost
-        source={reverse ? Q : P}
-        profile={reverse ? P : Q}
+        source={source}
+        profile={chosen}
         count={sum(COUNTS)}
         showReadings={false}
         showContributions={false}
       />
       <Cap x={1250} y={230} color={ACCENT}>
-        {reverse ? 'Q emite; P codifica.' : 'P emite; Q codifica.'}
+        {reverse ? 'Q emite' : 'P emite'} · {selected === 0 ? 'P' : 'Q'} codifica
       </Cap>
       <Cap x={1250} y={330}>
         64 cabeceras · Propio: 112 bits
       </Cap>
-      {beats.beat === 0 && (
-        <Cap x={1250} y={430}>
-          Con Q: 152 bits
-        </Cap>
-      )}
+      <Cap x={1250} y={410}>
+        Perfil: {bitsText(sum(COUNTS) * meanLength(source, chosen.map(info)))}
+      </Cap>
       {answer !== null && (
         <Cap
           x={1250}
-          y={540}
+          y={490}
           color={C.magenta}
           tex={reverse ? 'D(Q\\Vert P)=\\tfrac12' : '152-112=64\\cdot\\tfrac58=40'}
           size={21}
         />
       )}
+      {acting && (
+        <DiscreteDial
+          key={beat}
+          value={profile}
+          max={1}
+          labels={['P', 'Q']}
+          y={620}
+          onChange={setProfile}
+          onSettle={(i) => {
+            if (i === (reverse ? 0 : 1)) unlock();
+          }}
+        />
+      )}
       <Cap x={530} y={745} size={19}>
         Revisión de perfil: cuenta receptora «Contador»
       </Cap>
-      <Cap x={1250} y={650} size={18}>
+      <Cap x={1250} y={790} size={18}>
         Guardado después del reinicio de Inés.
       </Cap>
     </Stage>
@@ -501,7 +519,11 @@ export const level: LevelSpec = {
       Scene: AuthorizationDemo,
       beats: [
         {
-          say: 'Las 64 cabeceras tienen conteos (32,16,8,8). El código P ocupa 112 bits; Q ocupa 152. La revisión administrativa sitúa el cambio con la cuenta «Contador», después del reinicio de Inés.',
+          say: 'Las 64 cabeceras tienen conteos (32,16,8,8). Con P ocupan 112 bits. Cambia el perfil a Q y lee el tamaño del mismo lote. La revisión administrativa sitúa el cambio con la cuenta «Contador», después del reinicio de Inés.',
+          gate: 'Arrastra la perilla desde P hasta Q y suéltala para medir el lote.',
+        },
+        {
+          say: 'El mismo lote ocupa 112 bits con P y 152 con Q. Compara los tamaños que mediste.',
           ask: {
             prompt: '¿Cuántos bits agrega Q al lote emitido con reparto P?',
             options: ['152', '40', '32'],
@@ -516,7 +538,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Invierte la comparación: Q emite con su propio reparto, pero P aporta los códigos. Calcula con esos nuevos pesos.',
+          say: 'Invierte la comparación: Q emite 64 cabeceras con su propio reparto, con conteos (8,32,16,8). Con Q ocupan 112 bits. Cambia el perfil a P y mide el nuevo tamaño.',
+          gate: 'Arrastra la perilla desde Q hasta P y suéltala para medir el lote inverso.',
+        },
+        {
+          say: 'El lote de Q ocupa 144 bits con P y 112 con su código propio. Divide los 32 bits de exceso por las 64 cabeceras para comparar ambas direcciones.',
           ask: {
             prompt: 'Si Q emitiera y usara el código de P, ¿el exceso por símbolo sería el mismo?',
             options: ['Sí, toda divergencia es simétrica', 'Sería −5/8', 'No; sería 1/2 bit'],
