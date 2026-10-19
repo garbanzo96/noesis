@@ -394,16 +394,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Los Placeres, 23:40. Simón sostiene un vaso de café frío frente al rack; las luces lila se reflejan en sus lentes.',
+          text: 'Los Placeres, nueve de la noche. Simón sostenía un vaso de café frío frente al rack, y las luces lila se le reflejaban en los lentes.',
         },
         {
           who: 'simon',
-          text: 'El cálculo completo no cabe en el horno, ya. Puedes probar cucharadas al azar y guardar cada una; eso hacíamos antes de julio.',
+          text: 'El cálculo completo no cabe en ninguna máquina. Se pueden sacar muestras al azar y guardar cada una; eso hacíamos antes de julio.',
         },
         { who: 'iris', text: '¿Y después de julio?' },
         {
           who: 'simon',
-          text: 'Cambiaron la receta, digo, el programa. Este control viejo todavía guarda las tiradas; mejor ábrelo antes de que aparezca mi nombre.',
+          text: 'Cambiaron el programa. Este control viejo todavía guarda las tiradas; ábranlo antes de que aparezca mi nombre en el acceso.',
         },
         { who: 'tu', text: 'Si quedan las tiradas, podemos repetir la cuenta.' },
       ],
@@ -452,18 +452,21 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo abre la carpeta siguiente y el ventilador del servidor sube de golpe. Simón deja el vaso sobre el mesón, sin soltarlo.',
+          text: 'Teo abrió la carpeta siguiente, y el ventilador del servidor subió de golpe. Simón dejó el vaso sobre el mesón sin soltarlo.',
         },
         {
           who: 'teo',
-          text: 'El programa nuevo también tiene muestras, pero vienen de otra distribución. Traen una columna de pesos.',
+          text: 'El programa nuevo también tiene muestras, pero vienen de otra distribución, y traen una columna de pesos.',
         },
         {
           who: 'simon',
-          text: 'Ingredientes prestados, claro, claro. Ahí la receta tiene que decir cuánto pesa cada cucharada.',
+          text: 'Son muestras prestadas de otro lado. Por eso la receta tiene que decir cuánto pesa cada una.',
         },
-        { who: 'iris', text: 'Esta columna sí tiene tu firma.' },
-        { who: 'nar', text: 'Simón baja la vista; el café dibuja un anillo oscuro bajo el vaso.' },
+        { who: 'iris', text: 'Esa columna tiene tu firma.' },
+        {
+          who: 'nar',
+          text: 'Simón bajó la vista. El vaso había dejado un anillo oscuro en el mesón.',
+        },
       ],
     },
   ],

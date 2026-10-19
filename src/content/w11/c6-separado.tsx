@@ -296,16 +296,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sala de servidores, 21:40. Simón se sienta en una caja de papel y abre la configuración del lector en su notebook.',
+          text: 'Sala de servidores, diez y diez. Simón se sentó en una caja de papel y abrió la configuración del lector en su computador.',
         },
         {
           who: 'simon',
-          text: 'Mira esta línea: «síntomas independientes». Es como cocinar los ingredientes en ollas separadas y después mezclarlos.',
+          text: 'Mira esta línea: «síntomas independientes». Es como cocinar cada ingrediente en una olla distinta y mezclarlos al final.',
         },
         { who: 'iris', text: '¿Y eso cambia el resultado?' },
         {
           who: 'simon',
-          text: 'Cambia el sabor. Fiebre y tos casi siempre vienen juntas; separadas, el lector ve otra cosa.',
+          text: 'Bastante. La fiebre y la tos casi siempre vienen juntas, y si las mira por separado, el lector ve otra cosa.',
         },
       ],
     },
@@ -348,11 +348,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo copia la línea de configuración en su libreta. El rack cambia de lila a verde y vuelve al lila.',
+          text: 'Teo copió la línea de configuración en su libreta. El rack cambió de lila a verde y volvió al lila.',
         },
         {
           who: 'simon',
-          text: 'Esto no es fraude todavía. Es pereza. El fraude está en cómo ajustaron la q.',
+          text: 'Esto todavía es pereza. El fraude está en cómo ajustaron la q.',
         },
         { who: 'iris', text: 'Muéstrame el ajuste.' },
       ],

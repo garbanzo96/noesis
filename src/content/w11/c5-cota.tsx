@@ -396,11 +396,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El rack sopla aire tibio sobre el café frío de Simón. En la pantalla, un registro de ajuste termina con la palabra «convergió».',
+          text: 'El rack soplaba aire tibio sobre el café frío de Simón. En la pantalla, un registro de ajuste terminaba con la palabra «convergió».',
         },
         {
           who: 'simon',
-          text: 'La cota subió y cerraron el horno. Perdón, el ajuste; Halcón quería ese sello antes de las ocho.',
+          text: 'La cota subió y dieron el ajuste por terminado. Halcón quería ese sello antes de las ocho.',
         },
         { who: 'iris', text: '¿El sello garantiza que quedó bien?' },
         {
@@ -453,16 +453,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Simón pega el control junto al registro grande. Su dedo tapa la firma al pie de la hoja.',
+          text: 'Simón puso el control junto al registro grande. Con el dedo tapaba la firma al pie de la hoja.',
         },
         {
           who: 'simon',
-          text: 'Subió, sí, pero quedó espacio hasta el techo. Y si el molde es angosto, puedes hornear toda la noche y seguir lejos.',
+          text: 'Subió, pero quedó espacio hasta el techo. Y si el molde es angosto, se puede ajustar toda la noche y seguir lejos.',
         },
         { who: 'iris', text: 'Muéstrame quién eligió el molde.' },
         {
           who: 'simon',
-          text: 'El archivo está acá. Dice «por separado»; hasta el nombre parece una excusa.',
+          text: 'El archivo está acá. Se llama «por separado».',
         },
       ],
     },

@@ -399,20 +399,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El ventilador del servidor roza algo y repite un golpecito seco; en la pantalla, el ajuste vuelve una y otra vez al mismo punto.',
+          text: 'El ventilador del servidor rozaba algo y repetía un golpecito seco. En la pantalla, el ajuste volvía una y otra vez al mismo punto.',
         },
         {
           who: 'teo',
-          text: '¡Todavía guarda el simulador de ajuste! Lo reinicié y lleva un minuto saltando entre dos valores.',
+          text: 'Todavía guarda el simulador de ajuste. Lo reinicié y lleva un minuto saltando entre dos valores.',
         },
         {
           who: 'simon',
-          text: 'Le subieron el horno, claro, para servir rápido; perdón, el paso del ajuste. Así la mezcla salta de un borde al otro.',
+          text: 'Le subieron el paso del ajuste para que terminara rápido. Así la mezcla salta de un borde al otro.',
         },
         { who: 'iris', text: '¿Quién movió la perilla?' },
         {
           who: 'simon',
-          text: 'La cuenta de Halcón; la cuenta, dije, no la persona. Baja eso antes de que quede otra sesión con mi nombre.',
+          text: 'La cuenta de Halcón. Digo la cuenta, no la persona. Bájalo antes de que quede otra sesión con mi nombre.',
         },
       ],
     },
@@ -459,24 +459,24 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo guarda la prueba; Simón tapa con la manga el reflejo del logo de Halcón en el vidrio.',
+          text: 'Teo guardó la prueba. Simón tapó con la manga el reflejo del logo de Halcón en el vidrio.',
         },
         {
           who: 'teo',
-          text: 'Con medio paso, el simulador queda quieto. Puedo guardar ambas ejecuciones con su configuración.',
+          text: 'Con medio paso, el simulador queda quieto. Puedo guardar las dos ejecuciones con su configuración.',
         },
         {
           who: 'tu',
-          text: 'Eso explica los saltos; falta revisar qué forma estaban intentando ajustar.',
+          text: 'Eso explica los saltos. Falta revisar qué forma estaban intentando ajustar.',
         },
         {
           who: 'simon',
-          text: 'Sí, la receta admite una sola montaña de harina; una sola, aunque tengas dos montones en la mesa. Esa restricción ya venía firmada.',
+          text: 'La receta admite una sola montaña, aunque los datos tengan dos. Esa restricción ya venía firmada.',
         },
         { who: 'iris', text: 'Guarda también la firma.' },
         {
           who: 'nar',
-          text: 'Bajo la configuración aparece una curva con dos jorobas; la aproximación lila cubre apenas una.',
+          text: 'Bajo la configuración apareció una curva con dos jorobas, y la aproximación lila cubría apenas una.',
         },
       ],
     },

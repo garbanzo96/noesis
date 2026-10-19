@@ -355,16 +355,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio de Los Placeres, 23:22. Simón sostiene una taza fría mientras el rack ilumina de lila una carpeta con su firma.',
+          text: 'Diez para las diez. Simón sostenía una taza fría, y la luz lila del rack caía sobre una carpeta con su firma.',
         },
         {
           who: 'simon',
-          text: 'Este es el molde del lector, dos espacios y listo; el control trae tres. Yo ajustaba la mezcla, el molde venía aprobado de arriba.',
+          text: 'Este es el molde del lector: admite dos valores, y el control tiene tres. Yo ajustaba la mezcla; el molde venía aprobado de arriba.',
         },
         { who: 'iris', text: 'Tu firma está abajo.' },
         {
           who: 'simon',
-          text: 'Sí, en la receta; bueno, también en el molde. Halcón prefería los papeles bien horneados.',
+          text: 'En la receta, sí. Bueno, también en el molde. A Halcón le gustaban los papeles firmados por todos.',
         },
         {
           who: 'tu',
@@ -420,14 +420,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Simón deja la taza sobre la carpeta, ve el círculo húmedo y la levanta de golpe. Su firma queda dentro del borde.',
+          text: 'Simón dejó la taza sobre la carpeta, vio el círculo húmedo y la levantó de golpe. Su firma había quedado dentro del borde.',
         },
         {
           who: 'simon',
-          text: 'Podíamos mejorar la mezcla, sí, pero ese tercer espacio nunca entraba al horno. La receta decía que había que subir una cota para ajustar lo demás.',
+          text: 'Se podía mejorar la mezcla, pero el tercer valor nunca entraba al molde. La receta decía que había que subir una cota para ajustar lo demás.',
         },
-        { who: 'iris', text: '¿También la firmaste?' },
-        { who: 'simon', text: 'La siguiente página; todavía está seca.' },
+        { who: 'iris', text: '¿También firmaste eso?' },
+        { who: 'simon', text: 'Está en la página siguiente.' },
       ],
     },
   ],

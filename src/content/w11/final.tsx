@@ -298,21 +298,24 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio de Los Placeres, 00:27. Simón sostiene el cable del servidor entre dos dedos; en la pantalla parpadea el aviso de cierre de sesión.',
+          text: 'Laboratorio de Los Placeres, doce y media. Simón sostenía el cable del servidor entre dos dedos, y en la pantalla parpadeaba el aviso de cierre de sesión.',
         },
         {
           who: 'teo',
-          text: '¡La receta completa! Tiene los controles al lado, puedo copiar todo mientras siga abierta.',
+          text: 'La receta completa, con los controles al lado. Puedo copiar todo mientras siga abierta.',
         },
         {
           who: 'simon',
-          text: 'Cinco lecturas, rápido, antes de que saquen la bandeja; de que corten la sesión, digo. Mi nombre quedó pegado al horno.',
+          text: 'Cinco lecturas, rápido, antes de que corten la sesión. Mi nombre quedó pegado a esta máquina.',
         },
-        { who: 'iris', text: '¿Y quién eligió qué se horneaba?' },
-        { who: 'simon', text: 'La firma viene al final. Halcón sirve todo con la firma de otro.' },
+        { who: 'iris', text: '¿Y quién eligió qué se ajustaba?' },
+        {
+          who: 'simon',
+          text: 'La firma viene al final. Halcón presenta todo con la firma de otro.',
+        },
         {
           who: 'tu',
-          text: 'Copio los controles junto con la receta. Así queda cómo la revisamos.',
+          text: 'Copio los controles junto con la receta, para que quede cómo la revisamos.',
         },
       ],
     },
@@ -323,21 +326,21 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'La copia termina y el ventilador baja de golpe. Simón suelta el cable; Teo deja el cursor sobre una carpeta que seguía detrás del informe.',
+          text: 'La copia terminó y el ventilador bajó de golpe. Simón soltó el cable, y Teo dejó el cursor sobre una carpeta que estaba detrás del informe.',
         },
-        { who: 'iris', text: 'Los sanos estaban en el control. En la receta quedaron fuera.' },
+        { who: 'iris', text: 'Los sanos estaban en el control, y en la receta quedaron fuera.' },
         {
           who: 'teo',
-          text: 'Espera, hay otra carpeta: «La Fábrica». Registros sintéticos, y al lado dice «indistinguibles de los reales».',
+          text: 'Hay otra carpeta: «La Fábrica». Registros sintéticos, y al lado dice «indistinguibles de los reales».',
         },
         {
           who: 'simon',
-          text: 'Otra cocina, claro, ahora fabrican los ingredientes. Yo revisaba el horno; esa puerta me la dejaron cerrada.',
+          text: 'Esa es otra sección. Yo revisaba el ajuste; esa puerta nunca me la abrieron.',
         },
-        { who: 'tu', text: 'Ese sello también queda en la copia.' },
+        { who: 'tu', text: 'Esa carpeta también va en la copia.' },
         {
           who: 'nar',
-          text: 'Teo abre la carpeta de La Fábrica: filas de pacientes con fechas, exámenes y nombres. En la columna de origen, todas dicen «generado».',
+          text: 'Teo abrió la carpeta de La Fábrica: filas de pacientes con fechas, exámenes y nombres. En la columna de origen, todas decían «generado».',
         },
       ],
     },

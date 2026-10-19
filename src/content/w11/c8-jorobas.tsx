@@ -391,18 +391,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio de Los Placeres, 00:14. El ventilador del rack vibra contra el vidrio; Simón tapa con la manga el logo de su antigua credencial.',
+          text: 'Laboratorio de Los Placeres, pasada la medianoche. El ventilador del rack vibraba contra el vidrio, y Simón tapaba con la manga el logo de su antigua credencial.',
         },
         {
           who: 'teo',
-          text: '¡Encontré el control completo! Tiene un grupo sano tan grande como el enfermo.',
+          text: 'Encontré el control completo. Tiene un grupo sano tan grande como el enfermo.',
         },
         {
           who: 'simon',
-          text: 'La receta admite un solo bollo, una sola joroba, perdón; la otra se queda fuera del horno. Abre la versión guardada antes de que cambie el turno.',
+          text: 'La receta admite una sola joroba, y la otra queda fuera. Abre la versión guardada antes de que cambie el turno.',
         },
         { who: 'iris', text: '¿Cuál dejaron fuera?' },
-        { who: 'simon', text: 'Mira tú; yo ya quemé una tanda por preguntar eso.' },
+        { who: 'simon', text: 'Míralo tú. Yo perdí un trabajo por preguntar eso.' },
       ],
     },
     {
@@ -452,17 +452,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo deja abierta la receta del lector y aparta las manos del teclado. Simón mira el pasillo reflejado en la pantalla.',
+          text: 'Teo dejó abierta la receta del lector y apartó las manos del teclado. Simón miraba el pasillo reflejado en la pantalla.',
         },
-        { who: 'iris', text: 'Eligieron enfermo. Los sanos estaban en el control.' },
+        { who: 'iris', text: 'Eligieron la de los enfermos. Los sanos estaban en el control.' },
         {
           who: 'simon',
-          text: 'Sí, el bollo de ese lado; el horno aceptaba cualquiera de los dos. Yo dije que la receta daba el mínimo y me comí el resto de la frase.',
+          text: 'El ajuste aceptaba cualquiera de las dos. Yo dije que la receta daba un mínimo y no terminé la frase.',
         },
-        { who: 'tu', text: 'El empate también queda en el informe.' },
+        { who: 'tu', text: 'El empate también va en el informe.' },
         {
           who: 'simon',
-          text: 'Guarda la página completa, entonces; a Halcón le encantan las recetas recortadas.',
+          text: 'Entonces guarda la página completa. La versión que mandaron a la Clínica tenía solo la mitad.',
         },
       ],
     },

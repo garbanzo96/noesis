@@ -372,16 +372,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio Los Placeres, 20:30. El pasillo huele a desinfectante y a café quemado; detrás del vidrio, un rack de servidores parpadea en lila.',
+          text: 'Laboratorio de Los Placeres, ocho y media de la noche. El pasillo olía a desinfectante y a café quemado, y detrás del vidrio parpadeaba en lila un rack de servidores.',
         },
         {
           who: 'simon',
-          text: 'Renuncié en julio. Les dije que la receta no cuadraba y me ofrecieron un bono para que lo olvidara.',
+          text: 'Renuncié en julio. Les dije que la receta, como le dicen aquí al modelo, tenía un error, y me ofrecieron un bono para que lo olvidara.',
         },
-        { who: 'iris', text: '¿Qué receta?' },
+        { who: 'iris', text: '¿Qué clase de error?' },
         {
           who: 'simon',
-          text: 'El modelo del lector. Exacto no se puede calcular, eso es verdad. Lo que hicieron en vez de calcularlo, eso es otra cosa.',
+          text: 'El modelo del lector no se puede calcular exacto; eso es verdad. Lo discutible es lo que hicieron en lugar de calcularlo.',
         },
       ],
     },
@@ -429,11 +429,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Simón cierra la carpeta. El ventilador del rack sube de tono y vuelve a bajar.',
+          text: 'Simón cerró la carpeta. El ventilador del rack subió de tono y volvió a bajar.',
         },
         {
           who: 'simon',
-          text: 'Hay maneras honestas de aproximar. La primera es la más vieja: tirar dados.',
+          text: 'Hay maneras honestas de aproximar. La más vieja consiste en tirar dados.',
         },
         { who: 'teo', text: 'Muéstrame cuántos dados hacen falta.' },
       ],

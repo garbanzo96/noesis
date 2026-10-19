@@ -424,16 +424,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio de Los Placeres, 23:15. Simón se frota las manos bajo el mesón; el ventilador del servidor tapa el ruido del pasillo.',
+          text: 'Laboratorio de Los Placeres, nueve y veinte. Simón se frotaba las manos bajo el mesón, y el ventilador del servidor tapaba el ruido del pasillo.',
         },
         {
           who: 'simon',
-          text: 'El horno grande no responde, así que usamos el chico, otro generador. La receta trae una corrección para cada muestra; debería traerla.',
+          text: 'El generador del modelo es demasiado lento, así que usan otro. La receta trae una corrección para cada muestra, o debería traerla.',
         },
         { who: 'iris', text: '¿Debería?' },
         {
           who: 'simon',
-          text: 'El informe cuenta todo igual y sale más alto. Bonito dorado para la foto de Halcón.',
+          text: 'El informe cuenta todas las muestras igual, y la cifra sale más alta. Así se ve mejor en la foto de Halcón.',
         },
         { who: 'tu', text: 'Guarda el control original; voy a comparar las dos cuentas.' },
       ],
@@ -481,16 +481,16 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Simón deja de frotarse las manos al ver las dos cifras. En el vidrio, el logo de Halcón corta el reflejo de la pantalla.',
+          text: 'Simón dejó de frotarse las manos al ver las dos cifras. En el vidrio, el logo de Halcón cortaba el reflejo de la pantalla.',
         },
         {
           who: 'simon',
-          text: 'La corrección estaba en la receta; alguien la sacó antes de servir. Yo firmé los controles, los informes salían de otra oficina.',
+          text: 'La corrección estaba en la receta, y alguien la sacó antes de publicar. Yo firmaba los controles; los informes salían de otra oficina.',
         },
-        { who: 'iris', text: 'La oficina tiene nombre.' },
+        { who: 'iris', text: '¿Qué oficina?' },
         {
           who: 'simon',
-          text: 'También eligieron la forma del modelo que cabe en el horno chico. Esa carpeta todavía tiene mi firma.',
+          text: 'También eligieron la forma de modelo que cabe en el generador chico. Esa carpeta todavía tiene mi firma.',
         },
       ],
     },
