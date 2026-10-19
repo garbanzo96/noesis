@@ -197,28 +197,180 @@ function Fragmented({ s }: { s: string }) {
  * `progress` (0..1) reveals them one after another with a short fade; unmarked TeX is always
  * visible. Lets the blackboard build an equation term by term in sync with the animation.
  */
-export function AnimTex({ tex, progress = 1, display = true, className }: { tex: string; progress?: number; display?: boolean; className?: string }) {
+/** one colour per explained part, in order (palette: cyan, amber, magenta, green, violet, blue) */
+const PART_COLORS = ['#28e7fa', '#ffbc5e', '#ff3ba7', '#4dffa6', '#a88aff', '#6f9cff'];
+const partOf = (el: HTMLElement) => Number(/(?:^|\s)ap-(\d+)/.exec(el.className)?.[1] ?? 0);
+
+export function AnimTex({
+  tex,
+  progress = 1,
+  display = true,
+  className,
+  labels,
+}: {
+  tex: string;
+  progress?: number;
+  display?: boolean;
+  className?: string;
+  /** what each \p{n} part means: drawn under it with a brace, in its colour, as it is written */
+  labels?: string[];
+}) {
   const html = useMemo(() => renderTex(tex, display), [tex, display]);
   const ref = useRef<HTMLSpanElement>(null);
+  const wrap = useRef<HTMLSpanElement>(null);
   const hover = useGlyphHover();
+  const [marks, setMarks] = useState<
+    { k: number; x: number; w: number; y: number; up: boolean; c: string }[]
+  >([]);
+  const [lit, setLit] = useState(0);
+  const explained = !!labels?.length;
   useLayoutEffect(() => {
     const root = ref.current;
     if (!root) return;
     const parts = Array.from(root.querySelectorAll<HTMLElement>('[class*="ap-"]'));
-    const idx = (el: HTMLElement) => Number(/(?:^|\s)ap-(\d+)/.exec(el.className)?.[1] ?? 0);
-    const n = parts.reduce((m, el) => Math.max(m, idx(el)), 0);
+    const n = parts.reduce((m, el) => Math.max(m, partOf(el)), 0);
+    let shown = 0;
     for (const el of parts) {
-      const k = idx(el);
+      const k = partOf(el);
       const t = n ? progress * (n + 0.5) - (k - 1) : 1;
       const o = Math.max(0, Math.min(1, t));
-      el.style.opacity = String(o);
-      el.style.filter = o < 1 ? `blur(${(1 - o) * 3}px)` : '';
-      el.style.textShadow = t > 0 && t < 1.6 ? '0 0 12px currentColor' : '';
-      el.style.transition = 'opacity .25s, filter .25s, text-shadow .6s';
+      if (o > 0) shown = Math.max(shown, k);
+      el.style.opacity = String(Math.min(1, o * 2));
+      // each part is written left to right, as in Manim's Write
+      el.style.clipPath = o < 1 ? `inset(-30% ${(1 - o) * 100}% -30% -2%)` : '';
+      el.style.filter = '';
+      el.style.textShadow = t > 0 && t < 1.6 ? '0 0 14px currentColor' : '';
+      el.style.transition = 'text-shadow .6s';
     }
-    // formulas without marked parts are "written" left to right, as in Manim's Write
+    // in an explained formula each part wears the colour of its brace, so term and label match
+    if (explained)
+      for (const el of parts) {
+        el.classList.add('part-tint');
+        el.style.color = PART_COLORS[(partOf(el) - 1) % PART_COLORS.length];
+      }
+    setLit(shown);
+    // formulas without marked parts are written left to right as a whole
     const w = n ? 1 : Math.max(0, Math.min(1, progress * 1.25));
     root.style.clipPath = w < 1 ? `inset(-20% ${(1 - w) * 100}% -20% 0)` : '';
-  }, [html, progress]);
-  return <span ref={ref} className={`tex anim-tex ${display ? 'tex-display' : ''} ${className ?? ''}`} {...hover} dangerouslySetInnerHTML={{ __html: html }} />;
+  }, [html, progress, explained]);
+  // where each explained part sits, in the wrapper's own (unzoomed) units
+  useLayoutEffect(() => {
+    const root = ref.current;
+    const box = wrap.current;
+    if (!explained || !root || !box) return setMarks([]);
+    const measure = () => {
+      const rb = box.getBoundingClientRect();
+      const zoom = box.offsetWidth ? rb.width / box.offsetWidth : 1;
+      const groups = new Map<number, { l: number; r: number; t: number; b: number; c: string }>();
+      for (const el of Array.from(root.querySelectorAll<HTMLElement>('[class*="ap-"]'))) {
+        const k = partOf(el);
+        // KaTeX shifts fractions and scripts inside their box: measure the glyphs, not the wrapper
+        const glyphs = Array.from(
+          el.querySelectorAll<HTMLElement>(
+            '.mord, .mbin, .mrel, .mop, .mopen, .mclose, .mpunct, .frac-line',
+          ),
+        );
+        for (const q of (glyphs.length ? glyphs : [el]).map((e) => e.getBoundingClientRect())) {
+          if (!q.width) continue;
+          const g = groups.get(k) ?? {
+            l: Infinity,
+            r: -Infinity,
+            t: Infinity,
+            b: -Infinity,
+            c: PART_COLORS[(k - 1) % PART_COLORS.length],
+          };
+          groups.set(k, {
+            l: Math.min(g.l, q.left),
+            r: Math.max(g.r, q.right),
+            t: Math.min(g.t, q.top),
+            b: Math.max(g.b, q.bottom),
+            c: g.c,
+          });
+        }
+      }
+      const list = [...groups.entries()].sort((a, b) => a[0] - b[0]);
+      const top = Math.min(...list.map(([, g]) => g.t));
+      const bottom = Math.max(...list.map(([, g]) => g.b));
+      // a term in the upper half (a numerator, an exponent) is braced from above, the rest from below
+      setMarks(
+        list.map(([k, g]) => {
+          const up = list.length > 1 && g.b <= (top + bottom) / 2 + 2;
+          return {
+            k,
+            x: (g.l - rb.left) / zoom,
+            w: (g.r - g.l) / zoom,
+            y: ((up ? g.t : g.b) - rb.top) / zoom,
+            up,
+            c: g.c,
+          };
+        }),
+      );
+    };
+    measure();
+    const ro = new ResizeObserver(measure);
+    ro.observe(box);
+    return () => ro.disconnect();
+  }, [html, explained]);
+  // labels sit on shared lines under (or over) the formula, each on the first row where it fits
+  const layout = useMemo(() => {
+    const below = marks.filter((m) => !m.up);
+    const above = marks.filter((m) => m.up);
+    const baseBelow = Math.max(0, ...below.map((m) => m.y));
+    const baseAbove = Math.min(Infinity, ...above.map((m) => m.y));
+    const rows = new Map<number, number>();
+    for (const group of [below, above]) {
+      const ends: number[] = [];
+      for (const m of [...group].sort((a, b) => a.x - b.x)) {
+        const half = ((labels?.[m.k - 1]?.length ?? 0) * 6.6 + 8) / 2;
+        const c = m.x + m.w / 2;
+        let row = ends.findIndex((end) => end < c - half);
+        if (row < 0) row = ends.length;
+        ends[row] = c + half + 8;
+        rows.set(m.k, Math.min(row, 2));
+      }
+    }
+    return { baseBelow, baseAbove, rows };
+  }, [marks, labels]);
+  return (
+    <span ref={wrap} className={`anim-tex-wrap ${explained ? 'explained' : ''}`}>
+      <span
+        ref={ref}
+        className={`tex anim-tex ${display ? 'tex-display' : ''} ${className ?? ''}`}
+        {...hover}
+        dangerouslySetInnerHTML={{ __html: html }}
+      />
+      {explained && marks.length > 0 && (
+        <span className="part-notes" aria-hidden>
+          {marks.map(({ k, x, w, y, up, c }) => {
+            const label = labels![k - 1];
+            if (!label) return null;
+            const ww = Math.max(w, 8);
+            return (
+              <span
+                key={k}
+                className={`part-note ${up ? 'up' : ''} ${k <= lit ? 'on' : ''} ${k === lit ? 'now' : ''}`}
+                style={{ left: x, top: y, width: ww, ['--part' as string]: c }}
+              >
+                <svg viewBox={`0 0 ${ww} 10`} width={ww} height={10}>
+                  <path
+                    d={`M1 1Q1 5 5 5H${ww / 2 - 4}Q${ww / 2} 5 ${ww / 2} 9Q${ww / 2} 5 ${ww / 2 + 4} 5H${ww - 5}Q${ww - 1} 5 ${ww - 1} 1`}
+                  />
+                </svg>
+                <span
+                  className="part-label"
+                  style={
+                    up
+                      ? { bottom: y - layout.baseAbove + 14 + (layout.rows.get(k) ?? 0) * 17 }
+                      : { top: layout.baseBelow - y + 14 + (layout.rows.get(k) ?? 0) * 17 }
+                  }
+                >
+                  {label}
+                </span>
+              </span>
+            );
+          })}
+        </span>
+      )}
+    </span>
+  );
 }

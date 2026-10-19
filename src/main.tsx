@@ -12,15 +12,26 @@ import './styles/v5.css';
 import './styles/screens-mobile.css';
 import { GameRoot } from './game/GameRoot';
 import { CastGallery } from './game/dev/CastGallery';
+import { TexLab } from './game/dev/TexLab';
 import { LEVELS } from './content/registry';
 
 if (import.meta.env.DEV || import.meta.env.MODE === 'qa') {
   // level index for the QA scripts (qa/overlap.mjs)
-  (window as unknown as { __levels: unknown }).__levels = Object.values(LEVELS).map((l) => ({ id: l.id, steps: l.steps.map((s) => s.kind), rounds: l.steps.map((s) => (s.kind === 'challenge' ? s.rounds : 0)) }));
+  (window as unknown as { __levels: unknown }).__levels = Object.values(LEVELS).map((l) => ({
+    id: l.id,
+    steps: l.steps.map((s) => s.kind),
+    rounds: l.steps.map((s) => (s.kind === 'challenge' ? s.rounds : 0)),
+  }));
 }
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
-    {import.meta.env.DEV && window.location.hash === '#/dev/cast' ? <CastGallery /> : <GameRoot />}
+    {import.meta.env.DEV && window.location.hash === '#/dev/cast' ? (
+      <CastGallery />
+    ) : import.meta.env.DEV && window.location.hash === '#/dev/tex' ? (
+      <TexLab />
+    ) : (
+      <GameRoot />
+    )}
   </React.StrictMode>,
 );

@@ -2056,3 +2056,85 @@
   font-size: 11px;
   opacity: 0.7;
 }
+
+/* ---------------------------------------------------------------- explained formulas (3b1b) */
+.anim-tex-wrap {
+  position: relative;
+  display: inline-block;
+  max-width: 100%;
+}
+.focus-line.with-parts .focus-tex {
+  overflow: visible;
+  padding: 34px 0 48px;
+}
+.part-notes {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+.part-note {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition:
+    opacity 0.3s cubic-bezier(0.23, 1, 0.32, 1),
+    transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+.part-note.on {
+  opacity: 0.5;
+  transform: none;
+}
+.part-note.now {
+  opacity: 1;
+}
+.part-note svg {
+  display: block;
+  overflow: visible;
+  margin-top: 2px;
+}
+/* braced from above: label over the brace, brace flipped */
+.part-note.up {
+  transform: translateY(-100%);
+}
+.part-note.up svg {
+  transform: scaleY(-1);
+  margin: 0 0 2px;
+}
+.part-note.up.on {
+  transform: translateY(-100%);
+}
+
+.part-note path {
+  fill: none;
+  stroke: var(--part);
+  stroke-width: 1.5;
+  stroke-linecap: round;
+}
+.part-label {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  font-family: var(--body);
+  font-size: 13px;
+  line-height: 1.2;
+  white-space: nowrap;
+  color: var(--part);
+  text-shadow: 0 0 6px #070613, 0 0 2px #070613;
+}
+@media (prefers-reduced-motion: reduce) {
+  .part-note {
+    transform: none;
+    transition: opacity 0.2s ease;
+  }
+}
+.part-tint,
+.part-tint * {
+  color: inherit;
+}
+.part-tint [class*='lc-'],
+.part-tint [class*='k-'] {
+  color: inherit !important;
+}

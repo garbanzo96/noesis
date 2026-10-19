@@ -28,6 +28,7 @@ export function Typewriter({
   speed = 'normal',
   skip = 0,
   onDone,
+  onProgress,
   sound = true,
   className,
 }: {
@@ -36,15 +37,25 @@ export function Typewriter({
   /** increment to force completion */
   skip?: number;
   onDone?: () => void;
+  /** fraction typed, 0..1, so a formula can be written at the pace of the voice */
+  onProgress?: (fraction: number) => void;
   sound?: boolean;
   className?: string;
 }) {
   const parts = useMemo(() => split(text), [text]);
-  const total = useMemo(() => parts.reduce((n, p) => n + (p.kind === 'math' ? 1 : p.s.length), 0), [parts]);
+  const total = useMemo(
+    () => parts.reduce((n, p) => n + (p.kind === 'math' ? 1 : p.s.length), 0),
+    [parts],
+  );
   const [shown, setShown] = useState(speed === 'instant' ? total : 0);
   const done = useRef(false);
   const doneCb = useRef(onDone);
   doneCb.current = onDone;
+  const progressCb = useRef(onProgress);
+  progressCb.current = onProgress;
+  useEffect(() => {
+    progressCb.current?.(total ? shown / total : 1);
+  }, [shown, total]);
   useEffect(() => {
     done.current = false;
     if (speed === 'instant') {
@@ -83,7 +94,9 @@ export function Typewriter({
         if (budget <= 0) return null;
         if (p.kind === 'math') {
           budget -= 1;
-          return <span key={i} className="tex" dangerouslySetInnerHTML={{ __html: renderTex(p.s) }} />;
+          return (
+            <span key={i} className="tex" dangerouslySetInnerHTML={{ __html: renderTex(p.s) }} />
+          );
         }
         const s = p.s.slice(0, budget);
         budget -= p.s.length;

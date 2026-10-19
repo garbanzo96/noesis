@@ -164,17 +164,17 @@ export const lesson: LessonStep = {
     {
       say: 'Cuando una cantidad cambia **siempre lo mismo** por cada paso, sus puntos quedan alineados. Aquí, cada vez que $x$ avanza 1, $y$ sube 2.',
       dur: 3,
-      board: { label: 'Cambio constante', tex: '\\p{1}{\\cA{\\Delta x=1}}\\ \\Rightarrow\\ \\p{2}{\\cM{\\Delta y=2}}' , body: '$\\Delta$ (delta) significa «cambio»: valor final menos valor inicial.' },
+      board: { label: 'Cambio constante', tex: '\\p{1}{\\cA{\\Delta x=1}}\\ \\Rightarrow\\ \\p{2}{\\cM{\\Delta y=2}}', parts: ['avanza 1 en x', 'sube 2 en y'], body: '$\\Delta$ (delta) significa «cambio»: valor final menos valor inicial.' },
     },
     {
       say: 'La **pendiente** mide cuánto sube $y$ por cada unidad que avanza $x$. En una recta da lo mismo qué dos puntos uses.',
       gate: 'Arrastra el punto rosado lejos: el cociente no cambia.',
-      board: { label: 'Pendiente', tex: 'm=\\frac{\\p{1}{\\cM{\\Delta y}}}{\\p{2}{\\cA{\\Delta x}}}=\\p{3}{\\frac{y_2-y_1}{x_2-x_1}}' },
+      board: { label: 'Pendiente', tex: 'm=\\frac{\\p{1}{\\cM{\\Delta y}}}{\\p{2}{\\cA{\\Delta x}}}=\\p{3}{\\frac{y_2-y_1}{x_2-x_1}}', parts: ['cuánto sube', 'cuánto avanza', 'lo mismo, con dos puntos'] },
     },
     {
       say: 'Toda recta no vertical se escribe $y=mx+b$: $m$ es la pendiente y $b$, la **ordenada en el origen**, la altura donde corta el eje $y$.',
       gate: 'Con los controles, arma la recta y = −0,5x + 3.',
-      board: { label: 'Ecuación de la recta', tex: 'y=\\p{1}{\\cA{m}}\\,x+\\p{2}{\\cG{b}}', body: 'Cambiar $m$ gira la recta; cambiar $b$ la sube o baja sin girarla.' },
+      board: { label: 'Ecuación de la recta', tex: 'y=\\p{1}{\\cA{m}}\\,x+\\p{2}{\\cG{b}}', parts: ['pendiente: cuánto se inclina', 'altura donde corta el eje y'], body: 'Cambiar $m$ gira la recta; cambiar $b$ la sube o baja sin girarla.' },
     },
     {
       say: 'El signo de la pendiente dice hacia dónde va la recta.',

@@ -10,6 +10,7 @@ export function Console({
   tex,
   skip = 0,
   onTyped,
+  onProgress,
   children,
   actions,
   who,
@@ -19,6 +20,7 @@ export function Console({
   tex?: string;
   skip?: number;
   onTyped?: () => void;
+  onProgress?: (fraction: number) => void;
   children?: ReactNode;
   actions?: ReactNode;
   who?: CastId;
@@ -36,7 +38,14 @@ export function Console({
       </div>
       <div className="console-body">
         <div className="console-text">
-          <Typewriter key={text} text={text} speed={run.textSpeed} skip={skip} onDone={onTyped} />
+          <Typewriter
+            key={text}
+            text={text}
+            speed={run.textSpeed}
+            skip={skip}
+            onDone={onTyped}
+            onProgress={onProgress}
+          />
         </div>
         {tex && (
           <div className="console-tex">

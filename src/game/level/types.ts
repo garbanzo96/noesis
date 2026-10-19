@@ -99,6 +99,8 @@ export interface BoardLine {
   tex: string;
   label?: string;
   body?: string;
+  /** what each \p{n}{…} part means, in order: shown under it with a brace while it is written */
+  parts?: string[];
 }
 /**
  * The lesson: the concept developed from scratch with animations and interactive tools, while

@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Backdrop } from '../../art/places';
 import { CueCtx, useSingleGhost } from '../../engine/cue';
+import { useDrawOn } from '../../engine/draw';
 import { useBeats, useKey } from '../../engine/hooks';
 import { Rich } from '../../engine/Tex';
 import { sfx } from '../audio';
@@ -26,6 +27,8 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const n = step.beats.length;
   const beats = useBeats(n, (b) => step.beats[b]?.dur ?? (lesson ? 2.2 : 1.4), run.reduced);
   const [typedBeat, setTypedBeat] = useState(-1);
+  // how far NÓESIS has spoken the current beat: the formula is written at that pace
+  const [spoken, setSpoken] = useState({ beat: -1, f: 0 });
   const typed = typedBeat === beats.beat;
   const [skip, setSkip] = useState(0);
   const [answers, setAnswers] = useState<(number | null)[]>(() => step.beats.map(() => null));
@@ -34,6 +37,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
   const noted = useRef(new Set<number>());
   const stageArea = useRef<HTMLDivElement>(null);
   useSingleGhost(stageArea);
+  useDrawOn(stageArea, beats.beat, run.reduced);
   // options are shown in a fixed shuffled order per case and beat, so the answer is never "always the first"
   const orders = useMemo(
     () =>
@@ -232,9 +236,22 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
           </div>
         </div>
         <FocusStrip
-          key={`${beats.beat}-${done ? 1 : 0}-${answer === null ? 0 : 1}-${unlocked[beats.beat] ? 1 : 0}`}
+          key={`${beats.beat}-${lesson ? '' : done ? 1 : 0}-${answer === null ? 0 : 1}-${unlocked[beats.beat] ? 1 : 0}`}
           lines={focus}
-          progress={lesson ? (beat.ask || beat.gate ? revealed : beats.at(beats.beat)) : 1}
+          progress={
+            !lesson
+              ? 1
+              : beat.ask || beat.gate
+                ? revealed
+                : run.textSpeed === 'instant'
+                  ? beats.at(beats.beat)
+                  : typed
+                    ? 1
+                    : spoken.beat === beats.beat
+                      ? spoken.f
+                      : 0
+          }
+          instant={run.reduced}
           tone={lesson ? undefined : 'note'}
         />
       </div>
@@ -257,6 +274,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
         text={beat.say}
         skip={skip}
         onTyped={() => setTypedBeat(beats.beat)}
+        onProgress={(f) => setSpoken({ beat: beats.beat, f })}
         tone={tone}
         actions={
           <>
