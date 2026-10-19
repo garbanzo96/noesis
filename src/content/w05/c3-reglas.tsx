@@ -618,14 +618,19 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Con un dado honesto, «no sale 6» ocupa todo lo que deja libre el 6. Por eso basta restar.',
-      board: { label: 'Complemento', tex: '\\p{1}{P(A^c)}=\\p{2}{1-P(A)}', parts: ['probabilidad de no ocurrir', 'lo que falta para uno'] },
+      board: {
+        label: 'Complemento',
+        tex: '\\p{1}{P(A^c)}=\\p{2}{1-P(A)}',
+        parts: ['probabilidad de no ocurrir', 'lo que falta para uno'],
+      },
     },
     {
       say: 'A es «par» y B es «mayor que 3». Si sumas sus casos, el 4 y el 6 aparecen dos veces. Junta los círculos.',
       gate: 'Arrastra el círculo B sobre A hasta que el 4 y el 6 coincidan.',
       board: {
         label: 'Contar sin repetir',
-        tex: '\\p{1}{|A\\cup B|}=\\p{2}{|A|+|B|}\\p{3}{-|A\\cap B|}', parts: ['casos en algún evento', 'suma de ambos conteos', 'descuento de repetidos'],
+        tex: '\\p{1}{|A\\cup B|}=\\p{2}{|A|+|B|}\\p{3}{-|A\\cap B|}',
+        parts: ['casos en algún evento', 'suma de ambos conteos', 'descuento de repetidos'],
       },
     },
     {
@@ -636,13 +641,18 @@ const lesson: LessonStep = {
         answer: 0,
         explain: '3/6 + 3/6 − 2/6 = 4/6. Los casos son 2, 4, 5 y 6.',
       },
-      board: { label: 'Unión', tex: '\\p{1}{P(A\\cup B)}=\\p{2}{P(A)+P(B)}\\p{3}{-P(A\\cap B)}', parts: ['probabilidad de alguno', 'suma de probabilidades', 'descuento del cruce'] },
+      board: {
+        label: 'Unión',
+        tex: '\\p{1}{P(A\\cup B)}=\\p{2}{P(A)+P(B)}\\p{3}{-P(A\\cap B)}',
+        parts: ['probabilidad de alguno', 'suma de probabilidades', 'descuento del cruce'],
+      },
     },
     {
       say: 'Si dos eventos no comparten casos, no hay nada que restar: «sale 1» y «sale 6» suman directo.',
       board: {
         label: 'Disjuntos',
-        tex: '\\p{1}{A\\cap B=\\varnothing}\\p{2}{\\Rightarrow P(A\\cup B)=P(A)+P(B)}', parts: ['sin casos compartidos', 'suma sin descuento'],
+        tex: '\\p{1}{A\\cap B=\\varnothing}\\p{2}{\\Rightarrow P(A\\cup B)=P(A)+P(B)}',
+        parts: ['sin casos compartidos', 'suma sin descuento'],
       },
     },
     {
@@ -653,7 +663,11 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'El 1 no es par: son disjuntos. 3/6 + 1/6 = 4/6 = 2/3.',
       },
-      board: { label: 'Suma directa', tex: '\\p{1}{\\tfrac36+\\tfrac16}=\\p{2}{\\tfrac23}', parts: ['probabilidades sin cruce', 'probabilidad de par o uno'] },
+      board: {
+        label: 'Suma directa',
+        tex: '\\p{1}{\\tfrac36+\\tfrac16}=\\p{2}{\\tfrac23}',
+        parts: ['probabilidades sin cruce', 'probabilidad de par o uno'],
+      },
     },
   ],
 };
@@ -668,7 +682,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'iris',
   teaser:
-    'La tabla de pagos del casino combina apuestas con «o» y con «no». Para ver si es justa hay que saber sumar probabilidades sin contar dos veces.',
+    'La tabla de pagos del casino combina apuestas con «o» y con «no». Para ver si es justa hay que sumar probabilidades sin contar nada dos veces.',
   learn:
     'Probabilidad como área entre 0 y 1, complemento $1-P(A)$, regla de la suma para eventos disjuntos e inclusión–exclusión para eventos que se solapan.',
   glyphs: ['axioms', 'inclexcl'],
@@ -682,16 +696,19 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'nar', text: 'Casino Aurora, 21:30. Vera alisa la tabla de pagos con la palma.' },
+        {
+          who: 'nar',
+          text: 'Casino Aurora, nueve y media. Vera alisó la tabla de pagos con la palma, dos veces, aunque no tenía arrugas.',
+        },
         {
           who: 'vera',
-          text: 'Aquí pagan por «suma 7 o 11» y por «algún 6 o dobles». Si un cliente discute el pago, me toca defender esta hoja.',
+          text: 'Aquí pagan por «suma 7 o 11» y por «algún 6 o dobles». Si un cliente discute el pago, a mí me toca defender esta hoja.',
         },
         {
           who: 'tu',
-          text: 'El doble 6 cumple las dos condiciones de la segunda apuesta. Yo lo contaría una vez.',
+          text: 'El doble 6 cumple las dos condiciones de la segunda apuesta. Yo lo contaría una sola vez.',
         },
-        { who: 'iris', text: 'Veamos cuánto cobra la casa por contarlo dos.' },
+        { who: 'iris', text: 'Veamos cuánto cobra la casa por contarlo dos veces.' },
       ],
     },
     {
@@ -766,7 +783,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'iris',
-          text: '«Algún 6 o dobles» tiene 16 resultados de 36; la tabla usa 17. Esa diferencia se queda en la casa.',
+          text: '«Algún 6 o dobles» tiene 16 resultados de 36, y la tabla usa 17. Esa diferencia se queda en la casa.',
         },
         {
           who: 'vera',
@@ -774,11 +791,11 @@ export const level: LevelSpec = {
         },
         {
           who: 'teo',
-          text: 'Conseguí el registro de octubre: quién terminó ganando y quién era VIP. Hay algo raro en esos cruces.',
+          text: 'Conseguí el registro de octubre: quién terminó ganando y quién era VIP. Quiero que veas cómo se cruzan los dos datos.',
         },
         {
           who: 'iris',
-          text: 'Guarda también la firma. Una hoja de pagos todavía cabe en un bolsillo.',
+          text: 'Guarda también la hoja con la firma. Mañana podría no estar sobre la mesa.',
         },
       ],
     },

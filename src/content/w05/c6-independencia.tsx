@@ -642,16 +642,28 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Saber que la moneda salió cara no cambia nada del dado. La probabilidad de las dos cosas es el producto.',
-      board: { label: 'Independientes', tex: '\\p{1}{P(A\\cap B)}=\\p{2}{P(A)\\,P(B)}', parts: ['ambos eventos juntos', 'producto sin condicionar'] },
+      board: {
+        label: 'Independientes',
+        tex: '\\p{1}{P(A\\cap B)}=\\p{2}{P(A)\\,P(B)}',
+        parts: ['ambos eventos juntos', 'producto sin condicionar'],
+      },
     },
     {
       say: 'En el curso de antes no pasa: 30 % hace deporte y música, pero el producto da 20 %.',
-      board: { label: 'Dependientes', tex: '\\p{1}{0{,}30}\\p{2}{\\neq0{,}5\\cdot0{,}4=0{,}20}', parts: ['probabilidad conjunta real', 'producto de marginales'] },
+      board: {
+        label: 'Dependientes',
+        tex: '\\p{1}{0{,}30}\\p{2}{\\neq0{,}5\\cdot0{,}4=0{,}20}',
+        parts: ['probabilidad conjunta real', 'producto de marginales'],
+      },
     },
     {
       say: 'Mueve personas entre celdas sin cambiar los totales. Busca la tabla donde saber «deporte» no cambie la probabilidad de música.',
       gate: 'Arrastra la perilla hasta que P(M | D) sea igual a P(M) = 0,4.',
-      board: { label: 'Condición', tex: '\\p{1}{P(M\\mid D)}=\\p{2}{P(M)}', parts: ['música entre deportistas', 'música en todo el curso'] },
+      board: {
+        label: 'Condición',
+        tex: '\\p{1}{P(M\\mid D)}=\\p{2}{P(M)}',
+        parts: ['música entre deportistas', 'música en todo el curso'],
+      },
     },
     {
       say: 'Con 20 personas en deporte y música, la tabla queda independiente.',
@@ -661,13 +673,18 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'La columna Música suma 40: si 20 hacen deporte, las otras 20 no.',
       },
-      board: { label: 'Tabla independiente', tex: '\\p{1}{20}=\\p{2}{100\\cdot0{,}5\\cdot0{,}4}', parts: ['personas en ambas', 'total por probabilidades'] },
+      board: {
+        label: 'Tabla independiente',
+        tex: '\\p{1}{20}=\\p{2}{100\\cdot0{,}5\\cdot0{,}4}',
+        parts: ['personas en ambas', 'total por probabilidades'],
+      },
     },
     {
       say: 'Dos eventos son independientes cuando saber uno no cambia la probabilidad del otro.',
       board: {
         label: 'Definición',
-        tex: '\\p{1}{A,B\\ \\text{independientes}}\\p{2}{\\iff P(B\\mid A)=P(B)}', parts: ['eventos sin influencia', 'saber uno no cambia'],
+        tex: '\\p{1}{A,B\\ \\text{independientes}}\\p{2}{\\iff P(B\\mid A)=P(B)}',
+        parts: ['eventos sin influencia', 'saber uno no cambia'],
       },
     },
   ],
@@ -696,14 +713,17 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'nar', text: 'Casino Aurora, 21:20. Vera baja la voz al pasar un guardia.' },
+        {
+          who: 'nar',
+          text: 'Casino Aurora, nueve y veinte. Vera bajó la voz al pasar un guardia y volvió a subirla cuando él dobló hacia la barra.',
+        },
         {
           who: 'vera',
-          text: 'Tengo las manos del viernes, separadas por mesa. Necesito saber si lo de la 7 se ve también ahí; ya están hablando de cambiarme de turno.',
+          text: 'Tengo las manos del viernes, separadas por mesa. Necesito saber si lo de la 7 se ve también ahí; ya hablan de cambiarme de turno.',
         },
         {
           who: 'teo',
-          text: '¡Se puede comparar! Cuántas manos llegan a cada mesa y cuántas gana el jugador.',
+          text: 'Se puede comparar: cuántas manos llegan a cada mesa y cuántas gana el jugador.',
         },
         {
           who: 'iris',
@@ -802,11 +822,11 @@ export const level: LevelSpec = {
           who: 'teo',
           text: 'En la mesa 7 el jugador gana el 60 % de las manos. El cruce real es 0,12; si ganar no dependiera de esa mesa, sería 0,06.',
         },
-        { who: 'vera', text: 'El doble. Van a decir que repartí mal.' },
-        { who: 'iris', text: '¿Quién trae las cartas?' },
+        { who: 'vera', text: 'El doble. Van a decir que yo repartí mal.' },
+        { who: 'iris', text: '¿Quién trae las cartas a la mesa?' },
         {
           who: 'vera',
-          text: 'El Barón llega con un zapato especial y lo deja junto a mi codo. Nunca me permite elegir otro.',
+          text: 'El Barón llega con un zapato especial y lo deja junto a mi codo. Nunca me ha dejado elegir otro.',
         },
       ],
     },

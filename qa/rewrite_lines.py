@@ -2,7 +2,7 @@
 JSON: {"<file>": {"lines": ["...", ...], "teaser": "..."}} — same number of lines as the file."""
 import json, re, sys
 spec = json.load(open(sys.argv[1]))
-LINE = re.compile(r"(\{\s*who: '(\w+)',\s*text:\s*)(['`])(.*?)\3(\s*\})", re.S)
+LINE = re.compile(r"(\{\s*who: '(\w+)',\s*text:\s*)(['`])(.*?)\3(,?\s*\})", re.S)
 for f, d in spec.items():
     s = open(f).read()
     found = list(LINE.finditer(s))

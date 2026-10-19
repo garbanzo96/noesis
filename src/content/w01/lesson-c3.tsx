@@ -50,7 +50,13 @@ function LinesLesson({ beats, unlock, answer }: DemoProps) {
                 <Cap x={P.x(x + 0.5)} y={P.y(f(x)) + 22} size={16} color={C.amber}>
                   +1
                 </Cap>
-                <Cap x={P.x(x + 1) + 18} y={P.y(f(x) + 1)} size={16} color={C.magenta} anchor="left">
+                <Cap
+                  x={P.x(x + 1) + 18}
+                  y={P.y(f(x) + 1)}
+                  size={16}
+                  color={C.magenta}
+                  anchor="left"
+                >
                   +2
                 </Cap>
               </>
@@ -64,12 +70,39 @@ function LinesLesson({ beats, unlock, answer }: DemoProps) {
           <g>
             <Line a={P.pt(1, 3)} b={P.pt(x2, 3)} color={C.amber} width={4} />
             <Line a={P.pt(x2, 3)} b={P.pt(x2, f(x2))} color={C.magenta} width={4} />
-            <Cap x={P.x((1 + x2) / 2)} y={P.y(3) + 26} size={20} color={C.amber} tex={`\\Delta x=${dec(x2 - 1, 1)}`} />
-            <Cap x={P.x(x2) + 16} y={P.y((3 + f(x2)) / 2)} size={20} color={C.magenta} anchor="left" tex={`\\Delta y=${dec(f(x2) - 3, 1)}`} />
+            <Cap
+              x={P.x((1 + x2) / 2)}
+              y={P.y(3) + 26}
+              size={20}
+              color={C.amber}
+              tex={`\\Delta x=${dec(x2 - 1, 1)}`}
+            />
+            <Cap
+              x={P.x(x2) + 16}
+              y={P.y((3 + f(x2)) / 2)}
+              size={20}
+              color={C.magenta}
+              anchor="left"
+              tex={`\\Delta y=${dec(f(x2) - 3, 1)}`}
+            />
             <Dot x={P.x(1)} y={P.y(3)} r={9} color={C.amber} />
-            <Dot x={P.x(x2)} y={P.y(f(x2))} r={13} color={C.magenta} ring onPointerDown={onX2} cursor="ew-resize" />
+            <Dot
+              x={P.x(x2)}
+              y={P.y(f(x2))}
+              r={13}
+              color={C.magenta}
+              ring
+              onPointerDown={onX2}
+              cursor="ew-resize"
+            />
             <DragCue x={P.x(x2)} y={P.y(f(x2))} axis="x" color={C.magenta} />
-            <Cap x={1300} y={200} size={28} color={C.text} tex={`\\dfrac{\\Delta y}{\\Delta x}=\\dfrac{${dec(f(x2) - 3, 1)}}{${dec(x2 - 1, 1)}}=2`} />
+            <Cap
+              x={1300}
+              y={200}
+              size={28}
+              color={C.text}
+              tex={`\\dfrac{\\Delta y}{\\Delta x}=\\dfrac{${dec(f(x2) - 3, 1)}}{${dec(x2 - 1, 1)}}=2`}
+            />
           </g>
         )}
       </Stage>
@@ -81,14 +114,34 @@ function LinesLesson({ beats, unlock, answer }: DemoProps) {
         <Axes P={P} xTicks={XT} yTicks={YT} xLabel="x" yLabel="y" grid />
         <SlopeLine P={P} a={0} ya={b} m={m} x0={-1} x1={6} color={C.cyan} width={4} />
         <Dot x={P.x(0)} y={P.y(b)} r={10} color={C.green} />
-        <Cap x={1300} y={170} size={30} color={C.text} tex={`y=\\cA{${dec(m, 2).replace(',', '{,}')}}\\,x\\cG{${b < 0 ? '' : '+'}${dec(b, 1).replace(',', '{,}')}}`} />
+        <Cap
+          x={1300}
+          y={170}
+          size={30}
+          color={C.text}
+          tex={`y=\\cA{${dec(m, 2).replace(',', '{,}')}}\\,x\\cG{${b < 0 ? '' : '+'}${dec(b, 1).replace(',', '{,}')}}`}
+        />
         <line x1={1200} x2={1400} y1={300} y2={300} stroke={C.line} strokeWidth={3} />
-        <Knob x={1300 + m * 50} y={300} color={C.amber} onPointerDown={onM} cursor="ew-resize" label="m" />
+        <Knob
+          x={1300 + m * 50}
+          y={300}
+          color={C.amber}
+          onPointerDown={onM}
+          cursor="ew-resize"
+          label="m"
+        />
         <Cap x={1300} y={340} size={18} color={C.amber}>
           pendiente
         </Cap>
         <line x1={1200} x2={1400} y1={430} y2={430} stroke={C.line} strokeWidth={3} />
-        <Knob x={1300 + b * 25} y={430} color={C.green} onPointerDown={onB} cursor="ew-resize" label="b" />
+        <Knob
+          x={1300 + b * 25}
+          y={430}
+          color={C.green}
+          onPointerDown={onB}
+          cursor="ew-resize"
+          label="b"
+        />
         <Cap x={1300} y={470} size={18} color={C.green}>
           ordenada
         </Cap>
@@ -164,29 +217,49 @@ export const lesson: LessonStep = {
     {
       say: 'Cuando una cantidad cambia **siempre lo mismo** por cada paso, sus puntos quedan alineados. Aquí, cada vez que $x$ avanza 1, $y$ sube 2.',
       dur: 3,
-      board: { label: 'Cambio constante', tex: '\\p{1}{\\cA{\\Delta x=1}}\\ \\Rightarrow\\ \\p{2}{\\cM{\\Delta y=2}}', parts: ['avanza 1 en x', 'sube 2 en y'], body: '$\\Delta$ (delta) significa «cambio»: valor final menos valor inicial.' },
+      board: {
+        label: 'Cambio constante',
+        tex: '\\p{1}{\\cA{\\Delta x=1}}\\ \\Rightarrow\\ \\p{2}{\\cM{\\Delta y=2}}',
+        parts: ['avanza 1 en x', 'sube 2 en y'],
+        body: '$\\Delta$ (delta) significa «cambio»: valor final menos valor inicial.',
+      },
     },
     {
       say: 'La **pendiente** mide cuánto sube $y$ por cada unidad que avanza $x$. En una recta da lo mismo qué dos puntos uses.',
       gate: 'Arrastra el punto rosado lejos: el cociente no cambia.',
-      board: { label: 'Pendiente', tex: 'm=\\frac{\\p{1}{\\cM{\\Delta y}}}{\\p{2}{\\cA{\\Delta x}}}=\\p{3}{\\frac{y_2-y_1}{x_2-x_1}}', parts: ['cuánto sube', 'cuánto avanza', 'lo mismo, con dos puntos'] },
+      board: {
+        label: 'Pendiente',
+        tex: 'm=\\frac{\\p{1}{\\cM{\\Delta y}}}{\\p{2}{\\cA{\\Delta x}}}=\\p{3}{\\frac{y_2-y_1}{x_2-x_1}}',
+        parts: ['cuánto sube', 'cuánto avanza', 'lo mismo, con dos puntos'],
+      },
     },
     {
       say: 'Toda recta no vertical se escribe $y=mx+b$: $m$ es la pendiente y $b$, la **ordenada en el origen**, la altura donde corta el eje $y$.',
       gate: 'Con los controles, arma la recta y = −0,5x + 3.',
-      board: { label: 'Ecuación de la recta', tex: 'y=\\p{1}{\\cA{m}}\\,x+\\p{2}{\\cG{b}}', parts: ['pendiente: cuánto se inclina', 'altura donde corta el eje y'], body: 'Cambiar $m$ gira la recta; cambiar $b$ la sube o baja sin girarla.' },
+      board: {
+        label: 'Ecuación de la recta',
+        tex: 'y=\\p{1}{\\cA{m}}\\,x+\\p{2}{\\cG{b}}',
+        parts: ['pendiente: cuánto se inclina', 'altura donde corta el eje y'],
+        body: 'Cambiar $m$ gira la recta; cambiar $b$ la sube o baja sin girarla.',
+      },
     },
     {
       say: 'El signo de la pendiente dice hacia dónde va la recta.',
       dur: 2.6,
-      board: { label: 'Signo de m', tex: '\\begin{aligned}\\p{1}{\\cG{m>0}}&\\p{1}{:\\ \\text{sube}}\\\\ \\p{2}{\\cA{m=0}}&\\p{2}{:\\ \\text{horizontal}}\\\\ \\p{3}{\\cR{m<0}}&\\p{3}{:\\ \\text{baja}}\\end{aligned}' },
+      board: {
+        label: 'Signo de m',
+        tex: '\\begin{aligned}\\p{1}{\\cG{m>0}}&\\p{1}{:\\ \\text{sube}}\\\\ \\p{2}{\\cA{m=0}}&\\p{2}{:\\ \\text{horizontal}}\\\\ \\p{3}{\\cR{m<0}}&\\p{3}{:\\ \\text{baja}}\\end{aligned}',
+      },
     },
     {
       say: 'Con dos puntos se determina la recta: primero la pendiente, después se usa uno de los puntos.',
       dur: 3.2,
       board: [
         { label: 'Recta por dos puntos', tex: 'm=\\frac{6-2}{3-1}=\\p{1}{2}' },
-        { tex: 'y-\\p{1}{2}=\\p{2}{2}\\,(x-\\p{3}{1})' , body: 'Forma punto–pendiente: $y-y_1=m(x-x_1)$.' },
+        {
+          tex: 'y-\\p{1}{2}=\\p{2}{2}\\,(x-\\p{3}{1})',
+          body: 'Forma punto–pendiente: $y-y_1=m(x-x_1)$.',
+        },
         { tex: 'y=\\p{1}{2x}' },
       ],
     },
@@ -196,7 +269,8 @@ export const lesson: LessonStep = {
         prompt: '¿Dónde se cortan $y=x+1$ e $y=3x-3$?',
         options: ['En (2, 3)', 'En (1, 2)', 'No se cortan'],
         answer: 0,
-        explain: '$x+1=3x-3\\Rightarrow 4=2x\\Rightarrow x=2$, y entonces $y=3$. Tienen distinta pendiente, así que se cortan una vez.',
+        explain:
+          '$x+1=3x-3\\Rightarrow 4=2x\\Rightarrow x=2$, y entonces $y=3$. Tienen distinta pendiente, así que se cortan una vez.',
       },
       board: [
         { label: 'Intersección', tex: '2x=-x+6' },

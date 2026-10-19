@@ -105,7 +105,13 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
   }, [flags, beat]);
 
   // beat 4: drag tokens into the Venn diagram
-  const start = useMemo(() => Object.fromEntries(TOKENS.map((t, i) => [t.id, [250 + (i % 9) * 140, 800] as [number, number]])), []);
+  const start = useMemo(
+    () =>
+      Object.fromEntries(
+        TOKENS.map((t, i) => [t.id, [250 + (i % 9) * 140, 800] as [number, number]]),
+      ),
+    [],
+  );
   const [pos, setPos] = useState<Record<string, [number, number]>>(start);
   const dragId = useRef<string | null>(null);
   const onTokenDrag = useSvgDrag(svg, (x, y, phase) => {
@@ -113,7 +119,9 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
     if (!id) return;
     if (phase === 'end') {
       const r = regionAt(x, y);
-      const used = Object.entries(pos).filter(([k, p]) => k !== id && regionAt(p[0], p[1]) === r && p[1] < 760).length;
+      const used = Object.entries(pos).filter(
+        ([k, p]) => k !== id && regionAt(p[0], p[1]) === r && p[1] < 760,
+      ).length;
       const slot = SLOTS[r][Math.min(used, SLOTS[r].length - 1)];
       setPos({ ...pos, [id]: y > 740 ? start[id] : slot });
       dragId.current = null;
@@ -123,7 +131,9 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
   });
   useEffect(() => {
     if (beat !== 4) return;
-    const ok = TOKENS.every((t) => pos[t.id][1] < 760 && regionAt(pos[t.id][0], pos[t.id][1]) === t.region);
+    const ok = TOKENS.every(
+      (t) => pos[t.id][1] < 760 && regionAt(pos[t.id][0], pos[t.id][1]) === t.region,
+    );
     if (ok) unlock();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pos, beat]);
@@ -136,7 +146,17 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
     <Stage ref={svg}>
       {/* ---------- thermometer and one container ---------- */}
       <Group opacity={thermoV}>
-        <Thermometer x={330} top={TOP} bottom={BOTTOM} tMin={T_MIN} tMax={T_MAX} value={shown} band={[2, 8]} bandOpen={[false, halfOpen]} ticks={[0, 2, 4, 6, 8, 10, 12, 14]} />
+        <Thermometer
+          x={330}
+          top={TOP}
+          bottom={BOTTOM}
+          tMin={T_MIN}
+          tMax={T_MAX}
+          value={shown}
+          band={[2, 8]}
+          bandOpen={[false, halfOpen]}
+          ticks={[0, 2, 4, 6, 8, 10, 12, 14]}
+        />
         {beat === 0 && (
           <g style={{ cursor: 'ns-resize' }} onPointerDown={onDrag}>
             <rect x={270} y={TOP - 30} width={120} height={BOTTOM - TOP + 80} fill="transparent" />
@@ -147,12 +167,24 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
         <Html x={330} y={TOP - 50} size={20} color={C.muted}>
           <span className="panel-title">°C</span>
         </Html>
-        <ContainerBox x={980} y={330} w={360} h={190} color="#1e5a6e" id={beat >= 1 && beat < 2 ? 'ALT-12' : beat >= 2 ? 'INSULINA' : 'ALT-07'} tag={`${dec(shown)} °C`} tagColor={inside ? C.green : C.red} state={inside ? 'ok' : 'flag'} />
+        <ContainerBox
+          x={980}
+          y={330}
+          w={360}
+          h={190}
+          color="#1e5a6e"
+          id={beat >= 1 && beat < 2 ? 'ALT-12' : beat >= 2 ? 'INSULINA' : 'ALT-07'}
+          tag={`${dec(shown)} °C`}
+          tagColor={inside ? C.green : C.red}
+          state={inside ? 'ok' : 'flag'}
+        />
         <Html x={980} y={510} size={30} color={inside ? C.green : C.red}>
           <span className="verdict">{inside ? 'DENTRO DEL RANGO' : 'FUERA DEL RANGO'}</span>
         </Html>
         <Html x={980} y={580} size={34} color={C.text}>
-          <Tex tex={`${dec(shown)}\\ ${inside ? '\\in' : '\\notin'}\\ ${halfOpen ? '[2,8)' : '[2,8]'}`} />
+          <Tex
+            tex={`${dec(shown)}\\ ${inside ? '\\in' : '\\notin'}\\ ${halfOpen ? '[2,8)' : '[2,8]'}`}
+          />
         </Html>
       </Group>
 
@@ -174,7 +206,11 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
               w={240}
               h={140}
               state={on ? 'flag' : 'idle'}
-              onClick={beat === 3 ? () => setFlags(on ? flags.filter((f) => f !== b.id) : [...flags, b.id]) : undefined}
+              onClick={
+                beat === 3
+                  ? () => setFlags(on ? flags.filter((f) => f !== b.id) : [...flags, b.id])
+                  : undefined
+              }
             />
           );
         })}
@@ -185,8 +221,24 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
 
       {/* ---------- Venn diagram ---------- */}
       <Group opacity={vennV}>
-        <circle cx={CA.x} cy={CA.y} r={CA.r} fill={C.cyan} fillOpacity={0.07} stroke={C.cyan} strokeWidth={3} />
-        <circle cx={CR.x} cy={CR.y} r={CR.r} fill={C.red} fillOpacity={0.07} stroke={C.red} strokeWidth={3} />
+        <circle
+          cx={CA.x}
+          cy={CA.y}
+          r={CA.r}
+          fill={C.cyan}
+          fillOpacity={0.07}
+          stroke={C.cyan}
+          strokeWidth={3}
+        />
+        <circle
+          cx={CR.x}
+          cy={CR.y}
+          r={CR.r}
+          fill={C.red}
+          fillOpacity={0.07}
+          stroke={C.red}
+          strokeWidth={3}
+        />
         <Html x={CA.x - 150} y={CA.y - 250} size={26} color={C.cyan}>
           <Tex tex="A:\ \text{vinieron en el Altamar}" />
         </Html>
@@ -216,8 +268,36 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
                     : undefined
                 }
               >
-                <rect x={x - 62} y={y - 26} width={124} height={52} rx={8} fill={t.id.startsWith('ALT') ? '#123848' : '#3a2a14'} stroke={right && beat > 4 ? C.green : t.region === 'AR' || t.region === 'R' ? C.red : C.line} strokeWidth={2.5} />
-                {beat === 4 && <DragCue x={x} y={y} axis="xy" color={right && beat > 4 ? C.green : t.region === 'AR' || t.region === 'R' ? C.red : C.line} />}
+                <rect
+                  x={x - 62}
+                  y={y - 26}
+                  width={124}
+                  height={52}
+                  rx={8}
+                  fill={t.id.startsWith('ALT') ? '#123848' : '#3a2a14'}
+                  stroke={
+                    right && beat > 4
+                      ? C.green
+                      : t.region === 'AR' || t.region === 'R'
+                        ? C.red
+                        : C.line
+                  }
+                  strokeWidth={2.5}
+                />
+                {beat === 4 && (
+                  <DragCue
+                    x={x}
+                    y={y}
+                    axis="xy"
+                    color={
+                      right && beat > 4
+                        ? C.green
+                        : t.region === 'AR' || t.region === 'R'
+                          ? C.red
+                          : C.line
+                    }
+                  />
+                )}
                 <Html x={x} y={y} size={18} color={C.text}>
                   <span className="prop-id">{t.id}</span>
                 </Html>
@@ -245,13 +325,54 @@ interface Product {
   words: string;
 }
 const PRODUCTS: Product[] = [
-  { name: 'Vacunas', lo: 2, hi: 8, loOpen: false, hiOpen: false, tex: '[2,8]', words: 'entre 2 y 8 °C, ambos incluidos' },
-  { name: 'Insulina', lo: 2, hi: 8, loOpen: false, hiOpen: true, tex: '[2,8)', words: 'desde 2 °C y siempre bajo 8 °C' },
-  { name: 'Reactivo B', lo: -5, hi: 0, loOpen: false, hiOpen: true, tex: '[-5,0)', words: 'desde −5 °C y siempre bajo 0 °C' },
-  { name: 'Vacuna oral', lo: 2, hi: 6, loOpen: true, hiOpen: false, tex: '(2,6]', words: 'más de 2 °C y como máximo 6 °C' },
-  { name: 'Plasma', lo: -Infinity, hi: -18, loOpen: true, hiOpen: false, tex: '(-\\infty,-18]', words: 'a −18 °C o menos' },
+  {
+    name: 'Vacunas',
+    lo: 2,
+    hi: 8,
+    loOpen: false,
+    hiOpen: false,
+    tex: '[2,8]',
+    words: 'entre 2 y 8 °C, ambos incluidos',
+  },
+  {
+    name: 'Insulina',
+    lo: 2,
+    hi: 8,
+    loOpen: false,
+    hiOpen: true,
+    tex: '[2,8)',
+    words: 'desde 2 °C y siempre bajo 8 °C',
+  },
+  {
+    name: 'Reactivo B',
+    lo: -5,
+    hi: 0,
+    loOpen: false,
+    hiOpen: true,
+    tex: '[-5,0)',
+    words: 'desde −5 °C y siempre bajo 0 °C',
+  },
+  {
+    name: 'Vacuna oral',
+    lo: 2,
+    hi: 6,
+    loOpen: true,
+    hiOpen: false,
+    tex: '(2,6]',
+    words: 'más de 2 °C y como máximo 6 °C',
+  },
+  {
+    name: 'Plasma',
+    lo: -Infinity,
+    hi: -18,
+    loOpen: true,
+    hiOpen: false,
+    tex: '(-\\infty,-18]',
+    words: 'a −18 °C o menos',
+  },
 ];
-const inInterval = (p: Product, t: number) => (p.loOpen ? t > p.lo : t >= p.lo) && (p.hiOpen ? t < p.hi : t <= p.hi);
+const inInterval = (p: Product, t: number) =>
+  (p.loOpen ? t > p.lo : t >= p.lo) && (p.hiOpen ? t < p.hi : t <= p.hi);
 
 function makeBatch(seed: number, p: Product) {
   const r = rng(seed);
@@ -262,10 +383,14 @@ function makeBatch(seed: number, p: Product) {
   for (let k = 0; k < 6; k++) pool.push(Math.round((base - 3 + r() * (span + 6)) * 10) / 10);
   const temps = shuffle(r, pool).slice(0, 6);
   // make sure there is at least one inside and one outside
-  if (!temps.some((t) => inInterval(p, t))) temps[0] = Number.isFinite(p.lo) ? (p.lo + p.hi) / 2 : p.hi - 2;
+  if (!temps.some((t) => inInterval(p, t)))
+    temps[0] = Number.isFinite(p.lo) ? (p.lo + p.hi) / 2 : p.hi - 2;
   if (temps.every((t) => inInterval(p, t))) temps[1] = p.hi + 1.5;
   const prefix = pick(r, ['ALT', 'BRI', 'NOR']);
-  return temps.map((t, i) => ({ id: `${prefix}-${10 + i * 3 + Math.floor(r() * 3)}`, t: Math.round(t * 10) / 10 }));
+  return temps.map((t, i) => ({
+    id: `${prefix}-${10 + i * 3 + Math.floor(r() * 3)}`,
+    t: Math.round(t * 10) / 10,
+  }));
 }
 
 function Inspection({ seed, round, api }: ChallengeProps) {
@@ -279,8 +404,17 @@ function FlagRound({ seed, api }: { seed: number; api: ChallengeProps['api'] }) 
   const batch = useMemo(() => makeBatch(seed, product), [seed, product]);
   const [flags, setFlags] = useState<string[]>([]);
   useEffect(() => {
-    api.prompt(`Lote de **${product.name.toLowerCase()}**: rango permitido $${product.tex}$ (${product.words}). Marca los contenedores que rompieron la cadena y confirma.`, `T\\notin${product.tex}`);
-    api.hints(['Revisa primero las lecturas que caen justo en un extremo: ¿corchete o paréntesis?', `Fuera del rango: ${batch.filter((b) => !inInterval(product, b.t)).map((b) => b.id).join(', ')}.`]);
+    api.prompt(
+      `Lote de **${product.name.toLowerCase()}**: rango permitido $${product.tex}$ (${product.words}). Marca los contenedores que rompieron la cadena y confirma.`,
+      `T\\notin${product.tex}`,
+    );
+    api.hints([
+      'Revisa primero las lecturas que caen justo en un extremo: ¿corchete o paréntesis?',
+      `Fuera del rango: ${batch
+        .filter((b) => !inInterval(product, b.t))
+        .map((b) => b.id)
+        .join(', ')}.`,
+    ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [batch]);
   const submit = () => {
@@ -290,10 +424,22 @@ function FlagRound({ seed, api }: { seed: number; api: ChallengeProps['api'] }) 
       if (out === marked) continue;
       const edge = b.t === product.lo || b.t === product.hi;
       if (marked)
-        return api.result(false, `${b.id} marca ${dec(b.t)} °C y eso está **dentro** de $${product.tex}$${edge ? ': el corchete incluye ese extremo' : ''}. No debía marcarse.`);
-      return api.result(false, `${b.id} marca ${dec(b.t)} °C y eso está **fuera** de $${product.tex}$${edge ? ': el paréntesis excluye ese extremo' : ''}. Faltó marcarlo.`);
+        return api.result(
+          false,
+          `${b.id} marca ${dec(b.t)} °C y eso está **dentro** de $${product.tex}$${edge ? ': el corchete incluye ese extremo' : ''}. No debía marcarse.`,
+        );
+      return api.result(
+        false,
+        `${b.id} marca ${dec(b.t)} °C y eso está **fuera** de $${product.tex}$${edge ? ': el paréntesis excluye ese extremo' : ''}. Faltó marcarlo.`,
+      );
     }
-    api.result(true, `Correcto. $R=\\{${batch.filter((b) => !inInterval(product, b.t)).map((b) => `\\text{${b.id}}`).join(',')}\\}$ rompieron la cadena.`);
+    api.result(
+      true,
+      `Correcto. $R=\\{${batch
+        .filter((b) => !inInterval(product, b.t))
+        .map((b) => `\\text{${b.id}}`)
+        .join(',')}\\}$ rompieron la cadena.`,
+    );
   };
   return (
     <Stage>
@@ -337,7 +483,12 @@ function BuildInterval({ seed, api }: { seed: number; api: ChallengeProps['api']
   const tMax = 15;
   const top = 140;
   const bottom = 720;
-  const Y = (t: number) => (t === Infinity ? top - 40 : t === -Infinity ? bottom + 40 : bottom - ((t - tMin) / (tMax - tMin)) * (bottom - top));
+  const Y = (t: number) =>
+    t === Infinity
+      ? top - 40
+      : t === -Infinity
+        ? bottom + 40
+        : bottom - ((t - tMin) / (tMax - tMin)) * (bottom - top);
   const fromYY = (y: number) => {
     if (y > bottom + 20) return -Infinity;
     if (y < top - 20) return Infinity;
@@ -361,7 +512,9 @@ function BuildInterval({ seed, api }: { seed: number; api: ChallengeProps['api']
         const v = which.current === 'lo' ? lo : hi;
         if (!Number.isFinite(v)) {
           api.sfx.bad();
-          api.prompt(`Un extremo infinito siempre es **abierto**: $\\infty$ no es una temperatura. Producto: ${product.name.toLowerCase()}, ${product.words}.`);
+          api.prompt(
+            `Un extremo infinito siempre es **abierto**: $\\infty$ no es una temperatura. Producto: ${product.name.toLowerCase()}, ${product.words}.`,
+          );
         } else if (which.current === 'lo') setLoOpen(!loOpen);
         else setHiOpen(!hiOpen);
       }
@@ -379,34 +532,66 @@ function BuildInterval({ seed, api }: { seed: number; api: ChallengeProps['api']
       if (v === Infinity) setHiOpen(true);
     }
   });
-  const show = (v: number) => (v === Infinity ? '\\infty' : v === -Infinity ? '-\\infty' : String(v));
+  const show = (v: number) =>
+    v === Infinity ? '\\infty' : v === -Infinity ? '-\\infty' : String(v);
   const tex = `${loOpen ? '(' : '['}${show(lo)},${show(hi)}${hiOpen ? ')' : ']'}`;
   useEffect(() => {
-    api.prompt(`Ficha técnica de **${product.name.toLowerCase()}**: ${product.words}. Arrastra los dos límites del termómetro y haz clic en un límite para alternar incluido / excluido.`);
-    api.hints(['Para cada extremo pregunta: ¿esa temperatura exacta está permitida?', `El rango es $${product.tex}$.`]);
+    api.prompt(
+      `Ficha técnica de **${product.name.toLowerCase()}**: ${product.words}. Arrastra los dos límites del termómetro y haz clic en un límite para alternar incluido / excluido.`,
+    );
+    api.hints([
+      'Para cada extremo pregunta: ¿esa temperatura exacta está permitida?',
+      `El rango es $${product.tex}$.`,
+    ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [product]);
   const submit = () => {
     if (lo !== product.lo || hi !== product.hi)
-      return api.result(false, `Tus límites van de $${show(lo)}$ a $${show(hi)}$ °C; la ficha dice «${product.words}».`);
+      return api.result(
+        false,
+        `Tus límites van de $${show(lo)}$ a $${show(hi)}$ °C; la ficha dice «${product.words}».`,
+      );
     if (loOpen !== product.loOpen || hiOpen !== product.hiOpen) {
       const side = loOpen !== product.loOpen ? 'inferior' : 'superior';
       const should = loOpen !== product.loOpen ? product.loOpen : product.hiOpen;
-      return api.result(false, `Los límites están bien, pero el ${side} debe estar ${should ? '**excluido** (paréntesis)' : '**incluido** (corchete)'}.`);
+      return api.result(
+        false,
+        `Los límites están bien, pero el ${side} debe estar ${should ? '**excluido** (paréntesis)' : '**incluido** (corchete)'}.`,
+      );
     }
     api.result(true, `$${product.tex}$: ${product.words}.`);
   };
   const bracket = (y: number, open: boolean, up: boolean) => {
     const d = up ? 1 : -1;
     return open ? (
-      <path d={`M300 ${y + 16 * d} Q320 ${y - 6 * d} 340 ${y + 16 * d}`} fill="none" stroke={C.cyan} strokeWidth={5} transform={`rotate(0)`} />
+      <path
+        d={`M300 ${y + 16 * d} Q320 ${y - 6 * d} 340 ${y + 16 * d}`}
+        fill="none"
+        stroke={C.cyan}
+        strokeWidth={5}
+        transform={`rotate(0)`}
+      />
     ) : (
-      <path d={`M300 ${y + 16 * d} L300 ${y} L340 ${y} L340 ${y + 16 * d}`} fill="none" stroke={C.cyan} strokeWidth={5} />
+      <path
+        d={`M300 ${y + 16 * d} L300 ${y} L340 ${y} L340 ${y + 16 * d}`}
+        fill="none"
+        stroke={C.cyan}
+        strokeWidth={5}
+      />
     );
   };
   return (
     <Stage ref={svg}>
-      <rect x={300} y={top - 50} width={40} height={bottom - top + 100} rx={20} fill="#0a0818" stroke="#3d3160" strokeWidth={3} />
+      <rect
+        x={300}
+        y={top - 50}
+        width={40}
+        height={bottom - top + 100}
+        rx={20}
+        fill="#0a0818"
+        stroke="#3d3160"
+        strokeWidth={3}
+      />
       <rect x={300} y={Y(hi)} width={40} height={Y(lo) - Y(hi)} fill={C.green} opacity={0.25} />
       {[-30, -25, -20, -15, -10, -5, 0, 5, 10, 15].map((t) => (
         <g key={t}>
@@ -452,14 +637,33 @@ function BuildInterval({ seed, api }: { seed: number; api: ChallengeProps['api']
 const VENN_TASKS = [
   { tex: 'A\\cap R', words: 'del Altamar **y** dañados', f: (r: Region) => r === 'AR' },
   { tex: 'A\\setminus R', words: 'del Altamar que **no** se dañaron', f: (r: Region) => r === 'A' },
-  { tex: 'A\\cup R', words: 'del Altamar **o** dañados (o ambas cosas)', f: (r: Region) => r !== 'none' },
-  { tex: 'R\\setminus A', words: 'dañados que **no** vinieron en el Altamar', f: (r: Region) => r === 'R' },
+  {
+    tex: 'A\\cup R',
+    words: 'del Altamar **o** dañados (o ambas cosas)',
+    f: (r: Region) => r !== 'none',
+  },
+  {
+    tex: 'R\\setminus A',
+    words: 'dañados que **no** vinieron en el Altamar',
+    f: (r: Region) => r === 'R',
+  },
 ];
 function VennRound({ seed, api }: { seed: number; api: ChallengeProps['api'] }) {
   const { task, tokens } = useMemo(() => {
     const r = rng(seed);
     const task = pick(r, VENN_TASKS);
-    const regions: Region[] = shuffle(r, ['AR', 'AR', 'A', 'A', 'A', 'R', 'R', 'none', 'none', pick(r, ['AR', 'A', 'R'] as Region[])]);
+    const regions: Region[] = shuffle(r, [
+      'AR',
+      'AR',
+      'A',
+      'A',
+      'A',
+      'R',
+      'R',
+      'none',
+      'none',
+      pick(r, ['AR', 'A', 'R'] as Region[]),
+    ]);
     const counters: Record<string, number> = { ALT: 20, BRI: 30 };
     const tokens = regions.map((rg) => {
       const ship = rg === 'A' || rg === 'AR' ? 'ALT' : 'BRI';
@@ -470,8 +674,14 @@ function VennRound({ seed, api }: { seed: number; api: ChallengeProps['api'] }) 
   }, [seed]);
   const [sel, setSel] = useState<string[]>([]);
   useEffect(() => {
-    api.prompt(`Rosa necesita la lista de contenedores ${task.words}: selecciona $${task.tex}$.`, task.tex);
-    api.hints(['Recorre las cuatro regiones del diagrama y decide cuáles cumplen la condición.', `Son ${tokens.filter((t) => task.f(t.region)).length} contenedores.`]);
+    api.prompt(
+      `Rosa necesita la lista de contenedores ${task.words}: selecciona $${task.tex}$.`,
+      task.tex,
+    );
+    api.hints([
+      'Recorre las cuatro regiones del diagrama y decide cuáles cumplen la condición.',
+      `Son ${tokens.filter((t) => task.f(t.region)).length} contenedores.`,
+    ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task]);
   const place: Record<Region, [number, number][]> = {
@@ -501,14 +711,45 @@ function VennRound({ seed, api }: { seed: number; api: ChallengeProps['api'] }) 
   const used: Record<Region, number> = { A: 0, AR: 0, R: 0, none: 0 };
   const submit = () => {
     const wrong = tokens.find((t) => task.f(t.region) !== sel.includes(t.id));
-    if (!wrong) return api.result(true, `$${task.tex}=\\{${tokens.filter((t) => task.f(t.region)).map((t) => `\\text{${t.id}}`).join(',')}\\}$, ${tokens.filter((t) => task.f(t.region)).length} elementos.`);
-    const where = { AR: 'en ambos conjuntos', A: 'solo en $A$', R: 'solo en $R$', none: 'fuera de los dos' }[wrong.region];
-    api.result(false, `${wrong.id} está ${where}: ${task.f(wrong.region) ? 'pertenece' : 'no pertenece'} a $${task.tex}$.`);
+    if (!wrong)
+      return api.result(
+        true,
+        `$${task.tex}=\\{${tokens
+          .filter((t) => task.f(t.region))
+          .map((t) => `\\text{${t.id}}`)
+          .join(',')}\\}$, ${tokens.filter((t) => task.f(t.region)).length} elementos.`,
+      );
+    const where = {
+      AR: 'en ambos conjuntos',
+      A: 'solo en $A$',
+      R: 'solo en $R$',
+      none: 'fuera de los dos',
+    }[wrong.region];
+    api.result(
+      false,
+      `${wrong.id} está ${where}: ${task.f(wrong.region) ? 'pertenece' : 'no pertenece'} a $${task.tex}$.`,
+    );
   };
   return (
     <Stage>
-      <circle cx={CA.x} cy={CA.y} r={CA.r} fill={C.cyan} fillOpacity={0.07} stroke={C.cyan} strokeWidth={3} />
-      <circle cx={CR.x} cy={CR.y} r={CR.r} fill={C.red} fillOpacity={0.07} stroke={C.red} strokeWidth={3} />
+      <circle
+        cx={CA.x}
+        cy={CA.y}
+        r={CA.r}
+        fill={C.cyan}
+        fillOpacity={0.07}
+        stroke={C.cyan}
+        strokeWidth={3}
+      />
+      <circle
+        cx={CR.x}
+        cy={CR.y}
+        r={CR.r}
+        fill={C.red}
+        fillOpacity={0.07}
+        stroke={C.red}
+        strokeWidth={3}
+      />
       <Html x={CA.x - 160} y={CA.y - 250} size={26} color={C.cyan}>
         <Tex tex="A:\ \text{Altamar}" />
       </Html>
@@ -527,7 +768,16 @@ function VennRound({ seed, api }: { seed: number; api: ChallengeProps['api'] }) 
               setSel(on ? sel.filter((s) => s !== t.id) : [...sel, t.id]);
             }}
           >
-            <rect x={slot[0] - 64} y={slot[1] - 27} width={128} height={54} rx={8} fill={on ? '#2a1640' : t.id.startsWith('ALT') ? '#123848' : '#3a2a14'} stroke={on ? C.text : C.line} strokeWidth={on ? 4 : 2} />
+            <rect
+              x={slot[0] - 64}
+              y={slot[1] - 27}
+              width={128}
+              height={54}
+              rx={8}
+              fill={on ? '#2a1640' : t.id.startsWith('ALT') ? '#123848' : '#3a2a14'}
+              stroke={on ? C.text : C.line}
+              strokeWidth={on ? 4 : 2}
+            />
             <Html x={slot[0]} y={slot[1]} size={18} color={C.text}>
               <span className="prop-id">{t.id}</span>
             </Html>
@@ -553,8 +803,10 @@ export const level: LevelSpec = {
   glyph: '[2,8]',
   kind: 'level',
   guide: 'teo',
-  teaser: 'Cuarenta cajas de vacunas salieron de la bodega 9 sin que nadie las despachara. Las que quedaron pasaron la noche con la puerta mal cerrada.',
-  learn: 'Pertenencia, intervalos abiertos y cerrados, conjuntos por comprensión, intersección, unión y diferencia.',
+  teaser:
+    'Cuarenta cajas de vacunas salieron de la bodega 9 sin que nadie las despachara. Las que quedaron pasaron la noche con la puerta mal cerrada.',
+  learn:
+    'Pertenencia, intervalos abiertos y cerrados, conjuntos por comprensión, intersección, unión y diferencia.',
   glyphs: ['in', 'interval', 'setbuilder', 'cap', 'cup', 'setminus', 'card', 'reals'],
   pitfalls: [
     'Un extremo con paréntesis no pertenece al intervalo: $8\\notin[2,8)$.',
@@ -566,11 +818,26 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'nar', text: 'Jueves, seis y diez. En la oficina de NÓESIS el refrigerador de muestras había empezado a zumbar en un tono nuevo, y nadie tenía tiempo de llamar al técnico.' },
-        { who: 'iris', text: 'Anoche salieron de la bodega 9 cuarenta cajas de vacunas que nadie despachó. Las que se quedaron pasaron la noche con la puerta del contenedor mal cerrada.' },
-        { who: 'teo', text: 'Cada contenedor anota su temperatura. Estas dosis aguantan de 2 a 8 grados, los extremos incluidos; puedo bajar las lecturas ahora.' },
-        { who: 'tu', text: 'Primero separaría lo dañado. Si alguien lo mezcla con lo sano, después no hay cómo probar nada.' },
-        { who: 'iris', text: 'Hazlo con los registros a la vista. Si una sola caja queda mal marcada, Halcón dirá que las cuarenta nunca existieron.' },
+        {
+          who: 'nar',
+          text: 'Jueves, seis y diez. En la oficina de NÓESIS el refrigerador de muestras había empezado a zumbar en un tono nuevo, y nadie tenía tiempo de llamar al técnico.',
+        },
+        {
+          who: 'iris',
+          text: 'Anoche salieron de la bodega 9 cuarenta cajas de vacunas que nadie despachó. Las que se quedaron pasaron la noche con la puerta del contenedor mal cerrada.',
+        },
+        {
+          who: 'teo',
+          text: 'Cada contenedor anota su temperatura. Estas dosis aguantan de 2 a 8 grados, los extremos incluidos; puedo bajar las lecturas ahora.',
+        },
+        {
+          who: 'tu',
+          text: 'Primero separaría lo dañado. Si alguien lo mezcla con lo sano, después no hay cómo probar nada.',
+        },
+        {
+          who: 'iris',
+          text: 'Hazlo con los registros a la vista. Si una sola caja queda mal marcada, Halcón dirá que las cuarenta nunca existieron.',
+        },
       ],
     },
     {
@@ -581,7 +848,11 @@ export const level: LevelSpec = {
         {
           say: 'Este es el registro del contenedor ALT-07. El rango seguro es la franja verde.',
           gate: 'Arrastra la lectura del termómetro hasta exactamente 8 °C.',
-          note: { label: 'Intervalo cerrado', tex: '[2,8]=\\{x\\in\\mathbb R:\\ 2\\le x\\le 8\\}', body: 'Los corchetes incluyen los extremos: 2 y 8 están permitidos.' },
+          note: {
+            label: 'Intervalo cerrado',
+            tex: '[2,8]=\\{x\\in\\mathbb R:\\ 2\\le x\\le 8\\}',
+            body: 'Los corchetes incluyen los extremos: 2 y 8 están permitidos.',
+          },
         },
         {
           say: 'El sensor del contenedor ALT-12 marcó 8,1 °C.',
@@ -589,27 +860,44 @@ export const level: LevelSpec = {
             prompt: '¿Está 8,1 °C dentro del rango $[2,8]$?',
             options: ['No: supera el máximo', 'Sí: es casi 8', 'Depende del redondeo'],
             answer: 0,
-            explain: '$8{,}1>8$. Un intervalo no tiene tolerancia: lo que pasa del extremo queda fuera, por poco que sea.',
+            explain:
+              '$8{,}1>8$. Un intervalo no tiene tolerancia: lo que pasa del extremo queda fuera, por poco que sea.',
           },
-          note: { label: 'Pertenencia', tex: '8\\in[2,8],\\qquad 8{,}1\\notin[2,8]', body: '$\\in$ se lee «pertenece a»; $\\notin$, «no pertenece a».' },
+          note: {
+            label: 'Pertenencia',
+            tex: '8\\in[2,8],\\qquad 8{,}1\\notin[2,8]',
+            body: '$\\in$ se lee «pertenece a»; $\\notin$, «no pertenece a».',
+          },
         },
         {
           say: 'La insulina se daña justo a 8 °C. Su rango se escribe con paréntesis a la derecha: el 8 queda fuera.',
           tex: '[2,8)',
           dur: 1.6,
-          note: { label: 'Intervalo semiabierto', tex: '[2,8)=\\{x:\\ 2\\le x<8\\}', body: 'Corchete: extremo incluido. Paréntesis: extremo excluido.' },
+          note: {
+            label: 'Intervalo semiabierto',
+            tex: '[2,8)=\\{x:\\ 2\\le x<8\\}',
+            body: 'Corchete: extremo incluido. Paréntesis: extremo excluido.',
+          },
         },
         {
           say: 'Llegaron seis contenedores del Altamar con vacunas.',
           gate: 'Marca los que rompieron la cadena de frío $[2,8]$.',
           dur: 1.2,
-          note: { label: 'Conjunto por comprensión', tex: 'R=\\{c:\\ \\text{temperatura de }c\\notin[2,8]\\}', body: 'Se lee: «los contenedores $c$ tales que…». Aquí $R=\\{\\text{ALT-03},\\text{ALT-04},\\text{ALT-06}\\}$.' },
+          note: {
+            label: 'Conjunto por comprensión',
+            tex: 'R=\\{c:\\ \\text{temperatura de }c\\notin[2,8]\\}',
+            body: 'Se lee: «los contenedores $c$ tales que…». Aquí $R=\\{\\text{ALT-03},\\text{ALT-04},\\text{ALT-06}\\}$.',
+          },
         },
         {
           say: 'Rosa trae también los de la Brisa. $A$ son los del Altamar; $R$, los dañados de ambos barcos.',
           gate: 'Arrastra cada contenedor a su región del diagrama.',
           dur: 1.2,
-          note: { label: 'Intersección, unión, diferencia', tex: 'A\\cap R,\\qquad A\\cup R,\\qquad A\\setminus R', body: '$\\cap$: en ambos. $\\cup$: en al menos uno. $\\setminus$: en el primero pero no en el segundo.' },
+          note: {
+            label: 'Intersección, unión, diferencia',
+            tex: 'A\\cap R,\\qquad A\\cup R,\\qquad A\\setminus R',
+            body: '$\\cap$: en ambos. $\\cup$: en al menos uno. $\\setminus$: en el primero pero no en el segundo.',
+          },
         },
         {
           say: 'Para el informe hay que contar.',
@@ -620,7 +908,11 @@ export const level: LevelSpec = {
             answer: 0,
             explain: 'Si sumas $6+4$ cuentas dos veces los 3 del centro. $|A\\cup R|=6+4-3=7$.',
           },
-          note: { label: 'Contar una unión', tex: '|A\\cup R|=|A|+|R|-|A\\cap R|', body: '$|A|$ es el número de elementos de $A$.' },
+          note: {
+            label: 'Contar una unión',
+            tex: '|A\\cup R|=|A|+|R|-|A\\cap R|',
+            body: '$|A|$ es el número de elementos de $A$.',
+          },
         },
       ],
     },
@@ -629,22 +921,89 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'bodega',
       lines: [
-        { who: 'nar', text: 'La bodega 9 olía a sal y a cartón mojado. Rosa Lagos tenía la planilla doblada en cuatro y no la desdobló mientras hablaba.' },
-        { who: 'rosa', text: 'Tres del Altamar se salieron del rango: ALT-03, ALT-04 y ALT-06. Mi gente cargó lo que decía la guía, ni una caja más.' },
+        {
+          who: 'nar',
+          text: 'La bodega 9 olía a sal y a cartón mojado. Rosa Lagos tenía la planilla doblada en cuatro y no la desdobló mientras hablaba.',
+        },
+        {
+          who: 'rosa',
+          text: 'Tres del Altamar se salieron del rango: ALT-03, ALT-04 y ALT-06. Mi gente cargó lo que decía la guía, ni una caja más.',
+        },
         { who: 'iris', text: '¿Y quién escribió la guía?' },
-        { who: 'rosa', text: 'Eso se pregunta arriba. Yo solo sé que el Altamar vuelve esta noche y que ya le están despejando el muelle.' },
+        {
+          who: 'rosa',
+          text: 'Eso se pregunta arriba. Yo solo sé que el Altamar vuelve esta noche y que ya le están despejando el muelle.',
+        },
       ],
     },
   ],
 };
 
 export const glyphs: Glyph[] = [
-  { id: 'in', world: 'foundations', tex: '\\in', name: 'Pertenece', read: 'pertenece a', meaning: '$x\\in A$: $x$ es un elemento de $A$. Su negación es $\\notin$.' },
-  { id: 'interval', world: 'foundations', tex: '[a,b)', name: 'Intervalo', read: 'intervalo de a a b', meaning: 'Todos los números entre $a$ y $b$. Corchete: extremo incluido. Paréntesis: excluido.', warn: '$\\infty$ siempre va con paréntesis.' },
-  { id: 'setbuilder', world: 'foundations', tex: '\\{x:\\ \\ldots\\}', name: 'Conjunto por comprensión', read: 'el conjunto de los x tales que', meaning: 'Los elementos que cumplen la condición escrita tras los dos puntos.' },
-  { id: 'cap', world: 'foundations', tex: '\\cap', name: 'Intersección', read: 'intersección', meaning: '$A\\cap B$: elementos que están en $A$ **y** en $B$.' },
-  { id: 'cup', world: 'foundations', tex: '\\cup', name: 'Unión', read: 'unión', meaning: '$A\\cup B$: elementos que están en $A$, en $B$ o en ambos.' },
-  { id: 'setminus', world: 'foundations', tex: '\\setminus', name: 'Diferencia', read: 'menos', meaning: '$A\\setminus B$: elementos de $A$ que no están en $B$.' },
-  { id: 'card', world: 'foundations', tex: '|A|', name: 'Cardinal', read: 'cardinal de A', meaning: 'Número de elementos de un conjunto finito.', warn: 'Para un número, $|x|$ es su valor absoluto.' },
-  { id: 'reals', world: 'foundations', tex: '\\mathbb R', name: 'Números reales', read: 'erre', meaning: 'Todos los números de la recta, con decimales. $\\infty$ no pertenece a $\\mathbb R$.' },
+  {
+    id: 'in',
+    world: 'foundations',
+    tex: '\\in',
+    name: 'Pertenece',
+    read: 'pertenece a',
+    meaning: '$x\\in A$: $x$ es un elemento de $A$. Su negación es $\\notin$.',
+  },
+  {
+    id: 'interval',
+    world: 'foundations',
+    tex: '[a,b)',
+    name: 'Intervalo',
+    read: 'intervalo de a a b',
+    meaning: 'Todos los números entre $a$ y $b$. Corchete: extremo incluido. Paréntesis: excluido.',
+    warn: '$\\infty$ siempre va con paréntesis.',
+  },
+  {
+    id: 'setbuilder',
+    world: 'foundations',
+    tex: '\\{x:\\ \\ldots\\}',
+    name: 'Conjunto por comprensión',
+    read: 'el conjunto de los x tales que',
+    meaning: 'Los elementos que cumplen la condición escrita tras los dos puntos.',
+  },
+  {
+    id: 'cap',
+    world: 'foundations',
+    tex: '\\cap',
+    name: 'Intersección',
+    read: 'intersección',
+    meaning: '$A\\cap B$: elementos que están en $A$ **y** en $B$.',
+  },
+  {
+    id: 'cup',
+    world: 'foundations',
+    tex: '\\cup',
+    name: 'Unión',
+    read: 'unión',
+    meaning: '$A\\cup B$: elementos que están en $A$, en $B$ o en ambos.',
+  },
+  {
+    id: 'setminus',
+    world: 'foundations',
+    tex: '\\setminus',
+    name: 'Diferencia',
+    read: 'menos',
+    meaning: '$A\\setminus B$: elementos de $A$ que no están en $B$.',
+  },
+  {
+    id: 'card',
+    world: 'foundations',
+    tex: '|A|',
+    name: 'Cardinal',
+    read: 'cardinal de A',
+    meaning: 'Número de elementos de un conjunto finito.',
+    warn: 'Para un número, $|x|$ es su valor absoluto.',
+  },
+  {
+    id: 'reals',
+    world: 'foundations',
+    tex: '\\mathbb R',
+    name: 'Números reales',
+    read: 'erre',
+    meaning: 'Todos los números de la recta, con decimales. $\\infty$ no pertenece a $\\mathbb R$.',
+  },
 ];

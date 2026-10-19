@@ -425,7 +425,14 @@ function FrequencyLesson({ beats, unlock, answer }: DemoProps) {
             stroke={C.line}
             strokeWidth={2}
           />
-          <line x1={CURVE.x(0)} x2={CURVE.x(0)} y1={CURVE.y(0)} y2={CURVE.y(1)} stroke={C.line} strokeWidth={2} />
+          <line
+            x1={CURVE.x(0)}
+            x2={CURVE.x(0)}
+            y1={CURVE.y(0)}
+            y2={CURVE.y(1)}
+            stroke={C.line}
+            strokeWidth={2}
+          />
           {[0, 1].map((v) => (
             <Cap key={v} x={CURVE.x(0) - 28} y={CURVE.y(v)} size={18} color={C.muted}>
               {v}
@@ -500,13 +507,18 @@ const lesson: LessonStep = {
       say: 'Si las seis caras son igual de probables, la probabilidad de un evento es la fracción de casos que lo cumplen.',
       board: {
         label: 'Casos igual de probables',
-        tex: '\\p{1}{P(A)}=\\p{2}{\\frac{|A|}{|\\Omega|}}', parts: ['probabilidad del evento', 'casos favorables del total'],
+        tex: '\\p{1}{P(A)}=\\p{2}{\\frac{|A|}{|\\Omega|}}',
+        parts: ['probabilidad del evento', 'casos favorables del total'],
       },
     },
     {
       say: 'En la mesa no se ven probabilidades: se ven tiradas. Sube la cantidad de tiradas y mira la fracción de «5 o 6».',
       gate: 'Arrastra la perilla hasta 10 000 tiradas.',
-      board: { label: 'Frecuencia relativa', tex: '\\p{1}{\\frac{\\#A}{n}}\\p{2}{\\to P(A)}', parts: ['frecuencia observada', 'probabilidad a largo plazo'] },
+      board: {
+        label: 'Frecuencia relativa',
+        tex: '\\p{1}{\\frac{\\#A}{n}}\\p{2}{\\to P(A)}',
+        parts: ['frecuencia observada', 'probabilidad a largo plazo'],
+      },
     },
     {
       say: 'La probabilidad también dice cuántas veces esperar el evento en muchas tiradas.',
@@ -518,21 +530,24 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Cantidad esperada',
-        tex: '\\p{1}{n\\cdot P(A)}=\\p{2}{600\\cdot\\tfrac13}=\\p{3}{200}', parts: ['cantidad esperada', 'con los datos del caso', 'apariciones esperadas'],
+        tex: '\\p{1}{n\\cdot P(A)}=\\p{2}{600\\cdot\\tfrac13}=\\p{3}{200}',
+        parts: ['cantidad esperada', 'con los datos del caso', 'apariciones esperadas'],
       },
     },
     {
       say: 'Con pocas tiradas la frecuencia salta; con muchas se estabiliza cerca de un tercio. Es la **ley de los grandes números**.',
       board: {
         label: 'Muchas repeticiones',
-        tex: '\\p{1}{n\\to\\infty}\\p{2}{\\ \\Rightarrow\\ \\frac{\\#A}{n}\\approx P(A)}', parts: ['cada vez más tiradas', 'frecuencia estabilizada'],
+        tex: '\\p{1}{n\\to\\infty}\\p{2}{\\ \\Rightarrow\\ \\frac{\\#A}{n}\\approx P(A)}',
+        parts: ['cada vez más tiradas', 'frecuencia estabilizada'],
       },
     },
     {
       say: 'Una probabilidad está entre 0 y 1, y el espacio muestral completo tiene probabilidad 1.',
       board: {
         label: 'Reglas básicas',
-        tex: '\\p{1}{0\\le P(A)\\le1},\\quad \\p{2}{P(\\Omega)=1}', parts: ['límites de probabilidad', 'certeza de algún resultado'],
+        tex: '\\p{1}{0\\le P(A)\\le1},\\quad \\p{2}{P(\\Omega)=1}',
+        parts: ['límites de probabilidad', 'certeza de algún resultado'],
       },
     },
   ],
@@ -548,7 +563,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'teo',
   teaser:
-    'Teo tiene las cámaras de todas las mesas. Un dado honesto deja una huella en los números; uno cargado, otra.',
+    'Teo tiene las cámaras de todas las mesas. Un dado honesto deja una huella en los números, y uno cargado deja otra.',
   learn:
     'Probabilidad clásica $|A|/|\\Omega|$, distribución de la suma de dos dados, frecuencia relativa y su acercamiento a la probabilidad, valor esperado de un conteo $nP$.',
   glyphs: ['prob', 'freq'],
@@ -562,18 +577,21 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'nar', text: 'Casino Aurora, 21:15. Teo habla entre chasquidos del auricular.' },
+        {
+          who: 'nar',
+          text: 'Casino Aurora, nueve y cuarto. La voz de Teo llegaba por el auricular con un chasquido cada pocas palabras.',
+        },
         {
           who: 'teo',
           text: 'Tengo 60 tiradas de la mesa 2 y 1 200 de la mesa 3. En las dos sale mucho el 6, pero la primera grabación es corta.',
         },
         {
           who: 'iris',
-          text: 'No vamos a acusar a un crupier por una mala racha. Comparemos con lo que debería salir.',
+          text: 'No voy a acusar a un crupier por una mala racha. Comparemos con lo que debería salir.',
         },
         {
           who: 'vera',
-          text: 'Háganlo sin señalar la mesa; cuando alguien reclama, nos cambian el turno a nosotros.',
+          text: 'Háganlo sin señalar la mesa. Cuando alguien reclama, el turno nos lo cambian a nosotros.',
         },
       ],
     },
@@ -650,13 +668,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'teo',
-          text: 'En la mesa 3 salieron 320 seises en 1 200 tiradas; esperábamos unas 200. Ese dado está cargado.',
+          text: 'En la mesa 3 salieron 320 seises en 1 200 tiradas, y esperábamos unos 200. Ese dado está cargado.',
         },
-        { who: 'iris', text: 'Bien. ¿Por qué dejar una trampa tan fácil de ver?' },
-        { who: 'vera', text: 'Bajen la voz; yo no les mostré ningún dado.' },
+        { who: 'iris', text: 'Bien. ¿Y por qué alguien dejaría una trampa tan fácil de ver?' },
+        { who: 'vera', text: 'Bajen la voz. Yo no les mostré ningún dado.' },
         {
           who: 'vera',
-          text: 'Miren la tabla de pagos que les dejé sobre el paño. Nadie reclama lo que perdió sin entenderla.',
+          text: 'Miren la tabla de pagos que les dejé sobre el paño. Nadie reclama lo que perdió si no la entiende.',
         },
       ],
     },

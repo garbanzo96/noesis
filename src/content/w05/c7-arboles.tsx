@@ -649,19 +649,25 @@ const lesson: LessonStep = {
       say: 'En la urna hay 3 rojas y 2 azules. La primera extracción abre dos ramas, con sus probabilidades.',
       board: {
         label: 'Primer nivel',
-        tex: '\\p{1}{P(R_1)=\\tfrac35},\\quad\\p{2}{P(A_1)=\\tfrac25}', parts: ['roja en primera extracción', 'azul en primera extracción'],
+        tex: '\\p{1}{P(R_1)=\\tfrac35},\\quad\\p{2}{P(A_1)=\\tfrac25}',
+        parts: ['roja en primera extracción', 'azul en primera extracción'],
       },
     },
     {
       say: 'Sin devolver, lo que sale cambia la urna. Saca una roja y mira cómo cambian las ramas siguientes.',
       gate: 'Arrastra la bola roja del centro fuera de la urna.',
-      board: { label: 'Segundo nivel', tex: '\\p{1}{P(R_2\\mid R_1)}=\\p{2}{\\tfrac24}', parts: ['otra roja tras roja', 'rojas entre las restantes'] },
+      board: {
+        label: 'Segundo nivel',
+        tex: '\\p{1}{P(R_2\\mid R_1)}=\\p{2}{\\tfrac24}',
+        parts: ['otra roja tras roja', 'rojas entre las restantes'],
+      },
     },
     {
       say: 'Para un camino completo se multiplican las probabilidades de sus ramas.',
       board: {
         label: 'Un camino',
-        tex: '\\p{1}{P(R_1\\cap R_2)}=\\p{2}{\\tfrac35\\cdot\\tfrac24}=\\p{3}{\\tfrac{3}{10}}', parts: ['dos rojas seguidas', 'producto de las ramas', 'probabilidad de dos rojas'],
+        tex: '\\p{1}{P(R_1\\cap R_2)}=\\p{2}{\\tfrac35\\cdot\\tfrac24}=\\p{3}{\\tfrac{3}{10}}',
+        parts: ['dos rojas seguidas', 'producto de las ramas', 'probabilidad de dos rojas'],
       },
     },
     {
@@ -672,13 +678,18 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'RA vale 3/5·2/4 = 6/20 y AR vale 2/5·3/4 = 6/20. Juntos, 12/20 = 3/5.',
       },
-      board: { label: 'Varios caminos', tex: '\\p{1}{P(RA)+P(AR)}=\\p{2}{\\tfrac{12}{20}}', parts: ['caminos de distinto color', 'probabilidad de dos colores'] },
+      board: {
+        label: 'Varios caminos',
+        tex: '\\p{1}{P(RA)+P(AR)}=\\p{2}{\\tfrac{12}{20}}',
+        parts: ['caminos de distinto color', 'probabilidad de dos colores'],
+      },
     },
     {
       say: 'Para la segunda roja se suman los caminos que terminan en roja. Es la **probabilidad total**.',
       board: {
         label: 'Probabilidad total',
-        tex: '\\p{1}{P(B)}=\\p{2}{\\sum_i P(A_i)\\,P(B\\mid A_i)}', parts: ['probabilidad del destino', 'suma de todos los caminos'],
+        tex: '\\p{1}{P(B)}=\\p{2}{\\sum_i P(A_i)\\,P(B\\mid A_i)}',
+        parts: ['probabilidad del destino', 'suma de todos los caminos'],
       },
     },
   ],
@@ -694,7 +705,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'iris',
   teaser:
-    'En la mesa 7 las cartas salen de un zapato y no vuelven. Cada carta que sale cambia lo que queda: hay que pensar en árbol.',
+    'En la mesa 7 las cartas salen de un zapato y no vuelven. Cada carta que sale cambia lo que queda, y eso se piensa mejor con un árbol.',
   learn:
     'Extracciones sin reposición, árboles de probabilidad con ramas condicionales, regla de la cadena (multiplicar por un camino) y probabilidad total (sumar caminos).',
   glyphs: ['chain', 'total'],
@@ -708,12 +719,15 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'nar', text: 'Casino Aurora, 21:40. El zapato raspa el paño al deslizarse.' },
+        {
+          who: 'nar',
+          text: 'Casino Aurora, veinte para las diez. El zapato raspó el paño al deslizarse, y el Barón lo siguió con los ojos hasta que se detuvo.',
+        },
         {
           who: 'vera',
-          text: 'El Barón sabe cuántas rojas quedan; son pocas cartas y ninguna vuelve al zapato. Yo necesito repartir sin que note que estoy contando.',
+          text: 'El Barón sabe cuántas rojas quedan. Son pocas cartas y ninguna vuelve al zapato, y yo tengo que repartir sin que note que estoy contando.',
         },
-        { who: 'iris', text: 'Nosotros contamos contigo. ¿Qué queda ahora?' },
+        { who: 'iris', text: 'Deja que contemos nosotros. ¿Qué queda ahora?' },
         {
           who: 'vera',
           text: 'Cinco rojas y tres negras. Puedo mostrarles dos cartas; después él vuelve a mirar mis manos.',
@@ -792,14 +806,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'teo',
-          text: 'Dos rojas tienen 20 posibilidades de 56; para la segunda roja sola queda 5/8. Y el registro de clientes pone al 22 % en la mesa 7.',
+          text: 'Dos rojas seguidas tienen 20 posibilidades de 56, y que la segunda sea roja, sin mirar la primera, sigue en 5/8. El registro de clientes pone al 22 % en la mesa 7.',
         },
-        { who: 'iris', text: 'Suficiente para saber qué esperar. ¿Qué más viste en las cámaras?' },
+        { who: 'iris', text: 'Con eso sabemos qué esperar. ¿Qué más viste en las cámaras?' },
         {
           who: 'teo',
-          text: 'El Barón cambia el dado de la mesa 7 cuando se sienta un VIP, pero tapa el cambio con la mano.',
+          text: 'El Barón cambia el dado de la mesa 7 cuando se sienta un VIP, y tapa el cambio con la mano.',
         },
-        { who: 'vera', text: 'Si está pendiente del dado, por un momento deja de mirarme a mí.' },
+        { who: 'vera', text: 'Mientras está pendiente del dado, deja de mirarme a mí.' },
       ],
     },
   ],

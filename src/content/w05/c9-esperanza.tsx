@@ -608,14 +608,16 @@ const lesson: LessonStep = {
       say: 'Pagas 1 ficha por lanzar un dado. Si sale 6 recibes 4. Una **variable aleatoria** le pone un número a cada resultado: tu ganancia.',
       board: {
         label: 'Variable aleatoria',
-        tex: '\\p{1}{X=+3}\\ \\text{con}\\ \\tfrac16,\\quad\\p{2}{X=-1}\\ \\text{con}\\ \\tfrac56', parts: ['ganancia si sale seis', 'pérdida si no sale seis'],
+        tex: '\\p{1}{X=+3}\\ \\text{con}\\ \\tfrac16,\\quad\\p{2}{X=-1}\\ \\text{con}\\ \\tfrac56',
+        parts: ['ganancia si sale seis', 'pérdida si no sale seis'],
       },
     },
     {
       say: 'La **esperanza** es el promedio ponderado: cada ganancia por su probabilidad. Es el punto donde la balanza se equilibra.',
       board: {
         label: 'Esperanza',
-        tex: '\\p{1}{E[X]}=\\p{2}{\\sum x\\,P(X=x)}=\\p{3}{-\\tfrac13}', parts: ['ganancia promedio por juego', 'ganancias por probabilidad', 'valor esperado'],
+        tex: '\\p{1}{E[X]}=\\p{2}{\\sum x\\,P(X=x)}=\\p{3}{-\\tfrac13}',
+        parts: ['ganancia promedio por juego', 'ganancias por probabilidad', 'valor esperado'],
       },
     },
     {
@@ -626,18 +628,27 @@ const lesson: LessonStep = {
         answer: 0,
         explain: 'Cada juego deja −1/3 en promedio; 600 juegos, 600·(−1/3) = −200.',
       },
-      board: { label: 'Muchos juegos', tex: '\\p{1}{600\\cdot E[X]}=\\p{2}{-200}', parts: ['ganancia total esperada', 'pérdida total esperada'] },
+      board: {
+        label: 'Muchos juegos',
+        tex: '\\p{1}{600\\cdot E[X]}=\\p{2}{-200}',
+        parts: ['ganancia total esperada', 'pérdida total esperada'],
+      },
     },
     {
       say: 'Cambia el premio. Un juego es **justo** cuando su esperanza es cero.',
       gate: 'Arrastra la perilla hasta que el punto de equilibrio quede en 0.',
-      board: { label: 'Juego justo', tex: '\\p{1}{\\tfrac{5}{6}-\\tfrac56}=\\p{2}{0}', parts: ['balance de ganancias', 'ganancia promedio nula'] },
+      board: {
+        label: 'Juego justo',
+        tex: '\\p{1}{\\tfrac{5}{6}-\\tfrac56}=\\p{2}{0}',
+        parts: ['balance de ganancias', 'ganancia promedio nula'],
+      },
     },
     {
       say: 'Con premio 6 el juego es justo. Si la esperanza del jugador es negativa, la diferencia es la ventaja de la casa.',
       board: {
         label: 'La ventaja de la casa',
-        tex: '\\p{1}{E[X]<0}\\p{2}{\\Rightarrow\\ \\text{gana la casa}}', parts: ['jugador pierde en promedio', 'ventaja de la casa'],
+        tex: '\\p{1}{E[X]<0}\\p{2}{\\Rightarrow\\ \\text{gana la casa}}',
+        parts: ['jugador pierde en promedio', 'ventaja de la casa'],
       },
     },
   ],
@@ -653,7 +664,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'iris',
   teaser:
-    'Una partida puede salir bien. Mil partidas, no. La esperanza mide cuánto deja cada juego en promedio, y por qué la casa gana.',
+    'Una partida puede salir bien por suerte. La esperanza mide cuánto deja cada juego en promedio después de muchas partidas, y explica por qué la casa gana.',
   learn:
     'Variable aleatoria como función de los resultados, su distribución, esperanza $E[X]=\\sum x\\,p(x)$ como punto de equilibrio, promedio a la larga, ventaja de la casa y linealidad.',
   glyphs: ['rv', 'expect'],
@@ -668,15 +679,15 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Casino Aurora, 22:20. Ferrer hace rodar una ficha grande entre los dedos.',
+          text: 'Casino Aurora, diez y veinte. Ferrer hacía rodar una ficha grande entre los dedos, sin mirarla.',
         },
         {
           who: 'baron',
-          text: 'Mi generosidad es conocida, inspectora; «Doble Aurora» paga cinco fichas si sale 7. Mis invitados saben agradecerlo.',
+          text: 'Mi generosidad es conocida, inspectora. «Doble Aurora» paga cinco fichas si sale 7, y mis invitados saben agradecerlo.',
         },
         {
           who: 'iris',
-          text: 'Y pagan dos para jugar. Quiero ver cuánto les queda después de muchas partidas.',
+          text: 'Y pagan dos por jugar. Me gustaría ver cuánto les queda después de muchas partidas.',
         },
         {
           who: 'vera',
@@ -749,19 +760,19 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'teo',
-          text: '«Doble Aurora» cuesta al jugador 0,5 ficha por partida en promedio; la ruleta, 1/37 por ficha apostada. En la mesa 7, con los VIP, la casa pierde.',
+          text: '«Doble Aurora» le cuesta al jugador 0,5 ficha por partida en promedio, y la ruleta 1/37 por ficha apostada. En la mesa 7, con los VIP, la casa pierde.',
         },
         {
           who: 'iris',
-          text: 'Pierde a propósito. El dinero del contrabando sale de aquí convertido en premio.',
+          text: 'Pierde a propósito. El dinero del contrabando sale de aquí convertido en premios.',
         },
         {
           who: 'vera',
-          text: 'El sábado, a las 22:00, hay partida grande en la mesa 7. Ferrer va a estar, y yo tengo que repartir.',
+          text: 'El sábado a las 22:00 hay partida grande en la mesa 7. Ferrer va a estar, y yo tengo que repartir.',
         },
         {
           who: 'iris',
-          text: 'Entonces también tiene que quedar grabado quién paga. No voy a dejarte sola frente a su libreta.',
+          text: 'Entonces tiene que quedar grabado quién paga y a quién. No te vamos a dejar sola frente a su libreta.',
         },
       ],
     },

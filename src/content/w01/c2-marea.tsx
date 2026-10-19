@@ -28,7 +28,8 @@ interface Tide {
   a: number;
   phi: number;
 }
-const tideAt = (T: Tide) => (t: number) => T.m + T.a * Math.cos((2 * Math.PI * (t - T.phi)) / PERIOD);
+const tideAt = (T: Tide) => (t: number) =>
+  T.m + T.a * Math.cos((2 * Math.PI * (t - T.phi)) / PERIOD);
 const DEMO_TIDE: Tide = { m: 2.4, a: 1.6, phi: 3 };
 const hD = tideAt(DEMO_TIDE);
 
@@ -52,7 +53,15 @@ function Gauge({ x, level, P }: { x: number; level: number; P: Plane }) {
   const y = (v: number) => P.y(v);
   return (
     <g>
-      <rect x={x - 14} y={y(5.2)} width={28} height={y(0) - y(5.2) + 30} fill="#1d1733" stroke="#3d3160" strokeWidth={3} />
+      <rect
+        x={x - 14}
+        y={y(5.2)}
+        width={28}
+        height={y(0) - y(5.2) + 30}
+        fill="#1d1733"
+        stroke="#3d3160"
+        strokeWidth={3}
+      />
       {[0, 1, 2, 3, 4, 5].map((v) => (
         <g key={v}>
           <line x1={x - 14} x2={x + 6} y1={y(v)} y2={y(v)} stroke={C.amber} strokeWidth={3} />
@@ -61,7 +70,14 @@ function Gauge({ x, level, P }: { x: number; level: number; P: Plane }) {
           </Html>
         </g>
       ))}
-      <rect x={x - 150} y={y(level)} width={300} height={y(0) - y(level) + 40} fill="#0f3a52" opacity={0.85} />
+      <rect
+        x={x - 150}
+        y={y(level)}
+        width={300}
+        height={y(0) - y(level) + 40}
+        fill="#0f3a52"
+        opacity={0.85}
+      />
       <line x1={x - 150} x2={x + 150} y1={y(level)} y2={y(level)} stroke={C.cyan} strokeWidth={3} />
       <Ship x={x + 20} y={y(level) - 26} s={0.32} lights />
     </g>
@@ -109,7 +125,14 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
   return (
     <Stage ref={svg}>
       <Gauge x={260} level={hD(tShown)} P={P} />
-      <Axes P={P} xTicks={[0, 3, 6, 9, 12, 15, 18, 21, 24]} yTicks={[1, 2, 3, 4, 5]} xLabel="t\ (\text{h})" yLabel="h\ (\text{m})" grid />
+      <Axes
+        P={P}
+        xTicks={[0, 3, 6, 9, 12, 15, 18, 21, 24]}
+        yTicks={[1, 2, 3, 4, 5]}
+        xLabel="t\ (\text{h})"
+        yLabel="h\ (\text{m})"
+        grid
+      />
       <Curve P={P} f={hD} a={0} b={Math.max(0.01, drawn)} color={C.cyan} width={4} />
       {/* beat 1: two hours with the same height */}
       <Group opacity={beat === 1 ? at(1) : 0}>
@@ -128,14 +151,33 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
       {(beat === 0 || beat === 2) && (
         <g>
           <Line a={P.pt(tShown, 0)} b={P.pt(tShown, hD(tShown))} color={C.text} dashed width={2} />
-          <Line a={P.pt(0, hD(tShown))} b={P.pt(tShown, hD(tShown))} color={C.text} dashed width={1.5} />
+          <Line
+            a={P.pt(0, hD(tShown))}
+            b={P.pt(tShown, hD(tShown))}
+            color={C.text}
+            dashed
+            width={1.5}
+          />
           <Dot x={P.x(tShown)} y={P.y(hD(tShown))} r={10} color={C.text} />
           <Html x={P.x(tShown)} y={P.y(hD(tShown)) - 34} size={22} color={C.text}>
             <Tex tex={`h(${dec(tShown, 2)})=${dec(hD(tShown), 2)}`} />
           </Html>
           <g style={{ cursor: 'ew-resize' }} onPointerDown={onTime}>
-            <rect x={P.x(0) - 20} y={P.y(0) - 10} width={P.box.w + 40} height={70} fill="transparent" />
-            <circle cx={P.x(tShown)} cy={P.y(0) + 30} r={18} fill={C.panel} stroke={C.cyan} strokeWidth={3} />
+            <rect
+              x={P.x(0) - 20}
+              y={P.y(0) - 10}
+              width={P.box.w + 40}
+              height={70}
+              fill="transparent"
+            />
+            <circle
+              cx={P.x(tShown)}
+              cy={P.y(0) + 30}
+              r={18}
+              fill={C.panel}
+              stroke={C.cyan}
+              strokeWidth={3}
+            />
             <DragCue x={P.x(tShown)} y={P.y(0) + 30} axis="x" color={C.cyan} />
             <Html x={P.x(tShown)} y={P.y(0) + 30} size={14} color={C.cyan}>
               <span className="prop-tag">{hhmm(tShown)}</span>
@@ -148,14 +190,38 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
         <g>
           {wins.map(([a, b], i) => (
             <g key={i}>
-              <rect x={P.x(a)} y={P.y(5)} width={P.x(b) - P.x(a)} height={P.box.h} fill={C.green} opacity={0.08} />
-              <rect x={P.x(a)} y={P.y(0) + 6} width={P.x(b) - P.x(a)} height={12} fill={C.green} opacity={0.8} />
+              <rect
+                x={P.x(a)}
+                y={P.y(5)}
+                width={P.x(b) - P.x(a)}
+                height={P.box.h}
+                fill={C.green}
+                opacity={0.08}
+              />
+              <rect
+                x={P.x(a)}
+                y={P.y(0) + 6}
+                width={P.x(b) - P.x(a)}
+                height={12}
+                fill={C.green}
+                opacity={0.8}
+              />
             </g>
           ))}
           <Line a={P.pt(0, cShown)} b={P.pt(24, cShown)} color={C.amber} width={3} />
-          <g style={{ cursor: beat === 3 ? 'ns-resize' : undefined }} onPointerDown={beat === 3 ? onLevel : undefined}>
+          <g
+            style={{ cursor: beat === 3 ? 'ns-resize' : undefined }}
+            onPointerDown={beat === 3 ? onLevel : undefined}
+          >
             <rect x={P.x(24) - 10} y={P.y(cShown) - 24} width={90} height={48} fill="transparent" />
-            <circle cx={P.x(24) + 30} cy={P.y(cShown)} r={16} fill={C.panel} stroke={C.amber} strokeWidth={3} />
+            <circle
+              cx={P.x(24) + 30}
+              cy={P.y(cShown)}
+              r={16}
+              fill={C.panel}
+              stroke={C.amber}
+              strokeWidth={3}
+            />
             {beat === 3 && <DragCue x={P.x(24) + 30} y={P.y(cShown)} axis="y" color={C.amber} />}
           </g>
           <Html x={P.x(24) + 60} y={P.y(cShown)} size={20} anchor="left" color={C.amber}>
@@ -180,7 +246,14 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
         <Html x={P.x(12)} y={P.y(0) + 76} size={20} color={C.cyan}>
           <Tex tex="\mathrm{Dom}(h)=[0,24]" />
         </Html>
-        <rect x={P.x(0) - 30} y={P.y(4)} width={8} height={P.y(0.8) - P.y(4)} fill={C.amber} opacity={0.8} />
+        <rect
+          x={P.x(0) - 30}
+          y={P.y(4)}
+          width={8}
+          height={P.y(0.8) - P.y(4)}
+          fill={C.amber}
+          opacity={0.8}
+        />
         <Html x={P.x(0) - 44} y={P.y(2.4)} size={20} anchor="right" color={C.amber}>
           <Tex tex="\mathrm{Im}(h)" />
         </Html>
@@ -228,7 +301,9 @@ function Docking({ seed, round, api }: ChallengeProps) {
     if (phase === 'end') painting.current = null;
   });
   const onLow = useSvgDrag(svg, (x) => setTLow(Math.round(clamp(P.inv(x, 0)[0], 0, 24) * 4) / 4));
-  const onSlot = useSvgDrag(svg, (x) => setSlot(Math.round(clamp(P.inv(x, 0)[0] - 1, 0, 22) * 4) / 4));
+  const onSlot = useSvgDrag(svg, (x) =>
+    setSlot(Math.round(clamp(P.inv(x, 0)[0] - 1, 0, 22) * 4) / 4),
+  );
   const truth = useMemo(() => Array.from({ length: 48 }, (_, k) => h(k / 2 + 0.25) >= c), [h, c]);
   // lowest tide in [0,24]
   const tMin = useMemo(() => {
@@ -239,14 +314,34 @@ function Docking({ seed, round, api }: ChallengeProps) {
 
   useEffect(() => {
     if (round === 0) {
-      api.prompt(`El buque necesita al menos $${dec(c)}$ m de marea. Pinta en el eje del tiempo las medias horas en que puede atracar.`, `\\{t:\\ h(t)\\ge ${dec(c)}\\}`);
-      api.hints(['Imagina la recta horizontal a esa altura: sirven las horas en que la curva queda por encima.', `Hay ${windows(h, c).length} ventana(s) en el día.`]);
+      api.prompt(
+        `El buque necesita al menos $${dec(c)}$ m de marea. Pinta en el eje del tiempo las medias horas en que puede atracar.`,
+        `\\{t:\\ h(t)\\ge ${dec(c)}\\}`,
+      );
+      api.hints([
+        'Imagina la recta horizontal a esa altura: sirven las horas en que la curva queda por encima.',
+        `Hay ${windows(h, c).length} ventana(s) en el día.`,
+      ]);
     } else if (round === 1) {
-      api.prompt('Los buzos solo pueden revisar el casco con la marea **más baja** del día. Arrastra el marcador a esa hora.', '\\min_t h(t)');
-      api.hints(['Busca el punto más bajo de la curva y baja hasta el eje del tiempo.', `Está cerca de las ${hhmm(tMin)}.`]);
+      api.prompt(
+        'Los buzos solo pueden revisar el casco con la marea **más baja** del día. Arrastra el marcador a esa hora.',
+        '\\min_t h(t)',
+      );
+      api.hints([
+        'Busca el punto más bajo de la curva y baja hasta el eje del tiempo.',
+        `Está cerca de las ${hhmm(tMin)}.`,
+      ]);
     } else {
-      api.prompt(`Descargar toma 2 horas y durante **todo** ese tiempo la marea debe estar sobre $${dec(c)}$ m. Arrastra la franja de descarga a una posición válida.`, `h(t)\\ge ${dec(c)}\\ \\ \\text{para todo}\\ t\\in[t_0,\\,t_0+2]`);
-      api.hints(['La franja completa debe caber dentro de una ventana verde.', `Ventanas: ${windows(h, c).map(([a, b]) => `${hhmm(a)}–${hhmm(b)}`).join(', ')}.`]);
+      api.prompt(
+        `Descargar toma 2 horas y durante **todo** ese tiempo la marea debe estar sobre $${dec(c)}$ m. Arrastra la franja de descarga a una posición válida.`,
+        `h(t)\\ge ${dec(c)}\\ \\ \\text{para todo}\\ t\\in[t_0,\\,t_0+2]`,
+      );
+      api.hints([
+        'La franja completa debe caber dentro de una ventana verde.',
+        `Ventanas: ${windows(h, c)
+          .map(([a, b]) => `${hhmm(a)}–${hhmm(b)}`)
+          .join(', ')}.`,
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, T]);
@@ -254,25 +349,54 @@ function Docking({ seed, round, api }: ChallengeProps) {
   const submit = () => {
     if (round === 0) {
       const k = truth.findIndex((v, i) => v !== cells[i]);
-      if (k < 0) return api.result(true, `Ventanas: ${windows(h, c).map(([a, b]) => `${hhmm(a)}–${hhmm(b)}`).join(' y ')}.`);
+      if (k < 0)
+        return api.result(
+          true,
+          `Ventanas: ${windows(h, c)
+            .map(([a, b]) => `${hhmm(a)}–${hhmm(b)}`)
+            .join(' y ')}.`,
+        );
       const tt = k / 2 + 0.25;
       const span = `${hhmm(k / 2)}–${hhmm(k / 2 + 0.5)}`;
-      return api.result(false, truth[k] ? `Falta ${span}: a las ${hhmm(tt)} la marea marca ${dec(h(tt), 2)} m, sobre ${dec(c)} m.` : `Sobra ${span}: a las ${hhmm(tt)} la marea marca ${dec(h(tt), 2)} m, bajo ${dec(c)} m.`);
+      return api.result(
+        false,
+        truth[k]
+          ? `Falta ${span}: a las ${hhmm(tt)} la marea marca ${dec(h(tt), 2)} m, sobre ${dec(c)} m.`
+          : `Sobra ${span}: a las ${hhmm(tt)} la marea marca ${dec(h(tt), 2)} m, bajo ${dec(c)} m.`,
+      );
     }
     if (round === 1) {
-      if (Math.abs(tLow - tMin) <= 0.3) return api.result(true, `Mínimo a las ${hhmm(tMin)}: $h=${dec(h(tMin), 2)}$ m.`);
-      return api.result(false, `A las ${hhmm(tLow)} la marea está en ${dec(h(tLow), 2)} m, pero a las ${hhmm(tMin)} baja hasta ${dec(h(tMin), 2)} m.`);
+      if (Math.abs(tLow - tMin) <= 0.3)
+        return api.result(true, `Mínimo a las ${hhmm(tMin)}: $h=${dec(h(tMin), 2)}$ m.`);
+      return api.result(
+        false,
+        `A las ${hhmm(tLow)} la marea está en ${dec(h(tLow), 2)} m, pero a las ${hhmm(tMin)} baja hasta ${dec(h(tMin), 2)} m.`,
+      );
     }
     let worst = slot;
     for (let tt = slot; tt <= slot + 2 + 1e-9; tt += 0.05) if (h(tt) < h(worst)) worst = tt;
-    if (h(worst) >= c) return api.result(true, `De ${hhmm(slot)} a ${hhmm(slot + 2)} la marea nunca baja de ${dec(c)} m (mínimo ${dec(h(worst), 2)} m).`);
-    return api.result(false, `A las ${hhmm(worst)} la marea cae a ${dec(h(worst), 2)} m, bajo ${dec(c)} m: el buque tocaría fondo.`);
+    if (h(worst) >= c)
+      return api.result(
+        true,
+        `De ${hhmm(slot)} a ${hhmm(slot + 2)} la marea nunca baja de ${dec(c)} m (mínimo ${dec(h(worst), 2)} m).`,
+      );
+    return api.result(
+      false,
+      `A las ${hhmm(worst)} la marea cae a ${dec(h(worst), 2)} m, bajo ${dec(c)} m: el buque tocaría fondo.`,
+    );
   };
 
   const wins = windows(h, c);
   return (
     <Stage ref={svg}>
-      <Axes P={P} xTicks={[0, 3, 6, 9, 12, 15, 18, 21, 24]} yTicks={[1, 2, 3, 4, 5]} xLabel="t\ (\text{h})" yLabel="h\ (\text{m})" grid />
+      <Axes
+        P={P}
+        xTicks={[0, 3, 6, 9, 12, 15, 18, 21, 24]}
+        yTicks={[1, 2, 3, 4, 5]}
+        xLabel="t\ (\text{h})"
+        yLabel="h\ (\text{m})"
+        grid
+      />
       <Curve P={P} f={h} a={0} b={24} color={C.cyan} width={4} />
       {round !== 1 && <Line a={P.pt(0, c)} b={P.pt(24, c)} color={C.amber} width={2.5} dashed />}
       {round !== 1 && (
@@ -283,7 +407,16 @@ function Docking({ seed, round, api }: ChallengeProps) {
       {round === 0 && (
         <g onPointerDown={onPaint} style={{ cursor: 'pointer' }}>
           {cells.map((on, k) => (
-            <rect key={k} x={P.x(k / 2) + 1} y={P.y(0) + 10} width={P.sx / 2 - 2} height={36} fill={on ? C.green : '#ffffff10'} opacity={on ? 0.85 : 1} stroke="#ffffff30" />
+            <rect
+              key={k}
+              x={P.x(k / 2) + 1}
+              y={P.y(0) + 10}
+              width={P.sx / 2 - 2}
+              height={36}
+              fill={on ? C.green : '#ffffff10'}
+              opacity={on ? 0.85 : 1}
+              stroke="#ffffff30"
+            />
           ))}
           <rect x={P.x(0)} y={P.y(0) + 6} width={P.box.w} height={46} fill="transparent" />
           <DragCue x={P.x(0)} y={P.y(0) + 28} axis="x" color={C.green} />
@@ -298,7 +431,14 @@ function Docking({ seed, round, api }: ChallengeProps) {
           </Html>
           <g onPointerDown={onLow} style={{ cursor: 'ew-resize' }}>
             <rect x={P.x(0) - 20} y={P.y(0)} width={P.box.w + 40} height={70} fill="transparent" />
-            <circle cx={P.x(tLow)} cy={P.y(0) + 30} r={18} fill={C.panel} stroke={C.cyan} strokeWidth={3} />
+            <circle
+              cx={P.x(tLow)}
+              cy={P.y(0) + 30}
+              r={18}
+              fill={C.panel}
+              stroke={C.cyan}
+              strokeWidth={3}
+            />
             <DragCue x={P.x(tLow)} y={P.y(0) + 30} axis="x" color={C.cyan} />
             <Html x={P.x(tLow)} y={P.y(0) + 30} size={14} color={C.cyan}>
               <span className="prop-tag">{hhmm(tLow)}</span>
@@ -309,12 +449,35 @@ function Docking({ seed, round, api }: ChallengeProps) {
       {round === 2 && (
         <g>
           {wins.map(([a, b], i) => (
-            <rect key={i} x={P.x(a)} y={P.y(0) + 50} width={P.x(b) - P.x(a)} height={8} fill={C.green} opacity={0.5} />
+            <rect
+              key={i}
+              x={P.x(a)}
+              y={P.y(0) + 50}
+              width={P.x(b) - P.x(a)}
+              height={8}
+              fill={C.green}
+              opacity={0.5}
+            />
           ))}
-          <rect x={P.x(slot)} y={P.y(5)} width={P.x(slot + 2) - P.x(slot)} height={P.box.h} fill={C.violet} opacity={0.12} />
+          <rect
+            x={P.x(slot)}
+            y={P.y(5)}
+            width={P.x(slot + 2) - P.x(slot)}
+            height={P.box.h}
+            fill={C.violet}
+            opacity={0.12}
+          />
           <g onPointerDown={onSlot} style={{ cursor: 'ew-resize' }}>
             <rect x={P.x(0)} y={P.y(0) + 8} width={P.box.w} height={40} fill="transparent" />
-            <rect x={P.x(slot)} y={P.y(0) + 10} width={P.x(slot + 2) - P.x(slot)} height={36} rx={6} fill={C.violet} opacity={0.85} />
+            <rect
+              x={P.x(slot)}
+              y={P.y(0) + 10}
+              width={P.x(slot + 2) - P.x(slot)}
+              height={36}
+              rx={6}
+              fill={C.violet}
+              opacity={0.85}
+            />
             <DragCue x={P.x(slot)} y={P.y(0) + 28} axis="x" color={C.violet} />
             <Html x={P.x(slot + 1)} y={P.y(0) + 28} size={15} color={C.bg}>
               <span className="prop-tag">
@@ -343,19 +506,36 @@ export const level: LevelSpec = {
   glyph: 'h(t)',
   kind: 'level',
   guide: 'teo',
-  teaser: 'El Altamar no puede atracar con cualquier marea. El mareógrafo del muelle 3 guarda el día entero, minuto a minuto.',
-  learn: 'Función como regla entrada → salida, gráfica, evaluar, dominio e imagen, máximo y resolver desigualdades leyendo la curva.',
+  teaser:
+    'El Altamar no puede atracar con cualquier marea. El mareógrafo del muelle 3 guarda el día entero, minuto a minuto.',
+  learn:
+    'Función como regla entrada → salida, gráfica, evaluar, dominio e imagen, máximo y resolver desigualdades leyendo la curva.',
   glyphs: ['func', 'mapsto', 'dom', 'im'],
-  pitfalls: ['Confundir el máximo (una altura) con el lugar donde ocurre (una hora).', 'Una función nunca da dos salidas para la misma entrada; dos entradas sí pueden compartir salida.'],
+  pitfalls: [
+    'Confundir el máximo (una altura) con el lugar donde ocurre (una hora).',
+    'Una función nunca da dos salidas para la misma entrada; dos entradas sí pueden compartir salida.',
+  ],
   steps: [
     {
       kind: 'scene',
       place: 'puerto',
       lines: [
-        { who: 'nar', text: 'Muelle 3, siete y veinte. La marea estaba baja y dejaba ver en los pilotes la línea verde hasta donde suele llegar el agua.' },
-        { who: 'teo', text: 'El mareógrafo guarda una lectura por minuto. Tengo el día completo, incluida la madrugada que nadie revisa.' },
-        { who: 'iris', text: 'El Altamar necesita por lo menos 3 metros sobre el nivel base para atracar. Quiero saber a qué horas puede entrar.' },
-        { who: 'rosa', text: 'Elijan bien la hora. Si se equivocan, mis trabajadores van a estar en el muelle cuando descargue.' },
+        {
+          who: 'nar',
+          text: 'Muelle 3, siete y veinte. La marea estaba baja y dejaba ver en los pilotes la línea verde hasta donde suele llegar el agua.',
+        },
+        {
+          who: 'teo',
+          text: 'El mareógrafo guarda una lectura por minuto. Tengo el día completo, incluida la madrugada que nadie revisa.',
+        },
+        {
+          who: 'iris',
+          text: 'El Altamar necesita por lo menos 3 metros sobre el nivel base para atracar. Quiero saber a qué horas puede entrar.',
+        },
+        {
+          who: 'rosa',
+          text: 'Elijan bien la hora. Si se equivocan, mis trabajadores van a estar en el muelle cuando descargue.',
+        },
       ],
     },
     {
@@ -366,17 +546,29 @@ export const level: LevelSpec = {
         {
           say: 'A cada hora del día el mareógrafo le asigna una altura. Mueve la hora y mira cómo se dibuja la curva.',
           gate: 'Arrastra el reloj del eje horizontal desde las 00:00 hasta las 24:00.',
-          note: { label: 'Función', tex: '\\begin{aligned}&h:[0,24]\\to\\mathbb R\\\\ &t\\mapsto h(t)\\end{aligned}', body: 'Entra una hora $t$; sale **una** altura $h(t)$, en metros.' },
+          note: {
+            label: 'Función',
+            tex: '\\begin{aligned}&h:[0,24]\\to\\mathbb R\\\\ &t\\mapsto h(t)\\end{aligned}',
+            body: 'Entra una hora $t$; sale **una** altura $h(t)$, en metros.',
+          },
         },
         {
           say: 'Fíjate en la línea de 3 m: la curva la cruza dos veces en la madrugada.',
           ask: {
             prompt: '¿Puede una misma hora tener dos alturas de marea?',
-            options: ['No: en cada instante el agua está a una sola altura', 'Sí, cuando sube y baja', 'Depende del día'],
+            options: [
+              'No: en cada instante el agua está a una sola altura',
+              'Sí, cuando sube y baja',
+              'Depende del día',
+            ],
             answer: 0,
-            explain: 'Una función asigna exactamente una salida a cada entrada. Lo contrario sí pasa: dos horas distintas con la misma altura, como las marcadas.',
+            explain:
+              'Una función asigna exactamente una salida a cada entrada. Lo contrario sí pasa: dos horas distintas con la misma altura, como las marcadas.',
           },
-          note: { label: 'Una salida por entrada', body: 'Varias horas pueden compartir altura. Una hora no puede tener dos.' },
+          note: {
+            label: 'Una salida por entrada',
+            body: 'Varias horas pueden compartir altura. Una hora no puede tener dos.',
+          },
         },
         {
           say: 'Leer la gráfica es subir desde la hora hasta la curva y mirar el eje vertical.',
@@ -386,27 +578,46 @@ export const level: LevelSpec = {
         {
           say: 'El Altamar necesita al menos 3 m. Las horas que sirven son las que dejan la curva por encima de esa línea.',
           gate: 'Arrastra la línea horizontal hasta 3 m.',
-          note: { label: 'Resolver mirando la gráfica', tex: '\\{t:\\ h(t)\\ge 3\\}', body: 'Las horas de 00:40 a 05:20 y de 13:04 a 17:44. La solución es un conjunto de horas: aquí, la unión de dos intervalos.' },
+          note: {
+            label: 'Resolver mirando la gráfica',
+            tex: '\\{t:\\ h(t)\\ge 3\\}',
+            body: 'Las horas de 00:40 a 05:20 y de 13:04 a 17:44. La solución es un conjunto de horas: aquí, la unión de dos intervalos.',
+          },
         },
         {
           say: 'Iris quiere saber cuál es la marea más alta del día.',
           ask: {
             prompt: '¿Cuál es la marea máxima y cuándo ocurre?',
-            options: ['4,0 m, a las 03:00 y a las 15:24', '5 m, a mediodía', '4,0 m, solo a las 03:00'],
+            options: [
+              '4,0 m, a las 03:00 y a las 15:24',
+              '5 m, a mediodía',
+              '4,0 m, solo a las 03:00',
+            ],
             answer: 0,
-            explain: 'El máximo es el punto más alto de la curva: 4,0 m. Ocurre dos veces porque la marea sube dos veces al día.',
+            explain:
+              'El máximo es el punto más alto de la curva: 4,0 m. Ocurre dos veces porque la marea sube dos veces al día.',
           },
-          note: { label: 'Máximo', tex: '\\max_t h(t)=4{,}0\\ \\text{m}', body: 'El valor máximo (4,0 m) y el lugar donde ocurre (las horas) son cosas distintas.' },
+          note: {
+            label: 'Máximo',
+            tex: '\\max_t h(t)=4{,}0\\ \\text{m}',
+            body: 'El valor máximo (4,0 m) y el lugar donde ocurre (las horas) son cosas distintas.',
+          },
         },
         {
           say: 'El **dominio** son las horas registradas; la **imagen**, las alturas que efectivamente ocurren.',
           dur: 1.6,
-          note: { label: 'Dominio e imagen', tex: '\\begin{aligned}\\mathrm{Dom}(h)&=[0,24]\\\\ \\mathrm{Im}(h)&=[0{,}8;\\,4{,}0]\\end{aligned}' },
+          note: {
+            label: 'Dominio e imagen',
+            tex: '\\begin{aligned}\\mathrm{Dom}(h)&=[0,24]\\\\ \\mathrm{Im}(h)&=[0{,}8;\\,4{,}0]\\end{aligned}',
+          },
         },
         {
           say: 'Donde la curva sube, la función es **creciente**; donde baja, **decreciente**.',
           dur: 1.6,
-          note: { label: 'Crecer y decrecer', body: 'Creciente en un tramo: si $t_1<t_2$, entonces $h(t_1)<h(t_2)$. Decreciente: al revés.' },
+          note: {
+            label: 'Crecer y decrecer',
+            body: 'Creciente en un tramo: si $t_1<t_2$, entonces $h(t_1)<h(t_2)$. Decreciente: al revés.',
+          },
         },
       ],
     },
@@ -415,18 +626,59 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'puerto',
       lines: [
-        { who: 'teo', text: 'Hay una ventana de madrugada, de 00:40 a 05:20, y otra de 13:04 a 17:44. Necesita los 3 metros durante toda la descarga.' },
-        { who: 'iris', text: 'Entonces entra de madrugada, con el muelle vacío. Eso explica la hora; falta saber quién se llevó la carga.' },
-        { who: 'rosa', text: 'En la guía de la última descarga figuran cuatro camiones. Los choferes juran que fueron derecho a la clínica.' },
-        { who: 'teo', text: 'Los GPS de los cuatro siguen guardados, con un punto cada media hora.' },
+        {
+          who: 'teo',
+          text: 'Hay una ventana de madrugada, de 00:40 a 05:20, y otra de 13:04 a 17:44. Necesita los 3 metros durante toda la descarga.',
+        },
+        {
+          who: 'iris',
+          text: 'Entonces entra de madrugada, con el muelle vacío. Eso explica la hora; falta saber quién se llevó la carga.',
+        },
+        {
+          who: 'rosa',
+          text: 'En la guía de la última descarga figuran cuatro camiones. Los choferes juran que fueron derecho a la clínica.',
+        },
+        {
+          who: 'teo',
+          text: 'Los GPS de los cuatro siguen guardados, con un punto cada media hora.',
+        },
       ],
     },
   ],
 };
 
 export const glyphs: Glyph[] = [
-  { id: 'func', world: 'foundations', tex: 'f:A\\to B', name: 'Función', read: 'efe de A en B', meaning: 'Regla que asigna a cada elemento de $A$ (entradas) exactamente un elemento de $B$.' },
-  { id: 'mapsto', world: 'foundations', tex: '\\mapsto', name: 'Se asigna a', read: 'va a', meaning: '$t\\mapsto h(t)$ dice a dónde va cada entrada.', warn: '$\\to$ va entre conjuntos; $\\mapsto$, entre elementos.' },
-  { id: 'dom', world: 'foundations', tex: '\\mathrm{Dom}(f)', name: 'Dominio', read: 'dominio de efe', meaning: 'Conjunto de entradas permitidas.' },
-  { id: 'im', world: 'foundations', tex: '\\mathrm{Im}(f)', name: 'Imagen', read: 'imagen de efe', meaning: 'Conjunto de salidas que la función alcanza de verdad.' },
+  {
+    id: 'func',
+    world: 'foundations',
+    tex: 'f:A\\to B',
+    name: 'Función',
+    read: 'efe de A en B',
+    meaning: 'Regla que asigna a cada elemento de $A$ (entradas) exactamente un elemento de $B$.',
+  },
+  {
+    id: 'mapsto',
+    world: 'foundations',
+    tex: '\\mapsto',
+    name: 'Se asigna a',
+    read: 'va a',
+    meaning: '$t\\mapsto h(t)$ dice a dónde va cada entrada.',
+    warn: '$\\to$ va entre conjuntos; $\\mapsto$, entre elementos.',
+  },
+  {
+    id: 'dom',
+    world: 'foundations',
+    tex: '\\mathrm{Dom}(f)',
+    name: 'Dominio',
+    read: 'dominio de efe',
+    meaning: 'Conjunto de entradas permitidas.',
+  },
+  {
+    id: 'im',
+    world: 'foundations',
+    tex: '\\mathrm{Im}(f)',
+    name: 'Imagen',
+    read: 'imagen de efe',
+    meaning: 'Conjunto de salidas que la función alcanza de verdad.',
+  },
 ];

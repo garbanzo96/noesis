@@ -31,12 +31,28 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
         {vals.map((v, i) => (
           <g key={v} opacity={clamp(p * 4.5 - i, 0, 1)}>
             <Token x={380 + i * 280} y={400} label={v} color={i === 3 ? C.green : C.cyan} r={40} />
-            {i > 0 && <Arrow from={[380 + (i - 1) * 280 + 46, 400]} to={[380 + i * 280 - 46, 400]} color={C.amber} width={3} />}
-            {i > 0 && <Cap x={380 + (i - 0.5) * 280} y={360} size={24} color={C.amber} tex="\times2" />}
+            {i > 0 && (
+              <Arrow
+                from={[380 + (i - 1) * 280 + 46, 400]}
+                to={[380 + i * 280 - 46, 400]}
+                color={C.amber}
+                width={3}
+              />
+            )}
+            {i > 0 && (
+              <Cap x={380 + (i - 0.5) * 280} y={360} size={24} color={C.amber} tex="\times2" />
+            )}
           </g>
         ))}
         <Cap x={800} y={200} size={34} color={C.text} tex="2^{\,?}=8" />
-        <Cap x={800} y={560} size={30} color={C.amber} tex="\text{3 multiplicaciones}" opacity={clamp(p * 4.5 - 3.5, 0, 1)} />
+        <Cap
+          x={800}
+          y={560}
+          size={30}
+          color={C.amber}
+          tex="\text{3 multiplicaciones}"
+          opacity={clamp(p * 4.5 - 3.5, 0, 1)}
+        />
       </Stage>
     );
   }
@@ -73,10 +89,25 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
         <Curve P={PI} f={(x) => Math.min(8, e2(x))} a={-2} b={3} color={C.cyan} width={4} />
         <Curve P={PI} f={(x) => Math.log2(x)} a={0.26} b={8} color={C.amber} width={4} />
         <Line a={PI.pt(q[0], q[1])} b={PI.pt(q[1], q[0])} color={C.text} dashed width={2} />
-        <Dot x={PI.x(q[0])} y={PI.y(q[1])} r={12} color={C.cyan} ring onPointerDown={onP} cursor="grab" />
+        <Dot
+          x={PI.x(q[0])}
+          y={PI.y(q[1])}
+          r={12}
+          color={C.cyan}
+          ring
+          onPointerDown={onP}
+          cursor="grab"
+        />
         <DragCue x={PI.x(q[0])} y={PI.y(q[1])} axis="x" color={C.cyan} />
         <Dot x={PI.x(q[1])} y={PI.y(q[0])} r={10} color={C.amber} />
-        <Cap x={PI.x(q[1]) + 14} y={PI.y(q[0]) + 24} size={18} color={C.amber} anchor="left" tex={`(${dec(q[1], 2)},\\ ${dec(q[0], 1)})`} />
+        <Cap
+          x={PI.x(q[1]) + 14}
+          y={PI.y(q[0]) + 24}
+          size={18}
+          color={C.amber}
+          anchor="left"
+          tex={`(${dec(q[1], 2)},\\ ${dec(q[0], 1)})`}
+        />
         <Cap x={1300} y={240} size={26} color={C.cyan} tex="y=2^x" />
         <Cap x={1300} y={300} size={26} color={C.amber} tex="y=\log_2 x" />
       </Stage>
@@ -92,7 +123,14 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
         <line x1={260} x2={1340} y1={320} y2={320} stroke={C.dim} strokeWidth={3} />
         {[1, 10, 100, 1000].map((v) => (
           <g key={v}>
-            <line x1={260 + (v / 1000) * 1080} x2={260 + (v / 1000) * 1080} y1={308} y2={332} stroke={C.cyan} strokeWidth={3} />
+            <line
+              x1={260 + (v / 1000) * 1080}
+              x2={260 + (v / 1000) * 1080}
+              y1={308}
+              y2={332}
+              stroke={C.cyan}
+              strokeWidth={3}
+            />
             <Cap x={260 + (v / 1000) * 1080} y={360} size={18} color={C.cyan}>
               {v}
             </Cap>
@@ -105,7 +143,14 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
           <line x1={260} x2={1340} y1={560} y2={560} stroke={C.dim} strokeWidth={3} />
           {[1, 10, 100, 1000, 10000].map((v, i) => (
             <g key={v}>
-              <line x1={260 + i * 270} x2={260 + i * 270} y1={548} y2={572} stroke={C.amber} strokeWidth={3} />
+              <line
+                x1={260 + i * 270}
+                x2={260 + i * 270}
+                y1={548}
+                y2={572}
+                stroke={C.amber}
+                strokeWidth={3}
+              />
               <Cap x={260 + i * 270} y={600} size={18} color={C.amber}>
                 {v}
               </Cap>
@@ -120,9 +165,29 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
     const p = at(4);
     return (
       <Stage>
-        <Cap x={800} y={180} size={34} color={C.text} tex="2^{\cC{3}}\cdot2^{\cA{4}}=2^{\cC{3}+\cA{4}}" />
-        <Cap x={800} y={320} size={30} color={C.muted} tex="\log_2(8\cdot16)=\log_2(2^7)=7" opacity={clamp(p * 2, 0, 1)} />
-        <Cap x={800} y={440} size={34} color={C.text} tex="\log_2 8+\log_2 16=\cC{3}+\cA{4}=7" opacity={clamp(p * 2 - 0.7, 0, 1)} />
+        <Cap
+          x={800}
+          y={180}
+          size={34}
+          color={C.text}
+          tex="2^{\cC{3}}\cdot2^{\cA{4}}=2^{\cC{3}+\cA{4}}"
+        />
+        <Cap
+          x={800}
+          y={320}
+          size={30}
+          color={C.muted}
+          tex="\log_2(8\cdot16)=\log_2(2^7)=7"
+          opacity={clamp(p * 2, 0, 1)}
+        />
+        <Cap
+          x={800}
+          y={440}
+          size={34}
+          color={C.text}
+          tex="\log_2 8+\log_2 16=\cC{3}+\cA{4}=7"
+          opacity={clamp(p * 2 - 0.7, 0, 1)}
+        />
         <Cap x={800} y={600} size={22} color={C.amber} opacity={clamp(p * 2 - 1, 0, 1)}>
           los exponentes se suman al multiplicar; los logaritmos son exponentes
         </Cap>
@@ -132,7 +197,15 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
   return (
     <Stage>
       <Cap x={800} y={200} size={40} color={C.text} tex="2^t=50" />
-      {answer !== null && <Cap x={800} y={600} size={30} color={C.green} tex="\log_2 32=5\ \ \text{porque}\ \ 2^5=32" />}
+      {answer !== null && (
+        <Cap
+          x={800}
+          y={600}
+          size={30}
+          color={C.green}
+          tex="\log_2 32=5\ \ \text{porque}\ \ 2^5=32"
+        />
+      )}
     </Stage>
   );
 }
@@ -145,22 +218,36 @@ export const lesson: LessonStep = {
     {
       say: 'La potencia responde «¿cuánto da $2^3$?». El **logaritmo** responde la pregunta inversa: «¿a qué exponente hay que elevar 2 para obtener 8?».',
       dur: 3,
-      board: { label: 'Logaritmo', tex: '\\log_{\\p{1}{\\cC{2}}}\\p{2}{8}=\\p{3}{\\cA{3}}\\iff \\p{1}{\\cC{2}}^{\\p{3}{\\cA{3}}}=\\p{2}{8}' },
+      board: {
+        label: 'Logaritmo',
+        tex: '\\log_{\\p{1}{\\cC{2}}}\\p{2}{8}=\\p{3}{\\cA{3}}\\iff \\p{1}{\\cC{2}}^{\\p{3}{\\cA{3}}}=\\p{2}{8}',
+      },
     },
     {
       say: 'En general, $\\log_b N$ es el exponente que lleva la base $b$ hasta $N$. Con base 10, cuenta cuántos ceros hay.',
       dur: 3,
-      board: { label: 'Definición', tex: '\\p{1}{\\log_b N}=\\p{2}{t\\iff b^t}=\\p{3}{N}', body: 'Con $b>0$, $b\\ne1$ y $N>0$. Valores especiales: $\\log_b1=0$, $\\log_bb=1$.' },
+      board: {
+        label: 'Definición',
+        tex: '\\p{1}{\\log_b N}=\\p{2}{t\\iff b^t}=\\p{3}{N}',
+        body: 'Con $b>0$, $b\\ne1$ y $N>0$. Valores especiales: $\\log_b1=0$, $\\log_bb=1$.',
+      },
     },
     {
       say: 'Como deshace la potencia, la gráfica de $\\log_2 x$ es el reflejo de $2^x$ en la recta $y=x$.',
       gate: 'Arrastra el punto celeste y mira su reflejo.',
-      board: { label: 'Inversas', tex: '\\p{1}{b^{\\log_b N}}=\\p{2}{N,\\qquad \\log_b\\left(b^t\\right)}=\\p{3}{t}' },
+      board: {
+        label: 'Inversas',
+        tex: '\\p{1}{b^{\\log_b N}}=\\p{2}{N,\\qquad \\log_b\\left(b^t\\right)}=\\p{3}{t}',
+      },
     },
     {
       say: 'En una **escala logarítmica**, distancias iguales significan factores iguales. Sirve para ver juntos números muy chicos y muy grandes.',
       dur: 2.8,
-      board: { label: 'Escala logarítmica', tex: '\\log_{10}(10\\,N)=\\p{1}{\\log_{10}N+1}', body: 'Multiplicar por 10 es avanzar un paso.' },
+      board: {
+        label: 'Escala logarítmica',
+        tex: '\\log_{10}(10\\,N)=\\p{1}{\\log_{10}N+1}',
+        body: 'Multiplicar por 10 es avanzar un paso.',
+      },
     },
     {
       say: 'Las **leyes de los logaritmos** son las leyes de potencias vistas desde los exponentes: al multiplicar, los exponentes se suman.',
@@ -182,7 +269,9 @@ export const lesson: LessonStep = {
       board: [
         { tex: '2^t=50' },
         { tex: '\\p{1}{\\ln(2^t)=\\ln 50}' },
-        { tex: '\\p{1}{t\\ln2=\\ln50}\\ \\Rightarrow\\ \\p{2}{t=\\frac{\\ln50}{\\ln2}\\approx5{,}64}' },
+        {
+          tex: '\\p{1}{t\\ln2=\\ln50}\\ \\Rightarrow\\ \\p{2}{t=\\frac{\\ln50}{\\ln2}\\approx5{,}64}',
+        },
         { label: 'Cambio de base', tex: '\\log_b N=\\frac{\\ln N}{\\ln b}' },
       ],
     },

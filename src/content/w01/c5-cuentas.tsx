@@ -20,21 +20,69 @@ const X = [12, 8, 15, 10, 9, 14, 6];
 const colX = (i: number) => 330 + i * 140;
 
 /** One week of the ledger: day, index, value and the crates stacked above. */
-function Ledger({ xs, hi, onPick, top = 120, crates = true, dimOthers = false }: { xs: number[]; hi: (i: number) => boolean; onPick?: (i: number) => void; top?: number; crates?: boolean; dimOthers?: boolean }) {
+function Ledger({
+  xs,
+  hi,
+  onPick,
+  top = 120,
+  crates = true,
+  dimOthers = false,
+}: {
+  xs: number[];
+  hi: (i: number) => boolean;
+  onPick?: (i: number) => void;
+  top?: number;
+  crates?: boolean;
+  dimOthers?: boolean;
+}) {
   return (
     <g>
-      <rect x={250} y={top + 300} width={1000} height={170} rx={8} fill="#e9e1cc" opacity={0.08} stroke="#e9e1cc33" />
+      <rect
+        x={250}
+        y={top + 300}
+        width={1000}
+        height={170}
+        rx={8}
+        fill="#e9e1cc"
+        opacity={0.08}
+        stroke="#e9e1cc33"
+      />
       {xs.map((v, i) => {
         const on = hi(i);
         const cx = colX(i) + 40;
         return (
-          <g key={i} onClick={onPick ? () => onPick(i) : undefined} style={{ cursor: onPick ? 'pointer' : undefined }} opacity={dimOthers && !on ? 0.3 : 1}>
+          <g
+            key={i}
+            onClick={onPick ? () => onPick(i) : undefined}
+            style={{ cursor: onPick ? 'pointer' : undefined }}
+            opacity={dimOthers && !on ? 0.3 : 1}
+          >
             {onPick && <rect x={cx - 64} y={top} width={128} height={470} fill="transparent" />}
             {crates &&
               Array.from({ length: v }, (_, k) => (
-                <rect key={k} x={cx - 26} y={top + 280 - (k + 1) * 17} width={52} height={14} rx={2} fill={on ? '#c98a3a' : '#5b4a33'} stroke="#0006" />
+                <rect
+                  key={k}
+                  x={cx - 26}
+                  y={top + 280 - (k + 1) * 17}
+                  width={52}
+                  height={14}
+                  rx={2}
+                  fill={on ? '#c98a3a' : '#5b4a33'}
+                  stroke="#0006"
+                />
               ))}
-            {on && <rect x={cx - 62} y={top + 304} width={124} height={162} rx={8} fill="none" stroke={C.amber} strokeWidth={3} />}
+            {on && (
+              <rect
+                x={cx - 62}
+                y={top + 304}
+                width={124}
+                height={162}
+                rx={8}
+                fill="none"
+                stroke={C.amber}
+                strokeWidth={3}
+              />
+            )}
             <Html x={cx} y={top + 330} size={18} color={C.muted}>
               <span className="prop-tag">{DAYS[i]}</span>
             </Html>
@@ -72,18 +120,59 @@ function LedgerDemo({ beats, unlock, answer }: DemoProps) {
   if (beat <= 2)
     return (
       <Stage ref={svg}>
-        <Ledger xs={X} hi={(i) => (beat === 0 ? i < k : beat === 1 ? answer !== null && i >= 2 && i <= 4 : true)} top={110} />
+        <Ledger
+          xs={X}
+          hi={(i) => (beat === 0 ? i < k : beat === 1 ? answer !== null && i >= 2 && i <= 4 : true)}
+          top={110}
+        />
         {beat === 0 && (
           <g>
-            <line x1={colX(0) + 40} x2={colX(6) + 40} y1={640} y2={640} stroke={C.line} strokeWidth={3} />
-            <Knob x={k === 0 ? colX(0) - 30 : colX(k - 1) + 40} y={640} color={C.amber} onPointerDown={onK} cursor="ew-resize" label={k === 0 ? '' : `i=${k}`} />
+            <line
+              x1={colX(0) + 40}
+              x2={colX(6) + 40}
+              y1={640}
+              y2={640}
+              stroke={C.line}
+              strokeWidth={3}
+            />
+            <Knob
+              x={k === 0 ? colX(0) - 30 : colX(k - 1) + 40}
+              y={640}
+              color={C.amber}
+              onPointerDown={onK}
+              cursor="ew-resize"
+              label={k === 0 ? '' : `i=${k}`}
+            />
             <rect x={240} y={610} width={1050} height={60} fill="transparent" onPointerDown={onK} />
             <Html x={800} y={730} size={30} color={C.text}>
-              <Tex tex={k === 0 ? '\\text{total}=0' : `${X.slice(0, k).map((_, i) => `x_{${i + 1}}`).join('+')}=${partial}`} />
+              <Tex
+                tex={
+                  k === 0
+                    ? '\\text{total}=0'
+                    : `${X.slice(0, k)
+                        .map((_, i) => `x_{${i + 1}}`)
+                        .join('+')}=${partial}`
+                }
+              />
             </Html>
             {/* running total */}
-            <rect x={1340} y={590 - partial * 6} width={80} height={partial * 6} fill={C.amber} opacity={0.75} />
-            <rect x={1340} y={590 - 74 * 6} width={80} height={74 * 6} fill="none" stroke={C.line} strokeDasharray="6 6" />
+            <rect
+              x={1340}
+              y={590 - partial * 6}
+              width={80}
+              height={partial * 6}
+              fill={C.amber}
+              opacity={0.75}
+            />
+            <rect
+              x={1340}
+              y={590 - 74 * 6}
+              width={80}
+              height={74 * 6}
+              fill="none"
+              stroke={C.line}
+              strokeDasharray="6 6"
+            />
             <Html x={1380} y={620} size={26} color={C.amber}>
               <span className="prop-tag">{partial}</span>
             </Html>
@@ -136,7 +225,15 @@ function LedgerDemo({ beats, unlock, answer }: DemoProps) {
         {T.map((r, i) =>
           r.map((v, j) => (
             <g key={`${i}${j}`}>
-              <rect x={gx(j) - 60} y={gy(i) - 42} width={120} height={84} rx={8} fill="#120f22" stroke={C.line} />
+              <rect
+                x={gx(j) - 60}
+                y={gy(i) - 42}
+                width={120}
+                height={84}
+                rx={8}
+                fill="#120f22"
+                stroke={C.line}
+              />
               <Html x={gx(j)} y={gy(i)} size={34} color={C.text}>
                 <span className="prop-tag">{v}</span>
               </Html>
@@ -193,7 +290,14 @@ function LedgerDemo({ beats, unlock, answer }: DemoProps) {
       </Html>
       {vals.map((v, i) => (
         <g key={i} opacity={i === 0 || answer !== null ? 1 : 0.25}>
-          <rect x={360 + i * 280 - 50} y={640 - v * 1.4} width={100} height={v * 1.4} fill={C.cyan} opacity={0.65} />
+          <rect
+            x={360 + i * 280 - 50}
+            y={640 - v * 1.4}
+            width={100}
+            height={v * 1.4}
+            fill={C.cyan}
+            opacity={0.65}
+          />
           <Html x={360 + i * 280} y={670} size={28} color={C.text}>
             <span className="prop-tag">{answer !== null || i === 0 ? v : '?'}</span>
           </Html>
@@ -224,18 +328,35 @@ function sumForms(r: () => number): SumForm {
   if (kind === 0) {
     const a = randInt(r, 1, 4);
     const b = randInt(r, a + 1, 7);
-    return { tex: `\\sum_{i=${a}}^{${b}}x_i`, days: Array.from({ length: b - a + 1 }, (_, k) => a + k), explain: `$i$ va de ${a} a ${b}, ambos incluidos.` };
+    return {
+      tex: `\\sum_{i=${a}}^{${b}}x_i`,
+      days: Array.from({ length: b - a + 1 }, (_, k) => a + k),
+      explain: `$i$ va de ${a} a ${b}, ambos incluidos.`,
+    };
   }
   if (kind === 1) {
     const n = randInt(r, 2, 3);
-    return { tex: `\\sum_{i=1}^{${n}}x_{2i}`, days: Array.from({ length: n }, (_, k) => 2 * (k + 1)), explain: 'Con $i=1,2,\\dots$ el subíndice es $2i$: días 2, 4, 6…' };
+    return {
+      tex: `\\sum_{i=1}^{${n}}x_{2i}`,
+      days: Array.from({ length: n }, (_, k) => 2 * (k + 1)),
+      explain: 'Con $i=1,2,\\dots$ el subíndice es $2i$: días 2, 4, 6…',
+    };
   }
   if (kind === 2) {
     const n = randInt(r, 2, 4);
-    return { tex: `\\sum_{i=0}^{${n - 1}}x_{7-i}`, days: Array.from({ length: n }, (_, k) => 7 - k), explain: 'Con $i=0$ el término es $x_7$; luego $x_6$… se recorre desde el domingo hacia atrás.' };
+    return {
+      tex: `\\sum_{i=0}^{${n - 1}}x_{7-i}`,
+      days: Array.from({ length: n }, (_, k) => 7 - k),
+      explain:
+        'Con $i=0$ el término es $x_7$; luego $x_6$… se recorre desde el domingo hacia atrás.',
+    };
   }
   const n = randInt(r, 2, 3);
-  return { tex: `\\sum_{i=1}^{${n}}x_{2i-1}`, days: Array.from({ length: n }, (_, k) => 2 * k + 1), explain: 'El subíndice $2i-1$ da los días impares: 1, 3, 5…' };
+  return {
+    tex: `\\sum_{i=1}^{${n}}x_{2i-1}`,
+    days: Array.from({ length: n }, (_, k) => 2 * k + 1),
+    explain: 'El subíndice $2i-1$ da los días impares: 1, 3, 5…',
+  };
 }
 
 function Audit({ seed, round, api }: ChallengeProps) {
@@ -255,16 +376,34 @@ function Audit({ seed, round, api }: ChallengeProps) {
 
   useEffect(() => {
     if (round === 0) {
-      api.prompt('La auditoría pide revisar esta suma del libro. Marca los días que entran en ella.', data.form.tex);
-      api.hints(['Escribe los valores de $i$ uno por uno y reemplázalos en el subíndice.', data.form.explain]);
+      api.prompt(
+        'La auditoría pide revisar esta suma del libro. Marca los días que entran en ella.',
+        data.form.tex,
+      );
+      api.hints([
+        'Escribe los valores de $i$ uno por uno y reemplázalos en el subíndice.',
+        data.form.explain,
+      ]);
     } else if (round === 1) {
       const [hi] = data.hole;
       const rowSum = data.T[hi].reduce((a, b) => a + b, 0);
-      api.prompt(`Una mancha tapa una celda. Al margen, el Contador anotó que el camión ${hi + 1} llevó en total ${rowSum} cajas. ¿Qué número está bajo la mancha?`, `\\sum_{j=1}^{4}a_{${hi + 1}j}=${rowSum}`);
-      api.hints(['La suma de la fila completa es el total anotado.', 'Resta al total las tres celdas visibles de esa fila.']);
+      api.prompt(
+        `Una mancha tapa una celda. Al margen, el Contador anotó que el camión ${hi + 1} llevó en total ${rowSum} cajas. ¿Qué número está bajo la mancha?`,
+        `\\sum_{j=1}^{4}a_{${hi + 1}j}=${rowSum}`,
+      );
+      api.hints([
+        'La suma de la fila completa es el total anotado.',
+        'Resta al total las tres celdas visibles de esa fila.',
+      ]);
     } else {
-      api.prompt(`Cada caja se pagó a ${data.p} mil pesos y además cada día hubo un costo fijo de ${data.f} mil. ¿Cuánto se pagó en la semana, en miles?`, `\\sum_{i=1}^{7}\\left(${data.p}\\,x_i+${data.f}\\right)`);
-      api.hints([`Separa: $\\sum (${data.p}x_i+${data.f})=${data.p}\\sum x_i+\\sum ${data.f}$.`, `$\\sum_{i=1}^{7}${data.f}=7\\cdot${data.f}$: el costo fijo se suma una vez por día.`]);
+      api.prompt(
+        `Cada caja se pagó a ${data.p} mil pesos y además cada día hubo un costo fijo de ${data.f} mil. ¿Cuánto se pagó en la semana, en miles?`,
+        `\\sum_{i=1}^{7}\\left(${data.p}\\,x_i+${data.f}\\right)`,
+      );
+      api.hints([
+        `Separa: $\\sum (${data.p}x_i+${data.f})=${data.p}\\sum x_i+\\sum ${data.f}$.`,
+        `$\\sum_{i=1}^{7}${data.f}=7\\cdot${data.f}$: el costo fijo se suma una vez por día.`,
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, data]);
@@ -279,7 +418,12 @@ function Audit({ seed, round, api }: ChallengeProps) {
       }
       const extra = got.find((d) => !want.includes(d));
       const miss = want.find((d) => !got.includes(d));
-      return api.result(false, extra !== undefined ? `El día ${extra} ($x_{${extra}}$) no aparece en la suma. ${data.form.explain}` : `Falta el día ${miss}: también es un término. ${data.form.explain}`);
+      return api.result(
+        false,
+        extra !== undefined
+          ? `El día ${extra} ($x_{${extra}}$) no aparece en la suma. ${data.form.explain}`
+          : `Falta el día ${miss}: también es un término. ${data.form.explain}`,
+      );
     }
     const v = parseNum(val);
     if (v === null) return;
@@ -287,14 +431,32 @@ function Audit({ seed, round, api }: ChallengeProps) {
       const [hi, hj] = data.hole;
       const truth = data.T[hi][hj];
       const rowSum = data.T[hi].reduce((a, b) => a + b, 0);
-      if (v === truth) return api.result(true, `${rowSum} − ${data.T[hi].filter((_, j) => j !== hj).join(' − ')} = ${truth}.`);
-      return api.result(false, `Con ${dec(v)} la fila sumaría ${rowSum - truth + v}, no ${rowSum}.`);
+      if (v === truth)
+        return api.result(
+          true,
+          `${rowSum} − ${data.T[hi].filter((_, j) => j !== hj).join(' − ')} = ${truth}.`,
+        );
+      return api.result(
+        false,
+        `Con ${dec(v)} la fila sumaría ${rowSum - truth + v}, no ${rowSum}.`,
+      );
     }
     const truth = data.p * S + 7 * data.f;
     if (v === truth) return api.result(true, `${data.p}·${S} + 7·${data.f} = ${truth} mil.`);
-    if (v === data.p * S + data.f) return api.result(false, `El costo fijo es diario: se suma 7 veces, no una. $\\sum_{i=1}^{7}${data.f}=${7 * data.f}$.`);
-    if (v === data.p * S) return api.result(false, `Eso paga solo las cajas. Faltan los costos fijos: $7\\cdot${data.f}$.`);
-    return api.result(false, `No cuadra: ${data.p} por ${S} cajas da ${data.p * S}; más el costo fijo de 7 días.`);
+    if (v === data.p * S + data.f)
+      return api.result(
+        false,
+        `El costo fijo es diario: se suma 7 veces, no una. $\\sum_{i=1}^{7}${data.f}=${7 * data.f}$.`,
+      );
+    if (v === data.p * S)
+      return api.result(
+        false,
+        `Eso paga solo las cajas. Faltan los costos fijos: $7\\cdot${data.f}$.`,
+      );
+    return api.result(
+      false,
+      `No cuadra: ${data.p} por ${S} cajas da ${data.p * S}; más el costo fijo de 7 días.`,
+    );
   };
 
   if (round === 0)
@@ -305,7 +467,12 @@ function Audit({ seed, round, api }: ChallengeProps) {
             <Tex tex={`\\displaystyle ${data.form.tex}`} />
           </Html>
         </Panel>
-        <Ledger xs={data.xs} top={160} hi={(i) => sel.includes(i)} onPick={(i) => setSel((s) => (s.includes(i) ? s.filter((v) => v !== i) : [...s, i]))} />
+        <Ledger
+          xs={data.xs}
+          top={160}
+          hi={(i) => sel.includes(i)}
+          onPick={(i) => setSel((s) => (s.includes(i) ? s.filter((v) => v !== i) : [...s, i]))}
+        />
         <Confirm onClick={submit} disabled={sel.length === 0} />
       </Stage>
     );
@@ -316,7 +483,14 @@ function Audit({ seed, round, api }: ChallengeProps) {
     return (
       <Stage>
         {data.T.map((row, i) => (
-          <Html key={i} x={440} y={gy(i)} size={22} anchor="right" color={i === hi ? C.amber : C.muted}>
+          <Html
+            key={i}
+            x={440}
+            y={gy(i)}
+            size={22}
+            anchor="right"
+            color={i === hi ? C.amber : C.muted}
+          >
             <span>Camión {i + 1}</span>
           </Html>
         ))}
@@ -330,8 +504,22 @@ function Audit({ seed, round, api }: ChallengeProps) {
             const blot = i === hi && j === hj;
             return (
               <g key={`${i}${j}`}>
-                <rect x={gx(j) - 64} y={gy(i) - 46} width={128} height={92} rx={8} fill="#120f22" stroke={i === hi ? C.amber : C.line} />
-                {blot ? <ellipse cx={gx(j)} cy={gy(i)} rx={50} ry={36} fill="#05030c" /> : <Html x={gx(j)} y={gy(i)} size={34} color={C.text}><span className="prop-tag">{v}</span></Html>}
+                <rect
+                  x={gx(j) - 64}
+                  y={gy(i) - 46}
+                  width={128}
+                  height={92}
+                  rx={8}
+                  fill="#120f22"
+                  stroke={i === hi ? C.amber : C.line}
+                />
+                {blot ? (
+                  <ellipse cx={gx(j)} cy={gy(i)} rx={50} ry={36} fill="#05030c" />
+                ) : (
+                  <Html x={gx(j)} y={gy(i)} size={34} color={C.text}>
+                    <span className="prop-tag">{v}</span>
+                  </Html>
+                )}
               </g>
             );
           }),
@@ -339,7 +527,15 @@ function Audit({ seed, round, api }: ChallengeProps) {
         <Html x={gx(4) - 10} y={gy(hi)} size={26} anchor="left" color={C.amber}>
           <span className="prop-tag">Σ = {data.T[hi].reduce((a, b) => a + b, 0)}</span>
         </Html>
-        <NumberField x={560} y={700} value={val} onChange={setVal} onEnter={submit} label="Bajo la mancha:" unit="cajas" />
+        <NumberField
+          x={560}
+          y={700}
+          value={val}
+          onChange={setVal}
+          onEnter={submit}
+          label="Bajo la mancha:"
+          unit="cajas"
+        />
         <Confirm onClick={submit} />
       </Stage>
     );
@@ -350,7 +546,15 @@ function Audit({ seed, round, api }: ChallengeProps) {
       <Html x={800} y={590} size={28} color={C.amber}>
         <Tex tex={`\\displaystyle\\sum_{i=1}^{7}x_i=${S}\\ \\text{cajas}`} />
       </Html>
-      <NumberField x={420} y={720} value={val} onChange={setVal} onEnter={submit} label="Pago total:" unit="mil pesos" />
+      <NumberField
+        x={420}
+        y={720}
+        value={val}
+        onChange={setVal}
+        onEnter={submit}
+        label="Pago total:"
+        unit="mil pesos"
+      />
       <Confirm onClick={submit} />
     </Stage>
   );
@@ -366,19 +570,37 @@ export const level: LevelSpec = {
   glyph: '\\textstyle\\sum',
   kind: 'level',
   guide: 'iris',
-  teaser: 'El libro del Contador tiene una página por semana y una cifra por caja. Una mancha tapa justo la cuenta que importa.',
-  learn: 'Notación $\\sum$ con índice y límites, sacar constantes de una suma, tablas con doble índice $a_{ij}$ y sumas por filas y columnas, productoria $\\prod$.',
+  teaser:
+    'El libro del Contador tiene una página por semana y una cifra por caja. Una mancha tapa justo la cuenta que importa.',
+  learn:
+    'Notación $\\sum$ con índice y límites, sacar constantes de una suma, tablas con doble índice $a_{ij}$ y sumas por filas y columnas, productoria $\\prod$.',
   glyphs: ['sum', 'index', 'prod'],
-  pitfalls: ['El índice $i$ es un contador: el resultado no depende de $i$.', 'Los dos límites se incluyen: $\\sum_{i=3}^{5}$ tiene tres términos.', '$\\sum_{i=1}^{7}c=7c$, no $c$.'],
+  pitfalls: [
+    'El índice $i$ es un contador: el resultado no depende de $i$.',
+    'Los dos límites se incluyen: $\\sum_{i=3}^{5}$ tiene tres términos.',
+    '$\\sum_{i=1}^{7}c=7c$, no $c$.',
+  ],
   steps: [
     {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'nar', text: 'Oficina NÓESIS, ocho y cuarto. El libro olía a papel húmedo y tenía una página por semana, con los renglones hechos a regla.' },
-        { who: 'iris', text: 'Una columna por día y una cifra por caja. Quien lleva así un libro no pierde una caja sin darse cuenta.' },
-        { who: 'teo', text: 'Hay una mancha encima de una cuenta, pero dejó los totales al margen. Con eso se puede reconstruir lo que tapa.' },
-        { who: 'iris', text: 'Y seguir los pagos. Cuarenta cajas no se venden sin que alguien cobre.' },
+        {
+          who: 'nar',
+          text: 'Oficina NÓESIS, ocho y cuarto. El libro olía a papel húmedo y tenía una página por semana, con los renglones hechos a regla.',
+        },
+        {
+          who: 'iris',
+          text: 'Una columna por día y una cifra por caja. Quien lleva así un libro no pierde una caja sin darse cuenta.',
+        },
+        {
+          who: 'teo',
+          text: 'Hay una mancha encima de una cuenta, pero dejó los totales al margen. Con eso se puede reconstruir lo que tapa.',
+        },
+        {
+          who: 'iris',
+          text: 'Y seguir los pagos. Cuarenta cajas no se venden sin que alguien cobre.',
+        },
       ],
     },
     {
@@ -389,13 +611,21 @@ export const level: LevelSpec = {
         {
           say: 'Cada día anotó cuántas cajas salieron. Al día $i$ le corresponde el número $x_i$.',
           gate: 'Arrastra el contador desde el lunes hasta el domingo.',
-          note: { label: 'Sumatoria', tex: '\\sum_{i=1}^{7}x_i=x_1+x_2+\\dots+x_7=74', body: '$i$ es el contador: recorre los días del 1 al 7 y va sumando cada $x_i$.' },
+          note: {
+            label: 'Sumatoria',
+            tex: '\\sum_{i=1}^{7}x_i=x_1+x_2+\\dots+x_7=74',
+            body: '$i$ es el contador: recorre los días del 1 al 7 y va sumando cada $x_i$.',
+          },
         },
         {
           say: 'Los números bajo y sobre la Σ dicen dónde empieza y dónde termina el contador.',
           ask: {
             prompt: '¿Qué días entran en $\\sum_{i=3}^{5}x_i$?',
-            options: ['Miércoles, jueves y viernes', 'Solo miércoles y viernes', 'De lunes a viernes'],
+            options: [
+              'Miércoles, jueves y viernes',
+              'Solo miércoles y viernes',
+              'De lunes a viernes',
+            ],
             answer: 0,
             explain: 'El índice toma los valores 3, 4 y 5, y ambos extremos se incluyen.',
           },
@@ -405,26 +635,45 @@ export const level: LevelSpec = {
           say: 'El Contador cobraba 12 mil pesos por caja.',
           ask: {
             prompt: '¿Cuál es la forma más corta de calcular lo cobrado en la semana?',
-            options: ['Sumar las cajas y multiplicar una vez por 12', 'Multiplicar cada día por 12 y después sumar', 'Multiplicar 12 por 7 días'],
+            options: [
+              'Sumar las cajas y multiplicar una vez por 12',
+              'Multiplicar cada día por 12 y después sumar',
+              'Multiplicar 12 por 7 días',
+            ],
             answer: 0,
-            explain: 'Las dos primeras dan lo mismo, porque el 12 está en todos los términos. Sacarlo de la suma ahorra seis multiplicaciones.',
+            explain:
+              'Las dos primeras dan lo mismo, porque el 12 está en todos los términos. Sacarlo de la suma ahorra seis multiplicaciones.',
           },
-          note: { label: 'Sacar constantes', tex: '\\sum_i c\\,x_i=c\\sum_i x_i', body: 'Y si se suma una constante 7 veces: $\\sum_{i=1}^{7}c=7c$.' },
+          note: {
+            label: 'Sacar constantes',
+            tex: '\\sum_i c\\,x_i=c\\sum_i x_i',
+            body: 'Y si se suma una constante 7 veces: $\\sum_{i=1}^{7}c=7c$.',
+          },
         },
         {
           say: 'Al final del libro hay una tabla: camiones en las filas, semanas en las columnas. Dos índices.',
           gate: 'Suma por filas y por columnas con los dos botones.',
-          note: { label: 'Doble índice', tex: '\\sum_i\\sum_j a_{ij}=\\sum_j\\sum_i a_{ij}', body: '$a_{ij}$: fila $i$, columna $j$. Por filas o por columnas, el total es el mismo: 48.' },
+          note: {
+            label: 'Doble índice',
+            tex: '\\sum_i\\sum_j a_{ij}=\\sum_j\\sum_i a_{ij}',
+            body: '$a_{ij}$: fila $i$, columna $j$. Por filas o por columnas, el total es el mismo: 48.',
+          },
         },
         {
           say: 'En la última página, la cuenta del Contador: cada semana se multiplica por un factor.',
           ask: {
-            prompt: 'La cuenta se multiplica por 2, luego por 1,5 y luego por 0,5. ¿Cuánto cambió en total?',
+            prompt:
+              'La cuenta se multiplica por 2, luego por 1,5 y luego por 0,5. ¿Cuánto cambió en total?',
             options: ['Se multiplicó por 1,5', 'Se multiplicó por 4', 'Se multiplicó por 3'],
             answer: 0,
-            explain: 'Los factores se encadenan multiplicando: $2\\cdot1{,}5\\cdot0{,}5=1{,}5$. Sumarlos (4) no tiene sentido aquí.',
+            explain:
+              'Los factores se encadenan multiplicando: $2\\cdot1{,}5\\cdot0{,}5=1{,}5$. Sumarlos (4) no tiene sentido aquí.',
           },
-          note: { label: 'Productoria', tex: '\\prod_{k=1}^{3}r_k=r_1\\,r_2\\,r_3', body: 'Lo mismo que $\\sum$, pero multiplicando.' },
+          note: {
+            label: 'Productoria',
+            tex: '\\prod_{k=1}^{3}r_k=r_1\\,r_2\\,r_3',
+            body: 'Lo mismo que $\\sum$, pero multiplicando.',
+          },
         },
       ],
     },
@@ -433,17 +682,48 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'oficina',
       lines: [
-        { who: 'teo', text: 'Esa semana salieron 74 cajas a 12 mil pesos: 888 mil. El libro también anota el pago de 1 200 dosis.' },
+        {
+          who: 'teo',
+          text: 'Esa semana salieron 74 cajas a 12 mil pesos: 888 mil. El libro también anota el pago de 1 200 dosis.',
+        },
         { who: 'iris', text: 'Todos los pagos van a la Clínica del Cerro, a una sola cuenta.' },
-        { who: 'tu', text: 'Entonces la clínica pagó por todo. Falta saber cuánto recibió cada sede.' },
-        { who: 'teo', text: 'Tiene tres: Puerto, Cerro y Norte. El mismo nombre de clínica aparece en tres inventarios distintos.' },
+        {
+          who: 'tu',
+          text: 'Entonces la clínica pagó por todo. Falta saber cuánto recibió cada sede.',
+        },
+        {
+          who: 'teo',
+          text: 'Tiene tres: Puerto, Cerro y Norte. El mismo nombre de clínica aparece en tres inventarios distintos.',
+        },
       ],
     },
   ],
 };
 
 export const glyphs: Glyph[] = [
-  { id: 'sum', world: 'foundations', tex: '\\sum_{i=1}^{n}x_i', name: 'Sumatoria', read: 'suma de i igual 1 hasta n de equis sub i', meaning: 'Suma de $x_1,x_2,\\dots,x_n$. El índice $i$ recorre los enteros entre los límites, ambos incluidos.' },
-  { id: 'index', world: 'foundations', tex: 'a_{ij}', name: 'Subíndices', read: 'a sub i jota', meaning: 'Elemento en la fila $i$ y la columna $j$ de una tabla.' },
-  { id: 'prod', world: 'foundations', tex: '\\prod_{k=1}^{n}r_k', name: 'Productoria', read: 'producto de k igual 1 hasta n de erre sub k', meaning: 'Producto $r_1\\cdot r_2\\cdots r_n$. Sirve para factores que se encadenan.' },
+  {
+    id: 'sum',
+    world: 'foundations',
+    tex: '\\sum_{i=1}^{n}x_i',
+    name: 'Sumatoria',
+    read: 'suma de i igual 1 hasta n de equis sub i',
+    meaning:
+      'Suma de $x_1,x_2,\\dots,x_n$. El índice $i$ recorre los enteros entre los límites, ambos incluidos.',
+  },
+  {
+    id: 'index',
+    world: 'foundations',
+    tex: 'a_{ij}',
+    name: 'Subíndices',
+    read: 'a sub i jota',
+    meaning: 'Elemento en la fila $i$ y la columna $j$ de una tabla.',
+  },
+  {
+    id: 'prod',
+    world: 'foundations',
+    tex: '\\prod_{k=1}^{n}r_k',
+    name: 'Productoria',
+    read: 'producto de k igual 1 hasta n de erre sub k',
+    meaning: 'Producto $r_1\\cdot r_2\\cdots r_n$. Sirve para factores que se encadenan.',
+  },
 ];

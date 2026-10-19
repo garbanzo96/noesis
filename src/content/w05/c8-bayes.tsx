@@ -515,14 +515,19 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'En una bolsa hay una moneda honesta y una con dos caras. Sacas una al azar: antes de lanzar, cada una tiene la mitad.',
-      board: { label: 'Antes de mirar', tex: '\\p{1}{P(T)}=\\p{2}{\\tfrac12}', parts: ['probabilidad de la trucada', 'probabilidad antes de mirar'] },
+      board: {
+        label: 'Antes de mirar',
+        tex: '\\p{1}{P(T)}=\\p{2}{\\tfrac12}',
+        parts: ['probabilidad de la trucada', 'probabilidad antes de mirar'],
+      },
     },
     {
       say: 'Imagina 100 repeticiones. Lanza las monedas y cuenta cuántas caras aporta cada una.',
       gate: 'Arrastra la perilla hasta el final para lanzar las 100.',
       board: {
         label: 'Cómo sale cara',
-        tex: '\\p{1}{P(C\\mid T)=1},\\quad\\p{2}{P(C\\mid H)=\\tfrac12}', parts: ['cara con moneda trucada', 'cara con moneda honesta'],
+        tex: '\\p{1}{P(C\\mid T)=1},\\quad\\p{2}{P(C\\mid H)=\\tfrac12}',
+        parts: ['cara con moneda trucada', 'cara con moneda honesta'],
       },
     },
     {
@@ -536,21 +541,24 @@ const lesson: LessonStep = {
       },
       board: {
         label: 'Después de mirar',
-        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\tfrac{50}{75}}=\\p{3}{\\tfrac23}', parts: ['trucada tras ver cara', 'caras de la trucada', 'probabilidad actualizada'],
+        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\tfrac{50}{75}}=\\p{3}{\\tfrac23}',
+        parts: ['trucada tras ver cara', 'caras de la trucada', 'probabilidad actualizada'],
       },
     },
     {
       say: 'La misma cuenta en fórmula: lo que aporta la trucada, dividido por todas las formas de ver cara. Es el **teorema de Bayes**.',
       board: {
         label: 'Bayes',
-        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\frac{P(C\\mid T)\\,P(T)}{P(C)}}', parts: ['trucada tras ver cara', 'aporte entre todas las caras'],
+        tex: '\\p{1}{P(T\\mid C)}=\\p{2}{\\frac{P(C\\mid T)\\,P(T)}{P(C)}}',
+        parts: ['trucada tras ver cara', 'aporte entre todas las caras'],
       },
     },
     {
       say: 'El denominador suma los dos caminos que terminan en cara: es la probabilidad total.',
       board: {
         label: 'Denominador',
-        tex: '\\p{1}{P(C)}=\\p{2}{P(C\\mid T)P(T)+P(C\\mid H)P(H)}=\\p{3}{\\tfrac34}', parts: ['probabilidad de cara', 'suma de ambos caminos', 'probabilidad total de cara'],
+        tex: '\\p{1}{P(C)}=\\p{2}{P(C\\mid T)P(T)+P(C\\mid H)P(H)}=\\p{3}{\\tfrac34}',
+        parts: ['probabilidad de cara', 'suma de ambos caminos', 'probabilidad total de cara'],
       },
     },
   ],
@@ -566,7 +574,7 @@ export const level: LevelSpec = {
   kind: 'level',
   guide: 'teo',
   teaser:
-    'En la mesa 7 hay un dado honesto o uno cargado, y no sabemos cuál. Cada tirada es una pista. Bayes dice cuánto debe cambiar nuestra sospecha.',
+    'En la mesa 7 hay un dado honesto o uno cargado, y no sabemos cuál. Cada tirada es una pista, y Bayes dice cuánto debe cambiar la sospecha.',
   learn:
     'Teorema de Bayes como diagrama de áreas: previa por verosimilitud, renormalizar; evidencia que se acumula; el peso de la base; chances y razón de verosimilitud.',
   glyphs: ['bayes', 'prior', 'likelihood'],
@@ -580,10 +588,13 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'casino',
       lines: [
-        { who: 'nar', text: 'Casino Aurora, 22:00. El dado rebota contra el borde de la mesa 7.' },
+        {
+          who: 'nar',
+          text: 'Casino Aurora, diez de la noche. El dado rebotó contra el borde de la mesa 7 y quedó, otra vez, en seis.',
+        },
         {
           who: 'teo',
-          text: 'El cargado saca 6 la mitad de las veces; el honesto, una de cada seis. Desde la cámara no logro distinguir cuál dejó el Barón.',
+          text: 'El cargado saca 6 la mitad de las veces, y el honesto una de cada seis. Desde la cámara no distingo cuál dejó el Barón.',
         },
         {
           who: 'vera',
@@ -591,7 +602,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'iris',
-          text: 'Entonces seguimos las tiradas. Necesito algo más firme que reconocerle el bolsillo.',
+          text: 'Entonces sigamos las tiradas. Necesito algo más firme que la forma de su bolsillo.',
         },
       ],
     },
@@ -663,14 +674,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'teo',
-          text: 'Con una posibilidad inicial de 0,1, cinco seises seguidos pasan de 0,95 para el cargado. Ocurrió cuando jugó el VIP del sombrero.',
+          text: 'Con una posibilidad inicial de 0,1, cinco seises seguidos pasan de 0,95 para el cargado. Pasó cuando jugó el VIP del sombrero.',
         },
-        { who: 'iris', text: 'El dado entra con él.' },
+        { who: 'iris', text: 'Entonces el dado entra a la mesa con él.' },
         {
           who: 'vera',
           text: 'Paga con fichas de la casa, siempre de las grandes. Ferrer celebra incluso cuando tiene que pagarle.',
         },
-        { who: 'tu', text: 'Revisemos cuánto le cuesta a la casa esa celebración.' },
+        { who: 'tu', text: 'Veamos cuánto le cuesta a la casa esa celebración.' },
       ],
     },
   ],

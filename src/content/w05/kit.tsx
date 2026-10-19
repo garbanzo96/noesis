@@ -99,7 +99,9 @@ export function DiceGrid({
                 stroke={t ?? C.line}
                 strokeWidth={t ? 2.5 : 1.5}
               />
-              {onPaint && k === keyOf(ALL[0]) && <DragCue x={cx + cell / 2} y={cy + cell / 2} axis="xy" color={t ?? C.line} />}
+              {onPaint && k === keyOf(ALL[0]) && (
+                <DragCue x={cx + cell / 2} y={cy + cell / 2} axis="xy" color={t ?? C.line} />
+              )}
               {labels === 'dice' && (
                 <>
                   <Die
