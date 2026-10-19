@@ -3,7 +3,13 @@ import { clamp } from '../../engine/anim';
 import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve } from '../../engine/shapes';
-import type { ChallengeProps, DemoProps, Glyph, LessonStep, LevelSpec } from '../../game/level/types';
+import type {
+  ChallengeProps,
+  DemoProps,
+  Glyph,
+  LessonStep,
+  LevelSpec,
+} from '../../game/level/types';
 import { Cap, NumberLine, lineMap } from '../shared/lesson';
 import { pick, rng, shuffle } from '../shared/rng';
 import { Choices, Confirm, NumberField, parseNum } from '../shared/ui';
@@ -35,13 +41,27 @@ function CILesson({ beats, unlock, answer }: DemoProps) {
     return (
       <Stage>
         <Axes P={PI} xTicks={[40, 44, 48, 52, 56, 60]} xLabel="\bar x" />
-        <line x1={PI.x(MU)} x2={PI.x(MU)} y1={PI.box.y} y2={PI.y(0)} stroke={C.green} strokeWidth={3} />
+        <line
+          x1={PI.x(MU)}
+          x2={PI.x(MU)}
+          y1={PI.box.y}
+          y2={PI.y(0)}
+          stroke={C.green}
+          strokeWidth={3}
+        />
         <Cap x={PI.x(MU)} y={PI.box.y - 16} size={18} color={C.green} tex="\mu=50" />
         {xs.slice(0, shown).map((x, k) => {
           const ok = Math.abs(x - MU) <= zz * SE;
           return (
             <g key={k}>
-              <line x1={PI.x(x - zz * SE)} x2={PI.x(x + zz * SE)} y1={PI.y(k + 1)} y2={PI.y(k + 1)} stroke={ok ? C.cyan : C.red} strokeWidth={4} />
+              <line
+                x1={PI.x(x - zz * SE)}
+                x2={PI.x(x + zz * SE)}
+                y1={PI.y(k + 1)}
+                y2={PI.y(k + 1)}
+                stroke={ok ? C.cyan : C.red}
+                strokeWidth={4}
+              />
               <circle cx={PI.x(x)} cy={PI.y(k + 1)} r={5} fill={ok ? C.cyan : C.red} />
             </g>
           );
@@ -59,10 +79,29 @@ function CILesson({ beats, unlock, answer }: DemoProps) {
             </button>
           </Html>
         )}
-        {shown > 0 && <Cap x={1370} y={380} size={22} color={miss ? C.red : C.cyan} tex={`${20 - miss}\\ \\text{de}\\ 20\\ \\text{atrapan a }\\mu`} />}
-        {beat === 3 && <Choices x={1370} y={470} options={[90, 95, 99] as (90 | 95 | 99)[]} value={lvl} onPick={setLvl} render={(v) => `${v} %`} />}
+        {shown > 0 && (
+          <Cap
+            x={1370}
+            y={380}
+            size={22}
+            color={miss ? C.red : C.cyan}
+            tex={`${20 - miss}\\ \\text{de}\\ 20\\ \\text{atrapan a }\\mu`}
+          />
+        )}
+        {beat === 3 && (
+          <Choices
+            x={1370}
+            y={470}
+            options={[90, 95, 99] as (90 | 95 | 99)[]}
+            value={lvl}
+            onPick={setLvl}
+            render={(v) => `${v} %`}
+          />
+        )}
         {beat === 3 && <Cap x={1370} y={540} size={20} color={C.text} tex={`z^*=${num(zz, 3)}`} />}
-        {beat === 3 && answer !== null && <Cap x={1370} y={600} size={20} color={C.green} tex="E\propto\tfrac{1}{\sqrt n}" />}
+        {beat === 3 && answer !== null && (
+          <Cap x={1370} y={600} size={20} color={C.green} tex="E\propto\tfrac{1}{\sqrt n}" />
+        )}
       </Stage>
     );
   }
@@ -75,13 +114,42 @@ function CILesson({ beats, unlock, answer }: DemoProps) {
       {beat === 1 && (
         <>
           <Axes P={PL} xTicks={[40, 44, 46, 48, 50, 52, 54, 56, 60]} xLabel="\bar x" />
-          <Shade P={PL} f={f} a={MU - 1.96 * SE} b={MU + 1.96 * SE} color={C.violet} opacity={0.3 * at(1)} />
+          <Shade
+            P={PL}
+            f={f}
+            a={MU - 1.96 * SE}
+            b={MU + 1.96 * SE}
+            color={C.violet}
+            opacity={0.3 * at(1)}
+          />
           <Curve P={PL} f={f} a={40} b={60} color={C.amber} width={4} />
-          <Cap x={PL.x(MU)} y={PL.y(0.06)} size={20} color={C.violet} tex="95\,\%" opacity={at(1)} />
+          <Cap
+            x={PL.x(MU)}
+            y={PL.y(0.06)}
+            size={20}
+            color={C.violet}
+            tex="95\,\%"
+            opacity={at(1)}
+          />
           <Cap x={PL.x(MU)} y={PL.y(0) + 50} size={18} color={C.green} tex="\mu" />
-          <line x1={X(xb - 1.96 * SE)} x2={X(xb + 1.96 * SE)} y1={600} y2={600} stroke={C.cyan} strokeWidth={5} opacity={clamp(at(1) * 2 - 1, 0, 1)} />
+          <line
+            x1={X(xb - 1.96 * SE)}
+            x2={X(xb + 1.96 * SE)}
+            y1={600}
+            y2={600}
+            stroke={C.cyan}
+            strokeWidth={5}
+            opacity={clamp(at(1) * 2 - 1, 0, 1)}
+          />
           <circle cx={X(xb)} cy={600} r={7} fill={C.cyan} opacity={clamp(at(1) * 2 - 1, 0, 1)} />
-          <Cap x={X(xb)} y={630} size={18} color={C.cyan} tex="\bar x\pm1{,}96\,\text{EE}" opacity={clamp(at(1) * 2 - 1, 0, 1)} />
+          <Cap
+            x={X(xb)}
+            y={630}
+            size={18}
+            color={C.cyan}
+            tex="\bar x\pm1{,}96\,\text{EE}"
+            opacity={clamp(at(1) * 2 - 1, 0, 1)}
+          />
         </>
       )}
       {beat === 0 && (
@@ -89,15 +157,33 @@ function CILesson({ beats, unlock, answer }: DemoProps) {
           <NumberLine X={X} y={480} lo={40} hi={60} step={2} />
           <circle cx={X(xb)} cy={470} r={10} fill={C.cyan} />
           <Cap x={X(xb)} y={430} size={22} color={C.cyan} tex="\bar x" />
-          <line x1={X(xb - 3.92 * at(0))} x2={X(xb + 3.92 * at(0))} y1={400} y2={400} stroke={C.cyan} strokeWidth={5} />
+          <line
+            x1={X(xb - 3.92 * at(0))}
+            x2={X(xb + 3.92 * at(0))}
+            y1={400}
+            y2={400}
+            stroke={C.cyan}
+            strokeWidth={5}
+          />
           <Cap x={X(xb)} y={360} size={22} color={C.cyan} tex="\bar x\pm E" opacity={at(0)} />
-          <Cap x={X(47)} y={540} size={20} color={C.green}>¿μ?</Cap>
+          <Cap x={X(47)} y={540} size={20} color={C.green}>
+            ¿μ?
+          </Cap>
         </>
       )}
       {beat === 4 && (
         <>
-          <Cap x={720} y={300} size={30} color={C.text} tex="\bar x\pm z^*\frac{\sigma}{\sqrt n}\quad\longrightarrow\quad\bar x\pm t^*\frac{s}{\sqrt n}" opacity={at(4)} />
-          <Cap x={720} y={400} size={20} color={C.muted}>σ conocida → σ desconocida (se estima con s)</Cap>
+          <Cap
+            x={720}
+            y={300}
+            size={30}
+            color={C.text}
+            tex="\bar x\pm z^*\frac{\sigma}{\sqrt n}\quad\longrightarrow\quad\bar x\pm t^*\frac{s}{\sqrt n}"
+            opacity={at(4)}
+          />
+          <Cap x={720} y={400} size={20} color={C.muted}>
+            σ conocida → σ desconocida (se estima con s)
+          </Cap>
         </>
       )}
     </Stage>
@@ -112,27 +198,54 @@ const lesson: LessonStep = {
     {
       say: 'Una media muestral casi nunca coincide con $\\mu$. En vez de un solo número se da un **intervalo**: $\\bar x$ más o menos un **margen de error** $E$.',
       dur: 2.6,
-      board: { label: 'Intervalo', tex: '\\bigl[\\,\\p{1}{\\bar x-E},\\ \\p{2}{\\bar x+E}\\,\\bigr]', parts: ['extremo inferior', 'extremo superior'] },
+      board: {
+        label: 'Intervalo',
+        tex: '\\bigl[\\,\\p{1}{\\bar x-E},\\ \\p{2}{\\bar x+E}\\,\\bigr]',
+        parts: ['extremo inferior', 'extremo superior'],
+      },
     },
     {
       say: 'El 95 % de las medias cae a menos de $1{,}96$ errores estándar de $\\mu$. Dándolo vuelta: en el 95 % de las muestras, $\\mu$ queda a menos de $1{,}96$ errores estándar de $\\bar x$.',
       dur: 3.6,
-      board: { label: 'Intervalo de confianza 95 %', tex: '\\bar x\\pm\\p{1}{1{,}96}\\,\\p{2}{\\frac{\\sigma}{\\sqrt n}}', parts: ['factor para confianza 95 %', 'error de la media'] },
+      board: {
+        label: 'Intervalo de confianza 95 %',
+        tex: '\\bar x\\pm\\p{1}{1{,}96}\\,\\p{2}{\\frac{\\sigma}{\\sqrt n}}',
+        parts: ['factor para confianza 95 %', 'error de la media'],
+      },
     },
     {
       say: 'El 95 % no habla de un intervalo en particular: habla del **método**. Pruébalo: cada muestra da su propio intervalo; casi todos atrapan a $\\mu$, pero no todos.',
       gate: 'Toma 20 muestras y cuenta cuántos intervalos atrapan a $\\mu$.',
-      board: { label: 'Interpretación', tex: '\\approx19\\ \\text{de cada}\\ 20', body: 'El 95 % es la tasa de acierto del procedimiento. Un intervalo ya calculado contiene a $\\mu$ o no la contiene.' },
+      board: {
+        label: 'Interpretación',
+        tex: '\\approx19\\ \\text{de cada}\\ 20',
+        body: 'El 95 % es la tasa de acierto del procedimiento. Un intervalo ya calculado contiene a $\\mu$ o no la contiene.',
+      },
     },
     {
       say: 'Más confianza exige intervalos más anchos: el 90 % usa $1{,}645$; el 95 %, $1{,}96$; el 99 %, $2{,}576$. Y más datos los angostan.',
-      ask: { prompt: 'Para reducir el margen de error a la mitad, ¿cuánto hay que aumentar $n$?', options: ['Cuatro veces', 'El doble', 'No se puede'], answer: 0, explain: 'El margen es $z^*\\sigma/\\sqrt n$: para dividirlo por 2, $\\sqrt n$ se multiplica por 2, o sea $n$ por 4.' },
-      board: { label: 'Margen y tamaño', tex: '\\begin{gathered}E=z^*\\frac{\\sigma}{\\sqrt n}\\\\ \\p{1}{n=\\left(\\frac{z^*\\sigma}{E}\\right)^2}\\end{gathered}', body: '$n$ se redondea hacia arriba.', parts: ['tamaño de muestra necesario'] },
+      ask: {
+        prompt: 'Para reducir el margen de error a la mitad, ¿cuánto hay que aumentar $n$?',
+        options: ['Cuatro veces', 'El doble', 'No se puede'],
+        answer: 0,
+        explain:
+          'El margen es $z^*\\sigma/\\sqrt n$: para dividirlo por 2, $\\sqrt n$ se multiplica por 2, o sea $n$ por 4.',
+      },
+      board: {
+        label: 'Margen y tamaño',
+        tex: '\\begin{gathered}E=z^*\\frac{\\sigma}{\\sqrt n}\\\\ \\p{1}{n=\\left(\\frac{z^*\\sigma}{E}\\right)^2}\\end{gathered}',
+        body: '$n$ se redondea hacia arriba.',
+        parts: ['tamaño de muestra necesario'],
+      },
     },
     {
       say: 'Si no se conoce $\\sigma$, se usa la desviación de la muestra $s$. Con muestras chicas eso agrega incertidumbre y $z^*$ se cambia por un valor algo mayor, $t^*$, de la distribución $t$ de Student.',
       dur: 3.4,
-      board: { label: 'σ desconocida', tex: '\\bar x\\pm t^*\\frac{s}{\\sqrt n}', body: 'Con $n$ grande, $t^*\\approx z^*$.' },
+      board: {
+        label: 'σ desconocida',
+        tex: '\\bar x\\pm t^*\\frac{s}{\\sqrt n}',
+        body: 'Con $n$ grande, $t^*\\approx z^*$.',
+      },
     },
   ],
 };
@@ -154,8 +267,18 @@ function RealAgeDemo({ beats, answer }: DemoProps) {
           <Cap x={X(67.96)} y={360} size={18} color={C.cyan} tex="67{,}96" />
         </>
       )}
-      <line x1={X(72)} x2={X(72)} y1={380} y2={480} stroke={C.magenta} strokeWidth={4} opacity={beat === 2 ? 1 : 0.4} />
-      <Cap x={X(72)} y={350} size={18} color={C.magenta}>informe: 72</Cap>
+      <line
+        x1={X(72)}
+        x2={X(72)}
+        y1={380}
+        y2={480}
+        stroke={C.magenta}
+        strokeWidth={4}
+        opacity={beat === 2 ? 1 : 0.4}
+      />
+      <Cap x={X(72)} y={350} size={18} color={C.magenta}>
+        informe: 72
+      </Cap>
       <Cap x={1370} y={230} size={22} color={C.text} tex="n=64,\ \sigma=8,\ \text{EE}=1" />
       {ci && <Cap x={1370} y={290} size={22} color={C.cyan} tex="66\pm1{,}96" />}
     </Stage>
@@ -200,14 +323,32 @@ function Intervals({ seed, round, api }: ChallengeProps) {
     setVal('');
     setCh(null);
     if (round === 0) {
-      api.prompt(`Una muestra de $n=${n}$ fichas da $\\bar x=${num(xb, 1)}$, con $\\sigma=${s}$ conocida. Calcula el intervalo de confianza del 95 %. (Dos decimales.)`, '\\bar x\\pm1{,}96\\,\\frac{\\sigma}{\\sqrt n}');
-      api.hints([`$\\text{EE}=${s}/${Math.sqrt(n)}=${num(se, 3)}$.`, `Margen: $1{,}96\\cdot${num(se, 3)}=${num(1.96 * se, 3)}$.`]);
+      api.prompt(
+        `Una muestra de $n=${n}$ fichas da $\\bar x=${num(xb, 1)}$, con $\\sigma=${s}$ conocida. Calcula el intervalo de confianza del 95 %. (Dos decimales.)`,
+        '\\bar x\\pm1{,}96\\,\\frac{\\sigma}{\\sqrt n}',
+      );
+      api.hints([
+        `$\\text{EE}=${s}/${Math.sqrt(n)}=${num(se, 3)}$.`,
+        `Margen: $1{,}96\\cdot${num(se, 3)}=${num(1.96 * se, 3)}$.`,
+      ]);
     } else if (round === 1) {
-      api.prompt(`Con $\\sigma=${sg}$, ¿cuántas fichas hay que revisar para un margen de error de ${E} al 95 %?`, 'n=\\left(\\frac{1{,}96\\,\\sigma}{E}\\right)^2');
-      api.hints([`$\\tfrac{1{,}96\\cdot${sg}}{${E}}=${num((1.96 * sg) / E, 2)}$.`, 'Eleva al cuadrado y redondea hacia arriba.']);
+      api.prompt(
+        `Con $\\sigma=${sg}$, ¿cuántas fichas hay que revisar para un margen de error de ${E} al 95 %?`,
+        'n=\\left(\\frac{1{,}96\\,\\sigma}{E}\\right)^2',
+      );
+      api.hints([
+        `$\\tfrac{1{,}96\\cdot${sg}}{${E}}=${num((1.96 * sg) / E, 2)}$.`,
+        'Eleva al cuadrado y redondea hacia arriba.',
+      ]);
     } else {
-      api.prompt(`El informe del Archivo dirá: «IC 95 %: [${num(lo).replace('{,}', ',')}; ${num(hi).replace('{,}', ',')}]». ¿Qué significa?`, '');
-      api.hints(['El 95 % describe al método, no a los datos individuales.', 'Tampoco habla de $\\bar x$: el intervalo se construye alrededor de $\\bar x$.']);
+      api.prompt(
+        `El informe del Archivo dirá: «IC 95 %: [${num(lo).replace('{,}', ',')}; ${num(hi).replace('{,}', ',')}]». ¿Qué significa?`,
+        '',
+      );
+      api.hints([
+        'El 95 % describe al método, no a los datos individuales.',
+        'Tampoco habla de $\\bar x$: el intervalo se construye alrededor de $\\bar x$.',
+      ]);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [round, data]);
@@ -217,38 +358,90 @@ function Intervals({ seed, round, api }: ChallengeProps) {
       if (ch === null) return;
       const k = order[['A', 'B', 'C'].indexOf(ch)];
       if (k === 0) return api.result(true, 'El 95 % es la tasa de acierto del procedimiento.');
-      return api.result(false, k === 1 ? 'El intervalo es para la media, no para cada ficha: los datos individuales varían mucho más.' : 'La media de la muestra está, por construcción, en el centro del intervalo. El 95 % es sobre la media real $\\mu$.');
+      return api.result(
+        false,
+        k === 1
+          ? 'El intervalo es para la media, no para cada ficha: los datos individuales varían mucho más.'
+          : 'La media de la muestra está, por construcción, en el centro del intervalo. El 95 % es sobre la media real $\\mu$.',
+      );
     }
     if (round === 1) {
       const v = parseNum(val);
       if (v === null) return;
       const raw = ((1.96 * sg) / E) ** 2;
       const t = Math.ceil(raw);
-      if (Math.abs(v - t) < 0.5) return api.result(true, `$(${num((1.96 * sg) / E, 2)})^2\\approx${num(raw, 2)}$: hacen falta ${t} fichas.`);
-      if (Math.abs(v - Math.floor(raw)) < 0.5) return api.result(false, `Con ${Math.floor(raw)} fichas el margen quedaría un poco mayor que ${E}. Redondea hacia arriba.`);
-      if (Math.abs(v - (1.96 * sg) / E) < 0.5) return api.result(false, 'Falta elevar al cuadrado.');
-      return api.result(false, `$\\tfrac{1{,}96\\cdot${sg}}{${E}}=${num((1.96 * sg) / E, 2)}$; elévalo al cuadrado.`);
+      if (Math.abs(v - t) < 0.5)
+        return api.result(
+          true,
+          `$(${num((1.96 * sg) / E, 2)})^2\\approx${num(raw, 2)}$: hacen falta ${t} fichas.`,
+        );
+      if (Math.abs(v - Math.floor(raw)) < 0.5)
+        return api.result(
+          false,
+          `Con ${Math.floor(raw)} fichas el margen quedaría un poco mayor que ${E}. Redondea hacia arriba.`,
+        );
+      if (Math.abs(v - (1.96 * sg) / E) < 0.5)
+        return api.result(false, 'Falta elevar al cuadrado.');
+      return api.result(
+        false,
+        `$\\tfrac{1{,}96\\cdot${sg}}{${E}}=${num((1.96 * sg) / E, 2)}$; elévalo al cuadrado.`,
+      );
     }
     const v = vals.map(parseNum);
     if (v[0] === null || v[1] === null) return;
-    if (Math.abs(v[0] - lo) < 0.02 && Math.abs(v[1] - hi) < 0.02) return api.result(true, `$${num(xb, 1)}\\pm${num(1.96 * se)}=[${num(lo)};\\ ${num(hi)}]$.`);
-    if (Math.abs(v[0] - (xb - 1.96 * s)) < 0.05) return api.result(false, 'Usaste $\\sigma$ en vez del error estándar $\\sigma/\\sqrt n$.');
-    if (Math.abs(v[0] - (xb - se)) < 0.02) return api.result(false, 'Falta multiplicar el error estándar por 1,96.');
-    return api.result(false, `Margen: $1{,}96\\cdot\\tfrac{${s}}{${Math.sqrt(n)}}=${num(1.96 * se)}$.`);
+    if (Math.abs(v[0] - lo) < 0.02 && Math.abs(v[1] - hi) < 0.02)
+      return api.result(true, `$${num(xb, 1)}\\pm${num(1.96 * se)}=[${num(lo)};\\ ${num(hi)}]$.`);
+    if (Math.abs(v[0] - (xb - 1.96 * s)) < 0.05)
+      return api.result(false, 'Usaste $\\sigma$ en vez del error estándar $\\sigma/\\sqrt n$.');
+    if (Math.abs(v[0] - (xb - se)) < 0.02)
+      return api.result(false, 'Falta multiplicar el error estándar por 1,96.');
+    return api.result(
+      false,
+      `Margen: $1{,}96\\cdot\\tfrac{${s}}{${Math.sqrt(n)}}=${num(1.96 * se)}$.`,
+    );
   };
 
   return (
     <Stage>
       {round === 0 && (
         <>
-          <Cap x={600} y={320} size={30} color={C.text} tex={`n=${n},\\quad \\bar x=${num(xb, 1)},\\quad \\sigma=${s}`} />
-          <MatInput x={1060} y={340} vals={vals} onChange={set} onEnter={submit} rows={1} cols={2} label="[ , ] =" />
+          <Cap
+            x={600}
+            y={320}
+            size={30}
+            color={C.text}
+            tex={`n=${n},\\quad \\bar x=${num(xb, 1)},\\quad \\sigma=${s}`}
+          />
+          <MatInput
+            x={1060}
+            y={340}
+            vals={vals}
+            onChange={set}
+            onEnter={submit}
+            rows={1}
+            cols={2}
+            label="[ , ] ="
+          />
         </>
       )}
       {round === 1 && (
         <>
-          <Cap x={600} y={320} size={30} color={C.text} tex={`\\sigma=${sg},\\quad E=${E},\\quad z^*=1{,}96`} />
-          <NumberField x={1100} y={340} value={val} onChange={setVal} onEnter={submit} label="n =" width={4} />
+          <Cap
+            x={600}
+            y={320}
+            size={30}
+            color={C.text}
+            tex={`\\sigma=${sg},\\quad E=${E},\\quad z^*=1{,}96`}
+          />
+          <NumberField
+            x={1100}
+            y={340}
+            value={val}
+            onChange={setVal}
+            onEnter={submit}
+            label="n ="
+            width={4}
+          />
         </>
       )}
       {round === 2 && (
@@ -278,19 +471,37 @@ export const level: LevelSpec = {
   glyph: '\\bar x\\pm E',
   kind: 'level',
   guide: 'teo',
-  teaser: 'Con una muestra no se sabe la edad media real de los vacunados, pero sí se puede acotar. Hay que dar un rango que se pueda firmar.',
-  learn: 'Margen de error, intervalo de confianza para la media, interpretación del nivel de confianza, tamaño de muestra y el caso de σ desconocida.',
+  teaser:
+    'Con una muestra no se conoce la edad media real de los vacunados, pero se puede acotar. Hay que dar un rango que se pueda firmar.',
+  learn:
+    'Margen de error, intervalo de confianza para la media, interpretación del nivel de confianza, tamaño de muestra y el caso de σ desconocida.',
   glyphs: ['st-ci', 'st-margin'],
-  pitfalls: ['El margen usa el error estándar $\\sigma/\\sqrt n$, no $\\sigma$.', 'El 95 % se refiere al método; no es la proporción de datos dentro del intervalo.', 'El tamaño de muestra se redondea hacia arriba.'],
+  pitfalls: [
+    'El margen usa el error estándar $\\sigma/\\sqrt n$, no $\\sigma$.',
+    'El 95 % se refiere al método; no es la proporción de datos dentro del intervalo.',
+    'El tamaño de muestra se redondea hacia arriba.',
+  ],
   steps: [
     {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'nar', text: 'Archivo Regional, 15:00. Iris apoya el lápiz sobre la casilla vacía.' },
-        { who: 'iris', text: 'Sesenta y seis años en la muestra. Necesito un rango para la edad promedio real antes de firmar esto.' },
-        { who: 'teo', text: 'Uso las mismas 64 fichas y los ocho años de variación del informe. Puedo calcular cuánto margen dejan.' },
-        { who: 'ana', text: 'Anoten de dónde sale cada dato; si la clínica objeta uno, quiero saber qué parte hay que revisar.' },
+        {
+          who: 'nar',
+          text: 'Archivo Regional, tres de la tarde. Iris apoyó la punta del lápiz sobre la casilla vacía y no escribió nada.',
+        },
+        {
+          who: 'iris',
+          text: 'Sesenta y seis años en la muestra. Antes de firmar necesito un rango para la edad promedio real.',
+        },
+        {
+          who: 'teo',
+          text: 'Uso las mismas 64 fichas y los ocho años de variación del informe. Con eso puedo calcular cuánto margen dejan.',
+        },
+        {
+          who: 'ana',
+          text: 'Anoten de dónde sale cada dato. Si la clínica objeta uno, quiero saber qué parte hay que revisar.',
+        },
       ],
     },
     {
@@ -305,12 +516,28 @@ export const level: LevelSpec = {
         },
         {
           say: 'Teo calcula el intervalo del 95 %.',
-          ask: { prompt: '¿Cuál es el intervalo de confianza del 95 %?', options: ['[64,04 ; 67,96]', '[58 ; 74]', '[65 ; 67]'], answer: 0, explain: '$66\\pm1{,}96\\cdot1$. El intervalo $[58;74]$ usa $\\sigma$ en vez del error estándar.' },
+          ask: {
+            prompt: '¿Cuál es el intervalo de confianza del 95 %?',
+            options: ['[64,04 ; 67,96]', '[58 ; 74]', '[65 ; 67]'],
+            answer: 0,
+            explain:
+              '$66\\pm1{,}96\\cdot1$. El intervalo $[58;74]$ usa $\\sigma$ en vez del error estándar.',
+          },
           note: { label: 'IC 95 % de la edad media', tex: '66\\pm1{,}96=[64{,}04;\\ 67{,}96]' },
         },
         {
           say: 'El informe oficial afirma 72 años.',
-          ask: { prompt: '¿Es compatible con la muestra?', options: ['No: 72 queda muy fuera del intervalo', 'Sí: está cerca', 'No se puede saber sin más datos'], answer: 0, explain: 'Un procedimiento que acierta el 95 % de las veces deja a 72 a más de 4 unidades del borde. El informe no describe a los vacunados reales.' },
+          ask: {
+            prompt: '¿Es compatible con la muestra?',
+            options: [
+              'No: 72 queda muy fuera del intervalo',
+              'Sí: está cerca',
+              'No se puede saber sin más datos',
+            ],
+            answer: 0,
+            explain:
+              'Un procedimiento que acierta el 95 % de las veces deja a 72 a más de 4 unidades del borde. El informe no describe a los vacunados reales.',
+          },
           note: { label: 'El informe no cuadra', tex: '72\\notin[64{,}04;\\ 67{,}96]' },
         },
       ],
@@ -320,10 +547,22 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'archivo',
       lines: [
-        { who: 'teo', text: 'El intervalo del 95 % queda de 64,04 a 67,96 años. Los 72 del informe están fuera.' },
-        { who: 'ana', text: 'La copia conserva las fichas jóvenes que el original omitió. El rango respalda la diferencia; todavía hay que documentar el borrado.' },
-        { who: 'iris', text: 'Anótalo así. Falta su cifra favorita: «95 % de los inscritos se vacunó».' },
-        { who: 'ana', text: 'La imprimieron en la portada; ni siquiera hay que abrir la carpeta para repetirla.' },
+        {
+          who: 'teo',
+          text: 'El intervalo del 95 % va de 64,04 a 67,96 años. Los 72 del informe quedan fuera.',
+        },
+        {
+          who: 'ana',
+          text: 'La copia conserva las fichas jóvenes que el original omitió. El rango respalda la diferencia, pero el borrado todavía hay que documentarlo.',
+        },
+        {
+          who: 'iris',
+          text: 'Anótalo así. Nos falta la cifra favorita de la clínica: «95 % de los inscritos se vacunó».',
+        },
+        {
+          who: 'ana',
+          text: 'La imprimieron en la portada. Para repetirla ni siquiera hay que abrir la carpeta.',
+        },
       ],
     },
   ],
@@ -332,6 +571,21 @@ export const level: LevelSpec = {
 export { lesson };
 
 export const glyphs: Glyph[] = [
-  { id: 'st-ci', world: 'statistics', tex: '\\bar x\\pm z^*\\tfrac{\\sigma}{\\sqrt n}', name: 'Intervalo de confianza', read: 'equis barra más menos zeta estrella sigma sobre raíz de ene', meaning: 'Rango que, con el nivel de confianza indicado, atrapa a la media real; $z^*=1{,}96$ para el 95 %.' },
-  { id: 'st-margin', world: 'statistics', tex: 'E', name: 'Margen de error', read: 'e', meaning: 'Mitad del ancho del intervalo: $z^*\\sigma/\\sqrt n$.' },
+  {
+    id: 'st-ci',
+    world: 'statistics',
+    tex: '\\bar x\\pm z^*\\tfrac{\\sigma}{\\sqrt n}',
+    name: 'Intervalo de confianza',
+    read: 'equis barra más menos zeta estrella sigma sobre raíz de ene',
+    meaning:
+      'Rango que, con el nivel de confianza indicado, atrapa a la media real; $z^*=1{,}96$ para el 95 %.',
+  },
+  {
+    id: 'st-margin',
+    world: 'statistics',
+    tex: 'E',
+    name: 'Margen de error',
+    read: 'e',
+    meaning: 'Mitad del ancho del intervalo: $z^*\\sigma/\\sqrt n$.',
+  },
 ];
