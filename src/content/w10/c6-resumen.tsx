@@ -178,6 +178,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Prior en una grilla',
         tex: '\\p{1}{\\theta\\in\\{0{,}1;0{,}3;0{,}5;0{,}7;0{,}9\\}},\\ \\p{2}{0{,}2\\ \\text{cada uno}}',
+        parts: ['proporciones posibles', 'probabilidad de partida'],
       },
     },
     {
@@ -185,6 +186,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Posterior',
         tex: '\\p{1}{P(\\theta\\mid\\text{datos})}\\p{2}{\\propto\\theta^7(1-\\theta)^3\\cdot P(\\theta)}',
+        parts: ['creencia tras los datos', 'ajuste ponderado por prior'],
       },
     },
     {
@@ -196,7 +198,11 @@ const lesson: LessonStep = {
         explain:
           '0,7 tiene la barra más alta, 0,59. Coincide con la proporción observada, 7 de 10.',
       },
-      board: { label: 'Moda', tex: '\\p{1}{\\hat\\theta}=\\p{2}{0{,}7}' },
+      board: {
+        label: 'Moda',
+        tex: '\\p{1}{\\hat\\theta}=\\p{2}{0{,}7}',
+        parts: ['proporción más probable', 'moda del posterior'],
+      },
     },
     {
       say: 'Un **conjunto creíble** junta los valores más probables hasta acumular, por ejemplo, el 80 %. Arma el más chico posible.',
@@ -204,6 +210,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Conjunto creíble',
         tex: '\\p{1}{P(\\theta\\in\\{0{,}5;0{,}7\\})}\\p{2}{\\approx0{,}853\\ge0{,}8}',
+        parts: ['probabilidad del conjunto', 'cobertura sobre el mínimo'],
       },
     },
     {
@@ -211,6 +218,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Media',
         tex: '\\p{1}{E[\\theta]}=\\p{2}{\\sum\\theta\\,P(\\theta\\mid\\text{datos})}\\p{3}{\\approx0{,}665}',
+        parts: ['proporción media esperada', 'promedio por probabilidad', 'media del posterior'],
       },
     },
   ],
@@ -362,7 +370,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sala de reuniones de la Clínica, 11:30. El proyector calienta la sala; la curva del lote de agosto ocupa toda la pared.',
+          text: 'Sala de reuniones de la Clínica, once y media. El proyector calentaba la sala, y la curva del lote de agosto ocupaba toda la pared.',
         },
         {
           who: 'iris',
@@ -411,12 +419,15 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'clinica',
       lines: [
-        { who: 'nar', text: 'Rocío copia la frase en el informe con letra pequeña y firme.' },
+        { who: 'nar', text: 'Rocío copió la frase en el informe con letra pequeña y firme.' },
         {
           who: 'rocio',
           text: 'El lote da más positivos. Falta saber si es el lote o la máquina que los lee.',
         },
-        { who: 'teo', text: 'El lector guarda sus controles. Puedo comparar dos explicaciones.' },
+        {
+          who: 'teo',
+          text: 'El lector guarda sus controles, así que puedo comparar las dos explicaciones.',
+        },
       ],
     },
   ],

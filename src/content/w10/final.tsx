@@ -186,7 +186,7 @@ export const level: LevelSpec = {
   module: 'w10-closed',
   guide: 'rocio',
   teaser:
-    'La fiscalía recibe mañana el informe de la Clínica. Cinco cifras, cada una con su respaldo.',
+    'La fiscalía recibe mañana el informe de la Clínica, con cinco cifras y el respaldo de cada una.',
   learn:
     'Usar juntas las herramientas del mundo: Bayes con conteos, actualización secuencial, posterior Beta, factor de Bayes y predicción.',
   glyphs: ['by-posterior', 'by-update', 'by-beta', 'by-bf', 'by-predictive'],
@@ -197,14 +197,14 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Clínica del Cerro, 22:00. El laboratorio está a oscuras salvo la lámpara de Rocío y la luz azul del refrigerador.',
+          text: 'Clínica del Cerro, diez de la noche. El laboratorio estaba a oscuras, salvo la lámpara de Rocío y la luz azul del refrigerador.',
         },
         {
           who: 'rocio',
           text: 'Mañana lo leen en la fiscalía. Si una cifra cojea, culpan al laboratorio entero.',
         },
-        { who: 'iris', text: 'Entonces revisémoslas una por una. Ninguna sin su cálculo.' },
-        { who: 'teo', text: 'Tengo las planillas, los lotes y la memoria del lector abiertas.' },
+        { who: 'iris', text: 'Entonces revisémoslas una por una, cada una con su cálculo.' },
+        { who: 'teo', text: 'Tengo abiertas las planillas, los lotes y la memoria del lector.' },
       ],
     },
     { kind: 'challenge', title: 'Cinco lecturas del informe', Comp: SanitaryReport, rounds: 5 },
@@ -214,16 +214,19 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Rocío firma la última página. El lector, desenchufado, sigue con su luz de calibración encendida.',
+          text: 'Rocío firmó la última página. El lector, desenchufado, seguía con su luz de calibración encendida.',
         },
         {
           who: 'teo',
           text: 'La memoria del lector trae algo más: un modelo que el Laboratorio usa para decidir cuántos positivos marcar.',
         },
-        { who: 'rocio', text: 'Dicen que es imposible de calcular exacto. Que lo aproximan.' },
+        {
+          who: 'rocio',
+          text: 'Dicen que es imposible de calcular exacto, y que por eso lo aproximan.',
+        },
         {
           who: 'iris',
-          text: 'Una aproximación que manda tres camiones de dosis. Vamos al Laboratorio.',
+          text: 'Esa aproximación mandó tres camiones de dosis. Me gustaría saber quién la firmó en el Laboratorio.',
         },
       ],
     },

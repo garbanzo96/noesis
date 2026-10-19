@@ -174,7 +174,11 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Ahora lo desconocido es la fracción θ de positivos de un lote. Antes de ver datos, cualquier valor entre 0 y 1 parece igual de posible: una curva plana.',
-      board: { label: 'Antes de los datos', tex: '\\p{1}{\\theta\\sim}\\p{2}{\\text{Beta}(1,1)}' },
+      board: {
+        label: 'Antes de los datos',
+        tex: '\\p{1}{\\theta\\sim}\\p{2}{\\text{Beta}(1,1)}',
+        parts: ['proporción de positivos', 'creencia inicial uniforme'],
+      },
     },
     {
       say: 'Cada positivo empuja la curva hacia la derecha y cada negativo hacia la izquierda. Marca 7 positivos de 10.',
@@ -182,6 +186,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Actualizar con conteos',
         tex: '\\p{1}{\\text{Beta}(a,b)}\\p{2}{+\\,k\\text{ de }n}\\p{3}{\\Rightarrow\\text{Beta}(a+k,\\ b+n-k)}',
+        parts: ['creencia de partida', 'nuevos conteos observados', 'creencia actualizada'],
       },
     },
     {
@@ -196,6 +201,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Media',
         tex: '\\p{1}{E[\\theta]}=\\p{2}{\\frac{a}{a+b}}=\\p{3}{\\tfrac{8}{12}}',
+        parts: ['proporción media esperada', 'promedio según parámetros', 'media con estos datos'],
       },
     },
     {
@@ -203,6 +209,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Con saber previo',
         tex: '\\p{1}{\\text{Beta}(2,8)}\\p{2}{+\\,7\\text{ de }10}\\p{3}{\\Rightarrow\\text{Beta}(9,11)}',
+        parts: ['saber de otras clínicas', 'nuevos conteos observados', 'creencia actualizada'],
       },
     },
     {
@@ -210,6 +217,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Pseudoconteos',
         tex: '\\p{1}{a-1,\\ b-1}\\p{2}{\\ \\approx\\ \\text{positivos y negativos previos}}',
+        parts: ['conteos del saber previo', 'casos previos equivalentes'],
       },
     },
   ],
@@ -343,7 +351,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Bodega del laboratorio, 10:30. Cajas de tests apiladas hasta el techo, cada una con su número de lote escrito a plumón.',
+          text: 'Bodega del laboratorio, diez y media. Las cajas de tests llegaban hasta el techo, cada una con su número de lote escrito a plumón.',
         },
         {
           who: 'rocio',
@@ -355,7 +363,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'iris',
-          text: 'Y sin olvidar lo que dicen las otras clínicas. Empecemos por el de agosto.',
+          text: 'Sin olvidar lo que dicen las otras clínicas. Empecemos por el de agosto.',
         },
       ],
     },
@@ -399,14 +407,14 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'clinica',
       lines: [
-        { who: 'nar', text: 'Rocío separa la caja de agosto y la marca con cinta roja.' },
+        { who: 'nar', text: 'Rocío separó la caja de agosto y la marcó con cinta roja.' },
         {
           who: 'rocio',
           text: 'Este lote vino directo del Laboratorio. No pasó por la bodega regional.',
         },
         {
           who: 'iris',
-          text: 'Un número no alcanza. Quiero ver la curva entera y cuánto podemos asegurar.',
+          text: 'Un solo número no alcanza. Quiero ver la curva entera y cuánto podemos asegurar.',
         },
       ],
     },

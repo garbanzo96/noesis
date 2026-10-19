@@ -101,6 +101,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Valor predictivo positivo',
         tex: '\\p{1}{\\text{VPP}}=\\p{2}{P(E\\mid+)}',
+        parts: ['acierto del positivo', 'enfermedad tras positivo'],
       },
     },
     {
@@ -109,6 +110,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Con 20 % de enfermos',
         tex: '\\p{1}{\\tfrac{180}{180+40}}\\p{2}{\\approx0{,}82}',
+        parts: ['enfermos entre positivos', 'acierto del positivo'],
       },
     },
     {
@@ -127,6 +129,7 @@ const lesson: LessonStep = {
       board: {
         label: 'La tasa base manda',
         tex: '\\p{1}{\\pi\\uparrow}\\p{2}{\\ \\Rightarrow\\ \\text{VPP}\\uparrow}',
+        parts: ['más enfermedad de base', 'mayor acierto del positivo'],
       },
     },
     {
@@ -134,6 +137,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Fórmula',
         tex: '\\p{1}{\\text{VPP}}=\\p{2}{\\frac{s\\,\\pi}{s\\,\\pi+(1-e)(1-\\pi)}}',
+        parts: ['acierto del positivo', 'enfermos entre positivos'],
       },
     },
     {
@@ -141,6 +145,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Tres ingredientes',
         tex: '\\p{1}{s},\\ \\p{2}{e},\\ \\p{3}{\\pi}',
+        parts: ['detección de enfermos', 'descarte de sanos', 'enfermedad de base'],
       },
     },
   ],
@@ -293,11 +298,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Sala de servidores de la Clínica, 07:00. Un ventilador zumba detrás de la rejilla; Teo abre la configuración del sistema de pedidos.',
+          text: 'Sala de servidores de la Clínica, siete de la mañana. Un ventilador zumbaba detrás de la rejilla, y Teo abrió la configuración del sistema de pedidos.',
         },
         {
           who: 'teo',
-          text: 'Aquí está la cifra base: «prevalencia esperada, 20 %». Cargada desde la central en julio.',
+          text: 'Aquí está la cifra base: «prevalencia esperada, 20 %». La cargaron desde la central en julio.',
         },
         {
           who: 'rocio',
@@ -357,11 +362,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Rocío imprime la configuración y la dobla en cuatro. El papel sale tibio.',
+          text: 'Rocío imprimió la configuración y la dobló en cuatro. El papel salió tibio.',
         },
         {
           who: 'rocio',
-          text: 'Con esa cifra, nadie repite el test. ¿Para qué, si el sistema dice 82 %?',
+          text: 'Con esa cifra nadie repite el test. ¿Para qué, si el sistema dice 82 %?',
         },
         {
           who: 'iris',

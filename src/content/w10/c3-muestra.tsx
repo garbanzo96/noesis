@@ -130,13 +130,22 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Antes de cualquier test, el 2 % de las personas está enfermo. Esa es la probabilidad de partida.',
-      board: { label: 'Antes', tex: '\\p{1}{P(E)}=\\p{2}{0{,}02}' },
+      board: {
+        label: 'Antes',
+        tex: '\\p{1}{P(E)}=\\p{2}{0{,}02}',
+        parts: ['probabilidad de partida', 'prevalencia inicial'],
+      },
     },
     {
       say: 'Un positivo deja en juego a 1800 enfermos y 4900 sanos: la fracción de enfermos sube a 0,27.',
       board: {
         label: 'Después de un positivo',
         tex: '\\p{1}{P(E\\mid+)}=\\p{2}{\\tfrac{1800}{1800+4900}}\\p{3}{\\approx0{,}27}',
+        parts: [
+          'probabilidad tras positivo',
+          'enfermos entre positivos',
+          'probabilidad actualizada',
+        ],
       },
     },
     {
@@ -145,6 +154,7 @@ const lesson: LessonStep = {
       board: {
         label: 'El resultado se vuelve el punto de partida',
         tex: '\\p{1}{P_{\\text{nuevo}}(E)}=\\p{2}{P(E\\mid+)}',
+        parts: ['nuevo punto de partida', 'resultado del primer test'],
       },
     },
     {
@@ -159,6 +169,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos positivos',
         tex: '\\p{1}{\\tfrac{1620}{1620+245}}=\\p{2}{\\tfrac{324}{373}}\\p{3}{\\approx0{,}87}',
+        parts: [
+          'enfermos entre positivos',
+          'misma proporción reducida',
+          'probabilidad actualizada',
+        ],
       },
     },
     {
@@ -166,6 +181,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Regla',
         tex: '\\p{1}{P_{n+1}(E)}=\\p{2}{\\frac{s\\,P_n}{s\\,P_n+(1-e)(1-P_n)}}',
+        parts: ['probabilidad del nuevo paso', 'actualización con otro test'],
       },
     },
   ],
@@ -295,11 +311,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio, 08:15. Rocío abre una gaveta del refrigerador; los tubos de la segunda muestra tintinean contra el metal frío.',
+          text: 'Laboratorio, ocho y cuarto. Rocío abrió una gaveta del refrigerador, y los tubos de la segunda muestra tintinearon contra el metal.',
         },
         {
           who: 'rocio',
-          text: 'Guardé la segunda muestra de cada positivo. Por costumbre, no porque alguien la pidiera.',
+          text: 'Guardé la segunda muestra de cada positivo. Lo hice por costumbre; nadie me la pidió.',
         },
         {
           who: 'teo',
@@ -307,7 +323,7 @@ export const level: LevelSpec = {
         },
         {
           who: 'iris',
-          text: 'Repítelos. Quiero saber cuántos de esos pedidos sobreviven a una segunda mirada.',
+          text: 'Repítelos. Quiero saber cuántos de esos pedidos resisten una segunda mirada.',
         },
       ],
     },
@@ -350,11 +366,11 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'El lector termina la segunda tanda. Diecinueve pitos donde antes hubo sesenta y siete.',
+          text: 'El lector terminó la segunda tanda. Hubo diecinueve pitos donde antes había habido sesenta y siete.',
         },
         {
           who: 'rocio',
-          text: 'Diecinueve. Y en la central nos pedían confirmar los sesenta y siete sin repetir nada.',
+          text: 'Diecinueve. Y la central nos pedía confirmar los sesenta y siete sin repetir nada.',
         },
         {
           who: 'iris',

@@ -214,6 +214,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Probabilidad de un positivo',
         tex: '\\p{1}{P(+)}=\\p{2}{s\\,\\pi+(1-e)(1-\\pi)}=\\p{3}{0{,}067}',
+        parts: ['probabilidad de positivo', 'aporte de ambos grupos', 'probabilidad total'],
       },
     },
     {
@@ -222,6 +223,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Positivos esperados',
         tex: '\\p{1}{E[\\#+]}=\\p{2}{n\\cdot P(+)}=\\p{3}{3000\\cdot0{,}067\\approx201}',
+        parts: ['cantidad esperada', 'tests por probabilidad', 'positivos esperados'],
       },
     },
     {
@@ -237,13 +239,18 @@ const lesson: LessonStep = {
         explain:
           'Con 3000 tests, el azar mueve el conteo en unas pocas decenas, no en 400. Algo cambió en el test o en las cifras.',
       },
-      board: { label: 'Comparar con lo esperado', tex: '\\p{1}{600}\\p{2}{\\gg201}' },
+      board: {
+        label: 'Comparar con lo esperado',
+        tex: '\\p{1}{600}\\p{2}{\\gg201}',
+        parts: ['positivos observados', 'muy sobre lo esperado'],
+      },
     },
     {
       say: 'Decidir también tiene costos: tratar a un sano cuesta 1; no tratar a un enfermo, 4. Conviene tratar cuando la probabilidad pasa el umbral.',
       board: {
         label: 'Umbral',
         tex: '\\p{1}{\\text{tratar si }P(E\\mid\\text{datos})}\\p{2}{>\\frac{c_{FP}}{c_{FP}+c_{FN}}=0{,}2}',
+        parts: ['riesgo para decidir tratar', 'umbral según costos'],
       },
     },
     {
@@ -251,6 +258,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Decisión',
         tex: '\\p{1}{0{,}27>0{,}2}\\ \\p{2}{\\Rightarrow\\text{tratar}}',
+        parts: ['riesgo supera el umbral', 'decisión de tratar'],
       },
     },
   ],
@@ -386,14 +394,17 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Oficina de la dirección, 15:40. El informe de agosto está abierto en la pantalla; el cursor parpadea sobre «600».',
+          text: 'Oficina de la dirección, veinte para las cuatro. El informe de agosto estaba abierto en la pantalla, con el cursor parpadeando sobre «600».',
         },
         {
           who: 'rocio',
           text: 'Seiscientos positivos. Con eso la central mandó tres camiones de dosis.',
         },
         { who: 'iris', text: 'Con todo lo que sabemos del test, ¿cuántos debieron salir?' },
-        { who: 'teo', text: 'Se puede predecir antes de mirar el informe. Después lo comparamos.' },
+        {
+          who: 'teo',
+          text: 'Se puede predecir antes de mirar el informe, y después lo comparamos.',
+        },
       ],
     },
     {
@@ -440,10 +451,10 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Rocío imprime el informe y escribe 201 al lado del 600, con su firma.',
+          text: 'Rocío imprimió el informe y escribió 201 al lado del 600, con su firma.',
         },
-        { who: 'rocio', text: 'Esto lo firmo. Lo otro lo firmó la máquina del Laboratorio.' },
-        { who: 'iris', text: 'Prepara el informe completo. Cinco cifras, como siempre.' },
+        { who: 'rocio', text: 'Esto lo firmo yo. Lo otro lo firmó la máquina del Laboratorio.' },
+        { who: 'iris', text: 'Prepara el informe completo, con las cinco cifras.' },
       ],
     },
   ],

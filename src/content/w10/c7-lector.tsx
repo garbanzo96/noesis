@@ -152,6 +152,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Dos modelos',
         tex: '\\p{1}{M_0:\\ P(+)=0{,}5},\\quad\\p{2}{M_1:\\ P(+)=0{,}8}',
+        parts: ['lector honesto', 'lector alterado'],
       },
     },
     {
@@ -160,6 +161,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Probabilidad de los datos',
         tex: '\\p{1}{P(D\\mid M)}=\\p{2}{\\prod_i P(x_i\\mid M)}',
+        parts: ['probabilidad de los datos', 'aporte de cada control'],
       },
     },
     {
@@ -174,6 +176,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Factor de Bayes',
         tex: '\\p{1}{BF}=\\p{2}{\\frac{P(D\\mid M_1)}{P(D\\mid M_0)}}\\p{3}{\\approx2{,}62}',
+        parts: [
+          'evidencia entre modelos',
+          'alterado frente a honesto',
+          'ventaja del modelo alterado',
+        ],
       },
     },
     {
@@ -181,6 +188,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Chances de los modelos',
         tex: '\\p{1}{\\frac{P(M_1\\mid D)}{P(M_0\\mid D)}}=\\p{2}{\\frac{P(M_1)}{P(M_0)}\\cdot BF}',
+        parts: ['chances tras los datos', 'chances por nueva evidencia'],
       },
     },
     {
@@ -188,6 +196,11 @@ const lesson: LessonStep = {
       board: {
         label: 'Probabilidad del alterado',
         tex: '\\p{1}{P(M_1\\mid D)}=\\p{2}{\\tfrac{2{,}62}{1+2{,}62}}\\p{3}{\\approx0{,}72}',
+        parts: [
+          'probabilidad de alteración',
+          'chances sobre el total',
+          'probabilidad del alterado',
+        ],
       },
     },
   ],
@@ -348,7 +361,7 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Laboratorio, 13:00. El lector de tests está abierto sobre el mesón; de su tapa cuelga una etiqueta de calibración.',
+          text: 'Laboratorio, una de la tarde. El lector de tests estaba abierto sobre el mesón, y de su tapa colgaba una etiqueta de calibración.',
         },
         {
           who: 'rocio',
@@ -399,13 +412,13 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Teo despega la etiqueta de calibración con la uña. Debajo hay otra, más antigua.',
+          text: 'Teo despegó la etiqueta de calibración con la uña. Debajo había otra, más antigua.',
         },
         { who: 'teo', text: 'Recalibrado en julio. Laboratorio Halcón, sede Los Placeres.' },
-        { who: 'rocio', text: 'Julio. El mes en que empezaron a sobrar positivos.' },
+        { who: 'rocio', text: 'En julio. El mes en que empezaron a sobrar positivos.' },
         {
           who: 'iris',
-          text: 'Falta el número que lo junta todo: cuántos positivos debieron salir, y cuántos salieron.',
+          text: 'Falta el número que lo junta todo: cuántos positivos debieron salir y cuántos salieron.',
         },
       ],
     },

@@ -120,6 +120,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Chances',
         tex: '\\p{1}{\\text{chances}}=\\p{2}{\\frac{p}{1-p}}=\\p{3}{\\tfrac{0{,}02}{0{,}98}=\\tfrac1{49}}',
+        parts: ['enfermos por cada sano', 'enfermedad frente a salud', 'chances de partida'],
       },
     },
     {
@@ -127,6 +128,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Razón de verosimilitud',
         tex: '\\p{1}{LR^+}=\\p{2}{\\frac{P(+\\mid E)}{P(+\\mid E^c)}}=\\p{3}{18}',
+        parts: ['peso de un positivo', 'comparación entre grupos', 'multiplicador de chances'],
       },
     },
     {
@@ -135,6 +137,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Actualizar',
         tex: '\\p{1}{\\text{chances después}}=\\p{2}{\\text{chances antes}\\cdot LR}',
+        parts: ['chances actualizadas', 'chances por evidencia'],
       },
     },
     {
@@ -149,6 +152,7 @@ const lesson: LessonStep = {
       board: {
         label: 'De chances a probabilidad',
         tex: '\\p{1}{p}=\\p{2}{\\frac{\\text{chances}}{1+\\text{chances}}}',
+        parts: ['probabilidad de enfermedad', 'enfermos sobre el total'],
       },
     },
     {
@@ -156,6 +160,7 @@ const lesson: LessonStep = {
       board: {
         label: 'Un negativo',
         tex: '\\p{1}{\\tfrac1{49}\\cdot\\tfrac2{19}}=\\p{2}{\\tfrac2{931}}\\p{3}{\\Rightarrow p\\approx0{,}002}',
+        parts: ['chances por evidencia', 'chances tras negativo', 'probabilidad tras negativo'],
       },
     },
   ],
@@ -300,17 +305,20 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Pasillo de la Clínica, 09:00. Una enfermera empuja un carro de bandejas; las ruedas chirrían en cada junta del piso.',
+          text: 'Pasillo de la Clínica, nueve de la mañana. Una enfermera empujaba un carro de bandejas, y las ruedas chirriaban en cada junta del piso.',
         },
         {
           who: 'rocio',
-          text: 'Los pacientes con negativo se van tranquilos. Con positivo se quedan, y piden dosis.',
+          text: 'Los pacientes con negativo se van tranquilos. Los de positivo se quedan, y piden dosis.',
         },
         {
           who: 'iris',
           text: 'Quiero un número que diga cuánto pesa cada resultado, sin rehacer las tablas.',
         },
-        { who: 'teo', text: 'Chances. Se multiplican, no se recalculan.' },
+        {
+          who: 'teo',
+          text: 'Con chances. Cada resultado las multiplica por un factor fijo, sin rehacer nada.',
+        },
       ],
     },
     {
@@ -350,7 +358,7 @@ export const level: LevelSpec = {
       kind: 'scene',
       place: 'clinica',
       lines: [
-        { who: 'nar', text: 'Teo anota 18 y 2/19 en la pizarra. Rocío los mira un rato largo.' },
+        { who: 'nar', text: 'Teo anotó 18 y 2/19 en la pizarra. Rocío los miró un rato largo.' },
         {
           who: 'rocio',
           text: 'Con esos dos números habría repetido la mitad de los tests del mes.',

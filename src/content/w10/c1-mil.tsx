@@ -88,16 +88,28 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Mil personas se hacen el test. La enfermedad es rara: la tiene el 2 %, es decir, 20 personas.',
-      board: { label: 'Prevalencia', tex: '\\p{1}{1000\\cdot0{,}02}=\\p{2}{20}' },
+      board: {
+        label: 'Prevalencia',
+        tex: '\\p{1}{1000\\cdot0{,}02}=\\p{2}{20}',
+        parts: ['personas por prevalencia', 'personas enfermas'],
+      },
     },
     {
       say: 'La **sensibilidad** es la fracción de enfermos que el test detecta. Ajústala al 90 % del test de la Clínica.',
       gate: 'Arrastra la perilla de sensibilidad hasta 90 %.',
-      board: { label: 'Positivos verdaderos', tex: '\\p{1}{20\\cdot0{,}9}=\\p{2}{18}' },
+      board: {
+        label: 'Positivos verdaderos',
+        tex: '\\p{1}{20\\cdot0{,}9}=\\p{2}{18}',
+        parts: ['enfermos por sensibilidad', 'enfermos detectados'],
+      },
     },
     {
       say: 'El test también se equivoca con sanos. Su **especificidad** es 95 %: el 5 % de los 980 sanos da positivo.',
-      board: { label: 'Falsos positivos', tex: '\\p{1}{980\\cdot0{,}05}=\\p{2}{49}' },
+      board: {
+        label: 'Falsos positivos',
+        tex: '\\p{1}{980\\cdot0{,}05}=\\p{2}{49}',
+        parts: ['sanos por tasa de error', 'sanos con positivo'],
+      },
     },
     {
       say: 'Alguien da positivo. Mira solo a los positivos: los ámbar oscuro están enfermos, los claros no.',
@@ -111,11 +123,20 @@ const lesson: LessonStep = {
       board: {
         label: 'Después de un positivo',
         tex: '\\p{1}{P(E\\mid+)}=\\p{2}{\\tfrac{18}{18+49}}\\p{3}{\\approx0{,}27}',
+        parts: [
+          'probabilidad de enfermedad',
+          'enfermos entre positivos',
+          'probabilidad tras positivo',
+        ],
       },
     },
     {
       say: 'Lo mismo en fórmula: los positivos de enfermos divididos por todos los positivos. Es el **teorema de Bayes**.',
-      board: { label: 'Bayes', tex: '\\p{1}{P(E\\mid+)}=\\p{2}{\\frac{P(+\\mid E)\\,P(E)}{P(+)}}' },
+      board: {
+        label: 'Bayes',
+        tex: '\\p{1}{P(E\\mid+)}=\\p{2}{\\frac{P(+\\mid E)\\,P(E)}{P(+)}}',
+        parts: ['probabilidad tras positivo', 'enfermos entre positivos'],
+      },
     },
   ],
 };
@@ -282,18 +303,18 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Clínica del Cerro, 06:10. El lector de tests pita, se calla y vuelve a pitar. En el refrigerador, las vacunas tienen etiquetas nuevas.',
+          text: 'Clínica del Cerro, seis y diez de la mañana. El lector de tests pitaba, se callaba y volvía a pitar, y en el refrigerador las vacunas tenían etiquetas nuevas.',
         },
         {
           who: 'rocio',
           text: 'Sesenta y siete positivos en el turno. Con cada uno, el sistema autoriza más dosis para el cerro.',
         },
-        { who: 'iris', text: 'Sesenta y siete enfermos, entonces.' },
+        { who: 'iris', text: 'Entonces, sesenta y siete enfermos.' },
         {
           who: 'rocio',
-          text: 'Sesenta y siete pitos. No es lo mismo, y nadie aquí tiene tiempo de explicarlo.',
+          text: 'Sesenta y siete pitos, que no es lo mismo. Y nadie aquí tiene tiempo de explicarlo.',
         },
-        { who: 'teo', text: 'La planilla trae el lote completo: mil tests. Puedo separarlos.' },
+        { who: 'teo', text: 'La planilla trae el lote completo, mil tests. Puedo separarlos.' },
       ],
     },
     {
@@ -339,10 +360,10 @@ export const level: LevelSpec = {
       lines: [
         {
           who: 'nar',
-          text: 'Rocío escribe 18 en la pizarra blanca y lo encierra. El plumón chilla.',
+          text: 'Rocío escribió 18 en la pizarra y lo encerró en un círculo. El plumón chilló contra la superficie.',
         },
-        { who: 'rocio', text: 'Dieciocho. Y aun así pedimos para sesenta y siete.' },
-        { who: 'iris', text: 'El 2 % salió del censo. ¿Qué cifra usa el sistema de la Clínica?' },
+        { who: 'rocio', text: 'Dieciocho. Y aun así pedimos dosis para sesenta y siete.' },
+        { who: 'iris', text: 'El 2 % sale del censo. ¿Qué cifra usa el sistema de la Clínica?' },
         { who: 'rocio', text: 'Esa no la elegí yo. Viene cargada desde la central.' },
       ],
     },
