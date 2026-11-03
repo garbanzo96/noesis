@@ -145,27 +145,78 @@ const lesson: LessonStep = {
   ],
 };
 
-function ShiftSheet({ beats, answer }: DemoProps) {
+function ShiftSheet({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [s, setS] = useState(0.5);
+  const [doses, setDoses] = useState(18);
+  useEffect(() => {
+    setS(0.5);
+    setDoses(18);
+  }, [beat]);
+  const sens = beat === 0 ? s : 0.9;
+  const tp = Math.round(20 * sens);
+  const drag = useSvgDrag(svg, (x) => {
+    const v = clamp((x - SENS.x0) / (SENS.x1 - SENS.x0), 0, 1);
+    if (beat === 0) {
+      const next = Math.round(v * 10) / 10;
+      setS(next);
+      if (next === 0.9) unlock();
+    } else if (beat === 2) {
+      const next = Math.round(v * 100);
+      const reached = Math.abs(next - 67) <= 1;
+      setDoses(reached ? 67 : next);
+      if (reached) unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <People
         groups={[
-          { n: 18, color: C.amber },
+          { n: tp, color: C.amber },
+          { n: 20 - tp, color: C.magenta, dim: true },
           { n: 49, color: LIGHT_AMBER },
-          { n: 933, color: C.cyan, dim: true },
+          { n: 931, color: C.cyan, dim: true },
         ]}
       />
       <Cap x={570} y={705} size={20} color={C.muted}>
         Último lote: 1000 tests, 67 positivos.
       </Cap>
-      <Cap x={1270} y={220} tex="\text{positivos}=67" color={C.amber} />
-      {(beat > 0 || answer !== null) && (
-        <Cap x={1270} y={310} tex="\text{enfermos esperados}=18" color={C.green} />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={400} size={20} color={C.magenta}>
+      <Cap x={1270} y={220} size={22} color={C.amber}>
+        Planilla del turno: 67 positivos
+      </Cap>
+      <Cap x={1270} y={310} size={22} color={C.green}>
+        {`Enfermos detectados: 20 · ${fmt(sens, 1)} = ${tp}`}
+      </Cap>
+      <Cap x={1270} y={380} size={20} color={C.muted}>
+        Sanos con positivo: 980 · 0,05 = 49
+      </Cap>
+      {beat >= 2 && (
+        <Cap x={1270} y={450} size={22} color={C.magenta}>
           La Clínica pidió dosis para 67.
+        </Cap>
+      )}
+      {(beat === 0 || beat === 2) && (
+        <>
+          <line x1={SENS.x0} x2={SENS.x1} y1={SENS.y} y2={SENS.y} stroke={C.line} strokeWidth={4} />
+          <Knob
+            x={SENS.x0 + (beat === 0 ? s : doses / 100) * (SENS.x1 - SENS.x0)}
+            y={SENS.y}
+            onPointerDown={drag}
+            axis="x"
+            color={C.amber}
+            label={beat === 0 ? `${Math.round(s * 100)} %` : `${doses} dosis`}
+          />
+          <Cap x={1255} y={SENS.y + 60} size={19} color={C.muted}>
+            {beat === 0
+              ? 'sensibilidad del test (0–100 %)'
+              : `pedido (0–100 dosis): ${doses - 18} sobre los 18 esperados`}
+          </Cap>
+        </>
+      )}
+      {beat === 3 && answer !== null && (
+        <Cap x={1270} y={530} size={20} color={C.magenta}>
+          67 − 18 = 49 dosis de más.
         </Cap>
       )}
     </Stage>
@@ -328,6 +379,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. El censo regional da 2 % de prevalencia.',
+          gate: 'Arrastra la perilla de sensibilidad hasta 90 % y observa cuántos enfermos detecta.',
+        },
+        {
+          say: 'El test detecta al 90 % de los 20 enfermos del lote. Los otros 49 positivos vienen de personas sanas.',
           ask: {
             prompt: 'De los 67 positivos, ¿cuántos se esperan enfermos?',
             options: ['18', '67', '60'],
@@ -338,6 +393,10 @@ export const level: LevelSpec = {
         },
         {
           say: 'La Clínica pidió dosis según la planilla del turno.',
+          gate: 'Arrastra la perilla del pedido hasta las 67 dosis que pidió la Clínica y compáralas con los 18 enfermos esperados.',
+        },
+        {
+          say: 'El pedido de 67 dosis supera en 49 a los 18 enfermos esperados.',
           ask: {
             prompt: '¿Qué cifra usó la Clínica para pedir dosis?',
             options: [

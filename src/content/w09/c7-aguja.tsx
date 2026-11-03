@@ -262,26 +262,79 @@ export const lesson: LessonStep = {
   ],
 };
 
-function PulseDemo({ beats, answer }: DemoProps) {
+function PulseDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [time, setTime] = useState(0);
+  const [velocity, setVelocity] = useState(-2);
+  const { beat } = beats;
+  const onTime = useSvgDrag(svg, (x) => {
+    if (beat !== 0) return;
+    const t = clamp((x - 1070) / 180, 0, 2);
+    const reached = near(t, TARGET, 0.04);
+    setTime(reached ? TARGET : t);
+    if (reached) unlock();
+  });
+  const onVelocity = useSvgDrag(svg, (x) => {
+    if (beat !== 2) return;
+    const v = clamp((x - 1070) / 90 - 2, -2, 2);
+    const reached = near(v, 0, 0.1);
+    setVelocity(reached ? 0 : v);
+    if (reached) unlock();
+  });
+  const t = beat === 0 ? time : TARGET;
+  const v = beat === 2 ? velocity : 0;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes P={P} xTicks={[0, 1, 2]} xLabel="t" yLabel="q" />
       <SolutionTrace P={P} solution={q6} color={C.cyan} />
       <SolutionTrace P={P} solution={q10} color={C.amber} />
-      <Line a={P.pt(TARGET, P.yr[0])} b={P.pt(TARGET, P.yr[1])} color={C.green} dashed />
-      <Dot x={P.x(TARGET)} y={P.y(q6(TARGET))} color={C.cyan} />
-      <Cap x={P.x(TARGET)} y={745} tex="t=\pi/4\;\mathrm s" color={C.green} />
+      {beat >= 2 && (
+        <SolutionTrace P={P} solution={(s) => oscillator(6, 1, v, s)[0]} color={C.magenta} />
+      )}
+      <Line a={P.pt(t, P.yr[0])} b={P.pt(t, P.yr[1])} color={C.green} dashed />
+      <Dot x={P.x(t)} y={P.y(q6(t))} color={C.cyan} />
+      <Cap
+        x={540}
+        y={745}
+        tex={'t=' + num(t, 3) + '\\;\\mathrm s;\\quad q_6=' + num(q6(t), 6)}
+        color={C.green}
+      />
       <Cap x={1250} y={200} tex="q_6=e^{-3t}(\cos4t+\frac34\sin4t)" color={C.cyan} size={20} />
       <Cap x={1250} y={295} tex="q_{10}=(1+5t)e^{-5t}" color={C.amber} />
       <Readout x={1250} y={405} size={19}>
         Pulso: 00:00 del 17 de agosto. Reloj del papel contrastado con la radio del puerto.
       </Readout>
-      <Readout x={1250} y={530} size={19}>
+      <Readout x={1250} y={490} size={19}>
         Calibración firmada por Elena: c = 6, q(0) = 1, v(0) = 0.
       </Readout>
+      {beat === 0 && (
+        <>
+          <Line a={[1070, 620]} b={[1430, 620]} width={4} />
+          <Knob x={1070 + time * 180} y={620} axis="x" onPointerDown={onTime} color={C.amber} />
+          <Cap x={1070 + TARGET * 180} y={685} tex="t=\pi/4" color={C.green} />
+        </>
+      )}
+      {beat >= 2 && (
+        <>
+          <Cap x={1250} y={570} tex={'q_0=1;\\quad v_0=' + num(v)} color={C.magenta} />
+          {beat === 2 && (
+            <>
+              <Line a={[1070, 640]} b={[1430, 640]} width={4} />
+              <Knob
+                x={1250 + velocity * 90}
+                y={640}
+                axis="x"
+                onPointerDown={onVelocity}
+                color={C.magenta}
+              />
+              <Cap x={1250} y={705} tex="v_0=0" color={C.green} />
+            </>
+          )}
+        </>
+      )}
       {answer !== null && (
-        <Readout x={1250} y={665} size={19} color={C.green}>
-          {beats.beat === 0
+        <Readout x={1250} y={710} size={19} color={C.green}>
+          {beat === 1
             ? 'El signo negativo coincide con el cruce físico.'
             : 'La posición y la velocidad fijan la trayectoria; el reloj fija la hora.'}
         </Readout>
@@ -552,7 +605,11 @@ export const level: LevelSpec = {
       Scene: PulseDemo,
       beats: [
         {
-          say: 'La calibración firmada identifica c = 6. El archivo público conserva el inicio, pero usa c = 10. Compara el cruce del papel en t = π/4 s.',
+          say: 'La calibración firmada identifica c = 6. El archivo público conserva el inicio, pero usa c = 10. Lleva el reloj a π/4 s y compara las posiciones de ambas curvas.',
+          gate: 'Arrastra el reloj hasta t = π/4 s.',
+        },
+        {
+          say: 'En t = π/4 s, la aguja del papel está al otro lado del reposo y la curva pública sigue positiva.',
           ask: {
             prompt: '¿Qué valor respalda el cruce que quedó en el papel?',
             options: ['$e^{-3\\pi/4}$', '0', '$-e^{-3\\pi/4}$'],
@@ -567,7 +624,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El freno clasifica la regla, pero hay que conservar los dos datos iniciales para reconstruir la trayectoria.',
+          say: 'La curva magenta usa c = 6 y q(0) = 1, pero parte con otra velocidad. Ajusta v(0) a 0, como indica la calibración, hasta que coincida con la curva del papel.',
+          gate: 'Arrastra la velocidad inicial hasta v₀ = 0.',
+        },
+        {
+          say: 'Con c = 6, q(0) = 1 y v(0) = 0 recuperaste la trayectoria del papel. El freno clasifica la regla, pero el recorrido también depende de los dos datos iniciales.',
           ask: {
             prompt:
               '¿Qué dato alcanza para determinar una trayectoria con esta regla de segundo orden?',

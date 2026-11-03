@@ -210,14 +210,41 @@ const lesson: LessonStep = {
   ],
 };
 
-function MemoryDemo({ beats, answer }: DemoProps) {
+function MemoryDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [n, setN] = useState(1);
+  const [p, setP] = useState(0.5);
+  useEffect(() => {
+    if (beat === 0) setN(1);
+    if (beat === 2) setP(0.5);
+  }, [beat]);
+  const shown = beat === 0 ? n : 20;
+  const seq = Array.from({ length: shown }, (_, i) => (i % 5 !== 2 ? 1 : 0));
+  const positives = seq.reduce<number>((sum, v) => sum + v, 0);
+  const bf = likelihood(seq, PA) / likelihood(seq, PH);
+  const probability = beat === 3 ? 47 / 48 : p;
+  const drag = useSvgDrag(svg, (x) => {
+    const v = clamp((x - NSL.x0) / (NSL.x1 - NSL.x0), 0, 1);
+    if (beat === 0) {
+      const next = Math.round(v * 20);
+      setN(next);
+      if (next === 20) unlock();
+    } else if (beat === 2) {
+      setP(v);
+      // about 7 px on screen: reachable by hand, and the far end p = 1 stays outside
+      if (Math.abs(v - 47 / 48) < 0.018) {
+        setP(47 / 48);
+        unlock();
+      }
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       {Array.from({ length: 20 }, (_, i) => {
         const pos = i % 5 !== 2;
         return (
-          <g key={i}>
+          <g key={i} opacity={i < shown ? 1 : 0.15}>
             <circle
               cx={240 + (i % 10) * 70}
               cy={260 + Math.floor(i / 10) * 90}
@@ -238,23 +265,43 @@ function MemoryDemo({ beats, answer }: DemoProps) {
         );
       })}
       <Cap x={555} y={480} size={20} color={C.muted}>
-        Memoria del lector: 16 positivos en 20 controles ambiguos.
+        {`Memoria del lector: ${positives} positivos en ${shown} controles ambiguos.`}
       </Cap>
-      {beat === 0 && answer !== null && (
-        <Cap
-          x={1270}
-          y={260}
-          tex="BF=\frac{0{,}8^{16}\,0{,}2^4}{0{,}5^{20}}\approx47"
-          color={C.green}
-        />
+      <Cap
+        x={1270}
+        y={260}
+        tex={`BF=\\frac{0{,}8^{${positives}}\\,0{,}2^{${shown - positives}}}{0{,}5^{${shown}}}\\approx${tnum(bf, 0)}`}
+        color={C.green}
+      />
+      {beat >= 2 && (
+        <>
+          <Cap x={1270} y={360} size={22} color={C.muted}>
+            Chances del alterado: 47 : 1
+          </Cap>
+          <Cap
+            x={1270}
+            y={430}
+            tex="P(M_1\mid D)\approx\tfrac{47}{48}\approx0{,}98"
+            color={C.green}
+          />
+          <Cap x={1270} y={520} tex={`p=${tnum(probability, 2)}`} color={C.amber} />
+        </>
       )}
-      {beat === 1 && answer !== null && (
-        <Cap
-          x={1270}
-          y={260}
-          tex="P(M_1\mid D)\approx\tfrac{47}{48}\approx0{,}98"
-          color={C.green}
-        />
+      {(beat === 0 || beat === 2) && (
+        <>
+          <line x1={NSL.x0} x2={NSL.x1} y1={NSL.y} y2={NSL.y} stroke={C.line} strokeWidth={4} />
+          <Knob
+            x={NSL.x0 + (beat === 0 ? n / 20 : p) * (NSL.x1 - NSL.x0)}
+            y={NSL.y}
+            onPointerDown={drag}
+            axis="x"
+            color={C.amber}
+            label={beat === 0 ? `${n}` : `p = ${fmt(p, 2)}`}
+          />
+          <Cap x={1255} y={NSL.y + 60} size={19} color={C.muted}>
+            {beat === 0 ? 'controles leídos · 0 a 20' : 'probabilidad · 0 a 1'}
+          </Cap>
+        </>
       )}
     </Stage>
   );
@@ -384,7 +431,11 @@ export const level: LevelSpec = {
       Scene: MemoryDemo,
       beats: [
         {
-          say: 'La memoria del lector tiene 20 controles ambiguos: 16 positivos y 4 negativos.',
+          say: 'La memoria del lector guarda 20 controles ambiguos. Lee el registro completo y mira cómo se acumula la evidencia entre los dos modelos.',
+          gate: 'Arrastra la perilla hasta leer los 20 controles.',
+        },
+        {
+          say: 'Leíste 16 positivos y 4 negativos. La pantalla compara qué tan probable es ese registro bajo cada modelo.',
           ask: {
             prompt: '¿Cuánto vale el factor de Bayes del alterado contra el honesto?',
             options: ['≈ 47', '≈ 2,6', '≈ 0,8'],
@@ -394,7 +445,11 @@ export const level: LevelSpec = {
           note: { label: 'Veinte controles', tex: 'BF\\approx47' },
         },
         {
-          say: 'Antes de mirar, ambas explicaciones valían lo mismo.',
+          say: 'Antes de mirar, ambas explicaciones valían lo mismo. Con estos controles, las chances del alterado son aproximadamente 47 a 1: 47 de 48 partes.',
+          gate: 'Arrastra la perilla hasta p ≈ 0,98, la probabilidad que corresponde a 47 de 48 partes.',
+        },
+        {
+          say: 'La perilla quedó cerca de 0,98: las chances 47 a 1 corresponden a 47/48 del total.',
           ask: {
             prompt: '¿Qué probabilidad tiene ahora el lector alterado?',
             options: ['≈ 0,98', '≈ 0,72', '≈ 0,80'],

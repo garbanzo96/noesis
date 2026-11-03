@@ -27,8 +27,8 @@ const NS = { x0: 1110, x1: 1400, y: 660, lo: 500, hi: 3000 };
 const LINE = { x0: 200, x1: 900, y: 520 };
 const lx = (p: number) => LINE.x0 + p * (LINE.x1 - LINE.x0);
 
-function Counts({ n, reported }: { n: number; reported: boolean }) {
-  const expected = Math.round(n * PPLUS);
+function Counts({ n, reported, pplus = PPLUS }: { n: number; reported: boolean; pplus?: number }) {
+  const expected = Math.round(n * pplus);
   const scale = 380 / 600;
   return (
     <g>
@@ -268,21 +268,72 @@ const lesson: LessonStep = {
   ],
 };
 
-function AugustReport({ beats, answer }: DemoProps) {
+function AugustReport({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const target = (600 / 3000 - 0.018) / 0.98;
+  const [x, setX] = useState(0.05);
+  const [p, setP] = useState(0.6);
+  useEffect(() => {
+    if (beat === 0) setX(0.05);
+    if (beat === 2) setP(0.6);
+  }, [beat]);
+  const drag = useSvgDrag(svg, (px) => {
+    if (beat === 0) {
+      const v = 0.05 + clamp((px - NS.x0) / (NS.x1 - NS.x0), 0, 1) * 0.2;
+      const matched = Math.abs(v - target) < 0.003;
+      setX(matched ? target : v);
+      if (matched) unlock();
+    }
+    if (beat === 2) {
+      const v = clamp((px - LINE.x0) / (LINE.x1 - LINE.x0), 0, 1);
+      const matched = Math.abs(v - 0.09) < 0.01;
+      setP(matched ? 0.09 : v);
+      if (matched) unlock();
+    }
+  });
+  const rate = beat === 0 ? x : target;
+  const risk = beat === 2 ? p : 0.09;
   return (
-    <Stage>
-      <Counts n={3000} reported />
-      {beat === 0 && answer !== null && (
-        <Cap
-          x={1270}
-          y={260}
-          tex="0{,}018+0{,}98\,x=0{,}2\Rightarrow x\approx0{,}19"
-          color={C.green}
-        />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="P(E\mid+)=\tfrac{0{,}018}{0{,}2}=0{,}09<0{,}2" color={C.green} />
+    <Stage ref={svg}>
+      {beat <= 1 ? (
+        <>
+          <Counts n={3000} reported pplus={0.018 + 0.98 * rate} />
+          <Cap x={1270} y={230} size={22} color={C.muted}>
+            3000 tests · test honesto: 201 positivos
+          </Cap>
+          <Cap x={1270} y={310} tex={`x=${tnum(rate, 3)}`} color={C.amber} />
+          <Cap
+            x={1270}
+            y={390}
+            tex={`P(+)=0{,}018+0{,}98x=${tnum(0.018 + 0.98 * rate, 3)}`}
+            color={C.amber}
+          />
+          {beat === 0 && (
+            <>
+              <line x1={NS.x0} x2={NS.x1} y1={NS.y} y2={NS.y} stroke={C.line} strokeWidth={4} />
+              <Knob
+                x={NS.x0 + ((x - 0.05) / 0.2) * (NS.x1 - NS.x0)}
+                y={NS.y}
+                onPointerDown={drag}
+                axis="x"
+                color={C.amber}
+                label={`Falsos positivos: ${fmt(x * 100, 1)} %`}
+              />
+            </>
+          )}
+        </>
+      ) : (
+        <>
+          <Threshold t={0.2} points={[[`Riesgo: ${fmt(risk, 2)}`, risk, C.amber]]} />
+          <Cap x={1270} y={230} tex={'P(E\\mid+)=\\tfrac{0{,}018}{0{,}2}=0{,}09'} color={C.amber} />
+          <Cap x={1270} y={310} size={22} color={C.green}>
+            Tratar a un sano cuesta 1; omitir a un enfermo, 4.
+          </Cap>
+          {beat === 2 && (
+            <Knob x={lx(p)} y={LINE.y} onPointerDown={drag} axis="x" color={C.amber} />
+          )}
+        </>
       )}
     </Stage>
   );
@@ -417,6 +468,10 @@ export const level: LevelSpec = {
       Scene: AugustReport,
       beats: [
         {
+          say: 'Con el test honesto se esperaban 201 positivos en 3000 tests. Mantén la prevalencia y la sensibilidad y ajusta los falsos positivos hasta reproducir los 600 del informe.',
+          gate: 'Arrastra la perilla de falsos positivos hasta que la barra marque 600.',
+        },
+        {
           say: 'Si el lector alterado marca positivos de más en sanos, ¿qué tasa de falsos positivos explicaría 600 de 3000?',
           ask: {
             prompt: '¿Qué tasa de falsos positivos x explica 600 positivos en 3000?',
@@ -426,6 +481,10 @@ export const level: LevelSpec = {
               '600/3000 = 0,2 = 0,018 + 0,98·x, así que x ≈ 0,19. Casi cuatro veces el 5 % del test honesto.',
           },
           note: { label: 'Falsos positivos del lector', tex: 'x\\approx0{,}19' },
+        },
+        {
+          say: 'Con el lector alterado, P(E | +) baja a 0,09. Ubica ese riesgo en la recta y compáralo con el umbral 0,2, que corresponde a costos 1 y 4.',
+          gate: 'Arrastra el punto de riesgo hasta 0,09.',
         },
         {
           say: 'Con ese lector, un positivo ya no significa lo mismo.',

@@ -227,15 +227,82 @@ const lesson: LessonStep = {
   ],
 };
 
-function AugustDemo({ beats, answer }: DemoProps) {
+function AugustDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [k, setK] = useState(4);
+  const [theta, setTheta] = useState(0.6);
+  useEffect(() => {
+    if (beat === 0) setK(4);
+    if (beat === 2) setTheta(0.6);
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 0) {
+      const next = Math.round(clamp((x - KS.x0) / (KS.x1 - KS.x0), 0, 1) * 40);
+      setK(next);
+      if (next === 12) unlock();
+    } else if (beat === 2) {
+      const next = clamp(P.inv(x, 560)[0], 0, 1);
+      setTheta(next);
+      if (Math.abs(next - 0.28) < 0.015) {
+        setTheta(0.28);
+        unlock();
+      }
+    }
+  });
+  const positives = beat === 0 ? k : 12;
+  const here = beat === 2 ? theta : 0.28;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Frame />
       <BetaCurve a={2} b={8} color={C.cyan} dashed />
-      {(beat > 0 || answer !== null) && <BetaCurve a={14} b={36} color={C.amber} fill />}
-      {beat === 1 && answer !== null && <MeanMark a={14} b={36} color={C.green} />}
-      <Cap x={1270} y={220} tex="\text{lote de agosto}:\ 12\ \text{de}\ 40" color={C.text} />
+      <BetaCurve a={2 + positives} b={48 - positives} color={C.amber} fill />
+      {beat === 3 && answer !== null && <MeanMark a={14} b={36} color={C.green} />}
+      <Cap x={1270} y={220} color={C.text}>
+        Lote de agosto: 12 de 40
+      </Cap>
+      <Cap x={1270} y={300} tex={'\\text{prior}:\\ \\text{Beta}(2,8)'} color={C.cyan} />
+      <Cap
+        x={1270}
+        y={380}
+        tex={`\\text{posterior}:\\ \\text{Beta}(${2 + positives},${48 - positives})`}
+        color={C.amber}
+      />
+      {beat === 0 && (
+        <>
+          <Cap x={1255} y={500} size={20} color={C.text}>
+            {`${k} positivos · ${40 - k} negativos`}
+          </Cap>
+          <line x1={KS.x0} x2={KS.x1} y1={KS.y} y2={KS.y} stroke={C.line} strokeWidth={4} />
+          <Knob
+            x={KS.x0 + (k / 40) * (KS.x1 - KS.x0)}
+            y={KS.y}
+            onPointerDown={drag}
+            axis="x"
+            color={C.amber}
+          />
+          <Cap x={1255} y={KS.y + 60} size={19} color={C.muted}>
+            positivos en 40 controles
+          </Cap>
+        </>
+      )}
+      {beat >= 2 && (
+        <>
+          <Cap x={1270} y={480} tex={'E[\\theta]=\\tfrac{14}{50}'} color={C.green} />
+          <Cap x={1270} y={560} tex={`\\theta=${tnum(here, 2)}`} color={C.amber} />
+          <line
+            x1={P.x(here)}
+            x2={P.x(here)}
+            y1={P.y(0)}
+            y2={P.y(6.8)}
+            stroke={C.amber}
+            strokeWidth={2}
+          />
+          {beat === 2 && (
+            <Knob x={P.x(theta)} y={560} onPointerDown={drag} axis="x" color={C.amber} />
+          )}
+        </>
+      )}
     </Stage>
   );
 }
@@ -378,6 +445,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Antes de los controles, las otras clínicas sugieren Beta(2, 8). El lote de agosto dio 12 positivos en 40 controles.',
+          gate: 'Arrastra la perilla hasta 12 positivos de 40 controles.',
+        },
+        {
+          say: 'Con 12 positivos y 28 negativos, la curva actualizada es Beta(14, 36).',
           ask: {
             prompt: '¿Cuál es el posterior del lote de agosto?',
             options: ['Beta(14, 36)', 'Beta(12, 28)', 'Beta(14, 48)'],
@@ -390,7 +461,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Resume ese posterior con su media.',
+          say: 'La media del posterior es 14/50. Ubícala en el eje y compárala con el 0,20 de las otras clínicas.',
+          gate: 'Arrastra el cursor hasta θ = 0,28.',
+        },
+        {
+          say: 'El cursor marca la media del posterior, por encima del 0,20 de las otras clínicas.',
           ask: {
             prompt: '¿Cuánto vale la media del posterior?',
             options: ['0,28', '0,30', '0,20'],

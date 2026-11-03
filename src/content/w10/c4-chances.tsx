@@ -12,7 +12,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, rng } from '../shared/rng';
-import { Confirm, DragCue, NumberField, parseNum } from '../shared/ui';
+import { Confirm, DragCue, Knob, NumberField, parseNum } from '../shared/ui';
 import { fmt, tnum } from './kit';
 
 // ============================================================================
@@ -170,19 +170,92 @@ const lesson: LessonStep = {
   ],
 };
 
-function NegativeDemo({ beats, answer }: DemoProps) {
+function NegativeDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [negative, setNegative] = useState(0.5);
+  const [applied, setApplied] = useState(false);
+  const [chip, setChip] = useState<[number, number]>([CHIP.x, CHIP.y]);
+  useEffect(() => {
+    setNegative(beat === 0 ? 0.5 : 0.1);
+    setApplied(beat === 3);
+    setChip([CHIP.x, CHIP.y]);
+  }, [beat]);
+  const measure = useSvgDrag(svg, (x) => {
+    const v = Math.round(Math.max(0, Math.min(1, (x - BAR.x) / BAR.w)) * 100) / 100;
+    setNegative(v);
+    if (Math.abs(v - 0.1) < 0.011) {
+      setNegative(0.1);
+      unlock();
+    }
+  });
+  const apply = useSvgDrag(svg, (x, y, phase) => {
+    setChip([Math.max(BAR.x, Math.min(BAR.x + BAR.w, x)), Math.max(160, Math.min(620, y))]);
+    if (phase === 'end') {
+      setChip([CHIP.x, CHIP.y]);
+      if (x >= BAR.x && x <= BAR.x + BAR.w && y >= 430 && y <= 600) {
+        setApplied(true);
+        unlock();
+      }
+    }
+  });
+  const rate = beat === 0 ? negative : 0.1;
   return (
-    <Stage>
-      <OddsBar a={1} b={49} label="\text{antes}=1:49" y={230} />
-      {answer !== null && beat === 1 && (
-        <OddsBar a={2} b={931} label="\text{después de un negativo}=2:931" y={470} />
-      )}
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="LR^-=\tfrac{1-s}{e}=\tfrac2{19}\approx0{,}105" color={C.cyan} />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="\tfrac{2}{933}\approx0{,}002" color={C.green} />
+    <Stage ref={svg}>
+      {beat <= 1 ? (
+        <>
+          <OddsBar a={rate} b={1 - rate} label={`P(-\\mid E)=${tnum(rate, 2)}`} y={230} />
+          <OddsBar a={0.95} b={0.05} label="P(-\\mid E^c)=0{,}95" y={470} />
+          <Cap x={560} y={365} size={20} color={C.muted}>
+            Magenta: negativos. Celeste: positivos.
+          </Cap>
+          {beat === 0 && (
+            <Knob
+              x={BAR.x + rate * BAR.w}
+              y={275}
+              onPointerDown={measure}
+              axis="x"
+              color={C.amber}
+            />
+          )}
+          <Cap
+            x={1270}
+            y={260}
+            tex={`LR^-=${tnum(rate, 2)}/0{,}95\\approx${tnum(rate / 0.95, 3)}`}
+            color={C.cyan}
+          />
+        </>
+      ) : (
+        <>
+          <OddsBar a={1} b={49} label="\\text{antes}=1:49" y={230} />
+          <g
+            onPointerDown={beat === 2 && !applied ? apply : undefined}
+            style={{ cursor: 'pointer' }}
+          >
+            <rect x={BAR.x} y={430} width={BAR.w} height={170} fill="transparent" />
+            <OddsBar
+              a={applied ? 2 : 1}
+              b={applied ? 931 : 49}
+              label={
+                applied
+                  ? '\\text{después de un negativo}=2:931'
+                  : '\\text{aplica aquí }\\times\\tfrac2{19}'
+              }
+              y={470}
+            />
+          </g>
+          {beat === 2 && !applied && (
+            <Knob
+              x={chip[0]}
+              y={chip[1]}
+              onPointerDown={apply}
+              label="×2/19"
+              axis="y"
+              color={C.amber}
+            />
+          )}
+          {applied && <Cap x={1270} y={260} tex="\\tfrac{2}{933}\\approx0{,}002" color={C.green} />}
+        </>
       )}
     </Stage>
   );
@@ -331,7 +404,11 @@ export const level: LevelSpec = {
       Scene: NegativeDemo,
       beats: [
         {
-          say: 'El test de la campaña: sensibilidad 90 %, especificidad 95 %.',
+          say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. Entre enfermos, el 10 % da negativo. Mueve la división de la barra superior hasta mostrar esa proporción.',
+          gate: 'Arrastra el punto hasta P(− | E) = 0,10.',
+        },
+        {
+          say: 'La barra muestra 0,10 de negativos entre enfermos y 0,95 entre sanos. El cociente mide cuánto pesa un negativo.',
           ask: {
             prompt: '¿Cuánto vale la razón de verosimilitud de un negativo, LR⁻?',
             options: ['≈ 0,105', '≈ 18', '≈ 0,95'],
@@ -341,7 +418,11 @@ export const level: LevelSpec = {
           note: { label: 'Razón de un negativo', tex: 'LR^-=\\tfrac{0{,}1}{0{,}95}=\\tfrac2{19}' },
         },
         {
-          say: 'Antes del test, las chances son 1 : 49. Sale negativo.',
+          say: 'Antes del test, las chances son 1 : 49. Sale negativo: aplica el factor 2/19 a la barra inferior y observa la probabilidad que queda.',
+          gate: 'Arrastra la ficha ×2/19 sobre la barra inferior o toca esa barra.',
+        },
+        {
+          say: 'Después de aplicar el negativo, las chances bajaron a 2 : 931.',
           ask: {
             prompt: '¿Qué probabilidad queda de estar enfermo?',
             options: ['≈ 0,002', '≈ 0,02', '≈ 0,10'],

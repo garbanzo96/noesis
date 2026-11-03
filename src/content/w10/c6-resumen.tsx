@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Stage } from '../../engine/Stage';
 import type {
@@ -11,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { randInt, rng } from '../shared/rng';
-import { Confirm, NumberField, parseNum } from '../shared/ui';
+import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { fmt, tnum } from './kit';
 
 // ============================================================================
@@ -228,19 +230,36 @@ const lesson: LessonStep = {
   ],
 };
 
-function AugustSummary({ beats, answer }: DemoProps) {
+function AugustSummary({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const acting = beat === 0 || beat === 2;
+  const target = beat <= 1 ? 0.27 : 0.2;
+  const [theta, setTheta] = useState(0.45);
+  useEffect(() => setTheta(acting ? 0.45 : target), [beat, acting, target]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (!acting) return;
+    const v = Math.round(clamp(0.1 + (x - 230) / 1600, 0.1, 0.5) * 100) / 100;
+    setTheta(v);
+    if (Math.abs(v - target) < 0.006) {
+      setTheta(target);
+      unlock();
+    }
+  });
+  const here = acting ? theta : target;
+  const cursorX = 230 + (here - 0.1) * 1600;
+  const reached = Math.abs(here - target) < 0.006;
   // Beta(14, 36) drawn on a coarse grid of 9 values for reading.
   const g = [0.1, 0.15, 0.2, 0.25, 0.3, 0.35, 0.4, 0.45, 0.5];
   const raw = g.map((t) => t ** 13 * (1 - t) ** 35);
   const s = raw.reduce((a, b) => a + b, 0);
   return (
-    <Stage>
+    <Stage ref={svg}>
       {g.map((t, i) => {
         const p = raw[i] / s,
           x = 200 + i * 80,
           h = p * 1400;
-        const over = t > 0.2;
+        const over = t > here;
         return (
           <g key={t}>
             <rect
@@ -249,7 +268,7 @@ function AugustSummary({ beats, answer }: DemoProps) {
               width={60}
               height={Math.max(h, 2)}
               rx={6}
-              fill={beat === 1 && answer !== null && over ? C.green : C.amber}
+              fill={beat >= 2 && over ? C.green : C.amber}
               fillOpacity={0.8}
             />
             <Cap x={x + 30} y={652} size={18} color={C.muted}>
@@ -259,23 +278,38 @@ function AugustSummary({ beats, answer }: DemoProps) {
         );
       })}
       <line
-        x1={200 + 2 * 80 + 70}
-        x2={200 + 2 * 80 + 70}
+        x1={230 + (0.2 - 0.1) * 1600}
+        x2={230 + (0.2 - 0.1) * 1600}
         y1={200}
         y2={620}
         stroke={C.cyan}
         strokeWidth={2}
         strokeDasharray="6 6"
       />
-      <Cap x={200 + 2 * 80 + 70} y={180} size={19} color={C.cyan}>
+      <Cap x={230 + (0.2 - 0.1) * 1600} y={180} size={19} color={C.cyan}>
         0,2: otras clínicas
       </Cap>
       <Cap x={1270} y={220} tex="\text{Beta}(14,36)" color={C.amber} />
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={310} tex="\text{moda}=\tfrac{13}{48}\approx0{,}27" color={C.green} />
+      <line x1={230} x2={870} y1={720} y2={720} stroke={C.line} strokeWidth={2} />
+      <line
+        x1={cursorX}
+        x2={cursorX}
+        y1={220}
+        y2={720}
+        stroke={reached ? C.green : C.cyan}
+        strokeWidth={2}
+        strokeDasharray="6 6"
+      />
+      {acting && <Knob x={cursorX} y={720} onPointerDown={drag} axis="x" />}
+      <Cap x={1270} y={300} tex={`\\theta=${tnum(here, 2)}`} color={C.cyan} />
+      {beat <= 1 && reached && (
+        <>
+          <Cap x={1270} y={380} tex="\\text{moda}=\\tfrac{13}{48}\\approx0{,}27" color={C.green} />
+          <Cap x={1270} y={450} tex="\\text{media}=0{,}28" color={C.muted} />
+        </>
       )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={310} tex="P(\theta>0{,}2)\approx0{,}90" color={C.green} />
+      {beat >= 2 && reached && (
+        <Cap x={1270} y={380} tex="P(\\theta>0{,}2)\\approx0{,}90" color={C.green} />
       )}
     </Stage>
   );
@@ -393,7 +427,11 @@ export const level: LevelSpec = {
       Scene: AugustSummary,
       beats: [
         {
-          say: 'El posterior del lote de agosto es Beta(14, 36).',
+          say: 'El posterior del lote de agosto es Beta(14, 36). Ubica su moda en 13/48 ≈ 0,27 con el cursor.',
+          gate: 'Arrastra el cursor hasta θ = 0,27.',
+        },
+        {
+          say: 'El cursor marca la moda del lote; la media queda en 0,28.',
           ask: {
             prompt: '¿Cuál es su moda?',
             options: ['≈ 0,27', '0,28', '0,30'],
@@ -403,7 +441,11 @@ export const level: LevelSpec = {
           note: { label: 'Moda del lote', tex: '\\tfrac{13}{48}\\approx0{,}27' },
         },
         {
-          say: 'Las otras clínicas rondan 0,2. ¿Cuánta probabilidad deja el posterior por encima de esa cifra?',
+          say: 'Las otras clínicas rondan 0,2. Mueve el umbral hasta esa cifra: las barras verdes muestran la probabilidad que queda a su derecha.',
+          gate: 'Arrastra el cursor hasta θ = 0,20.',
+        },
+        {
+          say: 'Por encima de 0,2 queda cerca del 90 % de la probabilidad del posterior; por debajo queda cerca del 10 %.',
           ask: {
             prompt: '¿P(θ > 0,2) para el lote de agosto?',
             options: ['≈ 0,90', '≈ 0,28', '≈ 0,50'],

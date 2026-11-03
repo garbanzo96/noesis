@@ -155,12 +155,24 @@ const lesson: LessonStep = {
   ],
 };
 
-function ReportDemo({ beats, answer }: DemoProps) {
+function ReportDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
-  const p = beat === 0 ? 20 : 2;
+  const target = beat <= 1 ? 20 : 2;
+  const acting = beat === 0 || beat === 2;
+  const [pct, setPct] = useState(2);
+  useEffect(() => setPct(beat <= 1 ? 2 : 20), [beat]);
+  const drag = useSvgDrag(svg, (px) => {
+    if (!acting) return;
+    const t = clamp((px - PREV.x0) / (PREV.x1 - PREV.x0), 0, 1);
+    const next = Math.round(PREV.lo + t * (PREV.hi - PREV.lo));
+    setPct(next);
+    if (next === target) unlock();
+  });
+  const p = acting ? pct : target;
   const { sick, tp, fp } = split(p);
   return (
-    <Stage>
+    <Stage ref={svg}>
       <People
         groups={[
           { n: tp, color: C.amber },
@@ -170,16 +182,48 @@ function ReportDemo({ beats, answer }: DemoProps) {
         ]}
       />
       <Cap x={570} y={705} size={20} color={C.muted}>
-        {beat === 0 ? 'Con la cifra cargada en la central: 20 %.' : 'Con el censo regional: 2 %.'}
+        {beat <= 1 ? 'Cifra cargada en la central: 20 %.' : 'Censo regional: 2 %.'}
       </Cap>
       <Cap x={1270} y={220} tex={`\\pi=${p}\\ \\%`} color={C.magenta} />
-      {answer !== null && (
-        <Cap
-          x={1270}
-          y={310}
-          tex={`\\text{VPP}\\approx${tnum(ppv(p / 100, 0.9, 0.95))}`}
-          color={C.green}
-        />
+      <Cap x={1270} y={310} tex={`VP=${tp},\\quad FP=${fp}`} color={C.amber} />
+      <Cap
+        x={1270}
+        y={400}
+        tex={`\\text{VPP}=\\tfrac{${tp}}{${tp + fp}}\\approx${tnum(ppv(p / 100, 0.9, 0.95))}`}
+        color={C.green}
+      />
+      {acting && (
+        <>
+          <line x1={PREV.x0} x2={PREV.x1} y1={PREV.y} y2={PREV.y} stroke={C.line} strokeWidth={4} />
+          <rect
+            x={PREV.x0 - 24}
+            y={PREV.y - 24}
+            width={PREV.x1 - PREV.x0 + 48}
+            height={48}
+            fill="transparent"
+            onPointerDown={drag}
+            style={{ cursor: 'pointer', touchAction: 'none' }}
+          />
+          <Knob
+            x={PREV.x0 + ((pct - PREV.lo) / (PREV.hi - PREV.lo)) * (PREV.x1 - PREV.x0)}
+            y={PREV.y}
+            onPointerDown={drag}
+            axis="x"
+            color={C.magenta}
+            label={`${pct} %`}
+          />
+          <Cap
+            x={PREV.x0 + (PREV.x1 - PREV.x0) / (PREV.hi - PREV.lo)}
+            y={PREV.y + 45}
+            size={19}
+            color={C.muted}
+          >
+            2 %
+          </Cap>
+          <Cap x={PREV.x1} y={PREV.y + 45} size={19} color={C.muted}>
+            20 %
+          </Cap>
+        </>
       )}
     </Stage>
   );
@@ -324,7 +368,11 @@ export const level: LevelSpec = {
       Scene: ReportDemo,
       beats: [
         {
-          say: 'El sistema calcula el VPP con la cifra cargada en la central: 20 %.',
+          say: 'El sistema calcula el VPP con la cifra cargada en la central: 20 %. Ajusta la prevalencia y observa cuántos positivos son verdaderos y cuántos son falsos.',
+          gate: 'Arrastra la perilla de prevalencia hasta 20 % o toca ese valor en la barra.',
+        },
+        {
+          say: 'Con 20 % de prevalencia, compara los positivos verdaderos con el total de positivos.',
           ask: {
             prompt: '¿Qué VPP le muestra el sistema a la Clínica?',
             options: ['≈ 0,82', '≈ 0,27', '0,90'],
@@ -338,7 +386,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Ahora con el censo regional: 2 %.',
+          say: 'El censo regional indica 2 %. Ajusta la prevalencia sin cambiar el test y observa el VPP.',
+          gate: 'Arrastra la perilla de prevalencia hasta 2 % o toca ese valor en la barra.',
+        },
+        {
+          say: 'Con 2 % de prevalencia, compara los positivos verdaderos con el total de positivos.',
           ask: {
             prompt: '¿Cuál es el VPP real del test en el cerro?',
             options: ['≈ 0,27', '≈ 0,82', '0,02'],

@@ -330,7 +330,20 @@ export const lesson: LessonStep = {
   ],
 };
 
-function ChainDemo({ answer, beats }: DemoProps) {
+function ChainDemo({ answer, beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const acting = beat === 0 || beat === 2;
+  const target = beat <= 1 ? 1 : 4;
+  const [marker, setMarker] = useState(212.5);
+  useEffect(() => setMarker(beat <= 1 ? 212.5 : 572.5), [beat]);
+  const drag = useSvgDrag(svg, (_x, y) => {
+    if (!acting) return;
+    const next = clamp(y, 212.5, 692.5);
+    setMarker(next);
+    if (near(next, 212.5 + target * 120, 48)) unlock();
+  });
+  const here = acting ? marker : 212.5 + target * 120;
   const records = [
     ['17 de agosto · 00:00', 'Papel y salida privada firmada'],
     ['17 de agosto · 00:10', 'Recibo de Halcón enlazado al mensaje'],
@@ -339,9 +352,13 @@ function ChainDemo({ answer, beats }: DemoProps) {
     ['18 de agosto · 02:40', 'Guía de recepción en la Clínica'],
   ];
   return (
-    <Stage>
+    <Stage ref={svg}>
       {records.map(([time, title], i) => (
-        <g key={time}>
+        <g
+          key={time}
+          onPointerDown={acting ? drag : undefined}
+          style={{ cursor: acting ? 'pointer' : undefined }}
+        >
           <rect
             x={180}
             y={165 + i * 120}
@@ -349,8 +366,8 @@ function ChainDemo({ answer, beats }: DemoProps) {
             height={95}
             rx={9}
             fill={C.panel}
-            stroke={i < 3 ? C.cyan : C.amber}
-            strokeWidth={3}
+            stroke={near(here, 212.5 + i * 120, 48) ? C.green : i < 3 ? C.cyan : C.amber}
+            strokeWidth={near(here, 212.5 + i * 120, 48) ? 5 : 3}
           />
           <Cap x={540} y={190 + i * 120} size={20} color={i < 3 ? C.cyan : C.amber}>
             {time}
@@ -360,6 +377,9 @@ function ChainDemo({ answer, beats }: DemoProps) {
           </Cap>
         </g>
       ))}
+      <Line a={[960, 212.5]} b={[960, 692.5]} color={C.muted} />
+      <Line a={[905, here]} b={[960, here]} color={C.green} />
+      {acting && <Knob x={960} y={here} axis="y" color={C.green} onPointerDown={drag} />}
       <Readout x={1250} y={240}>
         Ventana del mensaje: 02:00–02:30 del 18 de agosto.
       </Readout>
@@ -372,7 +392,7 @@ function ChainDemo({ answer, beats }: DemoProps) {
       </Readout>
       {answer !== null && (
         <Readout x={1250} y={710} size={19} color={C.green}>
-          {beats.beat === 0
+          {beat === 1
             ? 'Copia y recibo preceden a la entrega del día siguiente.'
             : 'La guía de la Clínica acredita el destino después del Observatorio.'}
         </Readout>
@@ -726,6 +746,10 @@ export const level: LevelSpec = {
       Scene: ChainDemo,
       beats: [
         {
+          say: 'Las horas de la mesa pertenecen a dos días. Marca el recibo de Halcón y compara su fecha con la copia, las modificaciones públicas y la recepción del Observatorio.',
+          gate: 'Arrastra el marcador al recibo de Halcón de las 00:10 del 17, o toca ese registro.',
+        },
+        {
           say: 'Las horas de la mesa pertenecen a dos días. Conserva copia, recibo y modificación del 17 junto al parte de recepción del 18.',
           ask: {
             prompt: '¿Qué secuencia conserva la cadena documentada?',
@@ -743,6 +767,10 @@ export const level: LevelSpec = {
             tex: '00{:}00<00{:}10<00{:}20',
             body: '17 de agosto: papel, copia firmada, recibo y modificaciones. Recepción del día siguiente a las 02:10, dentro de 02:00–02:30.',
           },
+        },
+        {
+          say: 'El parte registra la recepción en el Observatorio a las 02:10 del 18 y la salida inmediata. Marca en la guía la recepción que continúa ese recorrido.',
+          gate: 'Arrastra el marcador a la guía de recepción de la Clínica de las 02:40, o toca ese registro.',
         },
         {
           say: 'El parte registra la recepción en el Observatorio y la salida inmediata. La guía adjunta continúa el recorrido.',

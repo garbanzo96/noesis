@@ -13,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { Dist, fmt, tnum } from './kit';
 
 // ============================================================================
@@ -223,10 +223,23 @@ const lesson: LessonStep = {
   ],
 };
 
-function RecipeDemo({ beats, answer }: DemoProps) {
+function RecipeDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [d, setD] = useState(1);
+  const [folder, setFolder] = useState('Parámetros');
+  useEffect(() => {
+    setD(beat === 0 ? 1 : 24);
+    setFolder(beat === 3 ? 'aproximación q' : 'Parámetros');
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    const next = 1 + Math.round(clamp((x - 280) / 520, 0, 1) * 23);
+    setD(next);
+    if (beat === 0 && next === 24) unlock();
+  });
+  const dimensions = beat === 0 ? d : 24;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <rect
         x={200}
         y={200}
@@ -249,7 +262,7 @@ function RecipeDemo({ beats, answer }: DemoProps) {
             height={56}
             rx={8}
             fill={C.violet}
-            fillOpacity={0.35}
+            fillOpacity={i < dimensions ? 0.7 : 0.1}
             stroke={C.violet}
           />
           <Cap
@@ -261,9 +274,55 @@ function RecipeDemo({ beats, answer }: DemoProps) {
           />
         </g>
       ))}
-      {beat === 0 && answer !== null && <Cap x={1270} y={260} tex="10^{24}" color={C.magenta} />}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="q(\theta)\approx P(\theta\mid D)" color={C.green} />
+      <Cap x={1270} y={200} size={22} color={C.text}>
+        {`${dimensions} parámetros · 10 valores cada uno`}
+      </Cap>
+      <Cap x={1270} y={280} tex={`10^{${dimensions}}`} color={C.magenta} />
+      {beat === 0 && (
+        <>
+          <line x1={280} x2={800} y1={660} y2={660} stroke={C.line} strokeWidth={4} />
+          <line
+            x1={280}
+            x2={800}
+            y1={660}
+            y2={660}
+            stroke="transparent"
+            strokeWidth={44}
+            onPointerDown={drag}
+          />
+          <Knob
+            x={280 + ((d - 1) / 23) * 520}
+            y={660}
+            onPointerDown={drag}
+            axis="x"
+            color={C.violet}
+            label={`${d}`}
+          />
+          <Cap x={540} y={720} size={19} color={C.muted}>
+            parámetros: de 1 a 24
+          </Cap>
+        </>
+      )}
+      {beat >= 2 && (
+        <Choices
+          x={540}
+          y={660}
+          options={['Parámetros', 'aproximación q']}
+          value={folder}
+          label="Carpetas"
+          onPick={(value) => {
+            setFolder(value);
+            if (beat === 2 && value === 'aproximación q') unlock();
+          }}
+        />
+      )}
+      {beat >= 2 && folder === 'aproximación q' && (
+        <>
+          <Cap x={1270} y={390} tex="q(\\theta)\\approx P(\\theta\\mid D)" color={C.green} />
+          <Cap x={1270} y={470} size={21} color={C.text}>
+            El lector usa una q más simple.
+          </Cap>
+        </>
       )}
     </Stage>
   );
@@ -406,7 +465,11 @@ export const level: LevelSpec = {
       Scene: RecipeDemo,
       beats: [
         {
-          say: 'El modelo del lector tiene 24 parámetros. Cada uno se podría probar en 10 valores.',
+          say: 'El modelo del lector tiene 24 parámetros. Cada uno se podría probar en 10 valores. Activa los parámetros con la perilla y observa cómo crecen las combinaciones.',
+          gate: 'Arrastra la perilla hasta 24 parámetros o toca el extremo derecho de la barra.',
+        },
+        {
+          say: 'Con los 24 parámetros activos, la pantalla muestra el tamaño de la grilla del lector.',
           ask: {
             prompt: '¿Cuántas combinaciones tendría que sumar el denominador?',
             options: ['10²⁴', '240', '24¹⁰'],
@@ -417,7 +480,11 @@ export const level: LevelSpec = {
           note: { label: 'Grilla del lector', tex: '10^{24}\\ \\text{combinaciones}' },
         },
         {
-          say: 'Simón abre la carpeta de configuración del modelo.',
+          say: 'Simón abre la configuración del modelo. Revisa la carpeta «aproximación q» para ver qué usa el lector.',
+          gate: 'Toca la carpeta «aproximación q».',
+        },
+        {
+          say: 'La carpeta muestra una distribución q más simple que aproxima el posterior.',
           ask: {
             prompt: '¿Qué hace entonces el Laboratorio?',
             options: [

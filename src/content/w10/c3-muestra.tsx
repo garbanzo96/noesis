@@ -13,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { fmt, tnum } from './kit';
 
 // ============================================================================
@@ -191,21 +191,79 @@ const lesson: LessonStep = {
   ],
 };
 
-function RepeatDemo({ beats, answer }: DemoProps) {
+function RepeatDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [position, setPosition] = useState(0);
+  const [result, setResult] = useState<string | null>(null);
+  useEffect(() => {
+    setPosition(0);
+    setResult(null);
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0) return;
+    const t = clamp((x - STEP.x0) / (STEP.x1 - STEP.x0), 0, 1);
+    setPosition(t);
+    if (t >= 0.95) {
+      setPosition(1);
+      unlock();
+    }
+  });
+  const repeated = beat === 1 || (beat === 0 && position >= 0.95);
+  const negative = beat === 3 || (beat === 2 && result === 'Negativo');
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Column k={0} show />
       <Column k={1} show />
-      <Column k={2} show={beat === 0 && answer !== null} />
+      <Column k={2} show={repeated || (beat === 2 && result === 'Positivo')} />
       <Cap x={545} y={720} size={20} color={C.muted}>
         La Clínica nunca repitió el test a los positivos.
       </Cap>
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="16{,}2+2{,}45\approx19" color={C.green} />
+      <Cap x={1270} y={180} size={20} color={C.text}>
+        De cada 1000: 18 enfermos y 49 sanos positivos.
+      </Cap>
+      {(repeated || result === 'Positivo') && (
+        <>
+          <Cap x={1270} y={270} tex="18\cdot0{,}9=16{,}2" color={C.magenta} />
+          <Cap x={1270} y={340} tex="49\cdot0{,}05=2{,}45" color={C.cyan} />
+          <Cap x={1270} y={420} tex="16{,}2+2{,}45\approx19" color={C.green} />
+        </>
       )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="\tfrac{1{,}8}{1{,}8+46{,}55}\approx0{,}04" color={C.green} />
+      {negative && (
+        <>
+          <Cap x={1270} y={270} tex="18\cdot0{,}1=1{,}8" color={C.magenta} />
+          <Cap x={1270} y={340} tex="49\cdot0{,}95=46{,}55" color={C.cyan} />
+          <Cap x={1270} y={420} tex="\tfrac{1{,}8}{1{,}8+46{,}55}\approx0{,}04" color={C.green} />
+        </>
+      )}
+      {beat === 0 && (
+        <>
+          <line x1={STEP.x0} x2={STEP.x1} y1={STEP.y} y2={STEP.y} stroke={C.line} strokeWidth={4} />
+          {[1, 2].map((n) => (
+            <Cap key={n} x={n === 1 ? STEP.x0 : STEP.x1} y={STEP.y - 70} size={20} color={C.muted}>
+              {`${n} test${n === 2 ? 's' : ''}`}
+            </Cap>
+          ))}
+          <Knob
+            x={STEP.x0 + position * (STEP.x1 - STEP.x0)}
+            y={STEP.y}
+            onPointerDown={drag}
+            axis="x"
+            color={C.amber}
+          />
+        </>
+      )}
+      {beat === 2 && (
+        <Choices
+          x={1270}
+          y={560}
+          options={['Positivo', 'Negativo']}
+          value={result}
+          onPick={(value) => {
+            setResult(value);
+            if (value === 'Negativo') unlock();
+          }}
+        />
       )}
     </Stage>
   );
@@ -338,6 +396,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'De cada 1000 tests salen 67 positivos: 18 enfermos y 49 sanos. Rocío repite el test a los 67.',
+          gate: 'Arrastra la perilla desde 1 test hasta 2 tests.',
+        },
+        {
+          say: 'La segunda muestra deja 16,2 enfermos y 2,45 sanos con otro positivo.',
           ask: {
             prompt: '¿Cuántos se esperan positivos de nuevo?',
             options: ['≈ 19', '67', '18'],
@@ -347,7 +409,11 @@ export const level: LevelSpec = {
           note: { label: 'Segundo test', tex: '16{,}2+2{,}45\\approx19' },
         },
         {
-          say: 'Una persona dio positivo y en la segunda muestra, negativo.',
+          say: 'Una persona dio positivo y en la segunda muestra, negativo. Marca ese resultado para ver cuántos enfermos y sanos quedan en ese grupo.',
+          gate: 'Marca «Negativo» como resultado de la segunda muestra.',
+        },
+        {
+          say: 'Entre quienes dieron positivo y luego negativo quedan 1,8 enfermos y 46,55 sanos por cada 1000 tests iniciales.',
           ask: {
             prompt: '¿Qué probabilidad tiene de estar enferma?',
             options: ['≈ 0,04', '≈ 0,27', '0'],

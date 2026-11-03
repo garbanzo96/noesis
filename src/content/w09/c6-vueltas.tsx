@@ -344,11 +344,26 @@ const lesson: LessonStep = {
   ],
 };
 
-function SpiralDemo({ beats, answer, reduced }: DemoProps) {
+function SpiralDemo({ beats, answer, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const acting = beat === 0 || beat === 2;
+  const [elapsed, setElapsed] = useState(0);
+  useEffect(() => setElapsed(0), [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (!acting) return;
+    const next = clamp(((x - 300) / 480) * 1.2, 0, 1.2);
+    setElapsed(next);
+    if (Math.abs(next - 1.2) < 0.03) {
+      setElapsed(1.2);
+      unlock();
+    }
+  });
   const reveal = answer !== null;
-  const t = (reduced ? 1 : beats.at(beats.beat)) * 1.2;
+  const t = acting ? elapsed : 1.2;
+  const selected = beat <= 1 ? 1 : 0;
   return (
-    <Stage>
+    <Stage ref={svg}>
       {[PLUS, MINUS].map((A, i) => {
         const Q = plane([-3, 3], [-4.125, 4.125], { x: 180 + i * 400, y: 220, w: 320, h: 440 });
         return (
@@ -357,7 +372,7 @@ function SpiralDemo({ beats, answer, reduced }: DemoProps) {
               P={Q}
               A={A}
               initial={[0.75, 0]}
-              elapsed={t}
+              elapsed={i === selected ? t : 1.2}
               end={1.2}
               clock={false}
               color={i ? C.cyan : C.amber}
@@ -372,9 +387,24 @@ function SpiralDemo({ beats, answer, reduced }: DemoProps) {
       <Cap x={1250} y={310} tex={`F_-=${matrixTex(MINUS)}`} color={C.cyan} />
       <Cap x={1250} y={420} tex="\tau_+=2;\quad\tau_-=-2" />
       <Cap x={1250} y={510} tex="D=5;\quad\Delta=-16" color={C.magenta} />
+      <Cap x={540} y={680} size={19}>
+        {`Reloj de calibración · ${selected ? 'Público' : 'Original'} · t = ${num(t)}`}
+      </Cap>
+      <g
+        onPointerDown={acting ? drag : undefined}
+        style={{ cursor: acting ? 'ew-resize' : undefined }}
+      >
+        <Line a={[300, 725]} b={[780, 725]} width={4} />
+        <line x1={300} y1={725} x2={780} y2={725} stroke="transparent" strokeWidth={44} />
+        {acting && (
+          <Knob x={300 + (t / 1.2) * 480} y={725} onPointerDown={drag} axis="x" color={C.amber} />
+        )}
+      </g>
+      <Cap x={300} y={780} tex="0" size={18} />
+      <Cap x={780} y={780} tex="1{,}2" size={18} />
       {reveal && (
         <Readout x={1250} y={615} size={19} color={C.green}>
-          {beats.beat === 0
+          {beat === 1
             ? 'Ambas giran. El signo de la parte real decide entrada o salida.'
             : 'El original gira alejándose: raíces 1 ± 2i.'}
         </Readout>
@@ -382,9 +412,6 @@ function SpiralDemo({ beats, answer, reduced }: DemoProps) {
       <Readout x={1250} y={735} size={18}>
         Historial: Halcón / enlace externo
       </Readout>
-      <Cap x={540} y={760} size={19}>
-        Mismo inicio · mismo giro · cambia la parte real
-      </Cap>
     </Stage>
   );
 }
@@ -593,6 +620,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El original F₊ tiene traza 2, determinante 5 y discriminante −16. La pública F₋ tiene traza −2 y conserva D y Δ. El historial atribuye este cambio y el anterior a «Halcón / enlace externo».',
+          gate: 'Arrastra el cursor de la copia pública hasta t = 1,2 y observa cómo gira.',
+        },
+        {
+          say: 'Compara las dos trayectorias desde el mismo inicio y con el reloj en t = 1,2. La pública gira hacia el origen; el original gira alejándose.',
           ask: {
             prompt: '¿Qué propiedad se conserva entre esas dos matrices?',
             options: [
@@ -611,7 +642,11 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Elena reconoce el puerto de acceso: debía consultar, no editar. Clasifica ahora el original antes de describir su recorrido.',
+          say: 'Elena reconoce el puerto de acceso: debía consultar, no editar. Recorre ahora la trayectoria del original desde el mismo inicio y observa si se acerca al origen.',
+          gate: 'Arrastra el cursor del original hasta t = 1,2 y observa cómo cambia la distancia al origen.',
+        },
+        {
+          say: 'El reloj del original llegó a t = 1,2. Usa el recorrido que acabas de observar para clasificar el origen.',
           ask: {
             prompt: '¿Qué decía el original sobre el origen?',
             options: [

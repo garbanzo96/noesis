@@ -307,23 +307,66 @@ export const lesson: LessonStep = {
   ],
 };
 
-function ReservedDemo({ beats, answer }: DemoProps) {
+function ReservedDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [n, setN] = useState(0);
+  const [document, setDocument] = useState<number | null>(null);
+  const { beat } = beats;
+  const count = beat === 0 ? n : 10;
+  const drag = useSvgDrag(svg, (px) => {
+    const next = Math.round(clamp((px - 1070) / 36, 0, 10));
+    setN(next);
+    if (beat === 0 && next === 10) unlock();
+  });
   return (
-    <Stage>
-      <CopyTable />
-      <Cap x={1250} y={200} tex="r=4;\quad n=10" />
+    <Stage ref={svg}>
+      <CopyTable last={count} />
+      <Cap x={1250} y={200} tex={'r=4;\\quad n=' + count} />
       <Readout x={1250} y={290} size={19}>
         Alarma: índice mayor que 0,2 en la lectura 10.
       </Readout>
-      <Readout x={1250} y={420} size={19}>
-        17 de agosto, 00:00: copia privada. 00:10: recibo de Halcón.
-      </Readout>
-      <Readout x={1250} y={550} size={19}>
-        18 de agosto, 02:10: vacunas recibidas. 02:40: llegan a la Clínica.
-      </Readout>
-      {answer !== null && (
+      {beat <= 1 ? (
+        <>
+          <Line a={[1070, 440]} b={[1430, 440]} width={4} />
+          {beat === 0 && <Knob x={1070 + n * 36} y={440} axis="x" onPointerDown={drag} />}
+          <Cap x={1070} y={500} size={18}>
+            0
+          </Cap>
+          <Cap x={1430} y={500} size={18} color={C.green}>
+            10
+          </Cap>
+          <Cap x={1250} y={600} tex={'x_n\\approx' + num(PUBLIC[count], 6)} color={C.cyan} />
+          <Cap x={1250} y={660} tex={'z_n\\approx' + num(PRIVATE[count], 6)} color={C.amber} />
+        </>
+      ) : (
+        <>
+          <Readout x={1250} y={390} size={18}>
+            17 de agosto, 00:00: copia privada con canal R y ventana prevista.
+          </Readout>
+          <Readout x={1250} y={480} size={18}>
+            17 de agosto, 00:10: recibo firmado de Halcón, enlazado al pronóstico y al mensaje.
+          </Readout>
+          <Readout x={1250} y={570} size={18}>
+            18 de agosto: parte del Observatorio 02:10 y guía de la Clínica 02:40.
+          </Readout>
+          {beat === 2 && (
+            <Choices
+              x={1250}
+              y={660}
+              options={[0, 1, 2]}
+              value={document}
+              onPick={(value) => {
+                setDocument(value);
+                if (value === 1) unlock();
+              }}
+              render={(value) => ['Copia', 'Recibo', 'Parte y guía'][value]}
+            />
+          )}
+        </>
+      )}
+      {(beat === 1 || beat === 3) && answer !== null && (
         <Readout x={1250} y={700} size={19} color={C.green}>
-          {beats.beat === 0
+          {beat === 1
             ? 'Solo la copia privada supera 0,2 en n = 10.'
             : 'El recibo prueba acceso previo. El mapa no convierte iteraciones en horas.'}
         </Readout>
@@ -528,6 +571,10 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El banco usa r = 4. El original conserva z₀ = 0,2001 y la copia pública usa x₀ = 0,2. Lee la alarma solo en n = 10.',
+          gate: 'Arrastra el contador hasta n = 10 y compara las dos copias.',
+        },
+        {
+          say: 'La tabla muestra las dos copias tras diez actualizaciones con la misma regla. Compara sus valores con el umbral 0,2.',
           ask: {
             prompt: '¿Qué copia activa la alarma de diagnóstico en n = 10?',
             options: [
@@ -547,6 +594,10 @@ export const level: LevelSpec = {
         },
         {
           say: 'El paquete de las 00:00 del 17 incluía el canal R y la ventana prevista. El recibo de las 00:10 lo enlaza al mensaje; el parte y la guía registran el traslado efectivo del 18.',
+          gate: 'Toca «Recibo» para marcar el documento firmado por Halcón antes de la entrega.',
+        },
+        {
+          say: 'El recibo firmado registra el acceso de Halcón el 17 a las 00:10. El parte y la guía registran las vacunas recibidas el 18 a las 02:10 y su llegada a la Clínica a las 02:40.',
           ask: {
             prompt:
               '¿Qué permite afirmar que Halcón recibió información de la ventana antes de la entrega?',
