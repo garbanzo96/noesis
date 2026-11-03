@@ -4,7 +4,7 @@ import { useKey } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage } from '../../engine/Stage';
 import { Rich, Tex } from '../../engine/Tex';
-import { GLYPHS, levelState, nextLevel, sectorStars } from '../../content/registry';
+import { GLYPHS, LEVELS, levelState, nextLevel, sectorStars } from '../../content/registry';
 import type { LevelDef, SectorDef } from '../level/types';
 import { sfx } from '../audio';
 import { useGame } from '../state';
@@ -51,6 +51,10 @@ function CaseDetail({
       )}
       {fstate === 'wip' ? (
         <p className="level-card-lock">En preparación.</p>
+      ) : fstate === 'locked' ? (
+        <p className="level-card-lock">
+          Se abre al cerrar el caso {LEVELS[focus.requires[0]]?.code}.
+        </p>
       ) : (
         <>
           <button className="btn primary" onClick={() => play(focus)}>
@@ -108,7 +112,7 @@ export function SectorMap({
   const byId = Object.fromEntries(sector.levels.map((l) => [l.id, l]));
 
   const play = (l: LevelDef, step?: number) => {
-    if (levelState(game, l) === 'wip') {
+    if (['wip', 'locked'].includes(levelState(game, l))) {
       sfx.bad();
       setHover(l.id);
       return;
@@ -224,7 +228,7 @@ export function SectorMap({
             const tilt = ((i * 37) % 7) - 3;
             const isRec = recommended?.id === l.id;
             const got = game.levels[l.id]?.stars ?? [false, false, false];
-            const locked = st === 'wip';
+            const locked = st === 'wip' || st === 'locked';
             return (
               <g
                 key={l.id}

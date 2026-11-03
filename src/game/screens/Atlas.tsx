@@ -10,6 +10,12 @@ const byNumber = (ws: Iterable<WorldId>) =>
   [...ws].map((w) => SECTOR_BY_ID[w]).sort((a, b) => a.number - b.number);
 
 /** City map of Valparaíso 2089: districts on the hills and the bay, linked by prerequisites. */
+/** in adventure mode a world waits for the one before it in the story */
+const lockedNote = (w: WorldId) => {
+  const prev = SECTORS.find((s) => s.number === SECTOR_BY_ID[w].number - 1);
+  return `Este mundo se abre al cerrar ${prev?.name}. En Ajustes puedes pasar al modo completo.`;
+};
+
 export function Atlas({
   onOpen,
   reduced,
@@ -48,9 +54,7 @@ export function Atlas({
     }
     if (s === 'locked') {
       sfx.bad();
-      setToast(
-        `Primero hay que cerrar: ${SECTOR_BY_ID[w].prerequisites.map((p) => SECTOR_BY_ID[p].name).join(', ')}.`,
-      );
+      setToast(lockedNote(w));
       setTimeout(() => setToast(null), 2600);
       return;
     }
@@ -189,9 +193,7 @@ export function Atlas({
             En preparación: los temas de este mundo aún no están escritos.
           </p>
         ) : st === 'locked' ? (
-          <p className="atlas-state locked">
-            Requiere cerrar: {meta.prerequisites.map((p) => SECTOR_BY_ID[p].name).join(' · ')}
-          </p>
+          <p className="atlas-state locked">{lockedNote(focus)}</p>
         ) : (
           <>
             <p className="atlas-state open">

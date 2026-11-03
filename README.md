@@ -23,7 +23,7 @@ puede arrastrar tiene flechas y, la primera vez, una mano que muestra el gesto. 
 (mejor en horizontal para clases y prácticas).
 
 El menú **Recursos** (tecla `R`) reúne definiciones, notación y propiedades de todos los temas,
-con enlaces directos a la clase o a la práctica de cada uno. Los mundos se pueden recorrer en cualquier orden.
+con enlaces directos a la clase o a la práctica de cada uno.
 
 ## Mundos
 

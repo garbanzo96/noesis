@@ -1,7 +1,8 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useKey } from '../../engine/hooks';
 import { Rich, Tex } from '../../engine/Tex';
-import { GLYPHS, LEVELS, PLAYABLE, TOPICS, SECTOR_BY_ID } from '../../content/registry';
+import { GLYPHS, LEVELS, PLAYABLE, TOPICS, SECTOR_BY_ID, levelState } from '../../content/registry';
+import { useGame } from '../state';
 import type { Glyph, LevelDef, Note, WorldId } from '../level/types';
 import { Sym } from './CityMap';
 
@@ -62,6 +63,9 @@ function Entry({ n }: { n: Note }) {
 
 function Topic({ t, onGo }: { t: TopicView; onGo: (id: string, step: number) => void }) {
   const l = t.level;
+  // reading stays open in every mode; adventure mode only closes the jump into the case
+  const closed = levelState(useGame(), l) === 'locked';
+  const closedNote = closed ? 'Se abre al llegar a este caso en la historia' : undefined;
   const lessonAt = l.steps.findIndex((s) => s.kind === 'lesson');
   const demo = lessonAt >= 0 ? lessonAt : l.steps.findIndex((s) => s.kind === 'demo');
   const practice = l.steps.findIndex((s) => s.kind === 'challenge');
@@ -75,12 +79,22 @@ function Topic({ t, onGo }: { t: TopicView; onGo: (id: string, step: number) => 
         </div>
         <div className="res-actions">
           {demo >= 0 && (
-            <button className="btn small" onClick={() => onGo(l.id, demo)}>
+            <button
+              className="btn small"
+              disabled={closed}
+              title={closedNote}
+              onClick={() => onGo(l.id, demo)}
+            >
               Clase ▸
             </button>
           )}
           {practice >= 0 && (
-            <button className="btn small primary" onClick={() => onGo(l.id, practice)}>
+            <button
+              className="btn small primary"
+              disabled={closed}
+              title={closedNote}
+              onClick={() => onGo(l.id, practice)}
+            >
               Práctica ▸
             </button>
           )}

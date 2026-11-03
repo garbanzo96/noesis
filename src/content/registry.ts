@@ -31,12 +31,14 @@ export const GLYPH_LIST: Glyph[] = [...W01_GLYPHS, ...W02_GLYPHS, ...W03_GLYPHS,
 export const GLYPHS: Record<string, Glyph> = Object.fromEntries(GLYPH_LIST.map((g) => [g.id, g]));
 
 // ---------- access ----------
-// Everything playable is always open: this is a study resource and any topic can be reviewed on
-// its own. The story order only decides which case is recommended next.
+// Complete mode opens everything: this is a study resource and any topic can be reviewed on its
+// own. Adventure mode follows the story order. What was already played stays open in both.
 export function levelState(s: GameState, l: LevelDef): 'done' | 'open' | 'locked' | 'wip' {
   if (l.wip) return 'wip';
   if (s.levels[l.id]?.done) return 'done';
-  return 'open';
+  if (s.settings.freeMode) return 'open';
+  const open = sectorState(s, l.world) !== 'locked' && l.requires.every((r) => s.levels[r]?.done);
+  return open ? 'open' : 'locked';
 }
 
 export function sectorState(s: GameState, w: WorldId): 'done' | 'open' | 'locked' | 'sealed' {
@@ -44,7 +46,10 @@ export function sectorState(s: GameState, w: WorldId): 'done' | 'open' | 'locked
   if (!def) return 'sealed';
   const boss = def.levels.find((l) => l.kind === 'boss');
   if (boss && s.levels[boss.id]?.done) return 'done';
-  return 'open';
+  if (s.settings.freeMode) return 'open';
+  // adventure mode follows the story: a world opens when the one before it closes its final case
+  const prev = STORY[STORY.indexOf(def) - 1]?.levels.find((l) => l.kind === 'boss');
+  return !prev || s.levels[prev.id]?.done ? 'open' : 'locked';
 }
 
 export function sectorStars(s: GameState, w: WorldId) {

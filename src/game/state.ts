@@ -4,6 +4,8 @@ import { configureAudio } from './audio';
 // Single source of truth for progress. Pure update functions + a tiny external store.
 // Persistence is local (localStorage) and exportable; nothing here certifies mastery beyond
 // what the stars encode: completed, without hints, without errors.
+// Each person has a session on this device: a name and its own save. Nothing leaves the device;
+// a backup file is what moves a session to another computer.
 
 export interface LevelRecord {
   done: boolean;
@@ -12,12 +14,14 @@ export interface LevelRecord {
   bestSeconds?: number;
   firstAt?: number;
 }
+export type GameMode = 'adventure' | 'complete';
 export interface Settings {
   sfx: boolean;
   music: boolean;
   volume: number;
   reducedMotion: boolean;
   textSpeed: 'slow' | 'normal' | 'instant';
+  /** complete mode: every world and case open. Adventure mode follows the story in order. */
   freeMode: boolean;
 }
 export interface GameState {
@@ -160,7 +164,24 @@ export function validate(raw: unknown): GameState | null {
       };
     }
   }
-  const settings = isObj(raw.settings) ? { ...base.settings, ...raw.settings } : base.settings;
+  // settings can come from a backup file: only known fields with the right type get through
+  const given = isObj(raw.settings) ? raw.settings : {};
+  const flag = (k: 'sfx' | 'music' | 'reducedMotion' | 'freeMode') =>
+    typeof given[k] === 'boolean' ? given[k] : base.settings[k];
+  const volume = Number(given.volume);
+  const settings: Settings = {
+    sfx: flag('sfx'),
+    music: flag('music'),
+    reducedMotion: flag('reducedMotion'),
+    freeMode: flag('freeMode'),
+    volume:
+      typeof given.volume === 'number' && volume >= 0 && volume <= 1
+        ? volume
+        : base.settings.volume,
+    textSpeed:
+      (['slow', 'normal', 'instant'] as const).find((t) => t === given.textSpeed) ??
+      base.settings.textSpeed,
+  };
   return {
     ...base,
     xp: Math.max(0, Number(raw.xp) || 0),
@@ -171,31 +192,89 @@ export function validate(raw: unknown): GameState | null {
     predictions: isObj(raw.predictions)
       ? { right: Number(raw.predictions.right) || 0, total: Number(raw.predictions.total) || 0 }
       : base.predictions,
-    settings: settings as Settings,
+    settings,
     booted: !!raw.booted,
     last: isObj(raw.last) ? (raw.last as GameState['last']) : {},
   };
 }
 
-function load(): GameState {
+function read(key: string): unknown {
   try {
-    const s = localStorage.getItem(STORAGE_KEY);
-    if (s) return validate(JSON.parse(s)) ?? initialState();
+    const s = localStorage.getItem(key);
+    return s ? JSON.parse(s) : null;
   } catch {
-    /* corrupted or blocked storage: start fresh */
+    return null; /* corrupted or blocked storage: start fresh */
   }
-  return initialState();
+}
+function write(key: string, value: unknown) {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+    return true;
+  } catch {
+    return false; /* storage may be unavailable (private mode); the session still works */
+  }
+}
+const forget = (key: string) => {
+  try {
+    localStorage.removeItem(key);
+  } catch {
+    /* nothing to clean up */
+  }
+};
+
+// ---------- sessions ----------
+export interface Session {
+  id: string;
+  name: string;
+  createdAt: number;
+  lastAt: number;
+}
+interface SessionIndex {
+  current: string | null;
+  list: Session[];
+}
+const INDEX_KEY = 'noesis.sessions';
+const MAX_NAME = 24;
+/** a real backup is a few KB: anything near this size is not one */
+const MAX_BACKUP = 2_000_000;
+const saveKey = (id: string) => `${STORAGE_KEY}.${id}`;
+const cleanName = (raw: string) =>
+  raw.replace(/\p{C}/gu, ' ').replace(/\s+/g, ' ').trim().slice(0, MAX_NAME).trim();
+const newSession = (name: string): Session => ({
+  id: Date.now().toString(36) + Math.random().toString(36).slice(2, 7),
+  name,
+  createdAt: Date.now(),
+  lastAt: Date.now(),
+});
+function isSession(x: unknown): x is Session {
+  return isObj(x) && typeof x.id === 'string' && typeof x.name === 'string';
+}
+
+function openIndex(): SessionIndex {
+  const raw = read(INDEX_KEY);
+  if (isObj(raw) && Array.isArray(raw.list)) {
+    const list = raw.list.filter(isSession);
+    return { current: list.find((s) => s.id === raw.current)?.id ?? null, list };
+  }
+  // a save from before sessions existed becomes the first one, with everything open as it was
+  const legacy = validate(read(STORAGE_KEY));
+  if (!legacy) return { current: null, list: [] };
+  const first = newSession('Mi partida');
+  const opened = { current: first.id, list: [first] };
+  const adopted = { ...legacy, settings: { ...legacy.settings, freeMode: true } };
+  if (write(saveKey(first.id), adopted) && write(INDEX_KEY, opened)) forget(STORAGE_KEY);
+  return opened;
+}
+function load(id: string | null): GameState {
+  return (id && validate(read(saveKey(id)))) || initialState();
 }
 function save(s: GameState) {
-  try {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(s));
-  } catch {
-    /* storage may be unavailable (private mode); the session still works */
-  }
+  if (index.current) write(saveKey(index.current), s);
 }
 
 // ---------- store ----------
-let state: GameState = load();
+let index = openIndex();
+let state: GameState = load(index.current);
 const listeners = new Set<() => void>();
 configureAudio({ sfx: state.settings.sfx, music: false, volume: state.settings.volume });
 // browsers only let audio start after a gesture: the score begins on the first click or key
@@ -242,19 +321,86 @@ export function recordPrediction(right: boolean) {
   }));
 }
 
-export function exportState(): string {
-  return JSON.stringify(store.get(), null, 2);
-}
-export function importState(json: string): boolean {
-  try {
-    const v = validate(JSON.parse(json));
-    if (!v) return false;
-    store.set(v);
-    return true;
-  } catch {
-    return false;
-  }
-}
 export function resetState() {
   store.set({ ...initialState(), booted: true, settings: store.get().settings });
+}
+
+export const gameMode = (s: GameState): GameMode =>
+  s.settings.freeMode ? 'complete' : 'adventure';
+export const setGameMode = (mode: GameMode) => setSettings({ freeMode: mode === 'complete' });
+
+export const sessions = () => index.list;
+export const currentSession = () => index.list.find((s) => s.id === index.current) ?? null;
+/** what the session list shows about a session, without entering it */
+export function sessionSummary(id: string) {
+  const s = id === index.current ? state : load(id);
+  return {
+    done: Object.values(s.levels).filter((l) => l.done).length,
+    xp: s.xp,
+    mode: gameMode(s),
+  };
+}
+
+function open(id: string | null, next: GameState) {
+  index = {
+    current: id,
+    list: index.list.map((s) => (s.id === id ? { ...s, lastAt: Date.now() } : s)),
+  };
+  write(INDEX_KEY, index);
+  store.set(next);
+  configureAudio({ sfx: next.settings.sfx, volume: next.settings.volume });
+}
+function add(name: string, next: GameState): Session {
+  const taken = (n: string) => index.list.some((s) => s.name.toLowerCase() === n.toLowerCase());
+  let unique = name;
+  for (let i = 2; taken(unique); i++) unique = `${name.slice(0, MAX_NAME - 5)} (${i})`;
+  const session = newSession(unique);
+  index = { ...index, list: [...index.list, session] };
+  open(session.id, next);
+  return session;
+}
+
+export function createSession(rawName: string, mode: GameMode): Session | null {
+  const name = cleanName(rawName);
+  if (!name) return null;
+  const base = initialState();
+  return add(name, {
+    ...base,
+    settings: { ...base.settings, freeMode: mode === 'complete' },
+  });
+}
+export function enterSession(id: string) {
+  if (index.list.some((s) => s.id === id)) open(id, load(id));
+}
+export function leaveSession() {
+  open(null, initialState());
+}
+export function deleteSession(id: string) {
+  forget(saveKey(id));
+  const wasCurrent = id === index.current;
+  index = {
+    current: wasCurrent ? null : index.current,
+    list: index.list.filter((s) => s.id !== id),
+  };
+  write(INDEX_KEY, index);
+  if (wasCurrent) open(null, initialState());
+}
+
+/** the backup file: the save itself plus the name of the session */
+export function exportSession(): string {
+  return JSON.stringify({ name: currentSession()?.name, ...state }, null, 2);
+}
+/** A backup always arrives as a new session, so it can never overwrite someone's progress. */
+export function importSession(json: string): Session | null {
+  if (json.length > MAX_BACKUP) return null;
+  let raw: unknown;
+  try {
+    raw = JSON.parse(json);
+  } catch {
+    return null;
+  }
+  const next = validate(raw);
+  if (!next) return null;
+  const name = isObj(raw) && typeof raw.name === 'string' ? cleanName(raw.name) : '';
+  return add(name || 'Partida importada', next);
 }

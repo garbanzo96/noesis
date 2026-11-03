@@ -5,18 +5,21 @@ import {
   PLAYABLE,
   SECTOR_BY_ID,
   nextLevel,
+  levelState,
+  sectorState,
   storyNext,
   worldStarted,
 } from '../content/registry';
 import { LevelRunner } from './level/LevelRunner';
 import type { WorldId } from './level/types';
 import { music, sfx } from './audio';
-import { store, useGame } from './state';
+import { currentSession, sessions, store, useGame } from './state';
 import { Atlas } from './screens/Atlas';
 import { Chapter } from './screens/Chapter';
 import { Prologue } from './screens/Prologue';
 import { ResourcesScreen } from './screens/ResourcesScreen';
 import { SectorMap } from './screens/SectorMap';
+import { Sessions } from './screens/Sessions';
 import { SettingsScreen } from './screens/SettingsScreen';
 import { Title } from './screens/Title';
 import { Backdrop } from './ui/Backdrop';
@@ -75,6 +78,8 @@ export function GameRoot() {
   const [overlay, setOverlay] = useState<'codex' | 'settings' | null>(null);
   const [resFocus, setResFocus] = useState<string | undefined>(undefined);
   const [levelKey, setLevelKey] = useState(0);
+  // nobody chosen yet, or several people share this device: ask who is playing
+  const [picking, setPicking] = useState(() => !currentSession() || sessions().length > 1);
 
   useEffect(() => {
     const onHash = () => setRoute(parseHash());
@@ -111,6 +116,17 @@ export function GameRoot() {
   const go = (r: Route) => {
     window.location.hash = toHash(r);
   };
+  // adventure mode: an address to something still closed goes back to the map
+  useEffect(() => {
+    if (picking) return;
+    const closed =
+      route.name === 'level'
+        ? levelState(game, LEVELS[route.id]) === 'locked'
+        : (route.name === 'sector' || route.name === 'chapter') &&
+          sectorState(game, route.world) === 'locked';
+    if (closed) go({ name: 'atlas' });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [route, picking, game.settings.freeMode]);
   const openResources = (focus?: string) => {
     setResFocus(focus);
     setOverlay('codex');
@@ -118,7 +134,7 @@ export function GameRoot() {
   useKey(
     ['r', 'R', 'c', 'C'],
     () => openResources(shown.name === 'level' ? shown.id : undefined),
-    !overlay,
+    !overlay && !picking,
   );
   /** jump from Resources (or a board) straight into a step of a case */
   const goStep = (id: string, step: number) => {
@@ -145,7 +161,16 @@ export function GameRoot() {
         : '#28e7fa';
 
   let screen: React.ReactNode = null;
-  if (shown.name === 'title')
+  if (picking)
+    screen = (
+      <Sessions
+        onReady={() => {
+          setPicking(false);
+          go({ name: 'title' });
+        }}
+      />
+    );
+  else if (shown.name === 'title')
     screen = (
       <Title
         onContinue={continueStory}
@@ -154,6 +179,7 @@ export function GameRoot() {
         onPrologue={() => go({ name: 'prologue' })}
         onCodex={() => openResources()}
         onSettings={() => setOverlay('settings')}
+        onSessions={() => setPicking(true)}
       />
     );
   else if (shown.name === 'prologue') screen = <Prologue onDone={continueStory} />;
@@ -267,7 +293,15 @@ export function GameRoot() {
         {overlay === 'codex' && (
           <ResourcesScreen focus={resFocus} onClose={() => setOverlay(null)} onGo={goStep} />
         )}
-        {overlay === 'settings' && <SettingsScreen onClose={() => setOverlay(null)} />}
+        {overlay === 'settings' && (
+          <SettingsScreen
+            onClose={() => setOverlay(null)}
+            onSessions={() => {
+              setOverlay(null);
+              setPicking(true);
+            }}
+          />
+        )}
         <div className="scanlines" aria-hidden />
       </div>
     </GlyphProvider>

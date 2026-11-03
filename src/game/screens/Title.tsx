@@ -1,7 +1,8 @@
 import { Backdrop } from '../../art/places';
 import { useKey } from '../../engine/hooks';
 import { sfx } from '../audio';
-import { store, useGame } from '../state';
+import { currentSession, gameMode, store, useGame } from '../state';
+import { MODE_NAME } from './Sessions';
 
 export function Title({
   onContinue,
@@ -10,6 +11,7 @@ export function Title({
   onPrologue,
   onCodex,
   onSettings,
+  onSessions,
 }: {
   onContinue: () => void;
   nextLabel?: string;
@@ -17,6 +19,7 @@ export function Title({
   onPrologue: () => void;
   onCodex: () => void;
   onSettings: () => void;
+  onSessions: () => void;
 }) {
   const game = useGame();
   const done = Object.values(game.levels).filter((l) => l.done).length;
@@ -41,7 +44,9 @@ export function Title({
         <h1 className="logo" data-text="NÓESIS">
           NÓESIS
         </h1>
-        <p className="title-sub">Valparaíso, 2089. Alguien firma todas las cifras falsas de la ciudad con la misma letra.</p>
+        <p className="title-sub">
+          Valparaíso, 2089. Alguien firma todas las cifras falsas de la ciudad con la misma letra.
+        </p>
         <nav className="title-menu">
           <button className="btn primary big title-go" onClick={start}>
             <span>
@@ -64,8 +69,12 @@ export function Title({
           <button className="btn" onClick={onSettings}>
             Ajustes
           </button>
+          <button className="btn" onClick={onSessions}>
+            Cambiar sesión
+          </button>
         </nav>
         <p className="title-meta">
+          {currentSession()?.name} · Modo {MODE_NAME[gameMode(game)].toLowerCase()} ·{' '}
           {done ? `${done} casos cerrados · ${game.xp} XP` : 'Pulsa Enter para empezar'}
         </p>
       </div>
