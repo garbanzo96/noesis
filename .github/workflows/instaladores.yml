@@ -1,0 +1,75 @@
+# Compila los instaladores en cada sistema, los prueba con el recorrido de un jugador real y
+# recién entonces los publica. Un tag v1.2.3 publica; un tag con guion (v1.2.3-rc.1) solo ensaya.
+name: Instaladores
+
+on:
+  push:
+    tags: ['v*']
+
+permissions:
+  contents: write
+
+jobs:
+  compilar:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            objetivo: --win
+            app: release/win-unpacked/NOESIS.exe
+            antes: ''
+          - os: macos-latest
+            objetivo: --mac
+            app: release/mac-arm64/NOESIS.app/Contents/MacOS/NOESIS
+            antes: ''
+          - os: ubuntu-latest
+            objetivo: --linux
+            app: release/linux-unpacked/noesis
+            antes: xvfb-run -a
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - name: Tests
+        if: matrix.os == 'ubuntu-latest'
+        run: npx tsc --noEmit -p . && npx vitest run --retry=2
+      - run: npx vite build
+      - run: npx electron-builder ${{ matrix.objetivo }} --publish never
+      - name: Recorrido de un jugador en la aplicación empaquetada
+        run: ${{ matrix.antes }} node qa/sessions_flow.mjs --app "${{ github.workspace }}/${{ matrix.app }}"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: capturas-${{ matrix.os }}
+          path: qa/out/sessions/
+          if-no-files-found: ignore
+      - uses: actions/upload-artifact@v4
+        with:
+          name: instalador-${{ matrix.os }}
+          path: release/NOESIS-*
+          if-no-files-found: error
+
+  publicar:
+    needs: compilar
+    if: ${{ !contains(github.ref_name, '-') }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: instalador-*
+          path: paquetes
+          merge-multiple: true
+      - name: Crear la versión con los instaladores
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          ls -la paquetes
+          gh release create "$GITHUB_REF_NAME" paquetes/NOESIS-* \
+            --repo "$GITHUB_REPOSITORY" \
+            --title "NÓESIS $GITHUB_REF_NAME" \
+            --notes "Instaladores para Windows, Mac y Linux. Cómo instalar y qué hacer con el aviso de seguridad: https://github.com/$GITHUB_REPOSITORY#instalar"

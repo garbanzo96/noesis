@@ -11,3 +11,4 @@ art-src/cast/*.png
 art-src/places/*.png
 art-src/osm/*.json
 qa/snap/
+release/

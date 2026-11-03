@@ -1,16 +1,45 @@
 # NÓESIS · un videojuego para estudiar matemáticas
 
-**▶ Jugar en el navegador: https://garbanzo96.github.io/noesis/**
+[![Descargar para Windows](https://img.shields.io/badge/Descargar-Windows-28e7fa?style=for-the-badge)](https://github.com/garbanzo96/noesis/releases/latest/download/NOESIS-Windows.exe)
+[![Descargar para Mac con Apple Silicon](https://img.shields.io/badge/Descargar-Mac_M1_o_posterior-28e7fa?style=for-the-badge)](https://github.com/garbanzo96/noesis/releases/latest/download/NOESIS-Mac-arm64.dmg)
+[![Descargar para Mac con Intel](https://img.shields.io/badge/Descargar-Mac_Intel-28e7fa?style=for-the-badge)](https://github.com/garbanzo96/noesis/releases/latest/download/NOESIS-Mac-x64.dmg)
+[![Descargar para Linux](https://img.shields.io/badge/Descargar-Linux-28e7fa?style=for-the-badge)](https://github.com/garbanzo96/noesis/releases/latest/download/NOESIS-Linux.AppImage)
+
+**▶ O juega en el navegador, sin instalar nada: https://garbanzo96.github.io/noesis/**
 
 Valparaíso, 2089. La Agencia NÓESIS resuelve casos con matemáticas: cada mundo es un área
 (precálculo, cálculo diferencial, cálculo integral, álgebra lineal, probabilidad, estadística) y cada caso enseña un tema
 desde cero antes de pedir que se use.
 
-Hecho para el grupo de estudio ENIGMA. No requiere instalación ni cuenta; el progreso se guarda en el navegador.
+Hecho para el grupo de estudio ENIGMA. No necesita cuenta: tu progreso queda guardado en tu equipo.
+
+## Instalar
+
+Aprieta el botón de tu sistema y abre el archivo que se descarga. El instalador no pide permisos de
+administrador ni datos personales.
+
+Los instaladores todavía no llevan firma de pago, así que el sistema va a mostrar un aviso la primera vez:
+
+- **Windows**: en «Windows protegió tu PC», elige «Más información» y después «Ejecutar de todas formas».
+- **Mac**: arrastra NOESIS a Aplicaciones y ábrelo. Cuando el sistema lo bloquee, entra a Ajustes del
+  Sistema, Privacidad y seguridad, y elige «Abrir igualmente».
+- **Linux**: dale permiso de ejecución al archivo (`chmod +x NOESIS-Linux.AppImage`) y ábrelo.
+
+Para actualizar, descarga la versión nueva e instálala encima: tu progreso se mantiene.
+
+## Sesiones y modos
+
+Al entrar abres una sesión con tu nombre. En un mismo equipo puede haber varias, cada una con su progreso.
+
+- **Aventura**: sigues la historia en orden. Cada caso que cierras abre el siguiente.
+- **Completo**: todo abierto desde el inicio, para estudiar o repasar cualquier tema.
+
+El modo se cambia en Ajustes cuando quieras, sin perder lo avanzado. Nada se envía a ningún servidor:
+para seguir en otro computador, guarda una copia en Ajustes y cárgala allá con «Cargar una copia».
 
 ## Cómo se estudia
 
-Cada caso tiene cuatro partes, y se puede entrar a cualquiera desde el mapa:
+Cada caso tiene cuatro partes:
 
 1. **Historia**: el problema concreto que hay que resolver.
 2. **Clase**: NÓESIS desarrolla la idea con ejemplos visuales, animaciones y herramientas interactivas,

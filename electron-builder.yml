@@ -1,0 +1,35 @@
+# Instaladores de escritorio. Los nombres no llevan versión para que el enlace
+# releases/latest/download/<archivo> del README siga sirviendo en cada versión nueva.
+appId: cl.enigma.noesis
+productName: NOESIS
+copyright: ENIGMA
+directories:
+  output: release
+  buildResources: build
+files:
+  - electron/**
+  - dist/**
+  - package.json
+electronLanguages: [es, es-419, en-US]
+win:
+  target: [{ target: nsis, arch: [x64] }]
+  artifactName: NOESIS-Windows.${ext}
+nsis:
+  # sin preguntas ni permisos de administrador: se instala para la persona y queda abierto
+  oneClick: true
+  perMachine: false
+  shortcutName: NÓESIS
+  deleteAppDataOnUninstall: false
+mac:
+  target: [{ target: dmg, arch: [arm64, x64] }]
+  artifactName: NOESIS-Mac-${arch}.${ext}
+  category: public.app-category.education
+  # firma ad hoc: sin cuenta de Apple Developer no hay notarización
+  identity: '-'
+  hardenedRuntime: false
+  notarize: false
+linux:
+  target: [{ target: AppImage, arch: [x64] }]
+  artifactName: NOESIS-Linux.${ext}
+  executableName: noesis
+  category: Education

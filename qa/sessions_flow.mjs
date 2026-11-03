@@ -19,7 +19,11 @@ let restart = null;
 const errors = [];
 const watch = (p) => {
   p.on('pageerror', (e) => errors.push(e.message));
-  p.on('console', (m) => m.type() === 'error' && errors.push(m.text()));
+  // the only expected one: the 400 of the escape attempt below
+  p.on(
+    'console',
+    (m) => m.type() === 'error' && !m.text().includes('status of 400') && errors.push(m.text()),
+  );
 };
 if (desktop) {
   // a throwaway profile folder, so the test never touches a real player's progress
@@ -41,10 +45,15 @@ if (desktop) {
 } else {
   const SNAP = new URL('./snap/', import.meta.url).pathname;
   const browser = await chromium.launch({ channel: 'chrome', headless: true });
-  const ctx = await browser.newContext({ viewport: { width: 1440, height: 860 }, acceptDownloads: true });
+  const ctx = await browser.newContext({
+    viewport: { width: 1440, height: 860 },
+    acceptDownloads: true,
+  });
   await ctx.route('http://snap.local/**', (route) => {
     const f = path.join(SNAP, decodeURIComponent(new URL(route.request().url()).pathname));
-    return route.fulfill({ path: fs.existsSync(f) && fs.statSync(f).isFile() ? f : path.join(SNAP, 'index.html') });
+    return route.fulfill({
+      path: fs.existsSync(f) && fs.statSync(f).isFile() ? f : path.join(SNAP, 'index.html'),
+    });
   });
   page = await ctx.newPage();
   watch(page);
@@ -83,14 +92,18 @@ const art = await page.evaluate(async () => {
 assert.equal(art, 'ok');
 step('el arte carga');
 
-await page.evaluate(() => { location.hash = '#/level/w5-c1'; });
+await page.evaluate(() => {
+  location.hash = '#/level/w5-c1';
+});
 await page.waitForFunction(() => location.hash === '#/atlas');
 await page.waitForSelector('.citymap');
 await page.waitForTimeout(800);
 await shot('3-mapa-aventura');
 step('un caso cerrado devuelve al mapa');
 
-await page.evaluate(() => { location.hash = '#/sector/foundations'; });
+await page.evaluate(() => {
+  location.hash = '#/sector/foundations';
+});
 await page.waitForSelector('.case-card2');
 await page.waitForTimeout(800);
 assert.equal(await page.locator('.case-card2.locked').count(), 8);
@@ -98,9 +111,15 @@ await shot('4-tablero-aventura');
 step('en el Mundo 1 solo el primer caso está abierto');
 
 await page.keyboard.press('Escape');
-await page.locator('button', { hasText: /Ajustes|⚙/ }).first().click().catch(() => {});
+await page
+  .locator('button', { hasText: /Ajustes|⚙/ })
+  .first()
+  .click()
+  .catch(() => {});
 await page.waitForSelector('.settings', { timeout: 3000 }).catch(async () => {
-  await page.evaluate(() => { location.hash = '#/'; });
+  await page.evaluate(() => {
+    location.hash = '#/';
+  });
   await page.locator('.title-menu .btn', { hasText: 'Ajustes' }).click();
   await page.waitForSelector('.settings');
 });
@@ -131,6 +150,11 @@ if (!desktop) {
   await page.reload({ waitUntil: 'networkidle' });
   await page.waitForSelector('.title-screen .logo');
 } else {
+  const escape = await page.evaluate(() =>
+    fetch('noesis://game/..%2f..%2fpackage.json').then((r) => r.status),
+  );
+  assert.equal(escape, 400);
+  step('el servidor interno no sale de la carpeta del juego');
   await restart();
   await page.waitForSelector('.title-screen .logo');
   step('la sesión sigue al cerrar y abrir la aplicación');

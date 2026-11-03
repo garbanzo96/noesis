@@ -1,33 +1,39 @@
 {
   "name": "noesis",
-  "version": "4.2.0",
+  "version": "0.9.0",
+  "description": "Un curso de matemáticas en forma de investigación",
+  "author": "ENIGMA",
+  "homepage": "https://garbanzo96.github.io/noesis/",
   "private": true,
   "type": "module",
+  "main": "electron/main.cjs",
   "scripts": {
     "dev": "vite --host 127.0.0.1 --port 8765",
     "build": "tsc -b && vite build",
     "test": "vitest run",
     "preview": "vite preview --host 127.0.0.1 --port 8876",
     "format": "prettier --write src tests vite.config.ts tsconfig.json",
-    "check": "tsc --noEmit -p tsconfig.json && vitest run"
+    "check": "tsc --noEmit -p tsconfig.json && vitest run",
+    "app": "vite build && electron .",
+    "app:dir": "vite build && electron-builder --dir"
   },
-  "dependencies": {
+  "devDependencies": {
     "@fontsource/ibm-plex-mono": "5.2.6",
     "@fontsource/orbitron": "5.2.6",
     "@fontsource/space-grotesk": "5.2.9",
-    "katex": "0.16.22",
-    "lucide-react": "0.468.0",
-    "react": "19.1.1",
-    "react-dom": "19.1.1"
-  },
-  "devDependencies": {
     "@types/katex": "0.16.7",
     "@types/react": "19.1.13",
     "@types/react-dom": "19.1.9",
     "@vitejs/plugin-react": "4.7.0",
+    "electron": "44.10.1",
+    "electron-builder": "26.18.0",
     "jsdom": "26.1.0",
+    "katex": "0.16.22",
+    "lucide-react": "0.468.0",
     "playwright-core": "^1.49.1",
     "prettier": "3.6.2",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "typescript": "5.9.2",
     "vite": "6.4.3",
     "vitest": "4.1.11"
