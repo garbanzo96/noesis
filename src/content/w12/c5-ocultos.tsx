@@ -165,7 +165,7 @@ const lesson: LessonStep = {
   Scene: LatentLesson,
   beats: [
     {
-      say: 'Un **rasgo latente** es un valor que no aparece como columna, pero mueve varias mediciones. Aquí z desplaza ambas desde μ = (5; 5), en la dirección w = (0,6; 0,8).',
+      say: 'Un **rasgo latente** es un valor que no se mide directamente como columna y que el modelo usa para explicar varias mediciones. Aquí $z$ desplaza ambas desde el centro $\\mu=(5;5)$ en la dirección $w=(0{,}6;0{,}8)$. La receta $x=\\mu+zw$ se lee «equis igual a mu más zeta por doble ve». Como $w$ tiene longitud uno, $z$ mide el desplazamiento con signo sobre la recta.',
       board: {
         label: 'Generar desde un rasgo',
         tex: GENERATE,
@@ -173,10 +173,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Arrastra z primero bajo −1 y luego sobre 1, o al revés. Mira cómo cambian juntas las dos columnas mientras el punto recorre la recta.',
-      gate: 'Mueve $z$ a un extremo y al otro. Mira qué les pasa a las dos columnas.',
+      say: 'Cada coordenada se obtiene al sumar al centro el producto de $z$ por su peso. Los pesos $0{,}6$ y $0{,}8$ son positivos, así que ambas mediciones cambian en el mismo sentido. La perilla permite explorar cómo el signo y la magnitud de $z$ mueven el punto sobre la recta.',
+      gate: 'Explora ambos lados del centro: mueve $z$ hasta al menos una unidad a cada lado, en cualquier orden. ¿Cómo cambian las dos mediciones?',
       after:
-        'Las dos columnas suben y bajan juntas porque dependen de la misma $z$. Una variable oculta explica la correlación entre lo que se observa.',
+        'Con $z=-1$ la receta da $(4{,}4;4{,}2)$ y con $z=1$ da $(5{,}6;5{,}8)$. Ambas columnas cambian juntas porque dependen del mismo rasgo, lo que explica su correlación en este modelo.',
       board: {
         label: 'Dos columnas, una perilla',
         tex: '\\p{1}{x_1}=\\p{2}{5+0{,}6z},\\quad\\p{3}{ x_2}=\\p{4}{5+0{,}8z}',
@@ -189,7 +189,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La medición (5,6; 6,2) queda fuera de la recta. Resta el centro antes de buscar el rasgo: el desplazamiento observado es (0,6; 1,2).',
+      say: 'La medición $(5{,}6;6{,}2)$ queda fuera de la recta del modelo. **Centrar** consiste en restar el centro a cada coordenada para medir el desplazamiento desde él. Aquí $x-\\mu$ se lee «equis menos mu» y da $(0{,}6;1{,}2)$. Este paso prepara la estimación del rasgo sin confundir la posición con el desplazamiento.',
       board: {
         label: 'Centrar la medición',
         tex: '\\p{1}{x-\\mu}=\\p{2}{(0{,}6;1{,}2)}',
@@ -197,7 +197,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para una dirección de longitud uno, proyecta el desplazamiento sobre w. Multiplica las coordenadas correspondientes y suma.',
+      say: 'La **proyección** del desplazamiento sobre $w$ da el rasgo que sitúa la salida del modelo más cerca de la medición. La fórmula $\\hat z=w^\\top(x-\\mu)$ se lee «zeta estimado igual a doble ve transpuesta por equis menos mu». Multiplica las coordenadas correspondientes y suma. Esta fórmula requiere que $w$ tenga longitud uno; también debes restar el centro antes de multiplicar.',
       ask: {
         prompt: '¿Qué rasgo estimas para x = (5,6; 6,2)?',
         options: ['1,32', '8,32', '0,36'],
@@ -208,7 +208,7 @@ const lesson: LessonStep = {
       board: { label: 'Estimar el rasgo', tex: PROJECT },
     },
     {
-      say: 'Vuelve a generar con z = 1,32: obtienes (5,792; 6,056). Esta **reconstrucción** es el punto más cercano en la recta; pierde la parte de la medición que queda fuera de ella.',
+      say: 'La **reconstrucción** es la salida del modelo al usar el rasgo estimado de una medición. Se escribe $\\hat x=\\mu+\\hat z\\,w$ y se lee «equis estimado igual a mu más zeta estimado por doble ve». Con $\\hat z=1{,}32$ resulta $(5{,}792;6{,}056)$, el punto de la recta más cercano a la medición. El tramo punteado muestra la diferencia que el modelo no reproduce.',
       board: {
         label: 'Reconstruir',
         tex: '\\p{1}{\\hat x}=\\p{2}{\\mu+\\hat z\\,w}=\\p{3}{(5{,}792;6{,}056)}',
@@ -405,7 +405,7 @@ export const level: LevelSpec = {
       Scene: LatentDemo,
       beats: [
         {
-          say: 'Joaquín retuvo la carpeta (5,6; 6,2). La receta usa μ = (5; 5) y w = (0,6; 0,8), de longitud uno.',
+          say: 'Joaquín retuvo la carpeta (5,6; 6,2). La receta usa μ = (5; 5) y w = (0,6; 0,8), de longitud uno. Hay que estimar el ajuste común a partir de las dos columnas.',
           ask: {
             prompt: '¿Qué z estimas desde las dos columnas?',
             options: ['0,36', '1,32', '8,32'],
@@ -419,7 +419,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Carga z = 1,32 en la receta. Joaquín quiere saber qué par debería imprimir la máquina con ese ajuste.',
+          say: 'Con z = 1,32 estimado para la carpeta, Joaquín quiere saber qué par debería imprimir la máquina. Calculemos la salida de la receta para compararla con el registro retenido.',
           ask: {
             prompt: '¿Qué reconstrucción entrega μ + 1,32w?',
             options: ['(5,6; 6,2)', '(0,792; 1,056)', '(5,792; 6,056)'],
