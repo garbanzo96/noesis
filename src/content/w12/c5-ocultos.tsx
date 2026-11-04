@@ -219,23 +219,62 @@ const lesson: LessonStep = {
   ],
 };
 
-function LatentDemo({ beats, answer }: DemoProps) {
-  const reconstruction = beats.beat === 1 && answer !== null;
+function LatentDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const [z, setZ] = useState(0);
+  const [choice, setChoice] = useState(0);
+  const unlocked = useRef(new Set<number>());
+  const candidates: Pair[] = [OBS, [0.792, 1.056], RECON];
+  const drag = useSvgDrag(svg, (px) => {
+    if (beat === 0) {
+      const next = Math.round(clamp((px - 220) / 320, 0, 2) * 100) / 100;
+      setZ(next);
+      if (Math.abs(next - Z) <= 0.05 && !unlocked.current.has(beat)) {
+        unlocked.current.add(beat);
+        unlock();
+      }
+    } else if (beat === 1) {
+      const next = Math.round(clamp((px - 260) / 280, 0, 2));
+      setChoice(next);
+      if (next === 2 && !unlocked.current.has(beat)) {
+        unlocked.current.add(beat);
+        unlock();
+      }
+    }
+  });
+  const generated: Pair = beat === 0 ? [5 + z * W[0], 5 + z * W[1]] : beat === 1 ? candidates[choice] : RECON;
   return (
-    <Stage>
-      <LatentPlane observed={OBS} generated={reconstruction ? RECON : undefined} />
+    <Stage ref={svg}>
+      <LatentPlane observed={OBS} generated={generated} />
       <Cap x={1250} y={170} tex="\mu=(5;5)" />
       <Cap x={1250} y={260} tex="w=(0{,}6;0{,}8)" color={C.amber} />
       <Cap x={1250} y={350} tex="x=(5{,}6;6{,}2)" color={C.cyan} />
-      {((beats.beat === 0 && answer !== null) || beats.beat === 1) && (
+      {beat === 0 && <Cap x={1250} y={440} tex={`z=${tnum(z)}`} color={C.amber} />}
+      {beat >= 1 && (
         <Cap x={1250} y={440} tex="\hat z=1{,}32" color={C.green} />
       )}
-      {reconstruction && (
+      {beat === 2 && (
         <Cap x={1250} y={530} tex="\hat x=(5{,}792;6{,}056)" size={23} color={C.green} />
       )}
-      <Cap x={550} y={785} size={22}>
-        Carpeta retenida · dos columnas del mismo registro
-      </Cap>
+      {beat === 0 && (
+        <>
+          <line x1={220} x2={860} y1={785} y2={785} stroke={C.line} strokeWidth={4} />
+          <Knob x={220 + 320 * z} y={785} axis="x" label="z" color={C.amber} onPointerDown={drag} />
+          <Cap x={220} y={845} size={24}>0</Cap>
+          <Cap x={860} y={845} size={24}>2</Cap>
+        </>
+      )}
+      {beat === 1 && (
+        <>
+          <line x1={260} x2={820} y1={785} y2={785} stroke={C.line} strokeWidth={4} />
+          <Knob x={260 + 280 * choice} y={785} axis="x" color={C.amber} onPointerDown={drag} />
+          {candidates.map((pair, i) => (
+            <Cap key={i} x={260 + 280 * i} y={845} size={24} tex={pairTex(pair, 3)} />
+          ))}
+        </>
+      )}
+      {beat === 2 && <Cap x={550} y={785} size={24}>Carpeta retenida · dos columnas del mismo registro</Cap>}
     </Stage>
   );
 }
@@ -406,12 +445,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Joaquín retuvo la carpeta (5,6; 6,2). La receta usa μ = (5; 5) y w = (0,6; 0,8), de longitud uno. Hay que estimar el ajuste común a partir de las dos columnas.',
-          ask: {
-            prompt: '¿Qué z estimas desde las dos columnas?',
-            options: ['0,36', '1,32', '8,32'],
-            answer: 1,
-            explain: 'Centra el registro y suma los productos: 0,6 · 0,6 + 0,8 · 1,2 = 1,32.',
-          },
+          gate: '¿Qué z estimas desde las dos columnas? Resta el centro, multiplica cada desplazamiento por su peso y ubica el resultado con la perilla.',
+          after: 'Los desplazamientos son 0,6 y 1,2. Sus productos con los pesos suman 0,36 + 0,96 = 1,32.',
           note: {
             label: 'Rasgo de la carpeta',
             tex: '\\hat z=0{,}6\\cdot0{,}6+0{,}8\\cdot1{,}2=1{,}32',
@@ -420,18 +455,16 @@ export const level: LevelSpec = {
         },
         {
           say: 'Con z = 1,32 estimado para la carpeta, Joaquín quiere saber qué par debería imprimir la máquina. Calculemos la salida de la receta para compararla con el registro retenido.',
-          ask: {
-            prompt: '¿Qué reconstrucción entrega μ + 1,32w?',
-            options: ['(5,6; 6,2)', '(0,792; 1,056)', '(5,792; 6,056)'],
-            answer: 2,
-            explain:
-              '5 + 1,32 · 0,6 = 5,792 y 5 + 1,32 · 0,8 = 6,056. El par original queda fuera de la recta.',
-          },
+          gate: '¿Qué reconstrucción entrega μ + 1,32w? Calcula ambas columnas y mueve el selector hasta el par correspondiente.',
+          after: 'La salida es (5,792; 6,056): 5 + 0,792 y 5 + 1,056. El registro (5,6; 6,2) queda fuera de la recta.',
           note: {
             label: 'Salida reconstruida',
             tex: '\\hat x=(5+0{,}792;5+1{,}056)=(5{,}792;6{,}056)',
             body: 'La receta liga las columnas; con un solo rasgo no puede reproducir cualquier par.',
           },
+        },
+        {
+          say: 'La salida reconstruida queda cerca de la carpeta retenida, pero el tramo entre ambas muestra la diferencia que la receta no reproduce.',
         },
       ],
     },
