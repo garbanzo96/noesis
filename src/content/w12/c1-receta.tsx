@@ -210,18 +210,51 @@ const lesson: LessonStep = {
   ],
 };
 
-function BeltDemo({ beats, answer }: DemoProps) {
+function BeltDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [position, setPosition] = useState(0.5);
+  const [count, setCount] = useState(0);
+  const unlocked = useRef(new Set<number>());
+  const drag = useSvgDrag(svg, (px) => {
+    if (beat === 0) {
+      const value = clamp((px - STRIP.x) / STRIP.w, 0, 1);
+      setPosition(value);
+      if (Math.abs(value - 0.15) <= 0.02 && !unlocked.current.has(0)) {
+        unlocked.current.add(0);
+        unlock();
+      }
+    } else if (beat === 1) {
+      const value = Math.round(clamp((px - STRIP.x) / STRIP.w, 0, 1) * 500);
+      setCount(value);
+      if (Math.abs(value - 150) <= 10 && !unlocked.current.has(1)) {
+        unlocked.current.add(1);
+        unlock();
+      }
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Bars labels={LEVELS} values={PROBS} x={200} base={460} w={700} h={260} max={0.6} />
-      <Strip probs={PROBS} u={beat === 0 && answer !== null ? 0.15 : undefined} />
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="u=0{,}15\ \Rightarrow\ \text{bajo}" color={C.cyan} />
+      {beat === 0 && (
+        <>
+          <Strip probs={PROBS} u={position} />
+          <Knob x={STRIP.x + position * STRIP.w} y={STRIP.y - 34} onPointerDown={drag} axis="x" color={C.text} />
+          <Cap x={1270} y={260} size={24} color={COLORS[pickLevel(position, PROBS)]}>
+            {LEVELS[pickLevel(position, PROBS)]}
+          </Cap>
+        </>
       )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="500\cdot0{,}3=150" color={C.magenta} />
+      {beat === 1 && (
+        <>
+          <line x1={STRIP.x} x2={STRIP.x + STRIP.w} y1={STRIP.y} y2={STRIP.y} stroke={C.muted} strokeWidth={4} />
+          <Knob x={STRIP.x + (count / 500) * STRIP.w} y={STRIP.y} onPointerDown={drag} axis="x" color={C.magenta} />
+          <Cap x={STRIP.x} y={STRIP.y + 50} size={24}>0</Cap>
+          <Cap x={STRIP.x + STRIP.w} y={STRIP.y + 50} size={24}>500</Cap>
+          <Cap x={1270} y={260} size={24} color={C.magenta}>{count} carpetas</Cap>
+        </>
       )}
+      {beat === 2 && <Cap x={1270} y={260} tex="500\cdot0{,}3=150" color={C.magenta} />}
     </Stage>
   );
 }
@@ -361,28 +394,23 @@ export const level: LevelSpec = {
       Scene: BeltDemo,
       beats: [
         {
-          say: 'Cada carpeta sortea su nivel de test con el modelo (0,2; 0,5; 0,3), en el orden bajo, medio y alto. Revisemos qué nivel imprime para el sorteo de la siguiente carpeta.',
-          ask: {
-            prompt: 'La siguiente carpeta sorteó u = 0,15. ¿Qué nivel le imprime la máquina?',
-            options: ['bajo', 'medio', 'alto'],
-            answer: 0,
-            explain: '0,15 es menor que 0,2: tramo de «bajo».',
-          },
+          say: 'Cada carpeta sortea su nivel de test con el modelo (0,2; 0,5; 0,3), en el orden bajo, medio y alto. La siguiente carpeta sorteó u = 0,15. ¿Qué nivel le imprime la máquina?',
+          gate: 'Ubica u = 0,15 en la cinta y observa el nivel que corresponde.',
+          after: 'El sorteo 0,15 cae antes de 0,2, en el tramo de nivel bajo.',
           note: { label: 'Una carpeta', tex: 'u=0{,}15\\Rightarrow\\text{bajo}' },
         },
         {
-          say: 'Esta noche salen 500 carpetas. Con la probabilidad de nivel alto podemos calcular cuántas se esperan en el lote, aunque el resultado de los sorteos puede variar.',
-          ask: {
-            prompt: '¿Cuántas con nivel «alto» esperas?',
-            options: ['150', '300', '50'],
-            answer: 0,
-            explain: '500 · 0,3 = 150. Para un revisor apurado, el lote se ve igual a uno real.',
-          },
+          say: 'Esta noche salen 500 carpetas. Con la probabilidad de nivel alto podemos calcular cuántas se esperan en el lote, aunque el resultado de los sorteos puede variar. ¿Cuántas con nivel «alto» esperas?',
+          gate: 'Ajusta el marcador a la cantidad esperada de carpetas con nivel alto.',
+          after: 'La probabilidad de nivel alto es 0,3. En 500 carpetas se esperan 150: 500 · 0,3 = 150.',
           note: {
             label: 'Un lote',
             tex: '500\\cdot0{,}3=150',
             body: 'Las proporciones calzan con las reales: eso hace pasar el lote.',
           },
+        },
+        {
+          say: 'Para un revisor apurado, el lote se ve igual a uno real. La cantidad esperada describe la proporción del modelo; el resultado de cada lote puede variar.',
         },
       ],
     },
