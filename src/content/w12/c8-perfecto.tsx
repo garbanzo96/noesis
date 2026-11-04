@@ -149,7 +149,7 @@ const lesson: LessonStep = {
   Scene: Chi2Lesson,
   beats: [
     {
-      say: 'Para medir cuánto se aleja lo observado de lo esperado, se suma cada diferencia al cuadrado dividida por lo esperado.',
+      say: 'El **estadístico ji cuadrado**, escrito $\\chi^2$, mide el desajuste entre conteos observados $O$ y esperados $E$ según un modelo. Para cada categoría, resta $E$ de $O$, eleva la diferencia al cuadrado y divide por $E$; luego suma los resultados. Los conteos esperados deben ser positivos.\n\nLas barras ámbar muestran los conteos observados y las celestes, los esperados. Elevar al cuadrado evita que las diferencias positivas y negativas se cancelen.',
       board: {
         label: 'Estadístico χ²',
         tex: '\\p{1}{\\chi^2}=\\p{2}{\\sum\\frac{(O-E)^2}{E}}',
@@ -157,10 +157,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mueve el conteo de A: cuanto más se aleja de 50, más crece χ². B compensa para que el total siga en 100.',
-      gate: 'Aleja el conteo de A hasta 60 y mira si $\\chi^2$ supera el valor crítico 5,99.',
+      say: 'El conteo esperado de A es 50 y el de B es 30. Al mover A, B cambia en sentido contrario para mantener el total en 100; C permanece en 20. Cuanto más se aleja A de 50, más crece $\\chi^2$.',
+      gate: 'Busca un conteo de A mayor que el esperado que produzca el desajuste de la pizarra. Observa cómo cambian las barras y $\\chi^2$.',
       after:
-        '$\\chi^2=5{,}33<5{,}99$: con A en 60 los datos todavía son compatibles con el modelo.',
+        'Con A en 60, B en 20 y C en 20, $\\chi^2\\approx5{,}33$. La diferencia de 10 en A y B aporta al desajuste; C no aporta porque coincide con lo esperado.',
       board: {
         label: 'Con A = 60',
         tex: '\\p{1}{\\tfrac{10^2}{50}+\\tfrac{10^2}{30}}=\\p{2}{5{,}33}',
@@ -168,7 +168,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con 3 categorías hay 2 grados de libertad. Si los datos siguen el modelo, χ² supera 5,99 solo el 5 % de las veces.',
+      say: 'Los **grados de libertad** cuentan cuántos conteos pueden variar independientemente cuando el total está fijo. Con 3 categorías y un modelo fijado de antemano, son 2: el último conteo queda determinado por los otros.\n\nSi el modelo se cumple, $\\chi^2$ supera aproximadamente 5,99 el 5 % de las veces. Como 5,33 queda bajo ese corte, los datos son compatibles con el modelo; eso no demuestra que el modelo sea verdadero.',
       board: {
         label: 'Decidir',
         tex: '\\p{1}{5{,}33<5{,}99}\\p{2}{\\ \\Rightarrow\\ \\text{compatible}}',
@@ -176,7 +176,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ahora el lote nuevo de la Fábrica contra Benford, con 1000 montos y 8 grados de libertad: χ² ≈ 0,002.',
+      say: 'El lote nuevo de la Fábrica contiene 1000 montos. Las barras comparan sus primeros dígitos con los conteos esperados por la ley de Benford, que asigna distintas proporciones a los dígitos del 1 al 9. Con 9 categorías y el modelo fijado, hay 8 grados de libertad; el estadístico observado es $\\chi^2\\approx0{,}002$.',
       ask: {
         prompt: 'Con datos reales, χ² suele rondar 8. ¿Qué indica un χ² de 0,002?',
         options: [
@@ -195,7 +195,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'χ² sirve en las dos direcciones: muy grande, los datos no siguen el modelo; muy chico, alguien los ajustó a mano.',
+      say: 'La prueba puede examinar las dos colas de la distribución de $\\chi^2$. Un valor muy grande señala un desajuste difícil de explicar bajo el modelo; uno muy chico indica una cercanía inusualmente precisa. En este lote, 0,002 está bajo el corte inferior de 2,73 y hace sospechar un ajuste deliberado, aunque por sí solo no prueba quién lo hizo.',
       board: {
         label: 'Dos colas',
         tex: '\\p{1}{\\chi^2\\ \\text{grande}:\\ \\text{no calza}},\\ \\p{2}{\\chi^2\\ \\text{chico}:\\ \\text{demasiado perfecto}}',
@@ -386,7 +386,7 @@ export const level: LevelSpec = {
       Scene: NewLotDemo,
       beats: [
         {
-          say: 'Primero, el lote viejo: mil montos con primeros dígitos parejos contra Benford.',
+          say: 'Primero, el lote viejo: mil montos con primeros dígitos parejos. Comparemos sus conteos con los que espera Benford para ver si calzan.',
           ask: {
             prompt: '¿Qué pasa con χ² en el lote viejo?',
             options: ['Es enorme: los datos no siguen Benford', 'Es normal', 'Es demasiado chico'],
@@ -396,7 +396,7 @@ export const level: LevelSpec = {
           note: { label: 'Lote viejo', tex: '\\chi^2\\approx402' },
         },
         {
-          say: 'Ahora el lote nuevo, «calibrado».',
+          say: 'Ahora revisemos el lote nuevo, «calibrado». Comparemos sus primeros dígitos con Benford para evaluar el ajuste.',
           ask: {
             prompt: 'El lote nuevo da χ² ≈ 0,002 con 8 grados de libertad. ¿Qué concluyes?',
             options: ['Demasiado perfecto: fabricado', 'Montos reales', 'No sigue Benford'],
