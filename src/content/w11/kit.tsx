@@ -9,7 +9,7 @@ import { dec } from '../shared/ui';
 /** decimal with comma for text («0,32») */
 export const fmt = (v: number, digits = 2) => dec(v, digits);
 /** decimal with comma for TeX («0{,}32») */
-export const tnum = (v: number, digits = 2) => fmt(v, digits).replace(',', '{,}');
+export const tnum = (v: number, digits = 2) => fmt(v, digits).replace(/,\u2060?/, '{,}');
 /** TeX fraction */
 export const frac = (n: number, d: number) => `\\tfrac{${n}}{${d}}`;
 

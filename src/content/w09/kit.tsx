@@ -29,7 +29,7 @@ export function Readout({ children, ...props }: Omit<ComponentProps<typeof Cap>,
   );
 }
 export const fmt = (v: number, digits = 2) => dec(v, digits);
-export const num = (v: number, digits = 2) => fmt(v, digits).replace('−', '-').replace(',', '{,}');
+export const num = (v: number, digits = 2) => fmt(v, digits).replace('−', '-').replace(/,\u2060?/, '{,}');
 export const near = (a: number, b: number, tolerance = 0.005) =>
   Number.isFinite(a) && Math.abs(a - b) <= tolerance + 1e-12;
 export const distance = (a: V2, b: V2) => Math.hypot(a[0] - b[0], a[1] - b[1]);

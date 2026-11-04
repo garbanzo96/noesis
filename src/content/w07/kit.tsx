@@ -9,7 +9,7 @@ export type V2 = [number, number];
 export type Field = (x: number, y: number) => number;
 export type Projection = ((x: number, y: number, z: number) => V2) & { xr: V2; yr: V2 };
 export const fmt = (v: number, digits = 2) => dec(v, digits);
-export const num = (v: number, digits = 2) => fmt(v, digits).replace('−', '-').replace(',', '{,}');
+export const num = (v: number, digits = 2) => fmt(v, digits).replace('−', '-').replace(/,\u2060?/, '{,}');
 export const pair = (v: V2) => `(${num(v[0])};\\,${num(v[1])})`;
 export const F: Field = (x, y) => x * x + 3 * x * y - y * y;
 export const H: Field = (x, y) => 200 - 2 * x * x - y * y;

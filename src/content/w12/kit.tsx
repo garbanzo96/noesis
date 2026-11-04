@@ -9,7 +9,7 @@ import { dec } from '../shared/ui';
 /** decimal with comma for text («0,30») */
 export const fmt = (v: number, digits = 2) => dec(v, digits);
 /** decimal with comma for TeX («0{,}30») */
-export const tnum = (v: number, digits = 2) => fmt(v, digits).replace(',', '{,}');
+export const tnum = (v: number, digits = 2) => fmt(v, digits).replace(/,\u2060?/, '{,}');
 export const mean = (xs: number[]) => xs.reduce((a, b) => a + b, 0) / xs.length;
 /** variance dividing by n (maximum likelihood) */
 export const varMle = (xs: number[]) => {

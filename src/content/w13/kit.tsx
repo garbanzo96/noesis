@@ -7,7 +7,7 @@ import { dec } from '../shared/ui';
 /** decimal with comma for text («0,20») */
 export const fmt = (v: number, digits = 2) => dec(v, digits);
 /** decimal with comma for TeX («0{,}20») */
-export const tnum = (v: number, digits = 2) => fmt(v, digits).replace(',', '{,}');
+export const tnum = (v: number, digits = 2) => fmt(v, digits).replace(/,\u2060?/, '{,}');
 /** expected value of an action: Σ P(s)·u(s) */
 export const ev = (probs: number[], pays: number[]) =>
   probs.reduce((a, p, i) => a + p * pays[i], 0);

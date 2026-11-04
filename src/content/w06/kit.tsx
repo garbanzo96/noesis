@@ -45,7 +45,7 @@ export const counts = (xs: number[], lo: number, w: number, bins: number) => {
 export const num = (x: number, d = 2) => {
   const r = Math.round(x);
   if (Math.abs(x - r) < 1e-9) return String(r);
-  return dec(x, d).replace('−', '-').replace(',', '{,}');
+  return dec(x, d).replace('−', '-').replace(/,\u2060?/, '{,}');
 };
 /** Normal sample by Box–Muller from a uniform generator. */
 export const gauss = (r: () => number, mu = 0, s = 1) =>

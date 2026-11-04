@@ -17,7 +17,7 @@ export const fmtComma = (v: number, digits = 4) => dec(v, digits);
 export const bitsText = (v: number) => `${fmtComma(v)} ${v === 1 ? 'bit' : 'bits'}`;
 
 export const num = (v: number, digits = 4) =>
-  fmtComma(v, digits).replace('−', '-').replace(',', '{,}');
+  fmtComma(v, digits).replace('−', '-').replace(/,\u2060?/, '{,}');
 /** Exact numeric answers: a decimal or a single fraction, with no ignored suffix. */
 export function parseExact(s: string) {
   const t = s.replace(/\s/g, '').replace('−', '-').replace(',', '.');
