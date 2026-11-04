@@ -239,7 +239,7 @@ export const lesson: LessonStep = {
   Scene: LessonScene,
   beats: [
     {
-      say: 'Sin ver el estado no puedes saber cuánto te dará una acción, pero sí cuánto te dará en promedio. La **recompensa esperada** $r(b,a)$ pondera la recompensa de cada estado por su creencia.\n\nCon la mesa de Valentina, esperar vale $-10b$ y calmar vale $-4$, sea cual sea el estado. Si $b=0{,}25$, esperar vale $-2{,}5$: sale más barato que calmar.',
+      say: 'La **recompensa esperada** $r(b,a)$, que se lee «erre de be y a», promedia la recompensa de la acción $a$ en cada estado, ponderada por su probabilidad en la creencia $b$. Sirve para comparar acciones cuando no se conoce el estado.\n\nAquí $b$ es la probabilidad del rumor: esperar vale $-10b$ y calmar vale $-4$ en ambos estados. Con $b=0{,}25$, esperar vale $-2{,}5$, un valor mayor que $-4$ y por tanto un costo menor.',
       board: {
         label: 'Recompensa esperada',
         tex: '\\p{1}{r(b,a)}=\\p{2}{\\sum_s}\\p{3}{b(s)}\\,\\p{4}{r(s,a)}',
@@ -252,10 +252,10 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cada acción es una recta en la creencia $b$. Esperar parte en 0 y cae hasta $-10$ cuando estás segura del rumor. Calmar es una recta plana. La acción que conviene depende de cuál recta va arriba, porque ahí está el mayor valor.',
-      gate: 'Mueve $b$ y busca la creencia en que esperar y calmar valen lo mismo.',
+      say: 'Cada acción tiene una recta de recompensa esperada según la creencia $b$, que va de 0 a 1. Esperar parte en 0 y llega a $-10$ cuando el rumor es seguro; calmar mantiene el valor $-4$. Para elegir, compara las alturas: conviene la recta de mayor valor, aunque ambos valores sean negativos.',
+      gate: 'Mueve $b$ hasta encontrar dónde esperar y calmar valen lo mismo. Compara los valores y mira dónde se cruzan las rectas.',
       after:
-        'Las rectas se cruzan en $b=0{,}4$. Bajo ese valor conviene esperar; sobre él conviene calmar. Esa cifra es la que aparecía en las órdenes de la cuenta.',
+        'El cruce exacto es $b=0{,}4$, aunque se acepta una posición cercana. Bajo ese valor conviene esperar y sobre él conviene calmar; esa cifra aparecía en las órdenes de la cuenta.',
       board: {
         label: 'Punto de indiferencia',
         tex: '\\p{1}{-10\\,b}=\\p{2}{-4}\\ \\Rightarrow\\ \\p{3}{b=0{,}4}',
@@ -263,7 +263,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El cruce tiene una fórmula general. Si calmar cuesta $c$ y el rumor sin calmar cuesta $L$, se igualan $Lb$ y $c$. El **umbral** es $b^*=c/L$.\n\nSe entiende sin cuentas: mientras más cara sea la acción preventiva, más segura debes estar antes de usarla. Mueve el costo para comprobarlo.',
+      say: 'El **umbral** $b^*$, leído «be estrella», es la creencia donde las dos acciones tienen igual valor. Si esperar cuesta $L$ cuando hay rumor y calmar cuesta $c$ en cualquier estado, se igualan $-Lb$ y $-c$: para $L>0$, resulta $b^*=c/L$.\n\nCon $0\\le c\\le L$ el cruce está entre 0 y 1. Al subir el costo de calmar, el umbral sube: hace falta una creencia mayor para que convenga calmar.',
       board: {
         label: 'Umbral',
         tex: '\\p{1}{b^*}=\\frac{\\p{2}{c}}{\\p{3}{L}}',
@@ -271,7 +271,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **valor de una creencia**, $V_1(b)$, es el mejor valor disponible: el borde superior de las rectas, en verde. Cada acción se resume en un **vector** $\\alpha_a$ con sus recompensas por estado, y su valor es el producto punto con la creencia.\n\nComo es un máximo de rectas, $V_1$ es lineal por tramos y **convexa**. Esa forma vale para cualquier POMDP de horizonte finito.',
+      say: 'El **valor de una creencia** $V_1(b)$, leído «ve sub uno de be», es la mayor recompensa esperada disponible para una etapa. El **vector alfa** $\\alpha_a$, leído «alfa sub a», reúne las recompensas de la acción $a$ en cada estado; su producto punto con las probabilidades de la creencia da su recompensa esperada.\n\nEl máximo de estas rectas forma el borde verde: es lineal por tramos y **convexo**, pues la cuerda entre dos puntos queda sobre o en la curva. Esta forma se mantiene en un POMDP de horizonte finito.',
       board: {
         label: 'Valor con vectores',
         tex: '\\p{1}{V_1(b)}=\\p{2}{\\max_a}\\ \\p{3}{\\alpha_a\\cdot b}',
@@ -279,7 +279,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una **política sobre creencias** asigna una acción a cada creencia, $\\pi(b)$. Aquí es una regla con umbral: esperar si $b<0{,}4$ y calmar si no. Observa que la regla usa solo lo que se conoce: el estado no aparece en ella.',
+      say: 'Una **política sobre creencias** $\\pi(b)$, leída «pi de be», asigna una acción a cada creencia disponible. Aquí indica esperar bajo el umbral 0,4 y calmar desde ese valor; en el umbral ambas acciones empatan. Para hallar $V_1$, compara las recompensas de las dos acciones y elige la mayor.',
       ask: {
         prompt: '¿Cuánto valen $V_1(0{,}3)$ y $V_1(0{,}7)$?',
         options: ['$-3$ y $-4$', '$-3$ y $-7$', '$-4$ y $-4$'],
@@ -294,7 +294,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: "Hasta aquí decidimos para un solo día. Para mirar más lejos, se trata la creencia como estado: un POMDP es un **MDP de creencias**. Desde $b$, una acción lleva a una señal $o$ con probabilidad $P(o\\mid b,a)$, y el filtro da la nueva creencia $b'_{a,o}$.\n\nDesde $b=0{,}2$ y esperar, mañana se llega a 0,673 con volumen alto o a 0,114 con volumen bajo.",
+      say: 'Un POMDP puede tratarse como un **MDP de creencias**: la creencia conocida cumple el papel de estado para decidir en varias etapas. Tras la acción $a$, la señal $o$ aparece con probabilidad $P(o\\mid b,a)$, leída «probabilidad de o dado be y a», y el filtro entrega la nueva creencia $b\'_{a,o}$.\n\nDesde $b=0{,}2$, esperar lleva a 0,673 con volumen alto o a 0,114 con volumen bajo. En la ecuación, $\\gamma$ («gamma») descuenta el valor futuro y el máximo elige la mejor acción.',
       board: {
         label: 'Bellman en creencias',
         tex: "\\p{1}{V(b)}=\\p{2}{\\max_a}\\Big[\\p{3}{r(b,a)}+\\p{4}{\\gamma\\sum_o P(o\\mid b,a)\\,V(b'_{a,o})}\\Big]",
@@ -307,7 +307,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con eso se comparan dos etapas. Esperar cuesta $-2$ hoy y mañana se decide con una señal más: $-2+0{,}9\\,[0{,}404\\cdot(-4)+0{,}596\\cdot(-1{,}14)]=-4{,}07$. Calmar cuesta $-4$ hoy y deja $b=0{,}1$: $-4+0{,}9\\cdot(-1)=-4{,}90$.\n\nA dos etapas conviene esperar. Parte de esa ventaja viene de decidir mañana con más información.',
+      say: 'El **valor de acción** $Q(b,a)$, leído «cu de be y a», suma la recompensa esperada de hoy y el valor futuro descontado si se toma $a$ y luego se decide otra vez. Con dos etapas y $\\gamma=0{,}9$, esperar vale $-2+0{,}9[0{,}404(-4)+0{,}596(-1{,}14)]=-4{,}07$.\n\nCalmar vale $-4$ hoy y deja $b=0{,}1$: su valor es $-4+0{,}9(-1)=-4{,}90$. Conviene esperar; parte de la ventaja viene de decidir mañana con una señal adicional.',
       board: {
         label: 'Dos etapas',
         tex: '\\p{1}{Q(0{,}2,\\text{esperar})=-4{,}07}\\quad\\p{2}{Q(0{,}2,\\text{calmar})=-4{,}90}',
@@ -315,7 +315,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La convexidad explica por qué mirar ayuda. Si promedias $V_1$ en las creencias que pueden salir, obtienes más que $V_1$ en la creencia promedio. Con $b=0{,}34$: el promedio de $V_1$ en 0,114 y 0,673 es $-2{,}30$, y $V_1(0{,}34)=-3{,}40$.\n\nEsa distancia, la cuerda sobre la curva, es lo que gana quien decide después de ver la señal. El caso siguiente la mide.',
+      say: 'Una función **convexa** tiene la propiedad de que el promedio ponderado de sus valores es al menos su valor en el promedio ponderado de las entradas. Aquí las creencias 0,114 y 0,673 promedian 0,34 según las probabilidades de sus señales.\n\nEl promedio de sus valores $V_1$ es $-2{,}30$, frente a $V_1(0{,}34)=-3{,}40$. La distancia entre la cuerda y la curva muestra la ganancia de decidir después de ver la señal; puede ser cero cuando no cambia la acción óptima.',
       board: {
         label: 'Convexidad',
         tex: '\\p{1}{\\sum_o P(o)\\,V(b_o)}\\ \\ge\\ \\p{2}{V\\big(\\sum_o P(o)\\,b_o\\big)}',
@@ -626,9 +626,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Antes de mirar las órdenes, Valentina quiere una predicción escrita. Con esos dos costos, ¿dónde debería estar la regla de alguien que decide bien?',
-          gate: 'Ubica la regla en la creencia desde la cual conviene actuar, usando el costo y la pérdida.',
+          gate: 'Ubica la regla donde esperar y calmar tienen el mismo costo esperado. Usa los costos mostrados para calcularla y mueve la marca.',
           after:
-            'Con $c=4$ y $L=10$, la regla va en $b^*=0{,}4$. La predicción sale de los costos, antes de ver una sola orden.',
+            'Con $c=4$ y $L=10$, el umbral exacto es $b^*=0{,}4$, aunque se acepta una posición cercana. La predicción sale de los costos, antes de ver las órdenes.',
           note: { label: 'Umbral predicho', tex: 'b^*=\\frac{c}{L}=\\frac{4}{10}=0{,}4' },
         },
         {
@@ -651,9 +651,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Dos días quedaron fuera de la tabla. Teo tiene la creencia de cada uno, pero Valentina tapó las órdenes con la mano.',
-          gate: 'Predice qué hizo la cuenta el martes y el jueves.',
+          gate: 'Predice si la cuenta compró el martes y el jueves. Compara la creencia de cada día con la regla.',
           after:
-            'Martes, $b=0{,}37$: no compró. Jueves, $b=0{,}44$: compró. Una regla que predice días que no se usaron para escribirla deja de ser una coincidencia.',
+            'Martes, $b=0{,}37$: no compró. Jueves, $b=0{,}44$: compró. La regla también acierta en estos días, que no se usaron para construirla.',
           note: {
             label: 'Prueba de la regla',
             body: 'La regla acierta en días que no se usaron para construirla.',
