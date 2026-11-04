@@ -219,7 +219,7 @@ export const lesson: LessonStep = {
   Scene: LinesLesson,
   beats: [
     {
-      say: 'Cuando una cantidad cambia **siempre lo mismo** por cada paso, sus puntos quedan alineados. Aquí, cada vez que $x$ avanza 1, $y$ sube 2.',
+      say: 'Una relación tiene **cambio constante** cuando, por incrementos iguales de $x$, los cambios de $y$ son iguales. Sus puntos quedan sobre una recta. Aquí, cada vez que $x$ aumenta 1, $y$ aumenta 2. El símbolo $\\Delta$ se lee «delta» y representa el valor final menos el inicial.',
       dur: 3,
       board: {
         label: 'Cambio constante',
@@ -229,8 +229,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **pendiente** mide cuánto sube $y$ por cada unidad que avanza $x$. En una recta da lo mismo qué dos puntos uses.',
-      gate: 'Arrastra el punto rosado lejos: el cociente no cambia.',
+      say: 'La **pendiente** $m$ de una recta no vertical es el cociente entre el cambio de $y$ y el cambio de $x$: $m=\\Delta y/\\Delta x$, leído «delta ye dividido por delta equis». Para calcularla, resta las coordenadas en el mismo orden y exige $\\Delta x\\ne 0$. El cociente es igual para cualquier par de puntos distintos de la recta.',
+      gate: 'Arrastra el punto rosado hasta $x=5$ o más y observa cómo cambian los dos incrementos y su cociente.',
+      after: 'En $x=5$, $\\Delta x=4$ y $\\Delta y=8$; en $x=5{,}5$, son 4,5 y 9. En ambos casos el cociente es 2: la pendiente mantiene el mismo ritmo en toda la recta.',
       board: {
         label: 'Pendiente',
         tex: 'm=\\frac{\\p{1}{\\cM{\\Delta y}}}{\\p{2}{\\cA{\\Delta x}}}=\\p{3}{\\frac{y_2-y_1}{x_2-x_1}}',
@@ -238,8 +239,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Toda recta no vertical se escribe $y=mx+b$: $m$ es la pendiente y $b$, la **ordenada en el origen**, la altura donde corta el eje $y$.',
-      gate: 'Con los controles, arma la recta y = −0,5x + 3.',
+      say: 'Toda recta no vertical se escribe $y=mx+b$, que se lee «ye igual eme equis más be». $m$ es la pendiente y $b$ es la **ordenada en el origen**, el valor de $y$ cuando $x=0$. Cambiar $m$ modifica la inclinación; cambiar $b$ desplaza la recta hacia arriba o abajo sin cambiar su pendiente.',
+      gate: 'Con los controles, arma la recta $y=-0{,}5x+3$ y observa dónde corta el eje $y$ y hacia dónde se inclina.',
+      after: 'La recta corta el eje $y$ en 3 y baja 0,5 unidades por cada unidad que aumenta $x$. La ordenada fija el punto de corte y la pendiente determina la inclinación.',
       board: {
         label: 'Ecuación de la recta',
         tex: 'y=\\p{1}{\\cA{m}}\\,x+\\p{2}{\\cG{b}}',
@@ -248,7 +250,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El signo de la pendiente dice hacia dónde va la recta.',
+      say: 'El signo de la pendiente indica cómo cambia $y$ al aumentar $x$. Si $m>0$, la recta sube; si $m=0$, es horizontal y $y$ permanece constante. Si $m<0$, la recta baja. Los signos se leen «mayor que cero», «igual a cero» y «menor que cero».',
       dur: 2.6,
       board: {
         label: 'Signo de m',
@@ -257,7 +259,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con dos puntos se determina la recta: primero la pendiente, después se usa uno de los puntos.',
+      say: 'Dos puntos distintos determinan una única recta; si tienen distinta coordenada $x$, podemos calcular su pendiente. Con $(1,2)$ y $(3,6)$, $m=(6-2)/(3-1)=2$. La **forma punto-pendiente** $y-y_1=m(x-x_1)$ usa la pendiente y un punto de la recta. Al sustituir $(1,2)$ resulta $y-2=2(x-1)$, equivalente a $y=2x$.',
       dur: 3.2,
       board: [
         {
@@ -274,7 +276,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Dos rectas se cortan donde tienen la misma $y$ para la misma $x$: se igualan y se despeja.',
+      say: 'Una **intersección** es un punto que pertenece a ambas rectas: tiene la misma $x$ y la misma $y$ en las dos. Para hallarlo, iguala las expresiones de $y$, despeja $x$ y reemplaza ese valor en una de ellas. Para las rectas dibujadas, $2x=-x+6$ da $x=2$ y $y=4$. Rectas de distinta pendiente se cortan una vez.',
       ask: {
         prompt: '¿Dónde se cortan $y=x+1$ e $y=3x-3$?',
         options: ['En (2, 3)', 'En (1, 2)', 'No se cortan'],

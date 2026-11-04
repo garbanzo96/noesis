@@ -620,7 +620,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Arriba, la ruta. Abajo, el registro del camión A: cada punto es una hora y una distancia.',
-          gate: 'Arrastra el reloj hasta las 04:00.',
+          gate: 'Arrastra el reloj hasta las 04:00 y observa cómo cambia la distancia de A.',
+          after: 'A las 04:00, A está en el km 120. Recorrió 30 km por cada hora, por eso sus registros forman una recta.',
           note: {
             label: 'Velocidad constante',
             tex: 'd(t)=30\\,t',
@@ -629,7 +630,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'La inclinación de la recta es la velocidad: cuántos kilómetros sube por cada hora que avanza.',
-          gate: 'Arrastra el punto rosado hasta que el triángulo tenga Δt = 2 h.',
+          gate: 'Arrastra el punto rosado hasta que el triángulo tenga $\\Delta t=2$ h y observa cuánto cambia la distancia.',
+          after: 'En 2 horas, A avanza 60 km: $60/2=30$ km/h. La pendiente expresa esa velocidad constante.',
           note: {
             label: 'Pendiente',
             tex: 'm=\\frac{\\Delta d}{\\Delta t}=\\frac{60\\ \\text{km}}{2\\ \\text{h}}=30\\ \\tfrac{\\text{km}}{\\text{h}}',
@@ -653,7 +655,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'El chofer C declaró que nunca pasó de 40 km/h. Sus registros GPS dicen otra cosa.',
-          gate: 'Sube o baja el punto blanco hasta que la recta pase por los registros de C.',
+          gate: 'Sube o baja el punto blanco hasta que la recta pase por los registros de C y compara la velocidad obtenida con su declaración.',
+          after: 'La recta ajustada tiene pendiente de 50 km/h. Esa velocidad supera los 40 km/h que declaró C.',
           note: {
             label: 'Ajustar la recta',
             tex: 'm_C=50\\ \\tfrac{\\text{km}}{\\text{h}}>40',
@@ -680,7 +683,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'Una patrulla sale del puerto a la 01:00 a 60 km/h detrás del camión A. ¿Cuándo lo alcanza?',
-          gate: 'Mueve el reloj hasta que los dos vehículos coincidan.',
+          gate: 'Mueve el reloj hasta que los dos vehículos coincidan y observa la hora y el kilómetro del encuentro.',
+          after: 'A las 02:00, ambos están en el km 60. El cruce de las rectas señala el instante y el lugar del encuentro.',
           note: {
             label: 'Intersección',
             tex: '30t=60(t-1)\\iff t=2',
