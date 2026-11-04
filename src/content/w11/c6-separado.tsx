@@ -150,7 +150,7 @@ const lesson: LessonStep = {
   Scene: MeanFieldLesson,
   beats: [
     {
-      say: 'Fiebre y tos suelen venir juntas: las dos o ninguna pasa el 80 % de las veces. Esa relación está en la diagonal.',
+      say: 'La tabla muestra la **distribución conjunta**: la probabilidad de cada combinación de fiebre y tos.\n\nLa diagonal reúne los casos en que coinciden: ambos síntomas están presentes o ambos ausentes. Cada celda diagonal vale 0,4, así que coinciden el 80 % de las veces. $P(x=y)$ se lee «probabilidad de que equis sea igual a ye».',
       board: {
         label: 'La distribución real',
         tex: '\\p{1}{P(x=y)}=\\p{2}{0{,}4+0{,}4}=\\p{3}{0{,}8}',
@@ -158,7 +158,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Por separado, cada síntoma aparece la mitad de las veces. Esas son las marginales.',
+      say: 'Una **distribución marginal** da las probabilidades de una variable sin distinguir los valores de la otra.\n\nSe obtiene sumando las celdas correspondientes de la tabla conjunta: por ejemplo, la fila de fiebre presente suma 0,1 + 0,4 = 0,5. Para cada síntoma, presencia y ausencia tienen probabilidad 0,5. $p(x)$ se lee «pe de equis».',
       board: {
         label: 'Marginales',
         tex: '\\p{1}{p(x)=(0{,}5;0{,}5)},\\ \\p{2}{p(y)=(0{,}5;0{,}5)}',
@@ -166,10 +166,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La aproximación más simple trata cada síntoma por su cuenta y multiplica. Llévala de p a q.',
-      gate: 'Lleva la distribución de $p$ a $q(x)q(y)$ y mira qué relación entre síntomas se pierde.',
+      say: 'La **aproximación de campo medio** representa la distribución conjunta como un producto de distribuciones para cada variable. $q(x,y)=q(x)q(y)$ se lee «cu de equis, ye es igual a cu de equis por cu de ye».\n\nAl multiplicar se tratan los síntomas como independientes, lo que simplifica los cálculos. En este ejemplo se usan las marginales de cada síntoma.',
+      gate: 'Explora el paso de la distribución conjunta al producto de las marginales. Arrastra el control hasta obtener la distribución por partes y observa cómo cambia la diagonal.',
       after:
-        'Al factorizar se pierde la relación entre los síntomas. Ese es el precio del campo medio, a cambio de cuentas mucho más simples.',
+        'Cada celda queda en 0,25 y la probabilidad de coincidencia baja de 0,8 a 0,5. El producto conserva las marginales de 0,5, pero pierde la relación entre los síntomas.',
       board: {
         label: 'Campo medio',
         tex: '\\p{1}{q(x,y)}=\\p{2}{q(x)\\,q(y)}',
@@ -177,7 +177,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ahora cada celda vale 0,25. Mira la diagonal.',
+      say: 'En la distribución por partes, cada celda vale 0,25 porque se multiplican dos probabilidades de 0,5. Para obtener la probabilidad de coincidencia, suma las dos celdas de la diagonal. No confundas una sola celda con toda la diagonal.',
       ask: {
         prompt: 'Con la aproximación por partes, ¿cuánto vale P(x = y)?',
         options: ['0,5', '0,8', '0,25'],
@@ -192,7 +192,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La KL mide el costo: unas 0,32 bits por caso. Es la mejor aproximación por partes, y aun así no ve la relación.',
+      say: 'La **divergencia KL** mide aquí el desajuste de $q$ respecto de $p$: suma, para cada celda, $q\\log_2(q/p)$. Se lee «divergencia ka ele de cu respecto de pe» y requiere que $p$ sea positiva donde $q$ lo es.\n\nEn este caso vale aproximadamente 0,32 bits por caso. Esta es la mejor aproximación por partes según esa medida, aunque pierde la relación entre síntomas.',
       board: {
         label: 'Costo',
         tex: '\\p{1}{KL(q\\Vert p)}=\\p{2}{\\sum q\\log_2\\tfrac qp}\\p{3}{\\approx0{,}32}',
@@ -332,7 +332,7 @@ export const level: LevelSpec = {
       Scene: SymptomsDemo,
       beats: [
         {
-          say: 'En la Clínica, fiebre y tos aparecen juntas en el 40 % de los casos. El lector usa las marginales por separado.',
+          say: 'En la Clínica, fiebre y tos aparecen juntas en el 40 % de los casos. El lector usa las marginales por separado; calculemos qué probabilidad asigna a que aparezcan ambas.',
           ask: {
             prompt: 'Para el lector, ¿qué probabilidad tiene «fiebre y tos»?',
             options: ['0,25', '0,40', '0,50'],
@@ -342,7 +342,7 @@ export const level: LevelSpec = {
           note: { label: 'Fiebre y tos', tex: 'q(1,1)=0{,}25\\neq p(1,1)=0{,}40' },
         },
         {
-          say: 'El lector conserva cuánto aparece cada síntoma.',
+          say: 'El lector conserva cuánto aparece cada síntoma. Revisa qué información sobre la combinación de ambos queda fuera.',
           ask: {
             prompt: '¿Qué pierde la aproximación por partes?',
             options: ['La relación entre los síntomas', 'Cuánto aparece cada síntoma', 'Nada'],
