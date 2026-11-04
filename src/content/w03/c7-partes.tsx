@@ -205,7 +205,7 @@ const lesson: LessonStep = {
   Scene: PartsLesson,
   beats: [
     {
-      say: 'La regla del producto, integrada a ambos lados y reordenada, da una herramienta para integrar productos.',
+      say: 'La **integración por partes** transforma una integral de un producto usando la regla de derivación del producto. Si $u$ y $v$ son funciones derivables con derivadas continuas, $du=u\'\\,dx$ y $dv=v\'\\,dx$.\n\nSe lee «integral de u diferencial de v»: es $uv$ menos la integral de $v$ diferencial de $u$. Sirve cuando la nueva integral es más fácil; conserva el signo menos y agrega la constante en integrales indefinidas.',
       dur: 3.6,
       board: [
         {
@@ -221,8 +221,9 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'En una imagen: el rectángulo grande menos el chico se reparte en dos regiones. Una es $\\int u\\,dv$; la otra, $\\int v\\,du$.',
-      gate: 'Arrastra el extremo b hasta u = 3: las dos áreas cambian y siguen sumando uv.',
+      say: 'En esta curva creciente, las regiones representan $\\int u\\,dv$ y $\\int v\\,du$. La expresión $[uv]_a^b$ se lee «u por v evaluado entre a y b» y significa $u_bv_b-u_av_a$.\n\nAl integrar entre límites, también se evalúa el producto en ambos extremos. Restar solo la integral y olvidar el extremo inferior del producto da otro resultado.',
+      gate: 'Arrastra el extremo b hasta $u=3$ o menos. Observa cómo cambian las dos áreas y su suma.',
+      after: 'En $u=3$, las áreas valen 2,04 y 2,08, y su suma es 4,12; si llegaste más abajo, mira los valores que aparecen. La suma coincide con la diferencia entre los productos de los extremos y permite calcular una integral a partir de la otra.',
       board: {
         label: 'Con límites',
         tex: '\\int_a^b u\\,dv=\\p{1}{\\big[uv\\big]_a^b}-\\p{2}{\\int_a^b v\\,du}',
@@ -230,7 +231,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ejemplo: $\\int x\\,e^x\\,dx$. Conviene que $u$ sea lo que se **simplifica al derivar** ($x\\to1$) y $dv$ lo que se **sabe integrar** ($e^x$).',
+      say: 'Para integrar $x e^x$, elegimos $u=x$, que se simplifica al derivar, y $dv=e^x\\,dx$, que sabemos integrar. Así, $du=dx$ y $v=e^x$.\n\nPor partes queda $xe^x-\\int e^x\\,dx$, cuya integral restante es más sencilla. El resultado es $(x-1)e^x+C$; $C$ representa cualquier constante.',
       dur: 4,
       board: [
         { tex: 'u=x,\\ du=dx;\\qquad dv=e^x dx,\\ v=e^x' },
@@ -241,7 +242,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Con un logaritmo, la elección cambia: $\\ln x$ es difícil de integrar pero fácil de derivar.',
+      say: 'En $\\int x\\ln x\\,dx$, el **logaritmo natural** $\\ln x$ se lee «logaritmo natural de x» y está definido para $x>0$. Su derivada es $1/x$. Para aplicar integración por partes, conviene buscar un factor que se simplifique al derivar y dejar en $dv$ uno que se pueda integrar.',
       ask: {
         prompt: 'En $\\int x\\ln x\\,dx$, ¿qué conviene llamar $u$?',
         options: ['$u=\\ln x$', '$u=x$', 'Da lo mismo'],
@@ -451,7 +452,7 @@ export const level: LevelSpec = {
       Scene: PumpDemo,
       beats: [
         {
-          say: 'El caudal de la bomba en miles de m³/h. Sube rápido, alcanza su máximo a las 2 h y luego decae.',
+          say: 'El caudal de la bomba está en miles de m³/h: sube rápido, alcanza su máximo a las 2 h y luego decae. Necesitamos integrar el caudal entre las 00:00 y las 04:00 para saber cuánto bombeó en ese intervalo.',
           ask: {
             prompt: 'Para integrar $4t\\,e^{-t/2}$ por partes, ¿qué conviene tomar como $u$?',
             options: ['$u=4t$', '$u=e^{-t/2}$', '$u=4t\\,e^{-t/2}$'],
@@ -462,7 +463,7 @@ export const level: LevelSpec = {
           note: { label: 'Elección', tex: 'u=4t,\\quad dv=e^{-t/2}dt,\\quad v=-2e^{-t/2}' },
         },
         {
-          say: 'Aplicando la fórmula con límites de 0 a 4 horas.',
+          say: 'Aplicando integración por partes entre 0 y 4 horas, la bomba sacó aproximadamente 9,5 mil m³. Ese volumen tampoco aparece en el informe.',
           dur: 1.8,
           note: {
             label: 'Bombeo en 4 h',
