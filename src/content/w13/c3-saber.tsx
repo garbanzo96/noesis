@@ -160,7 +160,7 @@ const lesson: LessonStep = {
   Scene: InfoLesson,
   beats: [
     {
-      say: 'Con el contrato de antes y p = 0,2, lo mejor sin saber nada es comprar: vale 4.',
+      say: 'Sin información, debes elegir antes de saber si habrá brote. Comprar tiene un valor esperado de $0{,}2\\cdot100+0{,}8\\cdot(-20)=4$; no comprar vale 0. El **valor esperado** es el promedio ponderado de los resultados según sus probabilidades. Para elegir, compara ambos valores: comprar es la mejor opción y vale 4.',
       board: {
         label: 'Sin información',
         tex: '\\p{1}{\\max(4;\\,0)}=\\p{2}{4}',
@@ -168,10 +168,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Imagina que alguien te dice el resultado antes de decidir. El árbol cambia de orden: primero el azar, después la decisión.',
-      gate: 'Mueve la perilla hasta «saber antes» y mira cómo cambia el orden del árbol.',
+      say: 'La **información perfecta** revela con certeza si habrá brote antes de decidir. Esto permite elegir una acción para cada resultado posible. En el árbol, cambiar el momento en que recibes la información cambia el orden del azar y la decisión.',
+      gate: 'Explora el cambio de orden: mueve la perilla hasta el extremo «saber antes». ¿Qué aparece primero en el árbol cuando conoces el resultado antes de decidir?',
       after:
-        'Sabiendo antes solo compras con brote: el valor sube de 4 a 20. Esos 16 son lo máximo que vale el dato.',
+        'El azar queda antes de la decisión. Con brote conviene comprar y sin brote no comprar: el valor esperado sube de 4 a 20.',
       board: {
         label: 'Con información',
         tex: '\\p{1}{0{,}2\\cdot\\max(100;0)}\\p{2}{+0{,}8\\cdot\\max(-20;0)}=\\p{3}{20}',
@@ -179,7 +179,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Sabiendo antes, compras solo cuando paga y te abstienes cuando pierde.',
+      say: 'Con información perfecta, compras si hay brote y no compras si no lo hay. El valor esperado de esas decisiones es $0{,}2\\cdot100+0{,}8\\cdot0=20$.\n\nEl **valor esperado de la información perfecta**, o EVPI, se lee «e ve pe i» y mide cuánto aumenta el valor esperado al saber el resultado antes de elegir. Para calcularlo, resta el valor sin información al valor con información; usar solo este último confunde el valor del dato con el valor total de la decisión.',
       ask: {
         prompt: '¿Cuánto vale saber el resultado antes de decidir?',
         options: ['16 por contrato', '20 por contrato', '4 por contrato'],
@@ -194,7 +194,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El valor de la información nunca es negativo: con ella siempre puedes elegir lo mismo que sin ella.',
+      say: 'El valor esperado de la información perfecta nunca es negativo. La notación $\\ge 0$ se lee «mayor o igual que cero». Con información puedes elegir las mismas acciones que sin ella, así que la mejor decisión informada no puede tener menor valor esperado. Puede valer cero si saber el resultado no cambia la mejor decisión.',
       board: {
         label: 'Propiedad',
         tex: '\\p{1}{\\text{EVPI}\\ge0}',
@@ -202,7 +202,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Por eso un anuncio filtrado vale plata: quien lo conoce un día antes gana 16 por contrato que el mercado no puede ganar.',
+      say: 'En este ejemplo, saber si habrá brote antes de decidir aumenta el valor esperado en 16 por contrato. Para 1 000 contratos en las mismas condiciones, multiplica $1\\,000\\cdot16=16\\,000$. Esa cifra es un aumento esperado, no una ganancia garantizada: los resultados efectivos dependen de si ocurre el brote.',
       board: {
         label: 'Mil contratos',
         tex: '\\p{1}{1000\\cdot16}=\\p{2}{16\\,000}',
@@ -348,7 +348,7 @@ export const level: LevelSpec = {
       Scene: PriceDemo,
       beats: [
         {
-          say: 'Un informante vende el boletín sanitario un día antes a 10 por contrato.',
+          say: 'Un informante vende el boletín sanitario un día antes a 10 por contrato. Comparemos ese precio con el valor esperado de saber si habrá brote antes de operar.',
           ask: {
             prompt: '¿Le conviene comprarlo a quien opera estos contratos?',
             options: [
@@ -362,7 +362,7 @@ export const level: LevelSpec = {
           note: { label: 'Precio del dato', tex: '\\text{EVPI}=16>10' },
         },
         {
-          say: 'La cuenta sospechosa operó 500 contratos con el anuncio adelantado.',
+          say: 'La cuenta sospechosa operó 500 contratos con el anuncio adelantado. Calculemos cuánto aumentó el valor esperado de sus decisiones al saber antes.',
           ask: {
             prompt: '¿Cuánto valió para ella saber antes?',
             options: ['8 000', '10 000', '2 000'],
