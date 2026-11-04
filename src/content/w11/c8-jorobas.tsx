@@ -151,7 +151,7 @@ const lesson: LessonStep = {
   Scene: HumpsLesson,
   beats: [
     {
-      say: 'El posterior p tiene dos **modas**, o jorobas: sano y enfermo. La familia que probaremos tiene solo tres candidatas, cada una con una sola joroba.',
+      say: 'El **posterior** $p$ reparte la probabilidad entre los estados después de considerar los datos. Una **moda** es un estado cuya probabilidad forma un máximo local: aquí sano y enfermo tienen 0,45 cada uno, separados por dudoso con 0,1.\n\nEsta distribución tiene dos jorobas. La familia que probaremos contiene solo tres aproximaciones, cada una con una joroba.',
       board: {
         label: 'Dos jorobas',
         tex: '\\p{1}{p}=\\p{2}{(0{,}45;0{,}1;0{,}45)}',
@@ -159,7 +159,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'q₁ = (0,8; 0,2; 0) se queda del lado sano; q₂ = (0,1; 0,8; 0,1) se concentra en el valle. KL(q ‖ p) promedia según q: poner mucha probabilidad en ese valle cuesta más.',
+      say: 'La **divergencia KL** mide el desajuste de $q$ respecto de $p$: suma $q_i\\log_2(q_i/p_i)$ para cada estado. Se lee «ka ele de cu respecto de pe» y usa $q$ como peso; un término con $q_i=0$ aporta cero.\n\nAquí $q_1=(0{,}8;0{,}2;0)$ se concentra en sano y $q_2=(0{,}1;0{,}8;0{,}1)$ en el valle. Con logaritmos en base 2, sus costos son aproximadamente 0,8641 y 1,9660 bits: poner mucho peso donde $p$ es baja cuesta más.',
       board: [
         { label: 'La dirección del promedio', tex: KL_TEX },
         {
@@ -175,10 +175,10 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Agrega q₃ = (0; 0,2; 0,8), reflejada hacia enfermo. Compara las tres: las dos de los extremos empatan en el mínimo de esta familia.',
-      gate: 'Busca la candidata con menor $KL(q\\Vert p)$. ¿Hay una sola?',
+      say: 'La familia $\\mathcal Q$ se lee «caligráfica cu» y contiene las tres candidatas permitidas. La tercera, $q_3=(0;0{,}2;0{,}8)$, refleja $q_1$ hacia enfermo. La expresión $q^*\\in\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)$ se lee «cu estrella pertenece al conjunto de candidatas que minimizan la KL»; la comparación se limita a esta familia.',
+      gate: 'Mueve la perilla desde la candidata central y busca una de menor $KL(q\\Vert p)$. Mira el costo en bits.',
       after:
-        'Las dos de los extremos empatan en el mínimo: cada una se queda con una joroba. Esta dirección de la KL castiga poner $q$ donde $p$ casi no tiene masa.',
+        'Las candidatas laterales $q_1$ y $q_3$ empatan con aproximadamente 0,8641 bits, frente a 1,9660 de $q_2$. Cada una conserva una joroba: esta dirección castiga poner mucho peso de $q$ donde $p$ es baja.',
       board: {
         label: 'Elegir entre las tres',
         tex: '\\p{1}{\\mathcal Q}=\\p{2}{\\{q_1,q_2,q_3\\}},\\quad\\p{3}{ q^*\\in\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',
@@ -190,7 +190,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Invertir la KL cambia los pesos. En KL(p ‖ q₁), los enfermos pesan 0,45 y q₁ les da cero: el costo es infinito; en KL(q₁ ‖ p), ese término aporta cero.',
+      say: 'La KL tiene dirección: al invertir sus argumentos también cambian los pesos del promedio. $KL(p\\Vert q_1)$ se lee «ka ele de pe respecto de cu uno» y usa $p$ como peso.\n\nSi $p_i>0$ y $q_i=0$, esa KL es infinita: aquí enfermo tiene $p=0{,}45$ y $q_1=0$. En la dirección $KL(q_1\\Vert p)$, el mismo estado aporta cero porque su peso $q_1$ es cero.',
       board: {
         label: 'Al invertir la dirección',
         tex: '\\p{1}{p_i>0,\\ q_i}=\\p{2}{0}\\quad\\Rightarrow\\quad\\p{3}{ KL(p\\Vert q)}=\\p{4}{+\\infty}',
@@ -203,7 +203,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El Laboratorio se quedó con q₃, del lado enfermo. Mira qué pasa con la otra joroba del posterior.',
+      say: 'El Laboratorio guardó $q_3=(0;0{,}2;0{,}8)$, concentrada en enfermo. Las dos candidatas laterales empatan, así que la KL por sí sola no obliga a elegir ese lado. Compara las barras de $q_3$ con las del posterior para identificar qué parte queda fuera.',
       ask: {
         prompt: '¿Qué joroba ignora el Laboratorio si su q se queda con «enfermo»?',
         options: ['La de los sanos', 'La de los enfermos', 'Ninguna: q copia ambas'],
@@ -439,7 +439,7 @@ export const level: LevelSpec = {
       Scene: RecipeDemo,
       beats: [
         {
-          say: 'El archivo usa q₃ = (0; 0,2; 0,8). El control conserva p = (0,45; 0,1; 0,45).',
+          say: 'El archivo usa $q_3=(0;0{,}2;0{,}8)$. El control conserva $p=(0{,}45;0{,}1;0{,}45)$. Revisa qué pasa si hacemos la cuenta en la dirección inversa.',
           ask: {
             prompt: 'Si inviertes la cuenta, ¿cuánto vale KL(p ‖ q₃)?',
             options: ['Infinita', '0,86 bits', '0 bits'],
@@ -453,7 +453,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El archivo conserva la joroba enferma. El posterior es simétrico y la candidata reflejada q₁ conserva la sana.',
+          say: 'El archivo conserva la joroba enferma. El posterior es simétrico y la candidata reflejada $q_1$ conserva la sana. Hay que revisar si la comparación de KL exigía elegir el lado enfermo.',
           ask: {
             prompt: '¿La menor KL(q ‖ p) obligaba a elegir la joroba enferma?',
             options: [
