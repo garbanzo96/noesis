@@ -212,58 +212,55 @@ const rnight = (t: number) => 2.2 * Math.cos(((t - 18) * Math.PI) / 12) - 0.4;
 const PD = plane([12, 36], [-3, 3], { x: 320, y: 70, w: 860, h: 330 });
 const PV = plane([12, 36], [-12, 22], { x: 320, y: 470, w: 860, h: 300 });
 
-function LakeDemo({ beats, answer }: DemoProps) {
+function LakeDemo({ beats, unlock }: DemoProps) {
   const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [hour, setHour] = useState(18);
+  const [rate, setRate] = useState(0);
   const V = (s: number) => integrate(rnight, 12, s, 60);
   const peak = 18 + 12 * (Math.acos(0.4 / 2.2) / Math.PI);
+  const onHour = useSvgDrag(svg, (px) => {
+    const h = Math.round(clamp(PD.inv(px, 0)[0], 12, 36) * 10) / 10;
+    setHour(h);
+    if (beat === 0 && Math.abs(h - peak) <= 0.5) unlock();
+  });
+  const onRate = useSvgDrag(svg, (_px, py) => {
+    const value = Math.round(clamp(PD.inv(0, py)[1], -3, 3) * 10) / 10;
+    setRate(value);
+    if (beat === 1 && Math.abs(value - rnight(27)) <= 0.15) unlock();
+  });
   return (
-    <Stage>
-      <Axes
-        P={PD}
-        xTicks={[12, 18, 24, 30, 36]}
-        yTicks={[-2, 2]}
-        xLabel="\text{hora}"
-        yLabel="r"
-        grid
-        tickLabels={false}
-      />
+    <Stage ref={svg}>
+      <Axes P={PD} xTicks={[12, 18, 24, 30, 36]} yTicks={[-2, 2]} xLabel="" yLabel="r" grid tickLabels={false} />
       {[12, 18, 24, 30, 36].map((h) => (
-        <Cap key={h} x={PD.x(h)} y={PD.y(-3) + 22} size={14} color={C.dim}>
+        <Cap key={h} x={PD.x(h)} y={PD.y(-3) + 28} size={24} color={C.dim}>
           {hhmm(h % 24)}
         </Cap>
       ))}
       <AreaUnder P={PD} f={rnight} a={12} b={36} pos={C.green} neg={C.red} opacity={0.35} />
       <Curve P={PD} f={rnight} a={12} b={36} color={C.cyan} width={3.5} />
-      <Axes
-        P={PV}
-        xTicks={[12, 18, 24, 30, 36]}
-        yTicks={[-10, 10, 20]}
-        xLabel=""
-        yLabel="V"
-        grid
-        tickLabels={false}
-      />
+      <Axes P={PV} xTicks={[12, 18, 24, 30, 36]} yTicks={[-10, 10, 20]} xLabel="" yLabel="V" grid tickLabels={false} />
       <Curve P={PV} f={V} a={12} b={36} color={C.amber} width={4} />
-      {(beat >= 1 || answer !== null) && (
+      {beat === 0 && (
+        <>
+          <Line a={PD.pt(hour, -3)} b={PV.pt(hour, V(hour))} color={C.text} dashed width={2} />
+          <Dot x={PV.x(hour)} y={PV.y(V(hour))} r={10} color={C.amber} />
+          <Knob x={PD.x(hour)} y={PD.y(-3) + 55} onPointerDown={onHour} cursor="ew-resize" label={hhmm(hour % 24)} />
+        </>
+      )}
+      {beat >= 1 && (
         <Group opacity={1}>
           <Dot x={PV.x(peak)} y={PV.y(V(peak))} r={11} color={C.green} />
           <Line a={PD.pt(peak, -3)} b={PV.pt(peak, V(peak))} color={C.green} dashed width={2} />
-          <Cap x={PV.x(peak) + 16} y={PV.y(V(peak)) - 24} size={18} color={C.green} anchor="left">
-            {hhmm(peak % 24)}
-          </Cap>
+          <Cap x={PV.x(peak) + 16} y={PV.y(V(peak)) - 24} size={24} color={C.green} anchor="left">{hhmm(peak % 24)}</Cap>
         </Group>
       )}
       {beat === 1 && (
         <>
-          <Dot x={PD.x(27)} y={PD.y(rnight(27))} r={9} color={C.amber} />
-          <Cap
-            x={PD.x(27) + 14}
-            y={PD.y(rnight(27)) + 26}
-            size={18}
-            color={C.amber}
-            anchor="left"
-            tex={`r(03{:}00)=${dec(rnight(27), 2).replace(',', '{,}')}`}
-          />
+          <Line a={PD.pt(27, -3)} b={PD.pt(27, 3)} color={C.text} dashed width={2} />
+          <Knob x={PD.x(27)} y={PD.y(rate)} onPointerDown={onRate} cursor="ns-resize" label="r" />
+          <Cap x={1250} y={180} size={26} color={C.amber} anchor="left">{`Ritmo marcado: ${dec(rate, 1)}`}</Cap>
+          <Cap x={1250} y={220} size={24} color={C.text} anchor="left">mil m³ por hora</Cap>
         </>
       )}
     </Stage>
@@ -498,31 +495,26 @@ export const level: LevelSpec = {
       Scene: LakeDemo,
       beats: [
         {
-          say: 'Arriba está el ritmo neto desde el mediodía hasta el mediodía siguiente; abajo, el cambio de volumen acumulado desde el mediodía. Buscamos cuándo el lago estuvo más lleno para saber cuándo empezó a perder agua.',
-          ask: {
-            prompt: '¿A qué hora estuvo más lleno el lago?',
-            options: [
-              'Cuando el ritmo neto pasó de positivo a negativo',
-              'Cuando el ritmo neto fue máximo',
-              'A medianoche',
-            ],
-            answer: 0,
-            explain:
-              'Mientras entra más de lo que sale, el volumen sube. Cuando el balance se vuelve negativo, empieza a bajar: ahí está el máximo, poco después de las 23:00.',
-          },
+          say: 'Arriba está el ritmo neto desde el mediodía hasta el mediodía siguiente; abajo, el cambio de volumen acumulado desde el mediodía. ¿A qué hora estuvo más lleno el lago?',
+          gate: 'Mueve el marcador hasta la hora en que el volumen alcanza su máximo. Fíjate en cuándo el ritmo deja de sumar y empieza a restar.',
+          after: 'El volumen alcanza su máximo cerca de las 23:18, cuando el ritmo neto pasa de positivo a negativo. Desde ahí empieza a bajar.',
           note: {
             label: 'Máximo del volumen',
             body: 'En el instante en que el ritmo neto cruza de + a −.',
           },
         },
         {
-          say: 'A las 03:00 la pendiente de la curva de volumen es el ritmo neto de ese instante. Su valor negativo indica que a esa hora el lago pierde agua.',
-          dur: 1.8,
+          say: 'A las 03:00, ¿cuál es el ritmo de cambio del volumen? La pendiente de la curva de volumen coincide con el ritmo neto de ese instante.',
+          gate: 'En la línea de las 03:00, mueve el marcador vertical hasta el valor del ritmo que muestra la curva superior.',
+          after: 'A las 03:00 el ritmo es aproximadamente −1,96 mil m³ por hora. El lago está perdiendo agua.',
           note: {
             label: 'Pendiente del volumen',
             tex: "V'(t)=r(t)",
             body: 'Teorema fundamental: derivar lo acumulado devuelve el ritmo.',
           },
+        },
+        {
+          say: 'El máximo cerca de las 23:18 marca el inicio de la baja. A las 03:00 el ritmo sigue siendo negativo, así que el volumen continúa disminuyendo.',
         },
       ],
     },
