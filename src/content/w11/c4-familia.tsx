@@ -144,7 +144,7 @@ const lesson: LessonStep = {
   Scene: FamilyLesson,
   beats: [
     {
-      say: 'Una **familia variacional** limita las formas que puede tomar q, nuestra aproximación al posterior p. Aquí repartimos entre x₀ y x₁; x₂ queda siempre con probabilidad cero.',
+      say: 'Una **familia variacional** es un conjunto de distribuciones permitidas para aproximar el posterior $p$. Aquí $q(a)=(a;1-a;0)$ se lee «cu de a» y reparte la probabilidad entre $x_0$ y $x_1$.\n\nPara que sea una distribución, $a$ debe estar entre 0 y 1, incluidos ambos extremos; $x_2$ siempre recibe cero. Restringir la familia permite ajustar la aproximación con un solo parámetro.',
       board: {
         label: 'La familia de dos valores',
         tex: '\\p{1}{p}=\\p{2}{(\\tfrac14;\\tfrac12;\\tfrac14)},\\quad\\p{3}{ q(a)}=\\p{4}{(a;1-a;0)},\\quad\\p{5}{ 0\\le a\\le1}',
@@ -158,7 +158,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **divergencia KL** suma q por el logaritmo de q/p en cada valor. Usamos base 2, así que medimos en bits; cuando q vale cero, su aporte es cero.',
+      say: 'La **divergencia KL** de $q$ respecto de $p$ suma $q_i\\log_2(q_i/p_i)$ para cada valor. Se lee «ka ele de cu respecto de pe» y mide el desajuste en bits cuando el logaritmo tiene base 2.\n\nSi $q_i=0$, su aporte es cero; si $q_i>0$ y $p_i=0$, la KL es infinita. La suma nunca es negativa, aunque un término individual sí puede serlo. Intercambiar $p$ y $q$ cambia la cuenta.',
       board: {
         label: 'Medir el desajuste',
         tex: `${KL_TEX}\\ge0`,
@@ -166,7 +166,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Prueba q = (1/2, 1/2, 0). Las razones q/p de los dos valores que cuentan son 2 y 1.',
+      say: 'Para $q=(1/2;1/2;0)$, las razones $q_i/p_i$ de los dos valores que cuentan son 2 y 1. Calcula cada logaritmo en base 2, multiplícalo por su $q_i$ y suma los aportes. El tercer término aporta cero porque su $q_i$ es cero.',
       ask: {
         prompt: '¿Cuánto vale KL(q ‖ p) con esta q?',
         options: ['0,5 bits', '1 bit', '0 bits'],
@@ -177,10 +177,10 @@ const lesson: LessonStep = {
       board: { label: 'Dos términos que cuentan', tex: '\\tfrac12\\log_2 2+\\tfrac12\\log_2 1' },
     },
     {
-      say: 'Compara tres recetas de la misma familia. Mueve a entre 1/4, 1/3 y 1/2 y elige la que deja la menor KL.',
-      gate: 'Compara las tres recetas y quédate con la que deja la menor KL.',
+      say: 'La notación $q^*=\\arg\\min_{q\\in\\mathcal Q} KL(q\\Vert p)$ se lee «cu estrella es la distribución de la familia cu que minimiza la KL de cu respecto de pe». Es la mejor aproximación permitida según esta medida. Aquí puedes comparar tres valores de $a$ y observar la KL de cada uno.',
+      gate: 'Mueve la perilla y compara la KL de las tres opciones. ¿Cuál deja el menor desajuste?',
       after:
-        'La mejor es $a=\\tfrac13$: ninguna otra candidata se acerca más. Aproximar es elegir la mejor de una familia.',
+        'Con $a=\\tfrac13$, la KL es aproximadamente $0{,}415$ bits, menor que en las otras dos opciones. Es también el mínimo de toda esta familia, aunque sigue siendo positivo.',
       board: {
         label: 'Elegir dentro de la familia',
         tex: '\\p{1}{q^*}=\\p{2}{\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',
@@ -188,7 +188,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La mejor q reparte 1/3 y 2/3 entre los dos valores permitidos. Todavía queda un desajuste: esta familia nunca puede copiar la probabilidad de x₂.',
+      say: 'La mejor aproximación es $q^*=(1/3;2/3;0)$ y su KL es $\\log_2(4/3)\\approx 0{,}415$ bits. Ese valor es el mínimo para toda la familia, no solo para las tres opciones comparadas.\n\nLa KL vale cero exactamente cuando $q=p$ en todos los valores. Aquí eso es imposible: $q$ siempre asigna cero a $x_2$, mientras $p$ le asigna $1/4$.',
       board: {
         label: 'El límite del molde',
         tex: '\\p{1}{q^*}=\\p{2}{(\\tfrac13;\\tfrac23;0)},\\quad\\p{3}{ KL(q^*\\Vert p)}=\\p{4}{\\log_2\\tfrac43}\\approx\\p{5}{0{,}415}',
@@ -399,7 +399,7 @@ export const level: LevelSpec = {
       Scene: FamilyDemo,
       beats: [
         {
-          say: 'El control pequeño guarda p = (1/4, 1/2, 1/4). La receta firmada usa q = (1/2, 1/2, 0).',
+          say: 'El control pequeño guarda $p=(1/4;1/2;1/4)$. Mi receta firmada usa $q=(1/2;1/2;0)$. Calcula la KL para medir cuánto se aparta la receta del control.',
           ask: {
             prompt: '¿Qué desajuste tiene la receta, medido con KL(q ‖ p)?',
             options: ['0,5 bits', '0 bits', '1 bit'],
@@ -414,7 +414,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La familia del lector permite cambiar a en q(a) = (a, 1 − a, 0).',
+          say: 'El molde del lector permite cambiar $a$ en $q(a)=(a;1-a;0)$. Revisa si algún ajuste puede copiar los tres valores del control.',
           ask: {
             prompt: '¿Puede algún ajuste de a copiar este p exactamente?',
             options: [
