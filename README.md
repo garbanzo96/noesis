@@ -21,8 +21,10 @@ administrador ni datos personales.
 Los instaladores todavía no llevan firma de pago, así que el sistema va a mostrar un aviso la primera vez:
 
 - **Windows**: en «Windows protegió tu PC», elige «Más información» y después «Ejecutar de todas formas».
-- **Mac**: arrastra NOESIS a Aplicaciones y ábrelo. Cuando el sistema lo bloquee, entra a Ajustes del
-  Sistema, Privacidad y seguridad, y elige «Abrir igualmente».
+- **Mac**: arrastra NOESIS a Aplicaciones. En macOS 14 o anterior, haz clic derecho sobre la app y elige
+  «Abrir». En macOS 15 o posterior, ábrela una vez y después entra a Ajustes del Sistema, Privacidad y
+  seguridad, y elige «Abrir igualmente». Si el sistema dice que la app está dañada, ejecuta en Terminal
+  `xattr -cr /Applications/NOESIS.app`.
 - **Linux**: dale permiso de ejecución al archivo (`chmod +x NOESIS-Linux.AppImage`) y ábrelo.
 
 Para actualizar, descarga la versión nueva e instálala encima: tu progreso se mantiene.
