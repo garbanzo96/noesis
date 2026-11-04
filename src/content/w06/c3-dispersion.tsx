@@ -297,41 +297,58 @@ const lesson: LessonStep = {
 const NORTE = [12, 25, 18, 30, 15, 22, 28, 10];
 const CERRO = [20, 19, 21, 20, 20, 21, 19, 20];
 
-function TwoClinics({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
+function TwoClinics({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [range, setRange] = useState(14);
+  const unlocked = useRef(false);
   const XC = lineMap(5, 35, 300, 1100);
-  const showS = beat >= 2 || (beat === 1 && answer !== null);
+  const XR = lineMap(0, 30, 300, 1100);
+  useEffect(() => {
+    setRange(14);
+    unlocked.current = false;
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0 && beat !== 1) return;
+    const next = clamp(((x - 300) / 800) * 30, 0, 30);
+    setRange(next);
+    const target = beat === 0 ? 20 : 2;
+    if (!unlocked.current && Math.abs(next - target) <= 0.6) {
+      unlocked.current = true;
+      unlock();
+    }
+  });
+  const showS = beat >= 3 || (beat === 2 && answer !== null);
   return (
-    <Stage>
+    <Stage ref={svg}>
       {[NORTE, CERRO].map((xs, i) => {
         const s = sd(xs);
+        const y = 330 + i * 270;
         return (
-          <g key={i} opacity={beat === 0 ? clamp(at(0) * 2 - i * 0.5, 0, 1) : 1}>
+          <g key={i}>
             {showS && (
-              <rect
-                x={XC(20 - s)}
-                y={200 + i * 270}
-                width={XC(20 + s) - XC(20 - s)}
-                height={130}
-                fill={C.violet}
-                opacity={0.18}
-              />
+              <rect x={XC(20 - s)} y={y - 130} width={XC(20 + s) - XC(20 - s)} height={130} fill={C.violet} opacity={0.18} />
             )}
-            <DotPlot X={XC} y={330 + i * 270} xs={xs} r={12} color={i ? C.magenta : C.cyan} />
-            <NumberLine X={XC} y={340 + i * 270} lo={5} hi={35} step={5} />
-            <Cap x={300} y={190 + i * 270} size={20} color={i ? C.magenta : C.cyan} anchor="left">
+            <DotPlot X={XC} y={y} xs={xs} r={12} color={i ? C.magenta : C.cyan} />
+            <NumberLine X={XC} y={y + 10} lo={5} hi={35} step={5} />
+            <Cap x={300} y={y - 140} size={24} color={i ? C.magenta : C.cyan} anchor="left">
               {i ? 'Clínica del Cerro' : 'Clínica Norte'}
             </Cap>
-            <Cap
-              x={1330}
-              y={290 + i * 270}
-              size={22}
-              color={C.text}
-              tex={`\\bar x=${num(mean(xs))}${showS ? `,\\ \\sigma\\approx${num(s, 1)}` : ''}`}
-            />
+            <Cap x={1330} y={y - 40} size={24} color={C.text}
+              tex={`\\bar x=${num(mean(xs))}${showS ? `,\\ \\sigma\\approx${num(s, 1)}` : ''}`} />
+
           </g>
         );
       })}
+      {(beat === 0 || beat === 1) && (
+        <>
+          <NumberLine X={XR} y={760} lo={0} hi={30} step={5} />
+          <Knob x={XR(range)} y={760} color={C.amber} axis="x" onPointerDown={drag} />
+          <Cap x={1330} y={760} size={24} color={C.amber}>
+            Rango: {Math.round(range)} dosis
+          </Cap>
+        </>
+      )}
     </Stage>
   );
 }
@@ -506,9 +523,15 @@ export const level: LevelSpec = {
       Scene: TwoClinics,
       beats: [
         {
-          say: 'Dosis diarias de ocho días en cada clínica.',
-          dur: 2,
+          say: 'Dosis diarias de ocho días en cada clínica. Ambas tienen media 20.',
+          gate: '¿Cuál es el rango de la Clínica Norte? Identifica sus dosis mínima y máxima y marca la diferencia en la escala inferior.',
+          after: 'En la Norte, el mínimo es 10 y el máximo 30. El rango es 20 dosis.',
           note: { label: 'Misma media', tex: '\\bar x_N=\\bar x_C=20' },
+        },
+        {
+          say: 'Compara los extremos del registro del Cerro con los de la Norte.',
+          gate: '¿Cuál es el rango de la Clínica del Cerro? Identifica sus dosis mínima y máxima y marca la diferencia en la escala inferior.',
+          after: 'En el Cerro, el mínimo es 19 y el máximo 21. El rango es 2 dosis, frente a 20 en la Norte.',
         },
         {
           say: 'El promedio no las distingue. La dispersión, sí.',
@@ -516,32 +539,19 @@ export const level: LevelSpec = {
             prompt: '¿Cuál tiene mayor desviación estándar?',
             options: ['Norte, $\\sigma\\approx7$', 'Cerro, $\\sigma\\approx7$', 'Son iguales'],
             answer: 0,
-            explain:
-              'En la Norte las desviaciones van de $-10$ a $+10$: $\\sigma\\approx6{,}9$. En el Cerro casi todas son 0 o $\\pm1$: $\\sigma\\approx0{,}7$.',
+            explain: 'En la Norte las desviaciones van de $-10$ a $+10$: $\\sigma\\approx6{,}9$. En el Cerro casi todas son 0 o $\\pm1$: $\\sigma\\approx0{,}7$.',
           },
-          note: {
-            label: 'Desviaciones estándar',
-            tex: '\\sigma_N\\approx6{,}9,\\quad \\sigma_C\\approx0{,}7',
-          },
+          note: { label: 'Desviaciones estándar', tex: '\\sigma_N\\approx6{,}9,\\quad \\sigma_C\\approx0{,}7' },
         },
         {
           say: 'Un registro real cambia de un día a otro: lluvia, feriados, turnos, gente que no llega.',
           ask: {
             prompt: '¿Qué sugiere $\\sigma_C\\approx0{,}7$?',
-            options: [
-              'Que esos días se escribieron a mano para cuadrar con el promedio',
-              'Que la clínica del Cerro es más eficiente',
-              'Nada en particular',
-            ],
+            options: ['Que esos días se escribieron a mano para cuadrar con el promedio', 'Que la clínica del Cerro es más eficiente', 'Nada en particular'],
             answer: 0,
-            explain:
-              'Ocho días seguidos entre 19 y 21 dosis es demasiado regular. Los datos inventados suelen tener muy poca dispersión.',
+            explain: 'Ocho días seguidos entre 19 y 21 dosis es demasiado regular. Los datos inventados suelen tener muy poca dispersión.',
           },
-          note: {
-            label: 'Demasiado parejo',
-            tex: '\\sigma_C\\ll\\sigma_N',
-            body: 'Datos fabricados para que el promedio cuadre.',
-          },
+          note: { label: 'Demasiado parejo', tex: '\\sigma_C\\ll\\sigma_N', body: 'Datos fabricados para que el promedio cuadre.' },
         },
       ],
     },
