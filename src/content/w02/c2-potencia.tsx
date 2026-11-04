@@ -368,7 +368,7 @@ function PowerDemo({ beats, unlock, answer }: DemoProps) {
       {beat === 3 ? (
         <>
           <Tangent P={P} f={E} a={1} m={7} half={0.8} color={C.green} />
-          <Html x={1330} y={260} size={24} anchor="left" color={C.text}>
+          <Html x={380} y={190} size={28} anchor="left" color={C.text}>
             <Tex tex="\dfrac{E(1+h)-E(1)}{h}=7+2h" />
           </Html>
         </>
@@ -376,7 +376,7 @@ function PowerDemo({ beats, unlock, answer }: DemoProps) {
         <>
           <Tangent P={P} f={E} a={1.5} m={9} half={0.7} color={C.green} />
           {answer !== null && (
-            <Html x={1330} y={260} size={24} anchor="left" color={C.green}>
+            <Html x={380} y={190} size={28} anchor="left" color={C.green}>
               <Tex tex="E'(1{,}5)=9\ \tfrac{\text{MWh}}{\text{h}}=9\ \text{MW}" />
             </Html>
           )}

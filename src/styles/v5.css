@@ -1199,6 +1199,13 @@
   }
 }
 
+.sector-review {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 6px;
+  margin: 10px 0;
+}
 /* varios párrafos en la explicación de una clase */
 .console-text {
   white-space: pre-line;

@@ -129,7 +129,7 @@ function Gauge({ x, level, P }: { x: number; level: number; P: Plane }) {
 function TideDemo({ beats, unlock, answer }: DemoProps) {
   const { at, beat } = beats;
   const svg = useRef<SVGSVGElement>(null);
-  const P = plane([0, 24], [0, 5], { x: 560, y: 100, w: 940, h: 600 });
+  const P = plane([0, 24], [0, 5], { x: 560, y: 100, w: 900, h: 600 });
   const [t, setT] = useState(0);
   const [reach, setReach] = useState(0);
   const [c, setC] = useState(1.5);

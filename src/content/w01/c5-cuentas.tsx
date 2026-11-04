@@ -185,10 +185,10 @@ function LedgerDemo({ beats, unlock, answer }: DemoProps) {
         )}
         {beat === 2 && (
           <Group opacity={answer !== null ? 1 : 0.4}>
-            <Html x={800} y={690} size={28} color={C.text}>
+            <Html x={800} y={650} size={28} color={C.text}>
               <Tex tex="\displaystyle\sum_{i=1}^{7}12\,x_i=12\cdot12+12\cdot8+\dots+12\cdot6" />
             </Html>
-            <Html x={800} y={770} size={30} color={answer !== null ? C.green : C.text}>
+            <Html x={800} y={780} size={30} color={answer !== null ? C.green : C.text}>
               <Tex tex="\displaystyle=12\sum_{i=1}^{7}x_i=12\cdot74=888" />
             </Html>
           </Group>

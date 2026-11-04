@@ -13,6 +13,8 @@ export interface LevelRecord {
   attempts: number;
   bestSeconds?: number;
   firstAt?: number;
+  /** wrong conclusions in the last attempt: the map suggests reviewing the cases that cost most */
+  errors?: number;
 }
 export type GameMode = 'adventure' | 'complete';
 export interface Settings {
@@ -104,6 +106,7 @@ export function completeLevel(
     attempts: (prev?.attempts ?? 0) + 1,
     bestSeconds: Math.min(prev?.bestSeconds ?? Infinity, r.seconds),
     firstAt: prev?.firstAt ?? Date.now(),
+    errors: r.errors,
   };
   const uniq = (a: string[], b: string[]) => [...new Set([...a, ...b])];
   return {
@@ -161,6 +164,7 @@ export function validate(raw: unknown): GameState | null {
         attempts: Number(v.attempts) || 0,
         bestSeconds: Number.isFinite(Number(v.bestSeconds)) ? Number(v.bestSeconds) : undefined,
         firstAt: Number(v.firstAt) || undefined,
+        errors: Number(v.errors) || undefined,
       };
     }
   }

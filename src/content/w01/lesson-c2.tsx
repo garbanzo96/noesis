@@ -96,6 +96,8 @@ function FunctionsLesson({ beats, unlock }: DemoProps) {
         <Machine x={800} y={420} glow={t > 0.4 && t < 0.7 ? 1 : 0} />
         {beat === 0 && t < 0.45 && <Token x={inP[0]} y={inP[1]} label={3} color={C.amber} />}
         {beat === 0 && t > 0.6 && <Token x={outP[0]} y={outP[1]} label={9} color={C.green} />}
+        {/* once the machine has worked, the example stays on stage: 3 went in, 9 came out */}
+        {beat === 0 && t >= 1 && <Token x={260} y={420} label={3} color={C.amber} />}
         <Cap x={260} y={330} size={22} color={C.amber}>
           entrada
         </Cap>

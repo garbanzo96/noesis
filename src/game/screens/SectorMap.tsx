@@ -110,6 +110,11 @@ export function SectorMap({
   const focus = sector.levels.find((l) => l.id === focusId)!;
   const stars = sectorStars(game, sector.world);
   const byId = Object.fromEntries(sector.levels.map((l) => [l.id, l]));
+  // the cases that cost most errors last time, at most three
+  const review = sector.levels
+    .filter((l) => (game.levels[l.id]?.errors ?? 0) >= 3)
+    .sort((a, b) => (game.levels[b.id]?.errors ?? 0) - (game.levels[a.id]?.errors ?? 0))
+    .slice(0, 3);
 
   const play = (l: LevelDef, step?: number) => {
     if (['wip', 'locked'].includes(levelState(game, l))) {
@@ -311,6 +316,16 @@ export function SectorMap({
             ★ {stars.got}/{stars.max}
           </span>
         </div>
+        {review.length > 0 && (
+          <div className="sector-review">
+            <span className="eyebrow">PARA REPASAR</span>
+            {review.map((l) => (
+              <button key={l.id} className="btn small ghost" onClick={() => setSelected(l.id)}>
+                {l.code} · {l.subtitle}
+              </button>
+            ))}
+          </div>
+        )}
         <CaseDetail level={focus} play={play} onResources={onResources} />
       </aside>
     </div>
