@@ -259,7 +259,7 @@ const L_SETS: LessonStep = {
   Scene: SetsLesson,
   beats: [
     {
-      say: 'Un **conjunto** es una colección de objetos bien definida. Los objetos se llaman **elementos**. Se escriben entre llaves.',
+      say: 'Un **conjunto** es una colección bien definida: debe poder decidirse si cada objeto pertenece a ella. Sus objetos se llaman **elementos** y se pueden enumerar entre llaves. Aquí $A$ contiene 2, 5, 7 y 11. El orden y las repeticiones no cambian el conjunto.',
       board: {
         label: 'Conjunto',
         tex: 'A=\\{\\p{1}{2},\\ \\p{2}{5},\\ \\p{3}{7},\\ \\p{4}{11}\\}',
@@ -273,7 +273,7 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'Para decir que algo **pertenece** a un conjunto se usa $\\in$; para decir que no, $\\notin$.',
+      say: 'La **pertenencia** indica si un objeto es elemento de un conjunto. $5\\in A$ se lee «5 pertenece a A» y $4\\notin A$, «4 no pertenece a A». Sirve para distinguir los elementos del conjunto de los que quedan fuera. El símbolo relaciona un elemento con un conjunto.',
       board: {
         label: 'Pertenencia',
         tex: '\\p{1}{5\\cC{\\in} A}\\qquad \\p{2}{4\\cR{\\notin} A}',
@@ -281,7 +281,7 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'Los **números reales** son todos los puntos de una recta: enteros, fracciones y también números como $\\sqrt2$ o $\\pi$. Entre dos reales siempre hay otros.',
+      say: 'Los **números reales** corresponden a todos los puntos de la recta real. Incluyen enteros, fracciones y números irracionales como $\\sqrt2$, que se lee «raíz cuadrada de 2», y $\\pi$, que se lee «pi». El símbolo $\\mathbb R$ se lee «los reales». Entre dos reales distintos siempre hay otros, y la recta no tiene huecos.',
       dur: 2.6,
       board: {
         label: 'Números reales',
@@ -290,7 +290,7 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'Un **intervalo** es un tramo completo de la recta: todos los $x$ entre dos extremos. Así se escribe el tramo de 2 a 8, con ambos extremos incluidos.',
+      say: 'Un **intervalo** es un conjunto de números reales que contiene todos los valores entre cualesquiera dos de sus elementos. Sirve para describir rangos sin enumerar cada valor.\n\n$[2,8]$ se lee «de 2 a 8, incluidos ambos extremos»: reúne los reales $x$ que cumplen $2\\le x$ y $x\\le 8$. Los corchetes indican que 2 y 8 también pertenecen al intervalo.',
       dur: 2.8,
       board: {
         label: 'Intervalo cerrado',
@@ -305,10 +305,10 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'Un extremo puede no estar incluido: eso se marca con **paréntesis** en vez de corchete, y en la recta con un círculo hueco.',
-      gate: 'Toca el extremo izquierdo para excluirlo. Deja incluido el derecho.',
+      say: 'Un extremo incluido se marca con **corchete** y un punto lleno; uno excluido, con **paréntesis** y un círculo hueco. Por ejemplo, $[2,8)$ se lee «de 2 incluido a 8 excluido»: contiene 2 y todos los reales hasta 8, sin incluir 8. Cada extremo se decide por separado. Esto permite precisar si un valor límite cumple una condición.',
+      gate: 'Toca el extremo izquierdo para excluirlo y deja incluido el derecho. Observa cómo cambian el punto y la notación.',
       after:
-        'Quedó un intervalo semiabierto: el extremo izquierdo no pertenece y el derecho sí. La diferencia es un solo punto, pero en la cadena de frío ese punto decide si una caja pasa o no.',
+        'El intervalo quedó semiabierto: el extremo izquierdo está excluido y el derecho incluido. Si mantuviste los valores iniciales, obtuviste $(2,8]$: 2 queda fuera y 8 dentro.',
       board: [
         {
           label: 'Abierto y cerrado',
@@ -319,7 +319,7 @@ const L_SETS: LessonStep = {
       ],
     },
     {
-      say: 'Si el tramo no termina, se usa el símbolo $\\infty$. No es un número, así que junto a él siempre va paréntesis.',
+      say: 'Un intervalo puede extenderse sin límite en una dirección. El símbolo $\\infty$ se lee «infinito» e indica que no hay límite superior; no es un número real y siempre lleva paréntesis. $[3,\\infty)$ se lee «desde 3 incluido hasta infinito» y contiene todos los reales $x\\ge 3$. El 3 sí pertenece, porque lleva corchete.',
       board: {
         label: 'Intervalos infinitos',
         tex: '[3,\\p{1}{\\infty})=\\{x:\\ \\p{2}{x\\ge3}\\}',
@@ -327,7 +327,7 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'Otra forma de dar un conjunto es con una **propiedad**: de un universo $U$, se toman los elementos que la cumplen. Aquí, los pares del 1 al 12.',
+      say: 'La **descripción por comprensión** define un conjunto mediante una condición que cumplen sus elementos. El **universo** $U$ reúne los elementos entre los que se selecciona; aquí son los enteros del 1 al 12.\n\n$A=\\{x\\in U: x\\text{ es par}\\}$ se lee «los $x$ de $U$ tales que $x$ es par». Así se obtienen 2, 4, 6, 8, 10 y 12.',
       dur: 2.8,
       board: {
         label: 'Por comprensión',
@@ -336,7 +336,7 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'Con dos conjuntos, la **intersección** $\\cap$ son los elementos que están en ambos: pares y múltiplos de 3.',
+      say: 'La **intersección** de dos conjuntos contiene los elementos que pertenecen a ambos. $A\\cap B$ se lee «A intersección B» y permite encontrar lo que comparten. Aquí $A$ reúne los pares de $U$ y $B$ los múltiplos de 3. Su intersección es $\\{6,12\\}$: cada uno cumple las dos condiciones.',
       board: {
         label: 'Intersección',
         tex: 'A\\p{1}{\\cM{\\cap}}B=\\{x:\\ x\\in A\\ \\p{2}{\\text{y}}\\ x\\in B\\}=\\p{3}{\\{6,12\\}}',
@@ -344,7 +344,7 @@ const L_SETS: LessonStep = {
       },
     },
     {
-      say: 'La **unión** $\\cup$ junta todo lo que está en al menos uno. La **diferencia** $A\\setminus B$ deja lo de $A$ que no está en $B$; el **complemento** $A^c$, lo que no está en $A$.',
+      say: 'La **unión** $A\\cup B$, «A unión B», contiene los elementos de al menos uno de los conjuntos, incluidos los comunes. La **diferencia** $A\\setminus B$, «A menos B», contiene los de $A$ que no están en $B$.\n\nEl **complemento** $A^c$, «complemento de A», contiene los elementos del universo $U$ que no están en $A$. La unión incluye la intersección; no se debe omitir esa zona.',
       dur: 3,
       board: [
         {
@@ -365,7 +365,7 @@ const L_SETS: LessonStep = {
       ],
     },
     {
-      say: 'El **cardinal** $|A|$ es la cantidad de elementos. Al contar la unión, los de la intersección se contarían dos veces.',
+      say: 'El **cardinal** de un conjunto finito es su cantidad de elementos; $|A|$ se lee «cardinal de A». Para contar una unión, se suman los cardinales de ambos conjuntos y se resta el de su intersección. Los elementos comunes aparecen en las dos sumas y deben contarse una sola vez. La fórmula permite evitar ese doble conteo.',
       ask: {
         prompt: 'Con $|A|=6$, $|B|=4$ y $|A\\cap B|=2$, ¿cuántos elementos tiene $A\\cup B$?',
         options: ['8', '10', '12'],

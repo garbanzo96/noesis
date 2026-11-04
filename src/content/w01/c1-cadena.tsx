@@ -836,7 +836,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Este es el registro del contenedor ALT-07. El rango seguro es la franja verde.',
-          gate: 'Arrastra la lectura del termómetro hasta exactamente 8 °C.',
+          gate: 'Arrastra la lectura del termómetro hasta exactamente 8 °C y observa si el límite sigue dentro del rango.',
+          after: 'A 8 °C, la lectura sigue dentro de $[2,8]$: el extremo superior está incluido. Eso permite aceptar una lectura exactamente en el límite.',
           note: {
             label: 'Intervalo cerrado',
             tex: '[2,8]=\\{x\\in\\mathbb R:\\ 2\\le x\\le 8\\}',
@@ -870,7 +871,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'Llegaron seis contenedores del Altamar con vacunas.',
-          gate: 'Marca los que rompieron la cadena de frío $[2,8]$.',
+          gate: 'Marca los contenedores que rompieron la cadena de frío $[2,8]$. Compara cada lectura con ambos límites.',
+          after: 'ALT-03, ALT-04 y ALT-06 marcaron 9,3, 1,6 y 11,0 °C, respectivamente: las tres lecturas están fuera del rango. Las lecturas de 2,0 y 8,0 °C están en los límites incluidos.',
           dur: 1.2,
           note: {
             label: 'Conjunto por comprensión',
@@ -880,7 +882,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'Rosa trae también los de la Brisa. $A$ son los del Altamar; $R$, los dañados de ambos barcos.',
-          gate: 'Arrastra cada contenedor a su región del diagrama.',
+          gate: 'Arrastra cada contenedor a su región del diagrama. Fíjate en su barco y en si está marcado como dañado.',
+          after: 'Tres contenedores quedan en ambos conjuntos: ALT-03, ALT-04 y ALT-06. BRI-02 queda solo en $R$, porque está dañado y llegó en la Brisa.',
           dur: 1.2,
           note: {
             label: 'Intersección, unión, diferencia',
