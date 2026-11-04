@@ -152,7 +152,7 @@ const lesson: LessonStep = {
   Scene: ReaderLesson,
   beats: [
     {
-      say: 'Hay dos explicaciones para el lector. Honesto: en un control ambiguo marca positivo la mitad de las veces. Alterado: lo marca el 80 %.',
+      say: 'Un **modelo** describe cómo se generan los resultados. Aquí se comparan dos: un lector honesto marca positivo en un control ambiguo con probabilidad 0,5; uno alterado, con probabilidad 0,8.\n\n$P(+)$ se lee «probabilidad de positivo». Estas probabilidades permiten comparar las explicaciones cuando aparecen controles.',
       board: {
         label: 'Dos modelos',
         tex: '\\p{1}{M_0:\\ P(+)=0{,}5},\\quad\\p{2}{M_1:\\ P(+)=0{,}8}',
@@ -160,10 +160,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cada control multiplica la probabilidad de los datos bajo cada modelo. Lee los cinco y mira cuál explica mejor lo que salió.',
-      gate: 'Arrastra la perilla hasta leer los 5 controles.',
+      say: 'La **probabilidad de los datos** bajo un modelo mide qué tan probable es observar esa secuencia si el modelo es cierto. $P(D\\mid M)$ se lee «probabilidad de D dado M»; $D$ son los resultados y $M$, el modelo.\n\nSi los controles son independientes dado el modelo, se multiplican sus probabilidades: un positivo aporta $P(+)$ y un negativo, $1-P(+)$. El producto $\\prod$ reúne esos aportes.',
+      gate: 'Lee el registro completo con la perilla. ¿Cómo cambian las barras y el factor de Bayes al incorporar cada control?',
       after:
-        'Cada control multiplica la probabilidad de los datos bajo cada modelo. Después de cinco, la diferencia ya se nota.',
+        'Con cuatro positivos y un negativo, la probabilidad de la secuencia es 0,03125 bajo el modelo honesto y 0,08192 bajo el alterado. Las barras permiten comparar esos valores en la misma escala.',
       board: {
         label: 'Probabilidad de los datos',
         tex: '\\p{1}{P(D\\mid M)}=\\p{2}{\\prod_i P(x_i\\mid M)}',
@@ -171,7 +171,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con cuatro positivos en cinco: 0,5⁵ para el honesto y 0,8⁴·0,2 para el alterado.',
+      say: 'El **factor de Bayes** compara la probabilidad de los mismos datos bajo dos modelos; $BF$ se lee «be efe». Se divide la probabilidad bajo el modelo alterado por la del honesto.\n\nCon cuatro positivos y un negativo, los productos son $0{,}5^5$ y $0{,}8^4\\cdot0{,}2$, respectivamente. Invertir el cociente cambia el sentido de la comparación; el factor tampoco es una probabilidad del modelo.',
       ask: {
         prompt: '¿Cuánto vale el factor de Bayes del alterado contra el honesto?',
         options: ['≈ 2,62', '≈ 0,38', '0,8'],
@@ -190,7 +190,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si antes de mirar ambas explicaciones valían lo mismo, el factor de Bayes son las chances después: 2,62 a 1.',
+      say: 'Las **chances** de un modelo frente a otro son el cociente de sus probabilidades. $P(M_1\\mid D)/P(M_0\\mid D)$ se lee «probabilidad de M uno dado D, dividida por la de M cero dado D».\n\nLas chances posteriores se obtienen multiplicando las previas por el factor de Bayes. Si ambos modelos eran igual de probables antes, las chances previas son 1 a 1 y las posteriores son aproximadamente 2,62 a 1.',
       board: {
         label: 'Chances de los modelos',
         tex: '\\p{1}{\\frac{P(M_1\\mid D)}{P(M_0\\mid D)}}=\\p{2}{\\frac{P(M_1)}{P(M_0)}\\cdot BF}',
@@ -198,7 +198,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cinco controles inclinan la balanza, pero poco. Para acusar a una máquina se necesitan más.',
+      say: 'Si los dos modelos agotan las posibilidades, las chances 2,62 a 1 se convierten en probabilidad dividiendo 2,62 por $2{,}62+1$. Así, la probabilidad posterior del lector alterado es aproximadamente 0,72.\n\nEse valor depende de las probabilidades previas iguales y de los modelos usados. Cinco controles inclinan la comparación, pero se necesitan más para acusar a la máquina.',
       board: {
         label: 'Probabilidad del alterado',
         tex: '\\p{1}{P(M_1\\mid D)}=\\p{2}{\\tfrac{2{,}62}{1+2{,}62}}\\p{3}{\\approx0{,}72}',
@@ -433,10 +433,10 @@ export const level: LevelSpec = {
       Scene: MemoryDemo,
       beats: [
         {
-          say: 'La memoria del lector guarda 20 controles ambiguos. Lee el registro completo y mira cómo se acumula la evidencia entre los dos modelos.',
-          gate: 'Arrastra la perilla hasta leer los 20 controles.',
+          say: 'La memoria del lector guarda 20 controles ambiguos. Revisemos el registro completo para comparar las explicaciones de la máquina honesta y la alterada.',
+          gate: 'Recorre el registro completo con la perilla. ¿Cómo cambia el factor de Bayes a medida que aparecen los controles?',
           after:
-            'Con 20 controles el factor de Bayes llega a cerca de 47: la evidencia se acumula multiplicando.',
+            'Con 16 positivos y 4 negativos, el factor de Bayes llega a cerca de 47 a favor del lector alterado. Cada resultado aporta un factor a la comparación.',
         },
         {
           say: 'Leíste 16 positivos y 4 negativos. La pantalla compara qué tan probable es ese registro bajo cada modelo.',
@@ -449,10 +449,10 @@ export const level: LevelSpec = {
           note: { label: 'Veinte controles', tex: 'BF\\approx47' },
         },
         {
-          say: 'Antes de mirar, ambas explicaciones valían lo mismo. Con estos controles, las chances del alterado son aproximadamente 47 a 1: 47 de 48 partes.',
-          gate: 'Convierte las chances 47 a 1 en probabilidad y ubícala en la escala.',
+          say: 'Antes de mirar, ambas explicaciones valían lo mismo. Con estos controles, las chances del alterado son aproximadamente 47 a 1.',
+          gate: 'Convierte las chances 47 a 1 en probabilidad y busca ese valor con la perilla. Considera las partes correspondientes a ambos modelos.',
           after:
-            '$47/48\\approx0{,}98$. Con chances iniciales parejas, el factor de Bayes se convierte directo en probabilidad posterior.',
+            '$47/48\\approx0{,}98$: las 47 partes del modelo alterado se dividen por las 48 partes totales. Con chances previas iguales, el factor de Bayes da las chances posteriores.',
         },
         {
           say: 'La perilla quedó cerca de 0,98: las chances 47 a 1 corresponden a 47/48 del total.',
