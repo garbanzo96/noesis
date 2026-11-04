@@ -609,8 +609,9 @@ export const level: LevelSpec = {
       Scene: LedgerDemo,
       beats: [
         {
-          say: 'Cada día anotó cuántas cajas salieron. Al día $i$ le corresponde el número $x_i$.',
-          gate: 'Arrastra el contador desde el lunes hasta el domingo.',
+          say: 'Cada día anotó cuántas cajas salieron. Al día $i$ le corresponde el número $x_i$. Sigamos el acumulado para saber cuántas salieron en la semana.',
+          gate: 'Arrastra el contador hasta el domingo y observa cómo cambia el total al incorporar cada día.',
+          after: 'Al llegar al domingo, el total es 74 cajas. Esa suma reúne las salidas de los siete días.',
           note: {
             label: 'Sumatoria',
             tex: '\\sum_{i=1}^{7}x_i=x_1+x_2+\\dots+x_7=74',
@@ -652,7 +653,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'Al final del libro hay una tabla: camiones en las filas, semanas en las columnas. Dos índices.',
-          gate: 'Suma por filas y por columnas con los dos botones.',
+          gate: 'Pulsa los dos botones para sumar por filas y por columnas. Compara los totales que aparecen.',
+          after: 'Las filas suman 18, 15 y 15; las columnas, 13, 10, 13 y 12. Ambos recorridos dan 48 cajas porque incluyen las mismas celdas.',
           note: {
             label: 'Doble índice',
             tex: '\\sum_i\\sum_j a_{ij}=\\sum_j\\sum_i a_{ij}',

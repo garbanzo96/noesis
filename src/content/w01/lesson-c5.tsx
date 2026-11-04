@@ -350,7 +350,7 @@ export const lesson: LessonStep = {
   Scene: SumsLesson,
   beats: [
     {
-      say: 'Sumar muchos números escritos uno a uno es largo. La letra griega $\\Sigma$ (sigma) resume una suma: dice qué se suma y entre qué índices.',
+      say: 'La **sumatoria** escribe una suma mediante una regla y un índice. El símbolo $\\Sigma$ se llama sigma mayúscula. La expresión de la pizarra se lee «suma de i igual a 1 hasta 7 de equis sub i».\n\nEl índice recorre los enteros de 1 a 7, incluidos ambos extremos; en cada valor se suma el término $x_i$ correspondiente.',
       dur: 3,
       board: [
         { tex: 'x_1+x_2+\\cdots+x_7' },
@@ -368,8 +368,9 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El **índice** $i$ es un contador: toma los valores 1, 2, 3… y en cada uno agrega un término. Lo acumulado hasta $n$ es la suma parcial.',
-      gate: 'Arrastra el índice desde 1 hasta 7.',
+      say: 'El **índice** $i$ es un contador que identifica cada término de la suma. La **suma parcial** $S_n$, que se lee «ese sub ene», acumula los términos desde $i=1$ hasta $i=n$, incluido. Por ejemplo, $S_2=3+5=8$. El valor de $n$ indica hasta dónde llega la suma, no cuánto vale cada término.',
+      gate: 'Arrastra el índice hasta 7 y observa cómo cambia la suma parcial al agregar cada barra.',
+      after: 'Al llegar a 7, la suma parcial es 28: incluye las siete barras. Cada avance agrega el valor de la barra correspondiente.',
       board: {
         label: 'Suma parcial',
         tex: '\\p{1}{S_n}=\\p{2}{\\sum_{i=1}^{n}x_i}',
@@ -378,7 +379,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El término puede ser una fórmula en $i$. Para calcular, se expande: se reemplaza $i$ por cada valor y se suma.',
+      say: 'El término de una sumatoria puede ser una fórmula que depende del índice. Para **expandir** la suma, reemplaza $i$ por cada entero entre los límites, incluidos, y suma los resultados. Aquí $i^2$ se lee «i al cuadrado»: para $i=3$, el término es $3^2=9$. Elevar al cuadrado cada índice es distinto de elevar al cuadrado la suma de los índices.',
       dur: 3,
       board: {
         label: 'Expandir',
@@ -387,7 +388,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si todos los términos llevan el mismo factor, se puede sacar fuera de la suma. Y sumar una constante $n$ veces da $n$ por la constante.',
+      say: 'Si $c$ es constante respecto de $i$, multiplicar cada término por $c$ equivale a multiplicar la suma por $c$. También se puede sumar cada lista por separado: la suma de $x_i+y_i$ es la suma de los $x_i$ más la de los $y_i$.\n\nDesde $i=1$ hasta $n$ hay $n$ términos, así que sumar $c$ en cada uno da $nc$, no solo $c$.',
       dur: 2.6,
       board: [
         {
@@ -408,7 +409,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Un truco famoso: la escalera $1+2+\\dots+n$ y una copia dada vuelta forman un rectángulo de $n$ por $n+1$.',
+      say: 'La **suma de Gauss** calcula la suma de los enteros desde 1 hasta un entero positivo $n$. Una escalera de alturas 1 a $n$ y una copia invertida forman un rectángulo de lados $n$ y $n+1$. Cada escalera ocupa la mitad, por eso la suma es $n(n+1)/2$. En el dibujo, con $n=5$, las dos escaleras completan un rectángulo de 5 por 6.',
       ask: {
         prompt: 'Con ese truco, ¿cuánto vale $1+2+\\dots+100$?',
         options: ['5 050', '10 100', '5 000'],
@@ -422,7 +423,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con dos índices se recorre una tabla: $a_{ij}$ es la celda de la fila $i$ y la columna $j$. Sumar por filas o por columnas da el mismo total.',
+      say: 'Un **doble índice** identifica una entrada de una tabla: $a_{ij}$ se lee «a sub i jota» y corresponde a la fila $i$ y la columna $j$. Para sumar toda una tabla finita, se pueden sumar primero las entradas de cada fila o las de cada columna. Ambos órdenes incluyen cada celda una vez y dan el mismo total. Por ejemplo, la primera fila suma $4+6+5+3=18$.',
       dur: 3,
       board: {
         label: 'Doble índice',
@@ -431,7 +432,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La letra $\\Pi$ (pi mayúscula) hace lo mismo que $\\Sigma$, pero **multiplicando**. Sirve para factores que se encadenan.',
+      say: 'La **productoria** representa un producto mediante una regla y un índice; su símbolo $\\Pi$ se llama pi mayúscula. La expresión se lee «producto de k igual a 1 hasta 3 de erre sub k» e incluye los factores de ambos límites. Sirve para encadenar multiplicaciones: aquí $2\\cdot1{,}5\\cdot0{,}5=1{,}5$. Los factores se multiplican, no se suman; aplicados a 100 dan 150.',
       dur: 2.6,
       board: {
         label: 'Productoria',
