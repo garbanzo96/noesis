@@ -190,7 +190,7 @@ const lesson: LessonStep = {
   Scene: MonteCarloLesson,
   beats: [
     {
-      say: 'El cuadrado tiene área 1 y el cuarto de círculo, π/4. Si tiras puntos uniformemente en el cuadrado, cerca del 78,5 % cae dentro.',
+      say: 'El cuadrado de lado 1 tiene área 1 y el cuarto de círculo de radio 1 tiene área $\\pi/4$, que se lee «pi sobre cuatro». Un punto uniforme tiene la misma probabilidad de caer en regiones de igual área. Por eso, la probabilidad de caer dentro es la proporción de áreas: aproximadamente 0,785, o 78,5 %.',
       board: {
         label: 'Una proporción de áreas',
         tex: '\\p{1}{P(\\text{dentro})}=\\p{2}{\\pi/4}\\p{3}{\\approx0{,}785}',
@@ -198,10 +198,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **método Monte Carlo** estima usando muestras al azar. Aumenta la cantidad de puntos: se conservan los anteriores y se agregan nuevos.',
-      gate: 'Sube $n$ hasta 10 000 puntos y mira cuánto se estabiliza la estimación.',
+      say: 'El **método Monte Carlo** estima una cantidad mediante muestras al azar y un promedio. Aquí cada punto se toma de manera uniforme e independiente en el cuadrado.\n\nSi $k$ es el número de puntos dentro y $n$ el total, $k/n$ se lee «k sobre ene» y estima la probabilidad de caer dentro. Al aumentar $n$, se conservan los puntos anteriores y se agregan nuevos.',
+      gate: 'Aumenta la muestra hasta el máximo disponible y compara la proporción $k/n$ entre tamaños. ¿Cómo cambia la estimación?',
       after:
-        'La estimación deja de saltar. Su error baja como $1/\\sqrt n$: para una cifra más de precisión hacen falta 100 veces más puntos.',
+        'Con 10 000 puntos, 7 833 quedan dentro y la proporción mostrada es 0,783. La muestra mayor da una estimación cercana a 0,785, aunque una muestra particular puede alejarse.',
       board: {
         label: 'Estimar desde conteos',
         tex: '\\p{1}{\\widehat P(\\text{dentro})}=\\p{2}{k/n}',
@@ -209,7 +209,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Volvamos a los primeros 100 puntos: 79 quedaron dentro. Usa esa fracción para estimar π.',
+      say: 'Volvamos a los primeros 100 puntos: 79 quedaron dentro. La fracción de puntos dentro estima $\\pi/4$, así que para estimar $\\pi$ se multiplica esa fracción por 4. El símbolo $\\widehat\\pi$ se lee «pi estimado» e indica que el resultado proviene de la muestra. Usa el conteo para calcularlo.',
       ask: {
         prompt: '¿Qué estimación de π dan 79 puntos dentro de 100?',
         options: ['3,16', '0,79', '1,27'],
@@ -224,7 +224,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con muestras independientes, el error típico baja como **1/√n**: de 0,1 con 100 a 0,01 con 10 000. Es una escala; una tirada particular puede acercarse o alejarse.',
+      say: 'Con muestras independientes de la misma distribución y varianza finita, la escala del **error típico** es proporcional a $1/\\sqrt n$, que se lee «uno sobre raíz de ene». Esta escala pasa de 0,1 con 100 muestras a 0,01 con 10 000: cien veces más muestras la reducen diez veces.\n\nEl error también depende de la función y la distribución. Una muestra particular puede acercarse o alejarse; la escala no garantiza su error.',
       board: {
         label: 'Escala del error',
         tex: '\\p{1}{\\text{error típico}}\\p{2}{\\propto1/\\sqrt n}',
@@ -232,7 +232,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cuenta 1 cuando el punto cae dentro y 0 cuando cae fuera: su promedio estima la probabilidad. Para otra función f, promedia sus valores sobre muestras de la distribución que quieres estudiar.',
+      say: 'Una **función indicadora** vale 1 cuando se cumple una condición y 0 cuando no se cumple. Aquí vale 1 dentro del cuarto de círculo y 0 fuera, por lo que su promedio es $k/n$ y estima la probabilidad de caer dentro.\n\nEn general, el **promedio Monte Carlo** estima la esperanza $E[f]$, leída «esperanza de efe», promediando $f(x_i)$ sobre muestras de la distribución estudiada. La suma va desde $i=1$ hasta $n$ y se divide por $n$.',
       board: {
         label: 'Promedio Monte Carlo',
         tex: '\\p{1}{E[f]}\\p{2}{\\approx\\frac1n\\sum_{i=1}^n f(x_i)}',
@@ -428,7 +428,7 @@ export const level: LevelSpec = {
       Scene: SimulatorDemo,
       beats: [
         {
-          say: 'El control guardado tira puntos uniformes en un cuadrado: 79 de 100 quedaron dentro del cuarto de círculo.',
+          say: 'Simón abre el control guardado: de 100 puntos uniformes en el cuadrado, 79 quedaron dentro del cuarto de círculo. Con ese conteo podemos reconstruir la estimación que debería informar el simulador.',
           ask: {
             prompt: '¿Qué valor debería informar como estimación de π?',
             options: ['3,16', '0,79', '3,14 exacto'],
@@ -443,7 +443,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Simón propone repetir el control con 10 000 puntos, conservando el método de muestreo independiente.',
+          say: 'Simón propone repetir el control con 10 000 puntos, conservando el muestreo independiente. Quiere comparar la escala del error con la del registro de 100 puntos.',
           ask: {
             prompt: 'Al pasar de 100 a 10 000 muestras, ¿qué pasa con la escala del error?',
             options: ['Se divide por 10', 'Se divide por 100', 'Queda en cero'],
