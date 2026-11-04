@@ -244,53 +244,85 @@ const lesson: LessonStep = {
 const CU: V2 = [2, 1];
 const CV: V2 = [-1, 2];
 
-function CraneDemo({ beats, answer }: DemoProps) {
+function CraneDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [candidate, setCandidate] = useState(0);
+  const [placed, setPlaced] = useState(false);
+  const [reach, setReach] = useState(0);
+  const [compared, setCompared] = useState(false);
   const broken = beat === 2;
   const v: V2 = broken ? [4, 2] : CV;
-  const shown = beat >= 2 || (beat === 1 && answer !== null);
+  const candidates: V2[] = [[1, 3], [3, 4], [4, 2]];
+  const dragMark = useSvgDrag(svg, (x, _y, phase) => {
+    if (beat !== 1) return;
+    const next = Math.round(clamp((x - 1190) / 150, 0, 2));
+    setCandidate(next);
+    if (!placed && next === 1 && phase === 'end') {
+      setPlaced(true);
+      unlock();
+    }
+  });
+  const dragReach = useSvgDrag(svg, (x) => {
+    if (beat !== 2) return;
+    const next = clamp((x - P.x(0)) / P.sx, -3, 6);
+    setReach(next);
+    if (!compared && Math.abs(next - 3) <= 0.4) {
+      setReach(3);
+      setCompared(true);
+      unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Grid P={P} opacity={0} />
-      <Grid
-        P={P}
-        M={fromCols(CU, v)}
-        color={broken ? C.red : C.violet}
-        opacity={0.45 * (beat === 0 ? at(0) : 1)}
-        base={false}
-        axes={false}
-      />
-      <rect
-        x={P.x(3) - 26}
-        y={P.y(4) - 16}
-        width={52}
-        height={32}
-        rx={4}
-        fill={C.panel}
-        stroke={C.red}
-        strokeWidth={3}
-      />
-      <Cap x={P.x(3)} y={P.y(4) - 38} size={16} color={C.red}>
-        vagón sellado
-      </Cap>
+      <Grid P={P} M={fromCols(CU, v)} color={broken ? C.red : C.violet}
+        opacity={0.45 * (beat === 0 ? at(0) : 1)} base={false} axes={false} />
+      {(beat !== 1 || placed) && (
+        <>
+          <rect x={P.x(3) - 26} y={P.y(4) - 16} width={52} height={32}
+            rx={4} fill={C.panel} stroke={C.red} strokeWidth={3} />
+          <Cap x={P.x(3)} y={P.y(4) - 38} size={24} color={C.red}>vagón sellado</Cap>
+        </>
+      )}
       <Vec P={P} v={CU} color={C.cyan} width={6} label="\vec u" off={[16, 24]} />
       <Vec P={P} v={v} color={C.amber} width={6} label="\vec v" off={[-22, -14]} />
-      {beat >= 1 && !broken && shown && (
+      {beat === 1 && placed && (
         <>
           <Vec P={P} v={sc(2, CU)} color={C.cyan} width={3} opacity={0.6} />
           <Vec P={P} v={CV} from={sc(2, CU)} color={C.amber} width={3} opacity={0.6} />
           <Vec P={P} v={[3, 4]} color={C.green} />
         </>
       )}
-      <Cap x={1370} y={230} size={22} color={C.cyan} tex={`\\vec u=${txtV(CU)}`} />
-      <Cap x={1370} y={280} size={22} color={broken ? C.red : C.amber} tex={`\\vec v=${txtV(v)}`} />
-      {beat === 1 && <Cap x={1370} y={350} size={22} color={C.text} tex="a=2,\ b=1" />}
-      {beat === 1 && shown && (
-        <Cap x={1370} y={410} size={22} color={C.green} tex="2\vec u+\vec v=(3,4)" />
+      {beat === 1 && (
+        <>
+          {candidates.map((point, i) => (
+            <g key={i}>
+              <Dot x={P.x(point[0])} y={P.y(point[1])} color={candidate === i ? C.green : C.dim} ring />
+              <Cap x={P.x(point[0])} y={P.y(point[1]) - 32} size={24} color={C.text}>
+                {['A', 'B', 'C'][i]}
+              </Cap>
+            </g>
+          ))}
+          <line x1={1190} y1={520} x2={1490} y2={520} stroke={C.line} strokeWidth={3} />
+          {['A', 'B', 'C'].map((label, i) => (
+            <Cap key={label} x={1190 + i * 150} y={575} size={24} color={C.text}>{label}</Cap>
+          ))}
+          <Knob x={1190 + candidate * 150} y={520} color={C.green}
+            onPointerDown={dragMark} cursor="ew-resize" label="Posición elegida" />
+        </>
       )}
-      {broken && answer !== null && (
-        <Cap x={1370} y={350} size={22} color={C.red} tex="(4,2)=2\,(2,1)" />
+      {broken && (
+        <>
+          <line x1={P.x(-3)} y1={P.y(-1.5)} x2={P.x(6)} y2={P.y(3)} stroke={C.red} strokeWidth={3} />
+          <Knob x={P.x(reach)} y={P.y(reach / 2)} color={C.red}
+            onPointerDown={dragReach} cursor="grab" label="Posición de la grúa averiada" />
+        </>
       )}
+      <Cap x={1370} y={230} size={24} color={C.cyan} tex={`\\vec u=${txtV(CU)}`} />
+      <Cap x={1370} y={280} size={24} color={broken ? C.red : C.amber} tex={`\\vec v=${txtV(v)}`} />
+      {beat === 1 && <Cap x={1370} y={350} size={24} color={C.text} tex="a=2,\ b=1" />}
+      {beat === 1 && placed && <Cap x={1370} y={410} size={24} color={C.green} tex="2\vec u+\vec v=(3,4)" />}
     </Stage>
   );
 }
@@ -518,27 +550,14 @@ export const level: LevelSpec = {
         },
         {
           say: 'Anoche el contador marcó $a=2$ pasos en el riel largo y $b=1$ en el corto.',
-          ask: {
-            prompt: '¿Dónde quedó la grúa?',
-            options: ['(3, 4), sobre el vagón sellado', '(1, 5)', '(4, 2)'],
-            answer: 0,
-            explain: '$2(2,1)+(-1,2)=(4-1,\\,2+2)=(3,4)$.',
-          },
+          gate: '¿Dónde quedó la grúa? Mueve la perilla para elegir en el plano la posición que indican esos pasos.',
+          after: 'Dos pasos en el riel largo y uno en el corto llevan a $(3,4)$, sobre el vagón sellado.',
           note: { label: 'Posición de la grúa', tex: '2\\vec u+\\vec v=(3,4)' },
         },
         {
           say: 'Teo encuentra una segunda grúa, averiada: sus rieles quedaron paralelos, $\\vec u=(2,1)$ y $\\vec v=(4,2)$.',
-          ask: {
-            prompt: '¿Pudo esa grúa llegar al vagón?',
-            options: [
-              'No: solo recorre la recta de $\\vec u$',
-              'Sí, con $a=1$ y $b=\\tfrac12$',
-              'Sí, con cualquier par $a$, $b$',
-            ],
-            answer: 0,
-            explain:
-              '$(4,2)=2(2,1)$: toda combinación es múltiplo de $(2,1)$ y $(3,4)$ no lo es. Solo la primera grúa movió el vagón.',
-          },
+          gate: '¿Pudo esa grúa llegar al vagón? Arrastra la grúa roja por su recorrido hasta quedar en la misma posición horizontal que el vagón y compara sus posiciones.',
+          after: 'En la horizontal $x=3$, la grúa averiada queda en $(3,1{,}5)$ y el vagón está en $(3,4)$. Los rieles paralelos solo permiten recorrer esa recta.',
           note: {
             label: 'Rieles paralelos',
             tex: '(4,2)=2\\,(2,1)',
