@@ -221,27 +221,46 @@ const lesson: LessonStep = {
   ],
 };
 
-function ReaderDemo({ beats, answer }: DemoProps) {
+function ReaderDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [position, setPosition] = useState(0);
+  const [solved, setSolved] = useState(false);
+  const unlocked = useRef(false);
+  useEffect(() => {
+    setPosition(0);
+    setSolved(false);
+    unlocked.current = false;
+  }, [beat]);
+  const drag = useSvgDrag(svg, (px) => {
+    if (beat !== 0 && beat !== 1) return;
+    const m = clamp((px - X(0)) / 125, 0, 6);
+    setPosition(m);
+    const target = beat === 0 ? 1.5 : 6;
+    if (Math.abs(m - target) <= 0.15 && !unlocked.current) {
+      unlocked.current = true;
+      setSolved(true);
+      unlock();
+    }
+  });
   const eta = beat === 0 ? 0.25 : 1;
-  const ms = answer !== null ? trajectory(eta) : [0];
+  const ms = beat === 2 || solved ? trajectory(eta) : [0, position];
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Hill ms={ms} />
       <Cap x={1250} y={200} tex="m_0=0" color={C.cyan} />
       <Cap x={1250} y={290} tex={`\\eta=${tnum(eta)}`} color={C.amber} />
-      {answer !== null &&
-        ms
-          .slice(1)
-          .map((m, i) => (
-            <Cap
-              key={i}
-              x={1250}
-              y={380 + i * 80}
-              tex={`m_${i + 1}=${tnum(m, 3)}`}
-              color={beat === 0 ? C.green : C.magenta}
-            />
-          ))}
+      {(solved || beat === 2) && ms.slice(1).map((m, i) => (
+        <Cap key={i} x={1250} y={380 + i * 80} tex={`m_${i + 1}=${tnum(m, 3)}`}
+          color={beat === 0 ? C.green : C.magenta} />
+      ))}
+      {beat < 2 && !solved && (
+        <>
+          <line x1={X(0)} x2={X(6)} y1={740} y2={740} stroke={C.line} strokeWidth={4} />
+          <Knob x={X(position)} y={740} axis="x" onPointerDown={drag} color={C.amber} />
+          <Cap x={555} y={785} size={24} color={C.muted}>Marca el primer punto</Cap>
+        </>
+      )}
     </Stage>
   );
 }
@@ -443,33 +462,26 @@ export const level: LevelSpec = {
       Scene: ReaderDemo,
       beats: [
         {
-          say: 'Probemos la curva didáctica $g(m)=-(m-3)^2$ desde 0, con $\\eta=0{,}25$. Así podemos comparar los primeros pasos con el comportamiento del simulador.',
-          ask: {
-            prompt: '¿Qué trayectoria dan los tres primeros pasos?',
-            options: ['1,5 → 2,25 → 2,625', '1,5 → 3 → 4,5', '6 → 0 → 6'],
-            answer: 0,
-            explain:
-              'En cada punto cambia la pendiente: 6, luego 3, luego 1,5. Los avances son 1,5; 0,75; 0,375.',
-          },
+          say: 'Probemos la curva didáctica $g(m)=-(m-3)^2$ desde 0, con $\\eta=0{,}25$. La pendiente inicial es 6. ¿Qué trayectoria dan los tres primeros pasos?',
+          gate: 'Calcula el primer paso y marca su posición en la curva. Después podrás comparar los tres pasos.',
+          after: 'El primer paso llega a 1,5. Al recalcular la pendiente, los siguientes llegan a 2,25 y 2,625.',
           note: {
             label: 'Ajuste gradual',
             tex: '\\eta=0{,}25:\\quad0\\to1{,}5\\to2{,}25\\to2{,}625',
           },
         },
         {
-          say: 'Ahora el simulador parte otra vez en 0 con $\\eta=1$, el paso que estaba guardado. Veamos qué le ocurre al ajuste con esa configuración.',
-          ask: {
-            prompt: '¿Qué muestra esta prueba sobre el ajuste?',
-            options: ['Oscila entre 0 y 6', 'Converge a 3', 'Mejora con cada salto'],
-            answer: 0,
-            explain:
-              'Desde 0, la pendiente 6 lleva a 6. Allí vale −6 y te devuelve a 0; g vale −9 en ambos extremos.',
-          },
+          say: 'Ahora el simulador parte otra vez en 0 con $\\eta=1$, el paso que estaba guardado. La pendiente inicial sigue siendo 6. ¿Qué muestra esta prueba sobre el ajuste?',
+          gate: 'Calcula y marca el primer punto de esta configuración para observar los pasos siguientes.',
+          after: 'El primer paso llega a 6. La pendiente allí es −6 y devuelve el ajuste a 0; la trayectoria oscila entre 0 y 6.',
           note: {
             label: 'Oscilación del simulador',
             tex: '\\eta=1:\\quad0\\to6\\to0\\to6,\\qquad g(0)=g(6)=-9',
             body: 'Este ejemplo detecta un paso inadecuado. Por sí solo no demuestra cómo funciona el objetivo real del lector.',
           },
+        },
+        {
+          say: 'Con $\\eta=0{,}25$, los puntos se acercan a 3. Con $\\eta=1$, saltan entre 0 y 6, donde la función vale −9 en ambos extremos.',
         },
       ],
     },
