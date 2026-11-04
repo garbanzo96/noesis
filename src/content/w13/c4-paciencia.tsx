@@ -220,10 +220,27 @@ const lesson: LessonStep = {
   ],
 };
 
-function ClosingDemo({ beats, answer }: DemoProps) {
-  const forever = beats.beat === 1;
+function ClosingDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [estimate, setEstimate] = useState(0);
+  const solved = useRef([false, false]);
+  const beat = beats.beat;
+  useEffect(() => setEstimate(0), [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0 && beat !== 1) return;
+    const max = beat === 0 ? 10 : 120;
+    const next = clamp((x - 190) / 740, 0, 1) * max;
+    setEstimate(next);
+    const target = beat === 0 ? 7.29 : 100;
+    if (!solved.current[beat] && Math.abs(next - target) <= max * 0.02) {
+      solved.current[beat] = true;
+      unlock();
+    }
+  });
+  const forever = beat === 1;
+  const max = forever ? 120 : 10;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <PaymentLine
         payments={
           forever
@@ -233,22 +250,23 @@ function ClosingDemo({ beats, answer }: DemoProps) {
         forever={forever}
       />
       <Cap x={1250} y={180} tex="\gamma=0{,}9\ \text{por día}" />
-      <Cap x={1250} y={270} size={22}>
+      <Cap x={1250} y={270} size={25}>
         {forever ? 'Primer cobro: hoy' : 'Alternativa: 8 hoy'}
       </Cap>
-      {answer !== null && (
+      {beat < 2 && (
         <>
-          <Cap
-            x={1250}
-            y={390}
-            tex={forever ? '\\frac{10}{1-0{,}9}=100' : '10\\cdot0{,}9^3=7{,}29'}
-            color={C.green}
-          />
-          <Cap x={1250} y={480} size={22} color={C.green}>
-            {forever ? 'Valor total hoy: 100' : '8 hoy supera 7,29 hoy'}
+          <line x1={190} x2={930} y1={700} y2={700} stroke={C.line} strokeWidth={4} />
+          <Cap x={190} y={760} size={25}>0</Cap>
+          <Cap x={930} y={760} size={25}>{max}</Cap>
+          {!forever && <Cap x={782} y={650} size={25} color={C.cyan}>8 hoy</Cap>}
+          {!forever && <line x1={782} x2={782} y1={670} y2={720} stroke={C.cyan} strokeWidth={3} />}
+          <Knob x={190 + (estimate / max) * 740} y={700} axis="x" onPointerDown={drag} color={C.amber} />
+          <Cap x={1250} y={390} size={25} color={C.amber}>
+            {`Marcador: ${fmt(estimate)}`}
           </Cap>
         </>
       )}
+      {beat === 2 && <Cap x={1250} y={390} size={25} color={C.green}>8 hoy supera 7,29 hoy</Cap>}
     </Stage>
   );
 }
@@ -435,13 +453,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'La mesa usa γ = 0,9 por día. Puedes cobrar 8 hoy o 10 dentro de tres días; ambos cobros están asegurados. Compara sus valores presentes para decidir qué orden conviene.',
-          ask: {
-            prompt: '¿Qué orden tiene mayor valor presente?',
-            options: ['10 en tres días', 'Valen lo mismo', '8 hoy'],
-            answer: 2,
-            explain:
-              'Los 10 futuros valen hoy 7,29. La orden de 8 hoy deja un margen de 0,71 en valor presente.',
-          },
+          gate: '¿Qué orden tiene mayor valor presente? Calcula el valor de los 10 en tres días y ubícalo en la escala para compararlo con los 8 de hoy.',
+          after: 'Los 10 futuros valen hoy 7,29. La orden de 8 hoy deja un margen de 0,71 en valor presente.',
           note: {
             label: 'Comparar en la misma fecha',
             tex: '8>10\\cdot0{,}9^3=7{,}29',
@@ -450,18 +463,16 @@ export const level: LevelSpec = {
         },
         {
           say: 'Otra posición entrega 10 cada día para siempre, con el primer pago hoy. La mesa mantiene γ = 0,9. Calcula el valor presente de todos esos cobros para evaluar la posición.',
-          ask: {
-            prompt: '¿Cuánto vale hoy toda esa posición?',
-            options: ['90', '100', 'No tiene un valor finito'],
-            answer: 1,
-            explain:
-              '10 / (1 − 0,9) = 100. El 90 correspondería a empezar mañana; con γ menor que 1 la suma infinita converge.',
-          },
+          gate: '¿Cuánto vale hoy toda esa posición? Calcula la suma de los cobros y ubica su valor en la escala.',
+          after: '10 / (1 − 0,9) = 100. Si los cobros partieran mañana, la posición valdría 90.',
           note: {
             label: 'Renta perpetua desde hoy',
             tex: '\\sum_{t\\ge0}10\\cdot0{,}9^t=100',
             body: 'Los cobros se prolongan sin límite, pero sus valores presentes disminuyen geométricamente.',
           },
+        },
+        {
+          say: 'La mesa puede comparar las dos órdenes en la misma fecha. La renta perpetua también tiene un valor presente, aunque los cobros sigan sin límite.',
         },
       ],
     },
