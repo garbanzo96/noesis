@@ -213,45 +213,44 @@ const lesson: LessonStep = {
   ],
 };
 
-function AccountDemo({ beats, answer }: DemoProps) {
-  const information = beats.beat === 0;
+function AccountDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const unlocked = useRef(false);
+  const [value, setValue] = useState(10);
+  useEffect(() => {
+    unlocked.current = false;
+    setValue(beat === 2 ? 500 : 10);
+  }, [beat]);
+  const max = beat === 2 ? 1000 : 20;
+  const drag = useSvgDrag(svg, (x) => {
+    const next = Math.round((clamp((x - 1100) / 320, 0, 1) * max) / (beat === 2 ? 10 : 0.5)) * (beat === 2 ? 10 : 0.5);
+    setValue(next);
+    if (!unlocked.current && ((beat === 0 && Math.abs(next - 4) <= 0.5) ||
+        (beat === 1 && Math.abs(next - 16) <= 0.5) ||
+        (beat === 2 && Math.abs(next - 200) <= 20))) {
+      unlocked.current = true;
+      unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Ticket
-        title={information ? 'Orden previa al anuncio' : 'Margen reservado'}
-        rows={
-          information
-            ? [
-                'Contrato: +100 con brote; −20 sin brote',
-                'Pronóstico público: p = 0,2',
-                'Con dato perfecto: compra solo con brote',
-              ]
-            : [
-                'Apuesta a la par: b = 1',
-                'Probabilidad de ganar: p = 0,6',
-                'Capital disponible: 1 000',
-              ]
-        }
+        title={beat < 2 ? 'Orden previa al anuncio' : 'Margen reservado'}
+        rows={beat < 2
+          ? ['Contrato: +100 con brote; −20 sin brote', 'Pronóstico público: p = 0,2', 'Con dato perfecto: compra solo con brote']
+          : ['Apuesta a la par: b = 1', 'Probabilidad de ganar: p = 0,6', 'Capital disponible: 1 000']}
       />
-      <Cap x={1250} y={230} size={23}>
-        {information ? 'Precio máximo del dato' : 'Posición según Kelly'}
+      <Cap x={1260} y={230} size={26}>
+        {beat === 0 ? 'Mejor valor sin dato' : beat === 1 ? 'Precio máximo del dato' : 'Capital reservado'}
       </Cap>
-      <Cap x={1250} y={330} size={20} color={C.muted}>
-        Revisa antes de autorizar.
+      <Cap x={1260} y={360} size={28} color={C.amber}>
+        {beat === 2 ? `${value} de 1 000` : `${String(value).replace('.', ',')} por contrato`}
       </Cap>
-      {answer !== null && (
-        <>
-          <Cap
-            x={1250}
-            y={430}
-            tex={information ? '\\text{EVPI}=20-4=16' : 'f^*=0{,}2'}
-            color={C.green}
-          />
-          <Cap x={1250} y={530} size={22}>
-            {information ? '16 por contrato' : 'Reserva 200 de capital'}
-          </Cap>
-        </>
-      )}
+      <line x1={1100} x2={1420} y1={540} y2={540} stroke={C.line} strokeWidth={4} />
+      <Knob x={1100 + (value / max) * 320} y={540} axis="x" onPointerDown={drag} color={C.amber} />
+      <Cap x={1100} y={610} size={24}>0</Cap>
+      <Cap x={1420} y={610} size={24}>{max === 1000 ? '1 000' : '20'}</Cap>
     </Stage>
   );
 }
@@ -549,14 +548,14 @@ export const level: LevelSpec = {
       Scene: AccountDemo,
       beats: [
         {
-          say: 'La orden usa el contrato conocido: +100 con brote y −20 sin brote, con p público de 0,2. Valentina revisa cuánto podría pagar por conocer el anuncio con certeza.',
-          ask: {
-            prompt: '¿Cuál es el EVPI por contrato?',
-            options: ['20', '16', '4'],
-            answer: 1,
-            explain:
-              'Con información perfecta vale 20; la mejor acción pública vale 4. La diferencia es 16.',
-          },
+          say: 'La orden usa el contrato conocido: +100 con brote y −20 sin brote, con p público de 0,2. También se puede elegir no comprar, con pago 0.',
+          gate: 'Calcula el valor esperado de comprar y compáralo con no comprar. Ubica en la perilla el valor de la mejor decisión sin el dato.',
+          after: 'Comprar vale $0{,}2\\cdot100-0{,}8\\cdot20=4$ por contrato. Es mayor que el 0 de no comprar.',
+        },
+        {
+          say: 'Valentina revisa cuánto podría pagar por conocer el anuncio con certeza. Con el dato perfecto compra solo si hay brote.',
+          gate: '¿Cuál es el EVPI por contrato? Calcula la diferencia entre el valor con información perfecta y la mejor decisión pública, y marca ese precio.',
+          after: 'Con información perfecta el valor es 20 por contrato; sin el dato, la mejor decisión vale 4. El EVPI es $20-4=16$.',
           note: {
             label: 'Precio máximo del dato',
             tex: '\\text{EVPI}=20-4=16',
@@ -564,13 +563,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La siguiente orden tiene p = 0,6, pago a la par y capital disponible de 1 000. Revisa el tamaño de la posición según Kelly.',
-          ask: {
-            prompt: '¿Cuánto capital corresponde apostar?',
-            options: ['600', '500', '200'],
-            answer: 2,
-            explain: 'f* = 0,6 − 0,4 = 0,2; 0,2·1 000 = 200.',
-          },
+          say: 'La siguiente orden tiene p = 0,6, pago a la par y capital disponible de 1 000.',
+          gate: '¿Cuánto capital corresponde apostar según Kelly? Calcula la fracción y ajusta el margen reservado.',
+          after: 'La fracción de Kelly es $0{,}6-0{,}4=0{,}2$. De un capital de 1 000, corresponde reservar 200.',
           note: {
             label: 'Margen reservado',
             tex: 'f^*=0{,}2,\\qquad1000f^*=200',
