@@ -266,69 +266,57 @@ const inflow = (t: number) => 3 + Math.sin(((t - 8) * Math.PI) / 12);
 const outflow = (t: number) => 2.5 + (t >= 0 && t < 6 ? 4.5 : 0.6 * Math.sin((t * Math.PI) / 12));
 const PD = plane([0, 24], [-5, 5], { x: 300, y: 120, w: 820, h: 520 });
 
-function BudgetDemo({ beats, answer }: DemoProps) {
+function BudgetDemo({ beats, unlock }: DemoProps) {
   const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef(new Set<number>());
+  const complete = () => {
+    if (!unlocked.current.has(beat)) {
+      unlocked.current.add(beat);
+      unlock();
+    }
+  };
+  const [cut, setCut] = useState(12);
+  const [mean, setMean] = useState(-2.5);
   const r = (t: number) => inflow(t) - outflow(t);
+  const onCut = useSvgDrag(svg, (x) => {
+    const next = Math.round(clamp(PD.inv(x, 0)[0], 0, 24) * 4) / 4;
+    setCut(next);
+    if (beat === 0 && Math.abs(next - 6) <= 0.5) complete();
+  });
+  const onMean = useSvgDrag(svg, (_x, y) => {
+    const next = Math.round(clamp(PD.inv(0, y)[1], -5, 0) * 20) / 20;
+    setMean(next);
+    if (beat === 2 && Math.abs(next - integrate(r, 0, 6) / 6) <= 0.15) complete();
+  });
   return (
-    <Stage>
-      <Axes
-        P={PD}
-        xTicks={[0, 6, 12, 18, 24]}
-        yTicks={[-4, -2, 2, 4]}
-        xLabel="\text{hora}"
-        yLabel="r"
-        grid
-      />
-      {beat === 0 && (
+    <Stage ref={svg}>
+      <Axes P={PD} xTicks={[0, 6, 12, 18, 24]} yTicks={[-4, -2, 2, 4]} xLabel="\text{hora}" yLabel="r" grid />
+      {beat === 0 ? (
         <>
           <Curve P={PD} f={inflow} a={0} b={24} color={C.green} width={3} />
           <Curve P={PD} f={(t) => -outflow(t)} a={0} b={24} color={C.red} width={3} />
-          <Cap x={1330} y={186} size={20} color={C.green} anchor="left">
-            entra (ríos)
-          </Cap>
-          <Cap x={1330} y={252} size={20} color={C.red} anchor="left">
-            sale (ciudad + tubería 7)
-          </Cap>
+          <Line a={PD.pt(cut, -5)} b={PD.pt(cut, 5)} color={C.amber} width={2} dashed />
+          <Knob x={PD.x(cut)} y={PD.y(-5)} onPointerDown={onCut} cursor="ew-resize" label="t" />
+          <Cap x={1300} y={200} size={24} color={C.green}>entra: ríos</Cap>
+          <Cap x={1300} y={250} size={24} color={C.red}>sale: ciudad y tubería 7</Cap>
+          <Cap x={1300} y={320} size={24} color={C.amber}>{`corte: ${dec(cut, 2)} h`}</Cap>
         </>
-      )}
-      {beat >= 1 && (
+      ) : (
         <>
           <AreaUnder P={PD} f={r} a={0} b={24} pos={C.green} neg={C.red} opacity={0.4} />
           <Curve P={PD} f={r} a={0} b={24} color={C.cyan} width={4} />
-          <Cap
-            x={1330}
-            y={200}
-            size={22}
-            color={C.cyan}
-            anchor="left"
-            tex="r=\text{entra}-\text{sale}"
-          />
+          <Cap x={1300} y={200} size={24} color={C.cyan} tex="r=\text{entra}-\text{sale}" />
+          {beat === 2 && (
+            <>
+              <Line a={PD.pt(0, mean)} b={PD.pt(6, mean)} color={C.amber} width={4} dashed />
+              <Knob x={PD.x(6)} y={PD.y(mean)} onPointerDown={onMean} cursor="ns-resize" label="r" />
+              <Cap x={1300} y={280} size={24} color={C.text}>00:00 a 06:00: −29,2 mil m³</Cap>
+              <Cap x={1300} y={340} size={24} color={C.amber}>{`ritmo: ${dec(mean, 2)} mil m³/h`}</Cap>
+            </>
+          )}
         </>
       )}
-      {beat >= 1 && answer !== null && (
-        <Cap
-          x={1330}
-          y={260}
-          size={22}
-          color={C.amber}
-          anchor="left"
-          tex={`\\int_0^{24}r\\,dt\\approx${dec(integrate(r, 0, 24), 1).replace(',', '{,}')}`}
-        />
-      )}
-      {beat === 2 && (
-        <Line
-          a={PD.pt(0, integrate(r, 0, 6) / 6)}
-          b={PD.pt(6, integrate(r, 0, 6) / 6)}
-          color={C.amber}
-          width={3}
-          dashed
-        />
-      )}
-      <Html x={PD.x(5)} y={PD.y(4.4)} size={16} color={C.muted}>
-        <span>
-          {hhmm(0)}–{hhmm(6)}
-        </span>
-      </Html>
     </Stage>
   );
 }
@@ -613,8 +601,9 @@ export const level: LevelSpec = {
       Scene: BudgetDemo,
       beats: [
         {
-          say: 'En verde vemos lo que entra por los ríos; en rojo, lo que sale hacia la ciudad y la tubería 7. Necesitamos ambas cuentas para saber cómo cambió el lago durante el día.',
-          dur: 1.8,
+          say: 'En verde vemos lo que entra por los ríos; en rojo, lo que sale hacia la ciudad y la tubería 7. De madrugada la salida cambia bruscamente.',
+          gate: 'Arrastra el corte a la hora en que termina la salida intensa de madrugada.',
+          after: 'La salida intensa termina a las 06:00. El corte separa esas 6 horas del resto del día.',
           note: { label: 'Ritmo neto', tex: 'r(t)=\\text{entra}(t)-\\text{sale}(t)' },
         },
         {
@@ -623,8 +612,7 @@ export const level: LevelSpec = {
             prompt: 'Si la integral de las 24 horas es negativa, ¿qué pasó con el lago?',
             options: ['Terminó el día con menos agua', 'Terminó igual', 'No se puede saber'],
             answer: 0,
-            explain:
-              'La integral del ritmo neto es el cambio neto de volumen: negativa significa que el lago perdió agua.',
+            explain: 'La integral del ritmo neto es el cambio neto de volumen: negativa significa que el lago perdió agua.',
           },
           note: {
             label: 'Balance del día',
@@ -633,8 +621,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Entre las 00:00 y las 06:00, la línea naranja muestra el ritmo neto medio. Es el ritmo constante que produciría el mismo cambio de volumen en esas seis horas.',
-          dur: 1.8,
+          say: 'Entre las 00:00 y las 06:00 el cambio neto fue de aproximadamente −29,2 mil m³. ¿Qué ritmo constante produciría ese mismo cambio en seis horas?',
+          gate: 'Calcula el ritmo medio y arrastra la línea naranja hasta esa altura.',
+          after: 'En 6 horas, −29,2 mil m³ corresponden a un ritmo medio de aproximadamente −4,9 mil m³/h.',
           note: { label: 'Salida media nocturna', tex: '\\bar r=\\tfrac16\\int_0^6 r(t)\\,dt' },
         },
       ],
