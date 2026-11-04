@@ -246,64 +246,56 @@ const lesson: LessonStep = {
 const DOSES = [18, 22, 20, 25, 19, 21, 400, 23, 17, 20, 24, 22, 19, 21, 20];
 const PD = plane([0.3, 15.7], [0, 420], { x: 300, y: 140, w: 840, h: 480 });
 
-function DosesDemo({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
-  const m = mean(DOSES);
-  const md = median(DOSES);
+function DosesDemo({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef(false);
+  const [day, setDay] = useState(1);
+  const [estimate, setEstimate] = useState(0);
   const without = DOSES.filter((d) => d !== 400);
+  useEffect(() => { unlocked.current = false; }, [beat]);
+  const selectDay = useSvgDrag(svg, (x) => {
+    if (beat !== 1) return;
+    const selected = Math.round(clamp((x - PD.x(1)) / PD.sx + 1, 1, 15));
+    setDay(selected);
+    if (selected === 7 && !unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  });
+  const estimateMean = useSvgDrag(svg, (x) => {
+    if (beat !== 2) return;
+    const value = clamp((x - 300) / 840 * 50, 0, 50);
+    setEstimate(value);
+    if (Math.abs(value - mean(without)) <= 1 && !unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  });
+  const ruler = lineMap(0, 50, 300, 1140);
   return (
-    <Stage>
-      <Axes
-        P={PD}
-        xTicks={[1, 3, 5, 7, 9, 11, 13, 15]}
-        yTicks={[0, 100, 200, 300, 400]}
-        xLabel="\text{día}"
-        yLabel="\text{dosis}"
-        grid
-      />
+    <Stage ref={svg}>
+      <Axes P={PD} xTicks={[1, 3, 5, 7, 9, 11, 13, 15]}
+        yTicks={[0, 100, 200, 300, 400]} xLabel="\text{día}" yLabel="\text{dosis}" grid />
       {DOSES.map((d, k) => (
-        <rect
-          key={k}
-          x={PD.x(k + 1 - 0.35)}
-          y={PD.y(d * (beat === 0 ? at(0) : 1))}
-          width={PD.x(0.7) - PD.x(0)}
-          height={PD.y(0) - PD.y(d * (beat === 0 ? at(0) : 1))}
-          fill={d === 400 ? C.magenta : C.amber}
-          opacity={0.6}
-        />
+        <rect key={k} x={PD.x(k + 1 - 0.35)} y={PD.y(d)}
+          width={PD.x(0.7) - PD.x(0)} height={PD.y(0) - PD.y(d)}
+          fill={beat === 1 && day === k + 1 ? C.magenta : C.amber}
+          opacity={beat === 2 && k === 6 ? 0.2 : 0.7} />
       ))}
-      {beat >= 1 && (beat > 1 || answer !== null) && (
+      {beat === 1 && (
         <>
-          <line
-            x1={PD.box.x}
-            x2={PD.box.x + PD.box.w}
-            y1={PD.y(m)}
-            y2={PD.y(m)}
-            stroke={C.green}
-            strokeWidth={3}
-            strokeDasharray="10 6"
-          />
-          <line
-            x1={PD.box.x}
-            x2={PD.box.x + PD.box.w}
-            y1={PD.y(md)}
-            y2={PD.y(md)}
-            stroke={C.cyan}
-            strokeWidth={3}
-            strokeDasharray="4 4"
-          />
-          <Cap x={1370} y={250} size={22} color={C.green} tex={`\\bar x\\approx${num(m, 1)}`} />
-          <Cap x={1370} y={300} size={22} color={C.cyan} tex={`\\tilde x=${md}`} />
+          <Knob x={PD.x(day)} y={680} onPointerDown={selectDay} color={C.magenta} cursor="ew-resize" />
+          <Cap x={PD.x(day)} y={730} size={24}>{`Día ${day}: ${DOSES[day - 1]} dosis`}</Cap>
         </>
       )}
-      {beat === 2 && answer !== null && (
-        <Cap
-          x={1370}
-          y={370}
-          size={22}
-          color={C.amber}
-          tex={`\\text{sin el 400: }\\bar x\\approx${num(mean(without), 1)}`}
-        />
+      {beat === 2 && (
+        <>
+          <NumberLine X={ruler} y={730} lo={0} hi={50} step={10} />
+          <Knob x={ruler(estimate)} y={730} onPointerDown={estimateMean} color={C.cyan} cursor="ew-resize" />
+          <Cap x={1370} y={300} size={24} color={C.text}>14 días · suma 291</Cap>
+          <Cap x={1370} y={370} size={24} color={C.cyan} tex={`\\text{marcador: }${num(estimate, 1)}`} />
+        </>
       )}
     </Stage>
   );
@@ -483,29 +475,15 @@ export const level: LevelSpec = {
           note: { label: 'Dosis diarias', tex: 'n=15\\ \\text{días}' },
         },
         {
-          say: 'El informe usa la media.',
-          ask: {
-            prompt: '«46 dosis diarias en promedio». ¿Describe un día típico?',
-            options: [
-              'No: un solo día de 400 infla la media; la mediana es 21',
-              'Sí: la media siempre es el día típico',
-              'No: la moda es 400',
-            ],
-            answer: 0,
-            explain:
-              'La suma es 691: $\\bar x=691/15\\approx46{,}1$. Pero 14 de los 15 días estuvieron entre 17 y 25; la mediana es 21.',
-          },
+          say: 'El informe usa la media. «46 dosis diarias en promedio». ¿Describe un día típico?',
+          gate: 'Mueve el marcador hasta el día que más puede estar alejando la media del resto.',
+          after: 'El día 7 registra 400 dosis; los otros 14 días están entre 17 y 25. La media es 46,1 y la mediana es 21.',
           note: { label: 'Media y mediana', tex: '\\bar x\\approx46{,}1,\\quad \\tilde x=21' },
         },
         {
-          say: 'Teo aparta el día extremo para ver el resto.',
-          ask: {
-            prompt: 'Sin el día de 400 dosis, ¿cuál es la media?',
-            options: ['≈ 20,8', '≈ 46,1', '≈ 28'],
-            answer: 0,
-            explain:
-              '$\\tfrac{691-400}{14}=\\tfrac{291}{14}\\approx20{,}8$. Casi igual a la mediana.',
-          },
+          say: 'Teo aparta el día extremo para ver el resto. Sin el día de 400 dosis, ¿cuál es la media?',
+          gate: 'Calcula la media de los 14 días restantes y ubícala con el marcador en la recta.',
+          after: 'Los 14 días suman 291 dosis. Su media es $291/14\\approx20{,}8$, cerca de la mediana 21.',
           note: {
             label: 'Sin el día extremo',
             tex: '\\bar x=\\tfrac{291}{14}\\approx20{,}8',
