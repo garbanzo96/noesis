@@ -265,6 +265,7 @@ export const lesson: LessonStep = {
     {
       say: 'Vuelve a comparar Euler con la referencia en el mismo tiempo final.',
       gate: 'Arrastra el paso a h = 1/8; después lleva el cursor hasta t = 1 h.',
+      after: '$4(9/8)^8>10$: con el paso corto Euler cruza el umbral que el paso largo escondía.',
       board: {
         label: 'Paso privado',
         tex: '\\p{1}{Q^E_8}=\\p{2}{4(9/8)^8}>\\p{3}{\\cM{10}}',
@@ -748,6 +749,8 @@ export const level: LevelSpec = {
         {
           say: 'Las horas de la mesa pertenecen a dos días. Marca el recibo de Halcón y compara su fecha con la copia, las modificaciones públicas y la recepción del Observatorio.',
           gate: 'Arrastra el marcador al recibo de Halcón de las 00:10 del 17, o toca ese registro.',
+          after:
+            'El recibo es del 17, un día antes de los cambios públicos. Alguien conocía la ventana de antemano.',
         },
         {
           say: 'Las horas de la mesa pertenecen a dos días. Conserva copia, recibo y modificación del 17 junto al parte de recepción del 18.',
@@ -771,6 +774,8 @@ export const level: LevelSpec = {
         {
           say: 'El parte registra la recepción en el Observatorio a las 02:10 del 18 y la salida inmediata. Marca en la guía la recepción que continúa ese recorrido.',
           gate: 'Arrastra el marcador a la guía de recepción de la Clínica de las 02:40, o toca ese registro.',
+          after:
+            'La guía de las 02:40 continúa el recorrido que salió del Observatorio a las 02:10.',
         },
         {
           say: 'El parte registra la recepción en el Observatorio y la salida inmediata. La guía adjunta continúa el recorrido.',

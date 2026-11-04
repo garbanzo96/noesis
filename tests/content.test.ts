@@ -37,6 +37,17 @@ describe('content contract', () => {
     }
   });
 
+  it('every action says what it showed', () => {
+    const open = levels.flatMap((l) =>
+      l.steps.flatMap((step) =>
+        step.kind === 'lesson' || step.kind === 'demo'
+          ? step.beats.filter((b) => b.gate && !b.after).map((b) => `${l.id}: ${b.gate}`)
+          : [],
+      ),
+    );
+    expect(open).toEqual([]);
+  });
+
   it('JSX tex attributes use one backslash: they are not JS strings', () => {
     const files = Object.entries(
       import.meta.glob<string>('../src/content/**/*.tsx', { eager: true, query: '?raw', import: 'default' }),

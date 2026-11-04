@@ -175,6 +175,8 @@ export const lesson: LessonStep = {
     {
       say: 'Compara el mismo instante con dos frenos. Mira si la aguja ya cruzó el reposo.',
       gate: 'Elige c = 6 y arrastra el reloj a π/4 s; después elige c = 10 y vuelve a π/4 s.',
+      after:
+        'Con $c=6$ la aguja ya cruzó el reposo; con $c=10$, todavía no. El freno decide si oscila.',
       board: [
         {
           label: 'Cruce original',
@@ -607,6 +609,8 @@ export const level: LevelSpec = {
         {
           say: 'La calibración firmada identifica c = 6. El archivo público conserva el inicio, pero usa c = 10. Lleva el reloj a π/4 s y compara las posiciones de ambas curvas.',
           gate: 'Arrastra el reloj hasta t = π/4 s.',
+          after:
+            'En $t=\\pi/4$ el archivo público sigue positivo y la calibración firmada ya cruzó el cero: no son el mismo freno.',
         },
         {
           say: 'En t = π/4 s, la aguja del papel está al otro lado del reposo y la curva pública sigue positiva.',
@@ -626,6 +630,8 @@ export const level: LevelSpec = {
         {
           say: 'La curva magenta usa c = 6 y q(0) = 1, pero parte con otra velocidad. Ajusta v(0) a 0, como indica la calibración, hasta que coincida con la curva del papel.',
           gate: 'Arrastra la velocidad inicial hasta v₀ = 0.',
+          after:
+            'Con $v(0)=0$ la curva coincide con el papel. Una ecuación de segundo orden necesita dos datos iniciales.',
         },
         {
           say: 'Con c = 6, q(0) = 1 y v(0) = 0 recuperaste la trayectoria del papel. El freno clasifica la regla, pero el recorrido también depende de los dos datos iniciales.',

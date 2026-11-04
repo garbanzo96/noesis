@@ -271,6 +271,7 @@ export const lesson: LessonStep = {
     {
       say: 'Cuenta los unos y completa una cantidad par. La **paridad** detecta cualquier cantidad impar de inversiones, pero no ubica el bit; dos cambios pueden dejarla igual.',
       gate: 'Arrastra la ficha 0 o 1 al centro de la casilla «Paridad par». Deben quedar cuatro unos y XOR cero.',
+      after: 'Cuatro unos y XOR cero. La paridad avisa que algo cambió, pero no dice dónde.',
       board: {
         label: 'Paridad par',
         tex: '\\p{1}{b_1\\oplus\\cdots\\oplus b_n}\\oplus\\p{2}{\\cA{p}}=\\p{3}{0}',
@@ -281,6 +282,8 @@ export const lesson: LessonStep = {
     {
       say: 'La **repetición triple** copia cada dato tres veces. En 101 gana el uno por mayoría; corrige hasta una inversión por grupo y transporta un dato en tres bits.',
       gate: 'Arrastra el voto 1 al círculo «Salida» del bloque 101.',
+      after:
+        'Dos votos contra uno: sale 1. Corrige una inversión, pero gasta tres bits por dato: $R=\\tfrac13$.',
       board: {
         label: 'Votación y tasa',
         tex: '\\p{1}{111}\\to\\p{2}{101}\\to\\p{3}{\\cC{1}},\\quad\\p{4}{R=\\tfrac13}',
@@ -295,6 +298,8 @@ export const lesson: LessonStep = {
     {
       say: 'Hamming distribuye los datos en 3, 5, 6 y 7. Cada posición comparte una combinación distinta de comprobaciones; revisa las conexiones antes de leer la palabra.',
       gate: 'Arrastra la lupa a las posiciones de comprobación 1, 2 y 4, en el centro de sus bits.',
+      after:
+        'Cada posición queda cubierta por una combinación distinta de comprobaciones. Con 3 bits de control se protegen 4 de datos: $R=\\tfrac47$.',
       board: [
         {
           label: 'Posiciones de Hamming',
@@ -333,6 +338,8 @@ export const lesson: LessonStep = {
     {
       say: 'Corrige la copia en la posición indicada y recalcula las comprobaciones. Después extrae solo los cuatro bits de datos.',
       gate: 'Arrastra el marcador ↺ al quinto bit. Debe quedar 0110011 y síndrome 000.',
+      after:
+        'El síndrome vuelve a 000: el error estaba en la posición 5 y los cuatro datos se pueden leer.',
       board: {
         label: 'Recalcular después de invertir',
         tex: '\\p{1}{\\operatorname{síndrome}(w)}=\\p{2}{000}',
@@ -675,10 +682,14 @@ export const level: LevelSpec = {
         {
           say: 'La copia conserva 0110111 y 1001000. Intentamos corregir bajo el límite de una inversión por bloque; las posiciones empiezan en uno a la izquierda. En 0110111 fallan los grupos 1 y 4: el síndrome 101 indica la posición 5.',
           gate: 'Arrastra el marcador ↺ al quinto bit de 0110111 para dejar la copia en 0110011 y el síndrome en 000.',
+          after:
+            'Fallaban los grupos 1 y 4: $1+4=5$. El síndrome leído en binario da la posición del error.',
         },
         {
           say: 'La primera copia entrega 1011. El segundo bloque, 1001000, también falla en los grupos 1 y 4. Corrige su copia de trabajo y lee las posiciones de datos 3, 5, 6 y 7.',
           gate: 'Arrastra el marcador ↺ al quinto bit de 1001000 para dejar la copia en 1001100 y el síndrome en 000.',
+          after:
+            'El segundo bloque también fallaba en los grupos 1 y 4, así que se corrige la misma posición. Sus datos son 0100.',
         },
         {
           say: 'Compara la segunda copia corregida con su original y lee los cuatro bits de datos.',

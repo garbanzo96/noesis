@@ -197,6 +197,8 @@ export const lesson: LessonStep = {
     {
       say: 'Compara un canal que conserva todo con uno donde las dos salidas son igualmente probables para cualquier entrada.',
       gate: 'Suelta la perilla primero en 0 y después en 1/2. Las dos filas deben quedar iguales.',
+      after:
+        'Con $p=0$ la salida copia la entrada; con $p=\\tfrac12$ no dice nada de ella: las filas son iguales y la capacidad es 0.',
       board: {
         label: 'Salida independiente',
         tex: '\\p{1}{p=\\tfrac12}\\Rightarrow\\p{2}{Y\\perp X}',
@@ -519,6 +521,8 @@ export const level: LevelSpec = {
         {
           say: 'La calibración envió 16 ceros y 16 unos; se invirtieron cuatro de cada tipo. Adoptamos p = 1/4 y un BSC sin memoria: independencia asumida. Los huecos se solicitan aparte a la copia local.',
           gate: 'Arrastra la perilla de tasa hasta 1/4 y suéltala para probar la configuración nueva.',
+          after:
+            'Con $p=\\tfrac14$ la capacidad es cerca de 0,19 bit por uso. Una tasa de $\\tfrac14$ la supera: no se puede transmitir sin errores.',
         },
         {
           say: 'Compara los 25 bits útiles por segundo de la configuración nueva con el límite que muestra la barra.',
@@ -541,6 +545,8 @@ export const level: LevelSpec = {
         {
           say: 'La tasa anterior era 1/16 bit útil por uso. La nueva, 1/4, es cuatro veces mayor; prueba ahora 1/8 en la copia de configuración.',
           gate: 'Arrastra la perilla de tasa hasta 1/8 y suéltala para probar una tasa menor.',
+          after:
+            '$\\tfrac18$ queda bajo la capacidad, 0,19. Bajo ese límite existe un código que corrige los errores.',
         },
         {
           say: 'Con R = 1/8, el terminal pide 12,5 bits útiles por segundo. Compara la marca de tasa con la capacidad del enlace.',

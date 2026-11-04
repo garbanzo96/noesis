@@ -158,6 +158,8 @@ const lesson: LessonStep = {
     {
       say: 'Mueve fichas entre bandejas sin cambiar el total. Al soltar se recalculan las probabilidades y los bits de cada evento.',
       gate: 'Arrastra una ficha de A a C y otra de A a D; suéltalas en los círculos destino hasta obtener (2,2,2,2).',
+      after:
+        'Con (2,2,2,2) cada etiqueta vale $\\tfrac14$ y la entropía llega a su máximo, 2 bits: un reparto parejo es el más difícil de predecir.',
       board: {
         label: 'Fuente uniforme',
         tex: '\\p{1}{p_A=p_B}=\\p{2}{p_C=p_D}=\\p{3}{\\cC{\\tfrac14}}',
@@ -484,6 +486,8 @@ export const level: LevelSpec = {
         {
           say: 'El contador reserva 128 bits para palabras fijas de dos bits. El lote conserva el reparto (32,16,8,8).',
           gate: 'Arrastra el marcador hasta las 64 cabeceras para medir el lote completo.',
+          after:
+            'El reparto (32,16,8,8) tiene entropía $\\tfrac74$ bits: 112 bits para 64 cabeceras, contra 128 con palabras fijas.',
         },
         {
           say: 'La medición usa la entropía de 1,75 bits por símbolo y las 64 cabeceras del lote.',
@@ -501,6 +505,8 @@ export const level: LevelSpec = {
         {
           say: 'Cada ficha mueve ocho cabeceras. Redistribuye el lote para comparar la fuente observada con un reparto equiprobable de las cuatro etiquetas.',
           gate: 'Arrastra una ficha de A a C y otra de A a D hasta obtener (16,16,16,16).',
+          after:
+            'Parejo, el lote necesita 2 bits por cabecera: 128 bits. La fuente observada ahorra 16 bits porque no es pareja.',
         },
         {
           say: 'Las cuatro etiquetas tienen probabilidad 0,25. Lee la entropía del reparto uniforme.',

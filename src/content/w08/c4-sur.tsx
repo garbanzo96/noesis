@@ -116,6 +116,8 @@ const lesson: LessonStep = {
     {
       say: 'Filtrar cambia el grupo que usas como total. Dentro de Sur, c y d ocupan cada una la mitad: esa es su probabilidad **condicional**.',
       gate: 'Arrastra la ficha Sur al círculo Filtro y suéltala para mostrar las dos probabilidades 1/2.',
+      after:
+        'Al filtrar por Sur, c y d valen $\\tfrac12$ cada una: se divide por $p(\\text{Sur})$, el nuevo total.',
       board: {
         label: 'Renormalizar una fila',
         tex: '\\p{1}{\\cA{p(y\\mid x)}}=\\p{2}{\\frac{\\cC{p(x,y)}}{\\cM{p(x)}}}',
@@ -456,6 +458,7 @@ export const level: LevelSpec = {
         {
           say: 'La bitácora de rutas tiene 16 registros: cuatro Norte–a, cuatro Norte–b, cuatro Sur–c y cuatro Sur–d. Es un lote distinto de las cabeceras A–D; la reserva recuperada nombra d.',
           gate: 'Selecciona la ruta d para aislar su columna y revisar a qué torre pertenece.',
+          after: 'Toda la columna d cae en Sur: conocer la ruta deja la torre sin ninguna duda.',
         },
         {
           say: 'La columna d conserva cuatro registros de Sur y ninguno de Norte. Revisa cuánto queda por saber de la torre.',
@@ -475,6 +478,8 @@ export const level: LevelSpec = {
         {
           say: 'Ahora descarta el nombre de la ruta y conserva solo la torre Sur. Filtra la fila para ver las probabilidades de las rutas que quedan.',
           gate: 'Arrastra la ficha Sur al círculo Filtro y suéltala.',
+          after:
+            'Sin el nombre de la ruta queda la duda entre c y d: 1 bit. La entropía condicional mide la duda que resta.',
         },
         {
           say: 'La fila Sur conserva cuatro registros de c y cuatro de d. Cada ruta ocupa la mitad de la fila.',

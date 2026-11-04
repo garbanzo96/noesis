@@ -166,6 +166,8 @@ const lesson: LessonStep = {
     {
       say: 'Pasa el lote por ambos perfiles. Las cintas conservan sus conteos y miden los bits completos de cada código.',
       gate: 'Suelta la perilla en P para leer 14 bits; luego arrástrala y suéltala en Q para leer 19 bits.',
+      after:
+        'Con el código de P ocupa 14 bits y con el de Q, 19. Los 5 bits de más son el costo de usar el modelo equivocado.',
       board: {
         label: 'Exceso del lote pequeño',
         tex: '\\p{1}{\\cA{19}}-\\p{2}{\\cC{14}}=\\p{3}{\\cM{5}}',
@@ -525,6 +527,8 @@ export const level: LevelSpec = {
         {
           say: 'Las 64 cabeceras tienen conteos (32,16,8,8). Con P ocupan 112 bits. Cambia el perfil a Q y lee el tamaño del mismo lote. La revisión administrativa sitúa el cambio con la cuenta «Contador», después del reinicio de Inés.',
           gate: 'Arrastra la perilla desde P hasta Q y suéltala para medir el lote.',
+          after:
+            'El mismo lote ocupa 152 bits con Q y 112 con P: 40 de más. Dividido por 64 es la KL, $\\tfrac58$ de bit por cabecera.',
         },
         {
           say: 'El mismo lote ocupa 112 bits con P y 152 con Q. Compara los tamaños que mediste.',
@@ -544,6 +548,8 @@ export const level: LevelSpec = {
         {
           say: 'Invierte la comparación: Q emite 64 cabeceras con su propio reparto, con conteos (8,32,16,8). Con Q ocupan 112 bits. Cambia el perfil a P y mide el nuevo tamaño.',
           gate: 'Arrastra la perilla desde Q hasta P y suéltala para medir el lote inverso.',
+          after:
+            'Esta vez el exceso es de 32 bits, no 40: $KL(P\\Vert Q)$ y $KL(Q\\Vert P)$ no son iguales. La KL no es una distancia.',
         },
         {
           say: 'El lote de Q ocupa 144 bits con P y 112 con su código propio. Divide los 32 bits de exceso por las 64 cabeceras para comparar ambas direcciones.',

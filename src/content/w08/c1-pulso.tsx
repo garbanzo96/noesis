@@ -121,7 +121,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Parte con ocho casilleros. Cada respuesta conserva la mitad donde está la luz.',
-      gate: 'Gira la perilla y suéltala en 3 hasta dejar un solo casillero.',
+      gate: '¿Cuántas preguntas de sí o no hacen falta para dejar un solo casillero de ocho? Búscalo con la perilla.',
+      after:
+        'Tres preguntas: $8\\to4\\to2\\to1$. Cada respuesta corta el grupo a la mitad, así que $\\log_2 8=3$ bits.',
       board: {
         label: 'Partir en mitades',
         tex: '\\p{1}{8}\\to\\p{2}{4}\\to\\p{3}{2}\\to\\p{4}{\\cC{1}}',
@@ -388,6 +390,8 @@ export const level: LevelSpec = {
         {
           say: 'El chip conserva 64 cabeceras: 32 A, 16 B, 8 C y 8 D. La etiqueta pública de D es «reserva de entrega». Cada marca de la perilla reduce el grupo a la mitad; busca las 8 cabeceras D.',
           gate: 'Arrastra la perilla hasta dejar 8 de las 64 cabeceras.',
+          after:
+            'D ocupa 8 de 64: tres mitades, 3 bits. Un evento de probabilidad $\\tfrac18$ aporta $\\log_2 8$ bits.',
         },
         {
           say: 'La perilla llegó a 8 cabeceras tras tres mitades: D ocupa 8/64 = 1/8 del lote.',
@@ -405,6 +409,8 @@ export const level: LevelSpec = {
         {
           say: 'D necesitó tres mitades. Mide ahora A, que ocupa 32 de las 64 cabeceras, con la misma perilla.',
           gate: 'Arrastra la perilla hasta dejar 32 de las 64 cabeceras.',
+          after:
+            'A ocupa la mitad: una sola mitad, 1 bit. Lo raro informa más: $I(D)-I(A)=2$ bits.',
         },
         {
           say: 'A ocupa 32/64 = 1/2 del lote: una mitad, un bit. D necesitó tres mitades; compara las dos mediciones.',

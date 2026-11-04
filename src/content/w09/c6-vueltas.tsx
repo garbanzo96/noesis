@@ -256,6 +256,8 @@ const lesson: LessonStep = {
     {
       say: 'Compara la dirección que se aleja con la trayectoria que gira. Usa el mismo inicio para las dos pruebas.',
       gate: 'Elige S con la perilla; arrastra el inicio ámbar a (1, 0). Después elige F y repite.',
+      after:
+        'S se aleja en una dirección y F gira hacia el origen. Los valores propios deciden la forma: reales de signo opuesto dan silla; complejos con parte real negativa, espiral entrante.',
       board: {
         label: 'Dos recorridos',
         tex: '\\p{1}{\\cA{\\text{silla}}};\\quad\\p{2}{\\cM{\\text{espiral entrante}}}',
@@ -621,6 +623,7 @@ export const level: LevelSpec = {
         {
           say: 'El original F₊ tiene traza 2, determinante 5 y discriminante −16. La pública F₋ tiene traza −2 y conserva D y Δ. El historial atribuye este cambio y el anterior a «Halcón / enlace externo».',
           gate: 'Arrastra el cursor de la copia pública hasta t = 1,2 y observa cómo gira.',
+          after: 'La copia pública gira y se acerca al origen: su traza es $-2$.',
         },
         {
           say: 'Compara las dos trayectorias desde el mismo inicio y con el reloj en t = 1,2. La pública gira hacia el origen; el original gira alejándose.',
@@ -644,6 +647,8 @@ export const level: LevelSpec = {
         {
           say: 'Elena reconoce el puerto de acceso: debía consultar, no editar. Recorre ahora la trayectoria del original desde el mismo inicio y observa si se acerca al origen.',
           gate: 'Arrastra el cursor del original hasta t = 1,2 y observa cómo cambia la distancia al origen.',
+          after:
+            'El original gira y se aleja: su traza es 2. Con el mismo determinante, el signo de la traza decide la espiral.',
         },
         {
           say: 'El reloj del original llegó a t = 1,2. Usa el recorrido que acabas de observar para clasificar el origen.',

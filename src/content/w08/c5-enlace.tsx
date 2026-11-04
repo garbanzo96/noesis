@@ -192,6 +192,8 @@ const lesson: LessonStep = {
     {
       say: 'Compara las dos evidencias. La tabla del piloto conserva ambas torres; la ruta d deja solamente Sur.',
       gate: 'Suelta la perilla en Piloto para registrar esa comparación; después arrástrala y suéltala en Ruta.',
+      after:
+        'El piloto deja la torre en duda, $H(X\\mid Z)=1$ bit; la ruta la fija, $H(X\\mid Y)=0$. Cada evidencia quita distinta cantidad de incertidumbre.',
       board: [
         {
           label: 'Después de conocer la ruta',
@@ -488,6 +490,8 @@ export const level: LevelSpec = {
         {
           say: 'En los 16 registros, cada par torre–ruta aparece dos veces con piloto apagado y dos con piloto encendido. Al agrupar por torre y piloto, cada celda reúne cuatro registros. Compara esa tabla con la de rutas.',
           gate: 'Arrastra la perilla desde Piloto hasta Ruta y suéltala para comparar las torres que quedan.',
+          after:
+            'Con el piloto quedan las dos torres y con la ruta, una sola: la ruta aporta 1 bit sobre la torre y el piloto, 0.',
         },
         {
           say: 'Con el piloto quedan ambas torres por mitades. Cada ruta, en cambio, deja una sola torre.',
@@ -506,6 +510,8 @@ export const level: LevelSpec = {
         {
           say: 'El piloto es un ciclo general de mantenimiento. Filtra la tabla por la ruta d para revisar qué torre conserva el enlace al repetidor de reserva.',
           gate: 'Arrastra la perilla hasta d y suéltala para aislar sus registros.',
+          after:
+            'Los registros de d están todos en Sur: la ruta identifica la torre del repetidor.',
         },
         {
           say: 'La ruta d sigue apuntando al repetidor de reserva y deja solamente Sur. La tabla no registra quién accedió al perfil.',

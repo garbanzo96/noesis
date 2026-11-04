@@ -192,6 +192,8 @@ const lesson: LessonStep = {
     {
       say: 'Prueba a ambos lados de la marca. El banco de clase permite exceder la capacidad de referencia.',
       gate: 'Arrastra la ficha ámbar primero a B = 4 y después a B = 12.',
+      after:
+        'En $B=4$ la tasa es $+2$ y en $B=12$ es $-6$: bajo la capacidad crece y sobre ella baja. La capacidad atrae.',
       board: {
         label: 'Dos pruebas',
         tex: "\\begin{aligned}\\p{1}{B'(4)}&=\\p{2}{\\cC{2}}\\\\\\p{3}{B'(12)}&=\\p{4}{\\cM{-6}}\\end{aligned}",
@@ -579,6 +581,8 @@ export const level: LevelSpec = {
         {
           say: 'El búfer real admite 8 paquetes. Empieza lleno: entran 2 paquetes/min y salen 2 por reemplazo durante 3 min. Esta regla de intercambio es distinta del llenado continuo.',
           gate: 'Arrastra el contador de tiempo hasta 3 min, con margen de 0,05 min.',
+          after:
+            'Entran 2 y salen 2 por minuto: tras 3 min el búfer sigue en 8, con 6 paquetes reemplazados.',
         },
         {
           say: 'El contador llegó a 3 min. Revisa las entradas acumuladas y la ocupación del búfer.',
@@ -597,6 +601,7 @@ export const level: LevelSpec = {
         {
           say: 'Vuelve al modelo logístico de clase. El paquete recuperado conserva la matriz original del canal de presión; la pantalla pública solo retuvo el total ocupado.',
           gate: 'Arrastra la ficha primero a B = 4 y después a B = 8.',
+          after: 'En $B=8$ la tasa es 0: ahí el sistema se queda. Ese es el equilibrio logístico.',
         },
         {
           say: 'En B = 4 la pendiente es 2; en B = 8 es cero. Revisa hacia dónde apuntan las flechas a ambos lados de 8.',

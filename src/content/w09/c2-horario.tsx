@@ -234,6 +234,8 @@ const lesson: LessonStep = {
     {
       say: 'Detén el reloj cuando quede la mitad. Primero lleva el marcador a 4 y luego alinea la barra con esa altura.',
       gate: 'Arrastra el marcador amarillo a 4; mueve el reloj hasta que la barra decreciente llegue a 4.',
+      after:
+        'Se llegó a la mitad. En un decaimiento exponencial ese tiempo no depende del valor inicial: es la vida media.',
       board: {
         label: 'Mitad del inicio',
         tex: '\\p{1}{\\cM{z(t)}}=\\p{2}{4}',
@@ -559,6 +561,8 @@ export const level: LevelSpec = {
         {
           say: 'El canal reducido R parte en 4 mm/h a la 01:00 del 18 y duplica por hora. La privada del 17 anticipaba ese inicio; el acuse de las 00:10 reservó la entrega para 02:00–02:30 del 18.',
           gate: 'Arrastra el punto por la curva hasta que R llegue al umbral de 8 mm/h.',
+          after:
+            'R pasó de 4 a 8 en una hora y llega al umbral a las 02:00. Duplicar toma siempre lo mismo.',
         },
         {
           say: 'El punto marca cuánto tiempo pasó desde la 01:00 del 18 hasta alcanzar el umbral de 8 mm/h.',
@@ -577,6 +581,8 @@ export const level: LevelSpec = {
         {
           say: 'Contrasta el crecimiento con el banco de batería, que pierde carga según su nivel. El reloj de este banco mide desde su propio inicio.',
           gate: 'Arrastra el punto por la curva hasta que la carga baje de 8 a 4.',
+          after:
+            'Bajar de 8 a 4 toma lo mismo que bajar de 4 a 2. Crecer y decaer son la misma ecuación con distinto signo de $k$.',
         },
         {
           say: 'El punto marca la carga que queda al cabo de ln 2 horas desde el inicio del banco.',

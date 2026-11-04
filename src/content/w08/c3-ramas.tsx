@@ -172,6 +172,8 @@ const lesson: LessonStep = {
     {
       say: 'En A = 0 y B = 01, una palabra completa también empieza otra. En un **código de prefijo**, los símbolos terminan solo en hojas.',
       gate: 'Arrastra el cursor por la cinta 01 y suéltalo tras el primer bit para ver el conflicto.',
+      after:
+        'Tras el primer 0 no se sabe si terminó A o sigue B: una palabra es inicio de otra. Un código de prefijo evita esa ambigüedad.',
       board: {
         label: 'Sin prefijos entre palabras',
         tex: '\\p{1}{\\cC{c(x)}}\\not\\prec\\p{2}{\\cA{c(y)}},\\quad\\p{3}{x\\ne y}',
@@ -182,6 +184,8 @@ const lesson: LessonStep = {
     {
       say: '**Huffman** une los dos pesos menores y repite con el peso nuevo. Resuelve los empates por etiqueta para reproducir este árbol.',
       gate: 'Une C con D, luego B con CD y finalmente A con BCD; arrastra cada nodo a su círculo de unión.',
+      after:
+        'Quedaron largos 1, 2, 3 y 3. Los símbolos raros van más profundo y el largo promedio iguala la entropía, $\\tfrac74$ bits.',
       board: {
         label: 'Sumar los pesos menores',
         tex: '\\p{1}{\\cC{\\tfrac18}}+\\p{2}{\\cM{\\tfrac18}}=\\p{3}{\\cA{\\tfrac14}}',
@@ -566,6 +570,8 @@ export const level: LevelSpec = {
         {
           say: 'El chip guarda el árbol de la fuente. El fragmento público 010110111 no tiene separadores externos. Recorre la cinta y marca cada llegada a una hoja.',
           gate: 'Arrastra el cursor y suéltalo después de los bits 1, 3, 6 y 9, en ese orden.',
+          after:
+            'La cinta se lee sin separadores: 0 · 10 · 110 · 111. Cada llegada a una hoja cierra una palabra y vuelve a la raíz.',
         },
         {
           say: 'Los cortes que marcaste separan cuatro palabras. Cada hoja devuelve el lector a la raíz.',
@@ -585,6 +591,8 @@ export const level: LevelSpec = {
         {
           say: 'El lote íntegro contiene 32 A, 16 B, 8 C y 8 D. Mide las cuatro palabras; el registro multiplica cada longitud por su conteo y suma los bits.',
           gate: 'Arrastra el cursor hasta el final de cada palabra: A, B, C y D, en ese orden.',
+          after:
+            '$32\\cdot1+16\\cdot2+8\\cdot3+8\\cdot3=112$ bits: 1,75 por cabecera, igual que la entropía.',
         },
         {
           say: 'Las cuatro mediciones suman 112 bits para las 64 cabeceras. La compresión conserva todos los símbolos.',

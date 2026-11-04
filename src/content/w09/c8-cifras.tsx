@@ -231,6 +231,8 @@ export const lesson: LessonStep = {
     {
       say: 'Cambia una cifra al inicio y compara después del mismo número de turnos.',
       gate: 'Visita z₀ = 0,2000; después deja z₀ = 0,2001 y arrastra el contador hasta n = 10.',
+      after:
+        'Una diferencia de 0,0001 al inicio ya se nota a los 10 turnos. En un sistema caótico el error crece.',
       board: {
         label: 'Diferencia inicial',
         tex: '\\p{1}{|z_0-x_0|}=\\p{2}{\\cA{0{,}0001}}',
@@ -572,6 +574,8 @@ export const level: LevelSpec = {
         {
           say: 'El banco usa r = 4. El original conserva z₀ = 0,2001 y la copia pública usa x₀ = 0,2. Lee la alarma solo en n = 10.',
           gate: 'Arrastra el contador hasta n = 10 y compara las dos copias.',
+          after:
+            'En $n=10$ las dos copias difieren lo suficiente para cambiar la alarma. La copia pública no conserva el original.',
         },
         {
           say: 'La tabla muestra las dos copias tras diez actualizaciones con la misma regla. Compara sus valores con el umbral 0,2.',
@@ -595,6 +599,8 @@ export const level: LevelSpec = {
         {
           say: 'El paquete de las 00:00 del 17 incluía el canal R y la ventana prevista. El recibo de las 00:10 lo enlaza al mensaje; el parte y la guía registran el traslado efectivo del 18.',
           gate: 'Toca «Recibo» para marcar el documento firmado por Halcón antes de la entrega.',
+          after:
+            'El recibo de las 00:10 está firmado por Halcón antes de la entrega. Ese documento enlaza el mensaje con quien lo recibió.',
         },
         {
           say: 'El recibo firmado registra el acceso de Halcón el 17 a las 00:10. El parte y la guía registran las vacunas recibidas el 18 a las 02:10 y su llegada a la Clínica a las 02:40.',

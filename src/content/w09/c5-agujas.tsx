@@ -280,6 +280,8 @@ const lesson: LessonStep = {
     {
       say: 'Pon ambas agujas en la misma marca. La flecha de cambio en (2, 2) sigue la diagonal hacia el origen.',
       gate: 'Arrastra el inicio ámbar hasta (2, 2).',
+      after:
+        'En $(2,2)$ el cambio es $(-2,-2)$: la flecha apunta directo al origen. Esa dirección es un vector propio del sistema.',
       board: {
         label: 'Cambio conjunto',
         tex: '\\p{1}{A(2,2)^{\\mathsf T}}=\\p{2}{\\cC{(-2,-2)^{\\mathsf T}}}',
@@ -656,6 +658,8 @@ export const level: LevelSpec = {
         {
           say: 'El original usa M = diag(1, −2); la pública, Mₚ = diag(−1, −2). Ambas parten en (2, 4). Avanza el reloj del original hasta t = ln 2 y observa qué lectura aumenta.',
           gate: 'Arrastra el reloj ámbar hasta la marca verde de t = ln 2.',
+          after:
+            'Con $M=\\mathrm{diag}(1,-2)$ la primera lectura se duplica y la segunda cae a la cuarta parte. Un valor propio positivo hace crecer su dirección.',
         },
         {
           say: 'El original pasó de (2, 4) a (4, 1) durante la calibración.',
@@ -679,6 +683,8 @@ export const level: LevelSpec = {
         {
           say: 'El archivo de medición inicial es idéntico. Solo la primera entrada de la matriz cambia de signo entre ambas copias. Avanza el reloj de la copia pública y compara con el original, que queda fijo en (4, 1).',
           gate: 'Arrastra el reloj cian hasta la marca verde de t = ln 2.',
+          after:
+            'En la copia pública las dos lecturas bajan. Un signo en la matriz cambia una alarma que sube por una que se apaga.',
         },
         {
           say: 'Con el mismo inicio y el mismo tiempo, la copia pública llegó a (1, 1). La segunda componente terminó en 1 en ambas copias.',

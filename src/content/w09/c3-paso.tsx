@@ -183,6 +183,8 @@ const lesson: LessonStep = {
     {
       say: 'Acorta el paso y mira cuánto se acerca el final. Cada cambio rehace la poligonal hasta la misma hora.',
       gate: 'Arrastra la perilla de h hasta 1/4; lleva el cursor inferior al último nodo, t = 1.',
+      after:
+        'Con $h=\\tfrac14$ la poligonal queda más cerca de la curva. Euler mejora al acortar el paso.',
       board: {
         label: 'Paso corto',
         tex: '\\p{1}{\\cA{h}}=\\p{2}{\\tfrac14}',
@@ -497,6 +499,8 @@ export const level: LevelSpec = {
         {
           say: 'El banco de validación usa Q′ = Q e inicio 4, con horizonte de una hora y umbral 10. Es una prueba del cálculo, distinta del canal de lluvia R. La pública usa h = 1 h.',
           gate: 'Arrastra el cursor inferior hasta t = 1 para medir la salida pública con h = 1 h.',
+          after:
+            'Con un solo paso de 1 h: $4+4=8$, bajo el umbral 10. La salida pública se queda corta.',
         },
         {
           say: 'El cursor llegó a una hora. Lee el nivel de la salida pública y compáralo con el umbral 10.',
@@ -516,6 +520,8 @@ export const level: LevelSpec = {
         {
           say: 'La privada conserva h = 1/8 h. Ambas salidas terminan en t = 1; revisa el efecto de recalcular más veces.',
           gate: 'Arrastra el cursor inferior hasta t = 1 para recorrer los ocho pasos de la salida privada.',
+          after:
+            'Con ocho pasos, $4(9/8)^8\\approx10{,}26$, sobre el umbral. El paso grande escondía el cruce.',
         },
         {
           say: 'Las dos salidas están en t = 1. Compara sus niveles con la línea del umbral 10.',

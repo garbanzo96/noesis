@@ -168,7 +168,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Inclina la flecha hasta que acompañe el trazo. Mover la punta cambia la pendiente elegida; el nivel sigue en la curva.',
-      gate: 'Arrastra el reloj inferior a t = 1 y la perilla derecha a pendiente 2.',
+      gate: 'Lleva el reloj a $t=1$ e inclina la flecha hasta que acompañe la curva.',
+      after:
+        'En $t=1$ la pendiente es 2: el nivel sube 2 cm por minuto justo ahí. Una ecuación diferencial da la pendiente según el estado.',
       board: {
         label: 'Pendiente local',
         tex: '\\p{1}{\\text{pendiente en }t=1:}\\ \\p{2}{\\cA{2}}',
@@ -473,6 +475,8 @@ export const level: LevelSpec = {
         {
           say: 'El colector de prueba parte en 3 cm. Mueve el punto sobre el papel hasta un minuto y lee el nivel y la pendiente.',
           gate: 'Arrastra el punto de la curva hasta t = 1 min.',
+          after:
+            'Lees a la vez el nivel y la pendiente de ese minuto. La pendiente depende del nivel que hay.',
         },
         {
           say: 'El papel marca 4 cm y una pendiente de 2 cm/min; el boletín muestra ese nivel con pendiente cero.',
@@ -491,6 +495,8 @@ export const level: LevelSpec = {
         {
           say: 'La cabecera identifica el canal como entrada auxiliar. Ajusta el inicio de la curva al registro de 3 cm y observa cómo conserva las pendientes del campo.',
           gate: 'Arrastra el punto del eje vertical hasta H(0) = 3 cm, en la marca verde.',
+          after:
+            'Con $H(0)=3$ queda elegida una sola curva del campo: la condición inicial fija la solución.',
         },
         {
           say: 'La curva ajustada parte en 3 cm y pasa por 4 cm al minuto, siguiendo las pendientes del papel.',

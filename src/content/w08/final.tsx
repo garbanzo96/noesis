@@ -242,6 +242,8 @@ export const lesson: LessonStep = {
     {
       say: 'La palabra de D termina en su hoja. Al leerla, el decodificador vuelve a la raíz; los largos del árbol alcanzan la entropía de este reparto.',
       gate: 'Arrastra D al centro del nodo de su hoja 111, sobre la etiqueta D.',
+      after:
+        'D queda en la hoja 111. Con estos largos, $\\bar L=H(P)=\\tfrac74$ bits: el código no desperdicia nada.',
       board: {
         label: 'Palabra y media',
         tex: '\\p{1}{c(D)=\\cC{111}},\\quad\\p{2}{\\bar L=H(P)=\\tfrac74}',
@@ -715,6 +717,8 @@ export const level: LevelSpec = {
         {
           say: 'El lote P ocupa 112 bits con su código. Mide la cinta inferior para comparar cuánto ocupa el mismo lote con Q.',
           gate: 'Arrastra el marcador hasta el extremo derecho de la cinta inferior para medir sus 152 bits.',
+          after:
+            'Con Q ocupa 152 bits, 40 más que con P. Por cabecera son $\\tfrac58$ de bit: la KL entre ambos perfiles.',
         },
         {
           say: 'El lote P ocupa 112 bits con su código y 152 con Q. La revisión administrativa sitúa el cambio de perfil después del reinicio de Inés; el cálculo mide su costo.',
@@ -730,6 +734,8 @@ export const level: LevelSpec = {
         {
           say: 'La ruta d determina Sur y el enlace pide una tasa sobre C. La copia local permitió reconstruir los fragmentos 1011 y 0100. Conserva el original, corrige la copia bajo el límite de una inversión y revisa el registro de validación del paquete completo.',
           gate: 'Arrastra ↺ al quinto bit de la copia y pulsa «Revisar validación».',
+          after:
+            'La copia queda en 0110011 y el registro de validación se abre: la cuenta receptora es «Contador».',
         },
         {
           say: 'La ruta d determina Sur. El enlace pide una tasa sobre C; la copia local permitió reconstruir los fragmentos 1011 y 0100 y comprobar el mensaje entero.',
