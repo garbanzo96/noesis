@@ -43,8 +43,13 @@ Máximo 3 frases. Solo agrega lo que haga falta para que se entienda qué se bus
 
 Mover una perilla sin saber para qué no enseña nada. Por eso:
 
-- `gate` dice qué hacer y qué mirar mientras se hace. Debe plantear algo por descubrir, en una o dos
-  frases. Ejemplo: «Mueve $p$ y fíjate en qué valor el valor esperado cruza el cero».
+- `gate` plantea un problema por resolver con la acción, en una o dos frases, y dice qué mirar.
+- No regales el valor objetivo. «Arrastra $\mu$ hasta 6» o «lleva la perilla a la marca verde» no enseñan
+  nada. Pide encontrarlo por su propiedad: «Busca el $\mu$ que hace máxima la verosimilitud de estos datos»,
+  «Encuentra el punto donde el producto punto se anula». El jugador debe poder saber que lo logró por lo
+  que ve o por lo que razona, y el desbloqueo lo confirma.
+- Si el objetivo no se puede razonar y la acción es explorar, dilo como exploración con una pregunta:
+  «Sube la cantidad de parámetros y mira qué pasa con el número de sumas: ¿crece como una recta?».
 - Si cambias `gate`, la instrucción debe seguir siendo exactamente lo que el código exige para
   desbloquear (lee la condición que llama a `unlock()`). Nunca prometas otra acción.
 - Todo paso con `gate` debe llevar `after`: una o dos frases que digan qué mostró la acción y por qué
