@@ -138,7 +138,7 @@ const lesson: LessonStep = {
   Scene: RiemannLesson,
   beats: [
     {
-      say: 'Para medir el área bajo una curva, se parte el intervalo $[a,b]$ en $n$ franjas del mismo ancho $\\Delta x$. Cada franja es casi un rectángulo.',
+      say: 'Una **partición** divide el intervalo $[a,b]$ en $n$ franjas de igual ancho. Se lee $\\Delta x$ como «delta equis» y se calcula dividiendo $b-a$ por $n$. El borde $x_i$, leído «equis sub i», está a $i$ anchos de $a$.\n\nAquí el intervalo va de 0 a 4 y las cuatro franjas tienen ancho 1; servirán de base para aproximar el área bajo la curva.',
       dur: 2.6,
       board: {
         label: 'Partición',
@@ -147,7 +147,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Se elige la altura de cada rectángulo con el valor de la función en el **extremo izquierdo** de su franja. Como esta curva sube, los rectángulos quedan un poco por debajo.',
+      say: 'La **suma izquierda** $L_n$, leída «ele sub ene», suma el área de los rectángulos que usan la altura de la función en el extremo izquierdo de cada franja. Cada área es altura por ancho $\\Delta x$. Aquí se usan los bordes desde $x_0$ hasta $x_{n-1}$, sin incluir el último. Como esta curva crece, los rectángulos quedan bajo ella y $L_4=7{,}5$ subestima el área.',
       dur: 2.6,
       board: {
         label: 'Suma izquierda',
@@ -157,7 +157,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con el **extremo derecho**, los rectángulos sobresalen. El área verdadera queda atrapada entre las dos sumas.',
+      say: 'La **suma derecha** $R_n$, leída «erre sub ene», usa la altura de la función en el extremo derecho de cada franja. Se suman las alturas desde $x_1$ hasta $x_n$, multiplicadas por el ancho $\\Delta x$. Aquí la curva crece, por lo que los rectángulos sobresalen y $R_4=11{,}5$ sobrestima el área. Para esta curva, el área queda entre las sumas izquierda y derecha; esa desigualdad depende de que la función sea creciente.',
       dur: 2.6,
       board: {
         label: 'Suma derecha',
@@ -167,8 +167,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mientras más franjas, más finos los rectángulos y menor el error. Las dos sumas se acercan al mismo número.',
-      gate: 'Sube n hasta 32 o más (prueba con izquierda y derecha).',
+      say: 'Al aumentar $n$, cada franja se hace más angosta. Para esta función continua, las sumas izquierda y derecha se acercan al área bajo la curva. La notación $n\\to\\infty$ se lee «ene tiende a infinito»: describe qué ocurre al aumentar $n$ sin límite.',
+      gate: 'Sube $n$ hasta 32 o más y observa cómo se acerca la suma al área indicada. Puedes elegir izquierda o derecha.',
+      after: 'Con 32 o más franjas, la suma queda entre 9,086 y 9,586, más cerca del área indicada de 9,333 que las sumas con cuatro franjas. Al afinar la partición, mejora la aproximación.',
       board: {
         label: 'Más franjas',
         tex: 'L_n,\\ R_n\\ \\xrightarrow[n\\to\\infty]{}\\ \\p{1}{9{,}333\\ldots}',
@@ -176,7 +177,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un atajo práctico: promediar la suma izquierda y la derecha equivale a usar **trapecios** en vez de rectángulos.',
+      say: 'La **regla del trapecio** aproxima el área mediante trapecios que unen las alturas en los extremos de cada franja. Con franjas de igual ancho, equivale a promediar las sumas izquierda y derecha. $T_n$ se lee «te sub ene» y representa esa estimación. Calcula el promedio de las dos sumas indicadas en la pregunta.',
       ask: {
         prompt: 'Con $L_4=7{,}5$ y $R_4=11{,}5$, ¿qué estima la regla del trapecio?',
         options: ['9,5', '7,5', '19'],
@@ -190,7 +191,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ese número al que se acercan las sumas es la **integral definida**. El símbolo $\\int$ es una S alargada: la suma se vuelve continua y $\\Delta x$ se vuelve $dx$.',
+      say: 'La **integral definida** de una función integrable en $[a,b]$ es el límite de sus sumas de Riemann cuando el ancho máximo de las franjas tiende a cero. $\\int_a^b f(x)\\,dx$ se lee «integral de a a be de efe de equis, de equis»; $a$ y $b$ son los límites, $f$ es el integrando y $dx$ indica la variable de integración.\n\nLa integral da área con signo: bajo el eje se resta. Aquí la función es positiva, así que coincide con el área mostrada, $9{,}\\overline{3}$.',
       dur: 3.4,
       board: [
         {
@@ -435,12 +436,12 @@ export const level: LevelSpec = {
       Scene: HourlyDemo,
       beats: [
         {
-          say: 'Con las lecturas de cada hora como alturas de rectángulos (extremo izquierdo) se obtiene una primera estimación.',
+          say: 'Teo usa la lectura al inicio de cada hora como altura de un rectángulo. Al sumar sus áreas obtiene una primera estimación del volumen que pasó durante las seis horas.',
           dur: 1.8,
           note: { label: 'Estimación izquierda', tex: 'L_6=\\sum_{i=0}^{5}Q(i)\\cdot1' },
         },
         {
-          say: 'Con el extremo derecho sale otra estimación.',
+          say: 'Ahora Teo usa la lectura al final de cada hora y obtiene otra estimación. Hay que decidir cómo combinar ambas para estimar el volumen.',
           ask: {
             prompt: '¿Qué conviene usar si las dos estimaciones difieren?',
             options: [
@@ -455,7 +456,7 @@ export const level: LevelSpec = {
           note: { label: 'Trapecio', tex: 'T_6=\\tfrac{L_6+R_6}{2}' },
         },
         {
-          say: 'Teo recupera el registro minuto a minuto: 60 franjas por noche… o más. La suma ya casi no cambia: es la integral.',
+          say: 'Teo examina una aproximación más fina del caudal durante las seis horas: 60 franjas de seis minutos. Su suma se acerca a la integral, que estima el volumen acumulado.',
           dur: 1.8,
           note: {
             label: 'La integral de la noche',
