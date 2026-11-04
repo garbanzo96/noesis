@@ -296,6 +296,7 @@ const lesson: LessonStep = {
 
 // ---------------------------------------------------------------- demo
 const PD = lattice(720, 450, 50, 8, 6.5);
+const PD_REVERSE = lattice(720, 350, 50, 8, 6.5);
 const DA: M2 = [
   [1, 0],
   [-2, 1],
@@ -305,45 +306,67 @@ const DB: M2 = [
   [0, 3],
 ];
 
-function StepsDemo({ beats, answer }: DemoProps) {
+function StepsDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
-  const rev = beat === 2 && answer !== null;
-  const M = beat === 0 ? twoStep(DB, DA, at(0)) : rev ? mm(DB, DA) : mm(DA, DB);
+  const svg = useRef<SVGSVGElement>(null);
+  const [candidate, setCandidate] = useState<string | null>(null);
+  const [marker, setMarker] = useState<V2>([1, 1]);
+  const unlocked = useRef<number[]>([]);
+  const unlockOnce = (step: number) => {
+    if (beat === step && !unlocked.current.includes(step)) {
+      unlocked.current.push(step);
+      unlock();
+    }
+  };
+  const drag = useSvgDrag(svg, (x, y) => {
+    if (beat !== 2) return;
+    setMarker(PD_REVERSE.inv(x, y));
+    if (Math.hypot(x - PD_REVERSE.x(6), y - PD_REVERSE.y(-6)) <= 45) unlockOnce(2);
+  });
+  const reversed = mm(DB, DA);
+  const added: M2 = [[3, 0], [-2, 4]];
+  const M = beat === 0 ? twoStep(DB, DA, at(0)) :
+    beat === 1 && candidate === 'BA' ? reversed :
+    beat === 1 && candidate === 'A+B' ? added : beat === 2 || (beat === 1 && candidate === null) ? I2 : mm(DA, DB);
   const real: V2 = [3, 4];
   const shown = mv(M, real);
   return (
-    <Stage>
-      <Grid P={PD} M={M} color={rev ? C.red : C.violet} opacity={0.45} R={16} />
-      <Vec P={PD} v={real} color={C.dim} width={3} dashed />
-      {beat >= 1 && (
+    <Stage ref={svg}>
+      <Grid P={beat === 2 ? PD_REVERSE : PD} M={M} color={C.violet} opacity={0.45} R={16} />
+      <Vec P={beat === 2 ? PD_REVERSE : PD} v={real} color={C.dim} width={3} dashed />
+      {beat === 1 && candidate !== null && (
         <>
-          <rect
-            x={PD.x(shown[0]) - 22}
-            y={PD.y(shown[1]) - 11}
-            width={44}
-            height={22}
-            rx={5}
-            fill={C.magenta}
-          />
-          <Cap x={PD.x(shown[0])} y={PD.y(shown[1]) - 30} size={15} color={C.magenta}>
-            M-7
-          </Cap>
+          <rect x={PD.x(shown[0]) - 22} y={PD.y(shown[1]) - 11} width={44} height={22} rx={5} fill={C.magenta} />
+          <Cap x={PD.x(shown[0])} y={PD.y(shown[1]) - 30} size={24} color={C.magenta}>M-7</Cap>
         </>
       )}
-      <Cap x={1380} y={220} size={22} color={C.text} tex={`B=${texM(DB)}`} />
-      <Cap x={1380} y={310} size={22} color={C.text} tex={`A=${texM(DA)}`} />
-      {beat >= 1 && (beat > 1 || answer !== null) && (
-        <Cap x={1380} y={410} size={22} color={C.green} tex={`AB=${texM(mm(DA, DB))}`} />
+      {beat === 2 && (
+        <>
+          {[-6, -4, -2, 2, 4, 6].map((n) => (
+            <g key={n}>
+              <Cap x={PD_REVERSE.x(n)} y={PD_REVERSE.y(0) + 28} size={24} color={C.text}>{n}</Cap>
+              <Cap x={PD_REVERSE.x(0) - 28} y={PD_REVERSE.y(n)} size={24} color={C.text}>{n}</Cap>
+            </g>
+          ))}
+          <g onPointerDown={drag} style={{ cursor: 'grab' }}>
+            <circle cx={PD_REVERSE.x(marker[0])} cy={PD_REVERSE.y(marker[1])} r={38} fill="transparent" />
+            <circle cx={PD_REVERSE.x(marker[0])} cy={PD_REVERSE.y(marker[1])} r={24} fill={C.magenta} />
+          </g>
+          <Cap x={PD_REVERSE.x(marker[0])} y={PD_REVERSE.y(marker[1]) - 45} size={24} color={C.magenta}>M-7</Cap>
+        </>
       )}
-      {rev && (
-        <Cap
-          x={1380}
-          y={500}
-          size={22}
-          color={C.red}
-          tex={`BA${texV(real)}=${texV(mv(mm(DB, DA), real))}`}
-        />
+      <Cap x={1380} y={220} size={24} color={C.text} tex={`B=${texM(DB)}`} />
+      <Cap x={1380} y={310} size={24} color={C.text} tex={`A=${texM(DA)}`} />
+      {beat === 1 && (
+        <>
+          {candidate && <Cap x={1380} y={410} size={24} color={C.text} tex={`${candidate}=${texM(M)}`} />}
+          <Choices x={1380} y={540} options={['AB', 'BA', 'A+B']} value={candidate} onPick={(v) => {
+            setCandidate(v);
+            if (v === 'AB') unlockOnce(1);
+          }} label="Tabla de la pantalla" />
+        </>
       )}
+      {beat === 2 && <Cap x={1380} y={410} size={24} color={C.text} tex={`AB=${texM(mm(DA, DB))}`} />}
     </Stage>
   );
 }
@@ -613,33 +636,15 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El M-7 recorre los dos pasos y termina dibujado en el taller.',
-          ask: {
-            prompt: '¿Qué matriz aplica la pantalla en total?',
-            options: [
-              '$AB=\\begin{pmatrix}2&0\\\\-4&3\\end{pmatrix}$',
-              '$BA=\\begin{pmatrix}2&0\\\\-6&3\\end{pmatrix}$',
-              '$A+B=\\begin{pmatrix}3&0\\\\-2&4\\end{pmatrix}$',
-            ],
-            answer: 0,
-            explain:
-              'Primero $B$, después $A$: la matriz total es $AB$. Fila 2 de $A$ por columnas de $B$: $(-2)\\cdot2+1\\cdot0=-4$ y $(-2)\\cdot0+1\\cdot3=3$. Es la tabla del M-7.',
-          },
+          say: 'El M-7 parte en $(3,4)$ y la pantalla lo dibuja en el taller, en $(6,0)$. ¿Qué matriz aplica la pantalla en total?',
+          gate: 'Elige una tabla y compara dónde dibuja el M-7. Usa el orden de las transformaciones para identificar la tabla correcta.',
+          after: 'Primero $B$ y después $A$ dan $AB=\\begin{pmatrix}2&0\\\\-4&3\\end{pmatrix}$. Esa tabla lleva $(3,4)$ a $(6,0)$.',
           note: { label: 'La tabla completa', tex: 'AB=\\begin{pmatrix}2&0\\\\-4&3\\end{pmatrix}' },
         },
         {
-          say: 'Lucía pregunta qué habría pasado si el programador aplicaba los pasos al revés.',
-          ask: {
-            prompt: '¿Dónde habría aparecido el M-7, que estaba en $(3,4)$?',
-            options: [
-              'En $(6,-6)$, fuera de toda vía',
-              'En $(6,0)$, igual que antes',
-              'En $(3,4)$',
-            ],
-            answer: 0,
-            explain:
-              '$BA=\\begin{pmatrix}2&0\\\\-6&3\\end{pmatrix}$ y $BA(3,4)=(6,-18+12)=(6,-6)$. Con el orden inverso el truco no funciona.',
-          },
+          say: 'Lucía pregunta qué habría pasado si el programador aplicaba los pasos al revés. ¿Dónde habría aparecido el M-7, que estaba en $(3,4)$?',
+          gate: 'Arrastra el marcador al punto que obtienes al aplicar primero $A$ y después $B$.',
+          after: 'En el orden inverso, $A(3,4)=(3,-2)$ y luego $B(3,-2)=(6,-6)$. El M-7 aparecería fuera de toda vía.',
           note: {
             label: 'El orden importa',
             tex: 'BA\\begin{pmatrix}3\\\\4\\end{pmatrix}=\\begin{pmatrix}6\\\\-6\\end{pmatrix}',
