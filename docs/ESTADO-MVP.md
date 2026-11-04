@@ -20,8 +20,25 @@ Otros errores que salieron con ese control:
 - Resultados: el sello tapaba el título del caso y las notas estaban en 10 px.
 - Fórmulas de práctica más anchas que la columna, cortadas a la derecha (5.8).
 - Mínimo de 12 px en toda la interfaz; había 44 reglas por debajo.
+- Resultados: las fórmulas de las notas salían en mayúsculas (`E[A]`, `MAX`), y a 960×600 los casos finales
+  se salían de la pantalla; a 1280×720 sus botones quedaban fuera.
 - Columna derecha en toda ventana apaisada desde 760 px. La disposición apilada queda para ventanas
   verticales o angostas, con el dibujo a tamaño fijo: antes las fórmulas lo aplastaban a 45 px de alto.
+
+Barrido final de los 132 casos, con escenas y resultados, más los menús:
+
+| Tamaño | Texto tapado o cortado | Rótulos fuera | Pasos que usan scroll |
+|---|---|---|---|
+| 1470×830 | 0 | 0 | 88 |
+| 1280×720 | 0 | 0 | 380 |
+| 1024×768 | 0 | 0 | 293 |
+| 960×600, mínimo de la app | 0 en el juego | 17 («Confirmar» sobresale 6 px, se ve y funciona) | 897 |
+
+En 960×600 los avisos que quedan son la barra fija de botones de resultados sobre texto que se alcanza con
+scroll. Los choques `encima` son números de eje bajo una perilla, dos `0` en el origen y la tabla de 1.4.
+Pruebas: 92, `qa/manual_advance.mjs` 7 de 7 y `qa/console_scroll.mjs` 6 de 6.
+
+A 900×700 los dibujos más densos todavía chocan rótulos (329 sobre 30 %): el escenario queda en 560 px.
 
 ## Hecho (mañana del 2026-11-04)
 
@@ -85,7 +102,7 @@ Plan de mejora:
 Colas reanudables; `work/codex/done.txt` guarda lo hecho. `qa/codex_manana.sh [HHMM]` corre las tres en
 este orden y solo anota «publicado» si el push funcionó, con reintentos durante dos horas.
 
-1. Investigaciones con dos acciones: 54 casos. `python3 qa/codex_accion.py w11 w12 w13 w03 w04 w06 w07
+1. Investigaciones con dos acciones: 41 casos. `python3 qa/codex_accion.py w11 w12 w13 w03 w04 w06 w07
    w14 w02 w05`. Solo confirma los que `qa/gate_sweep.mjs` puede completar; ese barrido marca ATASCADO
    acciones válidas de varios pasos, así que revisar `work/codex/accion-review.txt`.
 2. Clases como libro de texto en los mundos 4 a 9 y 14, más 13.9: 60 casos.
@@ -98,7 +115,7 @@ este orden y solo anota «publicado» si el push funcionó, con reintentos duran
 7. Observaciones por caso en `docs/PENDIENTES-CASOS.md`.
 8. Prueba con estudiantes.
 
-Codex rindió 35 casos en la ventana de la mañana y 12 en la de las 12:05. Quedan unos 140. Antes de lanzar
+Codex rindió 35 casos en la ventana de la mañana, 12 en la de las 12:05 y 13 en la de las 14:00. Quedan unos 125; `qa/codex_manana.sh 1710` está programado. Antes de lanzar
 las colas hay que commitear lo propio: `qa/codex_manana.sh` compila el árbol de trabajo y publica `dist`.
 
 Teléfono: lee y se recorre, pero en vertical los rótulos del dibujo no caben (390 px de ancho). No está listo.

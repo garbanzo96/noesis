@@ -376,7 +376,8 @@
   }
   .results-card {
     width: 100%;
-    max-height: 100%;
+    /* un % no se resuelve dentro de .results: los casos finales se salían de la pantalla */
+    max-height: calc(100dvh - 24px);
     overflow-y: auto;
     grid-template-columns: minmax(0, 1fr);
     gap: 20px;
