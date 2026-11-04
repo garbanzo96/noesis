@@ -306,28 +306,70 @@ const lesson: LessonStep = {
 const Qcs = [2, 1.5, -0.25];
 const PD = plane([0, 6.4], [0, 5], { x: 300, y: 120, w: 820, h: 520 });
 
-function FormulaDemo({ beats, answer }: DemoProps) {
+function FormulaDemo({ beats, unlock }: DemoProps) {
   const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef<number[]>([]);
+  const finish = () => {
+    if (!unlocked.current.includes(beat)) {
+      unlocked.current.push(beat);
+      unlock();
+    }
+  };
+  const [candidate, setCandidate] = useState(1);
+  const [volume, setVolume] = useState(10);
   const Q = (t: number) => evalPoly(Qcs, t);
+  const dragCandidate = useSvgDrag(svg, (x) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp((x - 1180) / 140, 0, 2));
+    setCandidate(next);
+    if (next === 0) finish();
+  });
+  const dragVolume = useSvgDrag(svg, (x) => {
+    if (beat !== 1) return;
+    const next = Math.round(clamp((x - 1160) / 340, 0, 1) * 30);
+    setVolume(next);
+    if (Math.abs(next - 21) <= 1) finish();
+  });
+  const candidates = [
+    '2t+0{,}75t^2-\\tfrac{t^3}{12}',
+    '1{,}5-0{,}5t',
+    '2t+1{,}5t^2-0{,}25t^3',
+  ];
+  const derivatives = [
+    '2+1{,}5t-0{,}25t^2',
+    '-0{,}5',
+    '2+3t-0{,}75t^2',
+  ];
   return (
-    <Stage>
-      <Axes
-        P={PD}
-        xTicks={[0, 1, 2, 3, 4, 5, 6]}
-        yTicks={[1, 2, 3, 4, 5]}
-        xLabel="\text{hora}"
-        yLabel="Q"
-        grid
-      />
-      {(beat >= 1 || answer !== null) && (
-        <AreaUnder P={PD} f={Q} a={0} b={6} pos="#5fd3ff" opacity={0.35} />
+    <Stage ref={svg}>
+      <Axes P={PD} xTicks={[0, 1, 2, 3, 4, 5, 6]} yTicks={[1, 2, 3, 4, 5]} xLabel="\text{hora}" yLabel="Q" grid />
+      {beat >= 1 && <AreaUnder P={PD} f={Q} a={0} b={6} pos="#5fd3ff" opacity={0.35} />}
+      <Group><Curve P={PD} f={Q} a={0} b={6} color={C.cyan} width={4} /></Group>
+      <Cap x={1330} y={170} size={24} color={C.cyan} tex="Q(t)=2+1{,}5t-0{,}25t^2" />
+      {beat === 0 ? (
+        <>
+          <Cap x={1330} y={245} size={26} color={C.amber} tex={`F(t)=${candidates[candidate]}`} />
+          <Cap x={1330} y={315} size={25} color={C.text} tex={`F'(t)=${derivatives[candidate]}`} />
+          <Line a={[1180, 420]} b={[1460, 420]} color={C.dim} width={3} />
+          {[0, 1, 2].map((i) => <Cap key={i} x={1180 + i * 140} y={475} size={24} color={C.muted}>{String(i + 1)}</Cap>)}
+          <Knob x={1180 + candidate * 140} y={420} color={C.amber} onPointerDown={dragCandidate} cursor="ew-resize" label="F" />
+        </>
+      ) : (
+        <>
+          <Cap x={1330} y={245} size={24} color={C.amber} tex="F(t)=2t+0{,}75t^2-\tfrac{t^3}{12}" />
+          <Cap x={1330} y={315} size={26} color={C.text} tex="F(6)-F(0)=12+27-18-0" />
+          {beat === 1 ? (
+            <>
+              <Cap x={1330} y={385} size={26} color={C.green} tex={`\\text{Volumen propuesto: }${volume}`} />
+              <Line a={[1160, 470]} b={[1500, 470]} color={C.dim} width={3} />
+              <Cap x={1160} y={525} size={24} color={C.muted}>0</Cap>
+              <Cap x={1500} y={525} size={24} color={C.muted}>30</Cap>
+              <Knob x={1160 + (volume / 30) * 340} y={470} color={C.green} onPointerDown={dragVolume} cursor="ew-resize" label="V" />
+            </>
+          ) : <Cap x={1330} y={400} size={26} color={C.green} tex="F(6)-F(0)=21" />}
+        </>
       )}
-      <Curve P={PD} f={Q} a={0} b={6} color={C.cyan} width={4} />
-      <Cap x={1330} y={200} size={24} color={C.cyan} tex="Q(t)=2+1{,}5t-0{,}25t^2" />
-      <Group opacity={answer !== null || beat >= 1 ? 1 : 0}>
-        <Cap x={1330} y={270} size={22} color={C.amber} tex="F(t)=2t+0{,}75t^2-\tfrac{t^3}{12}" />
-      </Group>
-      {beat >= 1 && <Cap x={1330} y={340} size={24} color={C.green} tex="F(6)-F(0)=21" />}
     </Stage>
   );
 }
@@ -521,28 +563,23 @@ export const level: LevelSpec = {
       Scene: FormulaDemo,
       beats: [
         {
-          say: 'El manual da el caudal de la tubería 7 en miles de m³ por hora. Busquemos una primitiva para calcular cuánto pasó entre las 00:00 y las 06:00.',
-          ask: {
-            prompt: '¿Cuál es una primitiva de $Q(t)=2+1{,}5t-0{,}25t^2$?',
-            options: [
-              '$2t+0{,}75t^2-\\tfrac{t^3}{12}$',
-              '$1{,}5-0{,}5t$',
-              '$2t+1{,}5t^2-0{,}25t^3$',
-            ],
-            answer: 0,
-            explain:
-              'Término a término: $2\\to2t$, $1{,}5t\\to0{,}75t^2$, $-0{,}25t^2\\to-\\tfrac{t^3}{12}$. La segunda opción es la derivada, no la primitiva.',
-          },
+          say: 'El manual da el caudal de la tubería 7 en miles de m³ por hora. ¿Cuál es una primitiva de $Q(t)=2+1{,}5t-0{,}25t^2$?',
+          gate: 'Desliza la perilla entre las tres fórmulas y compara la derivada de cada candidata con el caudal del manual.',
+          after: 'La primera fórmula tiene derivada $2+1{,}5t-0{,}25t^2$. Por eso $2t+0{,}75t^2-\\tfrac{t^3}{12}$ es una primitiva del caudal.',
           note: { label: 'Primitiva del caudal', tex: 'F(t)=2t+0{,}75t^2-\\tfrac{t^3}{12}' },
         },
         {
-          say: 'La integral de 0 a 6 da el volumen de la noche: evaluamos la primitiva en 6 y restamos su valor en 0. Según la fórmula del manual, pasaron 21 mil m³.',
-          dur: 1.8,
+          say: '¿Cuánto volumen pasó entre las 00:00 y las 06:00? Evalúa la primitiva en 6 y resta su valor en 0.',
+          gate: 'Calcula $12+27-18-0$ y marca el volumen en miles de m³ con la perilla.',
+          after: 'La diferencia $F(6)-F(0)=12+27-18-0$ da 21 mil m³.',
           note: {
             label: 'Volumen exacto',
             tex: 'F(6)-F(0)=12+27-18=21',
             body: 'Mil m³, sin rectángulos.',
           },
+        },
+        {
+          say: 'Según la fórmula del manual, pasaron 21 mil m³ entre las 00:00 y las 06:00.',
         },
       ],
     },
