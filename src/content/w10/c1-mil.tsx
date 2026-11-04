@@ -91,7 +91,7 @@ const lesson: LessonStep = {
   Scene: CrowdLesson,
   beats: [
     {
-      say: 'Mil personas se hacen el test. La enfermedad es rara: la tiene el 2 %, es decir, 20 personas.',
+      say: 'La **prevalencia** es la proporción de una población que tiene una enfermedad en un momento determinado. Sirve para estimar cuántas personas están enfermas antes de conocer el resultado de un test.\n\nEn este grupo de 1000 personas, la prevalencia es 2 %: hay 20 enfermas y 980 sanas.',
       board: {
         label: 'Prevalencia',
         tex: '\\p{1}{1000\\cdot0{,}02}=\\p{2}{20}',
@@ -99,10 +99,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **sensibilidad** es la fracción de enfermos que el test detecta. Ajústala al 90 % del test de la Clínica.',
-      gate: 'Ajusta la sensibilidad al 90 % y mira cuántos enfermos detecta el test.',
+      say: 'La **sensibilidad** es la proporción de personas enfermas que dan positivo en el test. Se calcula entre los enfermos, no entre todas las personas examinadas.\n\nLa pizarra indica cuántos de los 20 enfermos detecta el test de la Clínica; usa ese dato para encontrar su sensibilidad.',
+      gate: 'Ajusta la sensibilidad hasta que el número de enfermos detectados coincida con la pizarra. Mira el porcentaje de la perilla.',
       after:
-        'De 20 enfermos, el test detecta 18. Faltan los falsos positivos: el 5 % de 980 sanos son 49.',
+        'Con sensibilidad de 90 %, el test detecta 18 de los 20 enfermos. Los otros 2 dan negativo, aunque están enfermos.',
       board: {
         label: 'Positivos verdaderos',
         tex: '\\p{1}{20\\cdot0{,}9}=\\p{2}{18}',
@@ -110,7 +110,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El test también se equivoca con sanos. Su **especificidad** es 95 %: el 5 % de los 980 sanos da positivo.',
+      say: 'La **especificidad** es la proporción de personas sanas que dan negativo en el test. Una especificidad de 95 % deja un 5 % de sanos con resultado positivo: son **falsos positivos**.\n\nEse 5 % se calcula sobre los 980 sanos, no sobre las 1000 personas; por eso hay 49 falsos positivos.',
       board: {
         label: 'Falsos positivos',
         tex: '\\p{1}{980\\cdot0{,}05}=\\p{2}{49}',
@@ -118,7 +118,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Alguien da positivo. Mira solo a los positivos: los ámbar oscuro están enfermos, los claros no.',
+      say: 'Alguien da positivo y queremos saber qué probabilidad tiene de estar enfermo. Para responder, contamos a los enfermos entre todas las personas con resultado positivo. La sensibilidad responde otra pregunta: qué proporción de los enfermos da positivo.',
       ask: {
         prompt: 'Si alguien da positivo, ¿qué probabilidad tiene de estar enfermo?',
         options: ['18/67 ≈ 0,27', '0,90', '0,95'],
@@ -137,7 +137,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Lo mismo en fórmula: los positivos de enfermos divididos por todos los positivos. Es el **teorema de Bayes**.',
+      say: 'El **teorema de Bayes** permite calcular una probabilidad condicionada al observar un resultado. Aquí, $P(E\\mid+)$ se lee «probabilidad de enfermedad dado un positivo» y $P(+\\mid E)$, «probabilidad de positivo dada la enfermedad».\n\nSe multiplica la sensibilidad $P(+\\mid E)$ por la prevalencia $P(E)$ y se divide por la probabilidad de positivo $P(+)$, que debe ser mayor que cero.',
       board: {
         label: 'Bayes',
         tex: '\\p{1}{P(E\\mid+)}=\\p{2}{\\frac{P(+\\mid E)\\,P(E)}{P(+)}}',
@@ -380,13 +380,13 @@ export const level: LevelSpec = {
       Scene: ShiftSheet,
       beats: [
         {
-          say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. El censo regional da 2 % de prevalencia.',
-          gate: 'Arrastra la perilla de sensibilidad hasta 90 % y observa cuántos enfermos detecta.',
+          say: 'El test de la campaña tiene especificidad 95 % y el censo regional da 2 % de prevalencia. Busquemos la sensibilidad que concuerda con los positivos de la planilla.',
+          gate: 'Ajusta la sensibilidad hasta que los enfermos detectados y los 49 positivos de personas sanas sumen los positivos de la planilla. Mira el porcentaje de la perilla.',
           after:
-            'Son 18 verdaderos positivos y 49 falsos: 67 positivos en total. La mayoría de los positivos está sana.',
+            'Con sensibilidad de 90 %, son 18 positivos verdaderos y 49 falsos: 67 en total. La mayoría de los positivos está sana.',
         },
         {
-          say: 'El test detecta al 90 % de los 20 enfermos del lote. Los otros 49 positivos vienen de personas sanas.',
+          say: 'La planilla registra 67 positivos. De ellos, 49 vienen de personas sanas; calculemos cuántos enfermos detectó el test.',
           ask: {
             prompt: 'De los 67 positivos, ¿cuántos se esperan enfermos?',
             options: ['18', '67', '60'],
@@ -396,13 +396,13 @@ export const level: LevelSpec = {
           note: { label: 'Positivos del turno', tex: '18+49=67' },
         },
         {
-          say: 'La Clínica pidió dosis según la planilla del turno.',
-          gate: 'Arrastra la perilla del pedido hasta las 67 dosis que pidió la Clínica y compáralas con los 18 enfermos esperados.',
+          say: 'La Clínica pidió dosis según la planilla del turno. Comparemos ese pedido con los enfermos esperados.',
+          gate: 'Ajusta el pedido para que coincida con el de la Clínica. Mira cuántas dosis supera a los 18 enfermos esperados.',
           after:
-            'La Clínica pidió 67 dosis para 18 enfermos esperados. Contó positivos, y un positivo no es un enfermo.',
+            'La Clínica pidió 67 dosis para 18 enfermos esperados: son 49 dosis más. El pedido coincide con el total de positivos, que incluye a 49 personas sanas.',
         },
         {
-          say: 'El pedido de 67 dosis supera en 49 a los 18 enfermos esperados.',
+          say: 'El pedido supera en 49 dosis a los 18 enfermos esperados. Revisemos qué cifra de la planilla usó la Clínica.',
           ask: {
             prompt: '¿Qué cifra usó la Clínica para pedir dosis?',
             options: [
