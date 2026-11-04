@@ -304,12 +304,12 @@ function AugustSummary({ beats, unlock }: DemoProps) {
       <Cap x={1270} y={300} tex={`\\theta=${tnum(here, 2)}`} color={C.cyan} />
       {beat <= 1 && reached && (
         <>
-          <Cap x={1270} y={380} tex="\\text{moda}=\\tfrac{13}{48}\\approx0{,}27" color={C.green} />
-          <Cap x={1270} y={450} tex="\\text{media}=0{,}28" color={C.muted} />
+          <Cap x={1270} y={380} tex="\text{moda}=\tfrac{13}{48}\approx0{,}27" color={C.green} />
+          <Cap x={1270} y={450} tex="\text{media}=0{,}28" color={C.muted} />
         </>
       )}
       {beat >= 2 && reached && (
-        <Cap x={1270} y={380} tex="P(\\theta>0{,}2)\\approx0{,}90" color={C.green} />
+        <Cap x={1270} y={380} tex="P(\theta>0{,}2)\approx0{,}90" color={C.green} />
       )}
     </Stage>
   );

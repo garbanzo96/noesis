@@ -318,7 +318,7 @@ function RecipeDemo({ beats, unlock }: DemoProps) {
       )}
       {beat >= 2 && folder === 'aproximación q' && (
         <>
-          <Cap x={1270} y={390} tex="q(\\theta)\\approx P(\\theta\\mid D)" color={C.green} />
+          <Cap x={1270} y={390} tex="q(\theta)\approx P(\theta\mid D)" color={C.green} />
           <Cap x={1270} y={470} size={21} color={C.text}>
             El lector usa una q más simple.
           </Cap>

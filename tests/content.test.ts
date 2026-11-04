@@ -37,6 +37,18 @@ describe('content contract', () => {
     }
   });
 
+  it('JSX tex attributes use one backslash: they are not JS strings', () => {
+    const files = Object.entries(
+      import.meta.glob<string>('../src/content/**/*.tsx', { eager: true, query: '?raw', import: 'default' }),
+    );
+    const bad = files.flatMap(([f, src]) =>
+      [...src.matchAll(/\btex="([^"]*)"/g)]
+        .filter((m) => /(?<!\\)\\\\[a-zA-Z]{2,}/.test(m[1]))
+        .map((m) => `${f}: ${m[1]}`),
+    );
+    expect(bad).toEqual([]);
+  });
+
   it('no Active Inference vocabulary leaks into the texts', () => {
     const banned = /active inference|inferencia activa|energía libre|free energy|\bAIF\b|q\(\\pi\)|\\ln E/i;
     for (const l of levels) {

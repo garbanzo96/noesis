@@ -39,11 +39,17 @@ function Transitions({ a = 0.1, b = 0.5 }: { a?: number; b?: number }) {
       <path d="M 838 360 L 833 341 L 851 346" fill="none" stroke={C.magenta} strokeWidth={3} />
       <circle cx={320} cy={300} r={78} fill={C.panel} stroke={C.cyan} strokeWidth={4} />
       <circle cx={780} cy={300} r={78} fill={C.panel} stroke={C.magenta} strokeWidth={4} />
-      <Cap x={320} y={300} size={27} color={C.cyan}>
-        S · sano
+      <Cap x={320} y={278} size={36} color={C.cyan}>
+        S
       </Cap>
-      <Cap x={780} y={300} size={27} color={C.magenta}>
-        N · enfermo
+      <Cap x={320} y={324} size={24} color={C.cyan}>
+        sano
+      </Cap>
+      <Cap x={780} y={278} size={36} color={C.magenta}>
+        N
+      </Cap>
+      <Cap x={780} y={324} size={24} color={C.magenta}>
+        enfermo
       </Cap>
       <Cap x={550} y={185} tex={`P(S\\to N)=${tnum(a)}`} color={C.magenta} />
       <Cap x={550} y={425} tex={`P(N\\to S)=${tnum(b)}`} color={C.cyan} />

@@ -14,6 +14,8 @@
     "preview": "vite preview --host 127.0.0.1 --port 8876",
     "format": "prettier --write src tests vite.config.ts tsconfig.json",
     "check": "tsc --noEmit -p tsconfig.json && vitest run",
+    "lint": "eslint src",
+    "qa": "npm run lint && npm run check && vite build --mode qa --outDir qa/snap && node qa/sweep.mjs all && python3 qa/content_stats.py",
     "app": "vite build && electron .",
     "app:dir": "vite build && electron-builder --dir"
   },
@@ -27,6 +29,8 @@
     "@vitejs/plugin-react": "4.7.0",
     "electron": "44.10.1",
     "electron-builder": "26.18.0",
+    "eslint": "9.39.1",
+    "eslint-plugin-react-hooks": "5.2.0",
     "jsdom": "26.1.0",
     "katex": "0.16.22",
     "lucide-react": "0.468.0",
@@ -35,6 +39,7 @@
     "react": "19.1.1",
     "react-dom": "19.1.1",
     "typescript": "5.9.2",
+    "typescript-eslint": "8.47.0",
     "vite": "6.4.3",
     "vitest": "4.1.11"
   },

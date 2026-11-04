@@ -172,7 +172,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           ref={stageArea}
           onPointerDownCapture={() => cueActive && cue.touch()}
         >
-          <Backdrop place={run.place} dim={0.94} className="stage-backdrop" />
+          <Backdrop place={run.place} dim={0.88} className="stage-backdrop" />
           <div className="challenge-head">
             <span className="challenge-title">{step.title}</span>
             <div className="round-pips">

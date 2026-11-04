@@ -254,7 +254,7 @@ function NegativeDemo({ beats, unlock }: DemoProps) {
               color={C.amber}
             />
           )}
-          {applied && <Cap x={1270} y={260} tex="\\tfrac{2}{933}\\approx0{,}002" color={C.green} />}
+          {applied && <Cap x={1270} y={260} tex="\tfrac{2}{933}\approx0{,}002" color={C.green} />}
         </>
       )}
     </Stage>

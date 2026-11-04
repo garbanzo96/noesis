@@ -72,7 +72,7 @@ export function Tree({
             <circle
               cx={l1[i][0]}
               cy={l1[i][1]}
-              r={30}
+              r={42}
               fill={C.panel}
               stroke={C.line}
               strokeWidth={2}
@@ -116,7 +116,7 @@ export function Tree({
                   <circle
                     cx={p[0]}
                     cy={p[1]}
-                    r={26}
+                    r={40}
                     fill={C.panel}
                     stroke={tone ?? (on ? C.amber : C.line)}
                     strokeWidth={2}

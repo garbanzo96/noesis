@@ -484,7 +484,7 @@ function Tests({ seed, round, api }: ChallengeProps) {
       )}
       {round === 2 && (
         <Choices
-          x={1300}
+          x={1040}
           y={300}
           options={['Error tipo I', 'Error tipo II', 'Decisión correcta'] as Err[]}
           value={err}

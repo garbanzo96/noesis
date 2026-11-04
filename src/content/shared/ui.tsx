@@ -21,9 +21,10 @@ export const hhmm = (t: number) => {
 export const thousands = (n: number) => String(Math.round(n)).replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
 
 /** The round's confirm button, bottom right of the stage. */
-export function Confirm({ onClick, label = 'Confirmar', x = 1490, y = 840, disabled = false }: { onClick: () => void; label?: string; x?: number; y?: number; disabled?: boolean }) {
+export function Confirm({ onClick, label = 'Confirmar', x, y = 840, disabled = false }: { onClick: () => void; label?: string; x?: number; y?: number; disabled?: boolean }) {
+  // by default it hangs from the right edge, so a long label never leaves the stage
   return (
-    <Html x={x} y={y} size={24} interactive>
+    <Html x={x ?? 1575} y={y} size={24} anchor={x === undefined ? 'right' : 'center'} interactive>
       <button className="stage-btn on" onClick={onClick} disabled={disabled}>
         {label} ▸
       </button>

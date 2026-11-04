@@ -8,19 +8,23 @@ import { withLesson } from '../stub';
 type CaseModule = LevelModule & { ref?: TopicRef };
 const FOUND = import.meta.glob<CaseModule>(['./c*.tsx', './final.tsx'], { eager: true });
 const MODULES: CaseModule[] = Object.keys(FOUND)
-  .sort()
+  .sort((a, b) => a.localeCompare(b, 'en', { numeric: true }))
   .map((k) => FOUND[k]);
 
 const LAYOUT: Record<string, { pos: [number, number]; requires: string[] }> = {
-  'w13-c1': { pos: [240, 230], requires: [] },
-  'w13-c2': { pos: [560, 190], requires: ['w13-c1'] },
-  'w13-c3': { pos: [880, 230], requires: ['w13-c2'] },
-  'w13-c4': { pos: [1200, 200], requires: ['w13-c3'] },
-  'w13-c5': { pos: [1290, 490], requires: ['w13-c4'] },
-  'w13-c6': { pos: [970, 510], requires: ['w13-c5'] },
-  'w13-c7': { pos: [650, 480], requires: ['w13-c6'] },
-  'w13-c8': { pos: [320, 560], requires: ['w13-c7'] },
-  'w13-final': { pos: [800, 770], requires: ['w13-c8'] },
+  'w13-c1': { pos: [190, 170], requires: [] },
+  'w13-c2': { pos: [490, 170], requires: ['w13-c1'] },
+  'w13-c3': { pos: [790, 170], requires: ['w13-c2'] },
+  'w13-c4': { pos: [1090, 170], requires: ['w13-c3'] },
+  'w13-c5': { pos: [1390, 170], requires: ['w13-c4'] },
+  'w13-c6': { pos: [1390, 450], requires: ['w13-c5'] },
+  'w13-c7': { pos: [1090, 450], requires: ['w13-c6'] },
+  'w13-c8': { pos: [790, 450], requires: ['w13-c7'] },
+  'w13-c9': { pos: [490, 450], requires: ['w13-c8'] },
+  'w13-c10': { pos: [190, 450], requires: ['w13-c9'] },
+  'w13-c11': { pos: [340, 730], requires: ['w13-c10'] },
+  'w13-c12': { pos: [790, 730], requires: ['w13-c11'] },
+  'w13-final': { pos: [1240, 730], requires: ['w13-c12', 'w13-c8'] },
 };
 
 // A case only requires cases that already exist, so cases can arrive in any order.
