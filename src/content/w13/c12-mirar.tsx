@@ -204,7 +204,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La curva naranja de abajo muestra cómo cambia el valor de la información con la creencia $b$. La señal puede servir más cuando una observación permite elegir una acción distinta.\n\nCompara la altura de la curva al mover la creencia: cuanto más alta, mayor es la mejora esperada antes de pagar el informe.',
+      say: 'La curva naranja de abajo muestra el valor de la información para cada creencia $b$: cuanto más alta, mayor es la mejora esperada antes de pagar el informe.\n\nAntes de mover el control, piensa dónde debería ser mayor: ¿cuándo te sirve más una señal, con una decisión clara o con una dudosa?',
       gate: 'Mueve $b$ y busca dónde el informe tiene mayor valor. Mira la altura de la curva naranja.',
       after:
         'El máximo está en $b=0{,}4$ y vale 1,92. En ese umbral, los resultados de la señal inclinan la decisión hacia acciones distintas.',

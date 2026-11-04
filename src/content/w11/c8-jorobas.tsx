@@ -176,7 +176,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'La familia $\\mathcal Q$ se lee «caligráfica cu» y contiene las tres candidatas permitidas. La tercera, $q_3=(0;0{,}2;0{,}8)$, refleja $q_1$ hacia enfermo. La expresión $q^*\\in\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)$ se lee «cu estrella pertenece al conjunto de candidatas que minimizan la KL»; la comparación se limita a esta familia.',
-      gate: 'Mueve la perilla desde la candidata central y busca una de menor $KL(q\\Vert p)$. Mira el costo en bits.',
+      gate: 'Mueve la perilla desde la candidata central y busca la de menor $KL(q\\Vert p)$. ¿Hay una sola? Mira el costo en bits.',
       after:
         'Las candidatas laterales $q_1$ y $q_3$ empatan con aproximadamente 0,8641 bits, frente a 1,9660 de $q_2$. Cada una conserva una joroba: esta dirección castiga poner mucho peso de $q$ donde $p$ es baja.',
       board: {

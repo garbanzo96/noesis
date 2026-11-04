@@ -376,7 +376,7 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El lunes, el boletín sanitario publicó $p=0{,}25$ de brote y la cuenta compró. Revisemos el valor de esa orden con la información pública.',
-          gate: 'Ajusta la probabilidad hasta que coincida con el boletín del lunes. Mira el valor esperado de comprar y compáralo con el de no comprar.',
+          gate: 'Ajusta la probabilidad hasta que coincida con el boletín del lunes. ¿Comprar era razonable ese día? Compara el valor esperado de comprar con el de no comprar.',
           after:
             '$E(0{,}25)=10$: con esa probabilidad comprar tiene sentido. Esa compra no llama la atención.',
           note: { label: 'Lunes', tex: 'E(0{,}25)=10' },
@@ -396,7 +396,7 @@ export const level: LevelSpec = {
         },
         {
           say: 'El jueves, el boletín público bajó a $p=0{,}05$. La cuenta compró de nuevo y al día siguiente se anunció un brote. Revisemos esa orden con el pronóstico público.',
-          gate: 'Ajusta la probabilidad hasta que coincida con el boletín del jueves. Mira el valor esperado de comprar y compáralo con el de no comprar.',
+          gate: 'Ajusta la probabilidad hasta que coincida con el boletín del jueves. ¿Comprar era razonable con lo público? Compara el valor esperado de comprar con el de no comprar.',
           after:
             '$E(0{,}05)=-14$: con lo público esa compra perdía en promedio. La cuenta sabía algo que no estaba en el boletín.',
           note: { label: 'Jueves', tex: 'E(0{,}05)=-14' },

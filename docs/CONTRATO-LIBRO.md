@@ -50,6 +50,10 @@ Mover una perilla sin saber para qué no enseña nada. Por eso:
   que ve o por lo que razona, y el desbloqueo lo confirma.
 - Si el objetivo no se puede razonar y la acción es explorar, dilo como exploración con una pregunta:
   «Sube la cantidad de parámetros y mira qué pasa con el número de sumas: ¿crece como una recta?».
+- Conserva las preguntas. Si un paso con `gate` o `ask` plantea una pregunta o pide predecir antes de actuar,
+  mantenla en `say` o en `gate`: una pregunta abierta no adelanta la respuesta y es lo que hace pensar a
+  quien juega. No la cambies por «revisemos» o «busquemos». Si el paso no trae pregunta y la acción la
+  admite, agrégala.
 - Si cambias `gate`, la instrucción debe seguir siendo exactamente lo que el código exige para
   desbloquear (lee la condición que llama a `unlock()`). Nunca prometas otra acción.
 - Todo paso con `gate` debe llevar `after`: una o dos frases que digan qué mostró la acción y por qué

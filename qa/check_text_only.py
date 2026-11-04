@@ -24,6 +24,9 @@ for path in sys.argv[1:]:
         print(f"{path}: cambió algo que no es say, gate o after")
         bad += 1
     olds = {m.group(2) for m in PROP.finditer(old)}
+    lost = sum(m.group(2).count("¿") for m in PROP.finditer(old)) - sum(m.group(2).count("¿") for m in PROP.finditer(new))
+    if lost > 0:  # aviso, no error: una pregunta puede haber cambiado de paso
+        print(f"{path}: AVISO, {lost} pregunta(s) menos que antes")
     for m in PROP.finditer(new):
         if m.group(2) in olds:
             continue

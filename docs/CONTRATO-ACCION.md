@@ -27,6 +27,9 @@ historia y los números. Cada `gate` lleva `after`: una o dos frases que digan q
 números concretos. Sigue las reglas de estilo de abajo. No toques la clase, la práctica ni las escenas de
 diálogo. La investigación queda con 3 a 5 pasos. Nada avanza solo: el jugador aprieta Seguir.
 
+Conserva las preguntas: si un paso pide predecir antes de actuar, mantenla en `say` o en `gate`. Una
+pregunta abierta no adelanta la respuesta. No la cambies por «revisemos» o «busquemos».
+
 ## Forma del código
 
 - `gate` en el `beat` y `unlock()` en la escena, una vez, cuando se cumple la condición en el paso correcto.

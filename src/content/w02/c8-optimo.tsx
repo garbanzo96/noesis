@@ -146,7 +146,8 @@ const lesson: LessonStep = {
     {
       say: 'Un **modelo** expresa un problema mediante variables y relaciones matemáticas. Si $x$ es el ancho de un rectángulo cercado con 40 m de reja, su largo es $20-x$, pues los cuatro lados suman 40 m. Su área es $A(x)=x(20-x)$, que se lee «área de x», con $0\\le x\\le 20$.\n\nLa función permite comparar áreas sin medir cada rectángulo.',
       gate: 'Arrastra $x$ hasta quedar entre 9,5 y 10,5 m y observa cómo cambia el área al acercarte a esa zona.',
-      after: 'Cerca de $x=10$ m, el área se acerca a 100 m² y la curva alcanza su zona más alta. El ancho y el largo quedan cerca de ser iguales.',
+      after:
+        'Cerca de $x=10$ m, el área se acerca a 100 m² y la curva alcanza su zona más alta. El ancho y el largo quedan cerca de ser iguales.',
       board: {
         label: 'Modelo',
         tex: 'A(x)=x(20-x)=\\p{1}{20x-x^2}',
@@ -598,7 +599,8 @@ export const level: LevelSpec = {
         {
           say: 'La potencia entregada depende de la corriente: $P(I)=12I-0{,}15I^2$. Busquemos la cima para saber cuánta corriente entrega la mayor potencia.',
           gate: 'Arrastra la corriente hasta la cima de la curva y observa la pendiente de la tangente.',
-          after: 'En 40 A, la tangente es horizontal y la potencia llega a 240 kW. Esa cima da el máximo de la curva mostrada.',
+          after:
+            'En 40 A, la tangente es horizontal y la potencia llega a 240 kW. Esa cima da el máximo de la curva mostrada.',
           note: {
             label: 'Máximo y derivada',
             tex: "P'(I)=12-0{,}3I=0\\ \\Rightarrow\\ I=40",
@@ -654,9 +656,10 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Hay que cercar el transformador contra el muro con 40 m de reja para tres lados. Busquemos las medidas que dan la mayor área.',
+          say: 'Hay que cercar el transformador contra el muro con 40 m de reja para tres lados. ¿Qué medidas dan la mayor área?',
           gate: 'Ajusta $x$ hasta el área máxima y observa cómo cambian el otro lado y la pendiente.',
-          after: 'Con $x=10$ m, el lado junto al muro mide 20 m y el área es 200 m². La pendiente es cero en ese máximo.',
+          after:
+            'Con $x=10$ m, el lado junto al muro mide 20 m y el área es 200 m². La pendiente es cero en ese máximo.',
           note: {
             label: 'Modelar',
             tex: "\\begin{aligned}A(x)&=x(40-2x)\\\\ A'(x)&=40-4x=0\\Rightarrow x=10\\end{aligned}",

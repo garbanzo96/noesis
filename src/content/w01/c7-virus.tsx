@@ -506,7 +506,8 @@ export const level: LevelSpec = {
         {
           say: 'Cada hora, cada equipo infectado infecta a otro: el total se duplica. Necesito saber cuántos equipos estarán afectados para dimensionar el avance del virus.',
           gate: 'Arrastra el reloj hasta la hora 9 y observa cómo aumenta el total de infectados.',
-          after: 'En 9 horas, los 3 equipos iniciales llegan a 1 536. Cada duplicación parte del total acumulado, por eso el aumento crece con el tiempo.',
+          after:
+            'En 9 horas, los 3 equipos iniciales llegan a 1 536. Cada duplicación parte del total acumulado, por eso el aumento crece con el tiempo.',
           note: {
             label: 'Crecimiento exponencial',
             tex: 'N(t)=3\\cdot2^{t}',
@@ -546,7 +547,8 @@ export const level: LevelSpec = {
         {
           say: 'Lanzo el antivirus: cada hora limpia la mitad de los equipos infectados. Necesito saber cuánto tarda en bajar la infección a 6 equipos.',
           gate: 'Arrastra el reloj hasta que queden 6 infectados y observa cuántas horas tarda el antivirus.',
-          after: 'Tras 8 horas quedan 6 de los 1 536 equipos iniciales. Dividir por 2 en cada hora equivale a multiplicar por $2^{-8}$.',
+          after:
+            'Tras 8 horas quedan 6 de los 1 536 equipos iniciales. Dividir por 2 en cada hora equivale a multiplicar por $2^{-8}$.',
           note: {
             label: 'Decaimiento',
             tex: 'N(t)=1536\\cdot\\left(\\tfrac12\\right)^t=1536\\cdot2^{-t}',
@@ -569,9 +571,10 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Quiero comparar el crecimiento de 100 % en una hora cuando se reparte en saltos cada vez más pequeños. Cada salto se aplica sobre el resultado acumulado.',
+          say: 'Quiero comparar el crecimiento de 100 % en una hora cuando se reparte en saltos cada vez más pequeños. Cada salto se aplica sobre el resultado acumulado. ¿Cuánto se crece al final?',
           gate: 'Arrastra $n$ hasta 1 000 y observa a qué valor se acerca el factor de crecimiento.',
-          after: 'Con 1 000 saltos, el factor es aproximadamente 2,7169 y se acerca a $e\\approx2{,}71828$. El límite describe el resultado cuando aumenta sin fin el número de saltos.',
+          after:
+            'Con 1 000 saltos, el factor es aproximadamente 2,7169 y se acerca a $e\\approx2{,}71828$. El límite describe el resultado cuando aumenta sin fin el número de saltos.',
           note: {
             label: 'El número e',
             tex: 'e=\\lim_{n\\to\\infty}\\left(1+\\tfrac1n\\right)^n\\approx2{,}718',

@@ -237,7 +237,8 @@ const lesson: LessonStep = {
     {
       say: 'Un cuadrado de lado $x$ tiene área $x^2$. Si el lado aumenta en $h$, el área aumenta en dos franjas de área $xh$ y una esquina de área $h^2$. El cociente $\\Delta A/h$, leído «delta área dividido por h», mide el cambio promedio del área por unidad de lado.\n\nLa **derivada** es el límite de ese cociente cuando $h$ se acerca a cero: permite medir el cambio instantáneo del área.',
       gate: 'Arrastra el control hasta dejar $h$ bajo 0,1 y observa el cociente y la esquina.',
-      after: 'Con $x=2$ y $h$ bajo 0,1, el cociente $4+h$ queda entre 4,02 y 4,09. Al acercar $h$ a cero, se aproxima a 4: esa es la derivada del área en $x=2$.',
+      after:
+        'Con $x=2$ y $h$ bajo 0,1, el cociente $4+h$ queda entre 4,02 y 4,09. Al acercar $h$ a cero, se aproxima a 4: esa es la derivada del área en $x=2$.',
       board: [
         {
           label: 'Cuadrado',
@@ -279,7 +280,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La **linealidad** permite derivar una suma término a término y conservar los factores constantes: $(c f)\'=c f\'$ y $(f+g)\'=f\'+g\'$. La prima se lee «derivada»; estas reglas requieren que las funciones sean derivables. Una constante tiene derivada cero porque no cambia con $x$. Por ejemplo, la derivada de $4x^3-2x+7$ es $12x^2-2$: el 7 desaparece.',
+      say: "La **linealidad** permite derivar una suma término a término y conservar los factores constantes: $(c f)'=c f'$ y $(f+g)'=f'+g'$. La prima se lee «derivada»; estas reglas requieren que las funciones sean derivables. Una constante tiene derivada cero porque no cambia con $x$. Por ejemplo, la derivada de $4x^3-2x+7$ es $12x^2-2$: el 7 desaparece.",
       ask: {
         prompt: 'Para $4x^3-2x+7$, ¿cuánto vale esa derivada en $x=1$?',
         options: ['10', '9', '12'],
@@ -776,9 +777,10 @@ export const level: LevelSpec = {
       Scene: RulesDemo,
       beats: [
         {
-          say: 'La placa cuadrada tiene lado $x=3$ y se dilata con el calor: su lado aumenta en $dx$. Revisemos cómo cambia el área por cada unidad de aumento del lado.',
+          say: 'La placa cuadrada tiene lado $x=3$ y se dilata con el calor: su lado aumenta en $dx$. ¿Cuánta área se agrega por cada unidad que aumenta el lado?',
           gate: 'Reduce $dx$ hasta 0,05 o menos y observa el cociente de cambio y la proporción roja.',
-          after: 'Con $dx$ entre 0,02 y 0,05, el cociente queda entre 6,02 y 6,05 y la esquina roja representa menos del 1 % del aumento. Al acercarse $dx$ a cero, el cociente se aproxima a 6: ese es el cambio instantáneo del área para lado 3.',
+          after:
+            'Con $dx$ entre 0,02 y 0,05, el cociente queda entre 6,02 y 6,05 y la esquina roja representa menos del 1 % del aumento. Al acercarse $dx$ a cero, el cociente se aproxima a 6: ese es el cambio instantáneo del área para lado 3.',
           note: {
             label: 'Derivada de x²',
             tex: '\\frac{d}{dx}x^2=2x',

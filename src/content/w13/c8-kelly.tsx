@@ -349,7 +349,7 @@ export const level: LevelSpec = {
       Scene: AccountDemo,
       beats: [
         {
-          say: 'La cuenta ganaba el 60 % de sus apuestas a la par. Busquemos la fracción que maximizaba su crecimiento para compararla con lo que apostaba.',
+          say: 'La cuenta ganaba el 60 % de sus apuestas a la par. ¿Qué fracción maximizaba su crecimiento, y cómo se compara con lo que apostaba?',
           ask: {
             prompt: '¿Qué fracción de Kelly corresponde a p = 0,6 a la par?',
             options: ['0,2', '0,4', '0,6'],

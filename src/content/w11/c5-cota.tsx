@@ -181,7 +181,7 @@ const lesson: LessonStep = {
     },
     {
       say: 'La familia $q_t=(t;1/2;1/2-t)$ reúne distribuciones aproximadas para $0\\le t\\le 1/2$. Se lee «cu sub te»: cada valor de $t$ elige un reparto de probabilidades. Con el modelo y los datos fijos, la evidencia permanece igual; observa cómo cambian la KL y la cota al ajustar $t$.',
-      gate: 'Arrastra $t$ hasta que la cota alcance su máximo. Mira la KL para comprobar cuánto falta hasta el techo.',
+      gate: 'Arrastra $t$ hasta que la cota alcance su máximo. ¿Cuánto vale ahí la KL y cuánto falta hasta el techo?',
       after:
         'En $t=\\tfrac14$, la KL vale 0 y la ELBO llega a −2 bits, igual que el logaritmo de la evidencia. Como su suma es fija, subir la ELBO reduce la KL.',
       board: {

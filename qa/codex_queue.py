@@ -77,6 +77,8 @@ def work():
             r = git("commit", "-q", "-m", f"Clase con texto de libro y acciones explicadas: {tag} (Codex)\n\nCo-Authored-By: Claude Opus 5.5 <noreply@anthropic.com>", "--", *group)
             if r.returncode == 0:
                 open(DONE, "a").write(group[0] + "\n")
+                if chk.stdout:
+                    open("work/codex/review.txt", "a").write(f"{tag}\n{chk.stdout}\n")
         print(f"{tag}: ok ({mins:.0f} min) {'' if r.returncode == 0 else r.stderr[:200]}", flush=True)
 
 ts = [threading.Thread(target=work) for _ in range(workers)]

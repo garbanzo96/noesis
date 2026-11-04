@@ -476,7 +476,7 @@ export const level: LevelSpec = {
             'Una tasa cercana a 0,186 reproduce los 600 positivos, casi cuatro veces el 0,05 declarado. Eso muestra cómo una alteración del lector podría explicar el informe.',
         },
         {
-          say: 'El lector alterado marca positivos de más en personas sanas. Revisemos qué tasa de falsos positivos permite explicar los 600 resultados de 3000 tests.',
+          say: 'El lector alterado marca positivos de más en personas sanas. ¿Qué tasa de falsos positivos explicaría 600 positivos en 3000 tests?',
           ask: {
             prompt: '¿Qué tasa de falsos positivos x explica 600 positivos en 3000?',
             options: ['≈ 0,19', '0,05', '0,20'],

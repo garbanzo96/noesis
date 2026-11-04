@@ -151,9 +151,10 @@ const lesson: LessonStep = {
   Scene: ImproperLesson,
   beats: [
     {
-      say: 'Una **integral impropia** puede tener un extremo infinito. Se define mediante el límite de integrales en intervalos finitos, siempre que esas integrales existan. La notación $b\\to\\infty$ se lee «b tiende a infinito»: el corte crece sin límite.\n\nPara $e^{-x}$, el área hasta $b$ es $1-e^{-b}$; la integral sirve para calcular el área total sin sustituir infinito como si fuera un número.',
+      say: '¿Tiene sentido hablar del área bajo $e^{-x}$ desde 0 hasta el infinito? Una **integral impropia** puede tener un extremo infinito. Se define mediante el límite de integrales en intervalos finitos, siempre que esas integrales existan. La notación $b\\to\\infty$ se lee «b tiende a infinito»: el corte crece sin límite.\n\nPara $e^{-x}$, el área hasta $b$ es $1-e^{-b}$; la integral sirve para calcular el área total sin sustituir infinito como si fuera un número.',
       gate: 'Arrastra $b$ hacia la derecha hasta el extremo y observa cómo cambia el área acumulada.',
-      after: 'Al llegar a $b\\ge 11{,}5$, el área mostrada se redondea a 1. El límite es 1: extender el intervalo añade cada vez menos área.',
+      after:
+        'Al llegar a $b\\ge 11{,}5$, el área mostrada se redondea a 1. El límite es 1: extender el intervalo añade cada vez menos área.',
       board: [
         {
           label: 'Integral impropia',
