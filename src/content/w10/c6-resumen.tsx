@@ -180,7 +180,7 @@ const lesson: LessonStep = {
   Scene: SummaryLesson,
   beats: [
     {
-      say: 'Para ver el posterior completo, limita θ a cinco valores. Antes de los datos, cada uno tiene 0,2.',
+      say: 'Una **grilla** limita los valores posibles de $\\theta$, que se lee «theta», a los cinco que muestra la pizarra. El **prior** asigna una probabilidad a cada valor antes de observar los datos.\n\nAquí es uniforme: cada valor tiene probabilidad 0,2 y las cinco probabilidades suman 1. Esta grilla permite comparar todos los valores considerados.',
       board: {
         label: 'Prior en una grilla',
         tex: '\\p{1}{\\theta\\in\\{0{,}1;0{,}3;0{,}5;0{,}7;0{,}9\\}},\\ \\p{2}{0{,}2\\ \\text{cada uno}}',
@@ -188,7 +188,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con 7 positivos de 10, cada valor se multiplica por qué tan bien explica los datos, y todo se vuelve a sumar 1.',
+      say: 'El **posterior** es la distribución de probabilidad de $\\theta$ después de observar los datos. Se lee $P(\\theta\\mid\\text{datos})$ como «probabilidad de theta dados los datos».\n\nCon 7 positivos de 10, se multiplica el prior de cada valor por $\\theta^7(1-\\theta)^3$, su verosimilitud. Luego se normalizan los productos para que sumen 1.',
       board: {
         label: 'Posterior',
         tex: '\\p{1}{P(\\theta\\mid\\text{datos})}\\p{2}{\\propto\\theta^7(1-\\theta)^3\\cdot P(\\theta)}',
@@ -196,7 +196,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El valor más probable del posterior es su **moda**.',
+      say: 'La **moda** del posterior es el valor de $\\theta$ con mayor probabilidad. Se escribe $\\hat\\theta$ y se lee «theta gorro».\n\nSirve para resumir la distribución con su valor más probable. La moda es el valor bajo la barra más alta, no la altura de esa barra.',
       ask: {
         prompt: '¿Cuál es la moda del posterior?',
         options: ['0,7', '0,5', '0,9'],
@@ -211,8 +211,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un **conjunto creíble** junta los valores más probables hasta acumular, por ejemplo, el 80 %. Arma el más chico posible.',
-      gate: 'Arma el conjunto creíble más chico: dos valores que acumulen al menos 0,8.',
+      say: 'Un **conjunto creíble** reúne valores de $\\theta$ cuya probabilidad posterior suma al menos un nivel elegido, como 0,8. La expresión $P(\\theta\\in I)$ se lee «probabilidad de que theta pertenezca a I».\n\nPara obtener un conjunto con la menor cantidad de valores, se pueden elegir primero los más probables. La probabilidad acumulada se calcula sumando sus barras.',
+      gate: 'Selecciona dos valores que acumulen al menos 0,8 de probabilidad. Mira el acumulado al elegir las barras.',
       after:
         'Con $\\{0{,}5;\\,0{,}7\\}$ se acumula 0,853. Para que sea el más chico se eligen primero los valores más probables.',
       board: {
@@ -222,7 +222,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **media** pondera cada valor por su probabilidad: queda en 0,665, un poco más cerca del centro que la moda.',
+      say: 'La **media posterior** es el promedio de los valores posibles de $\\theta$, ponderado por sus probabilidades posteriores. $E[\\theta]$ se lee «esperanza de theta» y $\\sum$ indica que se suman los productos de cada valor por su probabilidad.\n\nAquí resulta aproximadamente 0,665, algo más cerca del centro que la moda. La media usa todas las barras y puede quedar entre valores de la grilla.',
       board: {
         label: 'Media',
         tex: '\\p{1}{E[\\theta]}=\\p{2}{\\sum\\theta\\,P(\\theta\\mid\\text{datos})}\\p{3}{\\approx0{,}665}',
@@ -429,12 +429,12 @@ export const level: LevelSpec = {
       Scene: AugustSummary,
       beats: [
         {
-          say: 'El posterior del lote de agosto es Beta(14, 36). Ubica su moda en 13/48 ≈ 0,27 con el cursor.',
-          gate: 'Busca la moda del posterior: el punto más alto de la curva.',
+          say: 'El posterior del lote de agosto es Beta(14, 36). Busquemos su moda para resumir la proporción más probable.',
+          gate: 'Busca con el cursor la moda del posterior. Mira dónde alcanza su máximo la distribución.',
           after: 'La moda de Beta(14, 36) es $13/48\\approx0{,}27$, algo menor que la media, 0,28.',
         },
         {
-          say: 'El cursor marca la moda del lote; la media queda en 0,28.',
+          say: 'El cursor marca la moda del lote; la media queda en 0,28. ¿Cuál de las dos cifras corresponde a la moda?',
           ask: {
             prompt: '¿Cuál es su moda?',
             options: ['≈ 0,27', '0,28', '0,30'],
@@ -444,13 +444,13 @@ export const level: LevelSpec = {
           note: { label: 'Moda del lote', tex: '\\tfrac{13}{48}\\approx0{,}27' },
         },
         {
-          say: 'Las otras clínicas rondan 0,2. Mueve el umbral hasta esa cifra: las barras verdes muestran la probabilidad que queda a su derecha.',
-          gate: 'Lleva el umbral a la cifra de las otras clínicas y lee cuánta probabilidad queda a la derecha.',
+          say: 'Las otras clínicas rondan 0,2. Queremos comparar esa proporción con el posterior del lote de agosto.',
+          gate: 'Mueve el umbral a la referencia de las otras clínicas. Mira las barras que quedan a su derecha.',
           after:
             'Cerca de 0,90 queda sobre 0,20: es muy probable que este lote esté por encima de las otras clínicas.',
         },
         {
-          say: 'Por encima de 0,2 queda cerca del 90 % de la probabilidad del posterior; por debajo queda cerca del 10 %.',
+          say: 'El umbral está en la proporción de referencia de las otras clínicas. La probabilidad a su derecha permite comparar el lote con esa referencia.',
           ask: {
             prompt: '¿P(θ > 0,2) para el lote de agosto?',
             options: ['≈ 0,90', '≈ 0,28', '≈ 0,50'],
