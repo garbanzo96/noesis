@@ -244,27 +244,57 @@ function AuditCards({ values }: { values: (number | null)[] }) {
   );
 }
 
-function BoundDemo({ beats, answer }: DemoProps) {
-  const revealed = answer !== null;
+function BoundDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const completed = useRef([false, false]);
+  const [ceiling, setCeiling] = useState(-4);
+  const [separation, setSeparation] = useState(1.5);
+  const { beat } = beats;
+  const drag = useSvgDrag(svg, (px) => {
+    const position = clamp((px - 220) / 680, 0, 1);
+    if (beat === 0) {
+      const value = -4 + position * 4;
+      setCeiling(value);
+      if (!completed.current[0] && Math.abs(value + 2) <= 0.08) {
+        completed.current[0] = true;
+        setCeiling(-2);
+        unlock();
+      }
+    } else if (beat === 1) {
+      const value = position * 2;
+      setSeparation(value);
+      if (!completed.current[1] && Math.abs(value - 0.5) <= 0.04) {
+        completed.current[1] = true;
+        setSeparation(0.5);
+        unlock();
+      }
+    }
+  });
+  const value = beat === 0 ? ceiling : separation;
+  const knobX = beat === 0 ? 220 + ((value + 4) / 4) * 680 : 220 + (value / 2) * 680;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Cap x={550} y={125} size={24}>
         Registro de ajuste · mismo modelo y datos
       </Cap>
-      <AuditCards
-        values={
-          beats.beat === 0 ? [revealed ? -2 : null, -3.25, 1.25] : [-2, -2.5, revealed ? 0.5 : null]
-        }
-      />
-      <Cap x={1250} y={240} size={21}>
-        {beats.beat === 0 ? 'Control pequeño verificable.' : 'Segunda q del mismo ajuste.'}
-      </Cap>
-      <Cap x={1250} y={330} size={21}>
+      <AuditCards values={beat === 0 ? [ceiling, -3.25, 1.25] : [-2, -2.5, separation]} />
+      <Cap x={1250} y={240} size={24}>
         log₂ p(D) = ELBO + KL
       </Cap>
-      {revealed && (
-        <Cap x={1250} y={420} size={21} color={C.green}>
-          {beats.beat === 0 ? 'La evidencia es 1/4.' : 'La separación bajó a 0,5 bits.'}
+      <Cap x={1250} y={330} size={24}>
+        {beat === 0 ? 'Ajusta el techo' : beat === 1 ? 'Mide la separación' : 'Control verificado'}
+      </Cap>
+      {beat < 2 && (
+        <>
+          <line x1={220} x2={900} y1={780} y2={780} stroke={C.line} strokeWidth={4} />
+          <Cap x={220} y={835} size={24}>{beat === 0 ? '−4 bits' : '0 bits'}</Cap>
+          <Cap x={900} y={835} size={24}>{beat === 0 ? '0 bits' : '2 bits'}</Cap>
+          <Knob x={knobX} y={780} axis="x" color={C.amber} onPointerDown={drag} />
+        </>
+      )}
+      {beat === 2 && (
+        <Cap x={1250} y={420} size={24} color={C.green}>
+          La separación bajó a 0,5 bits.
         </Cap>
       )}
     </Stage>
@@ -426,13 +456,9 @@ export const level: LevelSpec = {
       Scene: BoundDemo,
       beats: [
         {
-          say: 'El control pequeño registra ELBO = −3,25 bits y KL = 1,25 bits. Recuperemos el logaritmo de la evidencia para comprobar el techo del ajuste.',
-          ask: {
-            prompt: '¿Cuánto vale log₂ p(D)?',
-            options: ['−2 bits', '−4,5 bits', '0,25 bits'],
-            answer: 0,
-            explain: '−3,25 + 1,25 = −2 bits. 0,25 es p(D), una probabilidad; no es su logaritmo.',
-          },
+          say: 'El control pequeño registra ELBO = −3,25 bits y KL = 1,25 bits. ¿Cuánto vale log₂ p(D)?',
+          gate: 'Calcula el techo y ubícalo en el registro con la perilla.',
+          after: 'La suma −3,25 + 1,25 da un techo de −2 bits. La evidencia p(D) es 1/4.',
           note: {
             label: 'Techo del control',
             tex: '\\log_2 p(D)=-3{,}25+1{,}25=-2',
@@ -440,19 +466,17 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Con el mismo modelo y datos, otra $q$ sube la ELBO a −2,5 bits. El logaritmo de la evidencia sigue en −2; revisemos cuánto espacio queda hasta el techo.',
-          ask: {
-            prompt: '¿Qué KL tiene la nueva q?',
-            options: ['0,5 bits', '−0,5 bits', '0 bits'],
-            answer: 0,
-            explain:
-              'KL = −2 − (−2,5) = 0,5 bits. Subir la cota redujo la separación desde 1,25, pero todavía no llegó a cero.',
-          },
+          say: 'Con el mismo modelo y datos, otra $q$ sube la ELBO a −2,5 bits. El logaritmo de la evidencia sigue en −2. ¿Qué KL tiene la nueva q?',
+          gate: 'Calcula la separación hasta el techo y márcala con la perilla.',
+          after: 'La separación es −2 − (−2,5) = 0,5 bits. Bajó desde 1,25 bits, pero todavía no llega a cero.',
           note: {
             label: 'Mejora del ajuste',
             tex: 'KL=-2-(-2{,}5)=0{,}5',
             body: 'Una cota mayor acerca q al posterior para el mismo modelo y datos; el sello «convergió» no garantiza KL = 0.',
           },
+        },
+        {
+          say: 'El control muestra que la cota subió de −3,25 a −2,5 bits y la separación bajó de 1,25 a 0,5 bits. El sello «convergió» no garantiza que la separación sea cero.',
         },
       ],
     },
