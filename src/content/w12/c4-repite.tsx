@@ -198,7 +198,7 @@ const lesson: LessonStep = {
   Scene: MarkovLesson,
   beats: [
     {
-      say: 'La máquina genera un estado por día: sano (S) o enfermo (N). En una **cadena de Markov**, la probabilidad de mañana depende solo del estado de hoy.',
+      say: 'Una **cadena de Markov** es una secuencia de estados en la que, dado el estado actual, la distribución del siguiente no depende de los estados anteriores. Aquí cada día es sano (S) o enfermo (N).\n\n$P(X_{t+1}\\mid X_t)$ se lee «probabilidad del estado siguiente dado el actual». Las flechas muestran las probabilidades de pasar de hoy a mañana; las que salen de cada estado suman 1.',
       board: {
         label: 'Propiedad de Markov',
         tex: '\\p{1}{P(X_{t+1}\\mid X_t,\\ldots,X_0)}=\\p{2}{P(X_{t+1}\\mid X_t)}',
@@ -206,7 +206,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Fija el primer día en S. Para generar S, S, N, la máquina debe seguir sana un día y pasar a enferma al siguiente.',
+      say: 'El día inicial está fijado en S. Para calcular la probabilidad de una secuencia, multiplica las probabilidades de sus transiciones en orden: cada una usa como punto de partida el estado alcanzado antes. \n\nEn S, S, N primero se permanece sano y luego se pasa a enfermo. No sumes las flechas ni multipliques por una probabilidad del inicio, porque ya está fijado.',
       ask: {
         prompt: 'Desde S, ¿qué probabilidad tiene la secuencia S, S, N?',
         options: ['0,09', '1', '0,81'],
@@ -227,7 +227,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Llama qₜ a la fracción esperada de sanos en el lote. Mañana siguen sanos el 90 % de los sanos y se recupera el 50 % de los enfermos.',
+      say: '$q_t$, que se lee «cu sub te», es la fracción esperada de sanos hoy; $1-q_t$ es la de enfermos. Para obtener $q_{t+1}$, suma los sanos que permanecen sanos y los enfermos que se recuperan. \n\nEsos aportes son $0{,}9q_t$ y $0{,}5(1-q_t)$, respectivamente. Como el lote parte completamente sano, $q_0=1$.',
       board: {
         label: 'Avanzar un día',
         tex: '\\p{1}{q_{t+1}}=\\p{2}{0{,}9q_t+0{,}5(1-q_t)}',
@@ -235,10 +235,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Parte con un lote completamente sano. Avanza los días: la fracción esperada se acerca a 5/6; un lote sorteado puede fluctuar alrededor de ese valor.',
-      gate: 'Avanza los días hasta que la fracción de sanos deje de cambiar. ¿A qué valor se acerca?',
+      say: 'La fórmula de $q_t$ da la fracción esperada de sanos después de $t$ días, con $q_0=1$. Su segundo término disminuye al aumentar $t$, porque la base 0,4 está entre 0 y 1. La curva muestra esa evolución esperada; un lote sorteado puede fluctuar alrededor de ella.',
+      gate: 'Arrastra la perilla para avanzar varios días. ¿A qué valor se acerca la fracción esperada de sanos y cómo cambia la distancia a la línea de referencia?',
       after:
-        'Se acerca a $\\tfrac56$: el término $\\tfrac16(0{,}4)^t$ se apaga. Esa es la distribución estacionaria.',
+        'Desde el día 8, $q_t$ es como máximo aproximadamente 0,8334 y se acerca a $5/6$: el término $\\tfrac16(0{,}4)^t$ disminuye. Esa fracción sana corresponde a la distribución estacionaria.',
       board: {
         label: 'Acercarse al equilibrio',
         tex: '\\p{1}{q_0}=\\p{2}{1},\\quad\\p{3}{ q_t}=\\p{4}{\\frac56+\\frac16(0{,}4)^t}',
@@ -251,7 +251,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **distribución estacionaria** se mantiene al avanzar un día. Iguala el flujo de S a N con el de N a S: quedan 5/6 sanos y 1/6 enfermos.',
+      say: 'Una **distribución estacionaria** asigna probabilidades a los estados que se mantienen al aplicar un paso de la cadena. Aquí $\\pi_S$ y $\\pi_N$ se leen «pi sub ese» y «pi sub ene», y suman 1. \n\nEn equilibrio, el flujo de S a N, $0{,}1\\pi_S$, iguala al de N a S, $0{,}5\\pi_N$: resultan $5/6$ sanos y $1/6$ enfermos. Las proporciones se mantienen aunque los registros individuales cambien de estado.',
       board: {
         label: 'Distribución estacionaria',
         tex: '\\p{1}{\\pi_S}=\\p{2}{\\frac{P(N\\to S)}{P(S\\to N)+P(N\\to S)}}=\\p{3}{\\frac56},\\quad\\p{4}{\\pi_N}=\\p{5}{\\frac16}',
@@ -494,7 +494,7 @@ export const level: LevelSpec = {
       Scene: NightTape,
       beats: [
         {
-          say: 'El lote usa las transiciones 0,9; 0,1; 0,5; 0,5 del turno. La primera carpeta está fijada en S.',
+          say: 'La cinta muestra una carpeta que parte sana y luego registra dos días enfermos. Con las transiciones del turno podemos calcular qué probabilidad tiene esa secuencia desde S.',
           ask: {
             prompt: '¿Qué probabilidad tiene S, N, N desde S?',
             options: ['0,05', '0,6', '0,25'],
@@ -508,7 +508,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Joaquín deja correr la cinta durante muchos días con la misma regla.',
+          say: 'Joaquín deja correr la cinta durante muchos días con la misma regla. Revisemos a qué proporción de sanos se acerca el lote.',
           ask: {
             prompt: '¿A qué proporción de sanos se acerca el lote?',
             options: ['5/6', '0,9', '1/2'],
