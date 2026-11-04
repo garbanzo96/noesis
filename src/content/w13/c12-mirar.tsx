@@ -185,10 +185,10 @@ export const lesson: LessonStep = {
   Scene: LessonScene,
   beats: [
     {
-      say: 'Hasta ahora las acciones cambiaban el mercado. Pedir un informe no cambia nada allá afuera: solo cambia tu creencia. Una acción así se llama **acción de información**.\n\nEl informe cuesta 1 y acierta con probabilidad 0,9, tanto si hay rumor como si hay calma. Para saber si conviene pedirlo hay que calcular cuánto mejora la decisión, antes de ver qué dice.',
+      say: 'Una **acción de información** entrega una observación que puede cambiar la creencia sin cambiar el estado del mercado. Pedir un informe es una de esas acciones.\n\nEl informe cuesta 1 y acierta con probabilidad 0,9, tanto si hay rumor como si hay calma. Para decidir si conviene, hay que medir cuánto mejora la decisión antes de conocer el resultado.',
     },
     {
-      say: 'Parte de $b=0{,}4$. El informe sale positivo con probabilidad $0{,}9\\cdot0{,}4+0{,}1\\cdot0{,}6=0{,}42$. Con Bayes, un positivo lleva la creencia a $b_+=0{,}857$ y un negativo a $b_-=0{,}069$.\n\nArriba, los dos puntos rosados son esas creencias sobre $V_1$. Sabes de antemano adónde puedes llegar y con qué probabilidad, aunque no sepas cuál de los dos resultados saldrá.',
+      say: 'La creencia $b$ es la probabilidad de rumor; aquí parte en $0{,}4$. Un positivo tiene probabilidad $0{,}9\\cdot0{,}4+0{,}1\\cdot0{,}6=0{,}42$.\n\nCon Bayes se obtiene $b_+=0{,}857$ tras un positivo y $b_-=0{,}069$ tras un negativo, leídos «be más» y «be menos». Los puntos rosados muestran esas creencias sobre $V_1$, leído «ve uno», el valor de decidir con una acción disponible.',
       board: {
         label: 'Creencias tras el informe',
         tex: '\\p{1}{b_+=\\frac{0{,}36}{0{,}42}=0{,}857}\\qquad\\p{2}{b_-=\\frac{0{,}04}{0{,}58}=0{,}069}',
@@ -196,7 +196,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **valor de la información** compara decidir después de ver la señal con decidir ahora. Se promedia $V_1$ en las creencias posibles y se resta $V_1$ de la creencia actual.\n\nCon $b=0{,}4$: $0{,}42\\cdot(-4)+0{,}58\\cdot(-0{,}69)=-2{,}08$, y $V_1(0{,}4)=-4$. La diferencia es $1{,}92$. En el dibujo es el trazo naranjo entre la cuerda y la curva.',
+      say: 'El **valor de la información** es la mejora esperada al decidir después de observar una señal, respecto de decidir ahora, antes de descontar su costo. $\\text{VI}(b)$ se lee «ve i de be»: se promedian los valores $V_1$ de las creencias posibles según sus probabilidades y se resta $V_1(b)$.\n\nPara $b=0{,}4$, el promedio es $0{,}42\\cdot(-4)+0{,}58\\cdot(-0{,}69)=-2{,}08$, frente a $-4$ ahora. La diferencia es $1{,}92$, el trazo naranjo entre la cuerda y la curva.',
       board: {
         label: 'Valor de la información',
         tex: '\\p{1}{\\text{VI}(b)}=\\p{2}{\\sum_o P(o\\mid b)\\,V_1(b_o)}-\\p{3}{V_1(b)}',
@@ -204,13 +204,13 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El valor de mirar cambia con la creencia. La curva naranja de abajo lo muestra para cada $b$. Antes de mover el control, piensa dónde debería ser mayor: ¿cuándo te sirve más una señal, con una decisión clara o con una dudosa?',
-      gate: 'Mueve $b$ y encuentra la creencia en que el informe vale más.',
+      say: 'La curva naranja de abajo muestra cómo cambia el valor de la información con la creencia $b$. La señal puede servir más cuando una observación permite elegir una acción distinta.\n\nCompara la altura de la curva al mover la creencia: cuanto más alta, mayor es la mejora esperada antes de pagar el informe.',
+      gate: 'Mueve $b$ y busca dónde el informe tiene mayor valor. Mira la altura de la curva naranja.',
       after:
-        'El máximo está en $b=0{,}4$, donde vale 1,92. Es justo el umbral: ahí la decisión está más dudosa y cualquier señal la inclina.',
+        'El máximo está en $b=0{,}4$ y vale 1,92. En ese umbral, los resultados de la señal inclinan la decisión hacia acciones distintas.',
     },
     {
-      say: 'Ahora mira una creencia alta, $b=0{,}9$. Un positivo la sube a 0,988. Un negativo la baja a 0,5, que sigue sobre el umbral. Piensa qué harías con cada resultado antes de responder.',
+      say: 'Ahora la creencia es $b=0{,}9$. Un positivo la sube aproximadamente a 0,988 y un negativo la baja a 0,5, todavía sobre el umbral de 0,4. Compara la acción que elegirías en cada caso con la que elegirías sin informe.',
       ask: {
         prompt: 'Con $b=0{,}9$, ¿cuánto vale el informe?',
         options: [
@@ -229,7 +229,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Lo mismo pasa con creencias muy bajas. Con $b=0{,}05$ el informe vale 0: incluso un positivo deja la creencia bajo el umbral. Con $b=0{,}1$ vale apenas 0,18.\n\nEsta es la regla de todo el caso: **la información vale solo si puede cambiar lo que harías**. La certeza que no cambia una decisión no se paga.',
+      say: 'Con $b=0{,}05$, el informe vale 0: incluso un positivo deja la creencia bajo el umbral. Con $b=0{,}1$, vale 0,18.\n\nEn este problema, la información tiene valor positivo solo si algún resultado puede cambiar la acción óptima. Que cambie la creencia no basta para justificar el costo del informe.',
       board: {
         label: 'Ejemplos',
         tex: '\\p{1}{\\text{VI}(0{,}05)=0}\\quad\\p{2}{\\text{VI}(0{,}1)=0{,}18}\\quad\\p{3}{\\text{VI}(0{,}4)=1{,}92}',
@@ -237,10 +237,10 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mirar conviene cuando $\\text{VI}(b)$ supera su costo $c$. La línea roja es el costo. Donde la curva pasa sobre ella, en la franja verde, conviene pedir el informe; fuera de ella, conviene decidir ya.\n\nCon $c=1$ la franja va de $b=0{,}24$ a $b=0{,}62$. Sube el costo y mira qué ocurre con ella.',
-      gate: 'Sube el costo hasta que ya no convenga mirar con ninguna creencia.',
+      say: 'Mirar conviene cuando $\\text{VI}(b)$ supera el costo $c$, leído «ce». La línea roja muestra el costo y la franja verde reúne las creencias donde la curva lo supera.\n\nCon $c=1$, esa franja va aproximadamente de $b=0{,}24$ a $b=0{,}62$. En igualdad de valor y costo, mirar y decidir ahora dan el mismo resultado esperado.',
+      gate: 'Sube el costo hasta que ya no convenga mirar con ninguna creencia. Observa la línea roja y la franja verde.',
       after:
-        'La franja se cerró sobre $c=1{,}92$, el máximo de la curva. Si el informe cuesta más que eso, no conviene comprarlo jamás.',
+        'La franja desaparece cuando el costo supera 1,92, el máximo de la curva. Por encima de ese precio, ninguna creencia justifica comprar el informe.',
       board: {
         label: 'Cuándo mirar',
         tex: '\\p{1}{\\text{VI}(b)}>\\p{2}{c}',
@@ -248,7 +248,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Todo cabe en una sola ecuación. Mirar es una acción más, con su costo y su continuación: compite con esperar y con calmar en el mismo $\\max$. Así, reducir incertidumbre y conseguir recompensa se comparan en la misma moneda.\n\nCon eso queda completo el POMDP: creencia, filtro, política y una razón calculada para buscar información.',
+      say: 'El **valor de mirar** $Q(b,\\text{mirar})$, leído «cu de be y mirar», suma el costo negativo del informe y el valor esperado de decidir después de observarlo. La suma recorre cada resultado posible $o$, ponderado por su probabilidad $P(o\\mid b)$, leída «probabilidad de o dado be».\n\nMirar compite con esperar y calmar en el mismo $\\max$, que elige el mayor valor. La creencia y el filtro permiten calcular esa continuación y elegir una política.',
       board: {
         label: 'Mirar como acción',
         tex: '\\p{1}{Q(b,\\text{mirar})}=\\p{2}{-c}+\\p{3}{\\sum_o P(o\\mid b)\\,V(b_o)}',
@@ -543,10 +543,10 @@ export const level: LevelSpec = {
       Scene: Investigation,
       beats: [
         {
-          say: 'Aquí están los diez días, cada uno con su creencia. Valentina quiere saber en cuáles un operador serio habría comprado el informe, antes de cruzar con las facturas.',
-          gate: 'Marca los días en que el informe vale más de lo que cuesta. Usa la curva de abajo.',
+          say: 'Aquí están los diez días y sus creencias. Valentina quiere identificar cuándo el informe valía más que su costo de 1, antes de cruzar esos días con las facturas.',
+          gate: 'Marca todos los días en que el informe vale más de lo que cuesta. Compara la curva de abajo con la línea roja.',
           after:
-            'Son los días entre $b=0{,}24$ y $b=0{,}62$: ahí la curva pasa sobre el costo. Fuera de esa franja, la decisión ya estaba tomada.',
+            'Son los días con $b=0{,}3$, $0{,}38$, $0{,}47$ y $0{,}56$: ahí el valor supera el costo de 1. Fuera de esa franja, la mejora esperada no alcanza a cubrirlo.',
           note: {
             label: 'Cuándo comprar el informe',
             tex: '\\text{VI}(b)>c',
@@ -554,7 +554,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Teo cruza tus marcas con las facturas, una por una.',
+          say: 'Teo cruza tus marcas con las facturas, una por una. Quiere saber qué revela la coincidencia sobre la cuenta.',
           ask: {
             prompt: '¿Qué significa que las facturas calcen con esos días?',
             options: [
@@ -568,14 +568,14 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La última factura es del día con $b=0{,}38$. Si la cuenta razona como creemos, hay un precio máximo que habría aceptado.',
-          gate: 'Calcula con la fórmula el precio máximo por el informe y ubícalo en la regla.',
+          say: 'La última factura es del día con $b=0{,}38$. Valentina quiere calcular cuánto habría aceptado pagar la cuenta como máximo por ese informe.',
+          gate: 'Calcula con la fórmula el valor del informe para ese día y ubica en la regla el precio máximo que justificaría pagarlo.',
           after:
-            'Con $b=0{,}38$: $5{,}8\\cdot0{,}38-0{,}4\\approx1{,}80$. La factura de ese día dice 1,80. El vendedor conocía la cuenta tanto como ella misma.',
+            'Con $b=0{,}38$: $5{,}8\\cdot0{,}38-0{,}4=1{,}804$, aproximadamente 1,80. La factura dice 1,80: el vendedor conocía la cuenta tanto como ella misma.',
           note: { label: 'Precio máximo', tex: '\\text{VI}(0{,}38)\\approx1{,}80' },
         },
         {
-          say: 'Valentina da vuelta la última factura y acerca la letra pequeña a la luz.',
+          say: 'Valentina da vuelta la última factura y acerca la letra pequeña a la luz. La dirección permite identificar a la empresa que vendió los informes.',
           note: {
             label: 'Las facturas',
             body: 'Todas salen de Torre Halcón, piso 40: quien vendía los informes era la misma cuenta que los compraba.',
