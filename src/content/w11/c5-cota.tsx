@@ -164,7 +164,7 @@ const lesson: LessonStep = {
   Scene: BoundLesson,
   beats: [
     {
-      say: 'La **ELBO** es una cota inferior del logaritmo de la evidencia. Si p(D) = 1/4, su logaritmo en base 2 es −2; con KL = 0,5, la cota queda en −2,5 bits.',
+      say: 'La **ELBO**, o cota inferior del logaritmo de la evidencia, es un valor calculado para una distribución aproximada $q$. La evidencia $p(D)$ se lee «pe de de» y mide la probabilidad de los datos bajo el modelo.\n\nSi $p(D)=1/4$, su logaritmo en base 2 es −2 bits. Con una separación KL de 0,5 bits, la ELBO vale −2,5 bits.',
       board: {
         label: 'Identidad de la cota',
         tex: IDENTITY,
@@ -172,7 +172,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La separación entre la cota y el logaritmo de la evidencia es la KL. Como nunca es negativa, la ELBO puede tocar ese techo, pero no pasarlo.',
+      say: 'La **divergencia KL** de $q$ al posterior mide la separación entre la ELBO y el logaritmo de la evidencia. Se lee «ka ele» y nunca es negativa. Por eso la ELBO puede tocar el techo, pero no pasarlo. Esta relación supone evidencia positiva y valores finitos.',
       board: {
         label: 'Cota inferior',
         tex: '\\p{1}{KL\\ge0}\\quad\\Rightarrow\\quad\\p{2}{\\operatorname{ELBO}(q)\\le\\log_2 p(D)}',
@@ -180,10 +180,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mueve q para subir la cota: la evidencia permanece fija mientras la KL baja. En esta familia puedes alcanzar el posterior exacto.',
-      gate: 'Mueve $t$ y busca dónde la cota llega a su máximo. ¿Cuánto vale ahí la KL?',
+      say: 'La familia $q_t=(t;1/2;1/2-t)$ reúne distribuciones aproximadas para $0\\le t\\le 1/2$. Se lee «cu sub te»: cada valor de $t$ elige un reparto de probabilidades. Con el modelo y los datos fijos, la evidencia permanece igual; observa cómo cambian la KL y la cota al ajustar $t$.',
+      gate: 'Arrastra $t$ hasta que la cota alcance su máximo. Mira la KL para comprobar cuánto falta hasta el techo.',
       after:
-        'En $t=\\tfrac14$ la KL vale 0 y la cota toca la evidencia. Subir la ELBO es bajar la KL, porque su suma es fija.',
+        'En $t=\\tfrac14$, la KL vale 0 y la ELBO llega a −2 bits, igual que el logaritmo de la evidencia. Como su suma es fija, subir la ELBO reduce la KL.',
       board: {
         label: 'Ajustar q',
         tex: '\\p{1}{q_t}=\\p{2}{(t;\\tfrac12;\\tfrac12-t)},\\quad\\p{3}{0\\le t\\le\\tfrac12}',
@@ -191,7 +191,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ahora imagina una q cuya KL al posterior es cero.',
+      say: 'La KL al posterior es cero cuando $q$ coincide con él. Usa la identidad para calcular la cota a partir del techo y esa separación.',
       ask: {
         prompt: 'Con log₂ p(D) = −2 y KL = 0, ¿cuánto vale la ELBO?',
         options: ['−2 bits', '0 bits', '−2,5 bits'],
@@ -206,7 +206,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Puedes calcular la ELBO desde el modelo conjunto y q, sin normalizar el posterior. Para datos y modelo fijos, maximizarla minimiza la KL dentro de tu familia; si esa familia excluye el posterior, queda una separación.',
+      say: 'La ELBO es el promedio según $q$ del logaritmo de $p(D,\\theta)/q(\\theta)$, sumado sobre los valores de $\\theta$. Se lee «pe de de y theta sobre cu de theta»; $p(D,\\theta)$ es la probabilidad conjunta de datos y parámetro.\n\n$q$ debe ser una distribución normalizada: los términos con $q=0$ aportan 0. No hace falta normalizar el posterior; calcular la suma tiene costo. Con modelo y datos fijos, maximizar la ELBO minimiza la KL dentro de la familia; si esta excluye el posterior, queda una separación.',
       board: {
         label: 'Objetivo calculable',
         tex: '\\p{1}{\\operatorname{ELBO}(q)}=\\p{2}{\\sum_\\theta q(\\theta)\\log_2\\frac{p(D,\\theta)}{q(\\theta)}}',
@@ -426,7 +426,7 @@ export const level: LevelSpec = {
       Scene: BoundDemo,
       beats: [
         {
-          say: 'El control pequeño registra ELBO = −3,25 bits y KL = 1,25 bits. Usa la identidad para recuperar el logaritmo de la evidencia.',
+          say: 'El control pequeño registra ELBO = −3,25 bits y KL = 1,25 bits. Recuperemos el logaritmo de la evidencia para comprobar el techo del ajuste.',
           ask: {
             prompt: '¿Cuánto vale log₂ p(D)?',
             options: ['−2 bits', '−4,5 bits', '0,25 bits'],
@@ -440,7 +440,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Con el mismo modelo y datos, otra q sube la ELBO a −2,5 bits. El logaritmo de la evidencia sigue en −2.',
+          say: 'Con el mismo modelo y datos, otra $q$ sube la ELBO a −2,5 bits. El logaritmo de la evidencia sigue en −2; revisemos cuánto espacio queda hasta el techo.',
           ask: {
             prompt: '¿Qué KL tiene la nueva q?',
             options: ['0,5 bits', '−0,5 bits', '0 bits'],
