@@ -12,7 +12,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { fmt, frac, kl2, normalize, tnum } from './kit';
 
 const P = [1 / 4, 1 / 2, 1 / 4];
@@ -205,25 +205,70 @@ const lesson: LessonStep = {
   ],
 };
 
-function FamilyDemo({ beats, answer }: DemoProps) {
+function FamilyDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [estimate, setEstimate] = useState(0);
+  const [a, setA] = useState(0.5);
+  const [excluded, setExcluded] = useState<number | null>(null);
+  const unlocked = useRef(-1);
+  const { beat } = beats;
+  const drag = useSvgDrag(svg, (x) => {
+    const value = Math.max(0, Math.min(1, (x - 1080) / 340));
+    if (beat === 0) {
+      setEstimate(value);
+      if (Math.abs(value - 0.5) <= 0.025 && unlocked.current !== beat) {
+        unlocked.current = beat;
+        unlock();
+      }
+    } else if (beat === 1) {
+      setA(value);
+      if (Math.abs(value - 0.25) <= 0.025 && unlocked.current !== beat) {
+        unlocked.current = beat;
+        unlock();
+      }
+    }
+  });
+  const q = beat === 0 ? Q : [a, 1 - a, 0];
   return (
-    <Stage>
-      <PairBars p={P} q={Q} />
-      <Cap x={1250} y={200} size={22}>
-        Control pequeño del lector
-      </Cap>
-      <Cap x={1250} y={290} tex="q=(\tfrac12;\tfrac12;0)" color={C.cyan} />
-      {answer !== null &&
-        (beats.beat === 0 ? (
-          <Cap x={1250} y={380} tex="KL(q\Vert p)=0{,}5\ \text{bits}" color={C.green} size={24} />
-        ) : (
-          <>
-            <Cap x={1250} y={380} tex="q_2=0\ne p_2=\tfrac14" color={C.amber} />
-            <Cap x={1250} y={470} size={20}>
-              Cambiar a no recupera x₂.
+    <Stage ref={svg}>
+      <PairBars p={P} q={q} />
+      <Cap x={1250} y={200} size={24}>Control pequeño del lector</Cap>
+      <Cap x={1250} y={290} tex={beat === 0 ? 'q=(\\tfrac12;\\tfrac12;0)' : 'q(a)=(a;1-a;0)'} color={C.cyan} size={25} />
+      {beat < 2 && (
+        <>
+          <Cap x={1250} y={400} size={24} color={C.cyan}>
+            {beat === 0 ? `KL estimada: ${fmt(estimate, 2)} bits` : `a = ${fmt(a, 2)}`}
+          </Cap>
+          <line x1={1080} x2={1420} y1={550} y2={550} stroke={C.line} strokeWidth={4} />
+          <Cap x={1080} y={610} size={24}>0</Cap>
+          <Cap x={1420} y={610} size={24}>1</Cap>
+          <Knob x={1080 + (beat === 0 ? estimate : a) * 340} y={550} axis="x" color={C.cyan} onPointerDown={drag} />
+        </>
+      )}
+      {beat === 2 && (
+        <>
+          <Cap x={1250} y={400} size={24}>Valor que queda fuera</Cap>
+          <Choices
+            x={1250}
+            y={500}
+            options={[0, 1, 2]}
+            value={excluded}
+            render={(i) => `x${i}`}
+            onPick={(i) => {
+              setExcluded(i);
+              if (beat === 2 && i === 2 && unlocked.current !== beat) {
+                unlocked.current = beat;
+                unlock();
+              }
+            }}
+          />
+          {excluded !== null && (
+            <Cap x={1250} y={600} size={24} color={C.amber}>
+              {`Seleccionaste x${excluded}`}
             </Cap>
-          </>
-        ))}
+          )}
+        </>
+      )}
     </Stage>
   );
 }
@@ -400,13 +445,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El control pequeño guarda $p=(1/4;1/2;1/4)$. Mi receta firmada usa $q=(1/2;1/2;0)$. Calcula la KL para medir cuánto se aparta la receta del control.',
-          ask: {
-            prompt: '¿Qué desajuste tiene la receta, medido con KL(q ‖ p)?',
-            options: ['0,5 bits', '0 bits', '1 bit'],
-            answer: 0,
-            explain:
-              'El primer valor aporta 1/2·log₂2 = 1/2. El segundo aporta 1/2·log₂1 = 0 y el tercero, cero.',
-          },
+          gate: '¿Qué desajuste tiene la receta, medido con KL(q ‖ p)? Calcula los aportes y ubica el resultado en la escala de bits.',
+          after: 'El primer valor aporta $1/2$ bit y los otros dos aportan cero. La KL de la receta es $0{,}5$ bits.',
           note: {
             label: 'La receta firmada',
             tex: 'KL(q\\Vert p)=\\tfrac12\\log_2 2+\\tfrac12\\log_2 1=0{,}5',
@@ -414,18 +454,14 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El molde del lector permite cambiar $a$ en $q(a)=(a;1-a;0)$. Revisa si algún ajuste puede copiar los tres valores del control.',
-          ask: {
-            prompt: '¿Puede algún ajuste de a copiar este p exactamente?',
-            options: [
-              'No: x₂ siempre queda fuera',
-              'Sí: basta elegir a = 1/3',
-              'Sí: basta elegir a = 1/4',
-            ],
-            answer: 0,
-            explain:
-              'p da 1/4 a x₂ y toda q de esta familia le da cero. a = 1/3 minimiza la KL, pero no la vuelve cero.',
-          },
+          say: 'El molde del lector permite cambiar $a$ en $q(a)=(a;1-a;0)$. ¿Puede algún ajuste de $a$ copiar este $p$ exactamente?',
+          gate: 'Ajusta $a$ para que la barra de $q$ en $x_0$ coincida con la del control. Compara las tres barras.',
+          after: 'Con $a=1/4$, las barras coinciden en $x_0$. En $x_1$, $q$ queda en $3/4$ frente a $1/2$ del control; en $x_2$, queda en cero frente a $1/4$.',
+        },
+        {
+          say: 'El ajuste cambió la mezcla del molde. ¿Qué valor del control queda fuera de toda receta de esta familia?',
+          gate: 'Marca el valor que el molde siempre deja fuera.',
+          after: 'El molde deja $x_2$ en cero para cualquier $a$, mientras el control le asigna $1/4$. Incluso el mínimo de KL es $\\log_2(4/3)>0$.',
           note: {
             label: 'Restricción de la familia',
             tex: 'q_2=0,\\quad p_2=\\tfrac14,\\quad\\min KL=\\log_2\\tfrac43>0',
