@@ -13,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import {
   ContourMap,
   Surface,
@@ -208,31 +208,66 @@ const lesson: LessonStep = {
   ],
 };
 
-function LastPosition({ beats, answer }: DemoProps) {
-  const show = beats.beat > 0 || answer !== null;
+function LastPosition({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const [height, setHeight] = useState<number | null>(null);
+  const [candidate, setCandidate] = useState<string | null>(null);
+  const selectedHeight = beat === 0 ? height : 100;
   return (
     <Stage>
       <Axes P={SEARCH} xLabel="\text{este}" yLabel="\text{norte}" />
       <ContourMap P={SEARCH} f={terrain} levels={HEIGHTS} />
-      {[-1, 1].map((sign) => (
-        <g key={sign}>
-          <Dot x={SEARCH.x(sign * 3)} y={SEARCH.y(Math.sqrt(8))} color={show ? C.green : C.amber} />
-          <Cap x={SEARCH.x(sign * 3)} y={SEARCH.y(Math.sqrt(8)) + 32}>
-            {sign > 0 ? 'Este' : 'Oeste'}
-          </Cap>
-        </g>
-      ))}
+      {selectedHeight !== null && (
+        <ContourMap P={SEARCH} f={terrain} levels={[selectedHeight]} colors={[C.text]} />
+      )}
+      {[-1, 1].map((sign) => {
+        const name = sign > 0 ? 'Este' : 'Oeste';
+        return (
+          <g key={sign}>
+            <Dot
+              x={SEARCH.x(sign * 3)}
+              y={SEARCH.y(Math.sqrt(8))}
+              color={beat === 2 && sign > 0 ? C.green : candidate === name ? C.cyan : C.amber}
+            />
+            <Cap x={SEARCH.x(sign * 3)} y={SEARCH.y(Math.sqrt(8)) + 32}>
+              {name}
+            </Cap>
+          </g>
+        );
+      })}
       <Dot x={SEARCH.x(4.5)} y={SEARCH.y(0)} color={C.magenta} />
-      <Cap x={SEARCH.x(4.5)} y={SEARCH.y(0) + 34} size={18}>
+      <Cap x={SEARCH.x(4.5)} y={SEARCH.y(0) + 34} size={24}>
         Antena
       </Cap>
-      <Cap x={1250} y={250} tex="\text{altitud: }120\,\mathrm m" />
-      <Cap x={1250} y={320} tex="\text{sobre el suelo: }20\,\mathrm m" />
-      {show && <Cap x={1250} y={410} tex="120-20=100\,\mathrm m" color={C.green} />}
-      {beats.beat === 1 && answer !== null && (
-        <Cap x={1250} y={490} color={C.amber}>
-          La señal viene del este.
-        </Cap>
+      <Cap x={1250} y={230} tex="\text{altitud: }120\,\mathrm m" />
+      <Cap x={1250} y={300} tex="\text{sobre el suelo: }20\,\mathrm m" />
+      {beat === 0 && (
+        <Choices
+          x={1250}
+          y={410}
+          label="Curva del suelo"
+          options={HEIGHTS}
+          value={height}
+          render={(value) => `${value} m`}
+          onPick={(value) => {
+            setHeight(value);
+            if (beat === 0 && value === 100) unlock();
+          }}
+        />
+      )}
+      {beat >= 1 && <Cap x={1250} y={390} tex="120-20=100\,\mathrm m" color={C.green} />}
+      {beat === 1 && (
+        <Choices
+          x={1250}
+          y={490}
+          label="Punto de la señal"
+          options={['Oeste', 'Este']}
+          value={candidate}
+          onPick={(value) => {
+            setCandidate(value);
+            if (beat === 1 && value === 'Este') unlock();
+          }}
+        />
       )}
     </Stage>
   );
@@ -411,29 +446,22 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El dron volaba a 120 m de altitud y a 20 m del suelo. El mapa marca alturas de 60, 80, 100, 120 y 140 m.',
-          ask: {
-            prompt: '¿Sobre qué curva estaba?',
-            options: ['La de 100 m', 'La de 120 m', 'La de 140 m'],
-            answer: 0,
-            explain:
-              'Altura del suelo: $120-20=100$ m. La altitud del dron está por encima del terreno.',
-          },
+          gate: '¿Sobre qué curva estaba? Selecciona la altura del suelo para destacarla en el mapa.',
+          after: 'El suelo está a 100 m: los 120 m de altitud menos los 20 m sobre el suelo.',
           note: { label: 'Altura del suelo', tex: '120-20=100\\,\\mathrm m' },
         },
         {
           say: 'Los dos puntos marcados pertenecen a la curva de 100 m. La antena que recibió la última señal está al este.',
-          ask: {
-            prompt: '¿Cuál de los dos puntos marcados corresponde a la señal?',
-            options: ['El del este', 'El del oeste', 'Los dos por igual'],
-            answer: 0,
-            explain:
-              'La altura deja dos candidatos; la antena del este permite elegir el punto oriental.',
-          },
+          gate: '¿Cuál de los dos puntos marcados corresponde a la señal? Selecciónalo en el mapa.',
+          after: 'La curva de 100 m deja dos candidatos. El punto del este coincide con la antena que recibió la señal.',
           note: {
             label: 'Última posición',
             tex: 'f(x,y)=100',
             body: 'El punto del este coincide con la antena que recibió la señal.',
           },
+        },
+        {
+          say: 'El punto del este marca la última posición del dron, sobre terreno a 100 m de altura.',
         },
       ],
     },
