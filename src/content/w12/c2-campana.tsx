@@ -210,28 +210,53 @@ const lesson: LessonStep = {
   ],
 };
 
-function ShiftDemo({ beats, answer }: DemoProps) {
+function ShiftDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [variance, setVariance] = useState(0);
+  const [marker, setMarker] = useState(6);
+  const unlocked = useRef([false, false]);
   const { beat } = beats;
+  const drag = useSvgDrag(svg, (px) => {
+    const t = clamp((px - SLIDER.x0) / (SLIDER.x1 - SLIDER.x0), 0, 1);
+    if (beat === 0) {
+      const value = 4 * t;
+      setVariance(value);
+      if (!unlocked.current[0] && Math.abs(value - VAR) <= 0.1) {
+        unlocked.current[0] = true;
+        unlock();
+      }
+    } else if (beat === 1) {
+      const value = 12 * t;
+      setMarker(value);
+      if (!unlocked.current[1] && Math.abs(value - (MU - SD)) <= 0.25) {
+        unlocked.current[1] = true;
+        unlock();
+      }
+    }
+  });
   return (
-    <Stage>
-      <Bell mu={MU} sd={SD} generated={beat === 1 && answer !== null ? MU - SD : undefined} />
-      <Cap x={1250} y={220} size={23}>
+    <Stage ref={svg}>
+      <Bell mu={MU} sd={SD} generated={beat === 1 ? marker : beat === 2 ? MU - SD : undefined} />
+      <Cap x={1250} y={220} size={24}>
         μ = 6
       </Cap>
-      <Cap x={1250} y={310} size={23}>
+      <Cap x={1250} y={310} size={24}>
         {beat === 0 ? 'Suma de cuadrados: 10' : 'σ = √2'}
       </Cap>
-      <Cap x={1250} y={400} size={23}>
+      <Cap x={1250} y={400} size={24}>
         {beat === 0 ? '5 registros en el lote' : 'Sorteo guardado: z = −1'}
       </Cap>
-      {answer !== null && (
-        <Cap
-          x={1250}
-          y={510}
-          size={23}
-          color={C.green}
-          tex={beat === 0 ? '\\hat\\sigma^2=10/5=2' : 'x=6-\\sqrt2\\approx4{,}59'}
-        />
+      {beat < 2 && (
+        <>
+          <Cap x={1250} y={510} size={24} color={C.amber}>
+            {beat === 0 ? `Varianza: ${fmt(variance)}` : `Marcador: ${fmt(marker)}`}
+          </Cap>
+          <line x1={SLIDER.x0} x2={SLIDER.x1} y1={SLIDER.y} y2={SLIDER.y} stroke={C.line} strokeWidth={4} />
+          <Knob x={SLIDER.x0 + (beat === 0 ? variance / 4 : marker / 12) * (SLIDER.x1 - SLIDER.x0)} y={SLIDER.y} axis="x" onPointerDown={drag} color={C.amber} label={beat === 0 ? 'σ²' : 'x'} />
+          <Cap x={1250} y={720} size={24} color={C.muted}>
+            {beat === 0 ? 'Escala: 0 a 4' : 'Escala: 0 a 12'}
+          </Cap>
+        </>
       )}
     </Stage>
   );
@@ -466,13 +491,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Joaquín conserva el lote 4, 6, 5, 7, 8: media 6 y suma de cuadrados 10. El tablero dice «ajuste normal por máxima verosimilitud». Necesitamos la varianza que guardará para revisar la receta.',
-          ask: {
-            prompt: '¿Qué varianza debe guardar ese ajuste?',
-            options: ['2', '2,5', '≈ 1,41'],
-            answer: 0,
-            explain:
-              'Divide por n = 5: 10/5 = 2. Dividir por n − 1 da 2,5; sacar raíz da la desviación, no la varianza.',
-          },
+          gate: '¿Qué varianza debe guardar ese ajuste? Calcula el valor y mueve la perilla de varianza hasta él.',
+          after: 'La suma de cuadrados 10 dividida por los 5 registros da varianza 2. La desviación es √2.',
           note: {
             label: 'Parámetros del lote',
             tex: '\\hat\\mu=6,\\quad\\hat\\sigma^2=2',
@@ -480,19 +500,17 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El registro de la impresora guarda z = −1. El centro sigue en 6 y la desviación en √2. Calculemos la salida para compararla con la carpeta.',
-          ask: {
-            prompt: '¿Qué valor debería traer la carpeta de salida?',
-            options: ['≈ 4,59', '≈ 7,41', '4'],
-            answer: 0,
-            explain:
-              '6 + √2 · (−1) ≈ 4,59. Un z negativo desplaza a la izquierda; usar la varianza 2 produciría 4.',
-          },
+          say: 'El registro de la impresora guarda z = −1. El centro sigue en 6 y la desviación en √2.',
+          gate: '¿Qué valor debería traer la carpeta de salida? Calcula la salida y ubica el marcador en la recta.',
+          after: 'Con 6 + √2 · (−1), la carpeta queda en aproximadamente 4,59, a la izquierda de 6.',
           note: {
             label: 'Carpeta generada',
             tex: 'x=6+\\sqrt2\\cdot(-1)\\approx4{,}59',
             body: 'La receta genera un valor nuevo a partir del sorteo guardado; no copia una fila del lote.',
           },
+        },
+        {
+          say: 'La carpeta de 4,59 salió de la receta a partir del sorteo guardado. Compara su posición con los cinco registros de entrada.',
         },
       ],
     },
