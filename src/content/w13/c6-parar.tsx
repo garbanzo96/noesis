@@ -236,16 +236,54 @@ const lesson: LessonStep = {
   ],
 };
 
-function MonthsDemo({ beats, answer }: DemoProps) {
+function MonthsDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [observed, setObserved] = useState(0);
+  const [exponent, setExponent] = useState(-3);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 0) {
+      const next = Math.round(clamp((x - 235) / 70, 0, 9));
+      setObserved(next);
+      if (next === 3) unlock();
+    } else if (beat === 1) {
+      const next = -3 - clamp((x - 200) / 700, 0, 1) * 3;
+      setExponent(next);
+      if (Math.abs(next - Math.log10(0.4 ** 12)) <= 0.15) unlock();
+    }
+  });
   return (
-    <Stage>
-      <SuccessBars r={4} />
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="P\approx0{,}40" color={C.amber} />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="0{,}4^{12}\approx0{,}000016" color={C.magenta} />
+    <Stage ref={svg}>
+      {beat === 0 ? (
+        <>
+          {Array.from({ length: N }, (_, i) => {
+            const h = (stopSuccess(N, i + 1) / 0.45) * 360;
+            const x = 200 + i * 70;
+            return (
+              <g key={i}>
+                <rect x={x + 8} y={600 - h} width={54} height={h} rx={5}
+                  fill={i === observed ? C.amber : C.violet} fillOpacity={0.8} />
+                <Cap x={x + 35} y={630} size={24} color={C.text}>{i}</Cap>
+              </g>
+            );
+          })}
+          <Knob x={235 + observed * 70} y={660} onPointerDown={drag} axis="x" color={C.amber} label={`${observed}`} />
+          <Cap x={550} y={720} size={24} color={C.text}>Ofertas que se dejan pasar</Cap>
+        </>
+      ) : (
+        <>
+          <Cap x={550} y={250} size={28} color={C.text}>Probabilidad de doce aciertos independientes</Cap>
+          <Cap x={550} y={330} tex="0{,}4^{12}" color={C.amber} />
+          <line x1={200} x2={900} y1={500} y2={500} stroke={C.line} strokeWidth={4} />
+          {[-3, -4, -5, -6].map((power, i) => (
+            <g key={power}>
+              <line x1={200 + i * 700 / 3} x2={200 + i * 700 / 3} y1={485} y2={515} stroke={C.text} strokeWidth={2} />
+              <Cap x={200 + i * 700 / 3} y={550} size={24} tex={`10^{${power}}`} />
+            </g>
+          ))}
+          {beat === 1 && <Knob x={200 + (-3 - exponent) * 700 / 3} y={500} onPointerDown={drag} axis="x" color={C.amber} />}
+          {beat === 2 && <Cap x={550} y={640} tex="0{,}4^{12}\approx0{,}000016" color={C.magenta} />}
+        </>
       )}
     </Stage>
   );
@@ -388,30 +426,23 @@ export const level: LevelSpec = {
       Scene: MonthsDemo,
       beats: [
         {
-          say: 'Cada mes hubo unas diez oportunidades de cierre, una tras otra. Comparémoslas con la regla de observar primero para estimar la probabilidad de acertar el mejor cierre en un mes.',
-          ask: {
-            prompt:
-              'Con la mejor regla honesta, ¿qué probabilidad hay de cerrar en el mejor momento un mes?',
-            options: ['≈ 0,40', '≈ 0,90', '0,10'],
-            answer: 0,
-            explain: 'Con 10 oportunidades y 3 de observación, P ≈ 0,399.',
-          },
+          say: 'Cada mes hubo unas diez oportunidades de cierre, una tras otra. Con la mejor regla honesta, ¿qué probabilidad hay de cerrar en el mejor momento un mes?',
+          gate: 'Compara las barras y mueve el marcador a la cantidad de oportunidades que conviene dejar pasar.',
+          after: 'Al dejar pasar 3 de 10 oportunidades, la probabilidad de elegir el mejor cierre es aproximadamente 0,399, o 0,40.',
           note: { label: 'Un mes', tex: 'P\\approx0{,}40' },
         },
         {
-          say: 'La cuenta acertó el mejor cierre doce meses seguidos. Si los resultados de cada mes son independientes, podemos multiplicar sus probabilidades para evaluar esa racha.',
-          ask: {
-            prompt: '¿Qué probabilidad tiene eso con la mejor regla honesta?',
-            options: ['≈ 0,000016', '≈ 0,40', '≈ 0,05'],
-            answer: 0,
-            explain:
-              '0,4 elevado a 12 ≈ 0,000016: una en sesenta mil. No es habilidad; es saber qué viene.',
-          },
+          say: 'La cuenta acertó el mejor cierre doce meses seguidos. Si los resultados de cada mes son independientes, podemos multiplicar sus probabilidades. ¿Qué probabilidad tiene esa racha con la mejor regla honesta?',
+          gate: 'Calcula $0{,}4^{12}$ y ubica el resultado en la escala. Cada marca representa una potencia de 10.',
+          after: 'La probabilidad es $0{,}4^{12}\\approx0{,}000016$, cerca de 1,6 por cada 100 000.',
           note: {
             label: 'Doce meses',
             tex: '0{,}4^{12}\\approx1{,}6\\cdot10^{-5}',
             body: 'Nadie acierta así con una regla. La cuenta conocía los cierres.',
           },
+        },
+        {
+          say: 'Con independencia entre meses, la racha observada es muy poco probable bajo la mejor regla honesta. La cuenta cerró en el mejor momento durante los doce meses.',
         },
       ],
     },
