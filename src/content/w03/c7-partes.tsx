@@ -264,10 +264,33 @@ const lesson: LessonStep = {
 const pump = (t: number) => 4 * t * Math.exp(-t / 2);
 const PD = plane([0, 8], [0, 3.5], { x: 300, y: 120, w: 820, h: 520 });
 
-function PumpDemo({ beats, answer }: DemoProps) {
+function PumpDemo({ beats, unlock }: DemoProps) {
   const { beat } = beats;
+  const [factor, setFactor] = useState<number | null>(null);
+  const svg = useRef<SVGSVGElement>(null);
+  const [boundary, setBoundary] = useState(-7);
+  const unlocked = useRef([false, false]);
+  const choose = (value: number) => {
+    if (beat === 0) {
+      setFactor(value);
+      if (value === 0 && !unlocked.current[0]) {
+        unlocked.current[0] = true;
+        unlock();
+      }
+
+    }
+  };
+  const options = ['4t', 'e^{-t/2}', '4t\\,e^{-t/2}'];
+  const drag = useSvgDrag(svg, (x) => {
+    const value = clamp((x - 1180) / 300 * 8 - 8, -8, 0);
+    setBoundary(value);
+    if (beat === 1 && Math.abs(value + 32 * Math.exp(-2)) <= 0.2 && !unlocked.current[1]) {
+      unlocked.current[1] = true;
+      unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes
         P={PD}
         xTicks={[0, 2, 4, 6, 8]}
@@ -278,10 +301,36 @@ function PumpDemo({ beats, answer }: DemoProps) {
       />
       <AreaUnder P={PD} f={pump} a={0} b={4} pos={C.violet} opacity={0.4} />
       <Curve P={PD} f={pump} a={0} b={8} color={C.cyan} width={4} />
-      <Cap x={1330} y={200} size={24} color={C.cyan} tex="q(t)=4t\,e^{-t/2}" />
-      <Group opacity={beat >= 1 || answer !== null ? 1 : 0}>
-        <Cap x={1330} y={270} size={20} color={C.green} tex="\int_0^4q=16-48e^{-2}\approx9{,}5" />
-      </Group>
+      <Cap x={1330} y={180} size={24} color={C.cyan} tex="q(t)=4t\,e^{-t/2}" />
+      {beat === 0 ? (
+        <>
+          <Cap x={1330} y={250} size={24} color={C.text} tex="u=\ ?" />
+          <Html x={1330} y={390} size={26} interactive>
+            <div className="stage-choices" style={{ display: 'flex', flexDirection: 'column' }}>
+              {options.map((option, i) => (
+                <button key={option} className={`stage-btn ${factor === i ? 'on' : ''}`} onClick={() => choose(i)}>
+                  <Tex tex={option} />
+                </button>
+              ))}
+            </div>
+          </Html>
+          {factor !== null && (
+            <Cap x={1330} y={570} size={24} color={factor === 0 ? C.green : C.amber}
+              tex={['(4t)\'=4', '(e^{-t/2})\'=-\\tfrac12e^{-t/2}', '(4te^{-t/2})\'=4e^{-t/2}-2te^{-t/2}'][factor]} />
+          )}
+        </>
+      ) : beat === 1 ? (
+        <>
+          <Cap x={1330} y={270} size={24} color={C.text} tex="\big[-8te^{-t/2}\big]_0^4" />
+          <line x1={1180} y1={420} x2={1480} y2={420} stroke={C.dim} strokeWidth={3} />
+          <Cap x={1180} y={470} size={24} color={C.text} tex="-8" />
+          <Cap x={1330} y={470} size={24} color={C.text} tex="-4" />
+          <Cap x={1480} y={470} size={24} color={C.text} tex="0" />
+          <Knob x={1180 + (boundary + 8) / 8 * 300} y={420} color={C.cyan} onPointerDown={drag} cursor="ew-resize" />
+        </>
+      ) : (
+        <Cap x={1330} y={270} size={24} color={C.green} tex="\int_0^4q=16-48e^{-2}\approx9{,}5" />
+      )}
     </Stage>
   );
 }
@@ -452,19 +501,18 @@ export const level: LevelSpec = {
       Scene: PumpDemo,
       beats: [
         {
-          say: 'El caudal de la bomba está en miles de m³/h: sube rápido, alcanza su máximo a las 2 h y luego decae. Necesitamos integrar el caudal entre las 00:00 y las 04:00 para saber cuánto bombeó en ese intervalo.',
-          ask: {
-            prompt: 'Para integrar $4t\\,e^{-t/2}$ por partes, ¿qué conviene tomar como $u$?',
-            options: ['$u=4t$', '$u=e^{-t/2}$', '$u=4t\\,e^{-t/2}$'],
-            answer: 0,
-            explain:
-              '$4t$ se simplifica al derivar (queda 4) y $e^{-t/2}$ se integra fácil: $v=-2e^{-t/2}$.',
-          },
+          say: 'El caudal de la bomba está en miles de m³/h: sube rápido, alcanza su máximo a las 2 h y luego decae. Necesitamos integrar el caudal entre las 00:00 y las 04:00 para saber cuánto bombeó en ese intervalo. ¿Qué conviene tomar como $u$ para integrar $4t\\,e^{-t/2}$ por partes?',
+          gate: 'Elige en el modelo el factor que conviene derivar. Compara cómo cambia cada candidato al derivarlo.',
+          after: 'Al elegir $u=4t$, su derivada es 4. El otro factor se integra como $v=-2e^{-t/2}$.',
           note: { label: 'Elección', tex: 'u=4t,\\quad dv=e^{-t/2}dt,\\quad v=-2e^{-t/2}' },
         },
         {
+          say: 'Con $u=4t$ y $v=-2e^{-t/2}$, el producto es $-8te^{-t/2}$. ¿Cuánto aporta ese producto evaluado entre 0 y 4 horas?',
+          gate: 'Evalúa el producto en ambos extremos y arrastra el marcador hasta la diferencia, aproximadamente.',
+          after: 'En 4 horas el producto vale $-32e^{-2}$ y en 0 vale 0. La diferencia es $-32e^{-2}$.',
+        },
+        {
           say: 'Aplicando integración por partes entre 0 y 4 horas, la bomba sacó aproximadamente 9,5 mil m³. Ese volumen tampoco aparece en el informe.',
-          dur: 1.8,
           note: {
             label: 'Bombeo en 4 h',
             tex: '\\big[-8te^{-t/2}\\big]_0^4+\\int_0^48e^{-t/2}dt\\approx9{,}5',
