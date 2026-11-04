@@ -5,7 +5,7 @@ import { C } from '../../engine/palette';
 import { Group, Stage } from '../../engine/Stage';
 import type { DemoProps, LessonStep } from '../../game/level/types';
 import { Cap, IntervalBar, NumberLine, Token, Venn2, lineMap, mix } from '../shared/lesson';
-import { Knob } from '../shared/ui';
+import { DragCue, Knob } from '../shared/ui';
 import { lesson as L2 } from './lesson-c2';
 import { lesson as L3 } from './lesson-c3';
 import { lesson as L4 } from './lesson-c4';
@@ -143,6 +143,7 @@ function SetsLesson({ beats, unlock }: DemoProps) {
               openB={open[1]}
               onEnd={(w) => setOpen(w === 'a' ? [!open[0], open[1]] : [open[0], !open[1]])}
             />
+            {!open[0] && <DragCue x={X(a)} y={480} axis="x" color={C.amber} r={18} />}
             <Knob
               x={X(a)}
               y={560}
