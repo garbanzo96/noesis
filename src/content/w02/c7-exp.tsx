@@ -168,8 +168,9 @@ const lesson: LessonStep = {
   Scene: ExpLesson,
   beats: [
     {
-      say: 'En $y=e^x$, la pendiente es igual a la altura en cada punto. En $x=1$, ambas valen aproximadamente $2{,}718$.',
-      gate: 'Recorre la curva con el control hasta x = 1 o más.',
+      say: 'La **función exponencial** $y=e^x$ se lee «e elevado a x», donde $e\\approx2{,}718$. Su derivada $(e^x)\u0027=e^x$ indica que la pendiente de la tangente es igual al valor de la función en cada punto. Esta propiedad sirve para modelar cantidades cuyo ritmo de cambio es proporcional a su valor.',
+      gate: 'Mueve el control hasta $x=1$ o más y compara la altura con la pendiente.',
+      after: 'Al llegar a $x=1$, altura y pendiente valen aproximadamente $2{,}718$. Al seguir avanzando, ambas aumentan juntas.',
       board: {
         label: 'Exponencial',
         tex: "(e^x)'=\\p{1}{\\cA{e^x}}",
@@ -178,7 +179,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para otras bases aparece el factor $\\ln a$. En $2^x$, la pendiente en cero es $\\ln2\\approx0{,}693$.',
+      say: 'Para una base constante $a>0$, la derivada de $a^x$ es $a^x\\ln a$. Se lee «a elevado a x por el logaritmo natural de a»; el factor $\\ln a$ ajusta la pendiente según la base. En $2^x$, la pendiente en cero es $\\ln2\\approx0{,}693$. No se aplica aquí la regla de la potencia: la variable está en el exponente.',
       ask: {
         prompt: '¿Qué base tiene pendiente exactamente 1 en $x=0$?',
         options: ['$e\\approx2{,}718$', '2', '10'],
@@ -193,7 +194,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La cadena agrega el factor $k$ al derivar $e^{kx}$. En $Q(t)=100e^{-0{,}5t}$, la cantidad baja cada vez más lento.',
+      say: 'La **regla de la cadena** multiplica la derivada de la función exterior por la derivada de su entrada. Así, $(e^{kx})\u0027=ke^{kx}$, con $k$ constante: olvidar $k$ cambia el resultado.\n\nEn $Q(t)=100e^{-0{,}5t}$, la cantidad baja cada vez más lento. Al inicio, $Q\u0027(0)=-50$: su ritmo de cambio es negativo.',
       dur: 3,
       board: [
         { label: 'Cadena', tex: "(e^{kx})'=\\p{1}{k}\\,e^{kx}", parts: ['ritmo de la entrada'] },
@@ -201,7 +202,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El logaritmo natural es la inversa de $e^x$. Su pendiente en $x>0$ es $1/x$.',
+      say: 'El **logaritmo natural** $\\ln x$, leído «logaritmo natural de x», es la inversa de $e^x$: indica a qué exponente hay que elevar $e$ para obtener $x$. Está definido para $x>0$ y su derivada es $1/x$, el recíproco de la entrada. La regla permite calcular la pendiente de su gráfica en cualquier punto de ese dominio.',
       ask: {
         prompt: '¿Cuánto vale la derivada de $\\ln x$ en $x=4$?',
         options: ['0,25', '4', '1'],
@@ -215,7 +216,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La exponencial se deriva a sí misma. La derivada del logaritmo natural es el recíproco de su entrada.',
+      say: 'La derivada de $e^x$ es $e^x$: su pendiente coincide con su altura. La derivada de $\\ln x$ es $1/x$, el recíproco de su entrada, para $x>0$.',
       dur: 2.6,
       board: {
         label: 'Exp y log',
@@ -551,8 +552,9 @@ export const level: LevelSpec = {
       Scene: ExpDemo,
       beats: [
         {
-          say: 'La curva $y=e^x$. En cada punto, compara la altura (celeste) con la pendiente (avanzar 1 y ver cuánto sube).',
-          gate: 'Recorre la curva hasta x = 1,3.',
+          say: 'Revisemos la curva $y=e^x$. La altura celeste y la subida de la tangente al avanzar 1 nos permiten comparar el valor de la función con su pendiente.',
+          gate: 'Arrastra la tangente hasta pasar $x=1{,}3$ y compara la altura con la pendiente.',
+          after: 'Al pasar $x=1{,}3$, la altura y la pendiente superan aproximadamente $3{,}67$ y siguen siendo iguales. Esa relación vale en cada punto de la curva.',
           note: {
             label: 'Derivada de eˣ',
             tex: "\\left(e^x\\right)'=e^x",
@@ -560,7 +562,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Con otras bases, la pendiente también es proporcional a la altura, pero con otro factor.',
+          say: 'Comparemos las tres bases para ver cómo cambia la relación entre pendiente y altura. En cada curva, esa relación es constante, pero depende de la base.',
           ask: {
             prompt: '¿Para qué base la pendiente es exactamente igual a la altura?',
             options: ['e ≈ 2,718', '2', '3'],
@@ -571,8 +573,9 @@ export const level: LevelSpec = {
           note: { label: 'Otras bases', tex: "\\left(b^x\\right)'=\\ln b\\cdot b^x" },
         },
         {
-          say: 'El agua de la torre se enfría hacia los 25 °C del aire. La pendiente siempre es proporcional a lo que le falta.',
-          gate: 'Arrastra el tiempo hasta pasar los 8 minutos.',
+          say: 'El agua de la torre se enfría hacia los 25 °C del aire. Revisemos cómo cambia la pendiente cuando disminuye la diferencia entre ambas temperaturas.',
+          gate: 'Arrastra el tiempo hasta pasar los 8 minutos y observa la diferencia con el aire y la pendiente.',
+          after: 'Al pasar los 8 minutos, la diferencia con el aire baja de 5,5 °C y el ritmo queda por encima de −1,64 °C/min. El agua sigue enfriándose, cada vez más lento.',
           note: {
             label: 'Ley de enfriamiento',
             tex: "T'=-k\\,(T-T_a)",
@@ -580,7 +583,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El logaritmo es la inversa de la exponencial: su gráfica es el reflejo de $e^x$.',
+          say: 'El logaritmo natural es la inversa de la exponencial: su gráfica es el reflejo de $e^x$ respecto de la recta $y=x$. Revisemos cómo cambia su pendiente al avanzar por la curva.',
           ask: {
             prompt: '¿Cuál es la pendiente de $\\ln x$ en $x=4$?',
             options: ['1/4', '4', 'ln 4'],
