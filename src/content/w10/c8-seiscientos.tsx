@@ -214,7 +214,7 @@ const lesson: LessonStep = {
   Scene: PredictionLesson,
   beats: [
     {
-      say: 'Antes de ver un resultado, la probabilidad de un positivo suma los dos caminos: enfermos detectados y sanos equivocados.',
+      say: 'La **probabilidad de un positivo**, $P(+)$, se lee «pe de positivo» y se calcula antes de conocer el resultado. Suma la probabilidad de estar enfermo y dar positivo con la de estar sano y dar positivo.\n\nAquí $s$ es la sensibilidad, $e$ la especificidad y $\\pi$ la prevalencia. De cada 1000 tests se esperan 18 positivos de enfermos y 49 de sanos: en total, 67.',
       board: {
         label: 'Probabilidad de un positivo',
         tex: '\\p{1}{P(+)}=\\p{2}{s\\,\\pi+(1-e)(1-\\pi)}=\\p{3}{0{,}067}',
@@ -222,10 +222,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con esa probabilidad se predice cuántos positivos deberían salir. Sube la cantidad de tests hasta el informe de agosto.',
-      gate: 'Sube a 3000 tests y compara los positivos esperados con los 600 del informe.',
+      say: 'La **cantidad esperada de positivos** es el promedio que se obtendría al repetir el conjunto de tests bajo las mismas probabilidades. Se calcula multiplicando el número de tests $n$ por $P(+)$. La expresión $E[\\#+]$ se lee «valor esperado del número de positivos». Incluye tanto los positivos de enfermos como los falsos positivos.',
+      gate: 'Ajusta la cantidad de tests a la del informe de agosto. Mira cómo cambia la cantidad esperada de positivos.',
       after:
-        'Se esperaban $3000\\cdot0{,}067\\approx201$ positivos. El informe dice 600: no calza con este test.',
+        'Para 3000 tests se esperan $3000\\cdot0{,}067\\approx201$ positivos. El informe declara 600, una diferencia que merece investigación.',
       board: {
         label: 'Positivos esperados',
         tex: '\\p{1}{E[\\#+]}=\\p{2}{n\\cdot P(+)}=\\p{3}{3000\\cdot0{,}067\\approx201}',
@@ -233,7 +233,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El informe de agosto de la Clínica dice 600 positivos en esos 3000 tests.',
+      say: 'El informe de agosto de la Clínica declara 600 positivos en 3000 tests. La predicción permite comparar ese resultado con los 201 positivos esperados bajo las condiciones del test. Considera qué podría explicar la diferencia.',
       ask: {
         prompt: '¿Qué indican 600 positivos donde se esperaban unos 201?',
         options: [
@@ -252,7 +252,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Decidir también tiene costos: tratar a un sano cuesta 1; no tratar a un enfermo, 4. Conviene tratar cuando la probabilidad pasa el umbral.',
+      say: 'El **umbral de decisión** es la probabilidad sobre la cual conviene tratar, según los costos de los errores. Aquí tratar a un sano cuesta 1 y no tratar a un enfermo cuesta 4; se supone que las otras dos decisiones no tienen costo.\n\n$P(E\\mid\\text{datos})$ se lee «probabilidad de enfermedad dados los datos». El umbral es $1/(1+4)=0{,}2$; si la probabilidad lo iguala, ambos cursos tienen el mismo costo esperado.',
       board: {
         label: 'Umbral',
         tex: '\\p{1}{\\text{tratar si }P(E\\mid\\text{datos})}\\p{2}{>\\frac{c_{FP}}{c_{FP}+c_{FN}}=0{,}2}',
@@ -260,7 +260,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con un positivo, 0,27 pasa el umbral: se trata. Con un negativo, 0,002 no: se va a casa. La decisión usa todo lo aprendido.',
+      say: 'La probabilidad de enfermedad depende del resultado observado y se compara con el umbral de 0,2. Con un positivo es aproximadamente 0,27, por lo que conviene tratar; con un negativo es aproximadamente 0,002, por lo que no conviene tratar. Con dos positivos llega a aproximadamente 0,87. Estas decisiones dependen de los costos y de las probabilidades usadas.',
       board: {
         label: 'Decisión',
         tex: '\\p{1}{0{,}27>0{,}2}\\ \\p{2}{\\Rightarrow\\text{tratar}}',
@@ -470,13 +470,13 @@ export const level: LevelSpec = {
       Scene: AugustReport,
       beats: [
         {
-          say: 'Con el test honesto se esperaban 201 positivos en 3000 tests. Mantén la prevalencia y la sensibilidad y ajusta los falsos positivos hasta reproducir los 600 del informe.',
-          gate: 'Busca qué tasa de falsos positivos reproduciría los 600 del informe.',
+          say: 'Con el test honesto se esperaban 201 positivos en 3000 tests. Mantendremos la prevalencia y la sensibilidad para ver si una tasa distinta de falsos positivos explica el informe.',
+          gate: 'Ajusta la tasa de falsos positivos hasta reproducir los 600 del informe. Mira las dos barras mientras cambias la tasa.',
           after:
-            'Hace falta una tasa cercana a 0,19, casi cuatro veces la del test declarado. El lector estaba alterado.',
+            'Una tasa cercana a 0,186 reproduce los 600 positivos, casi cuatro veces el 0,05 declarado. Eso muestra cómo una alteración del lector podría explicar el informe.',
         },
         {
-          say: 'Si el lector alterado marca positivos de más en sanos, ¿qué tasa de falsos positivos explicaría 600 de 3000?',
+          say: 'El lector alterado marca positivos de más en personas sanas. Revisemos qué tasa de falsos positivos permite explicar los 600 resultados de 3000 tests.',
           ask: {
             prompt: '¿Qué tasa de falsos positivos x explica 600 positivos en 3000?',
             options: ['≈ 0,19', '0,05', '0,20'],
@@ -487,10 +487,10 @@ export const level: LevelSpec = {
           note: { label: 'Falsos positivos del lector', tex: 'x\\approx0{,}19' },
         },
         {
-          say: 'Con el lector alterado, P(E | +) baja a 0,09. Ubica ese riesgo en la recta y compáralo con el umbral 0,2, que corresponde a costos 1 y 4.',
-          gate: 'Ubica el riesgo de 0,09 en la recta y compáralo con el umbral 0,2.',
+          say: 'Con el lector alterado, necesitamos evaluar el riesgo de enfermedad tras un positivo antes de decidir. El umbral de la recta corresponde a costos de 1 por tratar a un sano y 4 por no tratar a un enfermo.',
+          gate: 'Ubica en la recta el riesgo de enfermedad tras un positivo que muestra el cálculo. Mira su posición respecto del umbral.',
           after:
-            'Con 0,09, bajo el umbral 0,2, lo correcto era no tratar. Cambiar la probabilidad cambia la decisión.',
+            'El riesgo de 0,09 queda bajo el umbral de 0,2: con esos costos no conviene tratar basándose solo en ese positivo. Cambiar la probabilidad puede cambiar la decisión.',
         },
         {
           say: 'Con ese lector, un positivo ya no significa lo mismo.',
