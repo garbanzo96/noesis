@@ -1,4 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve } from '../../engine/shapes';
@@ -11,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Choices, Confirm, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { Bars, Shade, counts, mean, num, pdf, sd } from './kit';
 
 // ============================================================================
@@ -278,19 +280,40 @@ const lesson: LessonStep = {
 // ---------------------------------------------------------------- demo
 const PD = plane([62, 80], [0, 0.42], { x: 300, y: 170, w: 840, h: 400 });
 
-function AgesDemo({ beats, answer }: DemoProps) {
+function AgesDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
-  const f = (x: number) => pdf(x, 72, 1);
-  const se = beat >= 1 && (beat > 1 || answer !== null);
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef(false);
+  const [width, setWidth] = useState(4);
+  const [distance, setDistance] = useState(-2);
+  useEffect(() => { unlocked.current = false; }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 1) {
+      const next = clamp((x - 1190) / 300 * 8, 0.2, 8);
+      setWidth(next);
+      if (!unlocked.current && Math.abs(next - 1) <= 0.16) {
+        unlocked.current = true;
+        unlock();
+      }
+    } else if (beat === 2) {
+      const next = clamp((x - 1190) / 300 * 8 - 8, -8, 0);
+      setDistance(next);
+      if (!unlocked.current && Math.abs(next + 6) <= 0.16) {
+        unlocked.current = true;
+        unlock();
+      }
+    }
+  });
+  const f = (x: number) => pdf(x, 72, beat === 1 ? width : 1);
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes
         P={PD}
         xTicks={[62, 64, 66, 68, 70, 72, 74, 76, 78, 80]}
         xLabel="\bar x\ (\text{años})"
       />
-      {se && <Shade P={PD} f={f} a={69} b={75} color={C.violet} opacity={0.25} />}
-      {se && <Curve P={PD} f={f} a={62} b={80} color={C.amber} width={4} />}
+      {beat === 2 && <Shade P={PD} f={f} a={69} b={75} color={C.violet} opacity={0.25} />}
+      {beat >= 1 && <Curve P={PD} f={f} a={62} b={80} color={C.amber} width={4} />}
       <line
         x1={PD.x(72)}
         x2={PD.x(72)}
@@ -301,7 +324,7 @@ function AgesDemo({ beats, answer }: DemoProps) {
         strokeDasharray="6 6"
         opacity={beat === 0 ? at(0) : 1}
       />
-      <Cap x={PD.x(72)} y={PD.box.y - 18} size={18} color={C.green}>
+      <Cap x={PD.x(72)} y={PD.box.y - 18} size={24} color={C.green}>
         informe: 72
       </Cap>
       {beat === 2 && (
@@ -314,18 +337,20 @@ function AgesDemo({ beats, answer }: DemoProps) {
             stroke={C.magenta}
             strokeWidth={4}
           />
-          <Cap x={PD.x(66)} y={PD.box.y + 40} size={18} color={C.magenta}>
+          <Cap x={PD.x(66)} y={PD.box.y + 40} size={24} color={C.magenta}>
             muestra: 66
           </Cap>
+          <line x1={PD.x(72 + distance)} x2={PD.x(72 + distance)} y1={PD.box.y + 100} y2={PD.y(0)} stroke={C.amber} strokeWidth={3} />
         </>
       )}
-      <Cap x={1370} y={230} size={22} color={C.text} tex="\mu=72,\ \sigma=8,\ n=64" />
-      {se && (
-        <Cap x={1370} y={290} size={22} color={C.amber} tex="\text{EE}=\tfrac{8}{\sqrt{64}}=1" />
-      )}
-      {beat === 2 && answer !== null && (
-        <Cap x={1370} y={350} size={22} color={C.magenta} tex="z=\tfrac{66-72}{1}=-6" />
-      )}
+      <Cap x={1370} y={230} size={24} color={C.text} tex="\mu=72,\ \sigma=8,\ n=64" />
+      {beat >= 1 && <Cap x={1340} y={360} size={24} color={C.amber}>{beat === 1 ? `Error estándar: ${width.toFixed(1).replace('.', ',')} años` : `Distancia: ${distance.toFixed(1).replace('.', ',')} errores estándar`}</Cap>}
+      {beat >= 1 && <>
+        <line x1={1190} x2={1490} y1={500} y2={500} stroke={C.line} strokeWidth={4} />
+        <Knob x={1190 + (beat === 1 ? width / 8 : (distance + 8) / 8) * 300} y={500} onPointerDown={drag} axis="x" color={C.amber} />
+        <Cap x={1190} y={550} size={24} color={C.muted}>{beat === 1 ? '0' : '−8'}</Cap>
+        <Cap x={1490} y={550} size={24} color={C.muted}>{beat === 1 ? '8' : '0'}</Cap>
+      </>}
     </Stage>
   );
 }
@@ -510,28 +535,14 @@ export const level: LevelSpec = {
         },
         {
           say: 'Si el informe fuera cierto, ¿cuánto variaría la media de 64 fichas?',
-          ask: {
-            prompt: '¿Cuál es el error estándar?',
-            options: ['1 año', '8 años', '0,125 años'],
-            answer: 0,
-            explain:
-              '$8/\\sqrt{64}=8/8=1$. La media de la muestra debería caer casi siempre entre 69 y 75.',
-          },
+          gate: '¿Cuál es el error estándar? Calcula $8/\\sqrt{64}$ y ajusta el ancho de la curva.',
+          after: 'El error estándar es $8/\\sqrt{64}=1$ año. La media de 64 fichas debería caer casi siempre entre 69 y 75 años.',
           note: { label: 'Error estándar', tex: '\\tfrac{8}{\\sqrt{64}}=1' },
         },
         {
           say: 'La muestra da $\\bar x=66$ años.',
-          ask: {
-            prompt: '¿Qué tan lejos está de 72?',
-            options: [
-              'A 6 errores estándar: casi imposible si el informe fuera cierto',
-              'A 6 años: es normal',
-              'A menos de una desviación: nada raro',
-            ],
-            answer: 0,
-            explain:
-              '$z=(66-72)/1=-6$. Con una muestra de 64 fichas, una diferencia así no se explica por azar.',
-          },
+          gate: '¿Qué tan lejos está de 72? Ajusta la distancia en errores estándar hasta que el marcador coincida con la muestra.',
+          after: 'La muestra de 66 años está 6 errores estándar bajo 72: $z=(66-72)/1=-6$. Es un resultado extremadamente improbable si el informe es cierto.',
           note: { label: 'Una muestra imposible', tex: 'z=\\tfrac{66-72}{1}=-6' },
         },
       ],
