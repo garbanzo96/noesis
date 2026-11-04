@@ -192,7 +192,7 @@ const lesson: LessonStep = {
   Scene: ExploreLesson,
   beats: [
     {
-      say: 'Cada mesa paga una unidad si aciertas. Sus tasas reales son desconocidas: tras cinco pruebas, A lleva tres aciertos y B lleva uno.',
+      say: 'Cada mesa paga una unidad por acierto y tiene una tasa real de acierto desconocida. La **frecuencia observada** es el número de aciertos dividido por el número de pruebas de esa mesa, siempre que haya al menos una prueba. Se escribe $\\widehat\\mu_a$ y se lee «mu estimada de a».\n\nEn cinco pruebas, A tiene $3/5=0{,}6$ y B tiene $1/5=0{,}2$; estas proporciones estiman las tasas, pero no las garantizan.',
       board: {
         label: 'Frecuencia observada',
         tex: '\\p{1}{\\widehat\\mu_a}=\\p{2}{\\frac{\\text{aciertos en }a}{\\text{pruebas en }a}}',
@@ -200,7 +200,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: '**Explotar** es elegir la mesa con mejor frecuencia observada. Con estos registros elegirías A.',
+      say: '**Explotar** consiste en elegir la mesa con la mayor frecuencia observada para buscar un buen resultado inmediato. La expresión $\\arg\\max_a\\widehat\\mu_a$ se lee «argumento que maximiza mu estimada de a» y señala la mesa elegida. Con estos registros elegirías A. La elección usa los datos disponibles, aunque las tasas reales siguen desconocidas.',
       ask: {
         prompt: '¿Estos cinco intentos por mesa garantizan que A tiene la mayor tasa real?',
         options: [
@@ -219,16 +219,16 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'En este ejemplo, las tasas reales son A: 0,4 y B: 0,6. **Explorar** permite reunir más pruebas de una mesa que al principio parecía peor.',
+      say: 'La **tasa real** $\\mu_a$, leída «mu sub a», es la probabilidad de acierto de la mesa y aquí es fija. En este ejemplo, A tiene tasa 0,4 y B tiene tasa 0,6: la muestra había invertido su orden. **Explorar** permite reunir más pruebas, incluso de una mesa que parecía peor. Esas pruebas pueden mejorar las estimaciones y las decisiones posteriores.',
       board: {
         label: 'Muestra y tasa real',
         tex: '\\widehat\\mu_a\\ne\\mu_a\\ \\text{en general}',
       },
     },
     {
-      say: 'La regla **ε-codiciosa** explora con probabilidad ε y explota el resto. Al explorar sortea entre las dos mesas, incluida la favorita actual A.',
-      gate: 'Prueba $\\varepsilon=0{,}2$ y calcula con qué frecuencia se juega cada mesa.',
-      after: 'Se juega B el 10 % de las veces y A el 90 %: al explorar también se sortea A.',
+      say: 'La regla **ε-codiciosa** explora con probabilidad $\\varepsilon$, que se lee «épsilon», y explota con probabilidad $1-\\varepsilon$. El parámetro está entre 0 y 1. Al explorar, sortea A o B con igual probabilidad, incluida la favorita actual A. Por eso B solo recibe la mitad de la probabilidad de explorar, mientras A también recibe la de explotar.',
+      gate: 'Ajusta la perilla para que la probabilidad total de elegir B sea una décima. Mira cómo cambia $P(B)$ al mover $\\varepsilon$.',
+      after: 'Con $\\varepsilon=0{,}2$, B se elige con probabilidad 0,1 y A con 0,9. Al explorar también se puede elegir A, por eso B recibe solo la mitad de la exploración.',
       board: {
         label: 'Exploración uniforme',
         tex: '\\p{1}{P(B)}=\\p{2}{\\frac\\varepsilon2},\\quad\\p{3}{ P(A)}=\\p{4}{1-\\varepsilon+\\frac\\varepsilon2}',
@@ -241,7 +241,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **arrepentimiento** suma lo que dejas de ganar en promedio respecto de la mejor mesa real. Jugar cien veces A cuesta 20 aciertos esperados; el resultado efectivo puede variar.',
+      say: 'El **arrepentimiento esperado** suma, en cada jugada, la diferencia entre la tasa de la mejor mesa real y la de la mesa elegida. $R_T$ se lee «erre sub te» y $\\mu^*$, «mu estrella», es la mayor tasa real. Sirve para medir los aciertos esperados que se dejan pasar frente a elegir siempre la mejor mesa.\n\nEn 100 jugadas en A, la diferencia es $0{,}6-0{,}4=0{,}2$ por jugada y suma 20 aciertos esperados; el resultado efectivo puede variar.',
       board: {
         label: 'Arrepentimiento esperado',
         tex: '\\p{1}{R_T}=\\p{2}{\\sum_{t=1}^T(\\mu^*-\\mu_{a_t})},\\quad\\p{3}{\\mu^*}=\\p{4}{\\max_a\\mu_a}',
@@ -487,7 +487,7 @@ export const level: LevelSpec = {
       Scene: DeskDemo,
       beats: [
         {
-          say: 'A sigue siendo la favorita observada. El protocolo explora el 20 % de las veces y, al explorar, sortea entre ambas mesas.',
+          say: 'A sigue siendo la favorita observada. Revisemos el protocolo: explora el 20 % de las veces y, al explorar, sortea entre ambas mesas. Queremos saber con qué probabilidad termina eligiendo B.',
           ask: {
             prompt: 'Con ε = 0,2, ¿qué probabilidad total tiene elegir B?',
             options: ['0,1', '0,2', '0,5'],
@@ -502,7 +502,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Para evaluar el criterio, ahora conocemos las tasas reales: A acierta con 0,4 y B con 0,6. El registro contiene cien jugadas en A.',
+          say: 'Para evaluar el criterio, ahora conocemos las tasas reales: A acierta con 0,4 y B con 0,6. El registro contiene cien jugadas en A; comparemos su rendimiento esperado con el de jugar siempre en B.',
           ask: {
             prompt: '¿Cuántos aciertos esperados se dejaron pasar respecto de jugar siempre B?',
             options: ['20', '40', '60'],
