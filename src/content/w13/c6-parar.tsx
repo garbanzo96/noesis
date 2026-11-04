@@ -184,7 +184,7 @@ const lesson: LessonStep = {
   Scene: StopLesson,
   beats: [
     {
-      say: 'Llegan diez ofertas, una por una y en orden al azar. Cada una se acepta o se rechaza en el momento, sin volver atrás. Quieres quedarte con la mejor.',
+      say: 'La **parada óptima** estudia cuándo aceptar una opción entre varias que llegan en secuencia. Aquí llegan diez ofertas en orden al azar, se comparan por su valor y se busca elegir la mejor. Cada decisión es inmediata: una oferta rechazada no se puede recuperar.',
       board: {
         label: 'El problema',
         tex: '\\p{1}{n=10}\\ \\p{2}{\\text{sin volver atrás}}',
@@ -192,7 +192,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una regla: deja pasar algunas solo para mirar y después acepta la primera que supere a todas las anteriores. Aquí funcionó con 3 de muestra.',
+      say: 'Una **regla de umbral** deja pasar $r-1$ ofertas para usar su máximo como referencia. Se lee «er menos uno»; luego se acepta la primera oferta que supera ese máximo. Aquí se observan tres: el máximo es 71 y la oferta 93 lo supera. En esta secuencia, además, 93 es la mejor de las diez.',
       board: {
         label: 'La regla',
         tex: '\\p{1}{\\text{observar }r-1}\\ \\p{2}{\\to\\ \\text{aceptar la primera mejor}}',
@@ -200,10 +200,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si miras muy pocas, aceptas algo mediocre; si miras demasiadas, la mejor ya pasó. Busca el equilibrio.',
-      gate: 'Busca cuántas ofertas dejar pasar para que la probabilidad de elegir la mejor sea máxima.',
+      say: 'La **probabilidad de éxito** $P(r)$ se lee «pe de er» y mide la posibilidad de elegir la mejor oferta con esta regla, entre todos los órdenes posibles. En la fórmula, $n$ es el total, $r-1$ es la cantidad observada y la suma recorre las posiciones desde $r$ hasta $n$. La expresión mostrada vale para $r \\ge 2$; si $r=1$, se acepta la primera y la probabilidad es $1/n$.\n\nObservar poco puede llevar a aceptar pronto; observar demasiado puede dejar pasar la mejor.',
+      gate: 'Mueve la perilla para buscar cuántas ofertas conviene dejar pasar. Compara las alturas de las barras y mira la probabilidad seleccionada.',
       after:
-        'La barra más alta está en $r=4$: dejar pasar 3 de 10 da cerca de 0,40. Mirar muy poco o demasiado baja esa probabilidad.',
+        'La barra más alta está en $r=4$: dejar pasar 3 de 10 da una probabilidad aproximada de 0,399. Con menos o más observaciones, la probabilidad baja.',
       board: {
         label: 'Probabilidad de éxito',
         tex: '\\p{1}{P(r)}=\\p{2}{\\frac{r-1}{n}\\sum_{i=r}^{n}\\frac{1}{i-1}}',
@@ -211,7 +211,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con 10 ofertas conviene mirar 3. Con muchas más, la fracción óptima se estabiliza.',
+      say: 'Con diez ofertas, dejar pasar tres maximiza la probabilidad de elegir la mejor. La fracción observada es $(r-1)/n$, que se lee «er menos uno, dividido por ene». Cuando aumenta el número de ofertas, esa fracción óptima se acerca a un límite; el símbolo $e$ representa una constante matemática cercana a 2,718.',
       ask: {
         prompt: 'Con muchísimas ofertas, ¿qué fracción conviene dejar pasar?',
         options: ['≈ 37 % (1/e)', '50 %', '10 %'],
@@ -226,7 +226,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Incluso con la mejor regla, se acierta menos de la mitad de las veces. Quien acierta siempre no está usando una regla: sabe qué viene.',
+      say: 'La **probabilidad máxima de éxito** $P_{\\max}$ se lee «pe máximo». Con diez ofertas es aproximadamente 0,4: incluso con la mejor regla de umbral se falla más de la mitad de las veces. Una serie de aciertos merece investigarse, pero por sí sola no demuestra que alguien conozca el futuro.',
       board: {
         label: 'Límite honesto',
         tex: '\\p{1}{P_{\\max}}\\p{2}{\\approx0{,}4}',
@@ -388,7 +388,7 @@ export const level: LevelSpec = {
       Scene: MonthsDemo,
       beats: [
         {
-          say: 'Cada mes hubo unas diez oportunidades de cierre, una tras otra.',
+          say: 'Cada mes hubo unas diez oportunidades de cierre, una tras otra. Comparémoslas con la regla de observar primero para estimar la probabilidad de acertar el mejor cierre en un mes.',
           ask: {
             prompt:
               'Con la mejor regla honesta, ¿qué probabilidad hay de cerrar en el mejor momento un mes?',
@@ -399,7 +399,7 @@ export const level: LevelSpec = {
           note: { label: 'Un mes', tex: 'P\\approx0{,}40' },
         },
         {
-          say: 'La cuenta lo logró doce meses seguidos.',
+          say: 'La cuenta acertó el mejor cierre doce meses seguidos. Si los resultados de cada mes son independientes, podemos multiplicar sus probabilidades para evaluar esa racha.',
           ask: {
             prompt: '¿Qué probabilidad tiene eso con la mejor regla honesta?',
             options: ['≈ 0,000016', '≈ 0,40', '≈ 0,05'],
