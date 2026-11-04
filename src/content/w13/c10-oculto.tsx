@@ -154,7 +154,7 @@ export const lesson: LessonStep = {
   Scene: HiddenLesson,
   beats: [
     {
-      say: 'Un **POMDP** es un proceso de decisión con estados que existen, pero no se observan directamente. A los estados, acciones, transición, recompensa y descuento se agregan las observaciones y su modelo. La creencia inicial $b_0$ describe lo que se sabe antes de mirar.',
+      say: 'Un **POMDP** es un proceso de decisión de Markov parcialmente observable: el estado existe, pero no se observa directamente. Incluye estados, acciones, transición, recompensa, observaciones, modelo de observación y descuento. \n\nSirve para decidir usando señales imperfectas del estado. La creencia inicial $b_0$, «be sub cero», describe lo que se sabe antes de observar.',
       board: {
         label: 'Proceso parcialmente observable',
         tex: '\\p{1}{(S,A,T,r,\\Omega,O,\\gamma)},\\quad \\p{2}{b_0}',
@@ -162,7 +162,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **modelo de observación** $O(o\\mid s)$ da la probabilidad de una señal si el estado es $s$. Se lee «probabilidad de o dado s». El volumen alto aparece con probabilidad 0,2 en calma y 0,8 en rumor; una señal inclina la creencia, pero no prueba el estado.',
+      say: 'El **modelo de observación** $O(o\\mid s)$ da la probabilidad de la señal $o$ dado el estado $s$; se lee «o de o dado ese». Permite evaluar cuánto favorece una señal a cada estado. \n\nEl volumen alto tiene probabilidad 0,2 en calma y 0,8 en rumor. Una señal cambia la creencia, pero no prueba el estado.',
       board: {
         label: 'Volumen alto',
         tex: '\\p{1}{O(\\text{alto}\\mid\\text{calma})}=0{,}2,\\quad \\p{2}{O(\\text{alto}\\mid\\text{rumor})}=0{,}8',
@@ -170,7 +170,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **creencia** $b(s)$ es la probabilidad del estado $s$ condicionada a la historia de acciones y señales. Se lee «be de ese». Resume lo visto y hecho: con el modelo y esa distribución basta para continuar, sin guardar toda la historia. Aquí $b$ indica la probabilidad de rumor.',
+      say: 'La **creencia** $b(s)$, «be de ese», es la probabilidad del estado $s$ dada la historia de acciones y señales. Es una distribución: sus valores son probabilidades que suman uno. \n\nResume la historia para continuar con el modelo sin guardar cada acción y señal. Aquí la barra indica la probabilidad de rumor; la de calma es su complemento.',
       board: {
         label: 'Creencia',
         tex: '\\p{1}{b(s)}=\\p{2}{P(s\\mid\\text{historia})}',
@@ -178,8 +178,8 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con el estado quieto, la **corrección** aplica Bayes a cada señal. Multiplica la creencia de cada estado por la probabilidad de observarla y normaliza para que las probabilidades sumen uno. La constante $\\eta$ se lee «eta» y hace esa normalización.',
-      gate: 'Desde 0,2, aplica dos señales altas seguidas y observa cuánto cambia la barra.',
+      say: 'Con el estado quieto, la **corrección** aplica la regla de Bayes a la señal observada. Multiplica la creencia de cada estado por la probabilidad de esa señal en ese estado. \n\nLuego divide cada peso por la suma de todos los pesos, siempre que esta sea positiva. La constante $\\eta$, «eta», representa esa normalización; la creencia corregida se lee «be prima».',
+      gate: 'Desde la creencia inicial, busca qué ocurre al corregir con dos señales altas seguidas. Observa el valor de la barra después de cada señal; usa Reiniciar si necesitas volver al inicio.',
       after:
         'Dos señales altas seguidas llevan la creencia de 0,2 a 0,5 y luego a 0,8. Cada corrección incorpora la señal a lo que ya se sabía.',
       board: {
@@ -194,7 +194,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una señal baja también modifica la creencia. Su probabilidad es el complemento de la de volumen alto en cada estado. Aplica Bayes a una creencia previa de 0,5 y compara ambos estados.',
+      say: 'Una señal baja también modifica la creencia. Su probabilidad es el complemento de la de volumen alto en cada estado: se resta esa probabilidad a 1. Para corregir desde 0,5, compara los pesos de ambos estados y normaliza su suma.',
       ask: {
         prompt: 'Con b = 0,5 y volumen bajo, ¿cuánto queda para rumor?',
         options: ['0,2', '0,5', '0,8'],
@@ -205,8 +205,8 @@ export const lesson: LessonStep = {
       board: { label: 'Señal baja', tex: 'O(\\text{bajo}\\mid s)=1-O(\\text{alto}\\mid s)' },
     },
     {
-      say: 'La **predicción** lleva la creencia al día siguiente usando la transición de la acción elegida. La barra parte en 0,2 y la acción es esperar. Sin señales nuevas, el paso del tiempo mezcla las posibilidades de ambos estados.',
-      gate: 'Mueve la perilla hasta el extremo de días sin mirar y observa a qué valor se acerca la creencia.',
+      say: 'La **predicción** calcula la distribución del estado siguiente antes de observar, usando la transición de la acción elegida. La expresión de la pizarra se lee «be barra de ese prima»; la suma combina los aportes de todos los estados actuales. \n\nLa barra parte en 0,2 y la acción es esperar. Sin señales nuevas, cada predicción usa la anterior.',
+      gate: 'Explora cómo cambia la creencia al aumentar los días sin mirar. Lleva la perilla hasta completar el intervalo y observa a qué valor se acerca la barra.',
       after:
         'Después de 30 días sin señales, la creencia se aproxima a 0,67, la distribución estacionaria. La predicción va olvidando el punto de partida.',
       board: {
@@ -216,7 +216,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **filtro** combina predicción y corrección en ese orden. Desde 0,2, esperar predice 0,34; la probabilidad de volumen alto es 0,404. Al observar alto queda 0,673 y al observar bajo queda 0,114. Corregir antes de predecir respondería otra pregunta.',
+      say: 'El **filtro** combina predicción y corrección en ese orden: primero usa la acción y luego la señal del estado siguiente. \n\nDesde 0,2, esperar predice 0,34; la probabilidad de volumen alto es 0,404. Al observar alto queda aproximadamente 0,673 y al observar bajo, 0,114. Corregir antes de predecir usaría la señal para el estado anterior.',
       board: {
         label: 'Filtro completo',
         tex: "\\p{1}{b'(s')}=\\p{2}{\\eta O(o\\mid s')}\\sum_s \\p{3}{T(s'\\mid s,a)b(s)}",
@@ -224,7 +224,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La creencia funciona como el nuevo estado para decidir cuando el estado del mercado está oculto. Se conoce porque se calcula a partir de la historia disponible. Cada acción y señal llevan a una nueva creencia mediante el filtro.',
+      say: 'El **estado de creencia** es la distribución calculada con la historia disponible y permite decidir cuando el estado del mercado está oculto. La flecha se lee «de be a be prima mediante acción a y observación o». Cada acción y señal llevan a una nueva creencia mediante el filtro.',
       board: { label: 'Estado de creencia', tex: "b\\xrightarrow{a,o}b'" },
     },
   ],
@@ -449,15 +449,15 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Valentina separó siete señales de volumen y dejó las órdenes a un lado. Para cada día, la mesa esperó: reconstruyamos primero los tres primeros.',
-          gate: 'Para cada una de las tres primeras señales, pulsa Predecir y luego Corregir. Observa la creencia tras cada paso.',
+          gate: 'Reconstruye la creencia para las tres primeras señales: pulsa Predecir y luego Corregir para cada día. Observa cómo cambia la barra con la espera y con cada señal.',
           after:
             'Las tres primeras señales llevan la creencia de 0,2 a 0,673, luego a 0,338 y a 0,756 aproximadamente.',
         },
         {
           say: 'Quedan cuatro señales en la misma tira. Sigue desde la última creencia corregida para completar el registro.',
-          gate: 'Completa los cuatro días restantes con Predecir y Corregir en ese orden.',
+          gate: 'Reconstruye los cuatro días restantes con Predecir y Corregir en ese orden. Observa cómo cada señal cambia la predicción y completa la curva.',
           after:
-            'La curva ya incorpora las siete señales y las transiciones de esperar. Cada valor usa el resultado del día anterior.',
+            'Las creencias de los días 4 a 7 son aproximadamente 0,915, 0,569, 0,856 y 0,941. La curva incorpora cada señal y cada transición de esperar, usando el resultado del día anterior.',
         },
         {
           say: 'Valentina vuelve a poner las órdenes junto a las señales. Las compras quedan registradas en los días indicados bajo la curva.',
