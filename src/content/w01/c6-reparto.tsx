@@ -609,8 +609,9 @@ export const level: LevelSpec = {
       Scene: SplitDemo,
       beats: [
         {
-          say: 'La barra son las 1 200 dosis. Arriba, los pacientes de cada sede. Justo es que a cada paciente le toque lo mismo.',
-          gate: 'Mueve los dos cortes hasta que las tres sedes reciban lo mismo por paciente.',
+          say: 'La barra representa las 1 200 dosis y arriba están los pacientes de cada sede. Buscamos un reparto en que a cada paciente le toque lo mismo.',
+          gate: 'Mueve los dos cortes hasta que las tres sedes reciban lo mismo por paciente. Observa las dosis por paciente bajo cada tramo.',
+          after: 'Puerto recibe 240 dosis, Cerro 360 y Norte 600: en cada sede corresponden 1,2 dosis por paciente. Así podemos comparar el reparto esperado con los inventarios.',
           note: {
             label: 'Reparto proporcional',
             tex: 'd_i=\\frac{n_i}{\\sum_j n_j}\\cdot1200',
@@ -618,7 +619,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Dividir por el total de pacientes convierte cada sede en una fracción del reparto.',
+          say: 'Dividir los pacientes de cada sede por el total permite calcular su fracción del reparto. Veamos si esa fracción cambia cuando llegan más dosis.',
           ask: {
             prompt: 'Si la próxima vez llegan 2 000 dosis, ¿qué fracción le toca a Norte?',
             options: ['La misma: 0,5', 'Más de 0,5', 'Depende de cuántas dosis lleguen'],
@@ -633,7 +634,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El inventario de la sede Norte registra 450 dosis. Le correspondían 600.',
+          say: 'El inventario de la sede Norte registra 450 dosis y le correspondían 600. Comparemos lo recibido con lo que debía llegar para medir el faltante.',
           ask: {
             prompt: '¿Qué porcentaje de sus dosis llegó a Norte?',
             options: ['75 %', '45 %', '150 %'],
@@ -647,7 +648,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La clínica compró en tres lotes: 600 dosis a 10, 400 a 12 y 200 a 20 (miles por dosis).',
+          say: 'La clínica compró tres lotes: 600 dosis a 10, 400 a 12 y 200 a 20, en miles por dosis. Necesitamos el precio medio por dosis para revisar la factura.',
           ask: {
             prompt: '¿Cuánto costó, en promedio, cada dosis?',
             options: ['Menos de 14: hay más dosis baratas', 'Exactamente 14', 'Más de 14'],
@@ -661,8 +662,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El precio medio es el punto donde la balanza queda en equilibrio.',
-          gate: 'Arrastra el apoyo hasta equilibrar la balanza.',
+          say: 'Cada lote pesa en la balanza según su cantidad de dosis. El precio medio por dosis corresponde al punto de equilibrio.',
+          gate: 'Arrastra el apoyo hasta equilibrar la balanza. Observa hacia qué precios se desplaza el equilibrio.',
+          after: 'El equilibrio queda cerca de 12,33 miles por dosis. Las 600 dosis a 10 y las 400 a 12 tienen más peso en el promedio que las 200 a 20.',
           note: {
             label: 'Promedio ponderado',
             tex: '\\bar p=\\sum_i w_i\\,p_i\\approx12{,}33',

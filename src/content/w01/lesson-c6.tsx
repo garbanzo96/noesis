@@ -287,11 +287,11 @@ export const lesson: LessonStep = {
   Scene: ProportionsLesson,
   beats: [
     {
-      say: 'Una **razón** compara dos cantidades dividiendo: cuánto hay de una **por cada** unidad de la otra.',
+      say: 'Una **razón** compara dos cantidades mediante una división, siempre que el divisor sea distinto de cero. La expresión $a/b$ se lee «a sobre b» y dice cuánto hay de $a$ por cada unidad de $b$. Aquí, 12 dosis divididas entre 4 pacientes dan 3 dosis por paciente.',
       board: { label: 'Razón', tex: '\\frac{a}{b}:\\ \\text{cuánto de }a\\text{ por cada }b' },
     },
     {
-      say: 'Dos cantidades son **directamente proporcionales** si su razón es siempre la misma: duplicar una duplica la otra. Su gráfica es una recta que pasa por el origen.',
+      say: 'Dos cantidades son **directamente proporcionales** cuando una se obtiene multiplicando la otra por una constante: $y=kx$, que se lee «y igual a k por x».\n\nPara $x$ distinto de cero, $k=y/x$ es la razón constante. Si se duplica $x$, se duplica $y$; la gráfica es una recta que pasa por el origen. Aquí $k=3$ dosis por paciente.',
       dur: 2.8,
       board: {
         label: 'Proporcionalidad',
@@ -301,8 +301,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: '**Normalizar** es dividir cada cantidad por el total. Se obtienen fracciones que siempre suman 1, sean cuales sean las cantidades.',
-      gate: 'Arrastra la barra rosada hasta que valga la mitad del total.',
+      say: '**Normalizar** cantidades no negativas consiste en dividir cada una por su total, siempre que ese total sea mayor que cero. Así se obtiene la fracción que corresponde a cada grupo y las fracciones suman 1.\n\nEn la fórmula, $w_i$ se lee «doble u sub i» y $n_i$, «ene sub i»; la suma del denominador reúne las cantidades de todos los grupos.',
+      gate: 'Arrastra la barra rosada hasta que represente la mitad del total. Fíjate en cómo cambian las fracciones de los tres grupos.',
+      after: 'Con 200, 300 y 500, el total es 1 000 y las fracciones son 0,2, 0,3 y 0,5. La barra rosada reúne la mitad y las tres fracciones suman 1.',
       board: [
         {
           label: 'Normalizar',
@@ -313,7 +314,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Un **porcentaje** es una fracción con denominador 100: «por ciento» significa «de cada cien».',
+      say: 'Un **porcentaje** expresa una proporción de cada 100: $p\\,\\%$ se lee «p por ciento» y equivale a $p/100$. En la grilla, 75 de los 100 cuadros representan 75 %, o 0,75.\n\nPara calcular 75 % de 600, se multiplica $0{,}75$ por 600 y se obtiene 450. No confundas 0,75 con 0,75 %: este último equivale a 0,0075.',
       dur: 2.8,
       board: [
         { label: 'Porcentaje', tex: 'p\\,\\%=\\frac{p}{100}' },
@@ -324,8 +325,9 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El **promedio ponderado** pesa cada valor según su fracción $w_i$. Es el punto donde la balanza queda en equilibrio.',
-      gate: 'Mueve el apoyo hasta equilibrar la balanza.',
+      say: 'El **promedio ponderado** suma cada valor multiplicado por su peso: los pesos son fracciones no negativas que suman 1. $\\bar x$ se lee «equis barra» y $\\sum_i w_i x_i$, «suma de los pesos por sus valores».\n\nLa balanza representa ese promedio como punto de equilibrio. A diferencia del promedio simple, toma en cuenta cuánto pesa cada valor.',
+      gate: 'Mueve el apoyo hasta equilibrar la balanza. Observa cómo los pesos de cada valor influyen en la posición del apoyo.',
+      after: 'El equilibrio está en 2,9: los valores 2, 3 y 5 aportan según sus pesos 0,5, 0,3 y 0,2. El resultado considera esos pesos, a diferencia del promedio simple, cercano a 3,3.',
       board: [
         { label: 'Promedio ponderado', tex: '\\bar x=\\sum_i w_i\\,x_i' },
         {
@@ -341,7 +343,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La **variación porcentual** compara el cambio con el valor inicial. Ojo: subir y bajar la misma cantidad no da el mismo porcentaje.',
+      say: 'La **variación porcentual** compara el cambio, valor final menos inicial, con el valor inicial, que debe ser distinto de cero. Se divide ese cambio por el valor inicial y se multiplica por 100: el signo indica si hubo aumento o disminución.\n\nAl pasar de 400 a 500, el aumento de 100 equivale a 25 % de 400. Subir y bajar la misma cantidad puede dar porcentajes distintos porque cambia la referencia.',
       ask: {
         prompt: 'Si algo pasa de 500 a 400, ¿cuánto bajó en porcentaje?',
         options: ['20 %', '25 %', '100 %'],
