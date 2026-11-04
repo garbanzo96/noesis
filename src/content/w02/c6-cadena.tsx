@@ -222,8 +222,9 @@ const lesson: LessonStep = {
   Scene: ChainLesson,
   beats: [
     {
-      say: 'La entrada pasa por dos etapas: $x\\to u=3x+1\\to y=u^2$. $u$ cambia tres veces más rápido que $x$; en $x=1$, $u=4$ e $y$ cambia ocho veces más rápido que $u$.',
-      gate: 'Arrastra el control para girar el primer engranaje hasta x = 1,1 o más.',
+      say: 'Una **composición** aplica una función al resultado de otra: aquí $x$ pasa a $u=3x+1$ y luego a $y=u^2$. La derivada $du/dx$, que se lee «derivada de $u$ respecto de $x$», vale 3. La derivada $dy/du$ se lee «derivada de $y$ respecto de $u$» y vale $2u$.\n\nEstas razones miden cambios locales: en $x=1$, $u=4$ y $dy/du=8$; la segunda razón cambia con $u$.',
+      gate: 'Arrastra el control hasta $x=1{,}1$ o más y observa cómo cambia la razón $2u$ de la segunda etapa.',
+      after: 'Al llegar a $x=1{,}1$, $u=4{,}3$ y $2u=8{,}6$; si avanzaste más, ambos valores son mayores. La razón exterior depende del valor de $u$ en cada punto.',
       board: {
         label: 'Dos etapas',
         tex: '\\frac{du}{dx}=\\p{1}{\\cC{3}},\\qquad\\frac{dy}{du}=\\p{2}{\\cA{2u}}',
@@ -232,7 +233,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para obtener la razón total, multiplica las razones de las dos etapas. Evalúa cada una en el valor que le corresponde.',
+      say: 'La **regla de la cadena** permite hallar la derivada de una composición cuando ambas etapas son derivables en los valores correspondientes. Multiplica la derivada de la etapa exterior, evaluada en la salida de la interior, por la derivada de la interior. Aquí $du/dx=3$ y, cuando $x=1$, $dy/du=8$. ¿Qué razón resulta para el cambio de $y$ respecto de $x$?',
       ask: {
         prompt:
           'Si $u$ va 3 veces más rápido que $x$ e $y$ va 8 veces más rápido que $u$, ¿cuántas veces más rápido que $x$ va $y$?',
@@ -248,7 +249,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Deriva la función exterior en el valor de la interior y multiplica por la derivada interior. Para $(x^2+1)^5$, esos factores son $5(x^2+1)^4$ y $2x$.',
+      say: 'La notación $(f\\circ g)(x)$ se lee «$f$ compuesta con $g$ en $x$»: primero se aplica $g$ y luego $f$. Si $g$ es derivable en $x$ y $f$ lo es en $g(x)$, la regla multiplica $f\'(g(x))$ por $g\'(x)$.\n\nPara $(x^2+1)^5$, los factores son $5(x^2+1)^4$ y $2x$; en $x=1$ el producto vale 160. Un error frecuente es olvidar el factor interior $2x$.',
       dur: 3,
       board: [
         {
@@ -263,7 +264,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El radio de un círculo crece a 2 cm/s. El área depende del radio y el radio depende del tiempo: usa la cadena para hallar el cambio del área.',
+      say: 'Las **razones relacionadas** describen cómo cambian con el tiempo magnitudes ligadas por una fórmula. Para un círculo, $A=\\pi r^2$ y, si el radio es derivable respecto del tiempo, la regla de la cadena da $dA/dt=2\\pi r\\,dr/dt$.\n\nSe lee «derivada del área respecto del tiempo». Con $r=3$ cm y $dr/dt=2$ cm/s, el área crece a $12\\pi\\approx37{,}7$ cm²/s; no se debe confundir esa razón con la del radio.',
       dur: 3,
       board: [
         {
@@ -276,7 +277,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Las dos notaciones expresan la misma regla. La derivada de la composición multiplica las derivadas de sus etapas.',
+      say: 'Las dos notaciones expresan la misma regla para etapas derivables. En la segunda, $g$ es la función interior y $f$ la exterior; $f\'$ se evalúa en $g(x)$ antes de multiplicar por $g\'(x)$.',
       dur: 2.6,
       board: [
         {
@@ -735,8 +736,9 @@ export const level: LevelSpec = {
       Scene: GearsDemo,
       beats: [
         {
-          say: 'Por cada vuelta de la turbina, el intermedio da 3. Por cada vuelta del intermedio, el generador da 4.',
-          gate: 'Haz girar la turbina una vuelta completa.',
+          say: 'Necesitamos seguir las dos etapas de la caja para medir cuánto acelera al generador. Por cada vuelta de la turbina, el intermedio da 3; por cada vuelta del intermedio, el generador da 4.',
+          gate: 'Haz girar la turbina una vuelta completa y observa cuántas vueltas dan el intermedio y el generador.',
+          after: 'Con una vuelta de la turbina, el intermedio da 3 y el generador 12. Las dos etapas multiplican sus razones: $3\\cdot4=12$.',
           note: {
             label: 'Razones encadenadas',
             tex: '\\frac{dG}{dT}=\\frac{dG}{dM}\\cdot\\frac{dM}{dT}=4\\cdot3=12',
@@ -744,8 +746,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Lo mismo con fórmulas: $u=3x+1$ y luego $y=u^2$. Un empujoncito en $x$ se agranda dos veces.',
-          gate: 'Achica dx hasta 0,02.',
+          say: 'Sigamos ahora un cambio de $x$ por las dos etapas: $u=3x+1$ y luego $y=u^2$. Al reducir ese cambio, podemos observar a qué valor se acerca la razón entre el cambio de $y$ y el de $x$.',
+          gate: 'Reduce $dx$ hasta 0,02 o menos y observa a qué valor se acerca la razón entre los cambios de $y$ y $x$.',
+          after: 'Con $dx$ entre 0,01 y 0,02, la razón entre los cambios queda entre 24,09 y 24,18. Al acercar $dx$ a cero, esa razón se acerca a 24, la derivada en $x=1$.',
           note: {
             label: 'Regla de la cadena',
             tex: '\\frac{dy}{dx}=\\frac{dy}{du}\\cdot\\frac{du}{dx}',
@@ -753,7 +756,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Otra composición: primero $2x-1$, después al cubo.',
+          say: 'Probemos otra composición: primero $2x-1$, después al cubo. Buscamos la razón de cambio en $x=2$.',
           ask: {
             prompt: '¿Cuánto vale la derivada de $(2x-1)^3$ en $x=2$?',
             options: ['54', '27', '18'],
