@@ -634,9 +634,9 @@ export const level: LevelSpec = {
       Scene: TideDemo,
       beats: [
         {
-          say: 'A cada hora del día el mareógrafo le asigna una altura. Mueve la hora y mira cómo se dibuja la curva.',
-          gate: 'Arrastra el reloj del eje horizontal desde las 00:00 hasta las 24:00.',
-          after: 'La curva es el registro completo: para cada hora hay un punto, y solo uno.',
+          say: 'El mareógrafo registra la altura del agua durante el día. Necesitamos la curva completa para buscar cuándo puede entrar el Altamar.',
+          gate: 'Arrastra el reloj del eje horizontal desde las 00:00 hasta el final del día y observa cómo cambia la altura y se dibuja la curva.',
+          after: 'El recorrido de 0 a 24 horas trazó el registro del día: a cada instante le corresponde una sola altura. La curva permite consultar esa altura para decidir cuándo puede entrar el buque.',
           note: {
             label: 'Función',
             tex: '\\begin{aligned}&h:[0,24]\\to\\mathbb R\\\\ &t\\mapsto h(t)\\end{aligned}',
@@ -662,17 +662,17 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Leer la gráfica es subir desde la hora hasta la curva y mirar el eje vertical.',
-          gate: 'Arrastra el reloj hasta las 15:00.',
+          say: 'Necesitamos conocer la altura a las 15:00. Para leerla, sube desde la hora hasta la curva y mira el eje vertical.',
+          gate: 'Arrastra el reloj hasta las 15:00 y observa la altura que marca la curva.',
           after:
             'Evaluar es leer: subes desde $t=15$ hasta la curva y miras la altura. $h(15)\\approx3{,}97$ m.',
           note: { label: 'Evaluar', tex: 'h(15)\\approx 3{,}97\\ \\text{m}' },
         },
         {
-          say: 'El Altamar necesita al menos 3 m. Las horas que sirven son las que dejan la curva por encima de esa línea.',
-          gate: 'Arrastra la línea horizontal hasta 3 m.',
+          say: 'El Altamar necesita al menos 3 m para entrar. Busquemos las horas en que la altura alcanza o supera ese nivel.',
+          gate: 'Arrastra la línea horizontal hasta 3 m y observa cómo cambia la franja de horas que cumplen la exigencia.',
           after:
-            'La franja verde cambia con la línea: al subir la exigencia, las horas útiles se achican. Con 3 m quedan dos ventanas, no una.',
+            'Con la línea en 3 m aparecen dos ventanas: aproximadamente de 00:40 a 05:20 y de 13:04 a 17:44. En esas franjas la altura alcanza o supera el mínimo para el buque.',
           note: {
             label: 'Resolver mirando la gráfica',
             tex: '\\{t:\\ h(t)\\ge 3\\}',

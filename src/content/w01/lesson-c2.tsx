@@ -391,7 +391,7 @@ export const lesson: LessonStep = {
   Scene: FunctionsLesson,
   beats: [
     {
-      say: 'Una **función** es como una máquina: recibe una entrada $x$ y entrega una salida $f(x)$. Esta máquina eleva al cuadrado.',
+      say: 'Una **función** asigna a cada entrada de un conjunto $A$ exactamente una salida en un conjunto $B$. Sirve para describir cómo depende una cantidad de otra. $f:A\\to B$ se lee «efe de A en B» y $f(x)$, «efe de equis». Aquí la máquina eleva la entrada al cuadrado: a 3 le asigna 9.',
       dur: 2.6,
       board: {
         label: 'Función',
@@ -401,7 +401,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una función se puede describir con una **regla** o con una **tabla** de valores. Evaluar es reemplazar $x$ por un número.',
+      say: 'Una **regla** describe cómo obtener la salida; una **tabla** muestra algunas entradas y sus salidas. $f(x)=x^2$ se lee «efe de equis es equis al cuadrado». **Evaluar** consiste en aplicar la regla a una entrada: $f(-2)=(-2)^2=4$. Los paréntesis importan: el cuadrado incluye el signo negativo.',
       dur: 2.6,
       board: [
         { label: 'Regla', tex: 'f(x)=x^2' },
@@ -413,7 +413,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Lo esencial: a cada entrada le corresponde **exactamente una** salida. Dos entradas pueden compartir salida; una entrada no puede tener dos.',
+      say: 'En el diagrama, cada flecha une una entrada de $A$ con su salida en $B$. Para que la regla sea una función, cada entrada debe tener exactamente una salida. Dos entradas pueden compartir salida y un elemento de $B$ puede quedar sin recibir flechas. La notación $x\\mapsto f(x)$ se lee «equis va a efe de equis».',
       ask: {
         prompt: '¿Cuál de estas reglas **no** define una función de los números en los números?',
         options: [
@@ -433,10 +433,10 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **gráfica** pone cada par $(x,f(x))$ como un punto del plano. Con todos los puntos aparece una curva.',
-      gate: 'Recorre la curva arrastrando x desde −3 hasta 3.',
+      say: 'La **gráfica** de una función es el conjunto de los puntos $(x,f(x))$ para las entradas de su dominio. El par se lee «equis, efe de equis»: la primera coordenada indica la entrada y la segunda, la salida. Aquí los puntos de la tabla se ubican en el plano y la curva representa los pares de la regla $f(x)=x^2$.',
+      gate: 'Arrastra $x$ desde −3 hasta 3 y observa cómo cambia la altura del punto y se traza la curva.',
       after:
-        'Cada posición de $x$ dejó un punto $(x,\\,x^2)$. La curva es la colección de todos esos pares: leer la gráfica es leer la función.',
+        'Al recorrer de $x=-3$ a $x=3$, la curva reúne los pares $(x,\\,x^2)$ de ese tramo. En ambos extremos la salida es 9, aunque las entradas son distintas.',
       board: {
         label: 'Gráfica',
         tex: '\\mathrm{graf}(f)=\\{\\p{1}{(x,\\ f(x))}:\\ \\p{2}{x\\in A}\\}',
@@ -444,10 +444,10 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Hay una prueba visual para saber si una curva es la gráfica de una función. Una recta vertical fija un valor de $x$; cada punto donde corta la curva es una salida para esa entrada. Si **alguna** recta vertical corta la curva dos veces, ese $x$ tendría dos salidas y la curva no es una función.',
-      gate: 'Mueve la recta vertical y cuenta los cortes en cada gráfica.',
+      say: 'La **prueba de la recta vertical** permite revisar si una curva representa una función de $x$. Una recta vertical fija una entrada y cada corte indica una salida. Para ser gráfica de una función, toda recta vertical debe cortarla como máximo una vez; donde no hay corte, ese $x$ queda fuera del dominio.',
+      gate: 'Mueve la recta vertical desde su posición inicial y cuenta los cortes en cada gráfica.',
       after:
-        'La parábola nunca da más de un corte. La circunferencia da dos para casi todo $x$: a un mismo $x$ le tocan dos alturas, $y$ y $-y$. Por eso no es una función de $x$.',
+        'En la parábola, a cada $x$ le corresponde una sola altura. En la circunferencia de radio 2,5, una recta con $-2{,}5<x<2{,}5$ corta en dos puntos: esa entrada tiene dos salidas y la circunferencia no representa una función de $x$.',
       board: {
         label: 'Recta vertical',
         body: 'Cada recta vertical corta la gráfica de una función en a lo más un punto.',
@@ -456,7 +456,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **dominio** son las entradas permitidas: la sombra de la gráfica sobre el eje $x$. La **imagen**, las salidas que ocurren: la sombra sobre el eje $y$.',
+      say: 'El **dominio** es el conjunto de entradas permitidas y la **imagen** es el conjunto de salidas que la función alcanza. En una gráfica se leen proyectando sus puntos sobre los ejes $x$ e $y$, respectivamente. Para el tramo mostrado de $f(x)=\\sqrt x$, el dominio es $[0,9]$ y la imagen es $[0,3]$. Los corchetes incluyen los extremos; la imagen puede ser menor que el conjunto de llegada.',
       dur: 2.6,
       board: [
         {
@@ -472,7 +472,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Donde la gráfica sube, la función **crece**; donde baja, **decrece**. Los picos son **máximos** y los valles, **mínimos**.',
+      say: 'Una función es **creciente** en un intervalo si, para cualesquiera dos entradas del intervalo, al aumentar la entrada aumenta la salida. Es **decreciente** si al aumentar la entrada disminuye la salida. Un **máximo local** es una salida al menos tan grande como las cercanas; un **mínimo local** es al menos tan pequeño. El valor extremo es la altura, mientras que su posición es la entrada donde ocurre.',
       board: [
         {
           label: 'Creciente',
@@ -488,7 +488,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La gráfica resuelve desigualdades: ¿para qué $x$ es $x^2\\ge4$? Para los $x$ donde la curva queda sobre la recta $y=4$.',
+      say: 'Una gráfica permite resolver una **desigualdad** comparando alturas. $x^2\\ge4$ se lee «equis al cuadrado es mayor o igual que cuatro»: sirven las entradas donde la curva está sobre la recta $y=4$ o la toca. Los cruces $-2$ y 2 se incluyen; la solución es $(-\\infty,-2]\\cup[2,\\infty)$. El símbolo $\\cup$ se lee «unión» y reúne ambos intervalos.',
       dur: 2.6,
       board: {
         label: 'Leer desigualdades',
