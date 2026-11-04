@@ -30,8 +30,8 @@ Barrido final de los 132 casos, con escenas y resultados, más los menús:
 | Tamaño | Texto tapado o cortado | Rótulos fuera | Pasos que usan scroll |
 |---|---|---|---|
 | 1470×830 | 0 | 0 | 88 |
-| 1280×720 | 0 | 0 | 380 |
-| 1024×768 | 0 | 0 | 293 |
+| 1280×720 | 0 | 0 | 367 |
+| 1024×768 | 0 | 0 | 296 |
 | 960×600, mínimo de la app | 0 en el juego | 17 («Confirmar» sobresale 6 px, se ve y funciona) | 897 |
 
 En 960×600 los avisos que quedan son la barra fija de botones de resultados sobre texto que se alcanza con
