@@ -145,7 +145,7 @@ const lesson: LessonStep = {
   Scene: BellLesson,
   beats: [
     {
-      say: 'El lote trae 4, 6, 5, 7 y 8. Su **media** es 6: sumas los cinco registros y divides por cinco.',
+      say: 'La **media** de un lote es la suma de sus valores dividida por la cantidad de registros. Resume su centro y se escribe $\\bar x$, que se lee «equis barra». Para 4, 6, 5, 7 y 8, la suma es 30 y la media es 6.',
       board: {
         label: 'Centro del lote',
         tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}=\\p{3}{\\tfrac{4+6+5+7+8}{5}}=\\p{4}{6}',
@@ -158,10 +158,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **normal** tiene un centro μ y un ancho σ. Mueve el centro al promedio del lote; después ajustaremos el ancho.',
-      gate: 'Busca el centro que mejor calza con el lote: calcula el promedio y lleva $\\mu$ ahí.',
+      say: 'La **distribución normal** es una distribución continua con una curva de densidad simétrica alrededor de su media $\\mu$, leída «mu». Su desviación estándar $\\sigma$, leída «sigma», debe ser positiva y determina el ancho de la curva.\n\nPara ajustar el centro por máxima verosimilitud, usamos la media del lote; después ajustaremos el ancho.',
+      gate: 'Calcula el promedio del lote y mueve el centro de la curva hasta ese valor. Mira la posición de $\\mu$ respecto de los datos.',
       after:
-        '$\\hat\\mu=\\bar x=6$. En una normal, el promedio es el centro que mejor explica los datos.',
+        '$\\hat\\mu=\\bar x=6$: el centro ajustado coincide con el promedio de los cinco registros. Es la estimación de máxima verosimilitud para la media normal.',
       board: {
         label: 'Centro de la normal',
         tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}',
@@ -169,10 +169,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Las distancias al centro, al cuadrado, suman 10. La **varianza del ajuste** divide por n: 10/5 = 2; ajusta σ a √2 ≈ 1,41.',
-      gate: 'Ajusta el ancho a los datos: calcula la varianza del lote y saca raíz.',
+      say: 'La **varianza del ajuste** es el promedio de las distancias al centro elevadas al cuadrado. Se escribe $\\hat\\sigma^2$, «sigma al cuadrado estimada», y mide dispersión en unidades al cuadrado.\n\nLas distancias cuadradas suman 10; para el ajuste por máxima verosimilitud se divide por $n=5$, no por $n-1$. La **desviación estándar** $\\hat\\sigma$ es la raíz de esa varianza y determina el ancho de la curva.',
+      gate: 'Calcula la varianza del ajuste y su raíz; mueve $\\sigma$ hasta ese ancho. Mira el valor de la perilla.',
       after:
-        '$\\hat\\sigma^2=10/5=2$, así que $\\hat\\sigma\\approx1{,}41$. Con centro y ancho ajustados, la normal puede generar datos nuevos.',
+        '$\\hat\\sigma^2=10/5=2$ y $\\hat\\sigma=\\sqrt2\\approx1{,}41$. La desviación, no la varianza, determina el ancho de la curva y permite generar datos con el ajuste.',
       board: {
         label: 'Ancho del ajuste',
         tex: '\\p{1}{\\hat\\sigma^2}=\\p{2}{\\frac1n\\sum_{i=1}^n(x_i-\\bar x)^2}=\\p{3}{2},\\quad\\p{4}{\\hat\\sigma}=\\p{5}{\\sqrt2}',
@@ -186,7 +186,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La máquina toma un sorteo z de una normal estándar y lo transforma con x = μ + σz. Este sorteo dio z = 1.',
+      say: 'La máquina transforma un sorteo $z$ de una normal estándar mediante $x=\\mu+\\sigma z$, leído «equis igual mu más sigma por zeta». Multiplicar $z$ por la desviación cambia la escala y sumar $\\mu$ desplaza el centro. Este sorteo dio $z=1$; usa $\\sigma$, la desviación, al calcular el valor generado.',
       ask: {
         prompt: 'Con μ = 6 y σ = √2, ¿qué valor genera z = 1?',
         options: ['≈ 7,41', '8', '≈ 1,41'],
@@ -200,7 +200,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **normal estándar** tiene centro 0 y desviación 1. Al escalarla y desplazarla, la máquina genera nuevos registros; un lote corto puede tener otro promedio.',
+      say: 'La **normal estándar** es la distribución normal con media 0 y desviación estándar 1. La notación $z\\sim\\mathcal N(0,1)$ se lee «zeta se distribuye normal con media cero y varianza uno».\n\nSi $\\sigma>0$, la transformación $x=\\mu+\\sigma z$ produce una normal con media $\\mu$ y varianza $\\sigma^2$. La máquina usa esta receta para generar registros; un lote corto puede tener otro promedio.',
       board: {
         label: 'Receta normal',
         tex: '\\p{1}{z\\sim\\mathcal N(0,1)}\\quad\\Rightarrow\\quad\\p{2}{ x}=\\p{3}{\\mu+\\sigma z\\sim\\mathcal N(\\mu,\\sigma^2)}',
@@ -465,7 +465,7 @@ export const level: LevelSpec = {
       Scene: ShiftDemo,
       beats: [
         {
-          say: 'Joaquín conserva el lote 4, 6, 5, 7, 8: media 6 y suma de cuadrados 10. El tablero dice «ajuste normal por máxima verosimilitud».',
+          say: 'Joaquín conserva el lote 4, 6, 5, 7, 8: media 6 y suma de cuadrados 10. El tablero dice «ajuste normal por máxima verosimilitud». Necesitamos la varianza que guardará para revisar la receta.',
           ask: {
             prompt: '¿Qué varianza debe guardar ese ajuste?',
             options: ['2', '2,5', '≈ 1,41'],
@@ -480,7 +480,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El registro de la impresora guarda z = −1. El centro sigue en 6 y la desviación en √2.',
+          say: 'El registro de la impresora guarda z = −1. El centro sigue en 6 y la desviación en √2. Calculemos la salida para compararla con la carpeta.',
           ask: {
             prompt: '¿Qué valor debería traer la carpeta de salida?',
             options: ['≈ 4,59', '≈ 7,41', '4'],
