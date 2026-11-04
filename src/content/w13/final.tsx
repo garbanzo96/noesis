@@ -167,7 +167,7 @@ const lesson: LessonStep = {
   Scene: AccountLesson,
   beats: [
     {
-      say: 'El contrato paga 100 con brote y pierde 20 sin brote. Pondera ambos pagos: el **valor esperado** es 4; no comprar vale 0.',
+      say: 'El **valor esperado** de una acción es la suma de sus pagos, cada uno multiplicado por la probabilidad del estado en que ocurre. $E[a]$ se lee «esperanza de a» y permite comparar acciones por su pago promedio.\n\nAquí, comprar vale $0{,}2\\cdot100-0{,}8\\cdot20=4$ y no comprar vale 0. Incluye la pérdida con su signo: el promedio no garantiza el resultado de un contrato.',
       board: {
         label: 'Contrato',
         tex: EV,
@@ -175,7 +175,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con el anuncio conocido, compras solo cuando hay brote: el promedio sube a 20. El **valor de la información perfecta** es 20 − 4 = 16 por contrato.',
+      say: 'El **valor de la información perfecta** mide cuánto mejora el valor esperado si conoces el estado con certeza antes de elegir. EVPI se lee «valor esperado de la información perfecta».\n\nCon el anuncio conocido, compras solo con brote y el promedio es 20. Resta la mejor opción sin el dato, incluido no comprar: $20-4=16$ por contrato. Es un techo para el precio del dato perfecto.',
       board: {
         label: 'Información previa',
         tex: EVPI,
@@ -183,9 +183,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El cobro de 10 se reduce por cada día de espera. Mueve el plazo a tres días para leer su **valor presente** con γ = 0,9.',
-      gate: 'Arrastra la perilla hasta 3 días.',
-      after: '$10\\cdot0{,}9^3=7{,}29$ hoy. El descuento se aplica una vez por día.',
+      say: 'El **valor presente** expresa hoy un cobro futuro aplicando un factor de descuento por cada período de espera. $\\text{VP}=\\gamma^t r$ se lee «valor presente igual a gamma elevado a te por erre»: $r$ es el cobro, $t$ el plazo y $\\gamma$ el factor por período.\n\nAquí el cobro es 10 y $\\gamma=0{,}9$ por día. Usa el plazo y el factor en la misma unidad; aplica el descuento una vez por día.',
+      gate: 'Busca el plazo entero en que el valor presente del cobro queda entre 7 y 7,5. Arrastra la perilla y observa el valor calculado.',
+      after: 'A los 3 días, $10\\cdot0{,}9^3=7{,}29$ hoy. El descuento se aplica una vez por día.',
       board: {
         label: 'Pago futuro',
         tex: VP,
@@ -193,7 +193,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Resuelve desde el cobro final: la etapa 2 vale 10. En la etapa 1 puedes cobrar 5 ahora o esperar un día con γ = 0,9.',
+      say: 'La **ecuación de Bellman** compara el valor de las acciones disponibles y toma el mayor. $V(s_1)$ se lee «ve de ese uno»: es el mejor valor en la primera etapa.\n\nResuelve desde el final: la etapa 2 vale 10. En la etapa 1 puedes cobrar 5 ahora o esperar un día con $\\gamma=0{,}9$ y sin pago inmediato. Descuenta el cobro futuro antes de comparar; no sumes las dos opciones.',
       ask: {
         prompt: '¿Cuál es el valor de la etapa 1?',
         options: ['9', '10', '14'],
@@ -203,7 +203,7 @@ const lesson: LessonStep = {
       board: { label: 'Cerrar o seguir', tex: BELLMAN },
     },
     {
-      say: 'Con p = 0,6 y pago a la par, **Kelly** fija una fracción de 0,2 del capital. Tener ventaja no autoriza cualquier tamaño de posición.',
+      say: 'La **fracción de Kelly** maximiza el crecimiento logarítmico esperado del capital en apuestas repetidas, con probabilidad y pagos conocidos. $f^*$ se lee «efe estrella»; $p$ es la probabilidad de ganar y $b$ la ganancia neta por unidad apostada, que se pierde si falla la apuesta.\n\nCon $p=0{,}6$ y pago a la par ($b=1$), $f^*=0{,}2$: se apuesta el 20 % del capital. Tener ventaja no autoriza cualquier tamaño de posición.',
       board: {
         label: 'Tamaño de posición',
         tex: KELLY,
