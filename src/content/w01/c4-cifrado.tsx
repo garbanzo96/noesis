@@ -617,8 +617,9 @@ export const level: LevelSpec = {
       Scene: CipherDemo,
       beats: [
         {
-          say: 'La máquina cambia cada letra por su número y lo pasa por dos engranajes: primero multiplica por 3, luego suma 7.',
-          gate: 'Pulsa una letra del teclado.',
+          say: 'La máquina cambia cada letra por su número y lo pasa por dos engranajes: primero multiplica por 3, luego suma 7. Probemos cómo transforma una letra para entender el cifrado.',
+          gate: 'Pulsa una letra del teclado y observa cómo cambia su número al pasar por los dos engranajes.',
+          after: 'La letra elegida pasa por una multiplicación por 3 y una suma de 7. Por ejemplo, A corresponde a 1 y produce 10: esos pasos permiten formar el código.',
           note: {
             label: 'Composición',
             tex: '(g\\circ f)(x)=g(f(x))=3x+7',
@@ -637,8 +638,9 @@ export const level: LevelSpec = {
           note: { label: 'El orden importa', tex: 'f(g(x))=3(x+7)\\neq g(f(x))' },
         },
         {
-          say: 'Para descifrar hay que deshacer cada paso. El último que se hizo es el primero que se deshace.',
-          gate: 'Pulsa las dos fichas en el orden que descifra el 22.',
+          say: 'El primer número de la nota es 22. Para recuperar su letra hay que deshacer cada paso del cifrado, empezando por el último.',
+          gate: 'Pulsa las dos fichas en el orden que descifra el 22 y observa el número que queda al final.',
+          after: 'Al restar 7 y dividir por 3, $22$ pasa a $15$ y luego a $5$, que corresponde a la E. Deshacer primero el último paso permite recuperar la letra.',
           note: {
             label: 'Inversa',
             tex: '(g\\circ f)^{-1}=f^{-1}\\circ g^{-1}',

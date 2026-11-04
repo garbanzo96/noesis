@@ -253,7 +253,7 @@ export const lesson: LessonStep = {
   Scene: CompositionLesson,
   beats: [
     {
-      say: '**Componer** es encadenar funciones: la salida de una es la entrada de la siguiente. Aquí $f$ suma 1 y después $g$ multiplica por 2.',
+      say: 'La **composición** aplica una función a la salida de otra, siempre que esa salida pertenezca al dominio de la segunda. Se escribe $(g\\circ f)(x)=g(f(x))$ y se lee «ge compuesta con efe de equis»: primero actúa $f$ y luego $g$. Sirve para describir una cadena como una sola función. Aquí $f$ suma 1 y $g$ multiplica por 2: con entrada 3, la cadena pasa por 4 y llega a 8.',
       dur: 3,
       board: {
         label: 'Composición',
@@ -263,7 +263,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si se invierte el orden de las máquinas, el resultado cambia.',
+      say: 'El orden de una composición importa: cambiarlo puede cambiar la salida, aunque en algunas funciones ambas órdenes coinciden. Con entrada 3, sumar 1 y luego duplicar da 8; duplicar y luego sumar 1 da 7. Por eso hay que leer cuál función actúa primero.',
       dur: 3,
       board: {
         label: 'El orden importa',
@@ -272,7 +272,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **inversa** deshace la función. Para deshacer una cadena se empieza por el último paso, como quitarse primero los zapatos y después los calcetines.',
+      say: 'La **función inversa** recupera la entrada a partir de la salida: si $f(x)=y$, entonces $f^{-1}(y)=x$. Se lee «efe inversa» y existe como función sobre las salidas de $f$ cuando entradas distintas producen salidas distintas; no es el recíproco $1/f$.\n\nPara invertir una cadena se deshace primero el último paso: de 8 se divide por 2 y después se resta 1, hasta recuperar 3.',
       dur: 3,
       board: [
         {
@@ -288,7 +288,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Para hallar la fórmula de la inversa se **despeja** $x$: se hace lo mismo a ambos lados hasta dejar $x$ sola.',
+      say: '**Despejar** $x$ consiste en transformar una igualdad hasta dejar $x$ sola, conservando la igualdad. Sirve para expresar la entrada en función de la salida y obtener la inversa. En $y=3x+7$, se resta 7 a ambos lados y se divide por 3: $x=(y-7)/3$. El 7 se resta antes de dividir, porque fue lo último que se sumó.',
       dur: 3.4,
       board: [
         { tex: 'y=3x+7' },
@@ -304,8 +304,9 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'En la gráfica, invertir es intercambiar $x$ con $y$: la gráfica de $f^{-1}$ es el **reflejo** de la de $f$ en la recta $y=x$.',
-      gate: 'Arrastra el punto celeste por la recta y mira su reflejo.',
+      say: 'Si una función tiene inversa, cada punto $(a,b)$ de su gráfica corresponde al punto $(b,a)$ de la gráfica inversa: se intercambian entrada y salida. Por eso ambas gráficas son reflejos respecto de la recta $y=x$. La expresión $f^{-1}$ se lee «efe inversa».',
+      gate: 'Arrastra el punto celeste hacia la derecha hasta que su coordenada $x$ llegue al menos a $2{,}5$. Observa cómo cambian las coordenadas del punto ámbar.',
+      after: 'Al llegar a $x=2{,}5$, el punto celeste pasa por $(2{,}5;6)$ y su reflejo por $(6;2{,}5)$. Las coordenadas intercambiadas muestran cómo la inversa recupera la entrada.',
       board: {
         label: 'Gráfica de la inversa',
         tex: '(a,b)\\in\\mathrm{graf}(f)\\iff \\p{1}{(b,a)}\\in\\mathrm{graf}(f^{-1})',
@@ -313,7 +314,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'No toda función se puede invertir. Si dos entradas dan la misma salida, al volver no se sabe cuál era. En la gráfica: una recta **horizontal** la corta dos veces.',
+      say: 'Una función es **inyectiva** cuando entradas distintas tienen salidas distintas: si $f(a)=f(b)$, entonces $a=b$. Esta condición permite recuperar una única entrada para cada salida de la función. Gráficamente, es inyectiva si toda recta horizontal corta su gráfica a lo más una vez. En $f(x)=x^2$, la altura 4 corresponde tanto a $-2$ como a 2, así que esas salidas no identifican una entrada única.',
       ask: {
         prompt: '¿Cómo se puede invertir $f(x)=x^2$?',
         options: [
