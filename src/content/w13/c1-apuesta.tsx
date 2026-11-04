@@ -147,7 +147,7 @@ const lesson: LessonStep = {
   Scene: BetLesson,
   beats: [
     {
-      say: 'Una decisión con incertidumbre tiene una tabla de pagos: qué ganas con cada acción según lo que pase.',
+      say: 'Una **tabla de pagos** indica el resultado de cada acción para cada estado posible. Sirve para comparar decisiones cuyos resultados dependen de algo incierto. Aquí, comprar paga 100 si hay brote y pierde 20 si no lo hay; no comprar vale 0 en ambos casos. Las probabilidades de brote y de ausencia de brote son 0,2 y 0,8, respectivamente.',
       board: {
         label: 'Tabla de pagos',
         tex: '\\p{1}{u(\\text{comprar},\\text{brote})=100},\\ \\p{2}{u(\\text{comprar},\\text{no})=-20}',
@@ -155,7 +155,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Pondera cada pago por su probabilidad y suma: ese es el **valor esperado** de la acción. Con p = 0,2, comprar vale 4.',
+      say: 'El **valor esperado** de una acción es la suma de sus pagos, cada uno multiplicado por la probabilidad del estado correspondiente. Se lee $E[a]$ como «e de a» y $u(a,s)$ como «pago de la acción a en el estado s». Las probabilidades deben sumar 1.\n\nCon $p=0{,}2$, comprar vale $0{,}2\\cdot100-0{,}8\\cdot20=4$. No olvides ponderar también la pérdida: 4 es un promedio, no el pago de un contrato individual.',
       board: {
         label: 'Valor esperado',
         tex: '\\p{1}{E[a]}=\\p{2}{\\sum_s P(s)\\,u(a,s)}=\\p{3}{0{,}2\\cdot100-0{,}8\\cdot20=4}',
@@ -163,8 +163,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mueve la probabilidad de brote. Busca el punto donde comprar y no comprar valen lo mismo.',
-      gate: 'Busca la probabilidad en que comprar y no comprar valen lo mismo.',
+      say: 'El **punto de equilibrio** es la probabilidad para la cual las dos acciones tienen igual valor esperado. En el gráfico, corresponde al cruce entre la recta de comprar y la línea de no comprar. Allí la ganancia ponderada y la pérdida ponderada se igualan.',
+      gate: 'Mueve la probabilidad y busca dónde comprar y no comprar tienen igual valor esperado. Mira el cruce de las líneas.',
       after:
         'La recta cruza el 0 en $p=\\tfrac16$: ahí $100p=20(1-p)$. Bajo ese valor el contrato pierde en promedio.',
       board: {
@@ -174,7 +174,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ahora el pronóstico baja a p = 0,1.',
+      say: 'Ahora el pronóstico baja a $p=0{,}1$. Compara el valor esperado de comprar con el de no comprar para decidir según ese pronóstico.',
       ask: {
         prompt: '¿Conviene comprar el contrato con p = 0,1?',
         options: ['No: vale −8', 'Sí: vale 10', 'Da lo mismo'],
@@ -188,7 +188,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La regla: calcula el valor esperado de cada acción y elige la mayor. Quien conoce p antes que el mercado sabe de qué lado está.',
+      say: 'Para elegir por valor esperado, calcula el de cada acción y escoge una con el mayor valor. La expresión $a^*=\\arg\\max_a E[a]$ se lee «a estrella es la acción que maximiza e de a»; si hay empate, ambas acciones son máximas. Esta regla compara promedios bajo las probabilidades disponibles. Quien conoce $p$ antes que el mercado puede evaluar la decisión con otra información.',
       board: {
         label: 'Regla',
         tex: '\\p{1}{a^*}=\\p{2}{\\arg\\max_a E[a]}',
@@ -375,14 +375,14 @@ export const level: LevelSpec = {
       Scene: TapeDemo,
       beats: [
         {
-          say: 'El lunes, el boletín sanitario publicó p = 0,25 de brote, y la cuenta compró. Lleva el pronóstico a 0,25 en la recta del contrato.',
-          gate: 'Lleva el pronóstico a 0,25. ¿Comprar era razonable ese día?',
+          say: 'El lunes, el boletín sanitario publicó $p=0{,}25$ de brote y la cuenta compró. Revisemos el valor de esa orden con la información pública.',
+          gate: 'Ajusta la probabilidad hasta que coincida con el boletín del lunes. Mira el valor esperado de comprar y compáralo con el de no comprar.',
           after:
             '$E(0{,}25)=10$: con esa probabilidad comprar tiene sentido. Esa compra no llama la atención.',
           note: { label: 'Lunes', tex: 'E(0{,}25)=10' },
         },
         {
-          say: 'Con el boletín del lunes, comprar valía 10.',
+          say: 'Ya tenemos el pronóstico público del lunes. Comparemos las dos acciones para evaluar la compra.',
           ask: {
             prompt: '¿Era razonable comprar el lunes?',
             options: [
@@ -395,14 +395,14 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El jueves, el boletín público bajó a p = 0,05. La cuenta compró de nuevo, y al día siguiente se anunció un brote. Lleva el pronóstico a 0,05.',
-          gate: 'Lleva el pronóstico a 0,05. ¿Comprar era razonable con lo público?',
+          say: 'El jueves, el boletín público bajó a $p=0{,}05$. La cuenta compró de nuevo y al día siguiente se anunció un brote. Revisemos esa orden con el pronóstico público.',
+          gate: 'Ajusta la probabilidad hasta que coincida con el boletín del jueves. Mira el valor esperado de comprar y compáralo con el de no comprar.',
           after:
             '$E(0{,}05)=-14$: con lo público esa compra perdía en promedio. La cuenta sabía algo que no estaba en el boletín.',
           note: { label: 'Jueves', tex: 'E(0{,}05)=-14' },
         },
         {
-          say: 'Con la información pública, comprar el jueves valía −14.',
+          say: 'La cuenta compró el jueves y al día siguiente se anunció el brote. ¿Qué nos dice esa orden sobre la información que podía tener?',
           ask: {
             prompt: '¿Qué explica que la cuenta comprara el jueves?',
             options: [
