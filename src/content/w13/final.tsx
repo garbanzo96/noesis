@@ -14,13 +14,14 @@ import type {
 import { Cap } from '../shared/lesson';
 import { pick, rng } from '../shared/rng';
 import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
-import { discount, ev, fmt, kellyFrac, tnum } from './kit';
+import { beliefUpdate, discount, ev, fmt, kellyFrac, predict, tnum, voi } from './kit';
 
 const EV = 'E[a]=\\sum_s P(s)\\,u(a,s)';
 const EVPI = '\\text{EVPI}=E[\\text{con información}]-\\max_a E[a]';
 const VP = '\\text{VP}=\\gamma^t r';
 const BELLMAN = 'V(s_1)=\\max\\{c,\\gamma V(s_2)\\}';
 const KELLY = 'f^*=p-\\frac{1-p}{b}';
+const FILTER = "b'(s')=\\eta\\,O(o\\mid s')\\sum_s T(s'\\mid s,a)\\,b(s)";
 const TITLES = [
   'Contrato',
   'Información previa',
@@ -289,6 +290,8 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
       kp,
       b,
       fraction: kellyFrac(kp, b),
+      belief: pick(random, [0.2, 0.3, 0.4]),
+      doubt: pick(random, [0.25, 0.3, 0.4, 0.5]),
     };
   }, [seed, round]);
   const [first, setFirst] = useState('');
@@ -301,8 +304,9 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
         'Lecturas 1 y 2. Calcula E[comprar] y el EVPI por contrato. Sin el dato puedes comprar o no comprar; con el dato perfecto compras solo con brote. Dos decimales.',
         'Lecturas 3 y 4. Calcula el valor presente del cobro y V(s₁) de la operación de dos etapas. Seguir paga cero ahora y cobra en la etapa 2, un día después. Dos decimales.',
         'Lectura 5. Calcula la fracción de Kelly del capital. b es la ganancia neta por unidad apostada; si pierdes, pierdes esa unidad. Responde entre 0 y 1 con dos decimales.',
+        `Lecturas 6 y 7. La mesa esperó con creencia $b=${tnum(d.belief, 1)}$ y vio volumen alto. Calcula la creencia nueva. Después, el valor de un informe que acierta con 0,9 cuando $b=${tnum(d.doubt, 2)}$.`,
       ][round],
-      [EVPI, BELLMAN, KELLY][round],
+      [EVPI, BELLMAN, KELLY, FILTER][round],
     );
     api.hints(
       [
@@ -318,6 +322,10 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
           'La probabilidad de perder es 1 − p.',
           'Resta (1 − p)/b a p. Escribe una fracción, no un porcentaje.',
         ],
+        [
+          `Predice primero: $\\bar b=${tnum(predict(d.belief, 'esperar'), 3)}$. Luego corrige con 0,8 y 0,2 y normaliza.`,
+          'VI promedia $V_1$ en las dos creencias posibles y resta $V_1(b)$, con $V_1(b)=\\max(-10b,\\,-4)$.',
+        ],
       ][round],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -326,7 +334,7 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
   const submit = () => {
     const a = parseNum(first);
     const b = parseNum(second);
-    if (a === null || !Number.isFinite(a) || (round < 2 && (b === null || !Number.isFinite(b))))
+    if (a === null || !Number.isFinite(a) || (round !== 2 && (b === null || !Number.isFinite(b))))
       return;
     const near = (x: number, y: number) => Math.abs(x - y) <= 0.0051;
     if (round === 0) {
@@ -379,6 +387,20 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
         `$\\text{VP}=${tnum(d.present)}$; $V(s_1)=\\max(${tnum(d.close)};${tnum(d.continuation)})=${tnum(d.value)}$. ${d.close > d.continuation ? 'Cierra hoy.' : 'Mantén la posición un día.'}`,
       );
     }
+    if (round === 3) {
+      const filtered = beliefUpdate(d.belief, 'esperar', true);
+      const gain = voi(d.doubt);
+      if (!near(a, filtered))
+        return api.result(
+          false,
+          near(a, (0.8 * d.belief) / (0.8 * d.belief + 0.2 * (1 - d.belief)))
+            ? 'Corregiste sin predecir. Antes de mirar la señal el mercado avanzó un día: aplica la transición de esperar.'
+            : 'Predice con la transición de esperar, corrige con 0,8 y 0,2, y normaliza.',
+        );
+      if (Math.abs(b! - gain) > 0.02)
+        return api.result(false, 'La creencia está bien. Para VI, promedia $V_1$ en $b_+$ y $b_-$, y resta $V_1(b)$.');
+      return api.result(true, `$b'=${tnum(filtered, 3)}$ y $\\text{VI}=${tnum(gain, 2)}$. Con eso la cuenta decidía si pagar un informe.`);
+    }
     if (near(a, d.fraction))
       return api.result(
         true,
@@ -411,19 +433,26 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
             `Operación, etapa 1: cerrar paga ${fmt(d.close)}`,
             `Etapa 2: cobro ${d.terminal}, un día después`,
           ]
-        : [
-            `Probabilidad de ganar: p = ${fmt(d.kp)}`,
-            `Ganancia neta por unidad: b = ${d.b}`,
-            'Perder cuesta una unidad apostada',
-          ];
+        : round === 2
+          ? [
+              `Probabilidad de ganar: p = ${fmt(d.kp)}`,
+              `Ganancia neta por unidad: b = ${d.b}`,
+              'Perder cuesta una unidad apostada',
+            ]
+          : [
+              `Esperar: rumor mañana 0,2 desde calma, 0,9 desde rumor`,
+              'Volumen alto: 0,2 en calma, 0,8 en rumor',
+              `Creencia hoy: b = ${fmt(d.belief, 1)}`,
+              `Informe: acierta 0,9 · creencia b = ${fmt(d.doubt)}`,
+            ];
   return (
     <Stage>
       <Ticket
-        title={['Contrato e información', 'Descuento y cierre', 'Tamaño de posición'][round]}
+        title={['Contrato e información', 'Descuento y cierre', 'Tamaño de posición', 'Creencia e informe'][round]}
         rows={rows}
       />
       <Cap x={1250} y={230} size={23}>
-        Control {round + 1} de 3
+        Control {round + 1} de 4
       </Cap>
       <Cap x={1250} y={330} size={20} color={C.muted}>
         Dos decimales · redondea al final
@@ -434,16 +463,16 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
         value={first}
         onChange={setFirst}
         onEnter={submit}
-        label={['E =', 'VP =', 'f* ='][round]}
+        label={['E =', 'VP =', 'f* =', "b' ="][round]}
       />
-      {round < 2 && (
+      {round !== 2 && (
         <NumberField
           x={1060}
           y={550}
           value={second}
           onChange={setSecond}
           onEnter={submit}
-          label={round === 0 ? 'EVPI =' : 'V(s₁) ='}
+          label={['EVPI =', 'V(s₁) =', '', 'VI ='][round]}
         />
       )}
       <Cap x={1250} y={660} size={20} color={C.muted}>
@@ -536,7 +565,7 @@ export const level: LevelSpec = {
         },
       ],
     },
-    { kind: 'challenge', title: 'Cinco lecturas de la cuenta', Comp: AccountPractice, rounds: 3 },
+    { kind: 'challenge', title: 'Las lecturas de la cuenta', Comp: AccountPractice, rounds: 4 },
     {
       kind: 'scene',
       place: 'bolsa',
