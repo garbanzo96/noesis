@@ -199,7 +199,7 @@ const lesson: LessonStep = {
   Scene: BalanceLesson,
   beats: [
     {
-      say: 'Un ritmo **neto** puede ser negativo: si sale más agua de la que entra, la curva baja del eje. Las franjas bajo el eje tienen altura negativa, así que **restan**.',
+      say: 'El **ritmo neto** es la entrada menos la salida por unidad de tiempo. Es negativo cuando sale más agua de la que entra, y entonces la curva queda bajo el eje.\n\nLa **integral definida** acumula esos ritmos entre dos límites: se lee «integral de a a b de erre de te, diferencial de te». El área sobre el eje suma y la de abajo resta; sumarlas sin signo daría una cuenta equivocada.',
       dur: 2.8,
       board: {
         label: 'Área con signo',
@@ -208,7 +208,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Por eso la integral de un ritmo da el **cambio neto**: cuánto subió o bajó la cantidad entre el comienzo y el final.',
+      say: 'El **cambio neto** es la cantidad final menos la inicial. Si $r(t)$ es el ritmo de cambio del volumen $V(t)$, su integral entre $a$ y $b$ da $V(b)-V(a)$.\n\nEn el estanque, el área verde aporta agua y la roja la resta. El cambio neto indica cuánto subió o bajó el volumen, aunque dentro del intervalo haya cambiado de dirección.',
       dur: 4,
       board: {
         label: 'Cambio neto',
@@ -218,8 +218,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si se corta el intervalo en un punto $b$, la integral total es la suma de las dos partes, sin importar dónde se corte.',
-      gate: 'Mueve el corte b por el intervalo.',
+      say: 'La **aditividad** permite dividir una integral en dos intervalos contiguos: de $a$ a $b$ y de $b$ a $c$. La suma de ambas integrales da la integral de $a$ a $c$, siempre que existan las integrales.\n\nCada tramo conserva el signo de su área; el corte sirve para calcular por partes sin cambiar el total.',
+      gate: 'Arrastra el corte $b$ hasta 6 o más y observa cómo cambian las dos integrales y su suma.',
+      after: 'Las integrales de los dos tramos cambian con el corte, pero su suma se mantiene en 2,4. Dividir el intervalo conserva el cambio neto total.',
       board: {
         label: 'Aditividad',
         tex: '\\int_a^c f=\\p{1}{\\cC{\\int_a^b f}}+\\p{2}{\\cA{\\int_b^c f}}',
@@ -227,7 +228,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Integrar respeta sumas y constantes: el área de $f+g$ es el área de $f$ más la de $g$, y duplicar la altura duplica el área.',
+      say: 'La **linealidad** dice que la integral de una suma es la suma de las integrales, y que una constante multiplica la integral completa. Se aplica a funciones integrables en el mismo intervalo.\n\nPor ejemplo, duplicar $f$ duplica su integral; la curva verde muestra la suma de $f$ y $g$. La regla no permite multiplicar las integrales para calcular la integral de un producto.',
       dur: 2.6,
       board: {
         label: 'Linealidad',
@@ -236,7 +237,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un intervalo sin ancho no acumula nada. Y recorrer el intervalo al revés cambia el signo.',
+      say: 'Con **límites iguales**, la integral vale cero: un intervalo sin ancho no acumula nada. Con **límites invertidos**, la integral cambia de signo. Por ejemplo, si de $a$ a $b$ vale 3, de $b$ a $a$ vale $-3$.',
       dur: 2.6,
       board: [
         { label: 'Límites iguales', tex: '\\int_a^a f=0' },
@@ -244,7 +245,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El **valor medio** es la altura constante que acumularía lo mismo en el mismo tiempo: como si el agua bajo la curva se nivelara.',
+      say: 'El **valor medio** de una función integrable en $[a,b]$, con $a<b$, es su integral dividida por el ancho $b-a$. Se lee «efe barra» y representa la altura constante que acumula lo mismo en ese intervalo.\n\nAquí la línea horizontal nivela el área bajo el caudal. Para calcular un caudal medio, divide el volumen acumulado por el tiempo, sin confundirlo con el volumen total.',
       ask: {
         prompt: 'Si en 6 horas pasaron 24 mil m³, ¿cuál fue el caudal medio?',
         options: ['4 mil m³/h', '24 mil m³/h', '144 mil m³/h'],
@@ -612,12 +613,12 @@ export const level: LevelSpec = {
       Scene: BudgetDemo,
       beats: [
         {
-          say: 'En verde, lo que entra por los ríos. En rojo, lo que sale hacia la ciudad y la tubería 7.',
+          say: 'En verde vemos lo que entra por los ríos; en rojo, lo que sale hacia la ciudad y la tubería 7. Necesitamos ambas cuentas para saber cómo cambió el lago durante el día.',
           dur: 1.8,
           note: { label: 'Ritmo neto', tex: 'r(t)=\\text{entra}(t)-\\text{sale}(t)' },
         },
         {
-          say: 'El ritmo neto es la diferencia: positivo de día, muy negativo de madrugada.',
+          say: 'El ritmo neto es la entrada menos la salida: durante el día hay tramos positivos y de madrugada es muy negativo. La integral de ese ritmo reúne las ganancias y las pérdidas de las 24 horas.',
           ask: {
             prompt: 'Si la integral de las 24 horas es negativa, ¿qué pasó con el lago?',
             options: ['Terminó el día con menos agua', 'Terminó igual', 'No se puede saber'],
@@ -632,7 +633,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Entre las 00:00 y las 06:00 la salida neta media es la línea naranja: el nivel equivalente.',
+          say: 'Entre las 00:00 y las 06:00, la línea naranja muestra el ritmo neto medio. Es el ritmo constante que produciría el mismo cambio de volumen en esas seis horas.',
           dur: 1.8,
           note: { label: 'Salida media nocturna', tex: '\\bar r=\\tfrac16\\int_0^6 r(t)\\,dt' },
         },
