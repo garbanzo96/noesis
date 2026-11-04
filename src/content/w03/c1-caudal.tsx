@@ -322,14 +322,28 @@ const NIGHT: [number, number, number][] = [
 ];
 const PD = plane([0, 6], [0, 8], { x: 300, y: 130, w: 800, h: 480 });
 
-function FlowDemo({ beats, unlock, answer }: DemoProps) {
+function FlowDemo({ beats, unlock }: DemoProps) {
   const { beat } = beats;
   const svg = useRef<SVGSVGElement>(null);
   const [t, setT] = useState(0);
-  const onT = useSvgDrag(svg, (x) => {
-    const v = Math.round(clamp(PD.inv(x, 0)[0], 0, 6) * 4) / 4;
-    setT(v);
-    if (v >= 6) unlock();
+  const [start, setStart] = useState(0);
+  const unlocked = useRef([false, false]);
+  const onDrag = useSvgDrag(svg, (x) => {
+    const v = clamp(PD.inv(x, 0)[0], 0, 6);
+    if (beat === 0) {
+      setT(v);
+      if (!unlocked.current[0] && Math.abs(v - 8 / 3) <= 0.15) {
+        unlocked.current[0] = true;
+        unlock();
+      }
+    } else if (beat === 1) {
+      const volume = (v / 6) * 26;
+      setStart(volume);
+      if (!unlocked.current[1] && Math.abs(volume - 18) <= 0.6) {
+        unlocked.current[1] = true;
+        unlock();
+      }
+    }
   });
   const f = steps(NIGHT);
   const tt = beat === 0 ? t : 6;
@@ -345,44 +359,29 @@ function FlowDemo({ beats, unlock, answer }: DemoProps) {
         grid
       />
       <AreaUnder P={PD} f={f} a={0} b={Math.max(0.001, tt)} pos="#5fd3ff" opacity={0.35} />
-      {beat === 1 && answer !== null && (
+      {beat === 1 && (
         <AreaUnder P={PD} f={f} a={2} b={5} pos={C.amber} opacity={0.6} />
       )}
       <Curve P={PD} f={f} a={0} b={5.999} color={C.cyan} width={4} />
-      <Tank x={1180} y={170} w={160} h={420} level={vol} max={26} label={`${dec(vol, 1)} mil m³`} />
+      <Tank x={1180} y={170} w={160} h={420} level={vol} max={26} label={beat === 0 ? '' : '23 mil m³'} />
+      {beat === 1 && (
+        <>
+          <line x1={1170} x2={1350} y1={590 - (start / 26) * 420} y2={590 - (start / 26) * 420} stroke={C.amber} strokeWidth={3} />
+          <Cap x={1260} y={120} size={24} color={C.amber}>{`Marcador: ${dec(start, 1)} mil m³`}</Cap>
+        </>
+      )}
       {beat === 2 && (
         <>
-          <line
-            x1={1170}
-            x2={1350}
-            y1={590 - (8 / 26) * 420}
-            y2={590 - (8 / 26) * 420}
-            stroke={C.red}
-            strokeWidth={3}
-            strokeDasharray="8 6"
-          />
-          <Cap x={1360} y={590 - (8 / 26) * 420} size={18} color={C.red} anchor="left">
+          <line x1={1170} x2={1350} y1={590 - (8 / 26) * 420} y2={590 - (8 / 26) * 420} stroke={C.red} strokeWidth={3} strokeDasharray="8 6" />
+          <Cap x={1360} y={590 - (8 / 26) * 420} size={24} color={C.red} anchor="left">
             informe: 8
           </Cap>
         </>
       )}
-      {beat === 0 && (
+      {(beat === 0 || beat === 1) && (
         <>
-          <rect
-            x={PD.x(0) - 10}
-            y={PD.y(0)}
-            width={PD.box.w + 20}
-            height={60}
-            fill="transparent"
-            onPointerDown={onT}
-          />
-          <Knob
-            x={PD.x(t)}
-            y={PD.y(0) + 30}
-            onPointerDown={onT}
-            cursor="ew-resize"
-            label={hhmm(t)}
-          />
+          <rect x={PD.x(0) - 10} y={PD.y(0)} width={PD.box.w + 20} height={60} fill="transparent" onPointerDown={onDrag} />
+          <Knob x={PD.x(beat === 0 ? t : (start / 26) * 6)} y={PD.y(0) + 30} onPointerDown={onDrag} cursor="ew-resize" label={beat === 0 ? hhmm(t) : dec(start, 1)} />
         </>
       )}
     </Stage>
@@ -638,8 +637,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Este es el caudal de la tubería 7 durante la noche, en miles de m³ por hora. El estanque muestra el volumen acumulado para compararlo con el informe.',
-          gate: 'Arrastra la hora hasta las 06:00 y observa cómo aumenta el volumen en cada tramo.',
-          after: 'A las 06:00 se acumulan 23 mil m³: los tres tramos aportan 4, 18 y 1 mil m³. Esa suma permite comparar el registro completo con el informe.',
+          gate: '¿A qué hora el volumen acumulado alcanza los 8 mil m³ que declara el informe para toda la noche? Calcula y ubica esa hora en el registro.',
+          after: 'A las 02:40 se alcanzan 8 mil m³: 4 en las primeras 2 horas y 4 en los siguientes 40 minutos. A las 06:00 el total es 23 mil m³: los tres tramos aportan 4, 18 y 1 mil m³.',
           note: {
             label: 'Volumen de la noche',
             tex: '2\\cdot2+6\\cdot3+1\\cdot1=23',
@@ -648,12 +647,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'Marta quiere saber cuánta agua salió en el tramo de mayor caudal. El registro permite calcularlo a partir de su duración.',
-          ask: {
-            prompt: '¿Cuánta agua salió entre las 02:00 y las 05:00?',
-            options: ['18 mil m³', '6 mil m³', '9 mil m³'],
-            answer: 0,
-            explain: 'Caudal 6 durante 3 horas: el rectángulo naranja mide $6\\cdot3=18$.',
-          },
+          gate: '¿Cuánta agua salió entre las 02:00 y las 05:00? Calcula el área marcada y ajusta el marcador al volumen de ese tramo, en miles de m³.',
+          after: 'Entre las 02:00 y las 05:00 pasaron 18 mil m³: el caudal de 6 mil m³ por hora se mantuvo durante 3 horas.',
         },
         {
           say: 'El informe oficial declara 8 mil m³ para toda la noche. El registro suma 23 mil m³: hay una diferencia de 15 mil m³.',
