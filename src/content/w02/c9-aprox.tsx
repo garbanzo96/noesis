@@ -186,8 +186,9 @@ const lesson: LessonStep = {
   Scene: EstimateLesson,
   beats: [
     {
-      say: 'Cerca de $a$, la tangente aproxima la curva. Para $\\sqrt x$ en $a=4$, la altura es 2 y la pendiente es $0{,}25$.',
-      gate: 'Mueve x cerca de 4, hasta que |x − 4| sea menor que 0,2.',
+      say: 'La **aproximación lineal** de una función derivable en $a$ usa su recta tangente para estimar valores de la función cerca de ese punto. Se escribe $L(x)=f(a)+f\'(a)(x-a)$ y $f\'(a)$ se lee «derivada de f en a».\n\nPara $f(x)=\\sqrt x$ en $a=4$, la altura es 2 y la pendiente es $0{,}25$. La estimación puede perder precisión al alejarse de 4.',
+      gate: 'Mueve $x$ hasta que su distancia a 4 sea menor que 0,2. Observa la distancia entre la curva y la tangente.',
+      after: 'Cerca de $x=4$, la distancia entre la curva y la tangente es pequeña; en $x=4$ ambas coinciden en 2. Esto permite estimar raíces cercanas usando la recta.',
       board: [
         {
           label: 'Aproximación lineal',
@@ -201,7 +202,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Usa la recta para estimar otra raíz cercana. El cambio en $x$ se multiplica por la pendiente.',
+      say: 'Para estimar una raíz cercana a 4, usa la altura de partida y suma el cambio en $x$ multiplicado por la pendiente de la tangente. Aquí el cambio desde 4 hasta 4,4 es 0,4. Calcula el valor de la recta y recuerda que es una estimación, no necesariamente la raíz exacta.',
       ask: {
         prompt: 'Con esa recta, ¿cuánto estima $\\sqrt{4{,}4}$?',
         options: ['2,1', '2,4', '2,04'],
@@ -215,7 +216,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El diferencial $dy$ es el cambio estimado por la tangente. Se obtiene multiplicando el cambio $dx$ por la derivada.',
+      say: 'El **diferencial** $dx$ representa un cambio en la entrada y $dy=f\'(x)dx$ representa el cambio de salida estimado por la tangente. Se leen «de equis» y «de ye». Para $x=4$ y $dx=0{,}4$, la pendiente $0{,}25$ da $dy=0{,}1$. El cambio real de la función puede diferir de $dy$.',
       dur: 3,
       board: {
         label: 'Diferenciales',
@@ -225,7 +226,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Newton usa el corte de la tangente con el eje para acercarse a un cero. Para $x^2-2=0$, parte de $x_0=1$ y avanza con el botón.',
+      say: 'El **método de Newton** busca un cero de una función: desde una estimación traza la tangente y usa su corte con el eje como siguiente estimación. $x_n$ se lee «equis sub ene» y $x_{n+1}$, «equis sub ene más uno». La derivada en cada estimación debe ser distinta de cero y el método no siempre converge. Para $x^2-2=0$, parte de $x_0=1$ y avanza con el botón.',
       dur: 3,
       board: [
         {
@@ -241,7 +242,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La tangente sirve para estimar valores cercanos y para buscar ceros. Estas son las dos fórmulas que usamos.',
+      say: 'La aproximación lineal usa la tangente para estimar valores cerca de un punto donde la función es derivable. El método de Newton usa cortes sucesivos de tangentes con el eje para buscar ceros, siempre que las derivadas usadas sean distintas de cero.',
       dur: 2.6,
       board: [
         {
@@ -607,8 +608,9 @@ export const level: LevelSpec = {
       Scene: EstimateDemo,
       beats: [
         {
-          say: 'El sensor calcula raíces cuadradas con la tangente en 100: $\\sqrt{100+h}\\approx10+\\tfrac{h}{20}$. Mira cuánto se equivoca.',
-          gate: 'Lleva h hasta 2.',
+          say: 'El sensor calcula raíces cuadradas con la tangente en 100: $\\sqrt{100+h}\\approx10+\\tfrac{h}{20}$. Necesitamos ver cuánto se equivoca al estimar una raíz cercana.',
+          gate: 'Lleva $h$ hasta 2 y compara la estimación con la raíz que muestra el sensor.',
+          after: 'Con $h=2$, la tangente estima $\\sqrt{102}$ como $10{,}1$ y el valor mostrado es $10{,}0995$. La diferencia es cerca de $0{,}0005$, pequeña para esta estimación.',
           note: {
             label: 'Aproximación lineal',
             tex: "f(a+h)\\approx f(a)+f'(a)\\,h",
@@ -616,7 +618,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Lo mismo sirve con cualquier función derivable.',
+          say: 'La misma aproximación sirve con una función derivable cerca del punto elegido. Probemos con el cubo de un valor cercano a 2.',
           ask: {
             prompt: '¿Cuánto da $(2{,}01)^3$ con la aproximación lineal?',
             options: ['8,12', '8,01', '8,06'],
@@ -627,7 +629,7 @@ export const level: LevelSpec = {
           note: { label: 'Con potencias', tex: '(2+h)^3\\approx8+12h' },
         },
         {
-          say: 'Una placa cuadrada se mide en $10\\pm0{,}1$ cm.',
+          say: 'Una placa cuadrada se mide en $10\\pm0{,}1$ cm. Necesitamos estimar cómo afecta ese margen al área de la placa.',
           ask: {
             prompt: '¿Cuánto es el error aproximado de su área?',
             options: ['±2 cm²', '±0,01 cm²', '±0,2 cm²'],
@@ -642,8 +644,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La temperatura del transformador es $T(t)=40+2t+0{,}05t^2$. ¿Cuándo llega a 110 °C? Newton sigue la tangente hasta el eje, una y otra vez.',
-          gate: 'Da tres pasos de Newton.',
+          say: 'La temperatura del transformador es $T(t)=40+2t+0{,}05t^2$. Necesitamos estimar cuándo llega a 110 °C para decidir el corte. Newton sigue la tangente hasta el eje, una y otra vez.',
+          gate: 'Da tres pasos de Newton y observa cómo cambian las estimaciones del tiempo.',
+          after: 'Desde $t_0=40$, los tres pasos dan 25, 22,5 y aproximadamente 22,4265 minutos. La estimación se acerca al momento en que el modelo alcanza los 110 °C.',
           note: {
             label: 'Método de Newton',
             tex: "t_{n+1}=t_n-\\frac{g(t_n)}{g'(t_n)}",
