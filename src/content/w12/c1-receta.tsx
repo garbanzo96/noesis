@@ -159,7 +159,7 @@ const lesson: LessonStep = {
   Scene: RecipeLesson,
   beats: [
     {
-      say: 'Un **modelo generativo** es una receta: dice qué tan probable es cada resultado y permite producir datos nuevos que siguen esas proporciones.',
+      say: 'Un **modelo generativo** especifica probabilidades para los resultados posibles y permite sortear datos nuevos según esas probabilidades. Aquí $P$ se lee «pe»: asigna 0,2 a bajo, 0,5 a medio y 0,3 a alto. Las probabilidades son no negativas y suman 1. El modelo sirve para generar registros con esas proporciones a largo plazo.',
       board: {
         label: 'El modelo',
         tex: '\\p{1}{P(\\text{bajo},\\text{medio},\\text{alto})}=\\p{2}{(0{,}2;\\,0{,}5;\\,0{,}3)}',
@@ -167,10 +167,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para sacar un dato, sortea un número u entre 0 y 1 y mira en qué tramo cae. Los tramos miden lo mismo que las probabilidades.',
-      gate: 'Recorre $u$ por la cinta y mira qué nivel sale en cada tramo.',
+      say: 'La **función acumulada** $F(x)$ se lee «efe de equis» y da la probabilidad de que $X$ sea menor o igual que $x$. Suma las probabilidades desde el primer nivel hasta $x$, incluido. Por ejemplo, $F(\\text{bajo})=0{,}2$; no se debe confundir la acumulada con la probabilidad de un solo nivel.\n\nPara generar un dato, se sortea $u$ uniformemente entre 0 y 1: cada tramo de la cinta tiene el largo de su probabilidad.',
+      gate: 'Recorre la cinta con $u$ hasta obtener los tres niveles. ¿Cómo se relaciona el largo de cada tramo con su probabilidad?',
       after:
-        'Cada nivel ocupa un tramo tan largo como su probabilidad. Así un número uniforme se convierte en un dato de la distribución.',
+        'Los tramos de bajo, medio y alto miden 0,2, 0,5 y 0,3, respectivamente. Sus límites acumulados son 0,2, 0,7 y 1: un sorteo uniforme produce cada nivel con la probabilidad del modelo.',
       board: {
         label: 'La acumulada',
         tex: '\\p{1}{F(x)}=\\p{2}{P(X\\le x)}',
@@ -178,7 +178,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El tramo de «medio» va de 0,2 a 0,7.',
+      say: 'Para generar un dato, $x=F^{-1}(u)$ se lee «equis igual efe inversa de u». En una distribución por niveles, se elige el primer nivel cuya acumulada supera $u$. Los tramos incluyen su límite izquierdo y excluyen el derecho: en un límite se pasa al tramo siguiente.',
       ask: {
         prompt: 'Si u = 0,65, ¿qué nivel sale?',
         options: ['medio', 'alto', 'bajo'],
@@ -192,7 +192,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con mil sorteos, las frecuencias quedan cerca de las probabilidades del modelo. Así se fabrican datos que «se ven» como los reales.',
+      say: 'La **frecuencia relativa** de un nivel es su cantidad de apariciones dividida por el total de sorteos. En la pizarra, $\\#x/n$ se lee «cantidad de equis dividida por ene» y $\\approx$ se lee «aproximadamente igual». En esta muestra las frecuencias son 0,201, 0,501 y 0,298 para bajo, medio y alto; el dibujo las redondea a dos decimales. Con muchos sorteos suelen acercarse a las probabilidades del modelo, aunque cada muestra puede variar.',
       board: {
         label: 'Muchos datos',
         tex: '\\p{1}{\\frac{\\#x}{n}}\\p{2}{\\approx P(x)}',
@@ -200,7 +200,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La Fábrica hace lo mismo con miles de columnas a la vez. Primero aprende el modelo de los datos reales; después sortea.',
+      say: 'La Fábrica hace lo mismo con miles de columnas a la vez. Primero aprende el modelo de los datos reales; después sortea. $u\\sim U(0,1)$ se lee «u sigue una uniforme entre cero y uno»: indica que los intervalos de igual largo tienen igual probabilidad. Luego $x=F^{-1}(u)$ asigna el dato según la acumulada del modelo.',
       board: {
         label: 'Generar',
         tex: '\\p{1}{u\\sim U(0,1)}\\ \\p{2}{\\to\\ x=F^{-1}(u)}',
@@ -361,7 +361,7 @@ export const level: LevelSpec = {
       Scene: BeltDemo,
       beats: [
         {
-          say: 'Cada carpeta sortea su nivel de test con el modelo (0,2; 0,5; 0,3).',
+          say: 'Cada carpeta sortea su nivel de test con el modelo (0,2; 0,5; 0,3), en el orden bajo, medio y alto. Revisemos qué nivel imprime para el sorteo de la siguiente carpeta.',
           ask: {
             prompt: 'La siguiente carpeta sorteó u = 0,15. ¿Qué nivel le imprime la máquina?',
             options: ['bajo', 'medio', 'alto'],
@@ -371,7 +371,7 @@ export const level: LevelSpec = {
           note: { label: 'Una carpeta', tex: 'u=0{,}15\\Rightarrow\\text{bajo}' },
         },
         {
-          say: 'Esta noche salen 500 carpetas.',
+          say: 'Esta noche salen 500 carpetas. Con la probabilidad de nivel alto podemos calcular cuántas se esperan en el lote, aunque el resultado de los sorteos puede variar.',
           ask: {
             prompt: '¿Cuántas con nivel «alto» esperas?',
             options: ['150', '300', '50'],
