@@ -205,7 +205,7 @@ const lesson: LessonStep = {
   Scene: SubstLesson,
   beats: [
     {
-      say: 'La regla de la cadena deja una huella: una función **de adentro** y su derivada multiplicando. Si reconocemos esa huella en un integrando, sabemos integrarlo.',
+      say: 'Una **composición** aplica una función al resultado de otra: en $(x^2+1)^3$, la función interior es $x^2+1$. La regla de la cadena multiplica la derivada de la función exterior por la derivada de la interior, $2x$.\n\nLa **sustitución** usa esa relación al revés para integrar composiciones cuando aparece la derivada interior como factor. La fórmula se lee: integral de efe prima de ge de equis por ge prima de equis, diferencial de equis.',
       dur: 3.4,
       board: {
         label: 'La cadena al revés',
@@ -214,7 +214,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El procedimiento: se llama $u$ a la función de adentro, se calcula $du$, se reemplaza todo y se integra en $u$. Al final se vuelve a $x$.',
+      say: "Para cambiar de variable, llama $u$ a la función interior y calcula $du=g'(x)\\,dx$, que se lee «diferencial de u igual a ge prima de equis por diferencial de equis». Reemplaza toda la expresión, incluido $dx$, e integra en $u$.\n\nEn el ejemplo, $u=x^2+1$ y $du=2x\\,dx$ permiten integrar $u^3$. En una integral indefinida, vuelve a $x$ al final y conserva la constante $C$; no deben quedar variables mezcladas.",
       dur: 4,
       board: [
         {
@@ -229,8 +229,9 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: "Por qué funciona: una franja de ancho $dx$ en el eje $x$ corresponde a una franja de ancho $du=g'(x)\\,dx$ en el eje $u$. El factor $g'(x)$ corrige el estiramiento, así que las áreas coinciden.",
-      gate: 'Arrastra la franja hasta x = 1,5 y mira cómo se ensancha du.',
+      say: "Con $u=x^2$, una franja pequeña de ancho $dx$ en el eje $x$ corresponde aproximadamente a una de ancho $du=2x\\,dx$ en el eje $u$. El factor $2x$ ajusta el cambio de ancho y relaciona las áreas; la igualdad de las integrales se obtiene en el límite.\n\nEn una integral definida, transforma también los extremos: $x=a$ pasa a $u=g(a)$ y $x=b$ a $u=g(b)$. Se leen «ge de a» y «ge de b».",
+      gate: 'Arrastra la franja hasta $x=1{,}5$ o más y observa cómo cambia el ancho $du$ al aumentar $x$.',
+      after: 'Con $dx=0{,}15$, al llegar a $x=1{,}5$ el ancho diferencial es $du=0{,}45$; más a la derecha es mayor. El factor $2x$ permite ajustar la integral al cambio de variable.',
       board: {
         label: 'Con límites',
         tex: "\\int_a^b f(g(x))\\,g'(x)\\,dx=\\int_{\\p{1}{g(a)}}^{\\p{2}{g(b)}}f(u)\\,du",
@@ -239,7 +240,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un caso que aparece en todas partes: la exponencial que decae. Con $u=-kt$ se obtiene su primitiva.',
+      say: 'Una **exponencial decreciente** como $e^{-kt}$ disminuye cuando $t$ aumenta si $k>0$; se lee «e elevado a menos ka por te». La sustitución $u=-kt$ da $du=-k\\,dt$, por lo que su primitiva incluye el factor $-1/k$.\n\nEntre $0$ y $T$, la integral mide el área acumulada bajo la curva y vale $(1-e^{-kT})/k$. En el gráfico se usa $k=0{,}5$; olvidar dividir por $k$ cambia el resultado.',
       dur: 3.4,
       board: [
         { tex: 'u=-kt,\\qquad du=-k\\,dt' },
@@ -255,7 +256,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Pruébalo con una integral definida.',
+      say: 'Aplica la sustitución a esta integral definida. Identifica la función interior y su derivada, y transforma ambos límites antes de elegir una respuesta.',
       ask: {
         prompt: '¿Cuánto vale $\\int_0^1 2x\\,e^{x^2}\\,dx$?',
         options: ['e − 1 ≈ 1,72', 'e ≈ 2,72', '2'],
@@ -495,7 +496,7 @@ export const level: LevelSpec = {
       Scene: LeakDemo,
       beats: [
         {
-          say: 'La fuga empieza en 6 mil m³/h y se reduce a la mitad aproximadamente cada 1,4 horas.',
+          say: 'La fuga empieza en 6 mil m³/h y se reduce a la mitad aproximadamente cada 1,4 horas. Para calcular lo perdido en las primeras cuatro horas, necesitamos integrar el caudal en ese intervalo.',
           ask: {
             prompt: 'Para integrar $6\\,e^{-0{,}5t}$, ¿qué sustitución conviene?',
             options: ['$u=-0{,}5t$', '$u=e^{t}$', '$u=6t$'],
@@ -506,7 +507,7 @@ export const level: LevelSpec = {
           note: { label: 'Primitiva de la fuga', tex: '\\int6e^{-0{,}5t}dt=-12\\,e^{-0{,}5t}+C' },
         },
         {
-          say: 'En las primeras cuatro horas se pierden más de diez mil metros cúbicos.',
+          say: 'En las primeras cuatro horas se pierden aproximadamente 10,4 mil metros cúbicos. Es el área acumulada bajo la curva de caudal en ese intervalo.',
           dur: 1.8,
           note: { label: 'Pérdida en 4 h', tex: '12\\,(1-e^{-2})\\approx10{,}4', body: 'Mil m³.' },
         },
