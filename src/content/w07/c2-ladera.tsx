@@ -196,7 +196,16 @@ const lesson: LessonStep = {
     },
   ],
 };
-function SlopeDemo({ beats, answer }: DemoProps) {
+function SlopeDemo({ beats, unlock }: DemoProps) {
+  const [point, setPoint] = useState<string | null>(null);
+  const [direction, setDirection] = useState<string | null>(null);
+  const { beat } = beats;
+  const endpoints: Record<string, [number, number]> = {
+    '(4, 4)': [4, 4],
+    '(3, 5)': [3, 5],
+    '(4, 5)': [4, 5],
+  };
+  const selected = point ? endpoints[point] : null;
   return (
     <Stage>
       <Axes
@@ -208,18 +217,40 @@ function SlopeDemo({ beats, answer }: DemoProps) {
       />
       <ContourMap P={SEARCH} f={H} levels={LEVELS} />
       <Dot x={SEARCH.x(3)} y={SEARCH.y(4)} color={C.green} />
-      <Cap x={SEARCH.x(3) - 30} y={SEARCH.y(4) - 25} tex="(3,4)" />
-      <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(4.8, 4)} color={C.amber} width={4} />
-      <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(3, 5.2)} color={C.magenta} width={4} />
+      <Cap x={SEARCH.x(3) - 35} y={SEARCH.y(4) - 25} tex="(3,4)" />
+      {beat === 0 && Object.entries(endpoints).map(([label, [x, y]]) => (
+        <g key={label}>
+          <Dot x={SEARCH.x(x)} y={SEARCH.y(y)} color={point === label ? C.amber : C.line} />
+          <Cap x={SEARCH.x(x) + 35} y={SEARCH.y(y) - 25} size={24}>{label}</Cap>
+        </g>
+      ))}
+      {beat === 0 && selected && (
+        <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(...selected)} color={C.amber} width={4} />
+      )}
+      {beat >= 1 && (
+        <>
+          <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(4.8, 4)} color={C.amber} width={direction === 'Este' ? 7 : 3} />
+          <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(3, 5.2)} color={C.magenta} width={direction === 'Norte' ? 7 : 3} />
+        </>
+      )}
       <Cap x={1230} y={200} tex="H=200-2x^2-y^2" />
       <Cap x={1230} y={270} tex="H(3,4)=166\,\mathrm m" />
-      <Cap x={1230} y={370} color={C.amber} tex="H_x(3,4)=-12\,\mathrm{m/km}" />
-      <Cap x={1230} y={440} color={C.magenta} tex="H_y(3,4)=-8\,\mathrm{m/km}" />
-      {beats.beat === 1 && answer !== null && (
-        <Cap x={1230} y={540} color={C.green}>
-          Este: baja más por kilómetro.
-        </Cap>
+      <Cap x={1230} y={350} color={C.amber} tex="H_x(3,4)=-12\,\mathrm{m/km}" />
+      {beat >= 1 && <Cap x={1230} y={420} color={C.magenta} tex="H_y(3,4)=-8\,\mathrm{m/km}" />}
+      {beat === 0 && (
+        <Choices x={1230} y={510} options={['(4, 4)', '(3, 5)', '(4, 5)']} value={point} onPick={(v) => {
+          setPoint(v);
+          if (beat === 0 && v === '(4, 4)') unlock();
+        }} />
       )}
+      {beat === 1 && (
+        <Choices x={1230} y={510} options={['Este', 'Norte', 'Igual']} value={direction} onPick={(v) => {
+          setDirection(v);
+          if (beat === 1 && v === 'Este') unlock();
+        }} />
+      )}
+      {beat === 1 && direction === 'Igual' && <Cap x={1230} y={590} size={24}>Compara los descensos por kilómetro.</Cap>}
+      {beat >= 2 && <Cap x={1230} y={540} color={C.green} size={24}>Este: baja más por kilómetro.</Cap>}
     </Stage>
   );
 }
@@ -374,19 +405,18 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El terreno es $H(x,y)=200-2x^2-y^2$ en metros, con coordenadas en kilómetros. En (3, 4), la altura es 166 m.',
-          dur: 2.4,
+          gate: '¿A qué punto llegas si avanzas 1 km hacia el este desde (3, 4), dejando fija la coordenada norte? Elige el punto para trazar el recorrido.',
+          after: 'El recorrido va de (3, 4) a (4, 4): x aumenta 1 km e y queda en 4. En el punto inicial, la pendiente hacia el este es −12 m/km.',
           note: { label: 'Pendiente este', tex: 'H_x(3,4)=-12\\,\\mathrm{m/km}' },
         },
         {
           say: 'La parcial hacia el norte es $H_y(3,4)=-8$ m/km. Ambas son negativas: en ambos sentidos positivos bajas.',
-          ask: {
-            prompt: '¿En qué dirección de los ejes baja más rápido?',
-            options: ['Hacia el este (x crece)', 'Hacia el norte', 'Igual'],
-            answer: 0,
-            explain:
-              'Hacia el este baja 12 m por kilómetro; hacia el norte, 8. Entre esos dos ejes, el este tiene mayor descenso.',
-          },
+          gate: '¿En qué dirección de los ejes baja más rápido? Elige una dirección y compara las flechas del mapa.',
+          after: 'Hacia el este baja 12 m por kilómetro; hacia el norte, 8 m por kilómetro. Entre esos dos ejes, el este tiene mayor descenso.',
           note: { label: 'Pendiente norte', tex: 'H_y(3,4)=-8\\,\\mathrm{m/km}' },
+        },
+        {
+          say: 'En (3, 4), las parciales describen la pendiente local en cada eje: −12 m/km hacia el este y −8 m/km hacia el norte.',
         },
       ],
     },
