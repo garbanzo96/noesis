@@ -144,8 +144,9 @@ const lesson: LessonStep = {
   Scene: ProductLesson,
   beats: [
     {
-      say: 'El rectángulo tiene lados $u=x^2$ y $v=3x+1$. Al mover $x$, el área crece en dos franjas y una esquina que se vuelve despreciable al reducir el cambio.',
-      gate: 'Arrastra x hasta 1,15 o más; luego acércalo a 1 hasta quedar a menos de 0,05.',
+      say: 'El área del rectángulo es el producto de sus lados, $u=x^2$ y $v=3x+1$. En $x=1$, esos lados valen 1 y 4. Al aumentar $x$ en $h$, el área gana dos franjas y una esquina.\n\n$\\Delta u$ se lee «delta u» y representa el cambio de $u$; lo mismo ocurre con $\\Delta v$. La derivada mide el cambio del área por unidad de cambio de $x$ cuando $h$ tiende a cero.',
+      gate: 'Arrastra $x$ hasta 1,15 o más y luego acércalo a 1 hasta quedar a menos de 0,05. Observa cómo cambia la esquina respecto de las franjas.',
+      after: 'Al acercar $x$ a 1, la esquina disminuye más rápido que las franjas y el cociente de cambio se acerca a 11. En el límite, los dos aportes de las franjas dan la derivada del producto.',
       board: [
         {
           label: 'Aumento de área',
@@ -160,7 +161,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Deriva un lado y conserva el otro; luego suma el segundo aporte. Expandir el producto primero da el mismo resultado.',
+      say: "La **regla del producto** dice que, si $u$ y $v$ son derivables, $(uv)'=u'v+uv'$. Se lee «la derivada de u por v es u prima por v más u por v prima». Permite calcular el cambio cuando ambos factores dependen de $x$.\n\nPara $u=x^2$ y $v=3x+1$, los aportes son $2x(3x+1)$ y $3x^2$. Al sumarlos se obtiene $9x^2+2x$; expandir primero el producto da el mismo resultado.",
       dur: 3,
       board: [
         {
@@ -176,7 +177,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: "Multiplicar las dos derivadas omite los aportes de las franjas. Aquí $u'v'=6x$, que en $x=1$ da 6.",
+      say: "Un error frecuente es multiplicar las derivadas de los factores para obtener la derivada del producto. Esa operación omite los dos aportes de la regla. Aquí $u'v'=6x$, que en $x=1$ vale 6; compara ese valor con la derivada del producto calculada en el paso anterior.",
       ask: {
         prompt: "¿Cuánto vale $(uv)'$ en $x=1$?",
         options: ['11', '6', '4'],
@@ -192,7 +193,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para un cociente, resta los aportes en el numerador y divide por el cuadrado del denominador. En $q=x/(x+1)$, el numerador queda igual a 1.',
+      say: "La **regla del cociente** permite derivar $u/v$ cuando $u$ y $v$ son derivables y $v$ es distinto de cero. Se lee: «u prima por v menos u por v prima, dividido por v al cuadrado». El orden de la resta importa y el denominador va al cuadrado.\n\nPara $q=x/(x+1)$, con $x\\ne -1$, el numerador de la derivada es $(x+1)-x=1$. Así, $q'(x)=1/(x+1)^2$; $q'$ se lee «cu prima».",
       ask: {
         prompt: "¿Cuánto vale $q'(1)$?",
         options: ['0,25', '0,5', '1'],
@@ -210,7 +211,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'En un producto se suman dos aportes. En un cociente se restan y se divide por el cuadrado del denominador.',
+      say: 'Para funciones derivables, la regla del producto suma los dos aportes: cada derivada se multiplica por el otro factor. La regla del cociente los resta en el orden indicado y divide por el cuadrado del denominador, que debe ser distinto de cero.',
       dur: 2.6,
       board: [
         {
@@ -564,8 +565,9 @@ export const level: LevelSpec = {
       Scene: ProductDemo,
       beats: [
         {
-          say: 'La potencia es el área de un rectángulo de lados $V$ e $I$. En un instante, los dos lados crecen un poco.',
-          gate: 'Achica Δt hasta 0,05 s.',
+          say: 'La potencia $P=VI$ es el área de un rectángulo de lados $V$ e $I$. Los dos lados crecen y necesitamos medir cuánto aumenta la potencia en un intervalo cada vez más corto.',
+          gate: 'Achica $\\Delta t$ hasta 0,05 s o menos y observa cómo cambia la proporción de la esquina roja.',
+          after: 'Con $\\Delta t$ entre 0,02 y 0,05 s, la esquina representa entre 0,3 % y 0,7 % del aumento. Su aporte se reduce al acortar el intervalo, mientras el ritmo medio se acerca a 7 000 W/s.',
           note: {
             label: 'Regla del producto',
             tex: "(f\\,g)'=f'\\,g+f\\,g'",
@@ -573,7 +575,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: '$V=400$ V sube a 100 V/s; $I=30$ A sube a 10 A/s.',
+          say: '$V=400$ V sube a 100 V/s; $I=30$ A sube a 10 A/s. Necesitamos combinar ambos cambios para calcular el ritmo instantáneo de la potencia.',
           ask: {
             prompt: '¿A qué ritmo crece la potencia?',
             options: ['7 000 W/s', '1 000 W/s', '12 000 W/s'],
@@ -584,7 +586,7 @@ export const level: LevelSpec = {
           note: { label: 'El error típico', tex: "(f\\,g)'\\ne f'\\,g'" },
         },
         {
-          say: 'La resistencia aparente es $R=V/I$. Para un cociente hay otra regla.',
+          say: 'La resistencia aparente es $R=V/I$. Con los mismos datos, la regla del cociente permite determinar cómo cambia esa relación.',
           ask: {
             prompt: 'Con los mismos datos, ¿la resistencia sube o baja?',
             options: [
@@ -602,7 +604,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La regla del producto también sirve para fórmulas.',
+          say: 'La regla del producto también sirve para derivar una fórmula con dos factores. Revisemos el modelo $h(x)$ en $x=1$.',
           ask: {
             prompt: "¿Cuánto vale $h'(1)$ para $h(x)=(x^2+1)(3x-2)$?",
             options: ['8', '6', '2'],
