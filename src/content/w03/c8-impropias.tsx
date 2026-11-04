@@ -151,8 +151,9 @@ const lesson: LessonStep = {
   Scene: ImproperLesson,
   beats: [
     {
-      say: '¿Tiene sentido el área bajo $e^{-x}$ desde 0 hasta el infinito? Se calcula hasta un $b$ cualquiera y se mira qué pasa cuando $b$ crece sin fin.',
-      gate: 'Arrastra b lo más lejos posible.',
+      say: 'Una **integral impropia** puede tener un extremo infinito. Se define mediante el límite de integrales en intervalos finitos, siempre que esas integrales existan. La notación $b\\to\\infty$ se lee «b tiende a infinito»: el corte crece sin límite.\n\nPara $e^{-x}$, el área hasta $b$ es $1-e^{-b}$; la integral sirve para calcular el área total sin sustituir infinito como si fuera un número.',
+      gate: 'Arrastra $b$ hacia la derecha hasta el extremo y observa cómo cambia el área acumulada.',
+      after: 'Al llegar a $b\\ge 11{,}5$, el área mostrada se redondea a 1. El límite es 1: extender el intervalo añade cada vez menos área.',
       board: [
         {
           label: 'Integral impropia',
@@ -166,7 +167,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Dos curvas que se parecen pueden comportarse distinto: el área bajo $1/x^2$ se acerca a 1, pero la de $1/x$ crece sin límite, aunque muy lento.',
+      say: 'Una integral impropia **converge** si el límite que la define es finito; **diverge** si ese límite no es finito o no existe. Para $1/x^2$ desde 1, el área se acerca a 1; para $1/x$, crece sin límite, aunque lentamente.\n\nAmbas funciones tienden a cero, pero eso por sí solo no garantiza un área finita. Aquí $\\ln b$ se lee «logaritmo natural de b».',
       dur: 4,
       board: [
         {
@@ -182,7 +183,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La frontera está en la potencia: $1/x^p$ tiene área finita en $[1,\\infty)$ solo si baja más rápido que $1/x$.',
+      say: 'El **criterio p** permite decidir si el área bajo $1/x^p$ desde 1 hasta infinito es finita, comparando el exponente $p$ con 1. Se lee «uno sobre x elevado a p». La frontera es $p=1$: revisa la condición de la pizarra antes de responder. Que la función tienda a cero no basta para concluir que el área sea finita.',
       ask: {
         prompt: '¿Converge $\\int_1^\\infty\\frac{dx}{x^{1{,}5}}$?',
         options: ['Sí: p = 1,5 > 1', 'No: nunca llega a 0', 'Solo si se corta en 1000'],
@@ -196,7 +197,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'También puede ser infinita la altura: $1/\\sqrt x$ se dispara en 0, y aun así el área entre 0 y 1 es finita.',
+      say: 'Una integral también es impropia cuando la función crece sin límite en un extremo del intervalo. En $1/\\sqrt x$, leído «uno sobre raíz de x», eso ocurre al acercarse a 0 por la derecha. Se integra desde $\\varepsilon>0$ hasta 1 y luego se toma el límite cuando $\\varepsilon$ tiende a 0 por valores positivos. El área resulta finita: vale 2.',
       dur: 3.4,
       board: {
         label: 'Altura infinita',
@@ -205,7 +206,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Volvamos a la fuga de la válvula vieja: gotea para siempre, pero cada vez menos.',
+      say: 'Volvamos a la fuga de la válvula vieja: su caudal disminuye con el tiempo y sigue siendo positivo. Integrar el caudal desde $t=0$ hasta infinito permite calcular el volumen perdido. Para un modelo $Ae^{-kt}$ con $k>0$, se integra hasta un tiempo finito y se toma el límite; usa la regla de la pizarra para responder.',
       ask: {
         prompt: '¿Cuánta agua perderá en total, si nadie la cierra?',
         options: ['12 mil m³', 'Infinita', '6 mil m³'],
@@ -450,7 +451,7 @@ export const level: LevelSpec = {
       Scene: TotalDemo,
       beats: [
         {
-          say: 'El área perdida mientras pasan las horas.',
+          say: 'El área bajo el caudal representa el volumen perdido a medida que pasan las horas. Veamos cuánto se acumula con el modelo de la válvula.',
           dur: 3,
           note: {
             label: 'Pérdida total',
@@ -459,7 +460,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Teo propone otro modelo para el sensor que deriva: $\\tfrac{3}{t+0{,}5}$, que también tiende a 0.',
+          say: 'Teo propone otro modelo para el sensor que deriva: $\\tfrac{3}{t+0{,}5}$, que también tiende a 0. Comparemos qué ocurre con la pérdida acumulada si la fuga sigue para siempre.',
           ask: {
             prompt: '¿Daría una pérdida total finita?',
             options: [
