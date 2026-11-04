@@ -1,5 +1,6 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { clamp } from '../../engine/anim';
+import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Html, Stage, plane } from '../../engine/Stage';
 import { Axes, Curve } from '../../engine/shapes';
@@ -12,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap, NumberLine, lineMap } from '../shared/lesson';
 import { pick, rng, shuffle } from '../shared/rng';
-import { Choices, Confirm, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { MatInput } from '../w04/kit';
 import { Shade, gauss, num, pdf } from './kit';
 
@@ -257,20 +258,45 @@ const lesson: LessonStep = {
 };
 
 // ---------------------------------------------------------------- demo
-function RealAgeDemo({ beats, answer }: DemoProps) {
+function RealAgeDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef(false);
+  const [margin, setMargin] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
   const X = lineMap(60, 76, 300, 1140);
-  const ci = beat >= 1 && (beat > 1 || answer !== null);
+  useEffect(() => { unlocked.current = false; }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 1) return;
+    const next = clamp((x - X(66)) / (X(70) - X(66)) * 4, 0, 4);
+    setMargin(next);
+    if (Math.abs(next - 1.96) <= 0.08 && !unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  });
+  const mark = (value: number) => {
+    if (beat !== 2) return;
+    setSelected(value);
+    if (value === 72 && !unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  };
+  const displayedMargin = beat === 1 ? margin : 1.96;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <NumberLine X={X} y={480} lo={60} hi={76} step={1} labelEvery={2} />
       <circle cx={X(66)} cy={470} r={10} fill={C.cyan} opacity={beat === 0 ? at(0) : 1} />
-      <Cap x={X(66)} y={430} size={22} color={C.cyan} tex="\bar x=66" />
-      {ci && (
+      <Cap x={X(66)} y={430} size={24} color={C.cyan} tex="\bar x=66" />
+      {beat >= 1 && (
         <>
-          <line x1={X(64.04)} x2={X(67.96)} y1={390} y2={390} stroke={C.cyan} strokeWidth={6} />
-          <Cap x={X(64.04)} y={360} size={18} color={C.cyan} tex="64{,}04" />
-          <Cap x={X(67.96)} y={360} size={18} color={C.cyan} tex="67{,}96" />
+          <line x1={X(66 - displayedMargin)} x2={X(66 + displayedMargin)} y1={390} y2={390} stroke={C.cyan} strokeWidth={6} />
+          {beat === 1 && <Knob x={X(66 + margin)} y={390} onPointerDown={drag} axis="x" />}
+          {beat === 2 && <>
+            <Cap x={X(64.04)} y={350} size={24} color={C.cyan} tex="64{,}04" />
+            <Cap x={X(67.96)} y={350} size={24} color={C.cyan} tex="67{,}96" />
+          </>}
         </>
       )}
       <line
@@ -282,11 +308,21 @@ function RealAgeDemo({ beats, answer }: DemoProps) {
         strokeWidth={4}
         opacity={beat === 2 ? 1 : 0.4}
       />
-      <Cap x={X(72)} y={350} size={18} color={C.magenta}>
+      <Cap x={X(72)} y={350} size={24} color={C.magenta}>
         informe: 72
       </Cap>
-      <Cap x={1370} y={230} size={22} color={C.text} tex="n=64,\ \sigma=8,\ \text{EE}=1" />
-      {ci && <Cap x={1370} y={290} size={22} color={C.cyan} tex="66\pm1{,}96" />}
+      <Cap x={1370} y={230} size={24} color={C.text} tex="n=64,\ \sigma=8,\ \text{EE}=1" />
+      {beat === 1 && <Cap x={1370} y={310} size={24} color={C.cyan} tex={`E=${num(margin, 2)}`} />}
+      {beat === 2 && <>
+        {[65, 66, 72].map((value) => (
+          <Html key={value} x={X(value)} y={580} size={24} interactive>
+            <button className={`stage-btn${selected === value ? ' on' : ''}`} onClick={() => mark(value)}>{value}</button>
+          </Html>
+        ))}
+        {selected !== null && <Cap x={720} y={680} size={24} color={selected === 72 ? C.magenta : C.cyan}>
+          {selected === 72 ? '72 queda fuera del intervalo.' : `${selected} queda dentro del intervalo.`}
+        </Cap>}
+      </>}
     </Stage>
   );
 }
@@ -521,29 +557,15 @@ export const level: LevelSpec = {
           note: { label: 'La muestra', tex: 'n=64,\\ \\bar x=66,\\ \\text{EE}=1' },
         },
         {
-          say: 'Teo calcula el intervalo del 95 %.',
-          ask: {
-            prompt: '¿Cuál es el intervalo de confianza del 95 %?',
-            options: ['[64,04 ; 67,96]', '[58 ; 74]', '[65 ; 67]'],
-            answer: 0,
-            explain:
-              '$66\\pm1{,}96\\cdot1$. El intervalo $[58;74]$ usa $\\sigma$ en vez del error estándar.',
-          },
+          say: '¿Cuál es el intervalo de confianza del 95 %? Usa el factor 1,96 y el error estándar de la muestra.',
+          gate: 'Arrastra el extremo derecho para construir el intervalo alrededor de 66.',
+          after: 'El margen es $1{,}96\\cdot1=1{,}96$. El intervalo va de 64,04 a 67,96 años.',
           note: { label: 'IC 95 % de la edad media', tex: '66\\pm1{,}96=[64{,}04;\\ 67{,}96]' },
         },
         {
-          say: 'El informe oficial afirma 72 años.',
-          ask: {
-            prompt: '¿Es compatible con la muestra?',
-            options: [
-              'No: 72 queda muy fuera del intervalo',
-              'Sí: está cerca',
-              'No se puede saber sin más datos',
-            ],
-            answer: 0,
-            explain:
-              'Un procedimiento que acierta el 95 % de las veces deja a 72 a más de 4 unidades del borde. El informe no describe a los vacunados reales.',
-          },
+          say: 'El informe oficial afirma 72 años. ¿Es compatible con la muestra?',
+          gate: 'Marca en la recta el valor que queda fuera del intervalo.',
+          after: '72 queda fuera de $[64{,}04; 67{,}96]$, a 4,04 años del extremo superior. El informe no describe a los vacunados reales.',
           note: { label: 'El informe no cuadra', tex: '72\\notin[64{,}04;\\ 67{,}96]' },
         },
       ],
