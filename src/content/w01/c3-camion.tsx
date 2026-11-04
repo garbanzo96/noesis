@@ -515,7 +515,13 @@ function Logs({ seed, round, api }: ChallengeProps) {
           <g key={s}>
             <Dot x={PC.x(s)} y={PC.y(d.ds[i])} r={8} color={C.violet} />
             {i > 0 && (
-              <Html x={PC.x(s) - 10} y={PC.y(d.ds[i]) - 24} size={16} anchor="right" color={C.text}>
+              <Html
+                x={PC.x(s) + (i === 1 ? 12 : -10)}
+                y={PC.y(d.ds[i]) + (i === 1 ? 26 : -24)}
+                size={16}
+                anchor={i === 1 ? 'left' : 'right'}
+                color={C.text}
+              >
                 <span className="prop-tag">
                   {hhmm(s)} · {dec(d.ds[i])} km
                 </span>

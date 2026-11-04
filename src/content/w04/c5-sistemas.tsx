@@ -374,10 +374,10 @@ function GhostDemo({ beats, answer }: DemoProps) {
         opacity={beat === 0 ? clamp(at(0) * 2 - 1, 0, 1) : 1}
       />
       {solved && <Dot x={PD.x(3)} y={PD.y(6)} r={11} color={C.green} />}
-      <Cap x={1380} y={220} size={22} color={C.muted}>
+      <Cap x={1330} y={220} size={22} color={C.muted}>
         x: mantención (2 vagones)
       </Cap>
-      <Cap x={1380} y={260} size={22} color={C.muted}>
+      <Cap x={1330} y={266} size={22} color={C.muted}>
         y: carga (4 vagones)
       </Cap>
       {solved && <Cap x={1380} y={340} size={26} color={C.green} tex="(x,y)=(3,6)" />}

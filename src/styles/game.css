@@ -2228,7 +2228,7 @@ strong {
   letter-spacing: 0.18em;
   color: var(--magenta);
 }
-@media (max-width: 1100px) {
+@media (max-width: 959px) {
   .play.with-notes {
     grid-template-columns: 1fr;
   }

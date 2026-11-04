@@ -2179,7 +2179,7 @@
   --stage-text: 1.18;
   --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
 }
-@media (max-width: 900px), (max-height: 520px) {
+@media (max-width: 1099px), (max-height: 520px) {
   :root {
     --label-min: 12px;
     --stage-text: 1.05;
@@ -2272,7 +2272,7 @@
 }
 
 /* apaisado y con espacio: consola en columna a la derecha, toda la altura */
-@media (min-width: 1100px) and (min-aspect-ratio: 13/10) {
+@media (min-width: 960px) and (min-aspect-ratio: 13/10) {
   .play.with-notes,
   .play.with-notes.lesson {
     --side-w: clamp(340px, 26vw, 460px);
@@ -2371,7 +2371,7 @@
     grid-row: 1;
   }
 }
-@media (min-width: 1100px) and (min-aspect-ratio: 13/10) {
+@media (min-width: 960px) and (min-aspect-ratio: 13/10) {
   /* el botón de la pizarra vive en la columna del escenario, no sobre la consola */
   .play.with-notes .rail-toggle {
     right: calc(var(--side-w) + 14px);
@@ -2678,7 +2678,7 @@
 }
 
 /* dos o más fórmulas van lado a lado: apiladas ocupaban todo el alto y dejaban el dibujo diminuto */
-@media (min-width: 1100px) and (min-aspect-ratio: 13/10) {
+@media (min-width: 960px) and (min-aspect-ratio: 13/10) {
   .play-stage > .focus-strip:has(.focus-line + .focus-line) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
