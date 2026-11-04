@@ -221,25 +221,50 @@ const lesson: LessonStep = {
   ],
 };
 
-function RecipeDemo({ beats, answer }: DemoProps) {
+function RecipeDemo({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const [state, setState] = useState<string | null>(null);
+  const [viewed, setViewed] = useState(2);
+  const [discarded, setDiscarded] = useState<number | null>(null);
+  const unlocked = useRef([false, false]);
+  const chooseState = (value: string) => {
+    setState(value);
+    if (beat === 0 && value === 'sano' && !unlocked.current[0]) {
+      unlocked.current[0] = true;
+      unlock();
+    }
+  };
+  const discardCandidate = (index: number) => {
+    setDiscarded(index);
+    setViewed(index);
+    if (beat === 1 && index === 1 && !unlocked.current[1]) {
+      unlocked.current[1] = true;
+      unlock();
+    }
+  };
   return (
     <Stage>
-      <Humps p={P} q={FAMILY[2]} />
-      <Cap x={1250} y={200} size={22}>
-        Receta guardada: q₃
-      </Cap>
-      <Cap x={1250} y={290} tex="KL(q_3\Vert p)\approx0{,}86" size={23} />
-      {answer !== null &&
-        (beats.beat === 0 ? (
-          <Cap x={1250} y={380} tex="KL(p\Vert q_3)=+\infty" color={C.magenta} />
-        ) : (
-          <>
-            <Cap x={1250} y={380} tex="KL(q_1\Vert p)=KL(q_3\Vert p)" size={21} color={C.green} />
-            <Cap x={1250} y={470} size={20}>
-              La elección de lado quedó en la receta.
-            </Cap>
-          </>
-        ))}
+      <Humps p={P} q={beat === 1 ? FAMILY[viewed] : FAMILY[2]} />
+      <Cap x={1250} y={190} size={26}>Receta guardada: q₃</Cap>
+      {beat === 0 && (
+        <>
+          <Cap x={1250} y={280} size={24}>Marca el estado omitido</Cap>
+          {LABELS.map((label, i) => (
+            <Choices key={label} x={1250} y={370 + i * 85} options={[label]} value={state} onPick={chooseState} />
+          ))}
+          {state !== null && <Cap x={1250} y={670} size={24}>{`Marcaste: ${state}`}</Cap>}
+        </>
+      )}
+      {beat === 1 && (
+        <>
+          <Cap x={1250} y={280} size={24}>Descarta la candidata de mayor costo</Cap>
+          {[0, 1, 2].map((i) => (
+            <Choices key={i} x={1250} y={370 + i * 85} options={[i]} value={discarded} onPick={discardCandidate} render={() => `q${i + 1}: ${fmt(kl2(FAMILY[i], P), 4)} bits`} />
+          ))}
+          {discarded !== null && <Cap x={1250} y={670} size={24}>{`Intento: descartar q${discarded + 1}`}</Cap>}
+        </>
+      )}
+      {beat === 2 && <Cap x={1250} y={380} size={24}>La elección quedó en la receta.</Cap>}
     </Stage>
   );
 }
@@ -439,37 +464,26 @@ export const level: LevelSpec = {
       Scene: RecipeDemo,
       beats: [
         {
-          say: 'El archivo usa $q_3=(0;0{,}2;0{,}8)$. El control conserva $p=(0{,}45;0{,}1;0{,}45)$. Revisa qué pasa si hacemos la cuenta en la dirección inversa.',
-          ask: {
-            prompt: 'Si inviertes la cuenta, ¿cuánto vale KL(p ‖ q₃)?',
-            options: ['Infinita', '0,86 bits', '0 bits'],
-            answer: 0,
-            explain:
-              'p(sano) = 0,45 y q₃(sano) = 0: el promedio según p incluye log₂(0,45/0). Por eso la KL inversa es infinita.',
-          },
+          say: 'El archivo usa $q_3=(0;0{,}2;0{,}8)$. El control conserva $p=(0{,}45;0{,}1;0{,}45)$. Si inviertes la cuenta, ¿cuánto vale $KL(p\\Vert q_3)$?',
+          gate: 'Compara las barras y marca el estado que la receta deja en cero aunque el control le da probabilidad positiva.',
+          after: 'En sano, $p=0{,}45$ y $q_3=0$. Por eso $KL(p\\Vert q_3)$ es infinita.',
           note: {
             label: 'Lo que la receta omite',
             tex: 'p(S)=0{,}45,\\quad q_3(S)=0,\\quad KL(p\\Vert q_3)=+\\infty',
           },
         },
         {
-          say: 'El archivo conserva la joroba enferma. El posterior es simétrico y la candidata reflejada $q_1$ conserva la sana. Hay que revisar si la comparación de KL exigía elegir el lado enfermo.',
-          ask: {
-            prompt: '¿La menor KL(q ‖ p) obligaba a elegir la joroba enferma?',
-            options: [
-              'No: ambas candidatas laterales empatan',
-              'Sí: enfermo siempre cuesta menos',
-              'Sí: la KL de q₁ es infinita',
-            ],
-            answer: 0,
-            explain:
-              'q₁ y q₃ dan ambas 0,8641 bits. La elección del lado enfermo está en la receta guardada, no determinada por esa comparación.',
-          },
+          say: 'El archivo conserva la joroba enferma. El posterior es simétrico y la candidata reflejada $q_1$ conserva la sana. ¿La menor $KL(q\\Vert p)$ obligaba a elegir la joroba enferma?',
+          gate: 'Compara los costos y descarta la candidata que cuesta más. ¿Cuáles quedan con el menor costo?',
+          after: '$q_1$ y $q_3$ empatan con 0,8641 bits; $q_2$ cuesta 1,9660 bits. La comparación deja dos candidatas y la receta guardó $q_3$.',
           note: {
             label: 'El lado elegido',
             tex: 'KL(q_1\\Vert p)=KL(q_3\\Vert p)\\approx0{,}8641',
             body: 'El Laboratorio guardó q₃: la joroba de los sanos desaparece de la aproximación.',
           },
+        },
+        {
+          say: 'El empate también queda en el informe: el Laboratorio guardó la candidata concentrada en enfermo, aunque la candidata concentrada en sano tiene el mismo costo.',
         },
       ],
     },
