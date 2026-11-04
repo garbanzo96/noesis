@@ -133,7 +133,7 @@ const lesson: LessonStep = {
   Scene: SequenceLesson,
   beats: [
     {
-      say: 'Antes de cualquier test, el 2 % de las personas está enfermo. Esa es la probabilidad de partida.',
+      say: 'La **prevalencia** es la proporción de personas enfermas en la población antes de observar un test. Aquí es 2 %: de 100 000 personas, 2000 están enfermas. $P(E)=0{,}02$ se lee «probabilidad de E igual a cero coma cero dos», donde E significa estar enfermo. Esta probabilidad es el punto de partida para evaluar un resultado.',
       board: {
         label: 'Antes',
         tex: '\\p{1}{P(E)}=\\p{2}{0{,}02}',
@@ -141,7 +141,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un positivo deja en juego a 1800 enfermos y 4900 sanos: la fracción de enfermos sube a 0,27.',
+      say: 'La **probabilidad condicional** mide una probabilidad considerando que ya se observó un hecho. $P(E\\mid+)$ se lee «probabilidad de estar enfermo dado un positivo». Entre los 6700 positivos hay 1800 enfermos y 4900 sanos, por lo que la proporción de enfermos es aproximadamente 0,27. El denominador incluye también a los sanos que dieron positivo.',
       board: {
         label: 'Después de un positivo',
         tex: '\\p{1}{P(E\\mid+)}=\\p{2}{\\tfrac{1800}{1800+4900}}\\p{3}{\\approx0{,}27}',
@@ -153,9 +153,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ahora repite el test solo a quienes dieron positivo. El 0,27 pasa a ser el nuevo punto de partida.',
-      gate: 'Aplica un segundo test positivo y mira cuánto sube la probabilidad desde 0,27.',
-      after: 'Pasa de 0,27 a 0,87. El posterior de un test es el prior del siguiente.',
+      say: 'La **actualización secuencial** incorpora cada resultado usando como punto de partida la probabilidad obtenida con los resultados anteriores. Para repetir el test solo entre quienes dieron positivo, se parte de aproximadamente 0,27. La columna siguiente permite examinar qué ocurre si el segundo resultado también es positivo.',
+      gate: 'Explora la secuencia con la perilla hasta mostrar dos resultados positivos. ¿Cómo cambia la proporción de enfermos entre quienes siguen en juego?',
+      after: 'La proporción pasa de aproximadamente 0,27 a 0,87: quedan 1620 enfermos entre 1865 personas con dos positivos. La probabilidad tras el primer test sirve de punto de partida para el segundo.',
       board: {
         label: 'El resultado se vuelve el punto de partida',
         tex: '\\p{1}{P_{\\text{nuevo}}(E)}=\\p{2}{P(E\\mid+)}',
@@ -163,7 +163,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'En el segundo test, los enfermos vuelven a dar positivo el 90 % de las veces y los sanos solo el 5 %.',
+      say: 'En el segundo test, el 90 % de los enfermos y el 5 % de los sanos dan positivo, suponiendo resultados independientes dado el estado de salud. Para calcular la probabilidad entre quienes obtienen dos positivos, cuenta ambos grupos y divide los enfermos por el total. Multiplicar solo las sensibilidades deja fuera a los sanos que también pueden dar positivo.',
       ask: {
         prompt: '¿Cuánto vale P(E | dos positivos)?',
         options: ['≈ 0,87', '≈ 0,27', '0,90'],
@@ -182,7 +182,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cada test aplica Bayes al resultado del anterior. Con tests independientes, el orden no importa.',
+      say: 'La regla de Bayes permite actualizar la probabilidad después de cada resultado. En la fórmula para otro positivo, $P_n$ se lee «pe sub ene» y es la probabilidad tras $n$ resultados; $P_{n+1}(E)$ se lee «pe sub ene más uno de E». La **sensibilidad** $s$ es la probabilidad de positivo en enfermos y la **especificidad** $e$ es la probabilidad de negativo en sanos.\n\nLa fórmula requiere independencia de los tests dado el estado de salud; bajo esa condición, el orden de los resultados no cambia la probabilidad final.',
       board: {
         label: 'Regla',
         tex: '\\p{1}{P_{n+1}(E)}=\\p{2}{\\frac{s\\,P_n}{s\\,P_n+(1-e)(1-P_n)}}',
@@ -397,9 +397,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'De cada 1000 tests salen 67 positivos: 18 enfermos y 49 sanos. Rocío repite el test a los 67.',
-          gate: 'Arrastra la perilla desde 1 test hasta 2 tests.',
+          gate: 'Repite el test con la perilla y observa cuántos de los 67 positivos vuelven a dar positivo. ¿Cuántos enfermos y sanos quedan en ese grupo?',
           after:
-            'De los 67 quedan cerca de 19 positivos: 16,2 enfermos y 2,45 sanos. Repetir el test limpia los falsos positivos.',
+            'De los 67 quedan cerca de 19 positivos: se esperan 16,2 enfermos y 2,45 sanos. La repetición reduce los falsos positivos, aunque algunos permanecen.',
         },
         {
           say: 'La segunda muestra deja 16,2 enfermos y 2,45 sanos con otro positivo.',
@@ -413,9 +413,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Una persona dio positivo y en la segunda muestra, negativo. Marca ese resultado para ver cuántos enfermos y sanos quedan en ese grupo.',
-          gate: 'Marca «Negativo» como resultado de la segunda muestra.',
+          gate: 'Elige el resultado de la segunda muestra que permite examinar a quienes dieron positivo y luego negativo. Observa cuántos enfermos y sanos quedan.',
           after:
-            'Un negativo después de un positivo baja la probabilidad. Cada resultado multiplica por su propia evidencia.',
+            'Quedan 1,8 enfermos y 46,55 sanos por cada 1000 tests iniciales. La proporción de enfermos baja de aproximadamente 0,27 a 0,04 después del negativo.',
         },
         {
           say: 'Entre quienes dieron positivo y luego negativo quedan 1,8 enfermos y 46,55 sanos por cada 1000 tests iniciales.',
