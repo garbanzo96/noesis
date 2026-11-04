@@ -2,7 +2,7 @@ import { useEffect, useMemo, useRef, useState } from 'react';
 import { clamp } from '../../engine/anim';
 import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
-import { Stage } from '../../engine/Stage';
+import { Html, Stage } from '../../engine/Stage';
 import { Dot, Line } from '../../engine/shapes';
 import type {
   ChallengeProps,
@@ -13,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap, mix } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, dec, parseNum } from '../shared/ui';
 import { Grid, Vec, add, eqV, lattice, n, norm, sc, snap, sub, texV, txtV, type V2 } from './kit';
 
 // ============================================================================
@@ -399,11 +399,28 @@ function Network() {
   );
 }
 
-function TripDemo({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
+function TripDemo({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const [station, setStation] = useState<string | null>(null);
+  const [leg, setLeg] = useState<string | null>(null);
+  const unlocked = useRef(false);
+  useEffect(() => {
+    unlocked.current = false;
+  }, [beat]);
+  const stationOptions = ['Taller El Salto', 'Cocheras Barón', 'Viña'];
+  const legOptions = ['(3, 4)', '(3, −4)', '(−3, 4)'];
+  const end = STATIONS.find((s) => s.name === station)?.at;
+  const chosenLeg: V2 | null = leg === legOptions[0] ? [3, 4] : leg === legOptions[1] ? [3, -4] : leg === legOptions[2] ? [-3, 4] : null;
+  const choose = (value: string) => {
+    if (beat === 1) setStation(value);
+    if (beat === 2) setLeg(value);
+    if (!unlocked.current && ((beat === 1 && value === stationOptions[1]) || (beat === 2 && value === legOptions[1]))) {
+      unlocked.current = true;
+      unlock();
+    }
+  };
   const names = ['\\vec a', '\\vec b', '\\vec c'];
   const cols = [C.cyan, C.amber, C.magenta];
-  const chained = beat >= 2 || (beat === 1 && answer !== null);
   let tail: V2 = [0, 0];
   return (
     <Stage>
@@ -411,7 +428,7 @@ function TripDemo({ beats, answer }: DemoProps) {
       <Network />
       {LEGS.map((v, i) => {
         if (beat === 0 && i > 0) return null;
-        const from = chained ? tail : ([0, 0] as V2);
+        const from = beat >= 2 ? tail : ([0, 0] as V2);
         tail = add(tail, v);
         return (
           <Vec
@@ -420,40 +437,38 @@ function TripDemo({ beats, answer }: DemoProps) {
             v={v}
             from={from}
             color={cols[i]}
-            progress={beat === 0 ? at(0) : 1}
-            opacity={chained || beat === 0 ? 1 : 0.75}
             label={names[i]}
-            off={i === 2 && !chained ? [6, 30] : [0, -28]}
-            size={20}
+            off={i === 2 && beat < 2 ? [6, 30] : [0, -28]}
+            size={24}
           />
         );
       })}
-      {chained && <Vec P={P} v={[3, 4]} color={C.green} width={4} dashed />}
-      {beat === 2 && answer !== null && (
-        <Vec P={P} v={[3, -4]} from={[3, 4]} color={C.red} dashed label="?" off={[30, 0]} />
+      {beat === 1 && (
+        <>
+          {end && <Vec P={P} v={end} color={C.green} width={4} dashed />}
+          <Html x={1360} y={510} size={24} interactive>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4em' }}>
+              {stationOptions.map((name) => (
+                <button key={name} className={`stage-btn ${station === name ? 'on' : ''}`} onClick={() => choose(name)}>
+                  {name}
+                </button>
+              ))}
+            </div>
+          </Html>
+        </>
       )}
-      <Cap x={1360} y={240} size={22} color={C.text} tex="\vec a=(4,1)" />
-      <Cap
-        x={1360}
-        y={290}
-        size={22}
-        color={C.text}
-        tex="\vec b=(2,2)"
-        opacity={beat >= 1 ? 1 : 0.3}
-      />
-      <Cap
-        x={1360}
-        y={340}
-        size={22}
-        color={C.text}
-        tex="\vec c=(-3,1)"
-        opacity={beat >= 1 ? 1 : 0.3}
-      />
-      {chained && (
-        <Cap x={1360} y={410} size={22} color={C.green} tex="\vec a+\vec b+\vec c=(3,4)" />
+      {beat >= 2 && <Vec P={P} v={[3, 4]} color={C.green} width={4} dashed />}
+      {beat === 2 && (
+        <>
+          {chosenLeg && <Vec P={P} v={chosenLeg} from={[3, 4]} color={C.red} dashed />}
+          <Choices x={1360} y={520} options={legOptions} value={leg} onPick={choose} />
+        </>
       )}
-      {beat === 2 && answer !== null && (
-        <Cap x={1360} y={470} size={22} color={C.red} tex="(6,0)-(3,4)=(3,-4)" />
+      <Cap x={1360} y={240} size={24} color={C.text} tex="\vec a=(4,1)" />
+      <Cap x={1360} y={290} size={24} color={C.text} tex="\vec b=(2,2)" opacity={beat >= 1 ? 1 : 0.3} />
+      <Cap x={1360} y={340} size={24} color={C.text} tex="\vec c=(-3,1)" opacity={beat >= 1 ? 1 : 0.3} />
+      {beat >= 2 && (
+        <Cap x={1360} y={410} size={24} color={C.green} tex="\vec a+\vec b+\vec c=(3,4)" />
       )}
     </Stage>
   );
@@ -714,28 +729,15 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Los tramos se encadenan: cada uno parte donde terminó el anterior.',
-          ask: {
-            prompt: '¿Dónde terminó el M-7?',
-            options: [
-              '(3, 4): Cocheras Barón',
-              '(6, 0): Taller El Salto',
-              '(9, 4): fuera de la red',
-            ],
-            answer: 0,
-            explain: 'Componente a componente: $4+2-3=3$ y $1+2+1=4$.',
-          },
+          say: 'Los tramos se encadenan: cada uno parte donde terminó el anterior. ¿Dónde terminó el M-7?',
+          gate: 'Suma los tres desplazamientos y elige la estación de llegada. La flecha verde muestra tu elección.',
+          after: 'Las componentes suman $4+2-3=3$ y $1+2+1=4$. El M-7 terminó en $(3,4)$, Cocheras Barón.',
           note: { label: 'Desplazamiento total', tex: '\\vec a+\\vec b+\\vec c=(3,4)' },
         },
         {
           say: 'El registro oficial dice que terminó en el Taller El Salto, en $(6,0)$. Para eso le falta un tramo que el GPS no tiene.',
-          ask: {
-            prompt: '¿Qué tramo llevaría de las cocheras al taller?',
-            options: ['(3, −4)', '(−3, 4)', '(9, 4)'],
-            answer: 0,
-            explain:
-              'Punta menos cola: $(6,0)-(3,4)=(3,-4)$. Mide $\\sqrt{9+16}=5$ km y no aparece en la bitácora.',
-          },
+          gate: '¿Qué tramo llevaría de las cocheras al taller? Elige sus componentes y observa la flecha roja.',
+          after: 'El tramo es $(6,0)-(3,4)=(3,-4)$. Mide $\\sqrt{9+16}=5$ km y no aparece en la bitácora.',
           note: {
             label: 'Tramo inventado',
             tex: '(6,0)-(3,4)=(3,-4)',
