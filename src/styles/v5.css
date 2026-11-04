@@ -3,7 +3,7 @@
    Breakpoints:
      cajón      (max-width: 1699px), (max-height: 640px)  → pizarra/cuaderno en cajón
      horizontal bajo (max-height: 520px) and (orientation: landscape) → escenario | consola
-     vertical   (max-width: 700px) and (orientation: portrait)
+     vertical   (max-width: 700px) and (orientation: portrait); la consola apilada abarca más
    ===================================================================================== */
 
 :root {
@@ -255,7 +255,7 @@
   line-height: 1.5;
 }
 .console-speaker span {
-  font-size: 11px;
+  font-size: 12px;
 }
 .console-actions {
   min-width: 160px;
@@ -649,7 +649,7 @@
     border-top: none;
     border-left: 1px solid var(--line2);
     grid-template-columns: minmax(0, 1fr);
-    align-content: start;
+    grid-template-rows: auto minmax(0, 1fr) auto;
   }
   .console-speaker {
     flex-direction: row;
@@ -683,11 +683,12 @@
   }
 }
 
-/* vertical en celular: escenario arriba, consola debajo con desplazamiento */
-@media (max-width: 700px) and (orientation: portrait) {
+/* vertical o angosto: escenario arriba a tamaño fijo, consola debajo con lo que quede.
+   Es la única disposición apilada: repartir el alto dejaba el dibujo aplastado por las fórmulas */
+@media (min-height: 521px) and (max-width: 759px), (min-height: 521px) and (max-aspect-ratio: 1/1) {
   .play.with-notes,
   .play.with-notes.lesson {
-    grid-template-rows: auto minmax(0, 1fr);
+    grid-template-rows: auto minmax(200px, 1fr);
   }
   .play.with-notes > .play-stage {
     height: auto;
@@ -699,7 +700,6 @@
   }
   .play.with-notes > .console {
     max-height: none;
-    overflow-y: auto;
   }
   .focus-strip {
     max-height: none;
@@ -1201,7 +1201,7 @@
 }
 .atlas-route span {
   flex-basis: 100%;
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
 }
 .atlas-route em {
@@ -1210,7 +1210,7 @@
   border: 1px solid color-mix(in srgb, var(--accent) 45%, transparent);
   padding: 2px 8px;
   border-radius: 999px;
-  font-size: 11px;
+  font-size: 12px;
 }
 .menu-list-symbol .tex {
   font-weight: 400;
@@ -1219,7 +1219,7 @@
 /* ---------------------------------------------------------------- city map (atlas) */
 .cm-name {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   fill: #4a4370;
   pointer-events: none;
@@ -1242,7 +1242,7 @@
 }
 .cm-credit {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   fill: #3f3866;
 }
 .cm-station {
@@ -1659,7 +1659,7 @@
 }
 .chapter-topics span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   color: var(--dim);
 }
@@ -1777,7 +1777,7 @@
 .title-go small,
 .atlas-continue small {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.06em;
   text-transform: none;
   opacity: 0.8;
@@ -2041,7 +2041,7 @@
 }
 .res-head .res-tab b {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   opacity: 0.7;
 }
 
@@ -2159,7 +2159,7 @@
   list-style: none;
   margin-left: -1.2em;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   text-transform: uppercase;
   color: var(--amber);
@@ -2265,14 +2265,64 @@
   line-height: 1.5;
 }
 .console-tex {
+  /* una integral o fracción display sobresale de su caja: que no toque lo que sigue */
+  margin-bottom: 14px;
   font-size: 26px;
 }
 .console-sub {
   font-size: 16px;
 }
 
+/* el borde inferior se desvanece mientras quede texto más abajo */
+@property --more {
+  syntax: '<length>';
+  inherits: false;
+  initial-value: 0px;
+}
+@keyframes console-more {
+  from,
+  92% {
+    --more: 56px;
+  }
+  to {
+    --more: 0px;
+  }
+}
+
+/* en todas las disposiciones el texto se desplaza en su caja y los botones quedan a la vista.
+   Con align-items: start el texto crecía sobre los botones y su scroll nunca se activaba */
+.console {
+  grid-template-rows: minmax(0, 1fr) auto;
+  align-items: stretch;
+  overflow: hidden;
+}
+.console-body {
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding-right: 10px;
+  mask-image: linear-gradient(to bottom, #000 calc(100% - var(--more)), transparent);
+  animation: console-more linear;
+  animation-timeline: scroll(self);
+}
+/* barra siempre visible: la de macOS se esconde y el texto parecía terminar en el borde */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  border-radius: 4px;
+  background: var(--dim);
+}
+@supports not selector(::-webkit-scrollbar) {
+  .console-body {
+    scrollbar-width: thin;
+    scrollbar-color: var(--dim) transparent;
+  }
+}
+
 /* apaisado y con espacio: consola en columna a la derecha, toda la altura */
-@media (min-width: 960px) and (min-aspect-ratio: 13/10) {
+@media (min-width: 760px) and (min-height: 521px) and (min-aspect-ratio: 1/1) {
   .play.with-notes,
   .play.with-notes.lesson {
     --side-w: clamp(340px, 26vw, 460px);
@@ -2314,18 +2364,11 @@
     flex-direction: row;
     justify-content: flex-start;
     gap: 12px;
-    font-size: 11px;
+    font-size: 12px;
   }
   .play.with-notes > .console .console-face {
     width: 52px;
     height: 52px;
-  }
-  .play.with-notes > .console .console-body {
-    min-height: 0;
-    overflow-y: auto;
-    padding-right: 6px;
-    scrollbar-width: thin;
-    scrollbar-color: var(--line2) transparent;
   }
   .play.with-notes > .console .console-text {
     max-width: none;
@@ -2371,7 +2414,7 @@
     grid-row: 1;
   }
 }
-@media (min-width: 960px) and (min-aspect-ratio: 13/10) {
+@media (min-width: 760px) and (min-height: 521px) and (min-aspect-ratio: 1/1) {
   /* el botón de la pizarra vive en la columna del escenario, no sobre la consola */
   .play.with-notes .rail-toggle {
     right: calc(var(--side-w) + 14px);
@@ -2678,7 +2721,7 @@
 }
 
 /* dos o más fórmulas van lado a lado: apiladas ocupaban todo el alto y dejaban el dibujo diminuto */
-@media (min-width: 960px) and (min-aspect-ratio: 13/10) {
+@media (min-width: 760px) and (min-height: 521px) and (min-aspect-ratio: 1/1) {
   .play-stage > .focus-strip:has(.focus-line + .focus-line) {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));

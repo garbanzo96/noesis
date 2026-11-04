@@ -51,7 +51,7 @@ select {
 }
 kbd {
   font-family: var(--mono);
-  font-size: 0.72em;
+  font-size: max(0.72em, 12px);
   border: 1px solid var(--line2);
   border-bottom-width: 2px;
   padding: 1px 6px;
@@ -409,7 +409,7 @@ strong {
 }
 .topbar-rank small {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
 }
 .topbar-right {
@@ -500,7 +500,7 @@ strong {
 }
 .eyebrow {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   color: var(--accent);
 }
@@ -517,7 +517,7 @@ strong {
 }
 .level-card-code {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   color: var(--dim);
 }
@@ -537,7 +537,7 @@ strong {
 .atlas-route {
   margin-top: 26px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
 }
 .toast {
@@ -612,7 +612,7 @@ strong {
 }
 .level-card-best {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
 }
 
@@ -663,7 +663,7 @@ strong {
   gap: 6px;
   padding: 4px 10px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
   border-bottom: 2px solid var(--line);
 }
@@ -691,7 +691,7 @@ strong {
 .hud-stars small {
   margin-left: 8px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   color: var(--dim);
 }
 .hud-menu {
@@ -785,7 +785,7 @@ strong {
   border: none;
   color: var(--dim);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   letter-spacing: 0.06em;
 }
@@ -922,7 +922,7 @@ strong {
   align-items: center;
   gap: 4px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   color: var(--dim);
 }
@@ -969,7 +969,7 @@ strong {
 }
 .keyhint {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
   display: inline-flex;
   gap: 6px;
@@ -1080,7 +1080,7 @@ strong {
   align-items: flex-end;
   gap: 4px;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   color: var(--dim);
 }
@@ -1130,7 +1130,7 @@ strong {
 }
 .forge-tag {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   color: var(--accent);
 }
@@ -1155,7 +1155,7 @@ strong {
 .forge-goal-label {
   display: block;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.2em;
   color: var(--amber);
   margin-bottom: 4px;
@@ -1261,7 +1261,7 @@ strong {
 }
 .tool-head {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.04em;
   color: var(--muted);
   display: flex;
@@ -1394,7 +1394,7 @@ strong {
   display: block;
   color: var(--violet);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
 }
 .glyph-tip p {
   margin: 8px 0 0;
@@ -1436,7 +1436,7 @@ strong {
 }
 .settings-data > span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   color: var(--dim);
 }
@@ -1456,7 +1456,7 @@ strong {
 }
 .pause-kicker {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   color: var(--accent);
 }
@@ -1513,7 +1513,7 @@ strong {
 }
 .star small {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
 }
 .star.on svg {
@@ -1531,7 +1531,7 @@ strong {
 .star.new::after {
   content: 'NUEVA';
   font-family: var(--mono);
-  font-size: 9px;
+  font-size: 12px;
   color: var(--green);
   letter-spacing: 0.2em;
 }
@@ -1553,13 +1553,13 @@ strong {
 }
 .results-stats span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
   letter-spacing: 0.12em;
 }
 .results-glyphs > span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
   letter-spacing: 0.14em;
 }
@@ -1906,7 +1906,7 @@ strong {
 }
 .dialogue-name span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
   letter-spacing: 0.08em;
 }
@@ -1921,7 +1921,7 @@ strong {
   justify-content: space-between;
   margin-top: 10px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   color: var(--dim);
 }
 .dialogue-foot .ready {
@@ -1936,7 +1936,7 @@ strong {
   border: 1px solid var(--line2);
   color: var(--muted);
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   padding: 6px 12px;
   cursor: pointer;
 }
@@ -1976,7 +1976,7 @@ strong {
 .notebook header span {
   display: block;
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.22em;
   color: var(--accent);
 }
@@ -2011,7 +2011,7 @@ strong {
 }
 .note-label {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.08em;
   color: var(--muted);
   text-transform: uppercase;
@@ -2139,7 +2139,7 @@ strong {
 }
 .level-card-learn span {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.16em;
   color: var(--accent);
   margin-right: 4px;
@@ -2159,10 +2159,10 @@ strong {
   text-align: center;
 }
 .stamp {
-  position: absolute;
-  top: -6px;
-  right: 6px;
-  transform: rotate(-12deg);
+  /* en su propia fila: flotando en la esquina tapaba el título del caso */
+  display: inline-block;
+  margin: 14px 0 22px;
+  transform: rotate(-5deg);
   border: 4px solid #ff4d6d;
   color: #ff4d6d;
   font-family: var(--display);
@@ -2175,7 +2175,7 @@ strong {
 }
 @keyframes stamp-in {
   from {
-    transform: rotate(-12deg) scale(2.4);
+    transform: rotate(-5deg) scale(2.4);
     opacity: 0;
   }
 }
@@ -2187,7 +2187,7 @@ strong {
 }
 .results-notes-title {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   color: var(--accent);
 }
@@ -2203,9 +2203,9 @@ strong {
   border-left: 2px solid var(--line2);
   padding-left: 10px;
 }
-.results-notes li span {
+.results-notes li > span {
   font-family: var(--mono);
-  font-size: 10px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   color: var(--muted);
   text-transform: uppercase;
@@ -2219,12 +2219,12 @@ strong {
 }
 .results-notes li p {
   margin: 2px 0 0;
-  font-size: 13px;
+  font-size: 15px;
   color: #cfc8e6;
 }
 .results-module span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.18em;
   color: var(--magenta);
 }
@@ -2291,13 +2291,16 @@ strong {
   width: min(1400px, 96vw);
   height: min(920px, 94vh);
   display: grid;
-  grid-template-rows: auto 1fr;
+  /* sin esto la columna toma el ancho mínimo de la cabecera y empuja Cerrar fuera de la pantalla */
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto minmax(0, 1fr);
   background: var(--bg2);
   border: 1px solid var(--line2);
 }
 .res-head {
   display: flex;
-  gap: 14px;
+  flex-wrap: wrap;
+  gap: 8px 14px;
   align-items: center;
   padding: 10px 16px;
   border-bottom: 1px solid var(--line);
@@ -2318,7 +2321,7 @@ strong {
 }
 .res-body {
   display: grid;
-  grid-template-columns: 270px 1fr;
+  grid-template-columns: 270px minmax(0, 1fr);
   min-height: 0;
 }
 .res-nav {
@@ -2331,7 +2334,7 @@ strong {
 }
 .res-nav-kicker {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.1em;
   color: var(--muted);
   padding: 4px 10px 8px;
@@ -2371,7 +2374,7 @@ strong {
 }
 .res-world span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   color: var(--accent);
 }
@@ -2411,7 +2414,7 @@ strong {
 .res-sec h4 {
   margin: 14px 0 6px;
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--muted);
@@ -2566,7 +2569,7 @@ strong {
 }
 .board header span {
   font-family: var(--mono);
-  font-size: 11px;
+  font-size: 12px;
   letter-spacing: 0.14em;
   color: #3df5c9;
 }

@@ -6,10 +6,12 @@
 import { chromium } from 'playwright-core';
 import fs from 'node:fs';
 import path from 'node:path';
+import { readable } from './readable.mjs';
 
 const filter = (process.argv[2] ?? 'all').split(',');
 const [VW, VH] = (process.argv[3] ?? '1440x860').split('x').map(Number);
-const SNAP = new URL('./snap/', import.meta.url).pathname;
+// SNAP lets this run while the Codex queue rebuilds qa/snap
+const SNAP = new URL(`./${process.env.SNAP ?? 'snap'}/`, import.meta.url).pathname;
 const REPORT = new URL(`./out/sweep-${process.argv[2] ?? 'all'}-${VW}.json`, import.meta.url).pathname;
 const fresh = {
   version: 3, xp: 0, levels: {}, glyphs: [], codex: [], modules: [], predictions: { right: 0, total: 0 },
@@ -43,7 +45,7 @@ const page = await ctx.newPage();
 const pageErrors = [];
 page.on('pageerror', (e) => pageErrors.push(e.message));
 
-const audit = () =>
+const stageAudit = () =>
   page.evaluate(() => {
     const out = [];
     const txt = (e) => e.textContent.trim().slice(0, 36);
@@ -97,12 +99,11 @@ const audit = () =>
       }
       if (strip.scrollHeight > strip.clientHeight + 2) out.push(['franja', strip.scrollHeight - strip.clientHeight]);
     }
-    // the explanation column must show its whole text without scrolling
-    const body = document.querySelector('.console-body');
-    if (body && body.scrollHeight > body.clientHeight + 4) out.push(['consola', body.scrollHeight - body.clientHeight]);
     for (const e of document.querySelectorAll('.katex-error')) out.push(['tex', txt(e)]);
     return out;
   });
+
+const audit = async () => [...(await stageAudit()), ...(await page.evaluate(readable))];
 
 const report = {};
 const add = (id, where, issues) => {
@@ -118,9 +119,28 @@ for (const id of ids) {
   if (!kinds.length) add(id, 'carga', [['no-abre']]);
   for (let s = 0; s < kinds.length; s++) {
     const kind = kinds[s];
-    if (kind === 'scene' || kind === 'forge') continue;
     await page.evaluate((i) => window.__run.goto(i), s);
     await page.waitForTimeout(60);
+    if (kind === 'forge') {
+      add(id, 'forge', await audit());
+      continue;
+    }
+    if (kind === 'scene') {
+      for (let l = 0; l < 80; l++) {
+        await page.waitForTimeout(30);
+        const results = await page.evaluate(() => !!document.querySelector('.results'));
+        if (results) await page.waitForTimeout(900); // the stamp lands at 2.4× its size
+        add(id, results ? 'resultados' : `scene${s}-${l}`, await audit());
+        if (results) {
+          if (process.env.SHOT) await page.screenshot({ path: REPORT.replace('.json', `-${id}-resultados.png`) });
+          break;
+        }
+        await page.keyboard.press('Space');
+        await page.waitForTimeout(30);
+        if ((await page.evaluate(() => window.__run?.step)) !== s) break;
+      }
+      continue;
+    }
     if (kind === 'challenge') {
       for (let r = 0; r < 6; r++) {
         await page.waitForFunction(() => window.__round, null, { timeout: 5000 }).catch(() => {});

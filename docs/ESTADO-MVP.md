@@ -2,6 +2,27 @@
 
 Se actualiza en cada tanda de trabajo. Si se corta el trabajo, este archivo dice dónde retomar.
 
+## Hecho (tarde del 2026-11-04)
+
+Texto largo bajo los botones. El barrido anterior marcaba 0 porque medía el scroll de una caja que nunca
+desbordaba: `align-items: start` dejaba crecer el texto fuera de su fila. Ahora, en todas las disposiciones,
+el texto se desplaza en su caja, los botones quedan fijos, la barra se ve siempre, el borde se desvanece
+si queda texto abajo, y la vista sigue la escritura salvo que el jugador suba a releer.
+
+Control nuevo que mide lo que ve el jugador: `qa/readable.mjs` usa `elementFromPoint` sobre cada texto y
+revisa también el final de cada caja con scroll. Antes de corregir, encontró 51 textos tapados solo en el
+Mundo 1. Lo usan `qa/sweep.mjs` (ahora con escenas y resultados) y `qa/screens.mjs` (título, prólogo, mapa,
+capítulo, distrito, ajustes, recursos y sesiones). `qa/console_scroll.mjs` prueba el scroll en 6 casos.
+
+Otros errores que salieron con ese control:
+- Un Espacio apagaba la escritura del resto de la clase o escena: `skip` nunca volvía a cero.
+- Recursos: Cerrar quedaba fuera de pantalla a 1280×720, y hasta 900 px el panel crecía a 12 000 px sin scroll.
+- Resultados: el sello tapaba el título del caso y las notas estaban en 10 px.
+- Fórmulas de práctica más anchas que la columna, cortadas a la derecha (5.8).
+- Mínimo de 12 px en toda la interfaz; había 44 reglas por debajo.
+- Columna derecha en toda ventana apaisada desde 760 px. La disposición apilada queda para ventanas
+  verticales o angostas, con el dibujo a tamaño fijo: antes las fórmulas lo aplastaban a 45 px de alto.
+
 ## Hecho (mañana del 2026-11-04)
 
 Lectura en pantalla, medido con `qa/sweep.mjs` en los 132 casos:
@@ -64,7 +85,7 @@ Plan de mejora:
 Colas reanudables; `work/codex/done.txt` guarda lo hecho. `qa/codex_manana.sh [HHMM]` corre las tres en
 este orden y solo anota «publicado» si el push funcionó, con reintentos durante dos horas.
 
-1. Investigaciones con dos acciones: 66 casos. `python3 qa/codex_accion.py w11 w12 w13 w03 w04 w06 w07
+1. Investigaciones con dos acciones: 54 casos. `python3 qa/codex_accion.py w11 w12 w13 w03 w04 w06 w07
    w14 w02 w05`. Solo confirma los que `qa/gate_sweep.mjs` puede completar; ese barrido marca ATASCADO
    acciones válidas de varios pasos, así que revisar `work/codex/accion-review.txt`.
 2. Clases como libro de texto en los mundos 4 a 9 y 14, más 13.9: 60 casos.
@@ -77,7 +98,10 @@ este orden y solo anota «publicado» si el push funcionó, con reintentos duran
 7. Observaciones por caso en `docs/PENDIENTES-CASOS.md`.
 8. Prueba con estudiantes.
 
-Codex rindió 35 casos en la ventana de la mañana. Quedan unos 150, es decir cuatro o cinco ventanas.
+Codex rindió 35 casos en la ventana de la mañana y 12 en la de las 12:05. Quedan unos 140. Antes de lanzar
+las colas hay que commitear lo propio: `qa/codex_manana.sh` compila el árbol de trabajo y publica `dist`.
+
+Teléfono: lee y se recorre, pero en vertical los rótulos del dibujo no caben (390 px de ancho). No está listo.
 
 Decisiones de Gabriel: notarización de Apple (99 USD al año) o mandar a usuarios de Mac a la web; sacar un
 tag nuevo, porque los instaladores siguen en v0.9.0 sin ninguno de estos arreglos; borrar `v0.9.0-rc.1`.

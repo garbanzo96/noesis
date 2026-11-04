@@ -1,8 +1,9 @@
-import type { ReactNode } from 'react';
+import { useEffect, useLayoutEffect, useRef, type ReactNode } from 'react';
 import { CAST, Portrait, type CastId } from '../../art/cast';
 import { MorphTex } from '../../engine/Tex';
 import { Typewriter } from '../ui/Typewriter';
 import { useRun } from './context';
+import { useFitTex } from './fitTex';
 
 /** Bottom prompt bar: the guiding character says what to do; formula below; actions right. */
 export function Console({
@@ -28,6 +29,29 @@ export function Console({
 }) {
   const run = useRun();
   const speaker = who ?? run.guide;
+  const body = useRef<HTMLDivElement>(null);
+  useFitTex(body, [tex]);
+  // keeps the end in view while the text is typed and what follows it appears (a question, the
+  // instruction), until the player scrolls up to reread or jumps the typing to read from the top
+  const follow = useRef(true);
+  const lastTop = useRef(0);
+  useLayoutEffect(() => {
+    follow.current = run.textSpeed !== 'instant';
+    lastTop.current = 0;
+    if (body.current) body.current.scrollTop = 0;
+  }, [text, run.textSpeed]);
+  useEffect(() => {
+    if (skip) follow.current = false;
+  }, [skip]);
+  useEffect(() => {
+    const b = body.current;
+    if (!b?.firstElementChild) return;
+    const grew = new ResizeObserver(() => {
+      if (follow.current) b.scrollTop = b.scrollHeight;
+    });
+    grew.observe(b.firstElementChild);
+    return () => grew.disconnect();
+  }, []);
   return (
     <section className={`console ${tone ? 'tone-' + tone : ''}`} aria-live="polite">
       <div className="console-speaker" style={{ ['--who' as string]: CAST[speaker].color }}>
@@ -36,23 +60,34 @@ export function Console({
         </div>
         <span>{CAST[speaker].name.split(' ')[0]}</span>
       </div>
-      <div className="console-body">
-        <div className={`console-text ${text.length > 340 ? 'long' : ''}`}>
-          <Typewriter
-            key={text}
-            text={text}
-            speed={run.textSpeed}
-            skip={skip}
-            onDone={onTyped}
-            onProgress={onProgress}
-          />
-        </div>
-        {tex && (
-          <div className="console-tex">
-            <MorphTex tex={`\\displaystyle ${tex}`} display={false} />
+      <div
+        ref={body}
+        className="console-body"
+        onScroll={(e) => {
+          const b = e.currentTarget;
+          if (b.scrollTop < lastTop.current) follow.current = false;
+          else if (b.scrollHeight - b.scrollTop - b.clientHeight < 4) follow.current = true;
+          lastTop.current = b.scrollTop;
+        }}
+      >
+        <div>
+          <div className={`console-text ${text.length > 340 ? 'long' : ''}`}>
+            <Typewriter
+              key={text}
+              text={text}
+              speed={run.textSpeed}
+              skip={skip}
+              onDone={onTyped}
+              onProgress={onProgress}
+            />
           </div>
-        )}
-        {children}
+          {tex && (
+            <div className="console-tex">
+              <MorphTex tex={`\\displaystyle ${tex}`} display={false} />
+            </div>
+          )}
+          {children}
+        </div>
       </div>
       {actions && <div className="console-actions">{actions}</div>}
     </section>

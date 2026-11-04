@@ -77,8 +77,12 @@ export function Typewriter({
     raf = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(raf);
   }, [text, speed, total, sound]);
+  // only a new press counts: the count outlives this text and would jump every line that follows
+  const lastSkip = useRef(skip);
   useEffect(() => {
-    if (skip > 0) setShown(total);
+    if (skip === lastSkip.current) return;
+    lastSkip.current = skip;
+    setShown(total);
   }, [skip, total]);
   useEffect(() => {
     if (shown >= total && !done.current) {
