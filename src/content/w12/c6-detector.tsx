@@ -248,10 +248,28 @@ const lesson: LessonStep = {
   ],
 };
 
-function RetainedDemo({ beats, answer }: DemoProps) {
+function RetainedDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [factor, setFactor] = useState(0);
+  const [estimate, setEstimate] = useState(0);
+  const unlocked = useRef(new Set<number>());
   const { beat } = beats;
+  const drag = useSvgDrag(svg, (px) => {
+    const position = clamp((px - 210) / 680, 0, 1);
+    if (beat === 0) setFactor(position * 3);
+    if (beat === 1) setEstimate(position);
+  });
+  useEffect(() => {
+    if (!unlocked.current.has(beat) && (
+      (beat === 0 && Math.abs(factor - 2) <= 0.09) ||
+      (beat === 1 && Math.abs(estimate - ratio(LOT)) <= 0.03)
+    )) {
+      unlocked.current.add(beat);
+      unlock();
+    }
+  }, [beat, factor, estimate, unlock]);
   return (
-    <Stage>
+    <Stage ref={svg}>
       <DetectorDrawing counts={LOT} selected={beat === 0 ? 0 : undefined} />
       <Cap x={1250} y={200}>
         Lote retenido: 1 B, 8 M, 1 A
@@ -263,17 +281,17 @@ function RetainedDemo({ beats, answer }: DemoProps) {
         Denominador: máquina q
       </Cap>
       {beat === 1 && <Cap x={1250} y={470} tex="\Lambda=0{,}75^8\cdot2^2" />}
-      {answer !== null &&
-        (beat === 0 ? (
-          <Cap x={1250} y={470} tex="p(B)/q(B)=2" color={C.green} />
-        ) : (
-          <>
-            <Cap x={1250} y={560} tex="\Lambda\approx0{,}40<1" color={C.green} />
-            <Cap x={1250} y={650} color={C.green}>
-              Favorece a la máquina
-            </Cap>
-          </>
-        ))}
+      {beat < 2 && (
+        <>
+          <Cap x={550} y={710}>{beat === 0 ? 'Factor real/máquina' : 'Estimación de la razón del lote'}</Cap>
+          <line x1={210} x2={890} y1={770} y2={770} stroke={C.line} strokeWidth={5} />
+          <Knob x={210 + 680 * (beat === 0 ? factor / 3 : estimate)} y={770} axis="x" onPointerDown={drag} color={C.amber} />
+          <Cap x={210} y={825}>0</Cap>
+          <Cap x={890} y={825}>{beat === 0 ? '3' : '1'}</Cap>
+          <Cap x={1250} y={560}>{fmt(beat === 0 ? factor : estimate, 2)}</Cap>
+        </>
+      )}
+      {beat === 2 && <Cap x={1250} y={470} tex="\Lambda\approx0{,}4005<1" color={C.green} />}
     </Stage>
   );
 }
@@ -462,12 +480,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Joaquín aparta la carpeta baja. Puede salir de cualquiera de las dos recetas; compara sus probabilidades para saber qué aporta al cálculo del lote.',
-          ask: {
-            prompt: '¿Qué factor real/máquina aporta un registro bajo?',
-            options: ['2', '0,5', '0,2'],
-            answer: 0,
-            explain: 'p(bajo)/q(bajo) = 0,2/0,1 = 2. Ese registro favorece a la receta real.',
-          },
+          gate: '¿Qué factor real/máquina aporta un registro bajo? Divide las probabilidades de sus barras y marca el resultado en la perilla.',
+          after: 'La carpeta baja aporta $0{,}2/0{,}1=2$. Ese registro favorece a la receta real.',
           note: {
             label: 'La carpeta baja',
             tex: 'p(B)/q(B)=0{,}2/0{,}1=2',
@@ -476,18 +490,16 @@ export const level: LevelSpec = {
         },
         {
           say: 'La cinta conserva el lote completo: ocho medios, un bajo y un alto. Compara el producto con 1 para decidir qué receta lo hace más probable antes de leer el sello.',
-          ask: {
-            prompt: '¿Qué receta hace más probable este lote?',
-            options: ['La máquina', 'La real', 'Ambas por igual'],
-            answer: 0,
-            explain:
-              'Λ = 0,75⁸ · 2² ≈ 0,40 < 1. Los ocho medios inclinan el producto hacia la máquina, pese a los dos extremos.',
-          },
+          gate: '¿Qué receta hace más probable este lote? Calcula el producto y marca su valor aproximado en la perilla para compararlo con 1.',
+          after: 'La razón es $0{,}75^8\\cdot2^2\\approx0{,}4005<1$. Los ocho medios inclinan el producto hacia la máquina, pese a los dos extremos.',
           note: {
             label: 'Lectura del lote',
             tex: '\\Lambda=0{,}75^8\\cdot2^2\\approx0{,}4005<1',
             body: 'La verosimilitud bajo q es unas 2,5 veces la de p. Hace falta más evidencia para establecer el origen.',
           },
+        },
+        {
+          say: 'La máquina asigna al lote una verosimilitud unas 2,5 veces mayor. La comparación no establece el origen de las carpetas.',
         },
       ],
     },
