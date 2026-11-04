@@ -242,48 +242,68 @@ const lesson: LessonStep = {
   ],
 };
 
-function SimulatorDemo({ beats, answer }: DemoProps) {
+function SimulatorDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [estimate, setEstimate] = useState(1);
+  const [scale, setScale] = useState(0.1);
+  const unlocked = useRef(false);
+  useEffect(() => {
+    unlocked.current = false;
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    const position = clamp((x - SLIDER.x0) / (SLIDER.x1 - SLIDER.x0), 0, 1);
+    if (beat === 0) {
+      const next = position * 4;
+      setEstimate(next);
+      if (!unlocked.current && Math.abs(next - 3.16) <= 0.08) {
+        unlocked.current = true;
+        unlock();
+      }
+    } else if (beat === 1) {
+      const next = position * 0.2;
+      setScale(next);
+      if (!unlocked.current && Math.abs(next - 0.01) <= 0.004) {
+        unlocked.current = true;
+        unlock();
+      }
+    }
+  });
+  const value = beat === 0 ? estimate : scale;
+  const max = beat === 0 ? 4 : 0.2;
   return (
-    <Stage>
-      <Quarter n={beat === 0 ? 100 : 0} />
+    <Stage ref={svg}>
+      <Quarter n={100} />
+      <Cap x={1250} y={200} size={24}>Control geométrico del simulador</Cap>
       {beat === 0 ? (
         <>
-          <Cap x={1250} y={230} size={23}>
-            Control geométrico del simulador
-          </Cap>
-          <Cap x={1250} y={330} size={23} color={C.violet}>
-            79 dentro de 100
-          </Cap>
-          {answer !== null && (
-            <Cap
-              x={1250}
-              y={430}
-              tex="\widehat\pi=4\cdot\tfrac{79}{100}=3{,}16"
-              size={23}
-              color={C.green}
-            />
-          )}
+          <Cap x={1250} y={300} size={24} color={C.violet}>79 dentro de 100</Cap>
+          <Cap x={1250} y={390} tex="\widehat\pi=4k/n" size={26} />
         </>
       ) : (
         <>
-          <Cap x={1250} y={230} tex="n_1=100" />
-          <Cap x={1250} y={330} tex="n_2=10\,000" />
-          {answer !== null && (
-            <>
-              <Cap
-                x={1250}
-                y={430}
-                tex="\tfrac{1/\sqrt{10\,000}}{1/\sqrt{100}}=\tfrac1{10}"
-                size={23}
-                color={C.green}
-              />
-              <Cap x={1250} y={530} size={19} color={C.muted}>
-                La escala del error queda en un décimo.
-              </Cap>
-            </>
-          )}
+          <Cap x={1250} y={300} tex="n_1=100,\quad n_2=10\,000" size={26} />
+          <Cap x={1250} y={390} tex="\text{escala}=1/\sqrt n" size={26} />
         </>
+      )}
+      {beat < 2 && (
+        <>
+          <Cap x={1250} y={490} size={26} color={C.amber}>
+            {`${beat === 0 ? 'Estimación de π' : 'Escala para 10 000'}: ${fmt(value, beat === 0 ? 2 : 3)}`}
+          </Cap>
+          <line x1={SLIDER.x0} x2={SLIDER.x1} y1={SLIDER.y} y2={SLIDER.y} stroke={C.line} strokeWidth={4} />
+          {[0, 0.5, 1].map((fraction) => (
+            <Cap key={fraction} x={SLIDER.x0 + fraction * (SLIDER.x1 - SLIDER.x0)} y={825} size={24} color={C.muted}>
+              {fmt(fraction * max, beat === 0 ? 0 : 1)}
+            </Cap>
+          ))}
+          <Knob x={SLIDER.x0 + (value / max) * (SLIDER.x1 - SLIDER.x0)} y={SLIDER.y} axis="x" color={C.amber} onPointerDown={drag} />
+        </>
+      )}
+      {beat === 2 && (
+        <Cap x={1250} y={500} size={24} color={C.green}>
+          El control guarda las tiradas para repetir la cuenta.
+        </Cap>
       )}
     </Stage>
   );
@@ -429,13 +449,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Simón abre el control guardado: de 100 puntos uniformes en el cuadrado, 79 quedaron dentro del cuarto de círculo. Con ese conteo podemos reconstruir la estimación que debería informar el simulador.',
-          ask: {
-            prompt: '¿Qué valor debería informar como estimación de π?',
-            options: ['3,16', '0,79', '3,14 exacto'],
-            answer: 0,
-            explain:
-              'El registro da 4 · 79/100 = 3,16. Informar 3,14 como exacto oculta que el resultado viene de una muestra.',
-          },
+          gate: '¿Qué valor debería informar como estimación de π? Calcula el valor con el registro y ajusta la perilla del simulador.',
+          after: 'El registro da $4\\cdot79/100=3{,}16$ como estimación de π. El resultado proviene de una muestra.',
           note: {
             label: 'Control del simulador',
             tex: '\\widehat\\pi=4\\cdot\\tfrac{79}{100}=3{,}16',
@@ -444,18 +459,16 @@ export const level: LevelSpec = {
         },
         {
           say: 'Simón propone repetir el control con 10 000 puntos, conservando el muestreo independiente. Quiere comparar la escala del error con la del registro de 100 puntos.',
-          ask: {
-            prompt: 'Al pasar de 100 a 10 000 muestras, ¿qué pasa con la escala del error?',
-            options: ['Se divide por 10', 'Se divide por 100', 'Queda en cero'],
-            answer: 0,
-            explain:
-              '1/√100 = 0,1 y 1/√10 000 = 0,01. La escala se divide por 10; sigue habiendo incertidumbre.',
-          },
+          gate: 'Al pasar de 100 a 10 000 muestras, ¿qué pasa con la escala del error? Calcula la nueva escala y ajústala en el control.',
+          after: 'Con 100 muestras la escala es 0,1 y con 10 000 es 0,01. Se divide por 10 y sigue habiendo incertidumbre.',
           note: {
             label: 'Costo de reducir el error',
             tex: '\\tfrac{1/\\sqrt{10\\,000}}{1/\\sqrt{100}}=\\tfrac1{10}',
             body: 'Cien veces más muestras reducen diez veces la escala del error; no garantizan una cifra exacta.',
           },
+        },
+        {
+          say: 'El control guarda las tiradas para repetir la cuenta. La estimación y la escala describen aspectos distintos del resultado.',
         },
       ],
     },
