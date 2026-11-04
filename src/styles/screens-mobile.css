@@ -385,6 +385,8 @@
   .results-left,
   .results-notes {
     min-width: 0;
+    max-height: none;
+    overflow-y: visible;
   }
   .results-card h2 {
     font-size: 24px;
@@ -441,11 +443,6 @@
     max-width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-  }
-  .results-glyphs {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
   }
   .results-glyphs .glyph-chip {
     max-width: 100%;

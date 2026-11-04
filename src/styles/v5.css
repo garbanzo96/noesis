@@ -106,8 +106,11 @@
   position: static;
   transform: none;
   margin: 0 auto;
+  min-width: 0;
 }
 .beat-dots i {
+  flex: 0 1 22px;
+  min-width: 6px;
   width: 22px;
   height: 4px;
   border-radius: 2px;
