@@ -304,43 +304,55 @@ const lesson: LessonStep = {
 };
 
 // ---------------------------------------------------------------- demo
-function CoverageDemo({ beats, answer }: DemoProps) {
+function CoverageDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef<number[]>([]);
+  const [proportion, setProportion] = useState(0.5);
+  const [z, setZ] = useState(-1);
   const zObs = (0.89 - 0.95) / Math.sqrt((0.95 * 0.05) / 400);
   const PD = plane([-7, 4], [0, 0.45], { x: 300, y: 170, w: 840, h: 400 });
-  const shown = beat >= 2 && answer !== null;
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 1) {
+      const next = clamp((x - 350) / 700, 0, 1);
+      setProportion(next);
+      if (Math.abs(next - 0.89) <= 0.025 && !unlocked.current.includes(beat)) {
+        unlocked.current.push(beat);
+        unlock();
+      }
+    } else if (beat === 2) {
+      const next = clamp(PD.inv(x, 0)[0], -7, 4);
+      setZ(next);
+      if (Math.abs(next - zObs) <= 0.25 && !unlocked.current.includes(beat)) {
+        unlocked.current.push(beat);
+        unlock();
+      }
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes P={PD} xTicks={[-7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4]} xLabel="z" />
-      <Curve
-        P={PD}
-        f={(x) => pdf(x)}
-        a={-7}
-        b={4}
-        color={C.amber}
-        width={4}
-        progress={beat === 0 ? at(0) : 1}
-      />
+      <Curve P={PD} f={(x) => pdf(x)} a={-7} b={4} color={C.amber} width={4} progress={beat === 0 ? at(0) : 1} />
       <Shade P={PD} f={(x) => pdf(x)} a={-7} b={-1.645} color={C.violet} opacity={0.4} />
-      <Cap x={PD.x(-2.6)} y={PD.y(0.12)} size={16} color={C.violet} tex="5\,\%" />
-      {shown && (
-        <line
-          x1={PD.x(zObs)}
-          x2={PD.x(zObs)}
-          y1={PD.box.y + 40}
-          y2={PD.y(0)}
-          stroke={C.magenta}
-          strokeWidth={4}
-        />
+      <Cap x={PD.x(-2.6)} y={PD.y(0.12)} size={24} color={C.violet} tex="5\,%" />
+      {beat === 2 && (
+        <>
+          <line x1={PD.x(z)} x2={PD.x(z)} y1={PD.box.y + 40} y2={PD.y(0)} stroke={C.magenta} strokeWidth={4} />
+          <Knob x={PD.x(z)} y={PD.y(0) + 55} color={C.magenta} onPointerDown={drag} cursor="ew-resize" label={num(z, 1)} />
+        </>
       )}
-      <Cap x={1370} y={230} size={22} color={C.text} tex="H_0:\ p=0{,}95" />
-      <Cap x={1370} y={280} size={22} color={C.text} tex="n=400" />
-      {beat >= 1 && (beat > 1 || answer !== null) && (
-        <Cap x={1370} y={330} size={22} color={C.cyan} tex="\hat p=\tfrac{356}{400}=0{,}89" />
+      <Cap x={1370} y={230} size={24} color={C.text} tex="H_0:\ p=0{,}95" />
+      <Cap x={1370} y={280} size={24} color={C.text} tex="n=400" />
+      {beat >= 1 && <Cap x={1370} y={330} size={24} color={C.cyan} tex="356\text{ vacunados}" />}
+      {beat === 1 && (
+        <>
+          <line x1={350} x2={1050} y1={660} y2={660} stroke={C.line} strokeWidth={4} />
+          <Cap x={350} y={710} size={24} color={C.muted}>0</Cap>
+          <Cap x={1050} y={710} size={24} color={C.muted}>1</Cap>
+          <Knob x={350 + proportion * 700} y={660} color={C.cyan} onPointerDown={drag} cursor="ew-resize" label={num(proportion, 2)} />
+        </>
       )}
-      {shown && (
-        <Cap x={1370} y={390} size={22} color={C.magenta} tex={`z\\approx${num(zObs, 1)}`} />
-      )}
+      {beat === 2 && <Cap x={1370} y={390} size={24} color={C.cyan} tex="\hat p=0{,}89" />}
     </Stage>
   );
 }
@@ -553,23 +565,14 @@ export const level: LevelSpec = {
         },
         {
           say: 'De las 400 fichas, 356 dicen «vacunado».',
-          ask: {
-            prompt: '¿Cuánto vale $\\hat p$?',
-            options: ['0,89', '0,95', '356'],
-            answer: 0,
-            explain: '$356/400=0{,}89$: el 89 % de la muestra.',
-          },
+          gate: '¿Cuánto vale $\\hat p$? Calcula la proporción y ubícala en la escala.',
+          after: 'Las 356 fichas de 400 dan $\\hat p=0{,}89$: el 89 % de la muestra.',
           note: { label: 'Muestra', tex: '\\hat p=\\tfrac{356}{400}=0{,}89' },
         },
         {
           say: 'Si $H_0$ fuera cierta, el error estándar sería $\\sqrt{0{,}95\\cdot0{,}05/400}\\approx0{,}0109$.',
-          ask: {
-            prompt: '¿Cuánto vale el estadístico $z$?',
-            options: ['≈ −5,5', '≈ −0,06', '≈ −1,96'],
-            answer: 0,
-            explain:
-              '$\\tfrac{0{,}89-0{,}95}{0{,}0109}\\approx-5{,}5$. El valor p es prácticamente cero: se rechaza $H_0$.',
-          },
+          gate: '¿Cuánto vale el estadístico $z$? Calcula la distancia en errores estándar y ubícala en el eje.',
+          after: '$z=(0{,}89-0{,}95)/0{,}0109\\approx-5{,}5$. Cae en la cola de rechazo; el valor p es prácticamente cero.',
           note: {
             label: 'Estadístico',
             tex: 'z=\\tfrac{0{,}89-0{,}95}{0{,}0109}\\approx-5{,}5',
