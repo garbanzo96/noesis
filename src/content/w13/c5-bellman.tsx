@@ -147,7 +147,7 @@ const lesson: LessonStep = {
   Scene: BellmanLesson,
   beats: [
     {
-      say: 'La posición tiene tres etapas y un descuento de 0,9 por intervalo. Empieza en la última: cobras 10 y la operación termina, así que V(s₃) = 10.',
+      say: 'La posición tiene tres etapas y cada intervalo conserva 0,9 del valor futuro. La **función de valor** $V(s)$, que se lee «ve de ese», indica el mejor valor disponible desde el estado $s$ al elegir las mejores acciones posteriores.\n\nEn la etapa 3 cobras 10 y la operación termina, por eso $V(s_3)=10$. Este valor sirve como punto de partida para resolver las etapas anteriores.',
       board: {
         label: 'Condición final',
         tex: '\\p{1}{V(s_3)}=\\p{2}{10}',
@@ -155,8 +155,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Retrocede a la etapa 2: cerrar paga 5 ahora; seguir no paga ahora y lleva al cobro de 10 un intervalo después. Descuenta ese cobro y elige el mayor valor.',
-      gate: 'Calcula el valor de la etapa 2 partiendo del cobro final y llévalo a la perilla.',
+      say: 'En la etapa 2, cerrar paga 5 ahora; seguir paga 0 ahora y lleva al cobro de 10 un intervalo después. El **descuento** trae un valor futuro al momento de la decisión: por un intervalo se multiplica por $\\gamma=0{,}9$, leído «gamma igual a cero coma nueve».\n\n$\\max$ se lee «máximo» y escoge el mayor valor entre las acciones. No sumes cerrar y seguir: solo puedes elegir una.',
+      gate: 'Calcula el valor de seguir desde la etapa 2 y compáralo con cerrar. Mueve la perilla hasta el mayor de los dos valores.',
       after:
         '$\\max(5;\\,0{,}9\\cdot10)=9$: conviene seguir. Bellman resuelve cada etapa con el valor de la siguiente.',
       board: {
@@ -166,7 +166,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La etapa 2 vale 9. Ahora retrocede a la etapa 1: puedes cerrar por 3 o seguir hasta una posición que vale 9 en el próximo intervalo.',
+      say: 'La etapa 2 vale 9. En la etapa 1 puedes cerrar por 3 ahora o seguir sin pago inmediato hasta una posición que vale 9 en el próximo intervalo.\n\nPara comparar ambas acciones en la etapa 1, descuenta una vez el valor de la etapa 2. No sumes el pago de cierre a la continuación: corresponden a decisiones distintas.',
       ask: {
         prompt: '¿Cuánto vale la posición en la etapa 1?',
         options: ['8,1', '9', '12'],
@@ -181,7 +181,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **ecuación de Bellman** repite esta comparación en cada estado: pago inmediato más valor futuro descontado, y luego el máximo entre acciones. Aquí cada acción lleva a un estado siguiente conocido.',
+      say: 'La **ecuación de Bellman** calcula el valor de un estado como el máximo, entre las acciones disponibles, del pago inmediato más el valor descontado del estado siguiente. Aquí cada acción lleva a un estado siguiente conocido.\n\n$V(s)$ se lee «ve de ese», $r(s,a)$ es el pago inmediato de la acción $a$ y $V(s\')$ se lee «ve de ese prima». Al cerrar, la continuación vale 0; al seguir en este ejemplo, el pago inmediato es 0.',
       board: {
         label: 'Bellman · transición determinista',
         tex: "V(s)=\\max_a\\{r(s,a)+\\gamma V(s')\\}",
@@ -189,7 +189,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **política** indica qué eliges en cada etapa: seguir en 1 y 2, y cobrar en 3. El valor inicial es 8,1; los pagos de cierre descartados no se suman a esa ruta.',
+      say: 'Una **política** indica qué acción elegir en cada estado; es óptima si alcanza el mayor valor disponible en cada uno. Aquí indica seguir en 1 y 2, y cobrar en 3.\n\nEl valor inicial es 8,1, expresado en la etapa 1. Los pagos de cierre descartados no se suman a esa ruta.',
       board: {
         label: 'Valores y decisiones',
         tex: '\\p{1}{V(s_3)}=\\p{2}{10},\\quad\\p{3}{ V(s_2)}=\\p{4}{9},\\quad\\p{5}{ V(s_1)}=\\p{6}{8{,}1}',
@@ -404,7 +404,7 @@ export const level: LevelSpec = {
       Scene: ClosingDemo,
       beats: [
         {
-          say: 'La mesa cambia las condiciones: cada intervalo conserva 0,8 del valor. En la etapa 2 puedes cerrar por 5 o seguir hasta cobrar 10 en 3.',
+          say: 'La mesa cambió las condiciones: cada intervalo conserva 0,8 del valor. En la etapa 2 podemos cerrar por 5 o seguir hasta cobrar 10 en 3. Calculemos el valor de esa etapa antes de decidir qué hacer con la orden.',
           ask: {
             prompt: '¿Cuánto vale la etapa 2 con estas condiciones?',
             options: ['8', '10', '13'],
@@ -415,7 +415,7 @@ export const level: LevelSpec = {
           note: { label: 'Nuevo valor en 2', tex: 'V(s_2)=\\max(5;0{,}8\\cdot10)=8' },
         },
         {
-          say: 'Valentina recibe una oferta de cierre por 7 en la etapa 1. Seguir no paga nada ahora y lleva a la etapa 2, que vale 8.',
+          say: 'Me ofrecen cerrar por 7 en la etapa 1. Seguir no paga nada ahora y lleva a la etapa 2, que vale 8. Comparemos ambas opciones en el momento de la firma.',
           ask: {
             prompt: '¿Qué conviene hacer en la etapa 1?',
             options: ['Cerrar por 7', 'Seguir hasta la etapa 2', 'Empatan'],
