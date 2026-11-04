@@ -255,40 +255,59 @@ const lesson: LessonStep = {
   ],
 };
 
-function DeskDemo({ beats, answer }: DemoProps) {
+function DeskDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const [estimate, setEstimate] = useState(-20);
+  const [policy, setPolicy] = useState(0);
+  const unlocked = useRef<number[]>([]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 0) setEstimate(Math.round(clamp((x - 1080) / 340, 0, 1) * 80 - 20));
+    if (beat === 1) setPolicy(Math.round(clamp((x - 1080) / 340, 0, 1) * 3));
+  });
+  useEffect(() => {
+    const solved = (beat === 0 && Math.abs(estimate - 20) <= 2) ||
+      (beat === 1 && policy === 1);
+    if (solved && !unlocked.current.includes(beat)) {
+      unlocked.current.push(beat);
+      unlock();
+    }
+  }, [beat, estimate, policy, unlock]);
   return (
-    <Stage>
+    <Stage ref={svg}>
       <DecisionTree d={EXAMPLE} />
-      <Cap x={1250} y={190} size={21}>
-        Dato antes de la segunda decisión
-      </Cap>
-      <Cap x={1250} y={280} size={21}>
-        Costo solo si entras tarde: 10
-      </Cap>
-      {answer !== null &&
-        (beats.beat === 0 ? (
-          <Cap
-            x={1250}
-            y={390}
-            tex="V_{\text{ahora}}=0{,}5\cdot60-0{,}5\cdot20=20"
-            size={19}
-            color={C.green}
-          />
-        ) : (
-          <>
-            <Cap
-              x={1250}
-              y={390}
-              tex="V_{\text{esperar}}=0{,}5\cdot50=25"
-              size={21}
-              color={C.green}
-            />
-            <Cap x={1250} y={480} tex="25>20" color={C.green} />
-            <Cap x={1250} y={570} size={21}>
-              Esperar; invertir con dato bueno.
-            </Cap>
-          </>
-        ))}
+      <Cap x={1250} y={150} size={24}>Costo al invertir tarde: 10</Cap>
+      {beat === 0 && (
+        <>
+          <Cap x={1250} y={280} size={24}>Valor marcado: {estimate}</Cap>
+          <line x1={1080} x2={1420} y1={390} y2={390} stroke={C.line} strokeWidth={4} />
+          <Cap x={1080} y={450} size={24}>−20</Cap>
+          <Cap x={1420} y={450} size={24}>60</Cap>
+          <Knob x={1080 + ((estimate + 20) / 80) * 340} y={390} axis="x" onPointerDown={drag} color={C.amber} />
+        </>
+      )}
+      {beat >= 1 && <Cap x={1250} y={240} tex="V_{\text{ahora}}=20" size={24} color={C.cyan} />}
+      {beat === 1 && (
+        <>
+          <Cap x={1250} y={330} size={24}>Dato bueno: 60 − 10 o 0</Cap>
+          <Cap x={1250} y={400} size={24}>Dato malo: −20 − 10 o 0</Cap>
+          <Cap x={1250} y={500} size={24} color={C.amber}>
+            Bueno: {policy < 2 ? 'invertir' : 'no invertir'}
+          </Cap>
+          <Cap x={1250} y={560} size={24} color={C.amber}>
+            Malo: {policy % 2 === 0 ? 'invertir' : 'no invertir'}
+          </Cap>
+          <line x1={1080} x2={1420} y1={650} y2={650} stroke={C.line} strokeWidth={4} />
+          <Knob x={1080 + policy * 340 / 3} y={650} axis="x" onPointerDown={drag} color={C.amber} />
+          <Cap x={1250} y={720} size={24}>Mueve la perilla para elegir ambas acciones.</Cap>
+        </>
+      )}
+      {beat >= 2 && (
+        <>
+          <Cap x={1250} y={340} tex="V(A)=50,\quad V(B)=0" size={24} color={C.amber} />
+          {answer !== null && <Cap x={1250} y={450} tex="V_{\text{esperar}}=25>20" size={24} color={C.green} />}
+        </>
+      )}
     </Stage>
   );
 }
@@ -495,27 +514,26 @@ export const level: LevelSpec = {
       Scene: DeskDemo,
       beats: [
         {
-          say: 'Valentina mantiene la orden de entrada inmediata: hay probabilidad 0,5 de ganar 60 y 0,5 de perder 20. Necesitamos su valor esperado para compararlo con la ruta de esperar.',
-          ask: {
-            prompt: '¿Qué valor esperado tiene invertir ahora?',
-            options: ['20', '40', '60'],
-            answer: 0,
-            explain:
-              '0,5 · 60 + 0,5 · (−20) = 20. El 40 sale al cambiar el signo de la pérdida; 60 ignora la rama mala.',
-          },
+          say: 'Valentina mantiene la orden de entrada inmediata: hay probabilidad 0,5 de ganar 60 y 0,5 de perder 20.',
+          gate: '¿Qué valor esperado tiene invertir ahora? Calcula el promedio ponderado y marca el resultado en la escala.',
+          after: 'Invertir ahora vale 0,5 · 60 + 0,5 · (−20) = 20. La pérdida también entra en el promedio.',
           note: {
             label: 'Entrada inmediata',
             tex: 'V_{\\text{ahora}}=0{,}5\\cdot60+0{,}5\\cdot(-20)=20',
           },
         },
         {
-          say: 'Si espera, Valentina puede decidir con el dato en la mano: con dato bueno, invertir deja 60 menos 10 de costo; con dato malo, no invertir deja 0. Compara ambos valores esperados para decidir qué ruta conviene.',
+          say: 'Si espera, Valentina puede decidir con el dato en la mano. Entrar tarde cuesta 10 solo si invierte.',
+          gate: 'En cada cuadrado del árbol, elige la acción que deja el mayor pago: ¿qué harías con dato bueno y con dato malo? Mueve la perilla para elegir ambas acciones.',
+          after: 'Con dato bueno, invertir deja 60 − 10 = 50. Con dato malo, no invertir deja 0, frente a −30 si invierte.',
+        },
+        {
+          say: 'Los dos datos tienen probabilidad 0,5. Compara los valores esperados de esperar y de invertir ahora.',
           ask: {
             prompt: '¿Qué ruta conviene en el cuadrado inicial?',
             options: ['Esperar', 'Invertir ahora', 'Dan lo mismo'],
             answer: 0,
-            explain:
-              'Esperar vale 0,5 · 50 + 0,5 · 0 = 25; invertir ahora vale 20. El margen esperado de esperar es 5.',
+            explain: 'Esperar vale 0,5 · 50 + 0,5 · 0 = 25; invertir ahora vale 20. El margen esperado de esperar es 5.',
           },
           note: {
             label: 'La ruta elegida',
