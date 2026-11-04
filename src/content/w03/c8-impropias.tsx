@@ -225,46 +225,65 @@ const lesson: LessonStep = {
 };
 
 // ---------------------------------------------------------------- demo
-function TotalDemo({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
+function TotalDemo({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef(false);
+  const [cut, setCut] = useState(1);
+  const [marks, setMarks] = useState<(boolean | null)[]>([null, null]);
   const P = plane([0, 20], [0, 7], { x: 300, y: 120, w: 820, h: 520 });
-  const B = beat === 0 ? 20 * at(0) + 0.1 : 20;
+  useEffect(() => { unlocked.current = false; }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0) return;
+    const t = clamp(P.inv(x, 0)[0], 0, 20);
+    setCut(t);
+    if (Math.abs(t - 6) <= 0.4 && !unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  });
+  const mark = (index: number, finite: boolean) => {
+    const next = marks.map((value, i) => i === index ? finite : value);
+    setMarks(next);
+    if (beat === 1 && next[0] === true && next[1] === false && !unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  };
+  const B = beat === 0 ? cut : 20;
   const vol = 12 * (1 - Math.exp(-0.5 * B));
   return (
-    <Stage>
-      <Axes
-        P={P}
-        xTicks={[0, 5, 10, 15, 20]}
-        yTicks={[2, 4, 6]}
-        xLabel="t\ (\text{h})"
-        yLabel="q"
-        grid
-      />
-      <AreaUnder
-        P={P}
-        f={(t) => 6 * Math.exp(-0.5 * t)}
-        a={0}
-        b={B}
-        pos={C.violet}
-        opacity={0.45}
-      />
+    <Stage ref={svg}>
+      <Axes P={P} xTicks={[0, 5, 10, 15, 20]} yTicks={[2, 4, 6]} xLabel="t" yLabel="q" grid />
+      <AreaUnder P={P} f={(t) => 6 * Math.exp(-0.5 * t)} a={0} b={B} pos={C.violet} opacity={0.45} />
       <Curve P={P} f={(t) => 6 * Math.exp(-0.5 * t)} a={0} b={20} color={C.cyan} width={4} />
+      {beat === 0 && (
+        <>
+          <Line a={P.pt(cut, 0)} b={P.pt(cut, 7)} color={C.text} dashed />
+          <Knob x={P.x(cut)} y={P.y(0) + 30} onPointerDown={drag} axis="x" label="t" />
+          <Cap x={1330} y={220} size={26} tex={`t=${dec(cut, 1).replace(',', '{,}')}\\;\\mathrm{h}`} />
+          <Cap x={1330} y={300} size={26} color={C.violet} tex={`V=${dec(vol, 2).replace(',', '{,}')}\\;\\text{mil m}^3`} />
+        </>
+      )}
       {beat === 1 && (
-        <Curve P={P} f={(t) => Math.min(7, 3 / (t + 0.5))} a={0} b={20} color={C.red} width={3} />
+        <>
+          <Curve P={P} f={(t) => 3 / (t + 0.5)} a={0} b={20} color={C.red} width={3} />
+          <Cap x={1330} y={155} size={25} color={C.cyan} tex="6e^{-0{,}5t}" />
+          <Cap x={1330} y={370} size={25} color={C.red} tex="\frac{3}{t+0{,}5}" />
+          {[0, 1].map((i) => (
+            <Html key={i} x={1330} y={i === 0 ? 245 : 460} size={24} interactive>
+              <div className="stage-choices">
+                {(i === 0 ? [false, true] : [true, false]).map((finite) => (
+                  <button key={String(finite)} className={`stage-btn ${marks[i] === finite ? 'on' : ''}`} onClick={() => mark(i, finite)}>
+                    {finite ? 'Finita' : 'Sin límite'}
+                  </button>
+                ))}
+              </div>
+            </Html>
+          ))}
+        </>
       )}
-      <Cap
-        x={1330}
-        y={220}
-        size={24}
-        color={C.violet}
-        tex={`\\text{perdido}=${dec(vol, 2).replace(',', '{,}')}`}
-      />
-      {beat === 1 && answer !== null && (
-        <Cap x={1330} y={300} size={20} color={C.red} tex="\tfrac{3}{t+0{,}5}:\ \text{infinito}" />
-      )}
-      <Html x={1330} y={380} size={16} color={C.muted}>
-        <span>mil m³</span>
-      </Html>
+      {beat === 2 && <Cap x={1330} y={250} size={26} color={C.violet} tex="V_{\infty}=12\;\text{mil m}^3" />}
     </Stage>
   );
 }
@@ -452,30 +471,25 @@ export const level: LevelSpec = {
       Scene: TotalDemo,
       beats: [
         {
-          say: 'El área bajo el caudal representa el volumen perdido a medida que pasan las horas. Veamos cuánto se acumula con el modelo de la válvula.',
-          dur: 3,
+          say: 'El área bajo el caudal representa el volumen perdido. El modelo de la válvula suma 12 mil m³ en total. ¿Después de cuántas horas se habrá perdido aproximadamente el 95 %?',
+          gate: 'Calcula el 95 % de 12 y arrastra el corte hasta el tiempo correspondiente.',
+          after: 'Cerca de las 6 horas se han perdido 11,4 mil m³, aproximadamente el 95 % de los 12 mil m³ totales.',
+        },
+        {
+          say: 'Teo propone otro modelo para el sensor que deriva: $\\tfrac{3}{t+0{,}5}$, que también tiende a 0. ¿Daría una pérdida total finita?',
+          gate: 'Clasifica la pérdida total de cada modelo como finita o sin límite. Puedes cambiar tus marcas.',
+          after: 'El modelo $6e^{-0{,}5t}$ suma 12 mil m³. El modelo $\\tfrac{3}{t+0{,}5}$ crece como $3\\ln t$ y su pérdida no tiene límite.',
+          note: {
+            label: 'Tender a cero no basta',
+            body: 'Importa qué tan rápido: más rápido que $1/t$.',
+          },
+        },
+        {
+          say: 'El modelo de la válvula permite calcular la pérdida completa aunque el caudal siga siendo positivo.',
           note: {
             label: 'Pérdida total',
             tex: '\\int_0^\\infty6e^{-0{,}5t}dt=12',
             body: 'Mil m³: después de unas 10 horas ya se perdió casi todo.',
-          },
-        },
-        {
-          say: 'Teo propone otro modelo para el sensor que deriva: $\\tfrac{3}{t+0{,}5}$, que también tiende a 0. Comparemos qué ocurre con la pérdida acumulada si la fuga sigue para siempre.',
-          ask: {
-            prompt: '¿Daría una pérdida total finita?',
-            options: [
-              'No: baja como 1/t y su área crece sin límite',
-              'Sí: tiende a 0',
-              'Sí: 6 mil m³',
-            ],
-            answer: 0,
-            explain:
-              'Para $t$ grande se comporta como $\\tfrac3t$: el área crece como $3\\ln t$, sin límite.',
-          },
-          note: {
-            label: 'Tender a cero no basta',
-            body: 'Importa qué tan rápido: más rápido que $1/t$.',
           },
         },
       ],
