@@ -177,7 +177,7 @@ const lesson: LessonStep = {
   Scene: LotLesson,
   beats: [
     {
-      say: 'Ahora lo desconocido es la fracción θ de positivos de un lote. Antes de ver datos, cualquier valor entre 0 y 1 parece igual de posible: una curva plana.',
+      say: 'La proporción desconocida $θ$ (theta) es la fracción de positivos del lote y toma valores entre 0 y 1. Un **prior** es una distribución que representa lo que sabemos de esa proporción antes de observar los datos.\n\nAquí usamos $θ\\sim\\text{Beta}(1,1)$, que se lee «theta se distribuye beta de uno, uno». Su densidad es uniforme: intervalos de igual ancho tienen la misma probabilidad.',
       board: {
         label: 'Antes de los datos',
         tex: '\\p{1}{\\theta\\sim}\\p{2}{\\text{Beta}(1,1)}',
@@ -185,10 +185,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cada positivo empuja la curva hacia la derecha y cada negativo hacia la izquierda. Marca 7 positivos de 10.',
-      gate: 'Marca 7 positivos de 10 y mira hacia dónde se mueve la curva y cuánto se angosta.',
+      say: 'El **posterior** es la distribución de $θ$ después de incorporar los datos. Si el prior es Beta$(a,b)$, con $a,b>0$, y hay $k$ positivos en $n$ controles independientes con la misma proporción, el posterior es Beta$(a+k,b+n-k)$.\n\nSe lee «beta de a más k, be más n menos k». Cada positivo suma al primer parámetro y cada negativo al segundo; no sumes todos los controles al segundo.',
+      gate: 'Busca el conteo de positivos que produce un posterior Beta$(8,4)$. Mira cómo cambia la curva respecto del prior.',
       after:
-        'Cada dato suma al contador que le toca: Beta$(a,b)$ pasa a Beta$(a+7,\\ b+3)$. La curva se corrió hacia la derecha y se angostó.',
+        'Con 7 positivos y 3 negativos, Beta$(1,1)$ pasa a Beta$(8,4)$. La curva se desplaza hacia la derecha y se concentra más que el prior uniforme.',
       board: {
         label: 'Actualizar con conteos',
         tex: '\\p{1}{\\text{Beta}(a,b)}\\p{2}{+\\,k\\text{ de }n}\\p{3}{\\Rightarrow\\text{Beta}(a+k,\\ b+n-k)}',
@@ -196,7 +196,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La curva después de los datos es Beta(8, 4). Su media resume dónde está θ.',
+      say: 'La curva posterior es Beta$(8,4)$ y describe la incertidumbre sobre $θ$. La **media posterior** es el promedio de los valores posibles de $θ$ según esa distribución.\n\nSe escribe $E[θ]$, que se lee «esperanza de theta», y para Beta$(a,b)$ se calcula como $a/(a+b)$. No la confundas con la proporción observada: también incorpora el prior.',
       ask: {
         prompt: '¿Cuánto vale la media de Beta(8, 4)?',
         options: ['2/3', '0,7', '0,5'],
@@ -211,7 +211,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Otras clínicas del cerro tienen cerca de 20 % de positivos: ese saber previo es Beta(2, 8). Con los mismos 7 de 10, la media queda en 0,45.',
+      say: 'Otras clínicas del cerro tienen cerca de 20 % de positivos; representamos ese saber previo con Beta$(2,8)$, cuya media es 0,2. Al sumar los mismos 7 positivos y 3 negativos, obtenemos Beta$(9,11)$.\n\nSu media es $9/20=0{,}45$. El resultado cambia respecto del prior uniforme porque también incorpora lo que se sabía antes.',
       board: {
         label: 'Con saber previo',
         tex: '\\p{1}{\\text{Beta}(2,8)}\\p{2}{+\\,7\\text{ de }10}\\p{3}{\\Rightarrow\\text{Beta}(9,11)}',
@@ -219,7 +219,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Los parámetros del prior actúan como conteos ya vistos. Con muchos datos, pesan cada vez menos.',
+      say: 'Los **pseudoconteos** $a-1$ y $b-1$ permiten interpretar un prior Beta$(a,b)$ como conteos previos equivalentes de positivos y negativos, respecto de Beta$(1,1)$. Se leen «a menos uno» y «be menos uno».\n\nEn Beta$(2,8)$ equivalen a 1 positivo y 7 negativos. Al acumular muchos controles, la influencia del prior sobre el posterior disminuye.',
       board: {
         label: 'Pseudoconteos',
         tex: '\\p{1}{a-1,\\ b-1}\\p{2}{\\ \\approx\\ \\text{positivos y negativos previos}}',
@@ -446,13 +446,13 @@ export const level: LevelSpec = {
       Scene: AugustDemo,
       beats: [
         {
-          say: 'Antes de los controles, las otras clínicas sugieren Beta(2, 8). El lote de agosto dio 12 positivos en 40 controles.',
-          gate: 'Arrastra la perilla hasta 12 positivos de 40 controles.',
+          say: 'Las otras clínicas sugieren un prior Beta$(2,8)$. Los registros del lote de agosto muestran 12 positivos en 40 controles; usemos ese conteo para actualizar la curva.',
+          gate: 'Ajusta la perilla para que el conteo coincida con el registro de agosto. Mira cómo cambia el posterior.',
           after:
-            'Beta(2, 8) con 12 de 40 da Beta(14, 36). Los datos pesan 40 observaciones y el prior, 10: por eso manda el lote.',
+            'Los 12 positivos y 28 negativos llevan Beta$(2,8)$ a Beta$(14,36)$. Los 40 controles tienen más peso en la media posterior que los 10 de la suma de parámetros del prior.',
         },
         {
-          say: 'Con 12 positivos y 28 negativos, la curva actualizada es Beta(14, 36).',
+          say: 'Tenemos 12 positivos y 28 negativos. Revisemos cómo se incorporan al prior para identificar la distribución posterior.',
           ask: {
             prompt: '¿Cuál es el posterior del lote de agosto?',
             options: ['Beta(14, 36)', 'Beta(12, 28)', 'Beta(14, 48)'],
@@ -465,13 +465,13 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La media del posterior es 14/50. Ubícala en el eje y compárala con el 0,20 de las otras clínicas.',
+          say: 'La media del posterior se calcula con $14/50$. Ubícala en el eje para compararla con el 0,20 de las otras clínicas.',
           gate: 'Calcula la media del posterior y ubícala en el eje.',
           after:
             'La media es $14/50=0{,}28$: queda entre el 0,20 de las otras clínicas y el 0,30 del lote.',
         },
         {
-          say: 'El cursor marca la media del posterior, por encima del 0,20 de las otras clínicas.',
+          say: 'El cursor marca la media del posterior, por encima del 0,20 de las otras clínicas. Revisemos su valor antes de evaluar el lote.',
           ask: {
             prompt: '¿Cuánto vale la media del posterior?',
             options: ['0,28', '0,30', '0,20'],
