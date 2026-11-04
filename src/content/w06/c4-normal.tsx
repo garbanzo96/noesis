@@ -262,54 +262,60 @@ const lesson: LessonStep = {
 // ---------------------------------------------------------------- demo
 const PW = plane([60, 180], [0, 0.03], { x: 300, y: 160, w: 840, h: 420 });
 
-function WeekDemo({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
+function WeekDemo({ beats, unlock, answer }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef([false, false]);
+  const [boundary, setBoundary] = useState(120);
+  const [score, setScore] = useState(0);
   const f = (x: number) => pdf(x, 120, 15);
-  const shown = beat >= 1 && (beat > 1 || answer !== null);
+  const onBoundary = useSvgDrag(svg, (x) => {
+    const value = clamp(120 + (x - PW.x(120)) / PW.sx, 120, 180);
+    setBoundary(value);
+    if (beat === 0 && Math.abs(value - 165) <= 1.2 && !unlocked.current[0]) {
+      unlocked.current[0] = true;
+      unlock();
+    }
+  });
+  const onScore = useSvgDrag(svg, (x) => {
+    const value = clamp((x - PW.x(120)) / (15 * PW.sx), 0, 4);
+    setScore(value);
+    if (beat === 1 && Math.abs(value - 3.4) <= 0.08 && !unlocked.current[1]) {
+      unlocked.current[1] = true;
+      unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes P={PW} xTicks={[75, 90, 105, 120, 135, 150, 165, 180]} xLabel="\text{dosis}" />
-      <Shade
-        P={PW}
-        f={f}
-        a={75}
-        b={165}
-        color={C.violet}
-        opacity={0.18 * (beat === 0 ? at(0) : 1)}
-      />
-      <Curve
-        P={PW}
-        f={f}
-        a={60}
-        b={180}
-        color={C.amber}
-        width={4}
-        progress={beat === 0 ? at(0) : 1}
-      />
-      <line
-        x1={PW.x(171)}
-        x2={PW.x(171)}
-        y1={PW.box.y + 40}
-        y2={PW.y(0)}
-        stroke={C.magenta}
-        strokeWidth={4}
-      />
-      <Cap x={PW.x(171)} y={PW.box.y + 20} size={18} color={C.magenta}>
-        Cerro: 171
-      </Cap>
-      <Cap x={1370} y={230} size={22} color={C.text} tex="\mu=120,\ \sigma=15" />
-      <Cap x={1370} y={280} size={18} color={C.violet} tex="\mu\pm3\sigma=[75,\,165]" />
-      {shown && (
-        <Cap x={1370} y={340} size={24} color={C.magenta} tex="z=\tfrac{171-120}{15}=3{,}4" />
+      <Shade P={PW} f={f} a={75} b={beat === 0 ? boundary : 165} color={C.violet} opacity={0.18} />
+      <Curve P={PW} f={f} a={60} b={180} color={C.amber} width={4} />
+      <line x1={PW.x(171)} x2={PW.x(171)} y1={PW.box.y + 40} y2={PW.y(0)} stroke={C.magenta} strokeWidth={4} />
+      <Cap x={PW.x(171)} y={PW.box.y + 20} size={24} color={C.magenta}>Cerro: 171</Cap>
+      <Cap x={1370} y={230} size={24} color={C.text} tex="\mu=120,\ \sigma=15" />
+      {beat === 0 && (
+        <>
+          <line x1={PW.x(boundary)} x2={PW.x(boundary)} y1={PW.box.y + 80} y2={PW.y(0)} stroke={C.violet} strokeWidth={3} />
+          <Knob x={PW.x(boundary)} y={PW.y(0)} color={C.violet} onPointerDown={onBoundary} cursor="ew-resize" />
+        </>
       )}
+      {beat >= 1 && <Cap x={1370} y={280} size={24} color={C.violet} tex="\mu+3\sigma=165" />}
+      {beat === 1 && (
+        <>
+          <line x1={PW.x(120)} x2={PW.x(180)} y1={700} y2={700} stroke={C.line} strokeWidth={3} />
+          {[0, 1, 2, 3, 4].map((z) => (
+            <g key={z}>
+              <line x1={PW.x(120 + 15 * z)} x2={PW.x(120 + 15 * z)} y1={690} y2={710} stroke={C.text} />
+              <Cap x={PW.x(120 + 15 * z)} y={750} size={24}>{z}</Cap>
+            </g>
+          ))}
+          <Cap x={PW.x(120) - 60} y={700} size={24}>z</Cap>
+          <Knob x={PW.x(120 + 15 * score)} y={700} color={C.magenta} onPointerDown={onScore} cursor="ew-resize" />
+        </>
+      )}
+      {beat >= 2 && <Cap x={1370} y={340} size={24} color={C.magenta} tex="z=\tfrac{171-120}{15}=3{,}4" />}
       {beat === 2 && answer !== null && (
-        <Cap
-          x={1370}
-          y={400}
-          size={22}
-          color={C.green}
-          tex={`P(Z>3{,}4)\\approx${num(1 - Phi(3.4), 4)}`}
-        />
+        <Cap x={1370} y={400} size={24} color={C.green} tex={`P(Z>3{,}4)\\approx${num(1 - Phi(3.4), 4)}`} />
       )}
     </Stage>
   );
@@ -488,18 +494,14 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Las dosis semanales de las clínicas de la región forman una campana con $\\mu=120$ y $\\sigma=15$.',
-          dur: 2,
+          gate: 'Ubica el límite superior de tres desviaciones sobre la media. Arrastra la perilla en el eje de dosis.',
+          after: 'Tres desviaciones sobre 120 son $120+3\\cdot15=165$ dosis. El reporte de 171 queda fuera de ese límite.',
           note: { label: 'Dosis semanales', tex: '\\mu=120,\\ \\sigma=15' },
         },
         {
-          say: 'La clínica del Cerro reporta 171 dosis en la semana 31.',
-          ask: {
-            prompt: '¿Cuál es su puntaje z?',
-            options: ['3,4', '51', '0,34'],
-            answer: 0,
-            explain:
-              '$\\tfrac{171-120}{15}=\\tfrac{51}{15}=3{,}4$: más de tres desviaciones sobre la media.',
-          },
+          say: 'La clínica del Cerro reporta 171 dosis en la semana 31. ¿Cuál es su puntaje z?',
+          gate: 'Ubica el puntaje z de las 171 dosis en la escala inferior.',
+          after: 'Las 171 dosis están 51 sobre la media. Al dividir por 15, el puntaje es $z=3{,}4$.',
           note: { label: 'Semana 31 del Cerro', tex: 'z=\\tfrac{171-120}{15}=3{,}4' },
         },
         {
