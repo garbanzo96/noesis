@@ -159,7 +159,7 @@ const lesson: LessonStep = {
   Scene: PatienceLesson,
   beats: [
     {
-      say: 'Diez dentro de tres días valen hoy 7,29 si conservas el 90 % del valor por cada día de espera. Ese equivalente hoy se llama **valor presente**; el factor diario es γ = 0,9.',
+      say: 'El **valor presente** es el equivalente hoy de un cobro futuro, según un factor de valoración por período. Permite comparar pagos en distintas fechas. La fórmula se lee «valor presente igual a gamma elevado a te por erre»: $r$ es el cobro y $t$ los días de espera.\n\nAquí $\\gamma=0{,}9$ conserva el 90 % por día, así que 10 en tres días valen hoy 7,29; gamma no es una probabilidad de cobro.',
       board: {
         label: 'Valor presente',
         tex: '\\p{1}{\\text{VP}}=\\p{2}{\\gamma^t r}',
@@ -168,8 +168,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mueve el cobro por el calendario: hoy conserva todo su valor; cada día adicional aplica otra vez el factor 0,9.',
-      gate: 'Mueve el cobro 3 días hacia adelante y mira cuánto vale hoy.',
+      say: 'El exponente $t$ cuenta los días completos hasta el cobro. Hoy, con $t=0$, el cobro conserva todo su valor porque $\\gamma^0=1$. Cada día adicional aplica otra vez el factor 0,9; multiplicar 0,9 por el número de días no produce el mismo descuento.',
+      gate: 'Ubica el cobro en el plazo que indica el exponente de la pizarra. Mira cómo cambia su valor presente al moverlo.',
       after: '$10\\cdot0{,}9^3=7{,}29$. Cada día aplica otra vez el factor 0,9.',
       board: {
         label: 'Tres días',
@@ -178,10 +178,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Mantén el plazo en tres días y sube **γ**: cuanto más cerca de 1, más valor conservan los cobros futuros. Con γ entre 0 y 1, un plazo mayor reduce el valor presente de un cobro positivo.',
-      gate: 'Sube $\\gamma$ hasta 0,9 y mira cuánto valor conserva el cobro.',
+      say: 'El **factor de descuento** $\\gamma$, leído «gamma», indica qué proporción del valor se conserva por período. Con $0<\\gamma<1$, un plazo mayor reduce el valor presente de un cobro positivo. Cuanto más cerca de 1 está gamma, más valor conservan los cobros futuros. El plazo y el factor deben usar la misma unidad: aquí, días.',
+      gate: 'Con el plazo fijo, busca el mayor factor que permite la perilla. Mira cuánto valor conserva el cobro.',
       after:
-        'Con $\\gamma$ más cerca de 1 el futuro pesa más. El plazo y $\\gamma$ deben usar la misma unidad.',
+        'Con $\\gamma=0{,}9$, los 10 de tres días valen hoy 7,29. Un factor mayor conserva más valor en el mismo plazo.',
       board: {
         label: 'Factor de descuento',
         tex: '\\p{1}{0<\\gamma<1},\\quad\\p{2}{ \\gamma^0}=\\p{3}{1}',
@@ -190,7 +190,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Ahora la posición paga 100 dentro de dos días. Aplica el factor diario una vez por cada día de espera.',
+      say: 'Ahora la posición paga 100 dentro de dos días y el factor diario es 0,9. Para calcular su valor presente, aplica ese factor una vez por cada día de espera. Descontar solo una vez dejaría fuera un día.',
       ask: {
         prompt: 'Con γ = 0,9 por día, ¿cuánto valen hoy esos 100?',
         options: ['90', '81', '100'],
@@ -204,7 +204,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si cobras 10 cada día para siempre, empezando hoy, sumas 10 + 9 + 8,1 + …: el valor presente total es 100. La **serie geométrica** converge porque γ es menor que 1.',
+      say: 'Una **serie geométrica** suma términos que se obtienen multiplicando el anterior por una razón constante. Aquí los cobros de 10 parten hoy y sus valores presentes son 10, 9, 8,1 y así sucesivamente.\n\nCon $0<\\gamma<1$, la suma converge a $r/(1-\\gamma)$, leído «erre dividido por uno menos gamma»: aquí vale 100. Si el primer cobro fuera mañana, el total sería 90.',
       board: {
         label: 'Renta desde hoy',
         tex: '\\p{1}{\\sum_{t\\ge0}\\gamma^t r}=\\p{2}{\\frac{r}{1-\\gamma}}=\\p{3}{\\frac{10}{1-0{,}9}}=\\p{4}{100}',
@@ -434,7 +434,7 @@ export const level: LevelSpec = {
       Scene: ClosingDemo,
       beats: [
         {
-          say: 'La mesa usa γ = 0,9 por día. Puedes cobrar 8 hoy o 10 dentro de tres días; ambos cobros están asegurados.',
+          say: 'La mesa usa γ = 0,9 por día. Puedes cobrar 8 hoy o 10 dentro de tres días; ambos cobros están asegurados. Compara sus valores presentes para decidir qué orden conviene.',
           ask: {
             prompt: '¿Qué orden tiene mayor valor presente?',
             options: ['10 en tres días', 'Valen lo mismo', '8 hoy'],
@@ -449,7 +449,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Otra posición entrega 10 cada día para siempre, con el primer pago hoy. La mesa mantiene γ = 0,9.',
+          say: 'Otra posición entrega 10 cada día para siempre, con el primer pago hoy. La mesa mantiene γ = 0,9. Calcula el valor presente de todos esos cobros para evaluar la posición.',
           ask: {
             prompt: '¿Cuánto vale hoy toda esa posición?',
             options: ['90', '100', 'No tiene un valor finito'],
