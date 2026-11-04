@@ -97,6 +97,9 @@ const audit = () =>
       }
       if (strip.scrollHeight > strip.clientHeight + 2) out.push(['franja', strip.scrollHeight - strip.clientHeight]);
     }
+    // the explanation column must show its whole text without scrolling
+    const body = document.querySelector('.console-body');
+    if (body && body.scrollHeight > body.clientHeight + 4) out.push(['consola', body.scrollHeight - body.clientHeight]);
     for (const e of document.querySelectorAll('.katex-error')) out.push(['tex', txt(e)]);
     return out;
   });

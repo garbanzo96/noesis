@@ -37,7 +37,7 @@ export function Console({
         <span>{CAST[speaker].name.split(' ')[0]}</span>
       </div>
       <div className="console-body">
-        <div className="console-text">
+        <div className={`console-text ${text.length > 340 ? 'long' : ''}`}>
           <Typewriter
             key={text}
             text={text}
