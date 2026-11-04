@@ -198,21 +198,68 @@ const lesson: LessonStep = {
   ],
 };
 
-function AccountDemo({ beats, answer }: DemoProps) {
+function AccountDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [f, setF] = useState(0.45);
+  const [p, setP] = useState(0.75);
   const { beat } = beats;
+  const unlocked = useRef(false);
+  useEffect(() => { unlocked.current = false; }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 0) {
+      const value = clamp(((x - G.x0) / (G.x1 - G.x0)) * 0.6, 0, 0.6);
+      setF(value);
+      if (Math.abs(value - 0.2) <= 0.015 && !unlocked.current) {
+        unlocked.current = true;
+        unlock();
+      }
+    } else if (beat === 1) {
+      const value = clamp(0.5 + ((x - G.x0) / (G.x1 - G.x0)) * 0.4, 0.5, 0.9);
+      setP(value);
+      if (Math.abs(value - 0.6) <= 0.01 && !unlocked.current) {
+        unlocked.current = true;
+        unlock();
+      }
+    }
+  });
+  const pts = Array.from({ length: 61 }, (_, i) => {
+    const value = (i / 60) * 0.6;
+    return `${i ? 'L' : 'M'}${fx(value)} ${Math.min(700, gy(growth(P0, 1, value)))}`;
+  }).join(' ');
   return (
-    <Stage>
-      <GrowthCurve f={0.2} showBest={answer !== null || beat === 1} />
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="f^*=0{,}6-0{,}4=0{,}2" color={C.green} />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap
-          x={1270}
-          y={260}
-          tex="P(\text{20 \% justo})\ \text{al azar}\approx0"
-          color={C.magenta}
-        />
+    <Stage ref={svg}>
+      {beat === 0 ? (
+        <g>
+          <line x1={G.x0} x2={G.x1} y1={G.y0} y2={G.y0} stroke={C.line} strokeWidth={2} />
+          <path d={pts} fill="none" stroke={C.amber} strokeWidth={4} />
+          {[0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6].map((v) => (
+            <Cap key={v} x={fx(v)} y={G.y0 + 35} size={24} color={C.muted}>{fmt(v, 1)}</Cap>
+          ))}
+          <Knob x={fx(f)} y={Math.min(700, gy(growth(P0, 1, f)))} onPointerDown={drag} axis="x" />
+          <Cap x={540} y={740} size={24}>Fracción del capital apostada</Cap>
+          <Cap x={1250} y={250} size={24}>La cuenta apostaba 0,2</Cap>
+          <Cap x={1250} y={320} size={24}>{`Marcador: ${fmt(f, 2)}`}</Cap>
+          <Cap x={1250} y={390} size={24}>Busca el punto más alto</Cap>
+        </g>
+      ) : beat === 1 ? (
+        <g>
+          <Cap x={540} y={230} size={28}>Reconstruye la tasa de acierto</Cap>
+          <Cap x={540} y={310} size={26}>A la par: fracción de Kelly = probabilidad de ganar − probabilidad de perder</Cap>
+          <line x1={G.x0} x2={G.x1} y1={480} y2={480} stroke={C.line} strokeWidth={4} />
+          <Knob x={G.x0 + ((p - 0.5) / 0.4) * (G.x1 - G.x0)} y={480} onPointerDown={drag} axis="x" />
+          <Cap x={G.x0} y={535} size={24}>0,5</Cap>
+          <Cap x={G.x1} y={535} size={24}>0,9</Cap>
+          <Cap x={540} y={610} size={26}>{`Ganar: ${fmt(p, 2)} · Perder: ${fmt(1 - p, 2)}`}</Cap>
+          <Cap x={1250} y={300} size={26}>Fracción registrada: 0,2</Cap>
+          <Cap x={1250} y={370} size={24}>Compara ganar y perder</Cap>
+        </g>
+      ) : (
+        <g>
+          <Cap x={540} y={300} size={28}>Registro de la cuenta</Cap>
+          <Cap x={540} y={390} size={26}>Día 1: apuesta el 20 % del capital</Cap>
+          <Cap x={540} y={460} size={26}>Todavía no hay historial de aciertos</Cap>
+          <Cap x={540} y={530} size={26}>Tasa observada después: 60 %</Cap>
+        </g>
       )}
     </Stage>
   );
@@ -350,13 +397,14 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'La cuenta ganaba el 60 % de sus apuestas a la par. ¿Qué fracción maximizaba su crecimiento, y cómo se compara con lo que apostaba?',
-          ask: {
-            prompt: '¿Qué fracción de Kelly corresponde a p = 0,6 a la par?',
-            options: ['0,2', '0,4', '0,6'],
-            answer: 0,
-            explain: 'f* = 0,6 − 0,4 = 0,2: exactamente lo que apostaba la cuenta.',
-          },
+          gate: 'Mueve el marcador hasta el punto más alto de la curva y compara su posición con la fracción de la cuenta.',
+          after: 'La curva alcanza su máximo en $f=0{,}2$, igual a la fracción que apostaba la cuenta.',
           note: { label: 'La fracción', tex: 'f^*=0{,}2' },
+        },
+        {
+          say: 'La cuenta apostaba 0,2 a la par. ¿Qué tasa de acierto corresponde a esa fracción de Kelly?',
+          gate: 'Ajusta la probabilidad de ganar hasta que la diferencia entre ganar y perder sea 0,2.',
+          after: 'Con probabilidad de ganar 0,6 y de perder 0,4, la diferencia es 0,2. Esa es la tasa que coincide con la fracción registrada.',
         },
         {
           say: 'La cuenta apostó 0,2 desde el primer día, antes de tener historial para estimar su tasa de acierto. ¿Qué nos dice esa elección sobre lo que sabía quien operaba la cuenta?',
