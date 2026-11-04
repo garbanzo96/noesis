@@ -540,8 +540,9 @@ export const level: LevelSpec = {
       Scene: LogDemo,
       beats: [
         {
-          say: 'La pregunta es al revés que en el caso anterior: no cuántos hay en $t$ horas, sino cuántas horas para llegar a un número.',
-          gate: 'Arrastra el reloj hasta pasar el millón.',
+          say: 'La cepa parte en un equipo y se duplica cada hora. Necesitamos saber cuántas horas transcurren antes de que supere el millón de registros de la red.',
+          gate: 'Arrastra el reloj hora por hora hasta la primera que supera el millón y observa cómo cambia la cantidad.',
+          after: 'A las 20 horas hay 1 048 576 equipos; a las 19 había 524 288. La vigésima duplicación es la primera que supera el millón.',
           note: {
             label: 'Logaritmo',
             tex: '\\log_2 N=t\\iff 2^t=N',
@@ -549,7 +550,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'En una regla logarítmica, cada paso igual multiplica por lo mismo.',
+          say: 'En esta regla logarítmica, cada paso igual multiplica por 10. Mira las distancias para ubicar 1 000 entre 1 y un millón.',
           ask: {
             prompt: 'En esta regla, ¿dónde queda 1 000 entre 1 y 1 000 000?',
             options: ['Justo al medio', 'Muy cerca del 1', 'Muy cerca del millón'],
@@ -563,8 +564,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Teo trae una regla de cálculo: dos reglas logarítmicas. Deslizar una sobre otra suma distancias.',
-          gate: 'Desliza la regla de abajo hasta que su 1 quede bajo el 8.',
+          say: 'Teo trae una regla de cálculo con dos reglas logarítmicas. Al deslizar una sobre otra se suman distancias para calcular un producto.',
+          gate: 'Desliza la regla de abajo hasta que su 1 quede bajo el 8 de arriba y mira qué número queda sobre el 16.',
+          after: 'El 16 de abajo queda bajo el 128 de arriba: $8\\cdot16=128$. Las distancias de 3 y 4 pasos se suman para obtener 7 pasos.',
           note: {
             label: 'Producto a suma',
             tex: '\\log(ab)=\\log a+\\log b',
@@ -572,7 +574,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Un truco que usaba Teo: $2^{10}=1024$, casi mil.',
+          say: 'Teo recuerda que $2^{10}=1024$, casi mil. Esa aproximación permite estimar las duplicaciones necesarias para llegar a un millón.',
           ask: {
             prompt: '¿Cuántas duplicaciones son, aproximadamente, un millón?',
             options: ['Unas 20', 'Unas 2 000', 'Unas 100'],
@@ -594,7 +596,7 @@ export const level: LevelSpec = {
           note: { label: 'Base 10', tex: '\\text{dB}=10\\log_{10}\\frac{I}{I_0}' },
         },
         {
-          say: 'Cualquier base se puede convertir en otra dividiendo. La base $e$ tiene nombre propio: $\\ln$.',
+          say: 'Podemos calcular un logaritmo en otra base mediante una división. El logaritmo en base $e$ se llama logaritmo natural y se escribe $\\ln$.',
           dur: 2,
           note: {
             label: 'Cambio de base',

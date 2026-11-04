@@ -220,7 +220,7 @@ export const lesson: LessonStep = {
   Scene: LogLesson,
   beats: [
     {
-      say: 'La potencia responde «¿cuánto da $2^3$?». El **logaritmo** responde la pregunta inversa: «¿a qué exponente hay que elevar 2 para obtener 8?».',
+      say: 'Una potencia permite calcular el resultado de elevar una base a un exponente. El **logaritmo** busca el exponente que produce un resultado dado: $\\log_2 8=3$ se lee «logaritmo en base 2 de 8 es 3». Aquí, multiplicar tres veces por 2 desde 1 da 8.',
       dur: 3,
       board: {
         label: 'Logaritmo',
@@ -229,7 +229,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'En general, $\\log_b N$ es el exponente que lleva la base $b$ hasta $N$. Con base 10, cuenta cuántos ceros hay.',
+      say: 'El **logaritmo** $\\log_b N$ se lee «logaritmo en base $b$ de $N$» y es el exponente $t$ que cumple $b^t=N$. Se define para $b>0$, $b\\ne1$ y $N>0$.\n\nEn la tabla, $\\log_{10}100=2$ porque $10^2=100$; $\\log_{10}0{,}1=-1$ porque $10^{-1}=0{,}1$. Contar ceros solo sirve directamente para potencias enteras no negativas de 10.',
       dur: 3,
       board: {
         label: 'Definición',
@@ -239,8 +239,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Como deshace la potencia, la gráfica de $\\log_2 x$ es el reflejo de $2^x$ en la recta $y=x$.',
-      gate: 'Arrastra el punto celeste y mira su reflejo.',
+      say: 'La función $y=\\log_2 x$, definida para $x>0$, es la **inversa** de $y=2^x$: recupera el exponente a partir de la potencia. Sus gráficas son reflejos respecto de la recta $y=x$. Si un punto de la potencia tiene coordenadas $(a,b)$, el punto correspondiente del logaritmo tiene coordenadas $(b,a)$.',
+      gate: 'Arrastra el punto celeste hacia la derecha hasta al menos $x=2{,}5$ y observa cómo cambian las coordenadas del punto reflejado.',
+      after: 'Al llegar a $x=2{,}5$, el punto celeste está aproximadamente en $(2{,}5; 5{,}66)$ y su reflejo en $(5{,}66; 2{,}5)$. Las coordenadas se intercambian porque las funciones son inversas.',
       board: {
         label: 'Inversas',
         tex: '\\p{1}{b^{\\log_b N}}=\\p{2}{N,\\qquad \\log_b\\left(b^t\\right)}=\\p{3}{t}',
@@ -248,7 +249,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'En una **escala logarítmica**, distancias iguales significan factores iguales. Sirve para ver juntos números muy chicos y muy grandes.',
+      say: 'En una **escala logarítmica**, la posición de un número positivo depende de su logaritmo: distancias iguales representan factores iguales. En la escala mostrada, cada paso multiplica por 10, tanto de 1 a 10 como de 100 a 1000. Esto permite comparar números de tamaños muy distintos. En una escala lineal, en cambio, distancias iguales representan diferencias iguales.',
       dur: 2.8,
       board: {
         label: 'Escala logarítmica',
@@ -258,7 +259,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Las **leyes de los logaritmos** son las leyes de potencias vistas desde los exponentes: al multiplicar, los exponentes se suman.',
+      say: 'Las **leyes de los logaritmos** permiten transformar productos en sumas, cocientes en restas y potencias en productos. Valen para una misma base positiva distinta de 1, con $a>0$ y $b>0$, y exponente real $k$. Por ejemplo, $8=2^3$ y $16=2^4$, así que sus exponentes se suman al multiplicarlos. La regla del producto no se aplica a una suma: $\\log(a+b)$ no equivale a $\\log a+\\log b$.',
       dur: 3.2,
       board: [
         {
@@ -279,7 +280,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Para despejar un exponente se toma logaritmo a ambos lados. Con $\\ln$, el logaritmo en base $e$, se calcula cualquier base.',
+      say: 'Para despejar un exponente, se puede aplicar logaritmo a ambos lados y usar la ley de la potencia. El **logaritmo natural** $\\ln x$, leído «ele ene de equis», tiene base $e\\approx2{,}718$ y requiere $x>0$.\n\nLa fórmula de cambio de base permite calcular $\\log_b N$ con logaritmos naturales si $b>0$, $b\\ne1$ y $N>0$. En $2^t=50$, este método da $t\\approx5{,}64$.',
       ask: {
         prompt: '¿Cuánto vale $\\log_2 32$?',
         options: ['5', '16', '6'],
