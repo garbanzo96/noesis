@@ -199,17 +199,17 @@ const lesson: LessonStep = {
   Scene: TreeLesson,
   beats: [
     {
-      say: 'Un **árbol de decisiones** separa tus elecciones del azar. El cuadrado inicial permite invertir ahora o esperar un dato que revela el estado; entrar tarde cuesta 10 solo si inviertes.',
+      say: 'Un **árbol de decisiones** representa una secuencia de elecciones y resultados posibles. Cada rama muestra una opción o un resultado; las hojas muestran los pagos finales. En un cuadrado eliges la acción de mayor valor y en un círculo calculas el promedio ponderado por las probabilidades.\n\nAquí puedes invertir ahora o esperar un dato que revela el estado. Entrar tarde cuesta 10 solo si inviertes.',
       board: {
         label: 'Dos tipos de nodo',
         tex: '\\text{azar: promedio},\\ \\text{decisión: máximo}',
       },
     },
     {
-      say: 'Empieza en las hojas: con dato bueno elige entre 60 − 10 y 0; con dato malo, entre −20 − 10 y 0. Después promedia los pagos de invertir ahora, donde todavía desconoces el estado.',
-      gate: 'Arrastra la perilla por A, luego B y finalmente «Azar ahora», sin saltarte nodos.',
+      say: 'Resolver hacia atrás significa calcular cada nodo cuando ya conoces los valores de sus ramas. Con dato bueno compara 60 − 10 con 0; con dato malo compara −20 − 10 con 0. En cada cuadrado usa el máximo, escrito $\\max$ y leído «máximo»; no promedies acciones que puedes elegir. Después pondera los pagos de invertir ahora, cuando aún desconoces el estado.',
+      gate: 'Resuelve desde las hojas: arrastra la perilla por A, luego B y finalmente «Azar ahora». Mira el valor que aparece para cada nodo.',
       after:
-        'Se resuelve de atrás hacia adelante: $V(A)=50$, $V(B)=0$, y esperar vale 25 contra 20 de invertir ahora. En un cuadrado se elige; en un círculo se promedia.',
+        'En los cuadrados, $V(A)=50$ y $V(B)=0$ son los mejores pagos disponibles. El círculo de invertir ahora vale 20 al ponderar ganancia y pérdida; así cada nodo queda listo para comparar las rutas.',
       board: {
         label: 'Resolver hacia atrás',
         tex: '\\p{1}{V(A)}=\\p{2}{\\max(60-10,0)},\\quad\\p{3}{ V(B)}=\\p{4}{\\max(-20-10,0)}',
@@ -222,7 +222,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Al esperar, podrás elegir después del dato: el nodo bueno vale 50 y el malo vale 0. Cada dato tiene probabilidad 0,5.',
+      say: 'Al esperar, podrás elegir después del dato: el nodo bueno vale 50 y el malo vale 0. Cada dato tiene probabilidad 0,5. El **valor esperado** es la suma de los valores posibles, cada uno multiplicado por su probabilidad; sirve para valorar la ruta antes de conocer el dato.\n\n$V(s)$ se lee «ve de ese» y es el valor antes del dato; $\\sum_j p_j V(s_j)$ se lee «suma sobre jota de pe sub jota por ve de ese sub jota». Las probabilidades de las ramas suman 1.',
       ask: {
         prompt: '¿Cuánto vale esperar, antes de conocer el dato?',
         options: ['25', '50', '20'],
@@ -237,7 +237,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Llegaste al cuadrado inicial. Compara 20 por invertir ahora con 25 por esperar: eliges esperar y conservas un margen esperado de 5.',
+      say: 'Llegaste al cuadrado inicial, donde eliges entre dos rutas ya resueltas. Invertir ahora vale 20 y esperar vale 25, así que el máximo es 25. La diferencia de 5 es un margen esperado, no un pago garantizado.',
       board: {
         label: 'Decisión inicial',
         tex: '\\p{1}{V_{\\text{inicio}}}=\\p{2}{\\max(20,25)}=\\p{3}{25}',
@@ -245,7 +245,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una **política** especifica qué harás en cada decisión: esperar ahora e invertir solo si el dato es bueno. Resuelve cada nodo cuando ya tengas los valores de sus ramas.',
+      say: 'Una **política** especifica una acción para cada decisión según la información disponible en ese momento. Aquí indica esperar ahora e invertir solo si el dato es bueno. Para encontrarla en un árbol finito, resuelve cada nodo después de sus ramas: promedia en los círculos y elige un máximo en los cuadrados. El costo de entrar tarde se resta una vez y solo cuando inviertes.',
       board: {
         label: 'Regla del árbol',
         tex: '\\text{azar: promedio},\\ \\text{decisión: máximo}',
@@ -495,7 +495,7 @@ export const level: LevelSpec = {
       Scene: DeskDemo,
       beats: [
         {
-          say: 'Valentina conserva la entrada inmediata: probabilidad 0,5 de ganar 60 y 0,5 de perder 20.',
+          say: 'Valentina mantiene la orden de entrada inmediata: hay probabilidad 0,5 de ganar 60 y 0,5 de perder 20. Necesitamos su valor esperado para compararlo con la ruta de esperar.',
           ask: {
             prompt: '¿Qué valor esperado tiene invertir ahora?',
             options: ['20', '40', '60'],
@@ -509,7 +509,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Si espera, entra solo con dato bueno: gana 60 menos 10 de costo. Con dato malo no invierte y recibe 0.',
+          say: 'Si espera, Valentina puede decidir con el dato en la mano: con dato bueno, invertir deja 60 menos 10 de costo; con dato malo, no invertir deja 0. Compara ambos valores esperados para decidir qué ruta conviene.',
           ask: {
             prompt: '¿Qué ruta conviene en el cuadrado inicial?',
             options: ['Esperar', 'Invertir ahora', 'Dan lo mismo'],
