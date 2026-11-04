@@ -101,7 +101,7 @@ const lesson: LessonStep = {
   Scene: BaseRateLesson,
   beats: [
     {
-      say: 'Con el 2 % de enfermos, un positivo acierta 27 de cada 100 veces. Esa fracción se llama **valor predictivo positivo**.',
+      say: 'El **valor predictivo positivo** (VPP) es la probabilidad de tener la enfermedad dado que el test salió positivo. Se lee «probabilidad de E dado positivo» en $P(E\\mid+)$, donde E representa la enfermedad.\n\nCon 2 % de prevalencia, hay 18 positivos verdaderos y 49 falsos entre 1000 personas: aproximadamente 27 de cada 100 positivos corresponden a enfermos. El VPP sirve para interpretar un resultado positivo.',
       board: {
         label: 'Valor predictivo positivo',
         tex: '\\p{1}{\\text{VPP}}=\\p{2}{P(E\\mid+)}',
@@ -109,8 +109,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Sube la prevalencia sin tocar el test. Mira qué pasa con los positivos.',
-      gate: 'Sube la prevalencia a 20 % sin tocar el test. ¿Qué fracción de los positivos está enferma ahora?',
+      say: 'La **prevalencia** o tasa base es la proporción de personas que tienen la enfermedad en una población antes de conocer el resultado del test. Se representa con $\\pi$, que se lee «pi». Aquí el test mantiene sensibilidad 0,9 y especificidad 0,95 mientras cambia la prevalencia.',
+      gate: 'Sube la prevalencia hasta el máximo que permite la barra. ¿Cómo cambia la fracción de positivos que está enferma?',
       after:
         'Con 20 % de prevalencia, $\\tfrac{180}{180+40}\\approx0{,}82$ de los positivos está enfermo. El test es el mismo: cambió la tasa base.',
       board: {
@@ -120,7 +120,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El test es el mismo, pero el VPP pasó de 0,27 a 0,82.',
+      say: 'El test es el mismo, pero el VPP pasó de 0,27 a 0,82. Compara los conteos de positivos verdaderos y falsos con los que viste al comienzo. ¿Cómo ayuda esa comparación a explicar el cambio?',
       ask: {
         prompt: '¿Por qué cambió tanto el VPP si el test es el mismo?',
         options: [
@@ -139,7 +139,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'En fórmula: los positivos de enfermos sobre todos los positivos, con la prevalencia π a la vista.',
+      say: 'La fórmula calcula el VPP como la proporción de positivos que corresponden a personas enfermas. La **sensibilidad** $s$ es la probabilidad de un positivo entre los enfermos; la **especificidad** $e$ es la probabilidad de un negativo entre los sanos.\n\nEl numerador $s\\pi$ representa los positivos verdaderos y el denominador suma también los falsos positivos, $(1-e)(1-\\pi)$. La división requiere que exista una probabilidad positiva de obtener un resultado positivo.',
       board: {
         label: 'Fórmula',
         tex: '\\p{1}{\\text{VPP}}=\\p{2}{\\frac{s\\,\\pi}{s\\,\\pi+(1-e)(1-\\pi)}}',
@@ -147,7 +147,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Por eso el número que se usa como prevalencia importa tanto como la calidad del test.',
+      say: 'Para calcular el VPP necesitas la sensibilidad $s$, la especificidad $e$ y la prevalencia $\\pi$ de la población pertinente. La sensibilidad describe resultados entre enfermos; el VPP describe enfermos entre quienes dieron positivo. Confundir ambas probabilidades lleva a interpretar mal el resultado, aunque el test sea el mismo.',
       board: {
         label: 'Tres ingredientes',
         tex: '\\p{1}{s},\\ \\p{2}{e},\\ \\p{3}{\\pi}',
@@ -370,8 +370,8 @@ export const level: LevelSpec = {
       Scene: ReportDemo,
       beats: [
         {
-          say: 'El sistema calcula el VPP con la cifra cargada en la central: 20 %. Ajusta la prevalencia y observa cuántos positivos son verdaderos y cuántos son falsos.',
-          gate: 'Arrastra la perilla de prevalencia hasta 20 % o toca ese valor en la barra.',
+          say: 'La central cargó una prevalencia de 20 % para el cálculo del sistema. Veamos qué VPP entrega esa cifra y cómo se reparten los positivos verdaderos y falsos.',
+          gate: 'Ajusta la prevalencia a la cifra cargada en la central. Mira los positivos verdaderos y falsos y el VPP que obtiene el sistema.',
           after:
             'Con la cifra de la central, 20 %, el VPP queda cerca de 0,82. Esa prevalencia hace parecer muy confiable cada positivo.',
         },
@@ -391,7 +391,7 @@ export const level: LevelSpec = {
         },
         {
           say: 'El censo regional indica 2 %. Ajusta la prevalencia sin cambiar el test y observa el VPP.',
-          gate: 'Arrastra la perilla de prevalencia hasta 2 % o toca ese valor en la barra.',
+          gate: 'Ajusta la prevalencia a la cifra del censo regional. Mira cómo cambia el VPP con el mismo test.',
           after:
             'Con 2 % el VPP cae a $\\tfrac{18}{67}\\approx0{,}27$. El mismo test, en otra población, acierta uno de cada cuatro positivos.',
         },
