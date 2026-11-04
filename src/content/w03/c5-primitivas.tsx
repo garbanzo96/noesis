@@ -230,7 +230,7 @@ const lesson: LessonStep = {
   Scene: PrimitivesLesson,
   beats: [
     {
-      say: 'Derivar va de $F$ a $f$. La pregunta inversa: dada $f$, ¿qué función $F$ tiene a $f$ como derivada? Esa $F$ se llama **primitiva** o antiderivada.',
+      say: 'Una **primitiva** o antiderivada de $f$ en un intervalo es una función $F$ cuya derivada cumple $F\'(x)=f(x)$ en ese intervalo. Se lee «efe prima de equis es igual a efe minúscula de equis». Buscar una primitiva permite invertir la derivación y calcular integrales. Por ejemplo, $x^2$ es una primitiva de $2x$; $\\ln x$ lo es de $1/x$ para $x>0$.',
       dur: 3,
       board: {
         label: 'Primitiva',
@@ -240,8 +240,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Subir o bajar una curva no cambia sus pendientes. Por eso, si $F$ es primitiva, también lo es $F+C$ para cualquier constante $C$: son infinitas.',
-      gate: 'Sube la curva hasta C = 3: las tangentes no cambian.',
+      say: 'Si $F$ es una primitiva de $f$ en un intervalo, todas las demás son $F+C$, con $C$ constante. La **integral indefinida** representa esa familia y $\\int f(x)\\,dx$ se lee «integral de efe de equis, de equis». La constante $C$ determina el desplazamiento vertical de la curva. En la figura puedes observar la familia $x^2+C$ y sus tangentes.',
+      gate: 'Arrastra la perilla hacia arriba hasta llegar a $C=3$ o más y observa qué pasa con las tangentes.',
+      after: 'Al llegar a $C=3$ o más, la curva sube y sus tangentes conservan las mismas pendientes que con $C=0$. Sumar una constante cambia la altura, pero la derivada sigue siendo $2x$.',
       board: {
         label: 'Integral indefinida',
         tex: '\\int f(x)\\,dx=\\p{1}{F(x)}+\\p{2}{\\cA{C}}',
@@ -249,7 +250,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La regla de la potencia, al revés: se suma 1 al exponente y se divide por el nuevo exponente. Se comprueba derivando.',
+      say: 'Para integrar $x^n$, se suma 1 al exponente y se divide por ese nuevo exponente: $\\int x^n\\,dx=\\frac{x^{n+1}}{n+1}+C$. La regla exige $n\\ne-1$, porque en ese caso el divisor sería cero. Por ejemplo, una primitiva de $x^3$ es $x^4/4$: al derivarla se recupera $x^3$. No olvides la constante $C$.',
       dur: 3.2,
       board: {
         label: 'Potencia',
@@ -258,7 +259,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Otras primitivas básicas salen de leer al revés la tabla de derivadas. Y como derivar respeta sumas y constantes, integrar también.',
+      say: 'La exponencial $e^x$ es su propia primitiva. Para $1/x$, una primitiva es $\\ln|x|$, que se lee «logaritmo natural del valor absoluto de equis» y vale en cualquier intervalo que no contenga 0.\n\nLa derivada respeta sumas y factores constantes, así que podemos integrar término a término: $3x^2+2$ tiene primitiva $x^3+2x+C$. El valor absoluto permite incluir también intervalos de $x$ negativos.',
       dur: 3,
       board: [
         {
@@ -273,7 +274,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Ahora el puente. El cambio total de $F$ entre $a$ y $b$ es la suma de muchos cambios pequeños, y cada uno vale pendiente por ancho: $f(x)\\,\\Delta x$. Esa suma es la integral.',
+      say: 'Si $f$ es continua en $[a,b]$ y $F$ es una primitiva de $f$, el **teorema fundamental del cálculo** dice que $\\int_a^b f(x)\\,dx=F(b)-F(a)$. Se lee «integral de a a be de efe de equis, de equis».\n\nCada cambio pequeño de $F$ se aproxima por la pendiente $f(x)$ multiplicada por el ancho $\\Delta x$. Al hacer los intervalos cada vez más pequeños, la suma se acerca a la integral y al cambio total de $F$.',
       dur: 4,
       board: [
         { tex: 'F(b)-F(a)=\\sum \\Delta F\\approx\\sum f(x_i)\\,\\Delta x' },
@@ -285,7 +286,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Con eso se calcula exacto lo que antes se aproximaba con rectángulos.',
+      say: 'Para calcular una integral definida, evalúa una primitiva en el extremo superior y resta su valor en el inferior. Así obtienes el cambio exacto que las sumas de rectángulos aproximan.',
       ask: {
         prompt: '¿Cuánto vale $\\int_0^4\\left(1+\\tfrac{x^2}{4}\\right)dx$?',
         options: ['28/3 ≈ 9,33', '5', '4'],
@@ -520,7 +521,7 @@ export const level: LevelSpec = {
       Scene: FormulaDemo,
       beats: [
         {
-          say: 'El caudal de la tubería 7 según el manual, en miles de m³ por hora.',
+          say: 'El manual da el caudal de la tubería 7 en miles de m³ por hora. Busquemos una primitiva para calcular cuánto pasó entre las 00:00 y las 06:00.',
           ask: {
             prompt: '¿Cuál es una primitiva de $Q(t)=2+1{,}5t-0{,}25t^2$?',
             options: [
@@ -535,7 +536,7 @@ export const level: LevelSpec = {
           note: { label: 'Primitiva del caudal', tex: 'F(t)=2t+0{,}75t^2-\\tfrac{t^3}{12}' },
         },
         {
-          say: 'El volumen de la noche es la integral de 0 a 6: la primitiva evaluada en 6 menos en 0.',
+          say: 'La integral de 0 a 6 da el volumen de la noche: evaluamos la primitiva en 6 y restamos su valor en 0. Según la fórmula del manual, pasaron 21 mil m³.',
           dur: 1.8,
           note: {
             label: 'Volumen exacto',
