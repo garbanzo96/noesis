@@ -206,26 +206,57 @@ const lesson: LessonStep = {
   ],
 };
 
-function ClosingDemo({ beats, answer }: DemoProps) {
+function ClosingDemo({ beats, unlock, answer }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [marker, setMarker] = useState(0);
+  const unlockedBeat = useRef(-1);
+  const { beat } = beats;
+  useEffect(() => {
+    setMarker(0);
+  }, [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0 && beat !== 1) return;
+    const next = Math.round(clamp((x - 1100) / 300, 0, 1) * 100) / 10;
+    setMarker(next);
+    const target = beat === 0 ? 8 : 6.4;
+    if (Math.abs(next - target) <= 0.2 && unlockedBeat.current !== beat) {
+      unlockedBeat.current = beat;
+      unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <OperationDrawing d={DESK} />
       <Cap x={1250} y={160} tex="\gamma=0{,}8" />
-      <Cap x={1250} y={250} size={20}>
+      <Cap x={1250} y={250} size={24}>
         Mismo cobro final: 10
       </Cap>
-      {beats.beat === 1 && <Cap x={1250} y={340} tex="V(s_2)=8" color={C.cyan} />}
-      {answer !== null &&
-        (beats.beat === 0 ? (
-          <Cap x={1250} y={430} tex="V(s_2)=\max(5;8)=8" color={C.green} size={21} />
-        ) : (
-          <>
-            <Cap x={1250} y={430} tex="V(s_1)=\max(7;6{,}4)=7" color={C.green} size={21} />
-            <Cap x={1250} y={520} size={20} color={C.green}>
-              Cerrar en la etapa 1.
-            </Cap>
-          </>
-        ))}
+      {beat >= 1 && <Cap x={1250} y={340} tex="V(s_2)=8" color={C.cyan} />}
+      {beat < 2 && (
+        <>
+          <Cap x={1250} y={440} size={24} color={C.amber}>
+            {beat === 0 ? 'Valor de la etapa 2' : 'Valor de seguir en 1'}
+          </Cap>
+          <Cap x={1250} y={510} size={26} color={C.amber}>
+            {fmt(marker, 1)}
+          </Cap>
+          <line x1={1100} x2={1400} y1={650} y2={650} stroke={C.line} strokeWidth={4} />
+          <Knob x={1100 + marker * 30} y={650} axis="x" onPointerDown={drag} color={C.amber} />
+          <Cap x={1100} y={710} size={24}>0</Cap>
+          <Cap x={1400} y={710} size={24}>10</Cap>
+        </>
+      )}
+      {beat === 2 && (
+        <Cap x={1250} y={430} tex="0{,}8\cdot8=6{,}4" color={C.cyan} />
+      )}
+      {beat === 2 && answer !== null && (
+        <>
+          <Cap x={1250} y={520} tex="V(s_1)=\max(7;6{,}4)=7" color={C.green} size={24} />
+          <Cap x={1250} y={600} size={24} color={C.green}>
+            Cerrar en la etapa 1.
+          </Cap>
+        </>
+      )}
     </Stage>
   );
 }
@@ -404,18 +435,18 @@ export const level: LevelSpec = {
       Scene: ClosingDemo,
       beats: [
         {
-          say: 'La mesa cambió las condiciones: cada intervalo conserva 0,8 del valor. En la etapa 2 podemos cerrar por 5 o seguir hasta cobrar 10 en 3. Calculemos el valor de esa etapa antes de decidir qué hacer con la orden.',
-          ask: {
-            prompt: '¿Cuánto vale la etapa 2 con estas condiciones?',
-            options: ['8', '10', '13'],
-            answer: 0,
-            explain:
-              'max(5; 0,8 · 10) = 8. Seguir conserva más valor que cerrar; los pagos no se suman.',
-          },
+          say: 'La mesa cambió las condiciones: cada intervalo conserva 0,8 del valor. En la etapa 2 podemos cerrar por 5 o seguir hasta cobrar 10 en 3.',
+          gate: '¿Cuánto vale la etapa 2 con estas condiciones? Calcula y mueve el marcador hasta el mayor valor disponible.',
+          after: 'Seguir vale $0{,}8\\cdot10=8$ y cerrar paga 5. El valor de la etapa 2 es 8.',
           note: { label: 'Nuevo valor en 2', tex: 'V(s_2)=\\max(5;0{,}8\\cdot10)=8' },
         },
         {
-          say: 'Me ofrecen cerrar por 7 en la etapa 1. Seguir no paga nada ahora y lleva a la etapa 2, que vale 8. Comparemos ambas opciones en el momento de la firma.',
+          say: 'Me ofrecen cerrar por 7 en la etapa 1. Seguir no paga nada ahora y lleva a la etapa 2, que vale 8.',
+          gate: 'Calcula cuánto vale seguir en la etapa 1 y ubica ese valor en la escala.',
+          after: 'Seguir vale $0{,}8\\cdot8=6{,}4$ en la etapa 1. Cerrar ofrece 7 ahora.',
+        },
+        {
+          say: 'La orden ofrece 7 ahora; seguir vale 6,4 en este momento.',
           ask: {
             prompt: '¿Qué conviene hacer en la etapa 1?',
             options: ['Cerrar por 7', 'Seguir hasta la etapa 2', 'Empatan'],
