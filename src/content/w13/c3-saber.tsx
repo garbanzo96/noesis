@@ -212,16 +212,48 @@ const lesson: LessonStep = {
   ],
 };
 
-function PriceDemo({ beats, answer }: DemoProps) {
+function PriceDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [price, setPrice] = useState(0);
+  const [total, setTotal] = useState(0);
+  const x0 = 1080, x1 = 1440;
+  const drag = useSvgDrag(svg, (x) => {
+    const fraction = clamp((x - x0) / (x1 - x0), 0, 1);
+    if (beat === 0) {
+      const value = fraction * 20;
+      setPrice(value);
+      if (Math.abs(value - 16) <= 0.5) unlock();
+    } else if (beat === 1) {
+      const value = fraction * 10000;
+      setTotal(value);
+      if (Math.abs(value - 8000) <= 250) unlock();
+    }
+  });
+  const value = beat === 0 ? price : total;
+  const max = beat === 0 ? 20 : 10000;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <InfoTree informed highlight />
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="16>10\Rightarrow\text{conviene}" color={C.green} />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="500\cdot16=8\,000" color={C.green} />
+      {beat < 2 ? (
+        <>
+          <Cap x={1260} y={190} size={26} color={C.text}>
+            {beat === 0 ? 'Valor de saber por contrato' : 'Valor para 500 contratos'}
+          </Cap>
+          <Cap x={1260} y={270} size={26} color={C.amber}>
+            {beat === 0 ? 'Con información: 20 · Sin información: 4' : 'Valor por contrato: 16'}
+          </Cap>
+          {beat === 0 && <Cap x={1260} y={340} size={26} color={C.cyan}>Precio del boletín: 10</Cap>}
+          <line x1={x0} x2={x1} y1={530} y2={530} stroke={C.line} strokeWidth={4} />
+          <Cap x={x0} y={590} size={24} color={C.muted}>0</Cap>
+          <Cap x={x1} y={590} size={24} color={C.muted}>{beat === 0 ? '20' : '10 000'}</Cap>
+          <Cap x={1260} y={430} size={26} color={C.text}>
+            {beat === 0 ? fmt(value, 1) : Math.round(value / 100) * 100}
+          </Cap>
+          <Knob x={x0 + (value / max) * (x1 - x0)} y={530} onPointerDown={drag} axis="x" color={C.amber} />
+        </>
+      ) : (
+        <Cap x={1260} y={300} size={26} color={C.green}>500 · 16 = 8 000</Cap>
       )}
     </Stage>
   );
@@ -348,32 +380,23 @@ export const level: LevelSpec = {
       Scene: PriceDemo,
       beats: [
         {
-          say: 'Un informante vende el boletín sanitario un día antes a 10 por contrato. Comparemos ese precio con el valor esperado de saber si habrá brote antes de operar.',
-          ask: {
-            prompt: '¿Le conviene comprarlo a quien opera estos contratos?',
-            options: [
-              'Sí: el dato vale 16 por contrato',
-              'No: cuesta más de lo que vale',
-              'Da lo mismo',
-            ],
-            answer: 0,
-            explain: 'La información vale 16 y cuesta 10: deja 6 por contrato.',
-          },
+          say: 'Un informante vende el boletín sanitario un día antes a 10 por contrato. ¿Le conviene comprarlo a quien opera estos contratos?',
+          gate: 'Calcula cuánto vale saber antes y marca ese valor en la escala. Compáralo con el precio del boletín.',
+          after: 'Saber antes vale 20 − 4 = 16 por contrato. Como el boletín cuesta 10, deja 6 por contrato en valor esperado.',
           note: { label: 'Precio del dato', tex: '\\text{EVPI}=16>10' },
         },
         {
-          say: 'La cuenta sospechosa operó 500 contratos con el anuncio adelantado. Calculemos cuánto aumentó el valor esperado de sus decisiones al saber antes.',
-          ask: {
-            prompt: '¿Cuánto valió para ella saber antes?',
-            options: ['8 000', '10 000', '2 000'],
-            answer: 0,
-            explain: '500 · 16 = 8 000 en valor esperado, solo por saber antes.',
-          },
+          say: 'La cuenta sospechosa operó 500 contratos con el anuncio adelantado. ¿Cuánto valió para ella saber antes?',
+          gate: 'Calcula el valor para los 500 contratos y ubícalo en la escala.',
+          after: 'Para 500 contratos, saber antes aumentó el valor esperado en 500 · 16 = 8 000.',
           note: {
             label: 'Ganancia por saber',
             tex: '500\\cdot16=8\\,000',
             body: 'Ese valor no existe si el dato llega a todos a la vez.',
           },
+        },
+        {
+          say: 'La cuenta obtuvo un aumento esperado de 8 000 por recibir el anuncio antes. El resultado efectivo depende de si ocurre el brote.',
         },
       ],
     },
