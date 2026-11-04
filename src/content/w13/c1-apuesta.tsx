@@ -164,7 +164,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve la probabilidad de brote. Busca el punto donde comprar y no comprar valen lo mismo.',
-      gate: 'Arrastra el punto hasta donde la recta cruza el 0.',
+      gate: 'Busca la probabilidad en que comprar y no comprar valen lo mismo.',
+      after:
+        'La recta cruza el 0 en $p=\\tfrac16$: ahí $100p=20(1-p)$. Bajo ese valor el contrato pierde en promedio.',
       board: {
         label: 'Punto de equilibrio',
         tex: '\\p{1}{100p=20(1-p)}\\p{2}{\\ \\Rightarrow\\ p=\\tfrac16}',
@@ -374,7 +376,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El lunes, el boletín sanitario publicó p = 0,25 de brote, y la cuenta compró. Lleva el pronóstico a 0,25 en la recta del contrato.',
-          gate: 'Arrastra el punto hasta p = 0,25.',
+          gate: 'Lleva el pronóstico a 0,25. ¿Comprar era razonable ese día?',
+          after:
+            '$E(0{,}25)=10$: con esa probabilidad comprar tiene sentido. Esa compra no llama la atención.',
           note: { label: 'Lunes', tex: 'E(0{,}25)=10' },
         },
         {
@@ -392,7 +396,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'El jueves, el boletín público bajó a p = 0,05. La cuenta compró de nuevo, y al día siguiente se anunció un brote. Lleva el pronóstico a 0,05.',
-          gate: 'Arrastra el punto hasta p = 0,05.',
+          gate: 'Lleva el pronóstico a 0,05. ¿Comprar era razonable con lo público?',
+          after:
+            '$E(0{,}05)=-14$: con lo público esa compra perdía en promedio. La cuenta sabía algo que no estaba en el boletín.',
           note: { label: 'Jueves', tex: 'E(0{,}05)=-14' },
         },
         {

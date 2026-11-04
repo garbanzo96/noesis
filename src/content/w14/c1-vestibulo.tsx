@@ -157,7 +157,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'El lector de la puerta marcó 12,5 %. Busca en la curva cuántas horas pasaron.',
-      gate: 'Arrastra el punto hasta que la carga marque 12,5 %.',
+      gate: 'Busca en la curva cuántas horas pasaron para que la carga sea 12,5 %.',
+      after: 'Son 24 horas: tres mitades de 8 horas. $8\\log_2 8=24$.',
       board: {
         label: 'Leer la curva',
         tex: '\\p{1}{2^{-t/8}}=\\p{2}{\\tfrac{12{,}5}{100}=\\tfrac18}',

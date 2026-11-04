@@ -176,7 +176,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Agrega q₃ = (0; 0,2; 0,8), reflejada hacia enfermo. Compara las tres: las dos de los extremos empatan en el mínimo de esta familia.',
-      gate: 'Arrastra la perilla a una candidata que minimice KL(q ‖ p).',
+      gate: 'Busca la candidata con menor $KL(q\\Vert p)$. ¿Hay una sola?',
+      after:
+        'Las dos de los extremos empatan en el mínimo: cada una se queda con una joroba. Esta dirección de la KL castiga poner $q$ donde $p$ casi no tiene masa.',
       board: {
         label: 'Elegir entre las tres',
         tex: '\\p{1}{\\mathcal Q}=\\p{2}{\\{q_1,q_2,q_3\\}},\\quad\\p{3}{ q^*\\in\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',

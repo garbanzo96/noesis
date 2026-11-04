@@ -126,7 +126,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve el punto del mapa y compara la altura real con la del plano. Al acercarlo al centro, las dos lecturas se juntan.',
-      gate: 'Arrastra el punto al interior del círculo verde: a menos de 0,15 de (1, 2).',
+      gate: 'Acerca el punto a $(1,2)$ hasta que la altura real y la del plano casi no se distingan.',
+      after:
+        'Muy cerca de $(1,2)$ las dos lecturas casi coinciden: de cerca la superficie se comporta como su plano tangente.',
       board: {
         label: 'Plano del ejemplo',
         tex: '\\begin{aligned}\\p{1}{L(x,y)}&=\\p{2}{\\cC{3}}+\\p{3}{\\cA{8(x-1)}}\\\\&\\quad-\\p{4}{\\cM{(y-2)}}\\end{aligned}',

@@ -158,7 +158,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve el conteo de A: cuanto más se aleja de 50, más crece χ². B compensa para que el total siga en 100.',
-      gate: 'Arrastra la perilla hasta que A valga 60.',
+      gate: 'Aleja el conteo de A hasta 60 y mira si $\\chi^2$ supera el valor crítico 5,99.',
+      after:
+        '$\\chi^2=5{,}33<5{,}99$: con A en 60 los datos todavía son compatibles con el modelo.',
       board: {
         label: 'Con A = 60',
         tex: '\\p{1}{\\tfrac{10^2}{50}+\\tfrac{10^2}{30}}=\\p{2}{5{,}33}',

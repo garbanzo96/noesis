@@ -155,7 +155,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Lo que importa a la larga es cuánto crece el capital por apuesta, en promedio logarítmico. Busca la fracción que lo hace crecer más rápido.',
-      gate: 'Arrastra el punto hasta lo más alto de la curva.',
+      gate: 'Busca la fracción del capital que hace crecer más rápido el dinero.',
+      after:
+        'El máximo está en $f=0{,}2$. Apostar más no gana más: con $f=0{,}5$ el crecimiento es negativo aunque la ventaja sea real.',
       board: {
         label: 'Crecimiento por apuesta',
         tex: '\\p{1}{g(f)}=\\p{2}{p\\ln(1+bf)}\\p{3}{+(1-p)\\ln(1-f)}',

@@ -203,6 +203,8 @@ const lesson: LessonStep = {
     {
       say: 'El **histograma** dibuja una barra por clase, con altura $f_i$. El ancho de clase importa: muy anchas esconden detalles; muy angostas, solo muestran ruido.',
       gate: 'Cambia el ancho de las clases y mira cómo cambia el histograma.',
+      after:
+        'Con clases muy anchas se pierde la forma; con clases muy angostas solo se ve ruido. El ancho no cambia los datos: cambia lo que puedes ver en ellos.',
       board: { label: 'Histograma', tex: '\\text{barras pegadas, altura}\\ \\propto f_i' },
     },
     {

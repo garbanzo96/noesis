@@ -146,7 +146,9 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Mueve el punto por el círculo y mira cuánto vale la señal. La **restricción** obliga a buscar el mejor valor sobre esa curva.',
-      gate: 'Arrastra el punto por el círculo hasta que f supere 4,95, cerca de la marca verde.',
+      gate: 'Recorre el círculo buscando el mayor valor de la señal. Compara la dirección del punto con la del gradiente.',
+      after:
+        'El máximo se acerca a 5 cuando el punto apunta en la dirección de $(3,4)$. Con restricción, el óptimo está donde la curva de nivel toca la restricción.',
       board: {
         label: 'Objetivo y restricción',
         tex: '\\begin{aligned}\\p{1}{\\text{maximizar }}&\\p{2}{\\cA{3x+4y}}\\\\\\p{3}{\\text{con }}&\\p{4}{\\cC{x^2+y^2=1}}\\end{aligned}',

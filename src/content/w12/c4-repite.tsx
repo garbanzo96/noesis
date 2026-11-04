@@ -236,7 +236,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Parte con un lote completamente sano. Avanza los días: la fracción esperada se acerca a 5/6; un lote sorteado puede fluctuar alrededor de ese valor.',
-      gate: 'Arrastra la perilla de días hasta el día 8 o más.',
+      gate: 'Avanza los días hasta que la fracción de sanos deje de cambiar. ¿A qué valor se acerca?',
+      after:
+        'Se acerca a $\\tfrac56$: el término $\\tfrac16(0{,}4)^t$ se apaga. Esa es la distribución estacionaria.',
       board: {
         label: 'Acercarse al equilibrio',
         tex: '\\p{1}{q_0}=\\p{2}{1},\\quad\\p{3}{ q_t}=\\p{4}{\\frac56+\\frac16(0{,}4)^t}',

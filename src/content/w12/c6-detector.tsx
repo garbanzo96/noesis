@@ -190,7 +190,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Arma el lote que quedó retenido en el turno. Arrastra la perilla hasta tener ocho «medio»; los otros dos registros quedan repartidos entre bajo y alto.',
-      gate: 'Lleva la cantidad de «medio» a 8.',
+      gate: 'Arma el lote retenido: 8 registros «medio» de 10. ¿Se parece a lo que generaría el modelo?',
+      after:
+        'Quedó $n_B=1$, $n_M=8$, $n_A=1$. Comparar su verosimilitud bajo cada modelo dice cuál lo explica mejor.',
       board: {
         label: 'Lote retenido',
         tex: '\\p{1}{n_B}=\\p{2}{1},\\quad\\p{3}{ n_M}=\\p{4}{8},\\quad\\p{5}{ n_A}=\\p{6}{1}',

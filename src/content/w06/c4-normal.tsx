@@ -219,6 +219,8 @@ const lesson: LessonStep = {
     {
       say: 'Muchas mediciones repetidas (estaturas, errores de medición, sumas de muchos efectos pequeños) forman una campana: la **distribución normal**. Su media $\\mu$ la desplaza y su desviación $\\sigma$ la ensancha. El área total bajo la curva es 1.',
       gate: 'Mueve $\\mu$ y $\\sigma$ y mira cómo cambia la campana.',
+      after:
+        '$\\mu$ desplaza la campana sin deformarla y $\\sigma$ la ensancha sin moverla. Con esos dos números queda fijada una normal.',
       board: {
         label: 'Distribución normal',
         tex: 'X\\sim N(\\p{1}{\\mu},\\,\\p{2}{\\sigma^2})',

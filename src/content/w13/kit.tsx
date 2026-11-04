@@ -56,7 +56,8 @@ export const beliefUpdate = (b: number, a: Act, positive: boolean, obs = OBS_VOL
 /** expected reward of an action under a belief */
 export const qBelief = (b: number, a: Act, R = REWARD) => (1 - b) * R[a][0] + b * R[a][1];
 /** best immediate value under a belief: the upper envelope of two lines */
-export const v1 = (b: number, R = REWARD) => Math.max(qBelief(b, 'esperar', R), qBelief(b, 'calmar', R));
+export const v1 = (b: number, R = REWARD) =>
+  Math.max(qBelief(b, 'esperar', R), qBelief(b, 'calmar', R));
 /** belief at which waiting and calming are worth the same */
 export const threshold = (R = REWARD) =>
   (R.calmar[0] - R.esperar[0]) / (R.esperar[1] - R.esperar[0] - R.calmar[1] + R.calmar[0]);

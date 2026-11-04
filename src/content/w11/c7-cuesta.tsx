@@ -186,7 +186,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El tamaño de paso η multiplica la pendiente. Mueve la perilla y compara las tres trayectorias; con η = 1 saltas al otro lado y vuelves al inicio.',
-      gate: 'Arrastra la perilla de η hasta 1 para ver la oscilación.',
+      gate: 'Prueba tamaños de paso hasta encontrar el que hace oscilar sin llegar nunca.',
+      after:
+        'Con $\\eta=1$ se salta de 0 a 6 y de vuelta, sin acercarse. Un paso muy grande no converge; uno muy chico tarda demasiado.',
       board: {
         label: 'Paso demasiado grande',
         tex: '\\p{1}{\\eta=1}\\quad\\p{2}{0\\to6\\to0\\to6\\to\\cdots}',

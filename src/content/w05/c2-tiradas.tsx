@@ -517,7 +517,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'En la mesa no se ven probabilidades: se ven tiradas. Sube la cantidad de tiradas y mira la fracción de «5 o 6».',
-      gate: 'Arrastra la perilla hasta 10 000 tiradas.',
+      gate: 'Sube la cantidad de tiradas hasta 10 000. ¿La fracción de «5 o 6» sigue saltando?',
+      after:
+        'Con pocas tiradas la fracción salta; con 10 000 queda pegada a $\\tfrac13$. La probabilidad es el valor al que se acerca.',
       board: {
         label: 'Frecuencia relativa',
         tex: '\\p{1}{\\frac{\\#A}{n}}\\p{2}{\\to P(A)}',
@@ -629,7 +631,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'En la práctica no vemos probabilidades: vemos tiradas. Lanza un dado honesto muchas veces.',
-          gate: 'Lanza hasta pasar las 1 000 tiradas.',
+          gate: 'Lanza hasta pasar las 1 000 tiradas y compara las barras del principio con las del final.',
+          after:
+            'Al principio las barras saltaban. Cerca de 1 000 tiradas cada cara ronda $\\tfrac16$: la frecuencia relativa se estabiliza.',
           note: {
             label: 'Frecuencia relativa',
             tex: 'f_n(A)=\\frac{n_A}{n}\\ \\longrightarrow\\ P(A)',
@@ -656,7 +660,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'La cámara de la mesa 3 registró 1 200 tiradas. Con un dado honesto, cada cara sale unas 200 veces.',
-          gate: 'Toca la barra de la cara sospechosa.',
+          gate: 'Cada cara debería rondar las 200 veces. Encuentra la que se aleja demasiado y tócala.',
+          after:
+            'El 6 salió 320 veces contra 200 esperadas. Es demasiada distancia para 1 200 tiradas: el dado está cargado.',
           note: {
             label: 'Comparar con lo esperado',
             tex: 'n\\cdot P=1200\\cdot\\tfrac16=200',

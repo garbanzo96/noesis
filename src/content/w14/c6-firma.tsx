@@ -192,7 +192,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Aplica las tres pruebas. Si son independientes, se multiplican una tras otra.',
-      gate: 'Toca las tres tarjetas de prueba.',
+      gate: 'Aplica las tres pruebas, una tras otra, y sigue las chances.',
+      after:
+        '$\\tfrac19\\cdot18\\cdot4\\cdot5=40$: las chances pasaron de 1 a 9 en contra a 40 a 1 a favor.',
       board: {
         label: 'Tres pruebas',
         tex: '\\p{1}{O}=\\p{2}{\\tfrac19\\cdot18\\cdot4\\cdot5}=\\p{3}{40}',

@@ -662,7 +662,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve personas entre celdas sin cambiar los totales. Busca la tabla donde saber «deporte» no cambie la probabilidad de música.',
-      gate: 'Arrastra la perilla hasta que P(M | D) sea igual a P(M) = 0,4.',
+      gate: 'Mueve personas entre celdas hasta que saber «deporte» ya no cambie la probabilidad de música.',
+      after:
+        'Con $P(M\\mid D)=P(M)=0{,}4$, el deporte no informa nada sobre la música. Eso es independencia, y equivale a $P(M\\cap D)=P(M)\\,P(D)$.',
       board: {
         label: 'Condición',
         tex: '\\p{1}{P(M\\mid D)}=\\p{2}{P(M)}',
@@ -771,7 +773,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'El mosaico: cada columna es una mesa (ancho = fracción de manos) y lo verde, la fracción que gana el jugador en esa mesa.',
-          gate: 'Arrastra la altura de la mesa 7 hasta que ganar no dependa de la mesa.',
+          gate: 'Ajusta la mesa 7 hasta que la mesa deje de informar sobre ganar. ¿Cómo queda el borde del mosaico?',
+          after:
+            'El borde quedó recto: la fracción que gana es la misma en todas las mesas. En un mosaico, eso es independencia.',
           note: {
             label: 'Mosaico',
             body: 'Si las alturas son iguales, el borde queda recto: ganar es independiente de la mesa. En los datos reales, la mesa 7 llegaba a 0,60.',

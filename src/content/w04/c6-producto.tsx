@@ -231,7 +231,9 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Hacer una transformación y después otra es una nueva transformación. Primero $B$ y después $A$ se escribe $AB$: se lee de derecha a izquierda, como $f(g(x))$.',
-      gate: 'Arrastra el control de I hasta AB: primero actúa B y después A.',
+      gate: 'Lleva la cuadrícula de $I$ hasta $AB$ y mira en qué orden se deforma.',
+      after:
+        'La cuadrícula pasó primero por $B$ y después por $A$. $AB$ se lee de derecha a izquierda, y en el otro orden el resultado suele ser distinto.',
       board: {
         label: 'Composición',
         tex: '\\p{1}{A}\\,(\\p{2}{B}\\,\\vec v)=(\\p{3}{AB})\\,\\vec v',

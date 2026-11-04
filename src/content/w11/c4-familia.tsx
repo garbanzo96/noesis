@@ -178,7 +178,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Compara tres recetas de la misma familia. Mueve a entre 1/4, 1/3 y 1/2 y elige la que deja la menor KL.',
-      gate: 'Arrastra la perilla hasta la candidata con menor KL.',
+      gate: 'Compara las tres recetas y quédate con la que deja la menor KL.',
+      after:
+        'La mejor es $a=\\tfrac13$: ninguna otra candidata se acerca más. Aproximar es elegir la mejor de una familia.',
       board: {
         label: 'Elegir dentro de la familia',
         tex: '\\p{1}{q^*}=\\p{2}{\\arg\\min_{q\\in\\mathcal Q}KL(q\\Vert p)}',

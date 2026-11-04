@@ -449,6 +449,8 @@ const lesson: LessonStep = {
     {
       say: 'Si solo importa una cosa, sumas la fila completa: quienes hacen deporte, con o sin música.',
       gate: 'Toca la fila «Deporte» para sumarla.',
+      after:
+        'Al sumar la fila dejas de mirar la música y queda $P(D)=0{,}50$. Eso se llama marginalizar.',
       board: {
         label: 'Marginal de una fila',
         tex: '\\p{1}{P(D)}=\\p{2}{P(D\\cap M)+P(D\\cap M^c)}=\\p{3}{0{,}50}',
@@ -537,6 +539,8 @@ export const level: LevelSpec = {
         {
           say: 'Cada celda cuenta jugadores que cumplen dos cosas a la vez: 60 VIP ganaron.',
           gate: 'Convierte los conteos en fracciones del total.',
+          after:
+            'Cada conteo se dividió por 400: los 60 VIP que ganaron son $0{,}15$. Las cuatro celdas ahora suman 1: es una distribución conjunta.',
           note: {
             label: 'Probabilidad conjunta',
             tex: 'P(\\text{VIP},\\ \\text{ganó})=\\tfrac{60}{400}=0{,}15',
@@ -560,7 +564,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Lo mismo funciona por columnas.',
-          gate: 'Suma las columnas.',
+          gate: 'Suma las columnas para saber cuántos ganaron, sin importar el tipo de jugador.',
+          after:
+            '$P(\\text{ganó})=0{,}15+0{,}20=0{,}35$. Los márgenes de filas y de columnas suman 1 cada uno.',
           note: {
             label: 'Marginal por columnas',
             tex: 'P(\\text{ganó})=0{,}15+0{,}20=0{,}35',
@@ -569,7 +575,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'Otra tabla: manos del viernes por mesa. Una celda está tapada con café.',
-          gate: 'Elige el valor de la celda oculta.',
+          gate: 'Usa que la tabla completa debe sumar 1 y elige el valor de la celda oculta.',
+          after: 'Vale $0{,}05$: es el único valor que deja la suma total en 1.',
           note: {
             label: 'Todo suma 1',
             tex: '\\sum_i\\sum_j P(i,j)=1',

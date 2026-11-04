@@ -166,7 +166,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Gira la flecha unitaria y mira la tasa de subida en esa dirección. La **derivada direccional** se obtiene con el producto punto.',
-      gate: 'Arrastra la punta hasta alinearla con el gradiente, cerca de la marca verde.',
+      gate: 'Gira la flecha unitaria y busca la dirección en que la tasa de subida es máxima.',
+      after:
+        'La tasa máxima se alcanza alineada con el gradiente: $D_{\\vec u}f=\\nabla f\\cdot\\vec u$ es mayor cuando $\\vec u$ apunta igual que $\\nabla f$.',
       board: {
         label: 'Derivada direccional',
         tex: '\\p{1}{D_{\\vec u}f}=\\p{2}{\\cC{\\nabla f}}\\cdot\\p{3}{\\cA{\\vec u}}',

@@ -173,7 +173,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'La **divergencia KL** mide cuánto se aleja q de p, dando peso según p. Acerca el modelo a los registros: Centro y Sur ganan lo que Norte y Bahía ceden.',
-      gate: 'Arrastra la perilla hasta 0,25 para que las cuatro proporciones del modelo coincidan con los registros.',
+      gate: 'Acerca el modelo a los registros hasta que la KL llegue a 0.',
+      after:
+        'Con $p=q$ la KL vale 0: el modelo ya no se distingue de los registros en estas cuatro proporciones.',
       board: {
         label: 'Coincidencia',
         tex: '\\p{1}{p}=\\p{2}{q}\\Rightarrow\\p{3}{ KL(p\\Vert q)}=\\p{4}{0}',

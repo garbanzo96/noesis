@@ -388,6 +388,8 @@ const lesson: LessonStep = {
     {
       say: 'Un **evento** es un grupo de resultados. Marca los que cumplen «cara y número par».',
       gate: 'Toca las tres casillas de cara con número par.',
+      after:
+        '$A=\\{C2,C4,C6\\}$ es un subconjunto de $\\Omega$. Un evento ocurre si el resultado cae en alguna de sus casillas.',
       board: {
         label: 'Un evento',
         tex: '\\p{1}{A=\\{C2,C4,C6\\}}\\p{2}{\\subseteq\\Omega}',
@@ -482,7 +484,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Cada tirada da un par: lo que muestra el dado rojo y lo que muestra el blanco. Cada par tiene su casilla.',
-          gate: 'Lanza los dados cinco veces.',
+          gate: 'Lanza los dados cinco veces y mira qué casilla se marca en cada tirada.',
+          after:
+            'Cada tirada enciende exactamente una casilla. Un resultado es un par (rojo, blanco), y hay 36 posibles.',
           note: {
             label: 'Espacio muestral',
             tex: '\\Omega=\\{(a,b):\\ a,b\\in\\{1,\\dots,6\\}\\}',
@@ -509,7 +513,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Vera paga doble si la suma es 7. Esa apuesta gana en varias casillas, no en una.',
-          gate: 'Marca todas las casillas donde la suma es 7 (puedes arrastrar).',
+          gate: 'Marca todas las casillas en que gana la apuesta de Vera. Puedes arrastrar.',
+          after:
+            'Son 6 casillas de 36, una diagonal completa. Un evento es un conjunto de resultados: por eso sumar 7 tiene probabilidad $\\tfrac{6}{36}$.',
           note: {
             label: 'Evento',
             tex: 'A=\\{(a,b)\\in\\Omega:\\ a+b=7\\}',

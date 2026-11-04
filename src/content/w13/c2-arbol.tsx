@@ -208,6 +208,8 @@ const lesson: LessonStep = {
     {
       say: 'Empieza en las hojas: con dato bueno elige entre 60 − 10 y 0; con dato malo, entre −20 − 10 y 0. Después promedia los pagos de invertir ahora, donde todavía desconoces el estado.',
       gate: 'Arrastra la perilla por A, luego B y finalmente «Azar ahora», sin saltarte nodos.',
+      after:
+        'Se resuelve de atrás hacia adelante: $V(A)=50$, $V(B)=0$, y esperar vale 25 contra 20 de invertir ahora. En un cuadrado se elige; en un círculo se promedia.',
       board: {
         label: 'Resolver hacia atrás',
         tex: '\\p{1}{V(A)}=\\p{2}{\\max(60-10,0)},\\quad\\p{3}{ V(B)}=\\p{4}{\\max(-20-10,0)}',

@@ -159,7 +159,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'La **normal** tiene un centro μ y un ancho σ. Mueve el centro al promedio del lote; después ajustaremos el ancho.',
-      gate: 'Arrastra μ hasta 6.',
+      gate: 'Busca el centro que mejor calza con el lote: calcula el promedio y lleva $\\mu$ ahí.',
+      after:
+        '$\\hat\\mu=\\bar x=6$. En una normal, el promedio es el centro que mejor explica los datos.',
       board: {
         label: 'Centro de la normal',
         tex: '\\p{1}{\\hat\\mu}=\\p{2}{\\bar x}',
@@ -168,7 +170,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Las distancias al centro, al cuadrado, suman 10. La **varianza del ajuste** divide por n: 10/5 = 2; ajusta σ a √2 ≈ 1,41.',
-      gate: 'Arrastra σ hasta aproximadamente 1,41.',
+      gate: 'Ajusta el ancho a los datos: calcula la varianza del lote y saca raíz.',
+      after:
+        '$\\hat\\sigma^2=10/5=2$, así que $\\hat\\sigma\\approx1{,}41$. Con centro y ancho ajustados, la normal puede generar datos nuevos.',
       board: {
         label: 'Ancho del ajuste',
         tex: '\\p{1}{\\hat\\sigma^2}=\\p{2}{\\frac1n\\sum_{i=1}^n(x_i-\\bar x)^2}=\\p{3}{2},\\quad\\p{4}{\\hat\\sigma}=\\p{5}{\\sqrt2}',

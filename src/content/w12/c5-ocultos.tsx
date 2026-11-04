@@ -174,7 +174,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Arrastra z primero bajo −1 y luego sobre 1, o al revés. Mira cómo cambian juntas las dos columnas mientras el punto recorre la recta.',
-      gate: 'Visita z ≤ −1 y z ≥ 1 con la perilla.',
+      gate: 'Mueve $z$ a un extremo y al otro. Mira qué les pasa a las dos columnas.',
+      after:
+        'Las dos columnas suben y bajan juntas porque dependen de la misma $z$. Una variable oculta explica la correlación entre lo que se observa.',
       board: {
         label: 'Dos columnas, una perilla',
         tex: '\\p{1}{x_1}=\\p{2}{5+0{,}6z},\\quad\\p{3}{ x_2}=\\p{4}{5+0{,}8z}',

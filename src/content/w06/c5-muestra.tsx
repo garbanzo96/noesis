@@ -223,7 +223,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Cada muestra da una media distinta: $\\bar x$ también es aleatoria. Saca varias y mira dónde caen.',
-      gate: 'Toma al menos 5 muestras de 10 tiempos.',
+      gate: 'Toma al menos 5 muestras de 10 tiempos y mira cuánto cambia su media.',
+      after:
+        'Cada muestra da una media distinta, y esas medias se agrupan cerca de $\\mu$. La media muestral también es aleatoria.',
       board: {
         label: 'Variabilidad muestral',
         tex: '\\bar x_1,\\ \\bar x_2,\\ \\bar x_3,\\ \\dots',

@@ -270,7 +270,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Pruébalo: separa los datos y mira crecer la banda $\\bar x\\pm\\sigma$. Mover todos juntos no cambia $\\sigma$; alejarlos entre sí, sí.',
-      gate: 'Arrastra los puntos hasta que la desviación estándar supere 3.',
+      gate: 'Haz crecer la desviación estándar sobre 3. ¿Sirve mover todos los puntos juntos, o hay que separarlos?',
+      after:
+        'Solo crece al alejar los datos entre sí. Mover todos juntos cambia la media y deja $\\sigma$ igual.',
       board: {
         label: 'Sumar y multiplicar',
         tex: '\\sigma_{x+c}=\\p{1}{\\sigma_x},\\qquad \\sigma_{k x}=\\p{2}{|k|\\,\\sigma_x}',

@@ -263,7 +263,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El **valor p** es la probabilidad de obtener un resultado al menos así de extremo si $H_0$ fuera cierta: el área de la cola más allá de $z$. Mientras más chico, más difícil de creer $H_0$.',
-      gate: 'Mueve $z$ hasta que el valor p sea menor que 0,05.',
+      gate: 'Busca desde qué $z$ el resultado deja de parecer azar: el valor p debe bajar de 0,05.',
+      after:
+        'Ocurre cerca de $z=-1{,}64$. Un resultado así de extremo aparecería menos de 5 de cada 100 veces si $H_0$ fuera cierta.',
       board: {
         label: 'Valor p',
         tex: '\\p{1}{p}=\\p{2}{P(Z\\le z_{\\text{obs}}\\mid H_0)}',

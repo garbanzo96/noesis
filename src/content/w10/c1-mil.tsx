@@ -100,7 +100,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'La **sensibilidad** es la fracción de enfermos que el test detecta. Ajústala al 90 % del test de la Clínica.',
-      gate: 'Arrastra la perilla de sensibilidad hasta 90 %.',
+      gate: 'Ajusta la sensibilidad al 90 % y mira cuántos enfermos detecta el test.',
+      after:
+        'De 20 enfermos, el test detecta 18. Faltan los falsos positivos: el 5 % de 980 sanos son 49.',
       board: {
         label: 'Positivos verdaderos',
         tex: '\\p{1}{20\\cdot0{,}9}=\\p{2}{18}',
@@ -380,6 +382,8 @@ export const level: LevelSpec = {
         {
           say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. El censo regional da 2 % de prevalencia.',
           gate: 'Arrastra la perilla de sensibilidad hasta 90 % y observa cuántos enfermos detecta.',
+          after:
+            'Son 18 verdaderos positivos y 49 falsos: 67 positivos en total. La mayoría de los positivos está sana.',
         },
         {
           say: 'El test detecta al 90 % de los 20 enfermos del lote. Los otros 49 positivos vienen de personas sanas.',
@@ -394,6 +398,8 @@ export const level: LevelSpec = {
         {
           say: 'La Clínica pidió dosis según la planilla del turno.',
           gate: 'Arrastra la perilla del pedido hasta las 67 dosis que pidió la Clínica y compáralas con los 18 enfermos esperados.',
+          after:
+            'La Clínica pidió 67 dosis para 18 enfermos esperados. Contó positivos, y un positivo no es un enfermo.',
         },
         {
           say: 'El pedido de 67 dosis supera en 49 a los 18 enfermos esperados.',

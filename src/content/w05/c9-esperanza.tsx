@@ -640,7 +640,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'Cambia el premio. Un juego es **justo** cuando su esperanza es cero.',
-      gate: 'Arrastra la perilla hasta que el punto de equilibrio quede en 0.',
+      gate: 'Busca el premio que hace justo el juego: la esperanza debe quedar en 0.',
+      after: 'Con ese premio nadie gana a la larga. Con premios menores, $E[X]<0$ y gana la casa.',
       board: {
         label: 'Juego justo',
         tex: '\\p{1}{\\tfrac{5}{6}-\\tfrac56}=\\p{2}{0}',
@@ -706,7 +707,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: '«Doble Aurora»: jugar cuesta 2 fichas. Suma 7 paga 5; dobles pagan 4; lo demás, nada.',
-          gate: 'Anota la ganancia neta de cada casilla.',
+          gate: 'Anota la ganancia neta de cada casilla: premio menos costo de jugar.',
+          after:
+            'Suma 7 da $+3$, dobles $+2$ y el resto $-2$. Una **variable aleatoria** es esa regla: a cada resultado le asigna un número.',
           note: {
             label: 'Variable aleatoria',
             tex: 'X:\\Omega\\to\\mathbb R',
@@ -725,7 +728,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'El promedio de $X$ pesa cada valor según su probabilidad: es el punto donde la balanza se equilibra.',
-          gate: 'Arrastra el apoyo hasta equilibrar la balanza.',
+          gate: 'Mueve el apoyo hasta equilibrar la balanza. Fíjate en qué valores tiran más.',
+          after:
+            'La balanza se equilibra en $-0{,}5$: esa es $E[X]$. Cada valor pesa según su probabilidad.',
           note: {
             label: 'Esperanza',
             tex: 'E[X]=\\sum_x x\\,p(x)=-0{,}5',
@@ -734,7 +739,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Una partida es impredecible. Muchas, no.',
-          gate: 'Juega hasta pasar las 1 000 partidas.',
+          gate: 'Juega hasta pasar las 1 000 partidas y compara el promedio con $E[X]$.',
+          after:
+            'El promedio se acerca a $-0{,}5$. Una partida es impredecible; mil partidas casi no lo son. Eso es lo que cobra la casa.',
           note: {
             label: 'Promedio a la larga',
             body: 'El promedio de muchas partidas se acerca a $E[X]$. Es lo que la casa cobra de verdad.',

@@ -199,7 +199,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El **método Monte Carlo** estima usando muestras al azar. Aumenta la cantidad de puntos: se conservan los anteriores y se agregan nuevos.',
-      gate: 'Arrastra la perilla n hasta 10 000 puntos.',
+      gate: 'Sube $n$ hasta 10 000 puntos y mira cuánto se estabiliza la estimación.',
+      after:
+        'La estimación deja de saltar. Su error baja como $1/\\sqrt n$: para una cifra más de precisión hacen falta 100 veces más puntos.',
       board: {
         label: 'Estimar desde conteos',
         tex: '\\p{1}{\\widehat P(\\text{dentro})}=\\p{2}{k/n}',

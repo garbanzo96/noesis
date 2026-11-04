@@ -154,7 +154,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'Ahora repite el test solo a quienes dieron positivo. El 0,27 pasa a ser el nuevo punto de partida.',
-      gate: 'Arrastra la perilla hasta 2 tests positivos.',
+      gate: 'Aplica un segundo test positivo y mira cuánto sube la probabilidad desde 0,27.',
+      after: 'Pasa de 0,27 a 0,87. El posterior de un test es el prior del siguiente.',
       board: {
         label: 'El resultado se vuelve el punto de partida',
         tex: '\\p{1}{P_{\\text{nuevo}}(E)}=\\p{2}{P(E\\mid+)}',
@@ -397,6 +398,8 @@ export const level: LevelSpec = {
         {
           say: 'De cada 1000 tests salen 67 positivos: 18 enfermos y 49 sanos. Rocío repite el test a los 67.',
           gate: 'Arrastra la perilla desde 1 test hasta 2 tests.',
+          after:
+            'De los 67 quedan cerca de 19 positivos: 16,2 enfermos y 2,45 sanos. Repetir el test limpia los falsos positivos.',
         },
         {
           say: 'La segunda muestra deja 16,2 enfermos y 2,45 sanos con otro positivo.',
@@ -411,6 +414,8 @@ export const level: LevelSpec = {
         {
           say: 'Una persona dio positivo y en la segunda muestra, negativo. Marca ese resultado para ver cuántos enfermos y sanos quedan en ese grupo.',
           gate: 'Marca «Negativo» como resultado de la segunda muestra.',
+          after:
+            'Un negativo después de un positivo baja la probabilidad. Cada resultado multiplica por su propia evidencia.',
         },
         {
           say: 'Entre quienes dieron positivo y luego negativo quedan 1,8 enfermos y 46,55 sanos por cada 1000 tests iniciales.',

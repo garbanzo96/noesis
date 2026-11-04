@@ -245,7 +245,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Una cumbre baja hacia todos lados; un hoyo sube hacia todos lados. En una **silla**, como un portezuelo, un corte sube y otro baja.',
-      gate: 'Gira el corte verde de 0° a 90°: en la silla pasa de subir a bajar.',
+      gate: 'Gira el corte verde desde 0° y mira si la curva de corte sube o baja desde el centro.',
+      after:
+        'En una dirección la superficie sube y en otra baja, así que el centro no es máximo ni mínimo: es una silla.',
       board: {
         label: 'Tres formas',
         tex: '\\p{1}{\\cC{\\text{máximo}}},\\quad\\p{2}{\\cA{\\text{mínimo}}},\\quad\\p{3}{\\cM{\\text{silla}}}',

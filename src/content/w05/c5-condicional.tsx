@@ -437,6 +437,8 @@ const lesson: LessonStep = {
     {
       say: 'Dentro de esa fila, ¿qué fracción hace música? Se divide por el nuevo total.',
       gate: 'Toca la fila «Deporte» para quedarte solo con ella.',
+      after:
+        'Saber que hizo deporte achica el universo a esa fila: $0{,}30/0{,}50=0{,}6$. Se divide por el nuevo total.',
       board: {
         label: 'Condicional',
         tex: '\\p{1}{P(M\\mid D)}=\\p{2}{\\frac{P(M\\cap D)}{P(D)}}=\\p{3}{\\frac{0{,}30}{0{,}50}=0{,}6}',
@@ -529,7 +531,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Vera ve que el dado rojo cayó en 6. Con eso, muchas casillas ya no son posibles.',
-          gate: 'Toca la fila donde el rojo es 6.',
+          gate: 'Toca la fila donde el rojo es 6. ¿Cuántas casillas siguen siendo posibles?',
+          after:
+            'Quedan 6 casillas y una suma 10. Con esa información, la probabilidad de sumar 10 es $\\tfrac16$.',
           note: {
             label: 'Condicionar',
             tex: 'P(A\\mid B)=\\frac{|A\\cap B|}{|B|}',
@@ -553,6 +557,8 @@ export const level: LevelSpec = {
         {
           say: 'En la tabla de octubre, condicionar es quedarse con una fila.',
           gate: 'Toca la fila de los VIP.',
+          after:
+            '$0{,}15/0{,}20=0{,}75$. Condicionar es quedarse con una fila y repartir de nuevo el total.',
           note: {
             label: 'Con probabilidades',
             tex: 'P(A\\mid B)=\\frac{P(A\\cap B)}{P(B)}',

@@ -660,6 +660,8 @@ const lesson: LessonStep = {
     {
       say: 'Sin devolver, lo que sale cambia la urna. Saca una roja y mira cómo cambian las ramas siguientes.',
       gate: 'Arrastra la bola roja del centro fuera de la urna.',
+      after:
+        'Quedan 2 rojas de 4. Sin reposición, lo que sale cambia lo que queda: $P(R_2\\mid R_1)=\\tfrac24$.',
       board: {
         label: 'Segundo nivel',
         tex: '\\p{1}{P(R_2\\mid R_1)}=\\p{2}{\\tfrac24}',
@@ -745,7 +747,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Un zapato con 5 cartas rojas y 3 negras. Las cartas que salen no vuelven.',
-          gate: 'Saca dos cartas.',
+          gate: 'Saca dos cartas y mira cómo cambia la composición del zapato.',
+          after:
+            'Después de una roja quedan 4 rojas de 7: la segunda extracción ya no tiene probabilidad $\\tfrac58$.',
           note: {
             label: 'Sin reposición',
             body: 'Después de una roja quedan 4 rojas de 7. Lo que sale cambia lo que queda.',
@@ -768,7 +772,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Para que salgan dos rojas hay que recorrer un camino completo.',
-          gate: 'Toca el camino roja–roja.',
+          gate: 'Busca en el árbol el camino de dos rojas y tócalo.',
+          after:
+            '$\\tfrac58\\cdot\\tfrac47=\\tfrac{20}{56}$. A lo largo de un camino las probabilidades se multiplican.',
           note: {
             label: 'Regla de la cadena',
             tex: 'P(R_1\\cap R_2)=P(R_1)\\,P(R_2\\mid R_1)',

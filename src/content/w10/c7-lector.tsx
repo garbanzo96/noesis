@@ -162,6 +162,8 @@ const lesson: LessonStep = {
     {
       say: 'Cada control multiplica la probabilidad de los datos bajo cada modelo. Lee los cinco y mira cuál explica mejor lo que salió.',
       gate: 'Arrastra la perilla hasta leer los 5 controles.',
+      after:
+        'Cada control multiplica la probabilidad de los datos bajo cada modelo. Después de cinco, la diferencia ya se nota.',
       board: {
         label: 'Probabilidad de los datos',
         tex: '\\p{1}{P(D\\mid M)}=\\p{2}{\\prod_i P(x_i\\mid M)}',
@@ -433,6 +435,8 @@ export const level: LevelSpec = {
         {
           say: 'La memoria del lector guarda 20 controles ambiguos. Lee el registro completo y mira cómo se acumula la evidencia entre los dos modelos.',
           gate: 'Arrastra la perilla hasta leer los 20 controles.',
+          after:
+            'Con 20 controles el factor de Bayes llega a cerca de 47: la evidencia se acumula multiplicando.',
         },
         {
           say: 'Leíste 16 positivos y 4 negativos. La pantalla compara qué tan probable es ese registro bajo cada modelo.',
@@ -446,7 +450,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Antes de mirar, ambas explicaciones valían lo mismo. Con estos controles, las chances del alterado son aproximadamente 47 a 1: 47 de 48 partes.',
-          gate: 'Arrastra la perilla hasta p ≈ 0,98, la probabilidad que corresponde a 47 de 48 partes.',
+          gate: 'Convierte las chances 47 a 1 en probabilidad y ubícala en la escala.',
+          after:
+            '$47/48\\approx0{,}98$. Con chances iniciales parejas, el factor de Bayes se convierte directo en probabilidad posterior.',
         },
         {
           say: 'La perilla quedó cerca de 0,98: las chances 47 a 1 corresponden a 47/48 del total.',

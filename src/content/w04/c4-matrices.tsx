@@ -237,7 +237,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Basta seguir dos flechas: $\\hat\\imath=(1,0)$ y $\\hat\\jmath=(0,1)$. Donde caen, arrastran consigo toda la cuadrícula. Sus nuevas posiciones se escriben como columnas: eso es una **matriz**.',
-      gate: 'Gira el plano un cuarto de vuelta: lleva $\\hat\\imath$ a $(0,1)$ y $\\hat\\jmath$ a $(-1,0)$.',
+      gate: 'Construye el giro de un cuarto de vuelta moviendo solo $\\hat\\imath$ y $\\hat\\jmath$. Piensa dónde debe caer cada una antes de arrastrar.',
+      after:
+        '$\\hat\\imath$ cayó en $(0,1)$ y $\\hat\\jmath$ en $(-1,0)$: esas son las columnas de la matriz de giro. Con dos flechas queda definida toda la cuadrícula.',
       board: {
         label: 'Matriz',
         tex: 'A=\\begin{pmatrix}\\p{1}{\\cC{a}}&\\p{2}{\\cA{b}}\\\\\\p{1}{\\cC{c}}&\\p{2}{\\cA{d}}\\end{pmatrix}',

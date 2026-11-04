@@ -186,7 +186,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Cada positivo empuja la curva hacia la derecha y cada negativo hacia la izquierda. Marca 7 positivos de 10.',
-      gate: 'Arrastra la perilla hasta 7 positivos.',
+      gate: 'Marca 7 positivos de 10 y mira hacia dónde se mueve la curva y cuánto se angosta.',
+      after:
+        'Cada dato suma al contador que le toca: Beta$(a,b)$ pasa a Beta$(a+7,\\ b+3)$. La curva se corrió hacia la derecha y se angostó.',
       board: {
         label: 'Actualizar con conteos',
         tex: '\\p{1}{\\text{Beta}(a,b)}\\p{2}{+\\,k\\text{ de }n}\\p{3}{\\Rightarrow\\text{Beta}(a+k,\\ b+n-k)}',
@@ -446,6 +448,8 @@ export const level: LevelSpec = {
         {
           say: 'Antes de los controles, las otras clínicas sugieren Beta(2, 8). El lote de agosto dio 12 positivos en 40 controles.',
           gate: 'Arrastra la perilla hasta 12 positivos de 40 controles.',
+          after:
+            'Beta(2, 8) con 12 de 40 da Beta(14, 36). Los datos pesan 40 observaciones y el prior, 10: por eso manda el lote.',
         },
         {
           say: 'Con 12 positivos y 28 negativos, la curva actualizada es Beta(14, 36).',
@@ -462,7 +466,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'La media del posterior es 14/50. Ubícala en el eje y compárala con el 0,20 de las otras clínicas.',
-          gate: 'Arrastra el cursor hasta θ = 0,28.',
+          gate: 'Calcula la media del posterior y ubícala en el eje.',
+          after:
+            'La media es $14/50=0{,}28$: queda entre el 0,20 de las otras clínicas y el 0,30 del lote.',
         },
         {
           say: 'El cursor marca la media del posterior, por encima del 0,20 de las otras clínicas.',

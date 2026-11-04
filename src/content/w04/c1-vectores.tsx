@@ -271,7 +271,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Las componentes pueden ser negativas: hacia la izquierda o hacia abajo.',
-      gate: 'Arrastra la punta de la flecha hasta el punto verde, $(-2,\\,4)$.',
+      gate: 'Lleva la punta de la flecha a $(-2,\\,4)$. Fíjate en qué dice cada componente sobre la dirección.',
+      after:
+        'Son 2 pasos a la izquierda y 4 hacia arriba: cada componente dice cuánto avanzar en su eje, y su signo, en qué sentido.',
     },
     {
       say: 'La **longitud** del vector, su **norma**, sale de Pitágoras: las componentes son los catetos de un triángulo rectángulo.',
@@ -300,7 +302,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Multiplicar por un número $k$, un **escalar**, estira la flecha $k$ veces. Si $k$ es negativo, además la da vuelta.',
-      gate: 'Mueve $k$ hasta un valor negativo.',
+      gate: 'Prueba valores de $k$ hasta que la flecha cambie de sentido. ¿En qué valor ocurre el cambio?',
+      after:
+        'Al cruzar $k=0$ la flecha se reduce a nada y reaparece al revés. El signo de $k$ da el sentido y su tamaño, cuánto se estira.',
       board: {
         label: 'Escalar por vector',
         tex: 'k\\,\\vec v=\\begin{pmatrix}\\p{1}{k\\,v_1}\\\\\\p{1}{k\\,v_2}\\end{pmatrix}',

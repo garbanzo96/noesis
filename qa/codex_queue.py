@@ -7,7 +7,8 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 os.chdir(ROOT)
 OUT = "work/codex/out"
 os.makedirs(OUT, exist_ok=True)
-DONE = "work/codex/done.txt"
+GATES = "--gates" in sys.argv
+DONE = "work/codex/gates-done.txt" if GATES else "work/codex/done.txt"
 args = [a for a in sys.argv[1:] if not a.startswith("--")]
 workers = int(next((a.split("=")[1] for a in sys.argv[1:] if a.startswith("--workers=")), 2))
 
@@ -29,6 +30,8 @@ queue = [g for w in (args or sorted(os.listdir("src/content"))) if re.fullmatch(
 lock = threading.Lock()
 stop = threading.Event()
 contract = open("docs/CONTRATO-LIBRO.md", encoding="utf8").read()
+if GATES:
+    contract += "\n\n## Esta pasada\n\nSolo `gate` y `after`. No toques `say`.\n"
 
 def git(*a):
     for _ in range(6):

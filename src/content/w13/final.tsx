@@ -185,6 +185,7 @@ const lesson: LessonStep = {
     {
       say: 'El cobro de 10 se reduce por cada día de espera. Mueve el plazo a tres días para leer su **valor presente** con γ = 0,9.',
       gate: 'Arrastra la perilla hasta 3 días.',
+      after: '$10\\cdot0{,}9^3=7{,}29$ hoy. El descuento se aplica una vez por día.',
       board: {
         label: 'Pago futuro',
         tex: VP,
@@ -398,8 +399,14 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
             : 'Predice con la transición de esperar, corrige con 0,8 y 0,2, y normaliza.',
         );
       if (Math.abs(b! - gain) > 0.02)
-        return api.result(false, 'La creencia está bien. Para VI, promedia $V_1$ en $b_+$ y $b_-$, y resta $V_1(b)$.');
-      return api.result(true, `$b'=${tnum(filtered, 3)}$ y $\\text{VI}=${tnum(gain, 2)}$. Con eso la cuenta decidía si pagar un informe.`);
+        return api.result(
+          false,
+          'La creencia está bien. Para VI, promedia $V_1$ en $b_+$ y $b_-$, y resta $V_1(b)$.',
+        );
+      return api.result(
+        true,
+        `$b'=${tnum(filtered, 3)}$ y $\\text{VI}=${tnum(gain, 2)}$. Con eso la cuenta decidía si pagar un informe.`,
+      );
     }
     if (near(a, d.fraction))
       return api.result(
@@ -448,7 +455,14 @@ function AccountPractice({ seed, round, api }: ChallengeProps) {
   return (
     <Stage>
       <Ticket
-        title={['Contrato e información', 'Descuento y cierre', 'Tamaño de posición', 'Creencia e informe'][round]}
+        title={
+          [
+            'Contrato e información',
+            'Descuento y cierre',
+            'Tamaño de posición',
+            'Creencia e informe',
+          ][round]
+        }
         rows={rows}
       />
       <Cap x={1250} y={230} size={23}>

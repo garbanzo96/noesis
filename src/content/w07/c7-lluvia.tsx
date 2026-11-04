@@ -150,7 +150,9 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Mira las columnas bajo la superficie: cada una aporta altura por área de su base. Aumenta la cantidad para que sus techos sigan mejor la superficie.',
-      gate: 'Arrastra la perilla por 2, 4, 16 y 64 columnas.',
+      gate: 'Pasa por 2, 4, 16 y 64 columnas y mira qué le ocurre a la suma de volúmenes.',
+      after:
+        'Con más columnas sus techos siguen mejor la superficie y la suma se estabiliza. Ese límite es la integral doble.',
       board: {
         label: 'Una columna',
         tex: '\\p{1}{\\Delta V}=\\p{2}{\\cC{f(x_i,y_j)}}\\,\\p{3}{\\cA{\\Delta x}}\\,\\p{4}{\\cM{\\Delta y}}',

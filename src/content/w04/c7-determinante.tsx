@@ -221,7 +221,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El determinante también puede ser **negativo**: significa que la matriz da vuelta el plano, como un espejo. Mira la F.',
-      gate: 'Arrastra $A\\hat\\jmath$ hasta que el determinante sea negativo.',
+      gate: 'Mueve $A\\hat\\jmath$ hasta que la F quede volteada. ¿Qué signo toma el determinante?',
+      after:
+        'Al cruzar la recta de $A\\hat\\imath$ el área pasa por 0 y el determinante se vuelve negativo: la F queda como en un espejo.',
       board: {
         label: 'Signo',
         tex: '\\p{1}{\\det A<0\\ }\\Rightarrow\\p{2}{\\ \\text{invierte la orientación}}',

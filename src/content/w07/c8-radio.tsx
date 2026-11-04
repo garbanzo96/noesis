@@ -242,7 +242,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El modelo sitúa más probabilidad cerca del centro. Agranda el disco para acumular más posiciones posibles del dron.',
-      gate: 'Arrastra la perilla del radio hasta que la probabilidad supere 0,95.',
+      gate: 'Busca el radio mínimo que encierra el 95 % de la probabilidad.',
+      after:
+        '$1-e^{-R^2}>0{,}95$ exige $R^2>\\ln 20$, es decir $R\\approx1{,}73$ km. Ese disco sirve como zona de búsqueda.',
       board: {
         label: 'Probabilidad dentro del disco',
         tex: '\\p{1}{P(r\\le R)}=\\p{2}{1-e^{-\\cA{R^2}}}',

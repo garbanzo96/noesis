@@ -212,7 +212,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Un **conjunto creíble** junta los valores más probables hasta acumular, por ejemplo, el 80 %. Arma el más chico posible.',
-      gate: 'Toca barras hasta acumular al menos 0,8 con solo dos valores.',
+      gate: 'Arma el conjunto creíble más chico: dos valores que acumulen al menos 0,8.',
+      after:
+        'Con $\\{0{,}5;\\,0{,}7\\}$ se acumula 0,853. Para que sea el más chico se eligen primero los valores más probables.',
       board: {
         label: 'Conjunto creíble',
         tex: '\\p{1}{P(\\theta\\in\\{0{,}5;0{,}7\\})}\\p{2}{\\approx0{,}853\\ge0{,}8}',
@@ -428,7 +430,8 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El posterior del lote de agosto es Beta(14, 36). Ubica su moda en 13/48 ≈ 0,27 con el cursor.',
-          gate: 'Arrastra el cursor hasta θ = 0,27.',
+          gate: 'Busca la moda del posterior: el punto más alto de la curva.',
+          after: 'La moda de Beta(14, 36) es $13/48\\approx0{,}27$, algo menor que la media, 0,28.',
         },
         {
           say: 'El cursor marca la moda del lote; la media queda en 0,28.',
@@ -442,7 +445,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Las otras clínicas rondan 0,2. Mueve el umbral hasta esa cifra: las barras verdes muestran la probabilidad que queda a su derecha.',
-          gate: 'Arrastra el cursor hasta θ = 0,20.',
+          gate: 'Lleva el umbral a la cifra de las otras clínicas y lee cuánta probabilidad queda a la derecha.',
+          after:
+            'Cerca de 0,90 queda sobre 0,20: es muy probable que este lote esté por encima de las otras clínicas.',
         },
         {
           say: 'Por encima de 0,2 queda cerca del 90 % de la probabilidad del posterior; por debajo queda cerca del 10 %.',

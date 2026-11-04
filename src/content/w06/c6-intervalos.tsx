@@ -220,6 +220,8 @@ const lesson: LessonStep = {
     {
       say: 'El 95 % no habla de un intervalo en particular: habla del **método**. Pruébalo: cada muestra da su propio intervalo; casi todos atrapan a $\\mu$, pero no todos.',
       gate: 'Toma 20 muestras y cuenta cuántos intervalos atrapan a $\\mu$.',
+      after:
+        'Cerca de 19 de 20 intervalos atraparon a $\\mu$. El 95 % describe el método, no un intervalo ya calculado.',
       board: {
         label: 'Interpretación',
         tex: '\\approx19\\ \\text{de cada}\\ 20',

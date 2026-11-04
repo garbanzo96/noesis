@@ -153,7 +153,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Sube la barra del 1 hasta su valor de Benford.',
-      gate: 'Arrastra la barra del 1 hasta 0,301.',
+      gate: 'Según Benford, ¿qué fracción de los números empieza con 1? Calcula $\\log_{10}2$ y sube la barra hasta ahí.',
+      after:
+        '$\\log_{10}2\\approx0{,}301$: casi uno de cada tres números reales empieza con 1. Un registro inventado suele repartir parejo.',
       board: {
         label: 'El dígito 1',
         tex: '\\p{1}{P(1)}=\\p{2}{\\log_{10}2}\\p{3}{\\approx0{,}301}',

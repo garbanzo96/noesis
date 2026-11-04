@@ -264,7 +264,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Dos ecuaciones a la vez forman un **sistema**. Una solución tiene que cumplir ambas: está en las dos rectas, en el punto donde se cortan.',
-      gate: 'Arrastra el punto verde hasta que cumpla las dos ecuaciones.',
+      gate: 'Busca el punto que cumple las dos ecuaciones a la vez.',
+      after:
+        'Es $(3,2)$: $3+2=5$ y $3-2=1$. Está en las dos rectas, y como se cortan una sola vez, la solución es única.',
       board: {
         label: 'Sistema',
         tex: '\\begin{cases}\\p{1}{x+y=5}\\\\\\p{2}{x-y=1}\\end{cases}',

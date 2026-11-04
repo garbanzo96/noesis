@@ -230,7 +230,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Busca uno con tus manos: mueve $\\vec v$ y mira hacia dónde lo lleva $A$.',
-      gate: 'Arrastra $\\vec v$ hasta una dirección en la que $A\\vec v$ quede sobre la misma recta.',
+      gate: 'Busca una dirección de $\\vec v$ que $A$ no desvíe: $A\\vec v$ debe quedar sobre la misma recta.',
+      after:
+        'En esa dirección $A$ solo estira: $A\\vec v=\\lambda\\vec v$. Esa dirección es un **vector propio** y el factor $\\lambda$, su **valor propio**.',
     },
     {
       say: 'Esta matriz tiene dos direcciones propias: la de $(1,0)$, que se triplica, y la de $(1,-1)$, que se duplica. El valor propio dice cuánto: $\\lambda>1$ estira, $0<\\lambda<1$ encoge, $\\lambda<0$ además da vuelta.',

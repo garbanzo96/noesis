@@ -182,7 +182,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Ahora aleja un solo dato. Para mantener el equilibrio, el punto de apoyo tiene que correrse hacia él.',
-      gate: 'Arrastra la pesa magenta hacia la derecha, más allá de 20.',
+      gate: 'Aleja la pesa magenta más allá de 20 y sigue con la vista el punto de equilibrio.',
+      after:
+        'Un solo dato extremo arrastró la media lejos de la mayoría: la media depende de todos los datos.',
       board: {
         label: 'Sensible a los extremos',
         tex: '\\bar x\\ \\text{depende de todos los datos}',

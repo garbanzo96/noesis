@@ -178,7 +178,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Cada elección de $a$ y $b$ lleva a un punto distinto.',
-      gate: 'Mueve $a$ y $b$ hasta que la flecha verde llegue al punto $(1,5)$.',
+      gate: 'Busca los $a$ y $b$ con que la combinación llega a $(1,5)$. Ajusta un control y corrige con el otro.',
+      after:
+        'Llegaste a $(1,5)$ usando solo $\\vec u$ y $\\vec v$. Con dos direcciones distintas se alcanza cualquier punto del plano: eso es el conjunto generado.',
     },
     {
       say: 'Si se dibujan todas las combinaciones con $a$ y $b$ enteros, aparece una cuadrícula inclinada. Con $a$ y $b$ reales se llena el plano entero.',

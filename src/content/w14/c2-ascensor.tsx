@@ -145,7 +145,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve el tiempo y mira cómo cambia la inclinación de la tangente. Busca el punto donde la velocidad llega a 120 m/min.',
-      gate: 'Arrastra la perilla de tiempo hasta llegar a 120 m/min.',
+      gate: 'Busca el instante de mayor velocidad. Mira la inclinación de la tangente.',
+      after:
+        "En $t=1$ la velocidad llega a 120 m/min. Ahí $h''(t)=0$: la curva pasa de acelerar a frenar.",
       board: { label: 'Tangente móvil', tex: "v(t)=h'(t)" },
     },
     {

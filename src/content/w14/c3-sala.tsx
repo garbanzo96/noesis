@@ -207,7 +207,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'En este registro de repaso, P(t) = 1 + t. Barre las cuatro horas para cubrir todo el consumo.',
-      gate: 'Arrastra la perilla hasta t = 4 h.',
+      gate: 'Barre las cuatro horas y mira cómo se acumula el área bajo $P(t)$.',
+      after:
+        'El área es $1\\cdot4+\\tfrac{4\\cdot4}{2}=12$: la energía es la integral de la potencia.',
       board: {
         label: 'Barrer el intervalo',
         tex: '\\p{1}{E}=\\p{2}{\\int_0^4(1+t)\\,dt}',

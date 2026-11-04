@@ -204,7 +204,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El círculo verde marca el par (3, 2). Desplaza ambas rectas para que pasen por él; sus pendientes se mantienen.',
-      gate: 'Arrastra las dos perillas verticalmente hasta que las rectas se crucen en el círculo verde.',
+      gate: 'Desplaza las dos rectas hasta que se corten en el círculo verde.',
+      after:
+        'Las rectas quedaron $x+y=5$ y $x-y=1$. Sumarlas elimina $y$: $2x=6$, así que $x=3$ e $y=2$.',
     },
     {
       say: 'Con x + y = 5 y x − y = 1, suma las ecuaciones. Los términos y y −y se cancelan: esta **eliminación** deja 2x = 6.',

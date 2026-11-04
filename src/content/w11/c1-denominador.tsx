@@ -182,7 +182,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Un modelo real tiene muchos parámetros. Si cada uno se prueba en 10 valores, la grilla crece como 10 elevado al número de parámetros.',
-      gate: 'Arrastra la perilla hasta 6 parámetros.',
+      gate: 'Sube a 6 parámetros y mira cómo crece la grilla: ¿crece como una recta?',
+      after:
+        'Con 6 parámetros ya son un millón de puntos: cada parámetro multiplica por 10. El crecimiento es exponencial.',
       board: {
         label: 'Tamaño de la grilla',
         tex: '\\p{1}{\\#\\text{puntos}}=\\p{2}{10^{d}}',
@@ -466,7 +468,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El modelo del lector tiene 24 parámetros. Cada uno se podría probar en 10 valores. Activa los parámetros con la perilla y observa cómo crecen las combinaciones.',
-          gate: 'Arrastra la perilla hasta 24 parámetros o toca el extremo derecho de la barra.',
+          gate: 'Sube a los 24 parámetros del lector y mira cuántas combinaciones habría que sumar.',
+          after:
+            'Son $10^{24}$ combinaciones, y ninguna máquina puede sumarlas. Por eso el denominador exacto no se calcula.',
         },
         {
           say: 'Con los 24 parámetros activos, la pantalla muestra el tamaño de la grilla del lector.',
@@ -482,6 +486,8 @@ export const level: LevelSpec = {
         {
           say: 'Simón abre la configuración del modelo. Revisa la carpeta «aproximación q» para ver qué usa el lector.',
           gate: 'Toca la carpeta «aproximación q».',
+          after:
+            'El lector no calcula el posterior: usa una distribución más simple, $q$, que se le parece. Esa es la idea de este mundo.',
         },
         {
           say: 'La carpeta muestra una distribución q más simple que aproxima el posterior.',

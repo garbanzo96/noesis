@@ -181,7 +181,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve q para subir la cota: la evidencia permanece fija mientras la KL baja. En esta familia puedes alcanzar el posterior exacto.',
-      gate: 'Arrastra la perilla t hasta el máximo de la curva, donde KL = 0.',
+      gate: 'Mueve $t$ y busca dónde la cota llega a su máximo. ¿Cuánto vale ahí la KL?',
+      after:
+        'En $t=\\tfrac14$ la KL vale 0 y la cota toca la evidencia. Subir la ELBO es bajar la KL, porque su suma es fija.',
       board: {
         label: 'Ajustar q',
         tex: '\\p{1}{q_t}=\\p{2}{(t;\\tfrac12;\\tfrac12-t)},\\quad\\p{3}{0\\le t\\le\\tfrac12}',

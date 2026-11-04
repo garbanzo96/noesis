@@ -177,7 +177,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'Esperar conserva esas probabilidades, pero demora una ronda. El **descuento** γ convierte el valor futuro a valor de ahora: prueba γ = 0,8.',
-      gate: 'Arrastra la perilla de γ hasta 0,8.',
+      gate: 'Prueba $\\gamma=0{,}8$ y compara esperar con actuar ahora.',
+      after: 'Esperar vale $0{,}8\\cdot16=12{,}8$: la demora reduce un valor esperado positivo.',
       board: {
         label: 'Una ronda después',
         tex: '\\p{1}{Q(s,\\text{esperar})}=\\p{2}{\\gamma E_e}',

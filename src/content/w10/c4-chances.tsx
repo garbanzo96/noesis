@@ -137,7 +137,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Con chances, actualizar es multiplicar. Aplica dos positivos sobre la barra.',
-      gate: 'Arrastra la ficha ×18 sobre la barra, dos veces.',
+      gate: 'Aplica la evidencia de dos positivos arrastrando la ficha ×18 a la barra.',
+      after:
+        'Cada positivo multiplica las chances por 18, la razón de verosimilitud $0{,}9/0{,}05$. Con chances, actualizar es multiplicar.',
       board: {
         label: 'Actualizar',
         tex: '\\p{1}{\\text{chances después}}=\\p{2}{\\text{chances antes}\\cdot LR}',
@@ -405,7 +407,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. Entre enfermos, el 10 % da negativo. Mueve la división de la barra superior hasta mostrar esa proporción.',
-          gate: 'Arrastra el punto hasta P(− | E) = 0,10.',
+          gate: 'Mueve la división hasta mostrar qué fracción de los enfermos da negativo.',
+          after:
+            'Si la sensibilidad es 0,9, entonces $P(-\\mid E)=0{,}10$: son los enfermos que el test deja pasar.',
         },
         {
           say: 'La barra muestra 0,10 de negativos entre enfermos y 0,95 entre sanos. El cociente mide cuánto pesa un negativo.',
@@ -420,6 +424,7 @@ export const level: LevelSpec = {
         {
           say: 'Antes del test, las chances son 1 : 49. Sale negativo: aplica el factor 2/19 a la barra inferior y observa la probabilidad que queda.',
           gate: 'Arrastra la ficha ×2/19 sobre la barra inferior o toca esa barra.',
+          after: 'Las chances quedan en cerca de 1 a 465. Un negativo casi descarta la enfermedad.',
         },
         {
           say: 'Después de aplicar el negativo, las chances bajaron a 2 : 931.',

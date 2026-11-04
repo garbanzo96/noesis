@@ -178,7 +178,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'Agrega decisiones al árbol. Cada fila nueva duplica las claves posibles.',
-      gate: 'Arrastra la perilla hasta 4 bits.',
+      gate: 'Sube hasta 4 bits y mira cuántas claves posibles hay.',
+      after: '$2^4=16$ claves. Cada bit duplica las posibilidades; al revés, $H=\\log_2 N$.',
       board: {
         label: 'Duplicar las opciones',
         tex: '\\p{1}{2^4}=\\p{2}{16}',

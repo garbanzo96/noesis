@@ -177,7 +177,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El **peso de importancia** es p dividido por q: aumenta el aporte de lo que q entrega de menos. Ubica cada peso bajo su par de barras.',
-      gate: 'Arrastra cada peso al recuadro de la barra que le corresponde.',
+      gate: 'Calcula $p/q$ en cada barra y arrastra cada peso a su recuadro.',
+      after:
+        'Los pesos son $\\tfrac32$, 1 y $\\tfrac12$. Suben lo que $q$ muestrea de menos y bajan lo que muestrea de más.',
       board: {
         label: 'Pesos de importancia',
         tex: '\\p{1}{w(x)=\\frac{p(x)}{q(x)}},\\quad \\p{2}{w=(\\tfrac32;1;\\tfrac12)}',

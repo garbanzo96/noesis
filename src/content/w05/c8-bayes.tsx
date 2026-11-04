@@ -527,7 +527,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Imagina 100 repeticiones. Lanza las monedas y cuenta cuántas caras aporta cada una.',
-      gate: 'Arrastra la perilla hasta el final para lanzar las 100.',
+      gate: 'Lanza las 100 repeticiones y compara cuántas caras aporta cada moneda.',
+      after:
+        'La trucada da cara siempre y la honesta, la mitad de las veces. Por eso ver una cara inclina la sospecha hacia la trucada.',
       board: {
         label: 'Cómo sale cara',
         tex: '\\p{1}{P(C\\mid T)=1},\\quad\\p{2}{P(C\\mid H)=\\tfrac12}',
@@ -617,7 +619,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Mitad de chances para cada dado. En cada columna, lo coloreado es la probabilidad de sacar 6 con ese dado.',
-          gate: 'Lanza el dado.',
+          gate: 'Lanza el dado y mira qué parte de cada columna sobrevive al resultado.',
+          after:
+            'Se borró lo incompatible con el 6 y se renormalizó: $\\tfrac{1/4}{1/4+1/12}=\\tfrac34$. La sospecha subió de 0,5 a 0,75.',
           note: {
             label: 'Teorema de Bayes',
             tex: 'P(L\\mid6)=\\frac{P(6\\mid L)\\,P(L)}{P(6)}',
@@ -640,7 +644,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Con 0,9 de sospecha, sale un 3. El cargado saca 3 con probabilidad 0,1; el honesto, con $\\tfrac16$.',
-          gate: 'Lanza otra vez.',
+          gate: 'Lanza otra vez. ¿La sospecha sube o baja con este resultado?',
+          after:
+            'Un 3 es más probable con el dado honesto, así que la sospecha baja de 0,9 a 0,84. La evidencia también puede ir en contra.',
           note: {
             label: 'Evidencia en contra',
             body: 'Un 3 es más probable con el honesto: la sospecha baja, de 0,9 a 0,84.',
@@ -662,7 +668,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Cada 6 es tres veces más probable con el cargado: multiplica sus chances por 3.',
-          gate: 'Arrastra el contador de seises hasta pasar 0,95.',
+          gate: 'Con una sospecha inicial de 0,1, ¿cuántos seises seguidos hacen falta para pasar 0,95? Búscalo con el contador.',
+          after:
+            'Hacen falta cinco: cada 6 multiplica las chances por 3, y $\\tfrac19\\cdot3^5=27$ corresponde a 0,96.',
           note: {
             label: 'Razón de verosimilitud',
             tex: '\\frac{P(L\\mid x)}{P(H\\mid x)}=\\frac{P(x\\mid L)}{P(x\\mid H)}\\cdot\\frac{P(L)}{P(H)}',

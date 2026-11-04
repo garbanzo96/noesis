@@ -169,7 +169,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Imagina que alguien te dice el resultado antes de decidir. El árbol cambia de orden: primero el azar, después la decisión.',
-      gate: 'Arrastra la perilla hasta «saber antes».',
+      gate: 'Mueve la perilla hasta «saber antes» y mira cómo cambia el orden del árbol.',
+      after:
+        'Sabiendo antes solo compras con brote: el valor sube de 4 a 20. Esos 16 son lo máximo que vale el dato.',
       board: {
         label: 'Con información',
         tex: '\\p{1}{0{,}2\\cdot\\max(100;0)}\\p{2}{+0{,}8\\cdot\\max(-20;0)}=\\p{3}{20}',

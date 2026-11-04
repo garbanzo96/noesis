@@ -156,7 +156,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Retrocede a la etapa 2: cerrar paga 5 ahora; seguir no paga ahora y lleva al cobro de 10 un intervalo después. Descuenta ese cobro y elige el mayor valor.',
-      gate: 'Arrastra la perilla al valor de la etapa 2, partiendo del cobro final.',
+      gate: 'Calcula el valor de la etapa 2 partiendo del cobro final y llévalo a la perilla.',
+      after:
+        '$\\max(5;\\,0{,}9\\cdot10)=9$: conviene seguir. Bellman resuelve cada etapa con el valor de la siguiente.',
       board: {
         label: 'Segunda etapa',
         tex: '\\p{1}{V(s_2)}=\\p{2}{\\max(5;0{,}9\\cdot10)}',

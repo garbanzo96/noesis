@@ -168,7 +168,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Para sacar un dato, sortea un número u entre 0 y 1 y mira en qué tramo cae. Los tramos miden lo mismo que las probabilidades.',
-      gate: 'Arrastra u por la cinta hasta pasar por los tres niveles.',
+      gate: 'Recorre $u$ por la cinta y mira qué nivel sale en cada tramo.',
+      after:
+        'Cada nivel ocupa un tramo tan largo como su probabilidad. Así un número uniforme se convierte en un dato de la distribución.',
       board: {
         label: 'La acumulada',
         tex: '\\p{1}{F(x)}=\\p{2}{P(X\\le x)}',

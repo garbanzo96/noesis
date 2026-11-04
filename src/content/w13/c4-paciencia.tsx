@@ -169,7 +169,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve el cobro por el calendario: hoy conserva todo su valor; cada día adicional aplica otra vez el factor 0,9.',
-      gate: 'Arrastra la perilla de plazo hasta t = 3 días.',
+      gate: 'Mueve el cobro 3 días hacia adelante y mira cuánto vale hoy.',
+      after: '$10\\cdot0{,}9^3=7{,}29$. Cada día aplica otra vez el factor 0,9.',
       board: {
         label: 'Tres días',
         tex: '\\p{1}{10\\cdot0{,}9^3}=\\p{2}{7{,}29}',
@@ -178,7 +179,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mantén el plazo en tres días y sube **γ**: cuanto más cerca de 1, más valor conservan los cobros futuros. Con γ entre 0 y 1, un plazo mayor reduce el valor presente de un cobro positivo.',
-      gate: 'Arrastra la perilla de descuento diario hasta γ = 0,9.',
+      gate: 'Sube $\\gamma$ hasta 0,9 y mira cuánto valor conserva el cobro.',
+      after:
+        'Con $\\gamma$ más cerca de 1 el futuro pesa más. El plazo y $\\gamma$ deben usar la misma unidad.',
       board: {
         label: 'Factor de descuento',
         tex: '\\p{1}{0<\\gamma<1},\\quad\\p{2}{ \\gamma^0}=\\p{3}{1}',

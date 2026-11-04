@@ -110,7 +110,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Sube la prevalencia sin tocar el test. Mira qué pasa con los positivos.',
-      gate: 'Arrastra la perilla de prevalencia hasta 20 %.',
+      gate: 'Sube la prevalencia a 20 % sin tocar el test. ¿Qué fracción de los positivos está enferma ahora?',
+      after:
+        'Con 20 % de prevalencia, $\\tfrac{180}{180+40}\\approx0{,}82$ de los positivos está enfermo. El test es el mismo: cambió la tasa base.',
       board: {
         label: 'Con 20 % de enfermos',
         tex: '\\p{1}{\\tfrac{180}{180+40}}\\p{2}{\\approx0{,}82}',
@@ -370,6 +372,8 @@ export const level: LevelSpec = {
         {
           say: 'El sistema calcula el VPP con la cifra cargada en la central: 20 %. Ajusta la prevalencia y observa cuántos positivos son verdaderos y cuántos son falsos.',
           gate: 'Arrastra la perilla de prevalencia hasta 20 % o toca ese valor en la barra.',
+          after:
+            'Con la cifra de la central, 20 %, el VPP queda cerca de 0,82. Esa prevalencia hace parecer muy confiable cada positivo.',
         },
         {
           say: 'Con 20 % de prevalencia, compara los positivos verdaderos con el total de positivos.',
@@ -388,6 +392,8 @@ export const level: LevelSpec = {
         {
           say: 'El censo regional indica 2 %. Ajusta la prevalencia sin cambiar el test y observa el VPP.',
           gate: 'Arrastra la perilla de prevalencia hasta 2 % o toca ese valor en la barra.',
+          after:
+            'Con 2 % el VPP cae a $\\tfrac{18}{67}\\approx0{,}27$. El mismo test, en otra población, acierta uno de cada cuatro positivos.',
         },
         {
           say: 'Con 2 % de prevalencia, compara los positivos verdaderos con el total de positivos.',

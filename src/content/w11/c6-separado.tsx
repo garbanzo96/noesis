@@ -167,7 +167,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'La aproximación más simple trata cada síntoma por su cuenta y multiplica. Llévala de p a q.',
-      gate: 'Arrastra la perilla hasta q(x)q(y).',
+      gate: 'Lleva la distribución de $p$ a $q(x)q(y)$ y mira qué relación entre síntomas se pierde.',
+      after:
+        'Al factorizar se pierde la relación entre los síntomas. Ese es el precio del campo medio, a cambio de cuentas mucho más simples.',
       board: {
         label: 'Campo medio',
         tex: '\\p{1}{q(x,y)}=\\p{2}{q(x)\\,q(y)}',

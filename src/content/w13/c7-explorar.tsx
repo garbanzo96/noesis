@@ -227,7 +227,8 @@ const lesson: LessonStep = {
     },
     {
       say: 'La regla **ε-codiciosa** explora con probabilidad ε y explota el resto. Al explorar sortea entre las dos mesas, incluida la favorita actual A.',
-      gate: 'Arrastra la perilla hasta ε = 0,2.',
+      gate: 'Prueba $\\varepsilon=0{,}2$ y calcula con qué frecuencia se juega cada mesa.',
+      after: 'Se juega B el 10 % de las veces y A el 90 %: al explorar también se sortea A.',
       board: {
         label: 'Exploración uniforme',
         tex: '\\p{1}{P(B)}=\\p{2}{\\frac\\varepsilon2},\\quad\\p{3}{ P(A)}=\\p{4}{1-\\varepsilon+\\frac\\varepsilon2}',

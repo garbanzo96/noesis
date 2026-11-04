@@ -141,7 +141,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Mueve el plano de corte y mira cómo cambian la curva y su tangente.',
-      gate: 'Arrastra la perilla hasta y = 2, donde está la marca verde.',
+      gate: 'Fija $y=2$ con el plano de corte y mira qué función de una variable queda sobre él.',
+      after:
+        'Con $y$ fija, $f(x,2)=x^2+6x-4$ es una curva común y se deriva como siempre. Su pendiente en $x=1$ es 8: esa es la derivada parcial $f_x(1,2)$.',
       board: {
         label: 'Corte',
         tex: '\\p{1}{f(x,2)}=\\p{2}{x^2+6x-4}',

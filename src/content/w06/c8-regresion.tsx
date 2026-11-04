@@ -321,7 +321,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El **coeficiente de correlación** $r$ mide qué tan alineados están los puntos sobre una recta. Va de $-1$ a $1$: el signo da la dirección y el tamaño, la fuerza.',
-      gate: 'Mueve el control hasta que la correlación sea menor que −0,8.',
+      gate: 'Busca una nube casi alineada y descendente: la correlación debe bajar de $-0{,}8$.',
+      after:
+        'Con $r<-0{,}8$ los puntos casi forman una recta que baja. El signo da la dirección; el tamaño, la fuerza.',
       board: {
         label: 'Correlación',
         tex: 'r=\\frac{1}{n-1}\\sum_i\\p{1}{\\frac{x_i-\\bar x}{s_x}}\\cdot\\p{2}{\\frac{y_i-\\bar y}{s_y}}',
@@ -331,7 +333,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'La **recta de regresión** es la que mejor pasa entre los puntos: la que hace más chica la suma de los cuadrados de los **residuos**, las distancias verticales de cada punto a la recta.',
-      gate: 'Arrastra los extremos de la recta hasta acercarte al mínimo de la suma de cuadrados.',
+      gate: 'Mueve los extremos de la recta buscando la menor suma de cuadrados.',
+      after:
+        'La suma llegó cerca de su mínimo: esa es la recta de regresión. Ninguna otra deja residuos cuadrados menores.',
       board: {
         label: 'Mínimos cuadrados',
         tex: '\\min_{a,b}\\ \\sum_i\\big(\\p{1}{y_i}-(\\p{2}{a+b\\,x_i})\\big)^2',

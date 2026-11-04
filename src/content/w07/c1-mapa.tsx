@@ -148,7 +148,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'El punto del mapa tiene un punto encima, sobre la superficie. Su altura cambia al arrastrarlo.',
-      gate: 'Arrastra el punto hasta que su altura sea 5; el círculo verde te orienta.',
+      gate: 'Busca un lugar del mapa donde la altura sea 5. ¿Hay uno solo?',
+      after:
+        'Hay un círculo completo de puntos con altura 5. Una **curva de nivel** reúne todos los lugares con la misma altura.',
       board: {
         label: 'Evaluar',
         tex: '\\p{1}{h(2,0)}=\\p{2}{9-4-0}=\\p{3}{\\cC{5}}',

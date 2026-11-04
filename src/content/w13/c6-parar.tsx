@@ -201,7 +201,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Si miras muy pocas, aceptas algo mediocre; si miras demasiadas, la mejor ya pasó. Busca el equilibrio.',
-      gate: 'Arrastra la perilla hasta la barra más alta.',
+      gate: 'Busca cuántas ofertas dejar pasar para que la probabilidad de elegir la mejor sea máxima.',
+      after:
+        'La barra más alta está en $r=4$: dejar pasar 3 de 10 da cerca de 0,40. Mirar muy poco o demasiado baja esa probabilidad.',
       board: {
         label: 'Probabilidad de éxito',
         tex: '\\p{1}{P(r)}=\\p{2}{\\frac{r-1}{n}\\sum_{i=r}^{n}\\frac{1}{i-1}}',

@@ -224,7 +224,8 @@ const lesson: LessonStep = {
   beats: [
     {
       say: 'Las barras cuentan mitades de la carga inicial. El **logaritmo** recupera cuántas mitades necesitas; mueve la perilla hasta llegar al 25 %.',
-      gate: 'Arrastra la perilla hasta 2 mitades.',
+      gate: 'Busca cuántas mitades llevan la carga al 25 %.',
+      after: 'Son 2 mitades de 6 horas: 12 horas. El logaritmo cuenta esas mitades.',
       board: { label: TITLES[0], tex: FORMULAS[0], body: 'Dos mitades de 6 horas: 12 horas.' },
     },
     {

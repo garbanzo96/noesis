@@ -152,7 +152,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Una **mezcla** elige primero una máquina y luego genera el valor. Arrastra la proporción de A hasta 0,5 para dejar el lote mitad y mitad.',
-      gate: 'Lleva la perilla π a la marca central: 0,5.',
+      gate: 'Busca la proporción que deja el lote mitad y mitad entre las dos máquinas.',
+      after:
+        'Con $\\pi=0{,}5$ la mezcla tiene dos jorobas iguales. Cada dato viene de una máquina, pero la máquina no queda registrada.',
       board: {
         label: 'Probabilidad de mezcla',
         tex: '\\p{1}{P(x)}=\\p{2}{\\pi P_A(x)}+\\p{3}{(1-\\pi)P_B(x)}',

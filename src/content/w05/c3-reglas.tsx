@@ -630,7 +630,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'A es «par» y B es «mayor que 3». Si sumas sus casos, el 4 y el 6 aparecen dos veces. Junta los círculos.',
-      gate: 'Arrastra el círculo B sobre A hasta que el 4 y el 6 coincidan.',
+      gate: 'Junta los círculos hasta que los elementos comunes queden uno sobre otro.',
+      after:
+        'El 4 y el 6 estaban contados dos veces. Por eso $|A\\cup B|$ resta $|A\\cap B|$ una vez.',
       board: {
         label: 'Contar sin repetir',
         tex: '\\p{1}{|A\\cup B|}=\\p{2}{|A|+|B|}\\p{3}{-|A\\cap B|}',
@@ -749,6 +751,8 @@ export const level: LevelSpec = {
         {
           say: '«Suma 7 o suma 11»: las dos apuestas no comparten casillas.',
           gate: 'Marca todas las casillas que ganan con «suma 7 o suma 11».',
+          after:
+            'Son 8 casillas: 6 de suma 7 y 2 de suma 11, sin ninguna en común. Si dos eventos no comparten casillas, sus probabilidades se suman.',
           note: {
             label: 'Eventos disjuntos',
             tex: '\\begin{aligned}&A\\cap B=\\varnothing\\ \\Rightarrow\\\\ &P(A\\cup B)=P(A)+P(B)\\end{aligned}',
@@ -757,7 +761,8 @@ export const level: LevelSpec = {
         },
         {
           say: '«Algún 6 o dobles»: 11 casillas tienen algún 6 y 6 son dobles. Pero no son 17.',
-          gate: 'Toca la casilla que se cuenta dos veces.',
+          gate: 'Busca la casilla que está en los dos eventos: esa se cuenta dos veces.',
+          after: 'Es el (6,6): tiene un 6 y es doble. Por eso son 16 casillas y no 17.',
           note: {
             label: 'Inclusión–exclusión',
             tex: '\\begin{aligned}P(A\\cup B)=\\;&P(A)+P(B)\\\\ &-P(A\\cap B)\\end{aligned}',

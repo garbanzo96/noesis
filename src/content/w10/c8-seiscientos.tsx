@@ -223,7 +223,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Con esa probabilidad se predice cuántos positivos deberían salir. Sube la cantidad de tests hasta el informe de agosto.',
-      gate: 'Arrastra la perilla hasta 3000 tests.',
+      gate: 'Sube a 3000 tests y compara los positivos esperados con los 600 del informe.',
+      after:
+        'Se esperaban $3000\\cdot0{,}067\\approx201$ positivos. El informe dice 600: no calza con este test.',
       board: {
         label: 'Positivos esperados',
         tex: '\\p{1}{E[\\#+]}=\\p{2}{n\\cdot P(+)}=\\p{3}{3000\\cdot0{,}067\\approx201}',
@@ -469,7 +471,9 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Con el test honesto se esperaban 201 positivos en 3000 tests. Mantén la prevalencia y la sensibilidad y ajusta los falsos positivos hasta reproducir los 600 del informe.',
-          gate: 'Arrastra la perilla de falsos positivos hasta que la barra marque 600.',
+          gate: 'Busca qué tasa de falsos positivos reproduciría los 600 del informe.',
+          after:
+            'Hace falta una tasa cercana a 0,19, casi cuatro veces la del test declarado. El lector estaba alterado.',
         },
         {
           say: 'Si el lector alterado marca positivos de más en sanos, ¿qué tasa de falsos positivos explicaría 600 de 3000?',
@@ -484,7 +488,9 @@ export const level: LevelSpec = {
         },
         {
           say: 'Con el lector alterado, P(E | +) baja a 0,09. Ubica ese riesgo en la recta y compáralo con el umbral 0,2, que corresponde a costos 1 y 4.',
-          gate: 'Arrastra el punto de riesgo hasta 0,09.',
+          gate: 'Ubica el riesgo de 0,09 en la recta y compáralo con el umbral 0,2.',
+          after:
+            'Con 0,09, bajo el umbral 0,2, lo correcto era no tratar. Cambiar la probabilidad cambia la decisión.',
         },
         {
           say: 'Con ese lector, un positivo ya no significa lo mismo.',

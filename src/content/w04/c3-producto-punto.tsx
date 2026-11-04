@@ -185,7 +185,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Su **signo** dice hacia dónde apuntan: positivo si forman un ángulo agudo, cero si son perpendiculares, negativo si el ángulo es obtuso.',
-      gate: 'Arrastra la punta de $\\vec v$ hasta que el producto punto sea $0$.',
+      gate: 'Busca una posición de $\\vec v$ en que el producto punto se anule. Mira qué ángulo forma con $\\vec u$.',
+      after:
+        'El producto punto vale 0 cuando las flechas forman 90°: ninguna avanza en la dirección de la otra.',
       board: {
         label: 'Signo y ángulo',
         tex: '\\vec u\\cdot\\vec v\\ \\begin{cases}\\p{1}{>0} & \\text{agudo}\\\\\\p{2}{=0} & \\text{perpendiculares}\\\\\\p{3}{<0} & \\text{obtuso}\\end{cases}',
@@ -239,7 +241,9 @@ const lesson: LessonStep = {
     },
     {
       say: 'Si el ángulo es obtuso, la sombra cae del otro lado: la componente es negativa.',
-      gate: 'Arrastra $\\vec v$ hasta que su sombra apunte al revés que $\\vec u$.',
+      gate: 'Mueve $\\vec v$ hasta que su sombra sobre $\\vec u$ caiga hacia atrás. ¿Qué signo toma el producto punto?',
+      after:
+        'Con ángulo obtuso la sombra cae al lado contrario y el producto punto es negativo: $\\vec v$ va en contra de $\\vec u$.',
     },
   ],
 };
