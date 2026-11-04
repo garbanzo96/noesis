@@ -173,7 +173,7 @@ const lesson: LessonStep = {
   Scene: DenominatorLesson,
   beats: [
     {
-      say: 'El posterior es prior por verosimilitud, dividido por la suma de todo. Con tres valores, la suma es fácil: un tercio.',
+      say: 'El **posterior** $P(\\theta\\mid D)$ es la probabilidad de cada valor de $\\theta$ después de observar los datos $D$; se lee «probabilidad de teta dado de». El **prior** $P(\\theta)$ es la probabilidad antes de esos datos y la **verosimilitud** $P(D\\mid\\theta)$ es la probabilidad de los datos para ese valor.\n\nLa **evidencia** $P(D)$ suma sus productos sobre todos los valores y debe ser positiva. Dividir por ella normaliza el posterior para que sume 1; aquí vale $1/3$.',
       board: {
         label: 'Normalizar',
         tex: '\\p{1}{P(\\theta\\mid D)}=\\p{2}{\\frac{P(D\\mid\\theta)P(\\theta)}{\\sum_{\\theta}P(D\\mid\\theta)P(\\theta)}}',
@@ -181,8 +181,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un modelo real tiene muchos parámetros. Si cada uno se prueba en 10 valores, la grilla crece como 10 elevado al número de parámetros.',
-      gate: 'Sube a 6 parámetros y mira cómo crece la grilla: ¿crece como una recta?',
+      say: 'Una **grilla** reúne las combinaciones de valores que se prueban para los parámetros de un modelo. Si hay $d$ parámetros y cada uno tiene 10 valores, hay $10^d$ puntos: se lee «diez elevado a de». Cada parámetro adicional multiplica el total por 10; sumar 10 por parámetro daría una cuenta equivocada.',
+      gate: 'Sube la cantidad de parámetros hasta el máximo de la perilla y observa el número de puntos: ¿crece como una recta?',
       after:
         'Con 6 parámetros ya son un millón de puntos: cada parámetro multiplica por 10. El crecimiento es exponencial.',
       board: {
@@ -192,7 +192,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con seis parámetros ya es un millón de cuentas, y apenas para el denominador.',
+      say: 'Con seis parámetros y 10 valores por parámetro, la grilla tiene un millón de puntos. Para calcular el denominador se suma un producto de prior y verosimilitud por cada combinación. La misma regla permite contar una grilla con más parámetros sin enumerar sus puntos.',
       ask: {
         prompt: 'Con 20 parámetros y 10 valores cada uno, ¿cuántas cuentas hacen falta?',
         options: ['10²⁰', '200', '20¹⁰'],
@@ -207,7 +207,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un computador que haga mil millones de cuentas por segundo tardaría unos 3 mil años en sumar esa grilla.',
+      say: 'Una grilla de $10^{20}$ combinaciones exige esa cantidad de cuentas si se recorre completa. A mil millones de cuentas por segundo, o $10^9$ por segundo, la división da $10^{11}$ segundos. Eso equivale aproximadamente a 3 mil años, bajo esa velocidad constante.',
       board: {
         label: 'Imposible a mano y a máquina',
         tex: '\\p{1}{\\tfrac{10^{20}}{10^{9}}}=\\p{2}{10^{11}\\ \\text{s}}\\p{3}{\\approx3\\,000\\ \\text{años}}',
@@ -215,7 +215,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Quedan dos salidas: sacar muestras en vez de recorrer todo, o elegir una distribución fácil q que se parezca al posterior.',
+      say: 'Hay dos formas de aproximar el posterior cuando recorrer la grilla completa cuesta demasiado. **Muestrear** consiste en obtener valores representativos para estimar la distribución. Otra opción es elegir una distribución $q(\\theta)$ más fácil de calcular que se parezca al posterior; se lee «cu de teta». Ambas entregan aproximaciones cuya calidad hay que evaluar.',
       board: {
         label: 'Dos salidas',
         tex: '\\p{1}{\\text{muestrear}}\\quad\\p{2}{\\text{o}}\\quad\\p{3}{q(\\theta)\\approx P(\\theta\\mid D)}',
@@ -467,10 +467,10 @@ export const level: LevelSpec = {
       Scene: RecipeDemo,
       beats: [
         {
-          say: 'El modelo del lector tiene 24 parámetros. Cada uno se podría probar en 10 valores. Activa los parámetros con la perilla y observa cómo crecen las combinaciones.',
-          gate: 'Sube a los 24 parámetros del lector y mira cuántas combinaciones habría que sumar.',
+          say: 'El modelo del lector tiene 24 parámetros y cada uno se podría probar en 10 valores. Necesitamos saber cuánto costaría recorrer todas sus combinaciones.',
+          gate: 'Activa con la perilla todos los parámetros del lector y observa cómo cambia la cantidad de combinaciones.',
           after:
-            'Son $10^{24}$ combinaciones, y ninguna máquina puede sumarlas. Por eso el denominador exacto no se calcula.',
+            'Con los 24 parámetros activos hay $10^{24}$ combinaciones. Recorrerlas todas para calcular el denominador resulta inviable.',
         },
         {
           say: 'Con los 24 parámetros activos, la pantalla muestra el tamaño de la grilla del lector.',
@@ -484,13 +484,13 @@ export const level: LevelSpec = {
           note: { label: 'Grilla del lector', tex: '10^{24}\\ \\text{combinaciones}' },
         },
         {
-          say: 'Simón abre la configuración del modelo. Revisa la carpeta «aproximación q» para ver qué usa el lector.',
-          gate: 'Toca la carpeta «aproximación q».',
+          say: 'Simón abre la configuración del modelo. Busca cómo resolvió el Laboratorio el cálculo del posterior.',
+          gate: 'Abre la carpeta que indica una aproximación y mira qué distribución usa el lector.',
           after:
-            'El lector no calcula el posterior: usa una distribución más simple, $q$, que se le parece. Esa es la idea de este mundo.',
+            'La carpeta muestra que el lector usa una distribución más simple, $q$, para aproximar el posterior. Ahora sabemos qué estrategia eligió el Laboratorio.',
         },
         {
-          say: 'La carpeta muestra una distribución q más simple que aproxima el posterior.',
+          say: 'La carpeta deja registrada la estrategia que eligió el Laboratorio para el modelo del lector.',
           ask: {
             prompt: '¿Qué hace entonces el Laboratorio?',
             options: [
