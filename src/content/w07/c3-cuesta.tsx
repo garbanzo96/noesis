@@ -230,17 +230,40 @@ const lesson: LessonStep = {
   ],
 };
 
-function FallDemo({ beats, answer, reduced }: DemoProps) {
-  const revealed = beats.beat > 0 || answer !== null;
-  const progress = beats.beat === 0 ? 0 : reduced ? 1 : beats.at(1);
-  // Integral curve of -∇H=(4x,2y): x=3e^(4t), y=4e^(2t).
-  // Eliminating t gives x=3y²/16. The drawn ravine begins at y=6.
+function FallDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const { beat } = beats;
+  const [angle, setAngle] = useState(Math.PI);
+  const [landing, setLanding] = useState(2);
+  const [foundDirection, setFoundDirection] = useState(false);
+  const [foundLanding, setFoundLanding] = useState(false);
+  const drag = useSvgDrag(svg, (px, py) => {
+    const [x, y] = SEARCH.inv(px, py);
+    if (beat === 0 && !foundDirection && Math.hypot(x - 3, y - 4) > 0.1) {
+      const next = Math.atan2(y - 4, x - 3);
+      setAngle(next);
+      if (Math.cos(next - Math.atan2(8, 12)) >= Math.cos((8 * Math.PI) / 180)) {
+        setAngle(Math.atan2(8, 12));
+        setFoundDirection(true);
+        unlock();
+      }
+    } else if (beat === 1 && !foundLanding) {
+      const next = Math.max(0, Math.min(8, x));
+      setLanding(next);
+      if (Math.abs(next - 6.75) <= 0.2) {
+        setLanding(6.75);
+        setFoundLanding(true);
+        unlock();
+      }
+    }
+  });
   const path = Array.from({ length: 101 }, (_, i) => {
-    const y = 4 + (2 * progress * i) / 100;
+    const y = 4 + (2 * i) / 100;
     return SEARCH.pt((3 * y * y) / 16, y).join(',');
   }).join(' ');
+  const tip = SEARCH.pt(3 + 1.7 * Math.cos(angle), 4 + 1.7 * Math.sin(angle));
   return (
-    <Stage>
+    <Stage ref={svg}>
       <rect
         x={SEARCH.box.x}
         y={SEARCH.y(6.35)}
@@ -250,7 +273,7 @@ function FallDemo({ beats, answer, reduced }: DemoProps) {
         stroke={C.dim}
         strokeDasharray="6 8"
       />
-      <Cap x={SEARCH.x(1.15)} y={SEARCH.y(6.65)} size={18} color={C.muted}>
+      <Cap x={SEARCH.x(1.4)} y={SEARCH.y(6.65)} size={24} color={C.muted}>
         Quebrada Jaime
       </Cap>
       <Axes
@@ -264,37 +287,24 @@ function FallDemo({ beats, answer, reduced }: DemoProps) {
       <GradField P={SEARCH} grad={downhill} color={C.red} />
       <Dot x={SEARCH.x(3)} y={SEARCH.y(4)} color={C.green} />
       <Cap x={SEARCH.x(3) - 25} y={SEARCH.y(4) + 25} tex="(3,4)" />
-      {revealed && (
-        <Arrow from={SEARCH.pt(3, 4)} to={SEARCH.pt(4.5, 5)} color={C.amber} width={5} />
+      <Arrow from={SEARCH.pt(3, 4)} to={beat === 0 ? tip : SEARCH.pt(4.5, 5)} color={C.amber} width={5} />
+      {beat === 0 && !foundDirection && (
+        <Knob x={tip[0]} y={tip[1]} onPointerDown={drag} color={C.amber} label="u" />
       )}
-      {beats.beat === 1 && (
+      {beat >= 1 && (
         <>
-          <polyline points={path} fill="none" stroke={C.green} strokeWidth={5} />
-          <Dot
-            x={SEARCH.x((3 * (4 + 2 * progress) ** 2) / 16)}
-            y={SEARCH.y(4 + 2 * progress)}
-            color={C.green}
-          />
+          <Knob x={SEARCH.x(landing)} y={SEARCH.y(6)} onPointerDown={drag} axis="x" color={C.amber} />
+          <Cap x={1230} y={470} tex={`x=${num(landing)}\text{ km}`} color={C.amber} />
         </>
       )}
+      {foundLanding && <polyline points={path} fill="none" stroke={C.green} strokeWidth={5} />}
       <Cap x={1230} y={210} tex="H=200-2x^2-y^2" />
       <Cap x={1230} y={285} tex="\nabla H=(-4x,-2y)" color={C.cyan} />
-      {revealed && (
+      {(foundDirection || beat > 0) && (
         <>
-          <Cap x={1230} y={380} tex="-\nabla H(3,4)=(12,8)" color={C.amber} />
-          <Cap x={1230} y={460} tex={`\\vec u=\\frac{(12,8)}{\\sqrt{208}}`} />
-          <Cap
-            x={1230}
-            y={530}
-            tex={`\\vec u\\approx${pair([FALL[0] / Math.hypot(...FALL), FALL[1] / Math.hypot(...FALL)])}`}
-            color={C.green}
-          />
+          <Cap x={1230} y={360} tex="-\nabla H(3,4)=(12,8)" color={C.amber} />
+          <Cap x={1230} y={540} tex="\vec u=\frac{(12,8)}{\sqrt{208}}" color={C.green} />
         </>
-      )}
-      {beats.beat === 1 && (
-        <Cap x={1230} y={635} size={19}>
-          La dirección cambia a medida que baja.
-        </Cap>
       )}
     </Stage>
   );
@@ -499,18 +509,10 @@ export const level: LevelSpec = {
       Scene: FallDemo,
       beats: [
         {
-          say: 'En el terreno $H=200-2x^2-y^2$, las flechas rojas muestran el máximo descenso. El dron cayó desde $(3,4)$.',
-          ask: {
-            prompt: '¿Cuál es la dirección unitaria inicial de caída?',
-            options: [
-              '$(0{,}83;\\,0{,}55)$, aproximadamente',
-              '$(-0{,}83;\\,-0{,}55)$, aproximadamente',
-              '$(1,0)$, hacia el este',
-            ],
-            answer: 0,
-            explain:
-              '$-\\nabla H(3,4)=(12,8)$. Su norma es $\\sqrt{208}$; al dividir queda aproximadamente $(0{,}83;\\,0{,}55)$. El opuesto subiría y el este solo ignora la pendiente norte.',
-          },
+          say: 'En el terreno $H=200-2x^2-y^2$, las flechas rojas muestran el máximo descenso. El dron cayó desde $(3,4)$. ¿Cuál es la dirección unitaria inicial de caída?',
+          gate: 'Gira la flecha para indicar la dirección inicial de máximo descenso.',
+          after:
+            'En $(3,4)$, el máximo descenso es $-\\nabla H=(12,8)$. Al dividir por $\\sqrt{208}$, la dirección unitaria es aproximadamente $(0{,}83;\\,0{,}55)$.',
           note: {
             label: 'Caída inicial',
             tex: '-\\nabla H(3,4)=(12,8)',
@@ -518,13 +520,18 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Sigue el campo desde ese punto: la trayectoria se curva porque el gradiente cambia con la posición. La ruta termina en la quebrada Jaime.',
-          dur: 4,
+          say: 'La trayectoria sigue el campo y se curva porque el gradiente cambia con la posición. Para esta ladera, su recorrido cumple $x=3y^2/16$ desde $(3,4)$. ¿En qué punto llega a la quebrada Jaime, que empieza en $y=6$?',
+          gate: 'Calcula la coordenada este y mueve el marcador al punto de llegada.',
+          after:
+            'Al llegar a $y=6$, la trayectoria tiene $x=3\\cdot6^2/16=6{,}75$. El dron llega a la quebrada en $(6{,}75;\\,6)$ km.',
           note: {
             label: 'Trayectoria de descenso',
             tex: '\\vec u(x,y)=\\frac{-\\nabla H(x,y)}{\\|\\nabla H(x,y)\\|}',
             body: 'La dirección inicial sirve solo al partir; se vuelve a calcular a lo largo de la ruta.',
           },
+        },
+        {
+          say: 'La ruta llega a la quebrada Jaime. La curva muestra cómo cambia la dirección de descenso a medida que el dron baja.',
         },
       ],
     },
