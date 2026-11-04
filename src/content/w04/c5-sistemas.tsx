@@ -340,11 +340,24 @@ const lesson: LessonStep = {
 // ---------------------------------------------------------------- demo
 const PD = plane([0, 10], [0, 9], { x: 330, y: 120, w: 780, h: 600 });
 
-function GhostDemo({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
-  const solved = beat >= 2 || (beat === 1 && answer !== null);
+function GhostDemo({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [point, setPoint] = useState(1);
+  const [missing, setMissing] = useState(1);
+  const drag = useSvgDrag(svg, (x, y) => {
+    if (beat === 1) {
+      const next = clamp(PD.inv(x, y)[0], 0, 9);
+      setPoint(next);
+      if (Math.abs(next - 3) <= 0.3) unlock();
+    } else if (beat === 2) {
+      const next = clamp((x - 1150) / 300 * 9, 0, 9);
+      setMissing(next);
+      if (Math.abs(next - 6) <= 0.3) unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes
         P={PD}
         xTicks={[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10]}
@@ -353,36 +366,31 @@ function GhostDemo({ beats, answer }: DemoProps) {
         yLabel="y"
         grid
       />
-      <EqLine
-        P={PD}
-        a={1}
-        b={1}
-        c={9}
-        color={C.cyan}
-        label="x+y=9"
-        labelAt={0.1}
-        opacity={beat === 0 ? at(0) : 1}
-      />
-      <EqLine
-        P={PD}
-        a={2}
-        b={4}
-        c={30}
-        color={C.amber}
-        label="2x+4y=30"
-        labelAt={0.75}
-        opacity={beat === 0 ? clamp(at(0) * 2 - 1, 0, 1) : 1}
-      />
-      {solved && <Dot x={PD.x(3)} y={PD.y(6)} r={11} color={C.green} />}
-      <Cap x={1330} y={220} size={22} color={C.muted}>
+      <EqLine P={PD} a={1} b={1} c={9} color={C.cyan} label="x+y=9" labelAt={0.1} />
+      <EqLine P={PD} a={2} b={4} c={30} color={C.amber} label="2x+4y=30" labelAt={0.75} />
+      {beat === 1 && (
+        <Knob x={PD.x(point)} y={PD.y(9 - point)} axis="x" color={C.green} onPointerDown={drag} r={14} />
+      )}
+      {beat >= 2 && <Dot x={PD.x(3)} y={PD.y(6)} r={11} color={C.green} />}
+      <Cap x={1330} y={220} size={24} color={C.muted}>
         x: mantención (2 vagones)
       </Cap>
-      <Cap x={1330} y={266} size={22} color={C.muted}>
+      <Cap x={1330} y={266} size={24} color={C.muted}>
         y: carga (4 vagones)
       </Cap>
-      {solved && <Cap x={1380} y={340} size={26} color={C.green} tex="(x,y)=(3,6)" />}
-      {beat === 2 && answer !== null && (
-        <Cap x={1380} y={410} size={22} color={C.red} tex="\text{horario: }(3,0)" />
+      {beat >= 2 && <Cap x={1330} y={340} size={26} color={C.green} tex="(x,y)=(3,6)" />}
+      {beat === 2 && (
+        <>
+          <Cap x={1300} y={420} size={24} color={C.text}>Trenes de carga sin horario</Cap>
+          <line x1={1150} x2={1450} y1={520} y2={520} stroke={C.line} strokeWidth={4} />
+          {Array.from({ length: 10 }, (_, i) => (
+            <g key={i}>
+              <line x1={1150 + i * 300 / 9} x2={1150 + i * 300 / 9} y1={510} y2={530} stroke={C.muted} strokeWidth={2} />
+              <Cap x={1150 + i * 300 / 9} y={570} size={24} color={C.muted}>{i}</Cap>
+            </g>
+          ))}
+          <Knob x={1150 + missing * 300 / 9} y={520} axis="x" color={C.amber} onPointerDown={drag} />
+        </>
       )}
     </Stage>
   );
@@ -634,7 +642,6 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Anoche pasaron 9 trenes con 30 vagones en total. Los de mantención llevan 2 vagones y los de carga, 4. Cada dato es una ecuación, y cada ecuación, una recta.',
-          dur: 2.4,
           note: {
             label: 'Sensor del puente',
             tex: 'x+y=9,\\quad 2x+4y=30',
@@ -642,28 +649,15 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La respuesta está donde se cortan las dos rectas.',
-          ask: {
-            prompt: '¿Cuántos trenes de cada tipo pasaron?',
-            options: [
-              '3 de mantención y 6 de carga',
-              '6 de mantención y 3 de carga',
-              '4,5 de cada tipo',
-            ],
-            answer: 0,
-            explain: 'A la segunda se le resta 2 veces la primera: $2y=12$, así que $y=6$ y $x=3$.',
-          },
+          say: '¿Cuántos trenes de cada tipo pasaron? La respuesta está donde se cortan las dos rectas.',
+          gate: 'Desliza el marcador por la primera recta hasta el punto que cumple ambas ecuaciones.',
+          after: 'El cruce es $(3,6)$: 3 trenes de mantención y 6 de carga suman 9 trenes y 30 vagones.',
           note: { label: 'Solución', tex: '(x,y)=(3,6)' },
         },
         {
-          say: 'El horario oficial de esa noche solo tiene trenes de mantención: tres.',
-          ask: {
-            prompt: '¿Cuántos trenes de carga pasaron sin registro?',
-            options: ['6', '3', '0'],
-            answer: 0,
-            explain:
-              'El sensor exige $y=6$. Seis trenes de carga que no existen en ningún horario.',
-          },
+          say: 'El horario oficial de esa noche solo tiene trenes de mantención: tres. ¿Cuántos trenes de carga pasaron sin registro?',
+          gate: 'Compara la solución con el horario y marca la cantidad de trenes de carga sin registro.',
+          after: 'El sensor muestra 6 trenes de carga y el horario registra 0. Pasaron 6 trenes de carga sin registro.',
           note: {
             label: 'Trenes fantasma',
             tex: 'y=6',
