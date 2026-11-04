@@ -202,22 +202,42 @@ const lesson: LessonStep = {
   ],
 };
 
-function SymptomsDemo({ beats, answer }: DemoProps) {
+function SymptomsDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [value, setValue] = useState(0);
+  useEffect(() => setValue(0), [beat]);
+  const drag = useSvgDrag(svg, (x) => {
+    const next = clamp((x - MIX.x0) / (MIX.x1 - MIX.x0), 0, 1);
+    setValue(next);
+    if ((beat === 0 && Math.abs(next - 0.25) <= 0.02) ||
+        (beat === 1 && Math.abs(next - 0.5) <= 0.02)) unlock();
+  });
   return (
-    <Stage>
-      <Joint cells={beat === 0 && answer === null ? P : Q} diag={answer !== null} />
-      <Cap x={T.x + T.s} y={T.y + 2 * T.s + 50} size={20} color={C.muted}>
-        {beat === 0 && answer === null
-          ? 'Datos de la Clínica.'
-          : 'Lo que usa el lector: síntomas por separado.'}
+    <Stage ref={svg}>
+      <Joint cells={beat === 0 ? P : Q} diag={beat > 0} />
+      <Cap x={T.x + T.s} y={T.y + 2 * T.s + 50} size={24} color={C.muted}>
+        {beat === 0 ? 'Datos de la Clínica' : 'Distribución del lector'}
       </Cap>
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="q(1,1)=0{,}5\cdot0{,}5=0{,}25" color={C.amber} />
+      {beat === 0 && (
+        <Cap x={1270} y={240} size={24} color={C.text}>
+          Fiebre: 0,5 · Tos: 0,5
+        </Cap>
       )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} size={21} color={C.green}>
-          La relación entre síntomas.
+      {beat < 2 && (
+        <>
+          <Cap x={1255} y={420} size={26} color={C.text}>
+            {`Tu estimación: ${fmt(value, 2)}`}
+          </Cap>
+          <line x1={MIX.x0} x2={MIX.x1} y1={MIX.y} y2={MIX.y} stroke={C.line} strokeWidth={4} />
+          <Knob x={MIX.x0 + value * (MIX.x1 - MIX.x0)} y={MIX.y} onPointerDown={drag} axis="x" color={C.violet} />
+          <Cap x={MIX.x0} y={MIX.y + 50} size={24} color={C.muted}>0</Cap>
+          <Cap x={MIX.x1} y={MIX.y + 50} size={24} color={C.muted}>1</Cap>
+        </>
+      )}
+      {beat === 2 && (
+        <Cap x={1270} y={260} size={24} color={C.green}>
+          Coincidencia: 0,8 en los datos y 0,5 en el lector
         </Cap>
       )}
     </Stage>
@@ -332,28 +352,28 @@ export const level: LevelSpec = {
       Scene: SymptomsDemo,
       beats: [
         {
-          say: 'En la Clínica, fiebre y tos aparecen juntas en el 40 % de los casos. El lector usa las marginales por separado; calculemos qué probabilidad asigna a que aparezcan ambas.',
-          ask: {
-            prompt: 'Para el lector, ¿qué probabilidad tiene «fiebre y tos»?',
-            options: ['0,25', '0,40', '0,50'],
-            answer: 0,
-            explain: 'Por partes: 0,5 · 0,5 = 0,25. El dato real es 0,40.',
-          },
+          say: 'En la Clínica, fiebre y tos aparecen juntas en el 40 % de los casos. El lector usa las marginales por separado.',
+          gate: 'Para el lector, ¿qué probabilidad tiene «fiebre y tos»? Multiplica las marginales y marca el resultado en la escala.',
+          after: 'El lector asigna 0,25 a tener ambos síntomas: 0,5 · 0,5. En los datos de la Clínica esa celda vale 0,40.',
           note: { label: 'Fiebre y tos', tex: 'q(1,1)=0{,}25\\neq p(1,1)=0{,}40' },
         },
         {
-          say: 'El lector conserva cuánto aparece cada síntoma. Revisa qué información sobre la combinación de ambos queda fuera.',
-          ask: {
-            prompt: '¿Qué pierde la aproximación por partes?',
-            options: ['La relación entre los síntomas', 'Cuánto aparece cada síntoma', 'Nada'],
-            answer: 0,
-            explain:
-              'Las marginales quedan iguales; lo que desaparece es que los síntomas van juntos.',
-          },
+          say: 'El lector conserva cuánto aparece cada síntoma. La diagonal reúne los casos en que ambos síntomas coinciden, presentes o ausentes.',
+          gate: '¿Cuánto suman las celdas de la diagonal para el lector? Marca el resultado en la escala.',
+          after: 'Las dos celdas suman 0,25 + 0,25 = 0,5. En los datos reales suman 0,4 + 0,4 = 0,8.',
           note: {
             label: 'Lo que borra',
             tex: 'P(x=y):\\ 0{,}8\\to0{,}5',
             body: 'Un síntoma suelto pesa como si viniera con el otro.',
+          },
+        },
+        {
+          say: 'El lector conserva cuánto aparece cada síntoma. Compara las coincidencias de ambas tablas.',
+          ask: {
+            prompt: '¿Qué pierde la aproximación por partes?',
+            options: ['La relación entre los síntomas', 'Cuánto aparece cada síntoma', 'Nada'],
+            answer: 0,
+            explain: 'Las marginales quedan iguales; lo que desaparece es que los síntomas van juntos.',
           },
         },
       ],
