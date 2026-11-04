@@ -155,7 +155,7 @@ const lesson: LessonStep = {
   Scene: PowerLesson,
   beats: [
     {
-      say: 'La pendiente entre dos puntos es el cambio en altura dividido por el cambio horizontal. Para $f(x)=x^2$, entre 1 y 3 vale $(9-1)/(3-1)=4$.',
+      say: 'La **secante** es la recta que pasa por dos puntos de una curva. Su **pendiente** mide el cambio de altura por unidad de avance horizontal: se calcula como $\\Delta f/\\Delta x$, leído «delta efe sobre delta equis», siempre que $\\Delta x\\ne0$.\n\nPara $f(x)=x^2$, entre $x=1$ y $x=3$ la pendiente es $(9-1)/(3-1)=4$. Esta razón describe el cambio medio en ese intervalo.',
       dur: 2.6,
       board: {
         label: 'Pendiente de la secante',
@@ -165,8 +165,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Acerca el segundo punto al primero, que está en $a=1$. El intervalo $h$ se achica y la pendiente $2+h$ se acerca a 2.',
-      gate: 'Arrastra el segundo punto hasta que h sea menor que 0,1.',
+      say: 'El **cociente incremental** mide la pendiente de la secante entre $a$ y $a+h$, con $h\\ne0$. La letra $h$ representa la separación horizontal entre esos puntos. Aquí $a=1$ y, para $f(x)=x^2$, el cociente se simplifica a $2+h$.',
+      gate: 'Arrastra el segundo punto hasta que $h$ sea menor que $0{,}1$. Observa cómo cambia la pendiente al acercarlo a $a=1$.',
+      after: 'Con $h$ menor que $0{,}1$, la pendiente $2+h$ queda entre $2$ y $2{,}1$. La pendiente de la secante se aproxima a $2$ al reducir la separación.',
       board: {
         label: 'Cociente incremental',
         tex: '\\frac{f(a+\\p{1}{\\cM{h}})-f(a)}{\\p{1}{\\cM{h}}}',
@@ -175,7 +176,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Al reducir $h$ hacia 0, la secante se acerca a la tangente. El límite de su pendiente se llama derivada.',
+      say: 'La **derivada** de $f$ en $a$ es el límite del cociente incremental cuando $h$ tiende a cero, si ese límite existe y es finito. Se escribe $f\'(a)$ y se lee «efe prima de a». Mide la tasa de cambio instantánea y es la pendiente de la **recta tangente** a la curva en ese punto.\n\nEn el dibujo, al acercarse $h$ a cero, la secante se aproxima a la tangente en $x=1$; el cociente se calcula con $h\\ne0$.',
       dur: 3,
       board: {
         label: 'Definición de derivada',
@@ -184,7 +185,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Expande $(1+h)^2$ y simplifica para $h\\ne0$. El cociente queda $2+h$.',
+      say: 'Para calcular la derivada en $x=1$, desarrolla $(1+h)^2$ y resta $f(1)=1$. El numerador queda $2h+h^2$; al dividir por $h$, con $h\\ne0$, resulta $2+h$. Ahora considera el límite cuando $h$ tiende a cero. No se puede sustituir $h=0$ en el cociente original: su denominador sería cero.',
       ask: {
         prompt: "Entonces, ¿cuánto vale $f'(1)$ para $f(x)=x^2$?",
         options: ['2', '1', '4'],
@@ -199,7 +200,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La lupa se acerca a $(1,1)$. En un intervalo pequeño, la curva se parece a la recta tangente.',
+      say: 'La **aproximación lineal** usa la recta tangente para estimar una función cerca de un punto donde es derivable. Aquí, cerca de $(1,1)$, esa recta da $f(1+h)\\approx1+2h$; $\\approx$ se lee «aproximadamente igual». El valor exacto es $1+2h+h^2$, así que el error de la aproximación es $h^2$. La estimación mejora al acercar $h$ a cero.',
       dur: 3.5,
       board: {
         label: 'Aproximación local',
@@ -209,7 +210,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si $f$ se mide en metros y $x$ en segundos, la derivada se mide en metros por segundo. Es la tasa instantánea de cambio.',
+      say: 'Las unidades de una derivada son las de la magnitud que cambia divididas por las de la variable. Si $f$ se mide en metros y $x$ en segundos, $f\'(1)=2$ se lee «efe prima de uno es dos metros por segundo». Es la tasa instantánea de cambio en $x=1$; no indica cuántos metros se han acumulado ni garantiza el cambio durante el segundo siguiente.',
       dur: 2.6,
       board: {
         label: 'Pendiente y tasa instantánea',
@@ -619,8 +620,9 @@ export const level: LevelSpec = {
       Scene: PowerDemo,
       beats: [
         {
-          say: 'La curva es la energía acumulada $E(t)$. Entre dos instantes, la potencia media es lo que subió la energía dividido por el tiempo.',
-          gate: 'Arrastra el punto rosado hasta t = 2 h.',
+          say: 'La curva muestra la energía acumulada $E(t)$. Para saber cuánto consumió la carga por hora entre dos instantes, dividimos el aumento de energía por el tiempo transcurrido.',
+          gate: 'Arrastra el punto rosado hasta $t=2$ h y observa la pendiente de la secante.',
+          after: 'Entre $t=1$ h y $t=2$ h, la energía aumenta de 5 a 14 MWh. La pendiente es 9 MW: esa es la potencia media durante esa hora.',
           note: {
             label: 'Potencia media',
             tex: '\\frac{\\Delta E}{\\Delta t}=\\frac{E(2)-E(1)}{2-1}=9\\ \\text{MW}',
@@ -628,8 +630,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Pero Nadia quiere la potencia **en** $t=1$, no en promedio. Achica el intervalo.',
-          gate: 'Achica h hasta 0,02 o menos.',
+          say: 'Nadia necesita la potencia en $t=1$ h. Para acercarnos a ese instante, medimos la potencia media en intervalos cada vez más cortos.',
+          gate: 'Achica $h$ hasta $0{,}02$ o menos y observa cómo cambia la pendiente de la secante.',
+          after: 'Con $h$ entre $0{,}005$ y $0{,}02$ h, la pendiente queda entre $7{,}01$ y $7{,}04$ MW. Al acercar $h$ a cero, se aproxima a 7 MW, la potencia instantánea en $t=1$ h.',
           note: {
             label: 'Derivada',
             tex: "E'(1)=\\lim_{h\\to0}\\frac{E(1+h)-E(1)}{h}",
@@ -637,8 +640,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Mira la curva con una lupa alrededor de $t=1$.',
-          gate: 'Sube la lupa hasta ×50.',
+          say: 'Miremos la curva alrededor de $t=1$ h para comparar su forma con la tangente.',
+          gate: 'Sube la lupa hasta ×50 y observa la distancia entre la curva y la tangente.',
+          after: 'A ×50, la ventana abarca 1,2 minutos y la curva se ve casi recta junto a la tangente. Esa cercanía permite aproximar el cambio de energía cerca de $t=1$ h.',
           note: {
             label: 'Recta tangente',
             tex: "y=E(a)+E'(a)\\,(t-a)",
@@ -661,7 +665,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Hora y media después de conectarse, la tangente tiene pendiente 9.',
+          say: 'Ahora mira la tangente a la hora y media de conectarse la carga. Su pendiente describe el ritmo de consumo en ese instante.',
           ask: {
             prompt: "¿Qué significa $E'(1{,}5)=9$?",
             options: [
