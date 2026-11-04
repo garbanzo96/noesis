@@ -216,8 +216,9 @@ const lesson: LessonStep = {
   Scene: GraphLesson,
   beats: [
     {
-      say: "Recorre $f(x)=x^3-3x$ con la tangente. Abajo se dibuja la pendiente para cada $x$: aparece otra función, $f'$.",
-      gate: 'Arrastra la tangente desde −1,5 hasta 1,5; puedes recorrerla en cualquier sentido.',
+      say: "La **función derivada** asigna a cada valor de $x$ donde $f$ es derivable la pendiente de su tangente. Se escribe $f'(x)$ y se lee «efe prima de equis». Sirve para estudiar cómo cambia $f$ en cada punto.\n\nArriba está $f(x)=x^3-3x$; abajo se registra la pendiente correspondiente a cada posición de la tangente.",
+      gate: 'Arrastra la tangente hasta −1,5 y hasta 1,5, en cualquier orden. Observa cómo cambia la pendiente y qué se dibuja abajo.',
+      after: "Al recorrer desde −1,5 hasta 1,5 se traza parte de $f'$. En ambos extremos la pendiente es 3,75; entre ellos cambia de signo, aunque la curva superior tenga una altura distinta.",
       board: {
         label: 'La derivada como función',
         tex: "x\\mapsto\\p{1}{\\cA{f'(x)}},\\qquad f'(x)=3x^2-3",
@@ -226,7 +227,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: "Una pendiente positiva hace que la función suba; una negativa hace que baje. Compara los tramos de arriba con el signo de $f'$ abajo.",
+      say: "En un intervalo donde $f$ es derivable, si $f'(x)>0$ en todo el intervalo, $f$ es creciente; si $f'(x)<0$, es decreciente. El signo de $f'$ indica el sentido del cambio de $f$, sin depender de si la gráfica de $f'$ sube o baja. Aquí $f$ crece para $x<-1$ y $x>1$, y decrece entre −1 y 1.",
       dur: 2.6,
       board: {
         label: 'Signo y crecimiento',
@@ -236,7 +237,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'En un máximo o mínimo local de esta curva, la tangente queda horizontal. Busca dónde su pendiente es cero.',
+      say: 'Un **máximo local** es un valor de la función mayor o igual que los valores cercanos; un **mínimo local** es menor o igual que ellos. Si la función es derivable en un extremo local interior, su tangente es horizontal y su derivada vale cero. Esa condición por sí sola no garantiza un extremo: la curva también puede pasar por una tangente horizontal sin cambiar de sentido.',
       ask: {
         prompt: '¿En qué $x$ la tangente queda horizontal?',
         options: ['$x=-1$ y $x=1$', '$x=0$', '$x=\\pm2$'],
@@ -251,7 +252,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Más alto no significa más empinado. En $x=-1$, la altura es 2 y la pendiente es 0: son valores distintos.',
+      say: "La altura $f(x)$ y la pendiente $f'(x)$ describen propiedades distintas en un mismo punto. En $x=-1$, la altura es $f(-1)=2$ y la pendiente es $f'(-1)=0$. Una curva puede estar alta y tener tangente horizontal.",
       dur: 2.6,
       board: {
         label: 'Altura y pendiente',
@@ -260,7 +261,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: "La segunda derivada mide cómo cambia la pendiente. Aquí $f''(x)=6x$: la curva es cóncava hacia abajo antes de 0 y hacia arriba después.",
+      say: "La **segunda derivada** es la derivada de $f'$: mide cómo cambia la pendiente de $f$. Se escribe $f''(x)$ y se lee «efe segunda de equis».\n\nSi $f''>0$ en un intervalo, la pendiente aumenta y la curva es cóncava hacia arriba; si $f''<0$, disminuye y es cóncava hacia abajo. Aquí $f''(x)=6x$: es negativa para $x<0$ y positiva para $x>0$.",
       dur: 2.6,
       board: {
         label: 'Segunda derivada y concavidad',
@@ -270,7 +271,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: "En $x=0$ cambia la concavidad: es un punto de inflexión. Ahí la pendiente alcanza su mínimo, $f'(0)=-3$.",
+      say: "Un **punto de inflexión** es un punto de la curva donde cambia la concavidad. Aquí ocurre en $(0,0)$: $f''$ cambia de negativa a positiva y la pendiente alcanza su mínimo, $f'(0)=-3$. Que $f''=0$ en un punto no basta para asegurar una inflexión; hay que comprobar el cambio de concavidad.",
       dur: 2.6,
       board: {
         label: 'Punto de inflexión',
@@ -769,8 +770,9 @@ export const level: LevelSpec = {
       Scene: PeakDemo,
       beats: [
         {
-          say: 'Arriba, la energía. Al moverte por la curva, la pendiente de la tangente se anota abajo: nace una nueva función.',
-          gate: 'Recorre la curva hasta el final de la noche.',
+          say: 'Arriba está la energía acumulada. Su pendiente en cada instante nos da la potencia, el ritmo al que se acumula energía; abajo se dibuja ese ritmo.',
+          gate: 'Arrastra el marcador más allá de $t=1{,}95$ h y observa cómo cambian la pendiente de la energía y la potencia de abajo.',
+          after: 'La potencia sube hasta 12 MW en $t=1$ h y luego baja hacia 0 MW en $t=2$ h. Así podemos ubicar el mayor consumo en la pendiente de la energía.',
           note: {
             label: 'Función derivada',
             tex: "t\\ \\mapsto\\ E'(t)",
@@ -778,7 +780,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Abajo apareció un pico de potencia.',
+          say: 'Abajo apareció un pico de potencia. Busquemos el instante de mayor consumo comparando la potencia con la pendiente de la energía.',
           ask: {
             prompt: '¿En qué instante la potencia fue máxima?',
             options: [
@@ -796,7 +798,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La temperatura del transformador sube, llega a un máximo y baja.',
+          say: 'La temperatura del transformador sube, llega a un máximo y baja. Revisemos qué dice el signo de su derivada durante esos cambios.',
           ask: {
             prompt: "¿Cómo es el signo de $T'$?",
             options: [
@@ -814,7 +816,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Volvamos a la energía. Antes de $t=1$ las tangentes son cada vez más empinadas; después, cada vez menos.',
+          say: 'Volvamos a la energía y comparemos las tangentes antes de $t=1$. Así podremos describir cómo cambia la pendiente y reconocer la concavidad de la curva.',
           ask: {
             prompt: 'Entre $t=0$ y $t=1$, ¿qué hace la pendiente de $E$?',
             options: ['Aumenta: la curva se dobla hacia arriba', 'Disminuye', 'Es constante'],
