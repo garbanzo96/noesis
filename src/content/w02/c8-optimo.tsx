@@ -144,8 +144,9 @@ const lesson: LessonStep = {
   Scene: OptimumLesson,
   beats: [
     {
-      say: 'Con 40 m de reja, un rectángulo de ancho $x$ tiene largo $20-x$. Mueve el ancho y observa el área.',
-      gate: 'Arrastra x hasta quedar entre 9,5 y 10,5 m.',
+      say: 'Un **modelo** expresa un problema mediante variables y relaciones matemáticas. Si $x$ es el ancho de un rectángulo cercado con 40 m de reja, su largo es $20-x$, pues los cuatro lados suman 40 m. Su área es $A(x)=x(20-x)$, que se lee «área de x», con $0\\le x\\le 20$.\n\nLa función permite comparar áreas sin medir cada rectángulo.',
+      gate: 'Arrastra $x$ hasta quedar entre 9,5 y 10,5 m y observa cómo cambia el área al acercarte a esa zona.',
+      after: 'Cerca de $x=10$ m, el área se acerca a 100 m² y la curva alcanza su zona más alta. El ancho y el largo quedan cerca de ser iguales.',
       board: {
         label: 'Modelo',
         tex: 'A(x)=x(20-x)=\\p{1}{20x-x^2}',
@@ -154,7 +155,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Al aumentar el ancho, el largo disminuye. El área llega a un máximo y luego baja.',
+      say: 'Al aumentar el ancho, el largo disminuye porque la cantidad de reja está fija. El **máximo absoluto** de una función en un dominio es un valor que no es menor que ningún otro valor de la función en ese dominio. En la curva, el área sube hasta un máximo y luego baja. Compara los anchos propuestos con el punto más alto.',
       ask: {
         prompt: '¿Qué ancho da el área máxima?',
         options: ['10 m', '20 m', '5 m'],
@@ -168,7 +169,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: "En el máximo, la tangente es horizontal. Resuelve $A'(x)=20-2x=0$ para obtener $x=10$.",
+      say: "Un **punto crítico** es un punto del dominio donde la derivada es cero o no existe. Se buscan porque un máximo o mínimo interior puede estar allí; ser crítico por sí solo no garantiza un extremo. $A'(x)$ se lee «A prima de x» y mide la pendiente de la curva. Aquí $A'(x)=20-2x$ se anula en $x=10$, donde la tangente es horizontal.",
       dur: 3,
       board: [
         {
@@ -180,12 +181,12 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La segunda derivada es negativa: la curva es cóncava hacia abajo. El punto crítico es un máximo.',
+      say: "La **segunda derivada**, $A''(x)$, se lee «A doble prima de x» y mide cómo cambia la pendiente. Si en un punto crítico con derivada cero la segunda derivada es negativa, hay un máximo local; si es positiva, hay un mínimo local. Aquí $A''(x)=-2$: la curva es cóncava hacia abajo y $x=10$ es un máximo local. Si la segunda derivada vale cero, esta prueba no decide.",
       dur: 2.6,
       board: { label: 'Comprobar el máximo', tex: "A''(x)=-2<0\\Rightarrow\\text{máximo en }x=10" },
     },
     {
-      say: 'En un intervalo cerrado, compara los puntos críticos con los extremos. Aquí el área en ambos extremos es cero.',
+      say: 'Un **intervalo cerrado** incluye sus dos extremos: $[0,20]$ se lee «de cero a veinte, incluidos». Para hallar el máximo absoluto de una función continua en él, compara los valores en los puntos críticos interiores y en ambos extremos. Aquí $A(0)=A(20)=0$ y $A(10)=100$ m². Por eso el máximo absoluto ocurre en $x=10$ m.',
       dur: 3,
       board: {
         label: 'Extremos del intervalo',
@@ -200,7 +201,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Define la variable, la función y el dominio. Busca los puntos críticos y comprueba el resultado, incluyendo los extremos.',
+      say: 'Para optimizar, define la variable, expresa la cantidad que buscas como función y determina su dominio. Busca los puntos críticos, comprueba cuáles son extremos y, si el dominio es un intervalo cerrado, compara también sus extremos.',
       dur: 3,
       board: [
         { label: 'Modelar', tex: '\\text{Variable}\\to\\text{función}\\to\\text{dominio}' },
@@ -595,8 +596,9 @@ export const level: LevelSpec = {
       Scene: OptimumDemo,
       beats: [
         {
-          say: 'Potencia entregada según la corriente: $P(I)=12I-0{,}15I^2$. Busca el punto más alto.',
-          gate: 'Arrastra la corriente hasta la cima de la curva.',
+          say: 'La potencia entregada depende de la corriente: $P(I)=12I-0{,}15I^2$. Busquemos la cima para saber cuánta corriente entrega la mayor potencia.',
+          gate: 'Arrastra la corriente hasta la cima de la curva y observa la pendiente de la tangente.',
+          after: 'En 40 A, la tangente es horizontal y la potencia llega a 240 kW. Esa cima da el máximo de la curva mostrada.',
           note: {
             label: 'Máximo y derivada',
             tex: "P'(I)=12-0{,}3I=0\\ \\Rightarrow\\ I=40",
@@ -604,7 +606,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Tres curvas con tangente horizontal en 0.',
+          say: 'Las tres curvas tienen tangente horizontal en 0. Comparemos qué ocurre a ambos lados de ese punto para saber si basta con buscar pendiente cero.',
           ask: {
             prompt: "¿Todo punto con $f'=0$ es un máximo o un mínimo?",
             options: [
@@ -623,7 +625,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Para saber si $I=40$ es un máximo, mira cómo cambia la pendiente.',
+          say: 'Ya encontramos pendiente cero en $I=40$. Para clasificar ese punto, mira cómo cambia la pendiente de la potencia.',
           ask: {
             prompt: "Si $P''(I)=-0{,}3$ en todas partes, ¿qué es $I=40$?",
             options: ['Un máximo', 'Un mínimo', 'No se puede saber'],
@@ -638,7 +640,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El transformador tiene un fusible: la corriente no puede pasar de 30 A.',
+          say: 'El transformador tiene un fusible: la corriente no puede pasar de 30 A. Busquemos la mayor potencia dentro de ese límite.',
           ask: {
             prompt: '¿Dónde está ahora la potencia máxima?',
             options: ['En 30 A, el borde permitido', 'En 40 A', 'En 15 A, a la mitad'],
@@ -652,8 +654,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Hay que cercar el transformador contra el muro con 40 m de reja: tres lados. ¿Qué medidas dan la mayor área?',
-          gate: 'Ajusta x hasta el área máxima.',
+          say: 'Hay que cercar el transformador contra el muro con 40 m de reja para tres lados. Busquemos las medidas que dan la mayor área.',
+          gate: 'Ajusta $x$ hasta el área máxima y observa cómo cambian el otro lado y la pendiente.',
+          after: 'Con $x=10$ m, el lado junto al muro mide 20 m y el área es 200 m². La pendiente es cero en ese máximo.',
           note: {
             label: 'Modelar',
             tex: "\\begin{aligned}A(x)&=x(40-2x)\\\\ A'(x)&=40-4x=0\\Rightarrow x=10\\end{aligned}",
