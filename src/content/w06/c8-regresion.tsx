@@ -387,11 +387,31 @@ const CX = [4, 5, 6, 7, 8, 9, 10, 11, 13, 12];
 const CY = [3.9, 4.7, 5.8, 6.6, 7.7, 8.5, 9.6, 10.4, 12.3, 6];
 const PD = plane([0, 14], [0, 14], { x: 360, y: 120, w: 560, h: 560 });
 
-function ClinicsDemo({ beats, answer }: DemoProps) {
+function ClinicsDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
-  const pred = beat >= 1 && (beat > 1 || answer !== null);
+  const svg = useRef<SVGSVGElement>(null);
+  const [prediction, setPrediction] = useState(8);
+  const [residual, setResidual] = useState(0);
+  const unlocked = useRef(-1);
+  const drag = useSvgDrag(svg, (x, y) => {
+    if (beat === 1) {
+      const value = clamp(PD.inv(x, y)[1], 0, 14);
+      setPrediction(value);
+      if (Math.abs(value - 11.4) <= 0.5 && unlocked.current !== beat) {
+        unlocked.current = beat;
+        unlock();
+      }
+    } else if (beat === 2) {
+      const value = clamp((x - 1050) / 40 - 8, -8, 2);
+      setResidual(value);
+      if (Math.abs(value + 5.4) <= 0.5 && unlocked.current !== beat) {
+        unlocked.current = beat;
+        unlock();
+      }
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes
         P={PD}
         xTicks={[0, 2, 4, 6, 8, 10, 12, 14]}
@@ -401,48 +421,39 @@ function ClinicsDemo({ beats, answer }: DemoProps) {
         grid
       />
       {beat >= 1 && (
-        <line
-          x1={PD.x(0)}
-          x2={PD.x(14)}
-          y1={PD.y(0)}
-          y2={PD.y(0.95 * 14)}
-          stroke={C.green}
-          strokeWidth={3}
-        />
+        <line x1={PD.x(0)} x2={PD.x(14)} y1={PD.y(0)} y2={PD.y(0.95 * 14)}
+          stroke={C.green} strokeWidth={3} />
       )}
       {CX.map((x, i) => (
-        <Dot
-          key={i}
-          x={PD.x(x)}
-          y={PD.y(CY[i])}
-          r={i === 9 ? 11 : 8}
+        <Dot key={i} x={PD.x(x)} y={PD.y(CY[i])} r={i === 9 ? 11 : 8}
           color={i === 9 ? C.magenta : C.cyan}
-          opacity={beat === 0 ? clamp(at(0) * 10 - i, 0, 1) : 1}
-        />
+          opacity={beat === 0 ? clamp(at(0) * 10 - i, 0, 1) : 1} />
       ))}
-      <Cap x={PD.x(12) + 70} y={PD.y(6)} size={16} color={C.magenta}>
-        Cerro
-      </Cap>
-      {pred && (
-        <circle cx={PD.x(12)} cy={PD.y(11.4)} r={9} fill="none" stroke={C.green} strokeWidth={3} />
+      <Cap x={PD.x(12) + 70} y={PD.y(6)} size={24} color={C.magenta}>Cerro</Cap>
+      <Cap x={1300} y={180} size={24} color={C.muted}>cientos de dosis</Cap>
+      {beat >= 1 && <Cap x={1300} y={240} size={26} color={C.green} tex="\hat y\approx0{,}95\,x" />}
+      {beat === 1 && (
+        <Knob x={PD.x(12)} y={PD.y(prediction)} color={C.amber}
+          onPointerDown={drag} cursor="ns-resize" />
       )}
-      {beat === 2 && answer !== null && (
-        <line
-          x1={PD.x(12)}
-          x2={PD.x(12)}
-          y1={PD.y(11.4)}
-          y2={PD.y(6)}
-          stroke={C.red}
-          strokeWidth={4}
-        />
-      )}
-      <Cap x={1300} y={230} size={20} color={C.muted}>
-        cientos de dosis
-      </Cap>
-      {beat >= 1 && <Cap x={1300} y={280} size={22} color={C.green} tex="\hat y\approx0{,}95\,x" />}
-      {pred && <Cap x={1300} y={340} size={22} color={C.green} tex="\hat y(12)=11{,}4" />}
-      {beat === 2 && answer !== null && (
-        <Cap x={1300} y={400} size={22} color={C.red} tex="e=6-11{,}4=-5{,}4" />
+      {beat >= 2 && (
+        <>
+          <circle cx={PD.x(12)} cy={PD.y(11.4)} r={10} fill="none" stroke={C.green} strokeWidth={3} />
+          <line x1={PD.x(12)} x2={PD.x(12)} y1={PD.y(11.4)} y2={PD.y(6)}
+            stroke={C.red} strokeWidth={4} />
+          <Cap x={1300} y={300} size={26} color={C.green} tex="\hat y(12)=11{,}4" />
+          <Cap x={1250} y={430} size={24} color={C.text}>residuo en cientos</Cap>
+          <line x1={1050} x2={1450} y1={510} y2={510} stroke={C.line} strokeWidth={4} />
+          {[-8, -6, -4, -2, 0, 2].map((v) => (
+            <g key={v}>
+              <line x1={1050 + (v + 8) * 40} x2={1050 + (v + 8) * 40}
+                y1={500} y2={520} stroke={C.muted} strokeWidth={2} />
+              <Cap x={1050 + (v + 8) * 40} y={555} size={24} color={C.muted}>{String(v)}</Cap>
+            </g>
+          ))}
+          <Knob x={1050 + (residual + 8) * 40} y={510} color={C.amber}
+            onPointerDown={drag} cursor="ew-resize" />
+        </>
       )}
     </Stage>
   );
@@ -631,23 +642,14 @@ export const level: LevelSpec = {
         },
         {
           say: 'Sin la clínica del Cerro, la recta de regresión es casi $\\hat y=0{,}95\\,x$, con $r\\approx0{,}99$: se registra el 95 % de lo que llega.',
-          ask: {
-            prompt: 'El Cerro recibió 12 (1 200 dosis). ¿Cuánto predice la recta?',
-            options: ['≈ 11,4', '≈ 6', '≈ 12'],
-            answer: 0,
-            explain: '$0{,}95\\cdot12=11{,}4$: unas 1 140 dosis registradas.',
-          },
+          gate: 'El Cerro recibió 12 (1 200 dosis). ¿Cuánto predice la recta? Mueve el marcador vertical hasta ese valor.',
+          after: '$0{,}95\\cdot12=11{,}4$: la recta predice unas 1 140 dosis registradas.',
           note: { label: 'Predicción para el Cerro', tex: '\\hat y=0{,}95\\cdot12=11{,}4' },
         },
         {
           say: 'El registro del Cerro dice 6, es decir, 600 dosis.',
-          ask: {
-            prompt: '¿Cuál es su residuo?',
-            options: ['−5,4: faltan unas 540 dosis', '+5,4', '0'],
-            answer: 0,
-            explain:
-              '$e=6-11{,}4=-5{,}4$ cientos. Ninguna otra clínica se aleja más de 0,2 de la recta.',
-          },
+          gate: '¿Cuál es su residuo? Calcula el registro observado menos la predicción y ubícalo en la escala.',
+          after: '$e=6-11{,}4=-5{,}4$ cientos, unas 540 dosis. Ninguna otra clínica se aleja más de 0,2 de la recta.',
           note: {
             label: 'Residuo del Cerro',
             tex: 'e=6-11{,}4=-5{,}4',
