@@ -180,7 +180,7 @@ const lesson: LessonStep = {
   Scene: SignalLesson,
   beats: [
     {
-      say: 'La gráfica de $g(x)=\\frac{x^2-4}{x-2}$ tiene un hueco en $x=2$. El límite pregunta a qué valor se acerca $g(x)$ al acercarse a 2, sin usar $g(2)$.',
+      say: 'El **límite** de $f(x)$ cuando $x$ se acerca a $a$ es $L$ si podemos hacer que $f(x)$ quede tan cerca de $L$ como queramos tomando $x$ suficientemente cerca de $a$, con $x\\ne a$. Se escribe $\\lim_{x\\to a}f(x)=L$ y se lee «límite de efe de equis cuando equis tiende a a es ele».\n\nSirve para describir el comportamiento cerca de un punto aunque falte su valor. La gráfica de $g$ tiene un hueco en $x=2$: allí $g(2)$ no está definida, pero el límite es 4.',
       dur: 2.6,
       board: {
         label: 'Límite',
@@ -190,8 +190,9 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Acércate al hueco desde cada lado y mira los valores. Ambos lados se acercan a 4.',
-      gate: 'Arrastra x hasta quedar a menos de 0,05 de 2 por la izquierda y por la derecha.',
+      say: 'Un **límite lateral** describe a qué valor se acerca la función cuando la entrada se aproxima por un solo lado. $x\\to a^-$ se lee «equis tiende a a por la izquierda» y usa valores menores que $a$; $x\\to a^+$ se lee «por la derecha» y usa valores mayores.\n\nEl límite bilateral existe si ambos laterales existen y coinciden. Esto permite estudiar el hueco sin evaluar la función en él.',
+      gate: 'Arrastra $x$ hasta quedar a menos de 0,05 de 2 por cada lado, sin llegar a 2. Observa a qué valor se acerca $g(x)$ desde ambos lados.',
+      after: 'Por ambos lados $g(x)$ se acerca a 4: los límites laterales coinciden y el límite bilateral existe.',
       board: {
         label: 'Límites laterales',
         tex: '\\lim_{x\\to a^-}f(x)=\\p{1}{L}=\\lim_{x\\to a^+}f(x)',
@@ -200,7 +201,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Esta función salta en $x=1$. Mira la altura a la que llega desde cada lado.',
+      say: 'La función $h$ presenta un **salto** en $x=1$: su gráfica cambia de altura al pasar por ese punto. Para decidir si existe el límite bilateral, compara la altura a la que se acerca por cada lado. El punto lleno indica $h(1)$; por sí solo no determina el límite.',
       ask: {
         prompt: '¿Existe $\\lim_{x\\to1}h(x)$?',
         options: ['No: por la izquierda da 1 y por la derecha 3', 'Sí, vale 3', 'Sí, vale 2'],
@@ -214,7 +215,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para ser continua en $a$, la función debe tener valor, tener límite y ambos deben ser iguales. Al llenar el hueco con 4, $f(x)=x+2$ es continua en 2.',
+      say: 'Una función es **continua** en $a$ si $f(a)$ está definida, existe $\\lim_{x\\to a}f(x)$ y ambos valores coinciden. La igualdad se lee «el límite de efe de equis cuando equis tiende a a es igual a efe de a».\n\nEn la gráfica, $f(x)=x+2$ tiene valor 4 en $x=2$ y su límite allí también es 4. Por eso es continua en ese punto; tener un valor definido no basta si el límite difiere.',
       dur: 2.6,
       board: {
         label: 'Continuidad',
@@ -224,7 +225,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Reemplazar $x=2$ en la fracción da $0/0$. Factoriza y simplifica para $x\\ne2$ antes de calcular el límite.',
+      say: 'Al reemplazar $x=2$ en $g(x)$ se obtiene $0/0$, una **forma indeterminada**: esa expresión no permite concluir el valor del límite. Factorizar el numerador y cancelar el factor común permite estudiar los valores cercanos.\n\nLa cancelación exige $x\\ne2$, pues no se puede dividir por cero. La expresión simplificada conserva el hueco de la función original.',
       ask: {
         prompt: '¿Cuánto vale $\\lim_{x\\to2}\\frac{x^2-4}{x-2}$?',
         options: ['4', '0', 'No existe'],
@@ -240,7 +241,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Cuando $x$ crece, $1/x$ se acerca a 0 y $5-3/x$ se acerca a 5. Cada curva se acerca a una asíntota horizontal.',
+      say: 'Un **límite al infinito** describe a qué valor se acerca una función cuando $x$ crece sin límite. $\\lim_{x\\to\\infty}f(x)=L$ se lee «límite de efe de equis cuando equis tiende a infinito es ele».\n\nLa recta $y=L$ es una **asíntota horizontal** cuando la función se acerca a esa altura. Aquí $1/x$ se acerca a 0 y $5-3/x$ se acerca a 5; las líneas horizontales muestran esas alturas.',
       dur: 3,
       board: [
         {
@@ -726,8 +727,9 @@ export const level: LevelSpec = {
       Scene: SignalDemo,
       beats: [
         {
-          say: 'La frecuencia de la red, en hertz. A las 03:00 el sensor perdió el dato. Acércate a ese instante y mira a qué valor se aproxima la señal.',
-          gate: 'Acerca el reloj a las 03:00 desde antes y desde después.',
+          say: 'La frecuencia de la red está en hertz y el sensor perdió el dato de las 03:00. Revisemos las lecturas cercanas para estimar hacia qué valor se aproxima la señal.',
+          gate: 'Arrastra el reloj hasta quedar a menos de 0,03 horas de las 03:00, desde antes y desde después. Observa a qué frecuencia se acerca la señal.',
+          after: 'La frecuencia se acerca a 50 Hz desde ambos lados. Ese límite permite estimar el comportamiento alrededor de las 03:00, aunque falte el dato exacto.',
           note: {
             label: 'Límite',
             tex: '\\lim_{t\\to a}f(t)=L',
@@ -735,7 +737,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La tensión a las 03:12. Mira la curva antes del corte rojo y después.',
+          say: 'Esta es la tensión alrededor de las 03:12. Comparemos los valores a los que se acerca antes y después de la línea roja para examinar la caída.',
           ask: {
             prompt: '¿A qué valores se acerca la tensión justo antes y justo después de las 03:12?',
             options: [
@@ -754,7 +756,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Tres sensores alrededor de $t=1$. El punto lleno es el valor registrado; el hueco, lo que falta.',
+          say: 'Estos tres sensores muestran lecturas alrededor de $t=1$. El punto lleno indica el valor registrado y el hueco marca un valor excluido; comparemos cada registro con el comportamiento cercano.',
           ask: {
             prompt: '¿Cuál de los tres es continuo en $t=1$?',
             options: ['Sensor A', 'Sensor B', 'Sensor C'],
@@ -769,7 +771,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Una fórmula del contador da $\\tfrac{0}{0}$ exactamente en $t=3$.',
+          say: 'La fórmula del contador da $\\tfrac{0}{0}$ exactamente en $t=3$. Necesitamos estudiar los valores cercanos para saber hacia dónde tiende.',
           ask: {
             prompt: '¿A qué valor tiende $\\dfrac{t^2-9}{t-3}$ cuando $t\\to3$?',
             options: ['6', '0', 'No existe'],
@@ -784,8 +786,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Al reconectar, un condensador se carga. Mira qué pasa con el voltaje a la larga.',
-          gate: 'Arrastra el tiempo hasta el final.',
+          say: 'Al reconectar, un condensador se carga. Revisemos hacia qué voltaje se aproxima con el paso del tiempo.',
+          gate: 'Arrastra el tiempo hasta superar los 7,5 minutos y observa cómo cambia el voltaje al acercarse a la línea de 12 V.',
+          after: 'Pasados los 7,5 minutos, el voltaje está cerca de 11,9 V y se aproxima a 12 V. Esa altura es el límite de la carga a largo plazo.',
           note: {
             label: 'Límite al infinito',
             tex: '\\lim_{t\\to\\infty}12\\left(1-e^{-0{,}7t}\\right)=12',
