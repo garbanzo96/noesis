@@ -275,10 +275,40 @@ const lesson: LessonStep = {
 const leak = (t: number) => 6 * Math.exp(-0.5 * t);
 const PD = plane([0, 8], [0, 7], { x: 300, y: 120, w: 820, h: 520 });
 
-function LeakDemo({ beats, answer }: DemoProps) {
+function LeakDemo({ beats, unlock }: DemoProps) {
   const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [choice, setChoice] = useState<string | null>(null);
+  const [u, setU] = useState(-4);
+  const [volume, setVolume] = useState(0);
+  const unlocked = useRef(false);
+  useEffect(() => {
+    unlocked.current = false;
+    setChoice(null);
+  }, [beat]);
+  const complete = () => {
+    if (!unlocked.current) {
+      unlocked.current = true;
+      unlock();
+    }
+  };
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat === 1) {
+      const value = clamp(-4 + ((x - 340) / 800) * 4, -4, 0);
+      setU(value);
+      if (Math.abs(value + 2) <= 0.12) complete();
+    } else if (beat === 2) {
+      const value = clamp(((x - 340) / 800) * 24, 0, 24);
+      setVolume(value);
+      if (Math.abs(value - 10.4) <= 0.6) complete();
+    }
+  });
+  const choose = (value: string, correct: string) => {
+    setChoice(value);
+    if (beat === 0 && value === correct) complete();
+  };
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Axes
         P={PD}
         xTicks={[0, 2, 4, 6, 8]}
@@ -290,18 +320,47 @@ function LeakDemo({ beats, answer }: DemoProps) {
       <AreaUnder P={PD} f={leak} a={0} b={4} pos={C.violet} opacity={0.4} />
       <Curve P={PD} f={leak} a={0} b={8} color={C.cyan} width={4} />
       <Cap x={1330} y={200} size={24} color={C.cyan} tex="q(t)=6\,e^{-0{,}5t}" />
-      <Group opacity={beat >= 1 || answer !== null ? 1 : 0}>
-        <Cap
-          x={1330}
-          y={280}
-          size={22}
-          color={C.green}
-          tex="\int_0^4 q=12\,(1-e^{-2})\approx10{,}4"
-        />
+      <Group opacity={1}>
+        <Cap x={1330} y={280} size={24} color={C.text} tex="0\leq t\leq4" />
       </Group>
-      <Html x={PD.x(2)} y={PD.y(0.6)} size={18} color={C.text}>
-        <span>primeras 4 horas</span>
-      </Html>
+      {beat === 0 && (
+        <Html x={800} y={730} size={24} interactive>
+          <div className="stage-choices">
+            {['-0{,}5t', 'e^{t}', '6t'].map((value) => (
+              <button key={value} className={`stage-btn ${choice === value ? 'on' : ''}`}
+                onClick={() => choose(value, '-0{,}5t')}>
+                <Tex tex={`u=${value}`} />
+              </button>
+            ))}
+          </div>
+          {choice && choice !== '-0{,}5t' && <div>Revisa qué expresión está dentro del exponente.</div>}
+        </Html>
+      )}
+      {beat === 1 && (
+        <>
+          <line x1={340} y1={730} x2={1140} y2={730} stroke={C.muted} strokeWidth={4} />
+          {[-4, -3, -2, -1, 0].map((v) => (
+            <Cap key={v} x={340 + (v + 4) * 200} y={800} size={24}>{v}</Cap>
+          ))}
+          <Knob x={340 + (u + 4) * 200} y={730} onPointerDown={drag} axis="x" color={C.amber} />
+          <Cap x={1330} y={380} size={24} tex="u=-0{,}5t" color={C.amber} />
+        </>
+      )}
+      {beat === 2 && (
+        <>
+          <rect
+            x={PD.x(0)} y={PD.y(volume / 4)}
+            width={PD.x(4) - PD.x(0)} height={PD.y(0) - PD.y(volume / 4)}
+            fill="none" stroke={C.amber} strokeWidth={3} strokeDasharray="10 6"
+          />
+          <line x1={340} y1={700} x2={1140} y2={700} stroke={C.muted} strokeWidth={4} />
+          {[0, 6, 12, 18, 24].map((v) => (
+            <Cap key={v} x={340 + (v / 24) * 800} y={760} size={24}>{v}</Cap>
+          ))}
+          <Knob x={340 + (volume / 24) * 800} y={700} onPointerDown={drag} axis="x" color={C.amber} label="volumen" />
+          <Cap x={1330} y={380} size={24} color={C.amber}>mil m³</Cap>
+        </>
+      )}
     </Stage>
   );
 }
@@ -497,18 +556,19 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'La fuga empieza en 6 mil m³/h y se reduce a la mitad aproximadamente cada 1,4 horas. Para calcular lo perdido en las primeras cuatro horas, necesitamos integrar el caudal en ese intervalo.',
-          ask: {
-            prompt: 'Para integrar $6\\,e^{-0{,}5t}$, ¿qué sustitución conviene?',
-            options: ['$u=-0{,}5t$', '$u=e^{t}$', '$u=6t$'],
-            answer: 0,
-            explain:
-              'La función de adentro de la exponencial es $-0{,}5t$, y su derivada es una constante: se ajusta dividiendo por $-0{,}5$.',
-          },
+          gate: 'Para integrar $6\\,e^{-0{,}5t}$, ¿qué sustitución conviene? Elige la expresión interior de la exponencial.',
+          after: 'Con $u=-0{,}5t$, se obtiene $du=-0{,}5\\,dt$. La primitiva es $-12e^{-0{,}5t}+C$.',
           note: { label: 'Primitiva de la fuga', tex: '\\int6e^{-0{,}5t}dt=-12\\,e^{-0{,}5t}+C' },
         },
         {
-          say: 'En las primeras cuatro horas se pierden aproximadamente 10,4 mil metros cúbicos. Es el área acumulada bajo la curva de caudal en ese intervalo.',
-          dur: 1.8,
+          say: 'La integral cubre desde $t=0$ hasta $t=4$ horas. Al cambiar de variable, también cambian sus límites.',
+          gate: 'Calcula el valor de $u$ cuando $t=4$ y arrastra la perilla a ese punto de la recta.',
+          after: 'Con $u=-0{,}5t$, el límite $t=0$ pasa a $u=0$ y $t=4$ pasa a $u=-2$.',
+        },
+        {
+          say: 'El área bajo la curva representa el volumen perdido durante las primeras cuatro horas. Evalúa la primitiva en los extremos y compara los resultados.',
+          gate: '¿Cuántos mil metros cúbicos se perdieron aproximadamente? Calcula el volumen y mueve el marcador hasta ese valor. El rectángulo muestra un área equivalente para compararla con la curva.',
+          after: 'La pérdida es $12(1-e^{-2})\\approx10{,}4$ mil m³ en cuatro horas.',
           note: { label: 'Pérdida en 4 h', tex: '12\\,(1-e^{-2})\\approx10{,}4', body: 'Mil m³.' },
         },
       ],
