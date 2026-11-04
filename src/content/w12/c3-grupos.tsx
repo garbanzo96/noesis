@@ -143,7 +143,7 @@ const lesson: LessonStep = {
   Scene: MixtureLesson,
   beats: [
     {
-      say: 'Las dos máquinas producen valores de 0 a 3. A entrega más valores bajos; B entrega más valores altos. Mira las barras de cada fuente.',
+      say: 'Las máquinas A y B producen valores de 0 a 3. Cada **distribución de probabilidad** asigna a esos valores probabilidades que suman 1. $P_A(x)$ se lee «pe sub a de equis» y es la probabilidad de obtener $x$ desde A; $P_B(x)$ cumple el mismo papel para B.\n\nPor ejemplo, A produce 0 con probabilidad 0,5 y B con probabilidad 0,05. A entrega más valores bajos; B, más valores altos.',
       board: {
         label: 'Las fuentes',
         tex: '\\p{1}{P_A}=\\p{2}{(0{,}5;0{,}3;0{,}15;0{,}05)},\\quad\\p{3}{ P_B}=\\p{4}{(0{,}05;0{,}15;0{,}3;0{,}5)}',
@@ -151,10 +151,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una **mezcla** elige primero una máquina y luego genera el valor. Arrastra la proporción de A hasta 0,5 para dejar el lote mitad y mitad.',
-      gate: 'Busca la proporción que deja el lote mitad y mitad entre las dos máquinas.',
+      say: 'Una **mezcla** elige primero una fuente y luego genera un valor según su distribución. El peso $\\pi$, leído «pi», es la proporción de A y debe estar entre 0 y 1; B tiene peso $1-\\pi$. Ambas distribuciones usan los mismos valores.\n\n$P(x)$, «pe de equis», suma los aportes de ambas fuentes: cada probabilidad se multiplica por su peso. Promediarlas por mitades solo corresponde cuando los pesos son iguales.',
+      gate: 'Busca la proporción que deja el lote mitad y mitad entre las dos máquinas. Mira los pesos de A y B mientras mueves la perilla.',
       after:
-        'Con $\\pi=0{,}5$ la mezcla tiene dos jorobas iguales. Cada dato viene de una máquina, pero la máquina no queda registrada.',
+        'Con $\\pi=0{,}5$, ambas máquinas tienen el mismo peso y $P(2)=0{,}225$. Cada dato viene de una máquina, pero su origen no queda registrado.',
       board: {
         label: 'Probabilidad de mezcla',
         tex: '\\p{1}{P(x)}=\\p{2}{\\pi P_A(x)}+\\p{3}{(1-\\pi)P_B(x)}',
@@ -162,7 +162,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Para x = 2, A aporta 0,5 · 0,15 = 0,075 y B aporta 0,5 · 0,3 = 0,15. Suma ambos aportes para obtener la probabilidad del valor en la cinta.',
+      say: 'Para $x=2$, cada máquina tiene peso 0,5. A aporta $0{,}5\\cdot0{,}15=0{,}075$ y B aporta $0{,}5\\cdot0{,}3=0{,}15$. La suma de esos aportes da $P(2)=0{,}225$, la probabilidad de observar 2 en la cinta. Usar solo una barra dejaría fuera la otra fuente.',
       board: {
         label: 'Un valor en la cinta',
         tex: '\\p{1}{P(2)}=\\p{2}{0{,}5\\cdot0{,}15+0{,}5\\cdot0{,}3}=\\p{3}{0{,}225}',
@@ -174,7 +174,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **responsabilidad** de A es la fracción del aporte total que viene de A, dado el valor observado.',
+      say: 'La **responsabilidad** de A es la probabilidad de que un registro venga de A, dado su valor observado. Se escribe $r_A=P(A\\mid x)$ y se lee «erre sub a igual pe de a dado equis». Se calcula dividiendo el aporte de A por la probabilidad total $P(x)$, siempre que $P(x)>0$. La barra $P_A(x)$ por sí sola describe lo que produce A; no responde por el origen del registro.',
       ask: {
         prompt: 'Ves un registro con x = 2. ¿Qué probabilidad tiene de venir de A?',
         options: ['1/3', '1/2', '0,15'],
@@ -189,7 +189,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una responsabilidad de 1/3 expresa incertidumbre sobre el origen de ese registro. B tiene responsabilidad 2/3; el valor por sí solo no identifica la máquina.',
+      say: 'Para el registro con valor 2, la responsabilidad de A es $1/3$ y la de B es $2/3$. Se suman y dan 1 porque estas son las dos fuentes posibles. Estas probabilidades expresan incertidumbre sobre el origen: el valor por sí solo no identifica la máquina.',
       board: {
         label: 'Las responsabilidades suman uno',
         tex: '\\p{1}{r_A}=\\p{2}{\\tfrac13},\\quad\\p{3}{ r_B}=\\p{4}{1-r_A}=\\p{5}{\\tfrac23}',
@@ -400,7 +400,7 @@ export const level: LevelSpec = {
       Scene: ConveyorDemo,
       beats: [
         {
-          say: 'Joaquín conserva las dos recetas. La cinta mezcla mitad de A y mitad de B; buscamos los registros con valor 0.',
+          say: 'Joaquín conserva las dos recetas. La cinta mezcla mitad de A y mitad de B; necesitamos calcular qué tan frecuente es el valor 0 en el lote.',
           ask: {
             prompt: '¿Qué probabilidad tiene un registro de salir con x = 0?',
             options: ['0,275', '0,5', '0,55'],
@@ -414,7 +414,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Una carpeta atascada tiene valor 2. Halcón la contó como salida de A, sin guardar la etiqueta.',
+          say: 'Una carpeta atascada tiene valor 2. Halcón la contó como salida de A, sin guardar la etiqueta; calculemos qué tan probable es ese origen.',
           ask: {
             prompt: 'Dado x = 2, ¿qué probabilidad hay de que la carpeta venga de A?',
             options: ['1/3', '1/2', '2/3'],
