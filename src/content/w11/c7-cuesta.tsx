@@ -162,7 +162,7 @@ const lesson: LessonStep = {
   Scene: SlopeLesson,
   beats: [
     {
-      say: 'Para ajustar q queremos subir la ELBO. Practiquemos con una función sencilla: g(m) = −(m − 3)², cuyo máximo está en 3; bajar el costo −g equivale a subir g.',
+      say: 'Para practicar el ajuste, buscamos el máximo de $g(m)=-(m-3)^2$. Se lee «ge de eme igual menos el cuadrado de eme menos tres». Su **máximo** es el mayor valor que toma la función: aquí es 0, en $m=3$. Bajar el costo $-g$ equivale a subir $g$.',
       board: {
         label: 'Objetivo de práctica',
         tex: '\\p{1}{g(m)=-(m-3)^2}\\qquad\\p{2}{\\max_m g(m)=g(3)=0}',
@@ -170,7 +170,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La pendiente señala hacia dónde subir. Desde m = 0 vale 6; con un cuarto de esa pendiente avanzas a 1,5 y vuelves a calcularla en cada paso.',
+      say: 'La **pendiente** $g\'(m)$ mide cómo cambia $g$ cerca de $m$; se lee «ge prima de eme». Su signo indica hacia dónde subir: si es positiva, aumenta $m$; si es negativa, disminúyelo.\n\nEl **ascenso por gradiente** suma al punto actual la pendiente multiplicada por $\\eta>0$, que se lee «eta». Desde $m=0$, la pendiente es 6 y con $\\eta=0{,}25$ avanzas a 1,5. Recalcula la pendiente en cada punto.',
       board: [
         {
           label: 'Pendiente',
@@ -185,10 +185,10 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El tamaño de paso η multiplica la pendiente. Mueve la perilla y compara las tres trayectorias; con η = 1 saltas al otro lado y vuelves al inicio.',
-      gate: 'Prueba tamaños de paso hasta encontrar el que hace oscilar sin llegar nunca.',
+      say: 'El **tamaño de paso** $\\eta$ es el factor positivo que multiplica la pendiente en cada ajuste. Su valor determina cuánto avanza $m$ y puede afectar si la trayectoria se acerca al máximo. Compara los puntos de las trayectorias desde $m=0$.',
+      gate: 'Busca el tamaño de paso que hace oscilar la trayectoria sin acercarse al máximo. Mira los valores sucesivos de $m$.',
       after:
-        'Con $\\eta=1$ se salta de 0 a 6 y de vuelta, sin acercarse. Un paso muy grande no converge; uno muy chico tarda demasiado.',
+        'Con $\\eta=1$, la trayectoria va de 0 a 6 y vuelve a 0: queda a la misma distancia del máximo. En esta curva, ese paso no converge; uno más pequeño puede acercarse gradualmente.',
       board: {
         label: 'Paso demasiado grande',
         tex: '\\p{1}{\\eta=1}\\quad\\p{2}{0\\to6\\to0\\to6\\to\\cdots}',
@@ -196,7 +196,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Reinicia en m = 0 y usa η = 0,5. La pendiente inicial sigue siendo 6.',
+      say: 'Partimos otra vez en $m=0$ con $\\eta=0{,}5$. La pendiente inicial es 6. Para calcular el primer paso, multiplica esa pendiente por $\\eta$ y suma el resultado al punto inicial.',
       ask: {
         prompt: '¿Dónde queda m después de un paso?',
         options: ['3', '6', '−3'],
@@ -210,7 +210,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Aquí η = 0,5 llega justo al máximo; η = 0,25 se acerca de a poco y η = 1 oscila. Para otra curva, el paso adecuado puede cambiar: revisa si el objetivo realmente sube.',
+      say: 'En esta parábola, $\\eta=0{,}5$ llega al máximo en un paso, $\\eta=0{,}25$ se acerca de a poco y $\\eta=1$ oscila si parte fuera del máximo. La expresión $m_t-3$ representa la distancia con signo al máximo después de $t$ pasos. La relación de la pizarra muestra que esa distancia se multiplica por $1-2\\eta$ en cada ajuste.\n\nPara $0<\\eta<1$, su magnitud disminuye y la trayectoria converge al máximo. En otra curva el tamaño adecuado puede cambiar: revisa si el objetivo realmente sube.',
       board: {
         label: 'Distancia al máximo',
         tex: '\\p{1}{m_{t+1}-3}=\\p{2}{(1-2\\eta)(m_t-3)}',
@@ -443,7 +443,7 @@ export const level: LevelSpec = {
       Scene: ReaderDemo,
       beats: [
         {
-          say: 'Prueba la curva didáctica g(m) = −(m − 3)² desde 0, con η = 0,25.',
+          say: 'Probemos la curva didáctica $g(m)=-(m-3)^2$ desde 0, con $\\eta=0{,}25$. Así podemos comparar los primeros pasos con el comportamiento del simulador.',
           ask: {
             prompt: '¿Qué trayectoria dan los tres primeros pasos?',
             options: ['1,5 → 2,25 → 2,625', '1,5 → 3 → 4,5', '6 → 0 → 6'],
@@ -457,7 +457,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Reinicia el simulador en 0 y carga η = 1, el paso que estaba guardado.',
+          say: 'Ahora el simulador parte otra vez en 0 con $\\eta=1$, el paso que estaba guardado. Veamos qué le ocurre al ajuste con esa configuración.',
           ask: {
             prompt: '¿Qué muestra esta prueba sobre el ajuste?',
             options: ['Oscila entre 0 y 6', 'Converge a 3', 'Mejora con cada salto'],
