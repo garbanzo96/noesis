@@ -146,7 +146,7 @@ const lesson: LessonStep = {
   Scene: KellyLesson,
   beats: [
     {
-      say: 'Quien conoce el anuncio gana el 60 % de sus apuestas a la par. Tener ventaja no basta: falta decidir cuánto del capital poner cada vez.',
+      say: 'Quien conoce el anuncio gana el 60 % de sus apuestas a la par y pierde el 40 %. Una **apuesta a la par** paga una ganancia igual al monto apostado cuando se gana; si se pierde, se pierde ese monto. Aquí $p=0{,}6$ es la probabilidad de ganar y $b=1$ es la ganancia por peso apostado. La ventaja deja por resolver cuánto capital apostar cada vez.',
       board: {
         label: 'La ventaja',
         tex: '\\p{1}{p=0{,}6},\\ \\p{2}{b=1}',
@@ -154,10 +154,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Lo que importa a la larga es cuánto crece el capital por apuesta, en promedio logarítmico. Busca la fracción que lo hace crecer más rápido.',
-      gate: 'Busca la fracción del capital que hace crecer más rápido el dinero.',
+      say: 'El **crecimiento logarítmico esperado** $g(f)$, que se lee «ge de efe», promedia los logaritmos de los factores de cambio del capital, ponderados por la probabilidad de ganar o perder. Aquí $f$ es la fracción apostada: al ganar el factor es $1+bf$ y al perder es $1-f$.\n\nLa curva permite comparar el crecimiento a largo plazo para distintas fracciones; sobre la línea es positivo y bajo ella es negativo.',
+      gate: 'Mueve la perilla para encontrar la fracción que maximiza el crecimiento. Mira la altura del punto en la curva.',
       after:
-        'El máximo está en $f=0{,}2$. Apostar más no gana más: con $f=0{,}5$ el crecimiento es negativo aunque la ventaja sea real.',
+        'La cima está en $f=0{,}2$, con $g(f)\\approx0{,}0201$. Esa fracción maximiza el crecimiento logarítmico esperado para esta apuesta.',
       board: {
         label: 'Crecimiento por apuesta',
         tex: '\\p{1}{g(f)}=\\p{2}{p\\ln(1+bf)}\\p{3}{+(1-p)\\ln(1-f)}',
@@ -165,7 +165,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Apostar la mitad del capital, aun con ventaja, hace que el capital se encoja: g(0,5) ≈ −0,034.',
+      say: 'Al apostar la mitad, $f=0{,}5$, el crecimiento logarítmico esperado es aproximadamente $-0{,}034$ por apuesta. El punto queda bajo la línea: a largo plazo el capital tiende a encogerse, pese a la ventaja. Ganar más veces de las que se pierde no garantiza crecimiento si se apuesta demasiado.',
       board: {
         label: 'Demasiado',
         tex: '\\p{1}{g(0{,}5)}\\p{2}{\\approx-0{,}034<0}',
@@ -173,7 +173,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La cima de la curva tiene una fórmula corta.',
+      say: 'La **fracción de Kelly**, $f^*$, se lee «efe estrella» y maximiza el crecimiento logarítmico esperado. Para una apuesta con probabilidad de ganar $p$ y ganancia neta $b>0$ por peso apostado, se calcula con la fórmula de la pizarra. Si el resultado es negativo, sin permitir apuestas en contra se apuesta cero; esta fórmula supone probabilidades y pagos conocidos y una fracción constante del capital.',
       ask: {
         prompt: 'Con p = 0,6 y b = 1, ¿qué fracción maximiza el crecimiento?',
         options: ['0,2', '0,6', '1'],
@@ -188,7 +188,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con f* = 0,2, cada apuesta crece 0,0201 en promedio logarítmico: en 100 apuestas el capital se multiplica por unas 7,5.',
+      say: 'Con $f^*=0{,}2$, el crecimiento logarítmico esperado es aproximadamente $0{,}0201$ por apuesta. Para 100 apuestas, se multiplica ese promedio por 100 y se aplica la exponencial: $e^{100g(f^*)}\\approx7{,}5$. Es un factor de crecimiento típico a largo plazo, no una garantía para cualquier secuencia de 100 resultados.',
       board: {
         label: 'Cien apuestas',
         tex: '\\p{1}{e^{100\\,g(f^*)}}\\p{2}{\\approx7{,}5}',
@@ -349,7 +349,7 @@ export const level: LevelSpec = {
       Scene: AccountDemo,
       beats: [
         {
-          say: 'Si la cuenta ganaba el 60 % de sus apuestas a la par, ¿qué fracción le convenía?',
+          say: 'La cuenta ganaba el 60 % de sus apuestas a la par. Busquemos la fracción que maximizaba su crecimiento para compararla con lo que apostaba.',
           ask: {
             prompt: '¿Qué fracción de Kelly corresponde a p = 0,6 a la par?',
             options: ['0,2', '0,4', '0,6'],
@@ -359,7 +359,7 @@ export const level: LevelSpec = {
           note: { label: 'La fracción', tex: 'f^*=0{,}2' },
         },
         {
-          say: 'La cuenta apostó 0,2 desde el primer día, antes de tener historial para estimar su tasa de acierto.',
+          say: 'La cuenta apostó 0,2 desde el primer día, antes de tener historial para estimar su tasa de acierto. ¿Qué nos dice esa elección sobre lo que sabía quien operaba la cuenta?',
           ask: {
             prompt: '¿Qué indica que eligiera 0,2 desde el principio?',
             options: ['Que conocía su ventaja antes de apostar', 'Que tuvo suerte', 'Nada'],
