@@ -368,7 +368,7 @@ function PowerDemo({ beats, unlock, answer }: DemoProps) {
       {beat === 3 ? (
         <>
           <Tangent P={P} f={E} a={1} m={7} half={0.8} color={C.green} />
-          <Html x={380} y={190} size={28} anchor="left" color={C.text}>
+          <Html x={470} y={190} size={28} anchor="left" color={C.text}>
             <Tex tex="\dfrac{E(1+h)-E(1)}{h}=7+2h" />
           </Html>
         </>

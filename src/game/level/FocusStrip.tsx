@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { AnimTex, Rich } from '../../engine/Tex';
+import { useFitTex } from './fitTex';
 import type { BoardLine } from './types';
 
 const SECONDS_PER_PART = 0.9;
@@ -55,6 +56,8 @@ export function FocusStrip({
   const sizes = lines.map((l) => Math.max(1, (l.tex.match(/\\p\{/g) ?? []).length));
   const parts = sizes.reduce((a, b) => a + b, 0);
   const p = usePaced(progress, parts, instant);
+  const strip = useRef<HTMLDivElement>(null);
+  useFitTex(strip, [lines]);
   let before = 0;
   const local = sizes.map((n) => {
     const v = Math.min(1, Math.max(0, (p * parts - before) / n));
@@ -62,7 +65,11 @@ export function FocusStrip({
     return v;
   });
   return (
-    <div className={`focus-strip ${lines.length ? 'on' : ''} ${tone ?? ''}`} aria-live="polite">
+    <div
+      ref={strip}
+      className={`focus-strip ${lines.length ? 'on' : ''} ${tone ?? ''}`}
+      aria-live="polite"
+    >
       {lines.map((line, i) => (
         <div
           key={i}

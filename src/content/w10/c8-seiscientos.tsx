@@ -101,10 +101,10 @@ function Threshold({ t, points }: { t: number; points: [string, number, string][
       <Cap x={(lx(t) + lx(1)) / 2} y={LINE.y - 30} size={19} color={C.green}>
         tratar
       </Cap>
-      {points.map(([label, p, col]) => (
+      {points.map(([label, p, col], i) => (
         <g key={label}>
           <circle cx={lx(p)} cy={LINE.y} r={12} fill={col} />
-          <Cap x={lx(p)} y={LINE.y + 74} size={19} color={col}>
+          <Cap x={lx(p)} y={LINE.y + 74 + (i === 1 ? 30 : 0)} size={19} color={col}>
             {label}
           </Cap>
         </g>

@@ -185,7 +185,7 @@ function SumsLesson({ beats, unlock }: DemoProps) {
         ))}
         <Cap
           x={1240}
-          y={300}
+          y={272}
           size={26}
           color={C.amber}
           tex={`\\times${(Math.round(k * 10) / 10).toString().replace('.', '{,}')}`}
@@ -370,7 +370,8 @@ export const lesson: LessonStep = {
     {
       say: 'El **índice** $i$ es un contador que identifica cada término de la suma. La **suma parcial** $S_n$, que se lee «ese sub ene», acumula los términos desde $i=1$ hasta $i=n$, incluido. Por ejemplo, $S_2=3+5=8$. El valor de $n$ indica hasta dónde llega la suma, no cuánto vale cada término.',
       gate: 'Arrastra el índice hasta 7 y observa cómo cambia la suma parcial al agregar cada barra.',
-      after: 'Al llegar a 7, la suma parcial es 28: incluye las siete barras. Cada avance agrega el valor de la barra correspondiente.',
+      after:
+        'Al llegar a 7, la suma parcial es 28: incluye las siete barras. Cada avance agrega el valor de la barra correspondiente.',
       board: {
         label: 'Suma parcial',
         tex: '\\p{1}{S_n}=\\p{2}{\\sum_{i=1}^{n}x_i}',

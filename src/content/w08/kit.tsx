@@ -17,7 +17,9 @@ export const fmtComma = (v: number, digits = 4) => dec(v, digits);
 export const bitsText = (v: number) => `${fmtComma(v)} ${v === 1 ? 'bit' : 'bits'}`;
 
 export const num = (v: number, digits = 4) =>
-  fmtComma(v, digits).replace('−', '-').replace(/,\u2060?/, '{,}');
+  fmtComma(v, digits)
+    .replace('−', '-')
+    .replace(/,\u2060?/, '{,}');
 /** Exact numeric answers: a decimal or a single fraction, with no ignored suffix. */
 export function parseExact(s: string) {
   const t = s.replace(/\s/g, '').replace('−', '-').replace(',', '.');
@@ -278,7 +280,7 @@ export function DragToken({
       style={{ cursor: 'grab' }}
     >
       <circle cx={pos[0]} cy={pos[1]} r={36} fill={C.panel} stroke={color} strokeWidth={3} />
-      <Cap x={pos[0]} y={pos[1]} size={20} color={color}>
+      <Cap x={pos[0]} y={pos[1]} size={String(label).length > 4 ? 15 : 20} color={color}>
         {label}
       </Cap>
       {cue && <DragCue x={pos[0]} y={pos[1]} color={color} r={36} />}
@@ -659,20 +661,27 @@ export function PrefixTree({
           <circle
             cx={n.x}
             cy={n.y}
-            r={28}
+            r={34}
             fill={C.panel}
             stroke={n.symbol ? ACCENT : C.dim}
             strokeWidth={2}
           />
-          <Cap x={n.x} y={n.y} size={17}>
+          {/* in the SVG, so the number scales with its circle instead of keeping the label floor */}
+          <text
+            x={n.x}
+            y={n.y}
+            className="token-text"
+            fontSize={fmtComma(n.weight).length > 4 ? 22 : 26}
+            fill={C.text}
+          >
             {fmtComma(n.weight)}
-          </Cap>
+          </text>
           {n.symbol && (
             <>
-              <Cap x={n.x} y={n.y + 48} color={ACCENT}>
+              <Cap x={n.x} y={n.y + 50} color={ACCENT}>
                 {n.symbol}
               </Cap>
-              <Cap x={n.x} y={n.y + 88} size={20}>
+              <Cap x={n.x} y={n.y + 86} size={20}>
                 {n.code}
               </Cap>
             </>

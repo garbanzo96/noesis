@@ -223,7 +223,17 @@ export function AnimTex({
   const wrap = useRef<HTMLSpanElement>(null);
   const hover = useGlyphHover();
   const [marks, setMarks] = useState<
-    { k: number; x: number; w: number; y: number; up: boolean; c: string }[]
+    {
+      k: number;
+      x: number;
+      w: number;
+      y: number;
+      edge: number;
+      h: number;
+      wide: number;
+      up: boolean;
+      c: string;
+    }[]
   >([]);
   const [lit, setLit] = useState(0);
   const explained = !!labels?.length;
@@ -294,6 +304,12 @@ export function AnimTex({
       const list = [...groups.entries()].sort((a, b) => a[0] - b[0]);
       const top = Math.min(...list.map(([, g]) => g.t));
       const bottom = Math.max(...list.map(([, g]) => g.b));
+      // the limits of a big operator can reach past every explained part: labels must clear them too
+      const ink = Array.from(root.querySelectorAll('.mord, .mop'))
+        .map((e) => e.getBoundingClientRect())
+        .filter((q) => q.width);
+      const inkTop = Math.min(top, ...ink.map((q) => q.top));
+      const inkBottom = Math.max(bottom, ...ink.map((q) => q.bottom));
       // a term in the upper half (a numerator, an exponent) is braced from above, the rest from below
       setMarks(
         list.map(([k, g]) => {
@@ -303,6 +319,9 @@ export function AnimTex({
             x: (g.l - rb.left) / zoom,
             w: (g.r - g.l) / zoom,
             y: ((up ? g.t : g.b) - rb.top) / zoom,
+            edge: ((up ? inkTop : inkBottom) - rb.top) / zoom,
+            h: rb.height / zoom,
+            wide: rb.width / zoom,
             up,
             c: g.c,
           };
@@ -318,8 +337,8 @@ export function AnimTex({
   const layout = useMemo(() => {
     const below = marks.filter((m) => !m.up);
     const above = marks.filter((m) => m.up);
-    const baseBelow = Math.max(0, ...below.map((m) => m.y));
-    const baseAbove = Math.min(Infinity, ...above.map((m) => m.y));
+    const baseBelow = Math.max(0, ...below.map((m) => m.edge));
+    const baseAbove = Math.min(Infinity, ...above.map((m) => m.edge));
     const rows = new Map<number, number>();
     const shift = new Map<number, number>();
     const ctx = document.createElement('canvas').getContext('2d');
@@ -334,8 +353,8 @@ export function AnimTex({
       for (const m of [...group].sort((a, b) => a.x + a.w / 2 - (b.x + b.w / 2))) {
         const w = width(labels?.[m.k - 1] ?? '');
         const c = m.x + m.w / 2;
-        // a label wider than the room on its left slides right instead of leaving the strip
-        const left = Math.max(0, c - w / 2);
+        // a label wider than the room at either end slides inward instead of leaving the strip
+        const left = Math.max(0, Math.min(c - w / 2, m.wide - w));
         let row = ends.findIndex((end) => end <= left);
         if (row < 0) row = ends.length;
         ends[row] = left + w + 10;
@@ -344,7 +363,12 @@ export function AnimTex({
       }
       used[side] = ends.length;
     }
-    return { baseBelow, baseAbove, rows, shift, used };
+    // limits that overflow the box push the labels out: the reserved margin has to follow them
+    const extra = {
+      below: Math.max(0, baseBelow - (marks[0]?.h ?? 0)),
+      above: Math.max(0, above.length ? -baseAbove : 0),
+    };
+    return { baseBelow, baseAbove, rows, shift, used, extra };
   }, [marks, labels]);
   return (
     <span
@@ -353,8 +377,12 @@ export function AnimTex({
       style={
         explained
           ? {
-              marginTop: layout.used.above ? 16 + layout.used.above * LABEL_ROW : 0,
-              marginBottom: layout.used.below ? 16 + layout.used.below * LABEL_ROW : 0,
+              marginTop: layout.used.above
+                ? 16 + layout.used.above * LABEL_ROW + layout.extra.above
+                : 0,
+              marginBottom: layout.used.below
+                ? 16 + layout.used.below * LABEL_ROW + layout.extra.below
+                : 0,
             }
           : undefined
       }
@@ -387,7 +415,9 @@ export function AnimTex({
                   style={{
                     marginLeft: layout.shift.get(k) ?? 0,
                     ...(up
-                      ? { bottom: y - layout.baseAbove + 14 + (layout.rows.get(k) ?? 0) * LABEL_ROW }
+                      ? {
+                          bottom: y - layout.baseAbove + 14 + (layout.rows.get(k) ?? 0) * LABEL_ROW,
+                        }
                       : { top: layout.baseBelow - y + 14 + (layout.rows.get(k) ?? 0) * LABEL_ROW }),
                   }}
                 >

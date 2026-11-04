@@ -423,7 +423,7 @@ function TripDemo({ beats, answer }: DemoProps) {
             progress={beat === 0 ? at(0) : 1}
             opacity={chained || beat === 0 ? 1 : 0.75}
             label={names[i]}
-            off={[0, -28]}
+            off={i === 2 && !chained ? [6, 30] : [0, -28]}
             size={20}
           />
         );

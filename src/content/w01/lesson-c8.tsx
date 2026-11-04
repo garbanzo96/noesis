@@ -131,7 +131,8 @@ function LogLesson({ beats, unlock, answer }: DemoProps) {
               stroke={C.cyan}
               strokeWidth={3}
             />
-            <Cap x={260 + (v / 1000) * 1080} y={360} size={18} color={C.cyan}>
+            {/* el 1 y el 10 casi coinciden en esta escala: ese es el punto, pero ambos deben leerse */}
+            <Cap x={260 + (v / 1000) * 1080} y={v === 1 ? 296 : 360} size={18} color={C.cyan}>
               {v}
             </Cap>
           </g>
@@ -241,7 +242,8 @@ export const lesson: LessonStep = {
     {
       say: 'La función $y=\\log_2 x$, definida para $x>0$, es la **inversa** de $y=2^x$: recupera el exponente a partir de la potencia. Sus gráficas son reflejos respecto de la recta $y=x$. Si un punto de la potencia tiene coordenadas $(a,b)$, el punto correspondiente del logaritmo tiene coordenadas $(b,a)$.',
       gate: 'Arrastra el punto celeste hacia la derecha hasta al menos $x=2{,}5$ y observa cómo cambian las coordenadas del punto reflejado.',
-      after: 'Al llegar a $x=2{,}5$, el punto celeste está aproximadamente en $(2{,}5; 5{,}66)$ y su reflejo en $(5{,}66; 2{,}5)$. Las coordenadas se intercambian porque las funciones son inversas.',
+      after:
+        'Al llegar a $x=2{,}5$, el punto celeste está aproximadamente en $(2{,}5; 5{,}66)$ y su reflejo en $(5{,}66; 2{,}5)$. Las coordenadas se intercambian porque las funciones son inversas.',
       board: {
         label: 'Inversas',
         tex: '\\p{1}{b^{\\log_b N}}=\\p{2}{N,\\qquad \\log_b\\left(b^t\\right)}=\\p{3}{t}',

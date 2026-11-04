@@ -183,7 +183,7 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
         <Html x={1270} y={300} size={20} color={C.muted}>
           <span>Suma 7 paga 5 · Dobles pagan 4</span>
         </Html>
-        <Html x={1270} y={400} size={22} interactive>
+        <Html x={1310} y={400} size={22} interactive>
           <button
             className={`stage-btn ${assigned ? '' : 'on'}`}
             onClick={() => {

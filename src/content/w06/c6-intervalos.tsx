@@ -131,7 +131,7 @@ function CILesson({ beats, unlock, answer }: DemoProps) {
             tex="95\,\%"
             opacity={at(1)}
           />
-          <Cap x={PL.x(MU)} y={PL.y(0) + 50} size={18} color={C.green} tex="\mu" />
+          <Cap x={PL.x(MU)} y={PL.y(0) + 74} size={18} color={C.green} tex="\mu" />
           <line
             x1={X(xb - 1.96 * SE)}
             x2={X(xb + 1.96 * SE)}

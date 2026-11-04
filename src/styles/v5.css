@@ -905,6 +905,8 @@
 /* ---------------------------------------------------------------- legibilidad */
 /* las etiquetas del escenario llevan un halo del color del fondo: se leen aunque crucen líneas */
 .stage-html {
+  /* sin esto, left: 86 % limita el ancho al borde aunque el rótulo esté centrado, y --room no rige */
+  width: max-content;
   --halo: #070613;
   text-shadow:
     1px 0 0 var(--halo),
@@ -2673,4 +2675,20 @@
 .title-meta {
   font-size: 14px;
   color: #cfc8e6;
+}
+
+/* dos o más fórmulas van lado a lado: apiladas ocupaban todo el alto y dejaban el dibujo diminuto */
+@media (min-width: 1100px) and (min-aspect-ratio: 13/10) {
+  .play-stage > .focus-strip:has(.focus-line + .focus-line) {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4px 20px;
+    align-items: center;
+  }
+  .play-stage > .focus-strip:has(.focus-line + .focus-line) .focus-line {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .play-stage > .focus-strip:has(.focus-line + .focus-line) .focus-line > * {
+    grid-column: 1;
+  }
 }

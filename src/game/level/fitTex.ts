@@ -1,7 +1,7 @@
 import { useLayoutEffect, type RefObject } from 'react';
 
 /**
- * Formulas in the narrow rail (board and notebook) shrink to the column width instead of being
+ * Formulas in the rail (board and notebook) and in the strip under the drawing shrink to their width instead of being
  * clipped. The zoom goes on each `.board-tex` / `.note-tex` box (React never rewrites its style,
  * while the KaTeX markup inside can be replaced on any render), never below 55 %. Re-fits when the
  * rail width changes and once more after the KaTeX fonts settle.
@@ -11,7 +11,7 @@ export function useFitTex(ref: RefObject<HTMLElement | null>, deps: unknown[]) {
     const root = ref.current;
     if (!root) return;
     const fit = () =>
-      root.querySelectorAll<HTMLElement>('.board-tex, .note-tex').forEach((box) => {
+      root.querySelectorAll<HTMLElement>('.board-tex, .note-tex, .focus-tex').forEach((box) => {
         const k = (box.querySelector('.katex-display > .katex, .katex') ??
           box.firstElementChild) as HTMLElement | null;
         if (!k) return;

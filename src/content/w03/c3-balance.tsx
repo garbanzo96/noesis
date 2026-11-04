@@ -283,10 +283,10 @@ function BudgetDemo({ beats, answer }: DemoProps) {
         <>
           <Curve P={PD} f={inflow} a={0} b={24} color={C.green} width={3} />
           <Curve P={PD} f={(t) => -outflow(t)} a={0} b={24} color={C.red} width={3} />
-          <Cap x={1330} y={200} size={20} color={C.green} anchor="left">
+          <Cap x={1330} y={186} size={20} color={C.green} anchor="left">
             entra (ríos)
           </Cap>
-          <Cap x={1330} y={240} size={20} color={C.red} anchor="left">
+          <Cap x={1330} y={252} size={20} color={C.red} anchor="left">
             sale (ciudad + tubería 7)
           </Cap>
         </>
@@ -324,7 +324,7 @@ function BudgetDemo({ beats, answer }: DemoProps) {
           dashed
         />
       )}
-      <Html x={PD.x(3)} y={PD.y(4.4)} size={16} color={C.muted}>
+      <Html x={PD.x(5)} y={PD.y(4.4)} size={16} color={C.muted}>
         <span>
           {hhmm(0)}–{hhmm(6)}
         </span>

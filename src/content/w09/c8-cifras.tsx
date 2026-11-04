@@ -367,7 +367,7 @@ function ReservedDemo({ beats, unlock, answer }: DemoProps) {
         </>
       )}
       {(beat === 1 || beat === 3) && answer !== null && (
-        <Readout x={1250} y={700} size={19} color={C.green}>
+        <Readout x={1250} y={730} size={19} color={C.green}>
           {beat === 1
             ? 'Solo la copia privada supera 0,2 en n = 10.'
             : 'El recibo prueba acceso previo. El mapa no convierte iteraciones en horas.'}

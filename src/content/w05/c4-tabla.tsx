@@ -410,7 +410,7 @@ function JointLesson({ beats, unlock, answer }: DemoProps) {
           }}
         />
       )}
-      <Cap x={TBL.x + TBL.cw} y={TBL.y + 2 * TBL.ch + 90} size={21} color={C.muted}>
+      <Cap x={TBL.x + TBL.cw} y={TBL.y + 2 * TBL.ch + 112} size={21} color={C.muted}>
         {asProb
           ? 'Cada celda dividida por 100: probabilidades conjuntas.'
           : 'Un curso de 100 estudiantes.'}
