@@ -267,31 +267,62 @@ const lesson: LessonStep = {
   ],
 };
 
-function NightTape({ beats, answer }: DemoProps) {
+function NightTape({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const { beat } = beats;
+  const [probability, setProbability] = useState(0.4);
+  const [healthy, setHealthy] = useState(0.5);
+  const drag = useSvgDrag(svg, (x) => {
+    const value = clamp((x - 210) / 680, 0, 1);
+    if (beat === 0) setProbability(value);
+    if (beat === 1) setHealthy(value);
+  });
+  useEffect(() => {
+    if (beat === 0 && Math.abs(probability - 0.05) <= 0.02) unlock();
+    if (beat === 1 && Math.abs(healthy - 5 / 6) <= 0.02) unlock();
+  }, [beat, probability, healthy, unlock]);
+
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Transitions />
-      {beat === 0 ? (
-        <Tape states={['S', 'N', 'N']} />
-      ) : (
-        <Cap x={550} y={610} size={23}>
+      {beat === 0 && <Tape states={['S', 'N', 'N']} />}
+      {beat === 1 && (
+        <>
+          <Cap x={550} y={520} size={26}>Fracción sana del lote: {fmt(healthy, 2)}</Cap>
+          <Cap x={550} y={580} size={26} color={C.magenta}>
+            {`Sanos que enferman: ${fmt(healthy * 0.1, 3)}`}
+          </Cap>
+          <Cap x={550} y={640} size={26} color={C.cyan}>
+            {`Enfermos que se recuperan: ${fmt((1 - healthy) * 0.5, 3)}`}
+          </Cap>
+        </>
+      )}
+      {beat < 2 && (
+        <>
+          <line x1={210} x2={890} y1={760} y2={760} stroke={C.line} strokeWidth={5} />
+          <Knob
+            x={210 + (beat === 0 ? probability : healthy) * 680}
+            y={760}
+            axis="x"
+            color={C.amber}
+            onPointerDown={drag}
+          />
+          <Cap x={210} y={810} size={24}>0</Cap>
+          <Cap x={890} y={810} size={24}>1</Cap>
+          {beat === 0 && (
+            <Cap x={1250} y={380} size={26}>
+              {`Probabilidad marcada: ${fmt(probability, 2)}`}
+            </Cap>
+          )}
+        </>
+      )}
+      {beat === 2 && (
+        <Cap x={550} y={610} size={26}>
           La cinta sigue imprimiendo durante muchos días.
         </Cap>
       )}
-      <Cap x={1250} y={200} size={23}>
-        Regla del turno de noche
-      </Cap>
+      <Cap x={1250} y={200} size={24}>Regla del turno de noche</Cap>
       <Cap x={1250} y={290} tex={beat === 0 ? 'X_0=S' : '\\pi_S+\\pi_N=1'} />
-      {answer !== null &&
-        (beat === 0 ? (
-          <Cap x={1250} y={380} tex="0{,}1\cdot0{,}5=0{,}05" color={C.green} />
-        ) : (
-          <>
-            <Cap x={1250} y={380} tex="\pi_S=\frac56" color={C.cyan} />
-            <Cap x={1250} y={470} tex="\pi_N=\frac16" color={C.magenta} />
-          </>
-        ))}
     </Stage>
   );
 }
@@ -494,33 +525,26 @@ export const level: LevelSpec = {
       Scene: NightTape,
       beats: [
         {
-          say: 'La cinta muestra una carpeta que parte sana y luego registra dos días enfermos. Con las transiciones del turno podemos calcular qué probabilidad tiene esa secuencia desde S.',
-          ask: {
-            prompt: '¿Qué probabilidad tiene S, N, N desde S?',
-            options: ['0,05', '0,6', '0,25'],
-            answer: 0,
-            explain:
-              'Primero S → N con 0,1; luego N → N con 0,5. El producto es 0,05; sumar 0,6 no calcula una secuencia.',
-          },
+          say: 'La cinta muestra una carpeta que parte sana y luego registra dos días enfermos. ¿Qué probabilidad tiene S, N, N desde S?',
+          gate: 'Calcula las dos transiciones y marca la probabilidad de la secuencia en la perilla.',
+          after: 'S → N tiene probabilidad 0,1 y N → N tiene probabilidad 0,5. Su producto es 0,05.',
           note: {
             label: 'Secuencia del lote',
             tex: 'P(X_1=N,X_2=N\\mid X_0=S)=0{,}1\\cdot0{,}5=0{,}05',
           },
         },
         {
-          say: 'Joaquín deja correr la cinta durante muchos días con la misma regla. Revisemos a qué proporción de sanos se acerca el lote.',
-          ask: {
-            prompt: '¿A qué proporción de sanos se acerca el lote?',
-            options: ['5/6', '0,9', '1/2'],
-            answer: 0,
-            explain:
-              'La proporción estable es 0,5/(0,1 + 0,5) = 5/6. El 0,9 solo indica cuánto permanece sano alguien que hoy está sano.',
-          },
+          say: 'Joaquín deja correr la cinta durante muchos días con la misma regla. ¿A qué proporción de sanos se acerca el lote?',
+          gate: 'Ajusta la fracción sana hasta igualar la fracción que enferma con la que se recupera.',
+          after: 'Con 5/6 de sanos y 1/6 de enfermos, ambos flujos son 1/12: $0{,}1\\cdot5/6=0{,}5\\cdot1/6$.',
           note: {
             label: 'Equilibrio del turno',
             tex: '(\\pi_S,\\pi_N)=(\\tfrac56,\\tfrac16)',
             body: 'Una regla fija puede generar historias variadas. Compartir estas proporciones no basta para probar que un registro fue fabricado.',
           },
+        },
+        {
+          say: 'En equilibrio, la proporción sana es $5/6$ y la enferma es $1/6$. Los registros individuales pueden cambiar de estado mientras las proporciones se mantienen.',
         },
       ],
     },
