@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
-import { Stage } from '../../engine/Stage';
+import { Html, Stage } from '../../engine/Stage';
 import type {
   ChallengeProps,
   DemoProps,
@@ -286,70 +286,56 @@ const K: M2 = [
   [0, 0],
 ];
 
-function UndoDemo({ beats, answer }: DemoProps) {
+function UndoDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
-  const M =
-    beat === 0
-      ? lerpM(I2, T, at(0))
-      : beat === 1
-        ? answer !== null
-          ? lerpM(T, I2, beats.p)
-          : T
-        : lerpM(I2, K, at(2));
+  const svg = useRef<SVGSVGElement>(null);
+  const [pos, setPos] = useState<V2 | null>(null);
+  const [cargo, setCargo] = useState<V2 | null>(null);
+  const unlockedBeat = useRef(-1);
+  useEffect(() => { unlockedBeat.current = -1; }, [beat]);
+  const choose = (point: V2) => {
+    if (beat === 1) {
+      setPos(point);
+      if (point[0] === 2 && point[1] === 2 && unlockedBeat.current !== beat) {
+        unlockedBeat.current = beat;
+        unlock();
+      }
+    } else if (beat === 2) {
+      setCargo(point);
+      const image = mv(K, point);
+      if (image[0] === 2 && (point[0] !== 2 || point[1] !== 0) && unlockedBeat.current !== beat) {
+        unlockedBeat.current = beat;
+        unlock();
+      }
+    }
+  };
+  const M = beat === 0 ? lerpM(I2, T, at(0)) : I2;
   const [a, b] = cols(M);
-  const screen: V2 = [4, -2];
-  const realPos = mv(inv(T), screen);
+  const selected = beat === 1 ? pos : cargo;
+  const image = selected ? mv(beat === 1 ? T : K, selected) : null;
+  const candidates: V2[] = beat === 1 ? [[0, 2], [2, 0], [2, 2]] : [[0, 1], [4, 1], [2, 0]];
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Grid P={P} M={M} color={beat === 2 ? C.red : C.violet} opacity={0.45} />
-      <Para P={P} a={a} b={b} color={beat === 2 ? C.amber : C.green} opacity={0.3} />
-      {beat === 1 && (
+      {beat === 0 && <Para P={P} a={a} b={b} color={C.green} opacity={0.3} />}
+      {beat > 0 && (
         <>
-          <rect
-            x={P.x(answer !== null ? realPos[0] : screen[0]) - 22}
-            y={P.y(answer !== null ? realPos[1] : screen[1]) - 11}
-            width={44}
-            height={22}
-            rx={5}
-            fill={C.magenta}
-          />
-          <Cap
-            x={P.x(answer !== null ? realPos[0] : screen[0])}
-            y={P.y(answer !== null ? realPos[1] : screen[1]) - 30}
-            size={15}
-            color={C.magenta}
-          >
-            M-7
-          </Cap>
+          {candidates.map((point, i) => (
+            <Html key={i} x={P.x(point[0])} y={P.y(point[1])} size={24} interactive>
+              <button type="button" onClick={() => choose(point)} style={{ cursor: 'pointer', padding: '12px 20px', border: `2px solid ${selected && selected[0] === point[0] && selected[1] === point[1] ? C.amber : C.muted}`, borderRadius: 8, background: C.panel, color: C.text, fontSize: 'inherit' }}>
+                ({point[0]}, {point[1]})
+              </button>
+            </Html>
+          ))}
+          <Cap x={700} y={180} size={24} color={C.amber}>Elige una posición propuesta</Cap>
+          {selected && <Cap x={1380} y={400} size={24} color={C.amber} tex={`\\text{propuesta}=${texV(selected)}`} />}
+          {image && <Cap x={1380} y={490} size={24} color={C.text} tex={`\\text{pantalla}=${texV(image)}`} />}
         </>
       )}
-      <Cap
-        x={1380}
-        y={230}
-        size={24}
-        color={C.text}
-        tex={beat === 2 ? `K=${texM(K)}` : `T=${texM(T)}`}
-      />
-      <Cap
-        x={1380}
-        y={320}
-        size={24}
-        color={beat === 2 ? C.amber : C.green}
-        tex={beat === 2 ? '\\det K=0' : '\\det T=6'}
-        opacity={beat === 2 ? at(2) : 1}
-      />
-      {beat === 1 && answer !== null && (
-        <Cap
-          x={1380}
-          y={400}
-          size={22}
-          color={C.green}
-          tex={`T^{-1}=\\tfrac16${texM([
-            [3, 0],
-            [4, 2],
-          ])}`}
-        />
-      )}
+      <Cap x={1380} y={230} size={24} color={C.text} tex={beat === 2 ? `K=${texM(K)}` : `T=${texM(T)}`} />
+      {beat === 0 && <Cap x={1380} y={320} size={24} color={C.green} tex="\det T=6" />}
+      {beat === 1 && <Cap x={1380} y={320} size={24} color={C.magenta} tex="\text{registro}=(4,-2)" />}
+      {beat === 2 && <Cap x={1380} y={320} size={24} color={C.cyan} tex="K(2,0)=(2,0)" />}
     </Stage>
   );
 }
@@ -561,13 +547,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'A las 03:00 la grabación muestra al M-7 en $(4,-2)$.',
-          ask: {
-            prompt: '¿Dónde estaba de verdad?',
-            options: ['(2, 2)', '(8, −10)', '(4, −2)'],
-            answer: 0,
-            explain:
-              '$T^{-1}=\\tfrac16\\begin{pmatrix}3&0\\\\4&2\\end{pmatrix}$ y $T^{-1}(4,-2)=\\tfrac16(12,\\,16-4)=(2,2)$. Comprobación: $T(2,2)=(4,-2)$.',
-          },
+          gate: '¿Dónde estaba de verdad? Elige la posición que la tabla T transforma en el registro de pantalla.',
+          after: 'La posición real es $(2,2)$: la tabla da $T(2,2)=(4,-2)$, el registro de las 03:00.',
           note: {
             label: 'Posición real a las 03:00',
             tex: 'T^{-1}\\begin{pmatrix}4\\\\-2\\end{pmatrix}=\\begin{pmatrix}2\\\\2\\end{pmatrix}',
@@ -575,17 +556,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'La tabla de los trenes de carga es otra: $K=\\begin{pmatrix}1&2\\\\0&0\\end{pmatrix}$. Mira lo que le hace al plano.',
-          ask: {
-            prompt: '¿Se puede recuperar la posición real de los trenes de carga?',
-            options: [
-              'No: $\\det K=0$ y todo cae sobre la línea principal',
-              'Sí, con $K^{-1}$',
-              'Sí, porque sus entradas son enteras',
-            ],
-            answer: 0,
-            explain:
-              '$\\det K=1\\cdot0-2\\cdot0=0$. Todo el plano cae sobre el eje horizontal, la línea principal: los trenes de carga se dibujan encima de los trenes normales y su posición real se pierde.',
-          },
+          gate: '¿Se puede recuperar la posición real de los trenes de carga? Elige otra posición distinta de $(2,0)$ que aparezca en el mismo punto de la pantalla.',
+          after: 'Por ejemplo, $(0,1)$ y $(2,0)$ aparecen ambos en $(2,0)$. Con determinante 0, la tabla pierde información y no tiene inversa.',
           note: {
             label: 'Tabla de carga',
             tex: '\\det K=0',
