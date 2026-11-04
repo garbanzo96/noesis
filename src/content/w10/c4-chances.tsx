@@ -120,7 +120,7 @@ const lesson: LessonStep = {
   Scene: OddsLesson,
   beats: [
     {
-      say: 'Las **chances** comparan dos grupos en vez de dividir por el total: 2 % de enfermos es 1 enfermo por cada 49 sanos.',
+      say: 'Las **chances** de un evento son su probabilidad dividida por la de su contrario: $p/(1-p)$, leído «pe dividido por uno menos pe». Se definen así cuando $p<1$ y sirven para comparar ambas posibilidades.\n\nSi la probabilidad de enfermedad es 0,02, las chances son $0{,}02/0{,}98=1/49$: un enfermo por cada 49 sanos. La probabilidad divide por el total, por eso no es igual a las chances.',
       board: {
         label: 'Chances',
         tex: '\\p{1}{\\text{chances}}=\\p{2}{\\frac{p}{1-p}}=\\p{3}{\\tfrac{0{,}02}{0{,}98}=\\tfrac1{49}}',
@@ -128,7 +128,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un positivo es 18 veces más probable en un enfermo que en un sano. Esa es la **razón de verosimilitud**.',
+      say: 'La **razón de verosimilitud** divide la probabilidad de un resultado en enfermos por su probabilidad en sanos, siempre que el denominador sea mayor que cero. $LR^+$ se lee «ele erre positivo» y sirve para actualizar las chances.\n\n$P(+\\mid E)$ se lee «probabilidad de positivo dado enfermo» y vale 0,9; en sanos vale 0,05. El cociente es 18: un positivo es 18 veces más probable en un enfermo que en un sano.',
       board: {
         label: 'Razón de verosimilitud',
         tex: '\\p{1}{LR^+}=\\p{2}{\\frac{P(+\\mid E)}{P(+\\mid E^c)}}=\\p{3}{18}',
@@ -136,10 +136,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con chances, actualizar es multiplicar. Aplica dos positivos sobre la barra.',
-      gate: 'Aplica la evidencia de dos positivos arrastrando la ficha ×18 a la barra.',
+      say: 'Para actualizar las chances, multiplica las chances previas por la razón de verosimilitud del resultado. Si los resultados son independientes dentro de cada grupo, puedes aplicar un factor por cada resultado. Aquí cada positivo tiene factor 18; observa cómo cambia la barra al aplicarlos.',
+      gate: 'Aplica dos resultados positivos: arrastra la ficha a la barra una vez por cada resultado. ¿Cómo cambian las chances después de cada aplicación?',
       after:
-        'Cada positivo multiplica las chances por 18, la razón de verosimilitud $0{,}9/0{,}05$. Con chances, actualizar es multiplicar.',
+        'Las chances pasan de $1:49$ a $18:49$ y luego a $324:49$. Cada positivo multiplica por 18 la parte correspondiente a los enfermos.',
       board: {
         label: 'Actualizar',
         tex: '\\p{1}{\\text{chances después}}=\\p{2}{\\text{chances antes}\\cdot LR}',
@@ -147,7 +147,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Después de dos positivos, las chances son 324 a 49.',
+      say: 'Después de dos positivos, las chances son 324 a 49: compara 324 enfermos con 49 sanos. Para volver a una probabilidad, divide la parte de enfermos por la suma de ambas partes. La fórmula $p=\\text{chances}/(1+\\text{chances})$ expresa el mismo cálculo cuando las chances se escriben como cociente.',
       ask: {
         prompt: '¿Qué probabilidad corresponde a chances 324 : 49?',
         options: ['≈ 0,87', '≈ 6,6', '≈ 0,13'],
@@ -162,7 +162,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un negativo multiplica por 2/19: las chances caen a 2 contra 931. Por eso un negativo tranquiliza tanto.',
+      say: 'La **razón de verosimilitud de un negativo**, $LR^-$, se lee «ele erre negativo». Compara la probabilidad de un negativo en enfermos con la de un negativo en sanos: $0{,}1/0{,}95=2/19$.\n\nAl aplicar ese factor a las chances iniciales $1:49$, quedan $2:931$ y la probabilidad es $2/933$, cerca de 0,002. El cálculo parte de las chances iniciales, sin incorporar los dos positivos anteriores.',
       board: {
         label: 'Un negativo',
         tex: '\\p{1}{\\tfrac1{49}\\cdot\\tfrac2{19}}=\\p{2}{\\tfrac2{931}}\\p{3}{\\Rightarrow p\\approx0{,}002}',
@@ -406,13 +406,13 @@ export const level: LevelSpec = {
       Scene: NegativeDemo,
       beats: [
         {
-          say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. Entre enfermos, el 10 % da negativo. Mueve la división de la barra superior hasta mostrar esa proporción.',
-          gate: 'Mueve la división hasta mostrar qué fracción de los enfermos da negativo.',
+          say: 'El test de la campaña tiene sensibilidad 90 % y especificidad 95 %. Queremos medir cuánto pesa un negativo: primero busca qué proporción de enfermos recibe ese resultado.',
+          gate: 'Mueve la división de la barra superior hasta mostrar la fracción de enfermos que da negativo. Usa la sensibilidad y mira la proporción magenta.',
           after:
             'Si la sensibilidad es 0,9, entonces $P(-\\mid E)=0{,}10$: son los enfermos que el test deja pasar.',
         },
         {
-          say: 'La barra muestra 0,10 de negativos entre enfermos y 0,95 entre sanos. El cociente mide cuánto pesa un negativo.',
+          say: 'La barra muestra 0,10 de negativos entre enfermos y 0,95 entre sanos. El cociente entre esas proporciones mide cuánto pesa un negativo.',
           ask: {
             prompt: '¿Cuánto vale la razón de verosimilitud de un negativo, LR⁻?',
             options: ['≈ 0,105', '≈ 18', '≈ 0,95'],
@@ -422,9 +422,9 @@ export const level: LevelSpec = {
           note: { label: 'Razón de un negativo', tex: 'LR^-=\\tfrac{0{,}1}{0{,}95}=\\tfrac2{19}' },
         },
         {
-          say: 'Antes del test, las chances son 1 : 49. Sale negativo: aplica el factor 2/19 a la barra inferior y observa la probabilidad que queda.',
-          gate: 'Arrastra la ficha ×2/19 sobre la barra inferior o toca esa barra.',
-          after: 'Las chances quedan en cerca de 1 a 465. Un negativo casi descarta la enfermedad.',
+          say: 'Antes del test, las chances son 1 : 49. Sale negativo y queremos saber cómo cambia esa comparación al aplicar el factor 2/19.',
+          gate: 'Arrastra la ficha ×2/19 hasta la barra inferior para aplicar el resultado negativo. Mira cómo cambian las chances y la probabilidad.',
+          after: 'Las chances quedan en $2:931$, equivalentes a una probabilidad de $2/933$, cerca de 0,002. El negativo reduce la probabilidad inicial de 0,02, aunque no la lleva a cero.',
         },
         {
           say: 'Después de aplicar el negativo, las chances bajaron a 2 : 931.',
