@@ -654,6 +654,10 @@
     overflow-y: auto;
     grid-template-columns: minmax(0, 1fr);
   }
+  .results-left {
+    max-height: none;
+    overflow-y: visible;
+  }
   .results-notes {
     max-height: none;
     overflow: visible;
