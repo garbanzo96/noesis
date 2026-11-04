@@ -205,26 +205,59 @@ const lesson: LessonStep = {
   ],
 };
 
-function NewLotDemo({ beats, answer }: DemoProps) {
+function NewLotDemo({ beats, unlock, answer }: DemoProps) {
   const { beat } = beats;
+  const [marked, setMarked] = useState<number[]>([]);
+  const [candidate, setCandidate] = useState<number | null>(null);
+  const unlocked = useRef(false);
   const uniform = Array.from({ length: 9 }, () => 1000 / 9);
+  useEffect(() => {
+    unlocked.current = false;
+  }, [beat]);
+  const mark = (digit: number) => {
+    const next = marked.includes(digit) ? marked.filter((d) => d !== digit) : [...marked, digit];
+    setMarked(next);
+    if (beat === 1 && !unlocked.current && next.length === 3 && [1, 2, 3].every((d) => next.includes(d))) {
+      unlocked.current = true;
+      unlock();
+    }
+  };
+  const choose = (digit: number) => {
+    setCandidate(digit);
+    if (beat === 2 && !unlocked.current && digit === 9) {
+      unlocked.current = true;
+      unlock();
+    }
+  };
   return (
     <Stage>
       <TwoBars
-        obs={beat === 0 ? uniform : NEW_LOT}
+        obs={beat < 2 ? uniform : NEW_LOT}
         exp={BEN}
         labels={['1', '2', '3', '4', '5', '6', '7', '8', '9']}
       />
       {beat === 0 && answer !== null && (
-        <Cap
-          x={1270}
-          y={260}
-          tex={`\\chi^2\\approx${Math.round(chi2(uniform, BEN))}\\gg15{,}51`}
-          color={C.magenta}
-        />
+        <Cap x={1270} y={260} tex={`\\chi^2\\approx${Math.round(chi2(uniform, BEN))}\\gg15{,}51`} color={C.magenta} />
       )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="\chi^2\approx0{,}002\ll2{,}73" color={C.magenta} />
+      {beat === 1 && (
+        <>
+          <Cap x={1250} y={210} size={24} color={C.text}>Marca los dígitos</Cap>
+          {Array.from({ length: 9 }, (_, i) => i + 1).map((digit) => (
+            <Choices key={digit} x={1100 + ((digit - 1) % 3) * 150} y={300 + Math.floor((digit - 1) / 3) * 90}
+              options={[digit]} value={marked.includes(digit) ? digit : null} onPick={mark} />
+          ))}
+        </>
+      )}
+      {beat === 2 && (
+        <>
+          <Cap x={1250} y={160} size={24} color={C.text}>Esperado / observado</Cap>
+          {NEW_LOT.map((value, i) => (
+            <Cap key={i} x={1250} y={210 + i * 37} size={24} color={C.text}>
+              {`${i + 1}: ${fmt(BEN[i], 2)} / ${value}`}
+            </Cap>
+          ))}
+          <Choices x={1250} y={600} options={[1, 2, 3, 4, 5, 6, 7, 8, 9]} value={candidate} onPick={choose} />
+        </>
       )}
     </Stage>
   );
@@ -393,17 +426,17 @@ export const level: LevelSpec = {
             answer: 0,
             explain: 'χ² ≈ 402, muy por sobre 15,51: el lote viejo no calza con montos reales.',
           },
+        },
+        {
+          say: 'En el lote viejo hay cerca de 111 montos por cada primer dígito. Compara las barras observadas con las esperadas por Benford.',
+          gate: 'Marca todos los dígitos cuyo conteo observado queda bajo el esperado.',
+          after: 'Los dígitos 1, 2 y 3 quedan bajo sus conteos esperados. El lote viejo da χ² ≈ 402, sobre el corte de 15,51.',
           note: { label: 'Lote viejo', tex: '\\chi^2\\approx402' },
         },
         {
-          say: 'Ahora revisemos el lote nuevo, «calibrado». Comparemos sus primeros dígitos con Benford para evaluar el ajuste.',
-          ask: {
-            prompt: 'El lote nuevo da χ² ≈ 0,002 con 8 grados de libertad. ¿Qué concluyes?',
-            options: ['Demasiado perfecto: fabricado', 'Montos reales', 'No sigue Benford'],
-            answer: 0,
-            explain:
-              'Mil montos reales casi nunca bajan de 2,73. 0,002 es copiar la tabla de Benford.',
-          },
+          say: 'El lote nuevo, «calibrado», da χ² ≈ 0,002 con 8 grados de libertad. ¿Qué concluyes? Compara los conteos observados con los esperados por Benford, mostrados con dos decimales.',
+          gate: 'Elige el dígito con la mayor diferencia absoluta entre su conteo observado y el esperado.',
+          after: 'El dígito 9 tiene 46 montos frente a 45,76 esperados, una diferencia de 0,24. El χ² de 0,002 queda bajo el corte inferior de 2,73: el ajuste es demasiado preciso.',
           note: {
             label: 'Lote nuevo',
             tex: '\\chi^2\\approx0{,}002\\ll2{,}73',
