@@ -111,6 +111,15 @@ export function LevelRunner({
     });
   };
 
+  useEffect(() => {
+    if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
+    (window as unknown as { __run: unknown }).__run = {
+      goto: setStepIndex,
+      step: stepIndex,
+      kinds: level.steps.map((s) => s.kind),
+    };
+  });
+
   // a second press while a step fades out reaches the old step too: it must not skip the next one
   const leaving = useRef(false);
   const goNext = () => {

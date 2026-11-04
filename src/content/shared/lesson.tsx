@@ -17,9 +17,16 @@ export function Token({ x, y, label, color = C.cyan, r = 32, opacity = 1, ring, 
       <g onClick={onClick} style={{ cursor: onClick ? 'pointer' : undefined }}>
         {ring && <circle cx={x} cy={y} r={r + 7} fill="none" stroke={ring} strokeWidth={3} />}
         <circle cx={x} cy={y} r={r} fill="#0d0b1f" stroke={color} strokeWidth={3} />
-        <Html x={x} y={y} size={r * 0.85} color={C.text}>
-          <span className="prop-tag">{label}</span>
-        </Html>
+        {/* plain labels are drawn in the SVG so they scale with their circle and stay inside it */}
+        {typeof label === 'number' || typeof label === 'string' ? (
+          <text x={x} y={y} className="token-text" fontSize={r * (String(label).length > 2 ? 0.68 : 0.9)} fill={C.text}>
+            {label}
+          </text>
+        ) : (
+          <Html x={x} y={y} size={r * 0.85} color={C.text}>
+            <span className="prop-tag bare">{label}</span>
+          </Html>
+        )}
       </g>
     </Group>
   );

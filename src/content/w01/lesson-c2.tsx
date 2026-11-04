@@ -1,5 +1,5 @@
 import { useRef, useState } from 'react';
-import { clamp, lerp } from '../../engine/anim';
+import { clamp } from '../../engine/anim';
 import { useSvgDrag } from '../../engine/hooks';
 import { C } from '../../engine/palette';
 import { Group, Stage, plane } from '../../engine/Stage';
@@ -14,6 +14,8 @@ import { Knob, dec } from '../shared/ui';
 const sq = (x: number) => x * x;
 const P = plane([-3.5, 3.5], [-1, 10], { x: 380, y: 110, w: 840, h: 600 });
 const XS = [-2, -1, 0, 1, 2, 3];
+const VL = { x: 180, y: 130, w: 540, h: 540 };
+const VQ = { x: 860, y: 130, w: 540, h: 540 };
 
 function Machine({
   x,
@@ -75,6 +77,14 @@ function FunctionsLesson({ beats, unlock }: DemoProps) {
     setX(v);
     setReach((r) => Math.max(r, v));
     if (v >= 2.95) unlock();
+  });
+  // the same vertical line runs over both graphs, whichever handle is dragged
+  const [vx, setVx] = useState(1.5);
+  const onVx = useSvgDrag(svg, (px) => {
+    const panel = px > 790 ? VQ : VL;
+    const v = Math.round(clamp(((px - panel.x) / panel.w) * 7 - 3.5, -3.4, 3.4) * 10) / 10;
+    setVx(v);
+    if (Math.abs(v) < 2.4 && Math.abs(v - 1.5) >= 1) unlock();
   });
 
   if (beat <= 1) {
@@ -179,49 +189,91 @@ function FunctionsLesson({ beats, unlock }: DemoProps) {
         />
         <rect
           x={P.x(-3.5)}
-          y={P.y(0) - 10}
+          y={P.y(0) + 34}
           width={P.box.w}
           height={60}
           fill="transparent"
           onPointerDown={onX}
         />
-        <Knob x={P.x(x)} y={P.y(0) + 30} onPointerDown={onX} cursor="ew-resize" label="x" />
+        <Knob x={P.x(x)} y={P.y(0) + 64} onPointerDown={onX} cursor="ew-resize" label="x" />
       </Stage>
     );
   }
   if (beat === 4) {
-    const sx = lerp(-3, 3, at(4));
-    const Q = plane([-3.5, 3.5], [-3.5, 3.5], { x: 860, y: 140, w: 520, h: 520 });
-    const L = plane([-3.5, 3.5], [-1, 10], { x: 200, y: 140, w: 520, h: 520 });
-    const circ = Math.abs(sx) <= 2.5 ? Math.sqrt(6.25 - sx * sx) : null;
+    const Q = plane([-3.5, 3.5], [-3.5, 3.5], VQ);
+    const L = plane([-3.5, 3.5], [-1, 10], VL);
+    const circ = Math.abs(vx) <= 2.5 ? Math.sqrt(6.25 - vx * vx) : null;
+    const cuts = circ === null ? 0 : circ < 0.05 ? 1 : 2;
     return (
-      <Stage>
+      <Stage ref={svg}>
         <Axes P={L} xTicks={[]} yTicks={[]} />
         <Curve P={L} f={sq} a={-3.1} b={3.1} color={C.cyan} width={4} />
-        <Line a={L.pt(sx, -1)} b={L.pt(sx, 10)} color={C.amber} width={2.5} />
-        <Dot x={L.x(sx)} y={L.y(sq(sx))} r={9} color={C.green} />
-        <Cap x={460} y={700} size={22} color={C.green}>
-          función: un corte
+        <Line a={L.pt(vx, -1)} b={L.pt(vx, 10)} color={C.amber} width={3} />
+        <Dot x={L.x(vx)} y={L.y(sq(vx))} r={11} color={C.green} />
+        <Cap x={L.x(0)} y={100} size={28} color={C.cyan} tex="y=x^2" />
+        <Cap x={L.x(0)} y={776} size={26} color={C.green}>
+          1 corte: función
         </Cap>
+        <Knob
+          x={L.x(vx)}
+          y={L.y(-1) + 36}
+          color={C.amber}
+          onPointerDown={onVx}
+          cursor="ew-resize"
+          label="x"
+        />
         <Axes P={Q} xTicks={[]} yTicks={[]} />
         <circle
           cx={Q.x(0)}
           cy={Q.y(0)}
-          r={(2.5 * 520) / 7}
+          r={2.5 * Q.sx}
           fill="none"
           stroke={C.violet}
           strokeWidth={4}
         />
-        <Line a={Q.pt(sx, -3.5)} b={Q.pt(sx, 3.5)} color={C.amber} width={2.5} />
+        <Line a={Q.pt(vx, -3.5)} b={Q.pt(vx, 3.5)} color={C.amber} width={3} />
         {circ !== null && (
           <>
-            <Dot x={Q.x(sx)} y={Q.y(circ)} r={9} color={C.red} />
-            <Dot x={Q.x(sx)} y={Q.y(-circ)} r={9} color={C.red} />
+            <Dot x={Q.x(vx)} y={Q.y(circ)} r={11} color={C.red} />
+            <Dot x={Q.x(vx)} y={Q.y(-circ)} r={11} color={C.red} />
+            {cuts === 2 && (
+              <>
+                <Cap
+                  x={Q.x(vx) + (vx > 0 ? 24 : -24)}
+                  y={Q.y(circ) - 22}
+                  size={22}
+                  color={C.red}
+                  anchor={vx > 0 ? 'left' : 'right'}
+                  tex={`y=${dec(circ, 1)}`}
+                />
+                <Cap
+                  x={Q.x(vx) + (vx > 0 ? 24 : -24)}
+                  y={Q.y(-circ) + 22}
+                  size={22}
+                  color={C.red}
+                  anchor={vx > 0 ? 'left' : 'right'}
+                  tex={`y=-${dec(circ, 1)}`}
+                />
+              </>
+            )}
           </>
         )}
-        <Cap x={1120} y={700} size={22} color={C.red}>
-          no es función: dos cortes
+        <Cap x={Q.x(0)} y={100} size={28} color={C.violet} tex="x^2+y^2=6{,}25" />
+        <Cap x={Q.x(0)} y={776} size={26} color={cuts === 2 ? C.red : C.muted}>
+          {cuts === 2
+            ? '2 cortes: no es función'
+            : cuts === 1
+              ? 'toca en 1 punto'
+              : 'la recta no la toca'}
         </Cap>
+        <Knob
+          x={Q.x(vx)}
+          y={Q.y(-3.5) + 36}
+          color={C.amber}
+          onPointerDown={onVx}
+          cursor="ew-resize"
+          label="x"
+        />
       </Stage>
     );
   }
@@ -383,6 +435,8 @@ export const lesson: LessonStep = {
     {
       say: 'La **gráfica** pone cada par $(x,f(x))$ como un punto del plano. Con todos los puntos aparece una curva.',
       gate: 'Recorre la curva arrastrando x desde −3 hasta 3.',
+      after:
+        'Cada posición de $x$ dejó un punto $(x,\\,x^2)$. La curva es la colección de todos esos pares: leer la gráfica es leer la función.',
       board: {
         label: 'Gráfica',
         tex: '\\mathrm{graf}(f)=\\{\\p{1}{(x,\\ f(x))}:\\ \\p{2}{x\\in A}\\}',
@@ -390,8 +444,10 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una curva es la gráfica de una función si **toda recta vertical** la corta a lo más una vez. La circunferencia falla: un $x$, dos alturas.',
-      dur: 3,
+      say: 'Hay una prueba visual para saber si una curva es la gráfica de una función. Una recta vertical fija un valor de $x$; cada punto donde corta la curva es una salida para esa entrada. Si **alguna** recta vertical corta la curva dos veces, ese $x$ tendría dos salidas y la curva no es una función.',
+      gate: 'Mueve la recta vertical y cuenta los cortes en cada gráfica.',
+      after:
+        'La parábola nunca da más de un corte. La circunferencia da dos para casi todo $x$: a un mismo $x$ le tocan dos alturas, $y$ y $-y$. Por eso no es una función de $x$.',
       board: {
         label: 'Recta vertical',
         body: 'Cada recta vertical corta la gráfica de una función en a lo más un punto.',

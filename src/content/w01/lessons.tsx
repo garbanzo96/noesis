@@ -89,8 +89,8 @@ function SetsLesson({ beats, unlock }: DemoProps) {
         })}
         <Group opacity={at(1)}>
           <Token x={1250} y={420} label={4} color={C.red} ring={C.red} />
-          <Cap x={1250} y={490} size={20} color={C.red} tex="4\notin A" />
-          <Cap x={880} y={300} size={20} color={C.green} tex="5\in A" />
+          <Cap x={1250} y={510} size={28} color={C.red} tex="4\notin A" />
+          <Cap x={880} y={262} size={28} color={C.green} tex="5\in A" />
         </Group>
       </Stage>
     );
@@ -306,7 +306,9 @@ const L_SETS: LessonStep = {
     },
     {
       say: 'Un extremo puede no estar incluido: eso se marca con **paréntesis** en vez de corchete, y en la recta con un círculo hueco.',
-      gate: 'Arma un intervalo que excluya su extremo izquierdo e incluya el derecho.',
+      gate: 'Toca el extremo izquierdo para excluirlo. Deja incluido el derecho.',
+      after:
+        'Quedó un intervalo semiabierto: el extremo izquierdo no pertenece y el derecho sí. La diferencia es un solo punto, pero en la cadena de frío ese punto decide si una caja pasa o no.',
       board: [
         {
           label: 'Abierto y cerrado',

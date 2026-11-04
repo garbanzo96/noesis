@@ -132,6 +132,8 @@ export interface Beat {
   ask?: { prompt: string; options: string[]; answer: number; explain: string };
   /** instruction for an interaction; the scene calls unlock() when satisfied */
   gate?: string;
+  /** what the action just showed: replaces the instruction once it is done */
+  after?: string;
   /** animation duration in seconds (default 1.4; lessons 2.2) */
   dur?: number;
   /** lesson only: formula line(s) written on the blackboard during this beat */

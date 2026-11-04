@@ -78,7 +78,7 @@ export function Tree({
               strokeWidth={2}
             />
             <Html x={l1[i][0]} y={l1[i][1]} size={22} color={C.text}>
-              <span className="prop-tag">{spec.a[i]}</span>
+              <span className="prop-tag bare">{spec.a[i]}</span>
             </Html>
             {[0, 1].map((j) => {
               const p = l2(i, j);
@@ -122,7 +122,7 @@ export function Tree({
                     strokeWidth={2}
                   />
                   <Html x={p[0]} y={p[1]} size={20} color={C.text}>
-                    <span className="prop-tag">{spec.b[j]}</span>
+                    <span className="prop-tag bare">{spec.b[j]}</span>
                   </Html>
                   {spec.leaf && (
                     <Html

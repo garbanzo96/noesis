@@ -330,7 +330,7 @@ function CipherDemo({ beats, unlock, answer }: DemoProps) {
           ))}
           <circle cx={1130} cy={420} r={46} fill="#0b0918" stroke={C.red} strokeWidth={3} />
           <Html x={1130} y={420} size={40} color={C.text}>
-            <span className="prop-tag">3</span>
+            <span className="prop-tag bare">3</span>
           </Html>
         </g>
       )}

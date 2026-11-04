@@ -197,6 +197,8 @@ function Fragmented({ s }: { s: string }) {
  * `progress` (0..1) reveals them one after another with a short fade; unmarked TeX is always
  * visible. Lets the blackboard build an equation term by term in sync with the animation.
  */
+const LABEL_PX = 14;
+const LABEL_ROW = 19;
 /** one colour per explained part, in order (palette: cyan, amber, magenta, green, violet, blue) */
 const PART_COLORS = ['#28e7fa', '#ffbc5e', '#ff3ba7', '#4dffa6', '#a88aff', '#6f9cff'];
 const partOf = (el: HTMLElement) => Number(/(?:^|\s)ap-(\d+)/.exec(el.className)?.[1] ?? 0);
@@ -318,21 +320,44 @@ export function AnimTex({
     const baseBelow = Math.max(0, ...below.map((m) => m.y));
     const baseAbove = Math.min(Infinity, ...above.map((m) => m.y));
     const rows = new Map<number, number>();
-    for (const group of [below, above]) {
+    const shift = new Map<number, number>();
+    const ctx = document.createElement('canvas').getContext('2d');
+    if (ctx) ctx.font = `${LABEL_PX}px "Space Grotesk", sans-serif`;
+    const width = (t: string) => (ctx ? ctx.measureText(t).width : t.length * 7.4) + 6;
+    const used = { below: 0, above: 0 };
+    for (const [side, group] of [
+      ['below', below],
+      ['above', above],
+    ] as const) {
       const ends: number[] = [];
-      for (const m of [...group].sort((a, b) => a.x - b.x)) {
-        const half = ((labels?.[m.k - 1]?.length ?? 0) * 6.6 + 8) / 2;
+      for (const m of [...group].sort((a, b) => a.x + a.w / 2 - (b.x + b.w / 2))) {
+        const w = width(labels?.[m.k - 1] ?? '');
         const c = m.x + m.w / 2;
-        let row = ends.findIndex((end) => end < c - half);
+        // a label wider than the room on its left slides right instead of leaving the strip
+        const left = Math.max(0, c - w / 2);
+        let row = ends.findIndex((end) => end <= left);
         if (row < 0) row = ends.length;
-        ends[row] = c + half + 8;
-        rows.set(m.k, Math.min(row, 2));
+        ends[row] = left + w + 10;
+        rows.set(m.k, row);
+        shift.set(m.k, left - (c - w / 2));
       }
+      used[side] = ends.length;
     }
-    return { baseBelow, baseAbove, rows };
+    return { baseBelow, baseAbove, rows, shift, used };
   }, [marks, labels]);
   return (
-    <span ref={wrap} className={`anim-tex-wrap ${explained ? 'explained' : ''}`}>
+    <span
+      ref={wrap}
+      className={`anim-tex-wrap ${explained ? 'explained' : ''}`}
+      style={
+        explained
+          ? {
+              marginTop: layout.used.above ? 16 + layout.used.above * LABEL_ROW : 0,
+              marginBottom: layout.used.below ? 16 + layout.used.below * LABEL_ROW : 0,
+            }
+          : undefined
+      }
+    >
       <span
         ref={ref}
         className={`tex anim-tex ${display ? 'tex-display' : ''} ${className ?? ''}`}
@@ -358,11 +383,12 @@ export function AnimTex({
                 </svg>
                 <span
                   className="part-label"
-                  style={
-                    up
-                      ? { bottom: y - layout.baseAbove + 14 + (layout.rows.get(k) ?? 0) * 17 }
-                      : { top: layout.baseBelow - y + 14 + (layout.rows.get(k) ?? 0) * 17 }
-                  }
+                  style={{
+                    marginLeft: layout.shift.get(k) ?? 0,
+                    ...(up
+                      ? { bottom: y - layout.baseAbove + 14 + (layout.rows.get(k) ?? 0) * LABEL_ROW }
+                      : { top: layout.baseBelow - y + 14 + (layout.rows.get(k) ?? 0) * LABEL_ROW }),
+                  }}
                 >
                   {label}
                 </span>

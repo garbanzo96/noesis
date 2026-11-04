@@ -141,12 +141,9 @@ function Guide({ onDone, returning }: { onDone: () => void; returning: boolean }
                   <span className="gm-knob">
                     ◉<span className="gm-hand">☝</span>
                   </span>
-                </div>
-                <div className="gm-rail">
-                  <span className="gm-n">4</span>
-                  <i />
-                  <i />
-                  <i className="on" />
+                  <b className="gm-tab">
+                    <span className="gm-n">4</span>Pizarra
+                  </b>
                 </div>
                 <div className="gm-focus">
                   <span className="gm-n">2</span>
@@ -154,7 +151,7 @@ function Guide({ onDone, returning }: { onDone: () => void; returning: boolean }
                 </div>
                 <div className="gm-console">
                   <span className="gm-n">3</span>
-                  <em>☝ Arrastra la perilla…</em>
+                  <em>La explicación de NÓESIS va aquí, a tu ritmo.</em>
                   <b className="gm-btn">Seguir ▸</b>
                 </div>
               </div>
@@ -169,13 +166,15 @@ function Guide({ onDone, returning }: { onDone: () => void; returning: boolean }
                 con los mismos colores del dibujo.
               </li>
               <li>
-                <b>Consola de NÓESIS.</b> Explica cada paso. Si hay algo que hacer, aparece un
-                recuadro con ☝ y «Seguir» espera hasta que lo hagas. «Atrás» repite el paso
-                anterior.
+                <b>Explicación de NÓESIS.</b> Va en la columna derecha; en una pantalla angosta,
+                bajo la fórmula. Si hay algo que hacer, aparece un recuadro con ☝. Nada avanza solo:
+                cuando termines de leer, aprieta «Seguir» o la barra espaciadora. «Atrás» vuelve al
+                paso anterior.
               </li>
               <li>
-                <b>Pizarra.</b> Al seguir, la fórmula vuela a la pizarra: queda el registro de toda
-                la clase. En pantallas chicas se abre con el botón «Pizarra».
+                <b>Pizarra.</b> Es la pestaña sobre el dibujo, arriba a la derecha. Al seguir, cada
+                fórmula vuela ahí y queda el registro de toda la clase. En la investigación y la
+                práctica esa pestaña es tu «Cuaderno».
               </li>
             </ol>
           </>

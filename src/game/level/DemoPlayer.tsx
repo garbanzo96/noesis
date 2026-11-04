@@ -19,8 +19,9 @@ import type { BoardLine, DemoStep, LessonStep } from './types';
 
 /**
  * Guided investigation (demo) and lesson. A beat is complete when its text has been read, its
- * question answered (ask) or its interaction done (gate). Completing a gate advances by itself;
- * completing any beat moves its note (and labelled blackboard lines) into the notebook.
+ * question answered (ask) or its interaction done (gate). Nothing moves on by itself: the player
+ * reads what the step concluded and presses Seguir. Leaving a beat moves its note (and labelled
+ * blackboard lines) into the notebook.
  * A lesson shows the blackboard instead of the notebook and is narrated by NÓESIS.
  */
 export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
@@ -88,22 +89,6 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
     commit(beats.beat);
   };
 
-  // gates advance by themselves once satisfied
-  useEffect(() => {
-    if (!beat.gate || !unlocked[beats.beat] || !typed) return;
-    if (beats.beat >= n - 1) return;
-    const id = setTimeout(
-      () => {
-        sfx.advance();
-        leave();
-        beats.next();
-      },
-      run.reduced ? 300 : lesson ? 2800 : 1200,
-    );
-    return () => clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [unlocked[beats.beat], typed, beats.beat]);
-
   const advance = () => {
     if (inIntro) {
       sfx.advance();
@@ -147,6 +132,10 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
     if (!import.meta.env.DEV && import.meta.env.MODE !== 'qa') return;
     (window as unknown as { __demo: unknown }).__demo = {
       unlock,
+      goto: (k: number) => {
+        setInIntro(false);
+        beats.goto(k);
+      },
       beat: beats.beat,
       locked: !unlocked[beats.beat],
       count: n,
@@ -314,16 +303,13 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
             </button>
           ) : (
             <>
-              {(!beat.gate || beats.beat === n - 1) && (
-                <button
-                  className={`btn ${done ? 'primary pulse' : ''}`}
-                  onClick={advance}
-                  disabled={waiting}
-                >
-                  {beats.beat < n - 1 ? 'Seguir' : lesson ? 'A la investigación' : 'A la práctica'}{' '}
-                  ▸
-                </button>
-              )}
+              <button
+                className={`btn ${done ? 'primary pulse' : ''}`}
+                onClick={advance}
+                disabled={waiting}
+              >
+                {beats.beat < n - 1 ? 'Seguir' : lesson ? 'A la investigación' : 'A la práctica'} ▸
+              </button>
               {waiting && (
                 <span className="wait-reason">
                   {needsAnswer ? 'Elige una respuesta' : 'Haz la acción indicada'}
@@ -372,7 +358,7 @@ export function DemoPlayer({ step }: { step: DemoStep | LessonStep }) {
             <span className="gate-icon" aria-hidden>
               {unlocked[beats.beat] ? '✓' : '☝'}
             </span>
-            <Rich text={beat.gate} />
+            <Rich text={unlocked[beats.beat] ? (beat.after ?? beat.gate) : beat.gate} />
           </p>
         )}
         <div className="console-keys">

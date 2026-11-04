@@ -284,19 +284,8 @@ function ColdChainDemo({ beats, unlock, answer }: DemoProps) {
                   }
                   strokeWidth={2.5}
                 />
-                {beat === 4 && (
-                  <DragCue
-                    x={x}
-                    y={y}
-                    axis="xy"
-                    color={
-                      right && beat > 4
-                        ? C.green
-                        : t.region === 'AR' || t.region === 'R'
-                          ? C.red
-                          : C.line
-                    }
-                  />
+                {beat === 4 && t === TOKENS[0] && y >= 760 && (
+                  <DragCue x={x} y={y} axis="xy" color={C.cyan} r={46} />
                 )}
                 <Html x={x} y={y} size={18} color={C.text}>
                   <span className="prop-id">{t.id}</span>

@@ -291,7 +291,7 @@ function EdgeDemo({ beats, unlock, answer }: DemoProps) {
               strokeWidth={k === 17 ? 4 : 2}
             />
             <Html x={800 + Math.cos(a) * 230} y={440 + Math.sin(a) * 230} size={13} color="#fff">
-              <span className="prop-tag">{k}</span>
+              <span className="prop-tag bare">{k}</span>
             </Html>
           </g>
         );

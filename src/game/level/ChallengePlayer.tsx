@@ -83,13 +83,6 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           if (left <= 0) {
             setPhase('desync');
             sfx.glitch();
-            // only this round is reopened, with new data; earlier rounds stay solved
-            setTimeout(() => {
-              resetRoundUi();
-              setIntegrity(INTEGRITY);
-              setCycle((c) => c + 1);
-              setPhase('play');
-            }, 2400);
           }
         }
       },
@@ -108,6 +101,15 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
     };
   });
 
+  // only this round is reopened, with new data; earlier rounds stay solved
+  const retryRound = () => {
+    if (phase !== 'desync') return;
+    sfx.advance();
+    resetRoundUi();
+    setIntegrity(INTEGRITY);
+    setCycle((c) => c + 1);
+    setPhase('play');
+  };
   const nextRound = () => {
     if (phase !== 'solved') return;
     if (round + 1 >= step.rounds) run.complete();
@@ -142,19 +144,15 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
   useKey(
     [' ', 'Enter'],
     (e) => {
-      if (phase !== 'solved') return;
+      if (phase === 'play') return;
       e.preventDefault();
-      nextRound();
+      // a held key must not jump over the explanation
+      if (e.repeat) return;
+      if (phase === 'solved') nextRound();
+      else retryRound();
     },
     !run.paused,
   );
-  useEffect(() => {
-    // solved rounds move on after a beat, so the player can read the explanation
-    if (phase !== 'solved') return;
-    const id = setTimeout(nextRound, run.reduced ? 1600 : 3200);
-    return () => clearTimeout(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [phase]);
 
   const Comp = step.Comp;
   // each round starts with its handles cued; the first touch retires the cue for that round
@@ -214,6 +212,9 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
             <div className="desync">
               <span>SIN CREDIBILIDAD</span>
               <p>Iris revisa tus notas. Esta ronda se repite con datos nuevos.</p>
+              <button className="btn primary" onClick={retryRound} autoFocus>
+                Repetir la ronda ▸
+              </button>
             </div>
           )}
         </div>
@@ -229,7 +230,7 @@ export function ChallengePlayer({ step }: { step: ChallengeStep }) {
           <>
             <Integrity value={integrity} />
             {phase === 'solved' ? (
-              <button className="btn primary" onClick={nextRound}>
+              <button className="btn primary pulse" onClick={nextRound} autoFocus>
                 {round + 1 >= step.rounds ? 'Cerrar' : 'Siguiente'} ▸
               </button>
             ) : (

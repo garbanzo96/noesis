@@ -1,5 +1,12 @@
 import { DragCue } from '../shared/ui';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type PointerEvent,
+  type PointerEventHandler,
+} from 'react';
 import { Ship } from '../../art/props';
 import { clamp, fmt } from '../../engine/anim';
 import { useSvgDrag, useTween } from '../../engine/hooks';
@@ -47,6 +54,40 @@ function windows(h: (t: number) => number, c: number, step = 0.02): [number, num
   }
   if (start !== null) out.push([start, 24]);
   return out;
+}
+
+/** Time handle: a pill wide enough for the hour it carries. */
+function Clock({
+  x,
+  y,
+  t,
+  color = C.cyan,
+  onPointerDown,
+}: {
+  x: number;
+  y: number;
+  t: number;
+  color?: string;
+  onPointerDown: PointerEventHandler;
+}) {
+  return (
+    <g onPointerDown={onPointerDown} style={{ cursor: 'ew-resize' }}>
+      <rect
+        x={x - 52}
+        y={y - 21}
+        width={104}
+        height={42}
+        rx={21}
+        fill={C.panel}
+        stroke={color}
+        strokeWidth={3}
+      />
+      <DragCue x={x} y={y} axis="x" color={color} r={44} />
+      <text x={x} y={y} className="token-text" fontSize={22} fill={color}>
+        {hhmm(t)}
+      </text>
+    </g>
+  );
 }
 
 function Gauge({ x, level, P }: { x: number; level: number; P: Plane }) {
@@ -162,27 +203,16 @@ function TideDemo({ beats, unlock, answer }: DemoProps) {
           <Html x={P.x(tShown)} y={P.y(hD(tShown)) - 34} size={22} color={C.text}>
             <Tex tex={`h(${dec(tShown, 2)})=${dec(hD(tShown), 2)}`} />
           </Html>
-          <g style={{ cursor: 'ew-resize' }} onPointerDown={onTime}>
-            <rect
-              x={P.x(0) - 20}
-              y={P.y(0) - 10}
-              width={P.box.w + 40}
-              height={70}
-              fill="transparent"
-            />
-            <circle
-              cx={P.x(tShown)}
-              cy={P.y(0) + 30}
-              r={18}
-              fill={C.panel}
-              stroke={C.cyan}
-              strokeWidth={3}
-            />
-            <DragCue x={P.x(tShown)} y={P.y(0) + 30} axis="x" color={C.cyan} />
-            <Html x={P.x(tShown)} y={P.y(0) + 30} size={14} color={C.cyan}>
-              <span className="prop-tag">{hhmm(tShown)}</span>
-            </Html>
-          </g>
+          <rect
+            x={P.x(0) - 20}
+            y={P.y(0) + 40}
+            width={P.box.w + 40}
+            height={50}
+            fill="transparent"
+            style={{ cursor: 'ew-resize' }}
+            onPointerDown={onTime}
+          />
+          <Clock x={P.x(tShown)} y={P.y(0) + 64} t={tShown} onPointerDown={onTime} />
         </g>
       )}
       {/* threshold line and windows */}
@@ -304,18 +334,38 @@ function Docking({ seed, round, api }: ChallengeProps) {
   const onSlot = useSvgDrag(svg, (x) =>
     setSlot(Math.round(clamp(P.inv(x, 0)[0] - 1, 0, 22) * 4) / 4),
   );
-  const truth = useMemo(() => Array.from({ length: 48 }, (_, k) => h(k / 2 + 0.25) >= c), [h, c]);
-  // lowest tide in [0,24]
-  const tMin = useMemo(() => {
-    let best = 0;
-    for (let tt = 0; tt <= 24; tt += 0.01) if (h(tt) < h(best)) best = tt;
-    return best;
+  // a half hour where the curve crosses the line is partly valid: either answer counts there
+  const truth = useMemo(
+    () =>
+      Array.from({ length: 48 }, (_, k) => {
+        const a = h(k / 2) >= c;
+        return a === h(k / 2 + 0.5) >= c ? a : null;
+      }),
+    [h, c],
+  );
+  // lowest tide in [0,24]; with two tides a day it can happen twice, at the same height
+  const lows = useMemo(() => {
+    const ts = Array.from({ length: 2401 }, (_, k) => k / 100);
+    const bottom = Math.min(...ts.map(h));
+    return ts.filter(
+      (tt, k) => h(tt) < bottom + 0.0005 && !(k > 0 && h(ts[k - 1]) < bottom + 0.0005),
+    );
   }, [h]);
+  const closest = lows.reduce((a, b) => (Math.abs(b - tLow) < Math.abs(a - tLow) ? b : a));
+  const lowsText = lows.map(hhmm).join(' y a las ');
+  // the half hour under the pointer, read off the curve
+  const [probe, setProbe] = useState<number | null>(null);
+  const hover = (e: PointerEvent) => {
+    const m = svg.current?.getScreenCTM();
+    if (!m) return;
+    const x = new DOMPoint(e.clientX, e.clientY).matrixTransform(m.inverse()).x;
+    setProbe(clamp(P.inv(x, 0)[0], 0, 23.99));
+  };
 
   useEffect(() => {
     if (round === 0) {
       api.prompt(
-        `El buque necesita al menos $${dec(c)}$ m de marea. Pinta en el eje del tiempo las medias horas en que puede atracar.`,
+        `El buque necesita al menos $${dec(c)}$ m de marea. Pasa el cursor sobre la gráfica para leer la altura de cada hora y pinta en la franja las medias horas en que puede atracar.`,
         `\\{t:\\ h(t)\\ge ${dec(c)}\\}`,
       );
       api.hints([
@@ -329,7 +379,9 @@ function Docking({ seed, round, api }: ChallengeProps) {
       );
       api.hints([
         'Busca el punto más bajo de la curva y baja hasta el eje del tiempo.',
-        `Está cerca de las ${hhmm(tMin)}.`,
+        lows.length > 1
+          ? `Ocurre dos veces, a las ${lowsText}. Cualquiera de las dos sirve.`
+          : `Está cerca de las ${lowsText}.`,
       ]);
     } else {
       api.prompt(
@@ -348,7 +400,7 @@ function Docking({ seed, round, api }: ChallengeProps) {
 
   const submit = () => {
     if (round === 0) {
-      const k = truth.findIndex((v, i) => v !== cells[i]);
+      const k = truth.findIndex((v, i) => v !== null && v !== cells[i]);
       if (k < 0)
         return api.result(
           true,
@@ -366,11 +418,16 @@ function Docking({ seed, round, api }: ChallengeProps) {
       );
     }
     if (round === 1) {
-      if (Math.abs(tLow - tMin) <= 0.3)
-        return api.result(true, `Mínimo a las ${hhmm(tMin)}: $h=${dec(h(tMin), 2)}$ m.`);
+      if (Math.abs(tLow - closest) <= 0.3)
+        return api.result(
+          true,
+          lows.length > 1
+            ? `Sí. La marea más baja, $${dec(h(closest), 2)}$ m, ocurre dos veces: a las ${lowsText}. El mínimo es una altura; las horas son dónde ocurre.`
+            : `Sí. La marea más baja es $${dec(h(closest), 2)}$ m, a las ${lowsText}.`,
+        );
       return api.result(
         false,
-        `A las ${hhmm(tLow)} la marea está en ${dec(h(tLow), 2)} m, pero a las ${hhmm(tMin)} baja hasta ${dec(h(tMin), 2)} m.`,
+        `A las ${hhmm(tLow)} la marea marca ${dec(h(tLow), 2)} m y la curva sigue bajando hacia la ${closest > tLow ? 'derecha' : 'izquierda'}.`,
       );
     }
     let worst = slot;
@@ -405,21 +462,55 @@ function Docking({ seed, round, api }: ChallengeProps) {
         </Html>
       )}
       {round === 0 && (
-        <g onPointerDown={onPaint} style={{ cursor: 'pointer' }}>
+        <rect
+          x={P.x(0)}
+          y={P.y(5)}
+          width={P.box.w}
+          height={P.box.h + 42}
+          fill="transparent"
+          onPointerMove={hover}
+          onPointerLeave={() => setProbe(null)}
+        />
+      )}
+      {round === 0 &&
+        probe !== null &&
+        (() => {
+          const ok = h(probe) >= c;
+          const col = ok ? C.green : C.red;
+          return (
+            <g pointerEvents="none">
+              <Line a={P.pt(probe, 0)} b={P.pt(probe, h(probe))} color={col} width={2.5} dashed />
+              <Dot x={P.x(probe)} y={P.y(h(probe))} r={9} color={col} />
+              <Html
+                x={P.x(probe) + (probe > 18 ? -16 : 16)}
+                y={P.y(h(probe)) - 30}
+                size={24}
+                color={col}
+                anchor={probe > 18 ? 'right' : 'left'}
+              >
+                <span className="prop-tag">
+                  {hhmm(probe)} · {dec(h(probe), 2)} m
+                </span>
+              </Html>
+            </g>
+          );
+        })()}
+      {round === 0 && (
+        <g onPointerDown={onPaint} onPointerMove={hover} style={{ cursor: 'pointer' }}>
           {cells.map((on, k) => (
             <rect
               key={k}
               x={P.x(k / 2) + 1}
-              y={P.y(0) + 10}
+              y={P.y(0) + 46}
               width={P.sx / 2 - 2}
-              height={36}
-              fill={on ? C.green : '#ffffff10'}
+              height={38}
+              fill={on ? C.green : '#ffffff14'}
               opacity={on ? 0.85 : 1}
-              stroke="#ffffff30"
+              stroke="#ffffff55"
             />
           ))}
-          <rect x={P.x(0)} y={P.y(0) + 6} width={P.box.w} height={46} fill="transparent" />
-          <DragCue x={P.x(0)} y={P.y(0) + 28} axis="x" color={C.green} />
+          <rect x={P.x(0)} y={P.y(0) + 42} width={P.box.w} height={46} fill="transparent" />
+          <DragCue x={P.x(0) + 40} y={P.y(0) + 65} axis="x" color={C.green} />
         </g>
       )}
       {round === 1 && (
@@ -429,21 +520,16 @@ function Docking({ seed, round, api }: ChallengeProps) {
           <Html x={P.x(tLow)} y={P.y(h(tLow)) + 34} size={20} color={C.text}>
             <Tex tex={`h=${dec(h(tLow), 2)}`} />
           </Html>
-          <g onPointerDown={onLow} style={{ cursor: 'ew-resize' }}>
-            <rect x={P.x(0) - 20} y={P.y(0)} width={P.box.w + 40} height={70} fill="transparent" />
-            <circle
-              cx={P.x(tLow)}
-              cy={P.y(0) + 30}
-              r={18}
-              fill={C.panel}
-              stroke={C.cyan}
-              strokeWidth={3}
-            />
-            <DragCue x={P.x(tLow)} y={P.y(0) + 30} axis="x" color={C.cyan} />
-            <Html x={P.x(tLow)} y={P.y(0) + 30} size={14} color={C.cyan}>
-              <span className="prop-tag">{hhmm(tLow)}</span>
-            </Html>
-          </g>
+          <rect
+            x={P.x(0) - 20}
+            y={P.y(0) + 40}
+            width={P.box.w + 40}
+            height={50}
+            fill="transparent"
+            style={{ cursor: 'ew-resize' }}
+            onPointerDown={onLow}
+          />
+          <Clock x={P.x(tLow)} y={P.y(0) + 64} t={tLow} onPointerDown={onLow} />
         </g>
       )}
       {round === 2 && (
@@ -452,11 +538,11 @@ function Docking({ seed, round, api }: ChallengeProps) {
             <rect
               key={i}
               x={P.x(a)}
-              y={P.y(0) + 50}
+              y={P.y(0) + 34}
               width={P.x(b) - P.x(a)}
               height={8}
               fill={C.green}
-              opacity={0.5}
+              opacity={0.8}
             />
           ))}
           <rect
@@ -468,22 +554,26 @@ function Docking({ seed, round, api }: ChallengeProps) {
             opacity={0.12}
           />
           <g onPointerDown={onSlot} style={{ cursor: 'ew-resize' }}>
-            <rect x={P.x(0)} y={P.y(0) + 8} width={P.box.w} height={40} fill="transparent" />
+            <rect x={P.x(0)} y={P.y(0) + 44} width={P.box.w} height={44} fill="transparent" />
             <rect
               x={P.x(slot)}
-              y={P.y(0) + 10}
+              y={P.y(0) + 46}
               width={P.x(slot + 2) - P.x(slot)}
-              height={36}
+              height={38}
               rx={6}
               fill={C.violet}
-              opacity={0.85}
+              opacity={0.9}
             />
-            <DragCue x={P.x(slot)} y={P.y(0) + 28} axis="x" color={C.violet} />
-            <Html x={P.x(slot + 1)} y={P.y(0) + 28} size={15} color={C.bg}>
-              <span className="prop-tag">
-                {hhmm(slot)}–{hhmm(slot + 2)}
-              </span>
-            </Html>
+            <DragCue x={P.x(slot + 1)} y={P.y(0) + 65} axis="x" color={C.violet} />
+            <text
+              x={P.x(slot + 1)}
+              y={P.y(0) + 112}
+              className="token-text"
+              fontSize={22}
+              fill={C.violet}
+            >
+              {hhmm(slot)}–{hhmm(slot + 2)}
+            </text>
           </g>
         </g>
       )}
@@ -546,6 +636,7 @@ export const level: LevelSpec = {
         {
           say: 'A cada hora del día el mareógrafo le asigna una altura. Mueve la hora y mira cómo se dibuja la curva.',
           gate: 'Arrastra el reloj del eje horizontal desde las 00:00 hasta las 24:00.',
+          after: 'La curva es el registro completo: para cada hora hay un punto, y solo uno.',
           note: {
             label: 'Función',
             tex: '\\begin{aligned}&h:[0,24]\\to\\mathbb R\\\\ &t\\mapsto h(t)\\end{aligned}',
@@ -573,11 +664,15 @@ export const level: LevelSpec = {
         {
           say: 'Leer la gráfica es subir desde la hora hasta la curva y mirar el eje vertical.',
           gate: 'Arrastra el reloj hasta las 15:00.',
+          after:
+            'Evaluar es leer: subes desde $t=15$ hasta la curva y miras la altura. $h(15)\\approx3{,}97$ m.',
           note: { label: 'Evaluar', tex: 'h(15)\\approx 3{,}97\\ \\text{m}' },
         },
         {
           say: 'El Altamar necesita al menos 3 m. Las horas que sirven son las que dejan la curva por encima de esa línea.',
           gate: 'Arrastra la línea horizontal hasta 3 m.',
+          after:
+            'La franja verde cambia con la línea: al subir la exigencia, las horas útiles se achican. Con 3 m quedan dos ventanas, no una.',
           note: {
             label: 'Resolver mirando la gráfica',
             tex: '\\{t:\\ h(t)\\ge 3\\}',

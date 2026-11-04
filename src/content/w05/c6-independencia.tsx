@@ -246,7 +246,7 @@ function IndepDemo({ beats, unlock, answer }: DemoProps) {
             strokeWidth={3}
           />
           <Html x={520 + i * 140} y={330} size={26} color="#fff">
-            <span className="prop-tag">R</span>
+            <span className="prop-tag bare">R</span>
           </Html>
         </g>
       ))}
@@ -260,7 +260,7 @@ function IndepDemo({ beats, unlock, answer }: DemoProps) {
         strokeWidth={3}
       />
       <Html x={520 + k * 140} y={330} size={34} color={C.text}>
-        <span className="prop-tag">?</span>
+        <span className="prop-tag bare">?</span>
       </Html>
       {answer !== null && (
         <>
