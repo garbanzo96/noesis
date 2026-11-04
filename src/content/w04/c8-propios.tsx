@@ -289,84 +289,60 @@ const MK: M2 = [
 ];
 const PD = plane([0, 12], [0, 100], { x: 300, y: 140, w: 820, h: 480 });
 
-function CycleDemo({ beats, answer }: DemoProps) {
+function CycleDemo({ beats, unlock }: DemoProps) {
   const { at, beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [taller, setTaller] = useState(50);
+  const [lambda, setLambda] = useState(1.2);
+  const drag = useSvgDrag(svg, (x) => {
+    const fraction = clamp((x - 1220) / 300, 0, 1);
+    if (beat === 1) {
+      const next = Math.round(fraction * 100);
+      setTaller(next);
+      if (Math.abs(next - 25) <= 2) unlock();
+    } else if (beat === 2) {
+      const next = Math.round(fraction * 160) / 100;
+      setLambda(next);
+      if (Math.abs(next - 0.6) <= 0.04) unlock();
+    }
+  });
   const series: V2[] = [[100, 0]];
   for (let k = 0; k < 12; k++) series.push(mv(MK, series[k]));
-  const upto = beat === 0 ? 1 : beat === 1 && answer === null ? 4 : 12;
+  const upto = beat === 0 ? 1 : beat === 1 ? 4 : 12;
   const pts = (i: 0 | 1) =>
-    series
-      .slice(0, upto + 1)
-      .map((v, k) => `${PD.x(k)},${PD.y(v[i])}`)
-      .join(' ');
+    series.slice(0, upto + 1).map((v, k) => `${PD.x(k)},${PD.y(v[i])}`).join(' ');
   return (
-    <Stage>
-      <Axes
-        P={PD}
-        xTicks={[0, 2, 4, 6, 8, 10, 12]}
-        yTicks={[0, 25, 50, 75, 100]}
-        xLabel="\text{noche}"
-        yLabel="\text{vagones}"
-        grid
-      />
-      <polyline
-        points={pts(0)}
-        fill="none"
-        stroke={C.cyan}
-        strokeWidth={4}
-        opacity={beat === 0 ? at(0) : 1}
-      />
-      <polyline
-        points={pts(1)}
-        fill="none"
-        stroke={C.amber}
-        strokeWidth={4}
-        opacity={beat === 0 ? at(0) : 1}
-      />
+    <Stage ref={svg}>
+      <Axes P={PD} xTicks={[0, 2, 4, 6, 8, 10, 12]} yTicks={[0, 25, 50, 75, 100]}
+        xLabel="\text{noche}" yLabel="\text{vagones}" grid />
+      <polyline points={pts(0)} fill="none" stroke={C.cyan} strokeWidth={4} opacity={beat === 0 ? at(0) : 1} />
+      <polyline points={pts(1)} fill="none" stroke={C.amber} strokeWidth={4} opacity={beat === 0 ? at(0) : 1} />
       {series.slice(0, upto + 1).map((v, k) => (
         <g key={k}>
           <Dot x={PD.x(k)} y={PD.y(v[0])} r={5} color={C.cyan} />
           <Dot x={PD.x(k)} y={PD.y(v[1])} r={5} color={C.amber} />
         </g>
       ))}
-      {upto === 12 && (
+      <Cap x={1370} y={190} size={24} color={C.text} tex={`M=${texM(MK, 1)}`} />
+      <Cap x={1370} y={270} size={24} color={C.cyan}>Taller</Cap>
+      <Cap x={1370} y={305} size={24} color={C.amber}>Cocheras</Cap>
+      {beat === 1 && (
         <>
-          <line
-            x1={PD.x(0)}
-            x2={PD.x(12)}
-            y1={PD.y(25)}
-            y2={PD.y(25)}
-            stroke={C.cyan}
-            strokeDasharray="8 8"
-            opacity={0.6}
-          />
-          <line
-            x1={PD.x(0)}
-            x2={PD.x(12)}
-            y1={PD.y(75)}
-            y2={PD.y(75)}
-            stroke={C.amber}
-            strokeDasharray="8 8"
-            opacity={0.6}
-          />
+          <Cap x={1370} y={370} size={24} color={C.text}>Taller: {taller} · Cocheras: {100 - taller}</Cap>
+          <Cap x={1370} y={420} size={24} color={C.text}>
+            Salen: {dec(0.3 * taller)} · vuelven: {dec(0.1 * (100 - taller))}
+          </Cap>
+          <line x1={1220} x2={1520} y1={500} y2={500} stroke={C.muted} strokeWidth={4} />
+          <Knob x={1220 + 3 * taller} y={500} color={C.cyan} onPointerDown={drag} r={14} />
         </>
       )}
-      <Cap x={1370} y={220} size={24} color={C.text} tex={`M=${texM(MK, 1)}`} />
-      <Cap x={1370} y={310} size={20} color={C.cyan}>
-        Taller
-      </Cap>
-      <Cap x={1370} y={340} size={20} color={C.amber}>
-        Cocheras
-      </Cap>
-      <Cap
-        x={1370}
-        y={400}
-        size={22}
-        color={C.text}
-        tex={`\\text{noche }${upto}:\\ ${txtV([Math.round(series[upto][0]), Math.round(series[upto][1])])}`}
-      />
-      {beat === 2 && answer !== null && (
-        <Cap x={1370} y={470} size={22} color={C.green} tex="\lambda_1=1,\ \ \lambda_2=0{,}6" />
+      {beat === 2 && (
+        <>
+          <Cap x={1370} y={370} size={24} color={C.text}>Segundo valor: {dec(lambda)}</Cap>
+          <Cap x={1370} y={420} size={24} color={C.text}>Suma con 1: {dec(1 + lambda)}</Cap>
+          <line x1={1220} x2={1520} y1={500} y2={500} stroke={C.muted} strokeWidth={4} />
+          <Knob x={1220 + (lambda / 1.6) * 300} y={500} color={C.violet} onPointerDown={drag} r={14} />
+        </>
       )}
     </Stage>
   );
@@ -653,25 +629,15 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Noche a noche el reparto cambia cada vez menos.',
-          ask: {
-            prompt: '¿Hacia qué reparto se acerca?',
-            options: ['25 en el Taller y 75 en las Cocheras', '50 y 50', '0 y 100'],
-            answer: 0,
-            explain:
-              'Un reparto que ya no cambia cumple $M\\vec v=\\vec v$: es un vector propio con $\\lambda=1$. Lo que sale del Taller iguala lo que entra: $0{,}3\\,T=0{,}1\\,K$, así que $K=3T$: 25 y 75.',
-          },
+          say: 'Noche a noche el reparto cambia cada vez menos. ¿Hacia qué reparto se acerca?',
+          gate: 'Ajusta el reparto de 100 vagones hasta que los que salen del Taller igualen a los que vuelven desde las Cocheras.',
+          after: 'Con 25 vagones en el Taller y 75 en las Cocheras, salen 7,5 y vuelven 7,5 cada noche. El reparto estable cumple $M\\vec v=\\vec v$, con valor propio 1.',
           note: { label: 'Reparto estable', tex: 'M\\vec v=\\vec v,\\quad \\vec v=(25,75)' },
         },
         {
           say: 'La traza de $M$ es $0{,}7+0{,}9=1{,}6$ y uno de sus valores propios es 1.',
-          ask: {
-            prompt: '¿Cuánto vale el otro valor propio?',
-            options: ['0,6', '1,6', '−0,6'],
-            answer: 0,
-            explain:
-              'Los valores propios suman la traza: $1+\\lambda_2=1{,}6$. Como $0{,}6^k\\to0$, esa parte se apaga noche a noche: por eso el reparto se estabiliza.',
-          },
+          gate: '¿Cuánto vale el otro valor propio? Ajusta la perilla para que la suma de ambos coincida con la traza.',
+          after: 'El otro valor propio es 0,6: sumado a 1 da la traza 1,6. Como $0{,}6^k\\to0$, esa parte se apaga noche a noche.',
           note: {
             label: 'Segundo valor propio',
             tex: '\\lambda_2=0{,}6',
