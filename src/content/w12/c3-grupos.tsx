@@ -205,26 +205,51 @@ const lesson: LessonStep = {
   ],
 };
 
-function ConveyorDemo({ beats, answer }: DemoProps) {
+function ConveyorDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [positions, setPositions] = useState([0.05, 0.8]);
+  const unlocked = useRef([false, false]);
   const { beat } = beats;
+  const drag = useSvgDrag(svg, (px) => {
+    if (beat !== 0 && beat !== 1) return;
+    const value = clamp((px - 210) / 680, 0, 1);
+    setPositions((current) => current.map((position, i) => (i === beat ? value : position)));
+    const target = beat === 0 ? 0.275 : 1 / 3;
+    if (!unlocked.current[beat] && Math.abs(value - target) <= 0.02) {
+      unlocked.current[beat] = true;
+      unlock();
+    }
+  });
   return (
-    <Stage>
+    <Stage ref={svg}>
       <SourceBars selected={beat === 0 ? 0 : 2} />
       <Cap x={1250} y={200} tex="\pi=\frac12" color={C.amber} />
       <Cap x={1250} y={290} tex="1-\pi=\frac12" color={C.cyan} />
       <Cap x={1250} y={380} tex={beat === 0 ? 'x=0' : 'x=2'} />
-      {answer !== null &&
-        (beat === 0 ? (
-          <Cap x={1250} y={470} tex="P(0)=0{,}275" color={C.green} />
-        ) : (
-          <>
-            <Cap x={1250} y={470} tex="P(2)=0{,}225" />
-            <Cap x={1250} y={560} tex="P(A\mid2)=\frac13" color={C.green} />
-          </>
-        ))}
-      <Cap x={550} y={670} size={23}>
-        Las carpetas salen sin la etiqueta de origen.
-      </Cap>
+      {beat < 2 && (
+        <>
+          <Cap x={550} y={620} size={24}>
+            {beat === 0 ? 'Probabilidad de obtener 0' : 'Probabilidad de origen A'}
+          </Cap>
+          <line x1={210} x2={890} y1={700} y2={700} stroke={C.line} strokeWidth={5} />
+          {[0, 0.25, 0.5, 0.75, 1].map((tick) => (
+            <g key={tick}>
+              <line x1={210 + tick * 680} x2={210 + tick * 680} y1={685} y2={715} stroke={C.line} strokeWidth={3} />
+              <Cap x={210 + tick * 680} y={760} size={24}>{fmt(tick)}</Cap>
+            </g>
+          ))}
+          <Knob x={210 + positions[beat] * 680} y={700} axis="x" label="" color={C.amber} onPointerDown={drag} />
+        </>
+      )}
+      {beat === 2 && (
+        <>
+          <Cap x={1250} y={470} tex="P(2)=0{,}225" />
+          <Cap x={1250} y={560} tex="P(A\mid2)=\frac13" color={C.green} />
+          <Cap x={550} y={670} size={24}>
+            Las carpetas salen sin la etiqueta de origen.
+          </Cap>
+        </>
+      )}
     </Stage>
   );
 }
@@ -400,13 +425,9 @@ export const level: LevelSpec = {
       Scene: ConveyorDemo,
       beats: [
         {
-          say: 'Joaquín conserva las dos recetas. La cinta mezcla mitad de A y mitad de B; necesitamos calcular qué tan frecuente es el valor 0 en el lote.',
-          ask: {
-            prompt: '¿Qué probabilidad tiene un registro de salir con x = 0?',
-            options: ['0,275', '0,5', '0,55'],
-            answer: 0,
-            explain: '0,5 · 0,5 + 0,5 · 0,05 = 0,275. Sumar las barras sin sus pesos da 0,55.',
-          },
+          say: 'Joaquín conserva las dos recetas. La cinta mezcla mitad de A y mitad de B.',
+          gate: '¿Qué probabilidad tiene un registro de salir con $x=0$? Calcula los aportes de ambas máquinas y ubica el resultado en la escala.',
+          after: 'A aporta $0{,}5\\cdot0{,}5=0{,}25$ y B aporta $0{,}5\\cdot0{,}05=0{,}025$. La probabilidad de obtener 0 es $0{,}275$.',
           note: {
             label: 'Valor 0 en el lote',
             tex: 'P(0)=\\tfrac12\\cdot0{,}5+\\tfrac12\\cdot0{,}05=0{,}275',
@@ -414,19 +435,17 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Una carpeta atascada tiene valor 2. Halcón la contó como salida de A, sin guardar la etiqueta; calculemos qué tan probable es ese origen.',
-          ask: {
-            prompt: 'Dado x = 2, ¿qué probabilidad hay de que la carpeta venga de A?',
-            options: ['1/3', '1/2', '2/3'],
-            answer: 0,
-            explain:
-              'El aporte de A es 0,075 y el total es 0,225: 1/3. B tiene 2/3; la receta no permite asegurar el origen de una carpeta.',
-          },
+          say: 'Una carpeta atascada tiene valor 2. Halcón la contó como salida de A, sin guardar la etiqueta.',
+          gate: 'Dado $x=2$, ¿qué probabilidad hay de que la carpeta venga de A? Compara los aportes de ambas máquinas y ubica la proporción de A en la escala.',
+          after: 'A aporta $0{,}075$ y B aporta $0{,}15$, para un total de $0{,}225$. La probabilidad de origen A es $0{,}075/0{,}225=1/3$.',
           note: {
             label: 'Origen incierto',
             tex: 'P(A\\mid x=2)=\\frac{0{,}5\\cdot0{,}15}{0{,}5\\cdot0{,}15+0{,}5\\cdot0{,}3}=\\tfrac13',
             body: 'Un valor compatible con ambas máquinas no demuestra de cuál salió.',
           },
+        },
+        {
+          say: 'La carpeta con valor 2 tiene probabilidad $1/3$ de venir de A y $2/3$ de venir de B. Las recetas no permiten asegurar su origen sin la etiqueta.',
         },
       ],
     },
