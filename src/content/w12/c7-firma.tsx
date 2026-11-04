@@ -136,7 +136,7 @@ const lesson: LessonStep = {
   Scene: BenfordLesson,
   beats: [
     {
-      say: 'En montos reales, el primer dígito no es parejo: el 1 encabeza cerca del 30 % de los números y el 9, menos del 5 %.',
+      say: 'La **ley de Benford** describe la distribución del primer dígito significativo $d$, entre 1 y 9, en ciertos conjuntos de cantidades. Se aplica de forma aproximada a datos que abarcan varios órdenes de magnitud y crecen multiplicando, como muchos montos de compras.\n\n$P(d)$ se lee «probabilidad de de» y $\\log_{10}$, «logaritmo en base diez». La ley asigna cerca del 30 % al 1 y menos del 5 % al 9; no se aplica a cualquier lista de números.',
       board: {
         label: 'Ley de Benford',
         tex: '\\p{1}{P(d)}=\\p{2}{\\log_{10}\\!\\left(1+\\tfrac1d\\right)}',
@@ -144,7 +144,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Los montos crecen multiplicando. En una escala que multiplica, el tramo que empieza con 1 es el más ancho: ir de 100 a 200 es duplicar.',
+      say: 'En una **escala logarítmica**, distancias iguales representan factores de multiplicación iguales. El tramo de 1 a 2 ocupa más espacio que el de 9 a 10: el primero duplica la cantidad y el segundo la aumenta cerca de un 11 %.\n\nEl ancho del tramo de un dígito $d$ es $\\log_{10}(d+1)-\\log_{10}d$, que equivale a $\\log_{10}(1+1/d)$. Si los logaritmos se distribuyen de manera uniforme en esta escala, ese ancho da la probabilidad de cada primer dígito.',
       board: {
         label: 'El ancho de cada dígito',
         tex: '\\p{1}{\\log_{10}(d+1)-\\log_{10}d}\\p{2}{=\\log_{10}\\!\\left(1+\\tfrac1d\\right)}',
@@ -152,10 +152,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Sube la barra del 1 hasta su valor de Benford.',
-      gate: 'Según Benford, ¿qué fracción de los números empieza con 1? Calcula $\\log_{10}2$ y sube la barra hasta ahí.',
+      say: 'Para hallar la probabilidad del primer dígito 1, sustituye $d=1$ en la fórmula de Benford. La expresión $P(1)$ se lee «probabilidad de uno». El resultado es una proporción entre 0 y 1, que también puedes expresar como porcentaje.',
+      gate: '¿Qué proporción predice Benford para el primer dígito 1? Calcula $\\log_{10}2$ y ajusta la barra mirando el valor de $P(1)$.',
       after:
-        '$\\log_{10}2\\approx0{,}301$: casi uno de cada tres números reales empieza con 1. Un registro inventado suele repartir parejo.',
+        '$\\log_{10}2\\approx0{,}301$: cerca del 30,1 % de los montos que siguen Benford empieza con 1. Esa proporción sirve para comparar los registros con la ley.',
       board: {
         label: 'El dígito 1',
         tex: '\\p{1}{P(1)}=\\p{2}{\\log_{10}2}\\p{3}{\\approx0{,}301}',
@@ -163,7 +163,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La máquina de la Fábrica aprendió las proporciones de las columnas, pero sortea los montos parejo dentro de cada rango.',
+      say: 'La máquina de la Fábrica aprendió las proporciones de las columnas, pero sortea los montos parejo dentro de cada rango. Si los nueve primeros dígitos tienen la misma probabilidad, la suma de sus probabilidades debe ser 1. Usa esa condición para comparar el reparto con Benford.',
       ask: {
         prompt: 'Si los primeros dígitos salen parejos, ¿qué fracción empieza con 1?',
         options: ['≈ 0,111', '≈ 0,301', '0,5'],
@@ -178,7 +178,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Comparar los primeros dígitos con Benford es una prueba barata: los datos fabricados suelen dejar esa firma.',
+      say: 'Comparar las frecuencias de los primeros dígitos con Benford es una prueba sencilla para buscar irregularidades en montos. Una diferencia grande puede justificar una revisión, pero por sí sola no demuestra que los datos sean fabricados. Antes de comparar, hay que evaluar si los datos cumplen las condiciones para seguir la ley.',
       board: {
         label: 'La firma',
         tex: '\\p{1}{\\text{real}\\approx\\text{Benford}},\\ \\p{2}{\\text{fabricado}\\approx\\text{parejo}}',
@@ -332,7 +332,7 @@ export const level: LevelSpec = {
       Scene: AmountsDemo,
       beats: [
         {
-          say: 'Mil montos reales de compras de la Clínica, de otros años.',
+          say: 'Tenemos mil montos reales de compras de la Clínica, de otros años. Usemos Benford para estimar cuántos deberían empezar con 1 y tener una referencia para comparar el lote.',
           ask: {
             prompt: '¿Cuántos esperas que empiecen con 1?',
             options: ['≈ 301', '≈ 111', '≈ 500'],
@@ -342,7 +342,7 @@ export const level: LevelSpec = {
           note: { label: 'Montos reales', tex: '1000\\cdot0{,}301\\approx301' },
         },
         {
-          say: 'Mil montos del lote de la Fábrica.',
+          say: 'Ahora revisemos mil montos del lote de la Fábrica. Comparemos sus primeros dígitos con la referencia de Benford para ver si el reparto merece una revisión.',
           ask: {
             prompt: 'En el lote de la Fábrica, 112 empiezan con 1. ¿Qué indica?',
             options: [
