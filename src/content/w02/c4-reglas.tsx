@@ -235,8 +235,9 @@ const lesson: LessonStep = {
   Scene: RulesLesson,
   beats: [
     {
-      say: 'Al aumentar el lado de un cuadrado en $h$, aparecen dos franjas $xh$ y una esquina $h^2$. Reduce $h$ y mira qué pasa con la esquina.',
-      gate: 'Arrastra el control para cambiar h y dejarlo bajo 0,1.',
+      say: 'Un cuadrado de lado $x$ tiene área $x^2$. Si el lado aumenta en $h$, el área aumenta en dos franjas de área $xh$ y una esquina de área $h^2$. El cociente $\\Delta A/h$, leído «delta área dividido por h», mide el cambio promedio del área por unidad de lado.\n\nLa **derivada** es el límite de ese cociente cuando $h$ se acerca a cero: permite medir el cambio instantáneo del área.',
+      gate: 'Arrastra el control hasta dejar $h$ bajo 0,1 y observa el cociente y la esquina.',
+      after: 'Con $x=2$ y $h$ bajo 0,1, el cociente $4+h$ queda entre 4,02 y 4,09. Al acercar $h$ a cero, se aproxima a 4: esa es la derivada del área en $x=2$.',
       board: [
         {
           label: 'Cuadrado',
@@ -250,7 +251,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'En un cubo crecen tres caras de área $x^2$. Al dividir el aumento por $h$ y hacer $h$ pequeño, queda $3x^2$.',
+      say: 'Un cubo de lado $x$ tiene volumen $x^3$. Al aumentar el lado en $h$, el cambio de volumen incluye tres capas de área $x^2$ y otros términos que dependen de $h$. Al dividir por $h$ y tomar el límite cuando $h$ se acerca a cero, esos términos se anulan y queda $3x^2$. Esa derivada mide el cambio instantáneo del volumen por unidad de lado.',
       ask: {
         prompt: '¿Cuánto vale la derivada de $x^3$ en $x=2$?',
         options: ['12', '8', '6'],
@@ -263,7 +264,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Para una potencia, el exponente baja como factor y luego se resta uno al exponente. También funciona con exponentes negativos y fraccionarios, donde la función es derivable.',
+      say: 'La **regla de la potencia** dice que la derivada de $x^n$ es $n x^{n-1}$: se multiplica por el exponente y luego se le resta uno. $\\frac{d}{dx}x^n$ se lee «derivada de equis elevado a ene respecto de equis». Para exponentes reales, la regla vale donde la función es derivable; en particular, para $x>0$.\n\nPor ejemplo, $x^{-1}$ exige $x\\ne0$ y la derivada de $\\sqrt{x}$ exige $x>0$. No olvides el signo negativo al derivar $x^{-1}$.',
       dur: 3,
       board: [
         {
@@ -278,7 +279,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Los factores constantes se mantienen y las sumas se derivan término a término. Una constante tiene derivada cero.',
+      say: 'La **linealidad** permite derivar una suma término a término y conservar los factores constantes: $(c f)\'=c f\'$ y $(f+g)\'=f\'+g\'$. La prima se lee «derivada»; estas reglas requieren que las funciones sean derivables. Una constante tiene derivada cero porque no cambia con $x$. Por ejemplo, la derivada de $4x^3-2x+7$ es $12x^2-2$: el 7 desaparece.',
       ask: {
         prompt: 'Para $4x^3-2x+7$, ¿cuánto vale esa derivada en $x=1$?',
         options: ['10', '9', '12'],
@@ -291,7 +292,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'La regla de la potencia y la linealidad permiten derivar cada término de un polinomio. Aplica ambas reglas y reúne el resultado.',
+      say: 'Un **polinomio** es una suma finita de potencias de $x$ con exponentes enteros no negativos y coeficientes constantes. La regla de la potencia y la linealidad permiten derivarlo término a término; el término constante aporta cero. Por ejemplo, la derivada de $3x^2+2x+1$ es $6x+2$.',
       dur: 2.6,
       board: [
         {
@@ -775,8 +776,9 @@ export const level: LevelSpec = {
       Scene: RulesDemo,
       beats: [
         {
-          say: 'Una placa cuadrada de lado $x=3$ se dilata con el calor: el lado crece en $dx$. ¿Cuánta área se agrega?',
-          gate: 'Achica dx hasta 0,05.',
+          say: 'La placa cuadrada tiene lado $x=3$ y se dilata con el calor: su lado aumenta en $dx$. Revisemos cómo cambia el área por cada unidad de aumento del lado.',
+          gate: 'Reduce $dx$ hasta 0,05 o menos y observa el cociente de cambio y la proporción roja.',
+          after: 'Con $dx$ entre 0,02 y 0,05, el cociente queda entre 6,02 y 6,05 y la esquina roja representa menos del 1 % del aumento. Al acercarse $dx$ a cero, el cociente se aproxima a 6: ese es el cambio instantáneo del área para lado 3.',
           note: {
             label: 'Derivada de x²',
             tex: '\\frac{d}{dx}x^2=2x',
@@ -784,7 +786,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Un cubo de lado $x$ que crece en $dx$ se agrega tres láminas, una por cada cara visible.',
+          say: 'Ahora revisemos un cubo de lado $x$ que aumenta en $dx$. Las tres láminas representan los aportes principales al cambio de volumen, uno por cada cara visible.',
           ask: {
             prompt: 'Con $x=2$, ¿cuánto crece el volumen por cada unidad de lado?',
             options: ['12', '8', '6'],
@@ -795,7 +797,7 @@ export const level: LevelSpec = {
           note: { label: 'Derivada de x³', tex: '\\frac{d}{dx}x^3=3x^2' },
         },
         {
-          say: 'El patrón sigue: el exponente baja como factor y se le resta 1. Vale también para exponentes negativos y fracciones.',
+          say: 'El patrón sigue: el exponente baja como factor y se le resta 1. También sirve para exponentes negativos y fraccionarios, donde la función es derivable.',
           ask: {
             prompt: '¿Cuál es la derivada de $\\sqrt x$ en $x=4$?',
             options: ['1/4', '2', '1/2'],
@@ -810,7 +812,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La caldera: $E(t)=2t^3-3t^2+5t+1$. La curva violeta es la misma subida 4 unidades: sus tangentes son paralelas.',
+          say: 'La caldera tiene el modelo $E(t)=2t^3-3t^2+5t+1$. La curva violeta es la misma subida 4 unidades: sus tangentes son paralelas. Veamos cuánto cambia el modelo en $t=1$ para compararlo con el consumo registrado.',
           ask: {
             prompt: "¿Cuánto vale $E'(1)$?",
             options: ['5', '6', '4'],
