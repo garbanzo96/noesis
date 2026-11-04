@@ -163,7 +163,7 @@ const lesson: LessonStep = {
   Scene: ImportanceLesson,
   beats: [
     {
-      say: 'Quieres el promedio de f según p, pero tu generador solo entrega muestras de q. Aquí q reparte por igual los tres valores; p les da probabilidades distintas.',
+      say: 'Una **distribución de probabilidad** asigna a cada valor posible una probabilidad; estas son no negativas y suman 1. La distribución objetivo $p$ asigna $1/2$, $1/3$ y $1/6$ a los valores de $f$ 0, 1 y 2.\n\nBuscamos el promedio de $f$ según $p$, pero el generador entrega muestras de $q$, que asigna $1/3$ a cada valor.',
       board: {
         label: 'Objetivo y generador',
         tex: '\\p{1}{p}=\\p{2}{(\\tfrac12;\\tfrac13;\\tfrac16)},\\quad\\p{3}{ q}=\\p{4}{(\\tfrac13;\\tfrac13;\\tfrac13)}',
@@ -176,8 +176,8 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **peso de importancia** es p dividido por q: aumenta el aporte de lo que q entrega de menos. Ubica cada peso bajo su par de barras.',
-      gate: 'Calcula $p/q$ en cada barra y arrastra cada peso a su recuadro.',
+      say: 'El **peso de importancia** $w(x)=p(x)/q(x)$ se lee «doble ve de equis igual a pe de equis sobre cu de equis». Compara la probabilidad objetivo con la del generador para un mismo valor. Un peso mayor que 1 aumenta su aporte y uno menor que 1 lo reduce. Para calcularlo, divide $p$ por $q$ en ese orden; $q$ debe ser positiva donde $p$ lo es.',
+      gate: 'Calcula $p/q$ para cada par de barras y arrastra cada peso al recuadro que le corresponde. Compara las probabilidades ámbar y celeste de cada valor.',
       after:
         'Los pesos son $\\tfrac32$, 1 y $\\tfrac12$. Suben lo que $q$ muestrea de menos y bajan lo que muestrea de más.',
       board: {
@@ -187,7 +187,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Toma una muestra de cada valor para ver la cuenta: multiplica cada f por su peso. Los productos suman 2 y los pesos suman 3.',
+      say: 'Aquí hay una muestra de cada valor de $f$: 0, 1 y 2. Para obtener la **suma ponderada**, multiplica cada valor por su peso y suma los productos: $0\\cdot1{,}5+1\\cdot1+2\\cdot0{,}5=2$. La suma de los pesos es $1{,}5+1+0{,}5=3$. Estas dos sumas permiten calcular el promedio corregido.',
       board: {
         label: 'Dos sumas',
         tex: '\\p{1}{\\sum_i w_i f(x_i)}=\\p{2}{0\\cdot1{,}5+1\\cdot1+2\\cdot0{,}5}=\\p{3}{2},\\quad\\p{4}{\\sum_i w_i}=\\p{5}{3}',
@@ -201,7 +201,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'El **promedio ponderado** divide la suma de los productos por la suma de los pesos.',
+      say: 'El **promedio ponderado** se obtiene al multiplicar cada valor por su peso, sumar esos productos y dividir por la suma de los pesos, siempre que esta sea positiva. La notación $\\widehat E_p[f]$ se lee «estimación del valor esperado de efe según pe». Aquí usa la suma ponderada y la suma de pesos del paso anterior. No basta con sumar los productos: hay que dividir por el peso total.',
       ask: {
         prompt: '¿Qué promedio queda con estas tres muestras?',
         options: ['2/3', '1', '2'],
@@ -216,7 +216,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'En este ejemplo equilibrado obtienes exactamente E_p[f] = 2/3. Con muestras aleatorias de q, esta razón es una estimación: mejora al reunir más muestras, si q cubre todo lo que p permite.',
+      say: 'El **muestreo por importancia** usa muestras de $q$ y pesos $p/q$ para estimar un promedio según $p$. La expresión $x_i\\sim q$ se lee «equis sub i se distribuye según cu». Aquí el promedio ponderado coincide con el valor exacto $E_p[f]=2/3$.\n\nCon muestras aleatorias, la razón es una estimación que tiende al valor buscado al reunir más muestras si $q$ es positiva donde $p$ lo es. Pesos muy desiguales pueden volverla inestable.',
       board: {
         label: 'Muestreo por importancia',
         tex: '\\p{1}{E_p[f]}\\approx\\p{2}{\\frac{\\sum_{i=1}^n w_i f(x_i)}{\\sum_{i=1}^n w_i}},\\quad\\p{3}{ x_i\\sim q},\\quad\\p{4}{ w_i}=\\p{5}{\\frac{p(x_i)}{q(x_i)}}',
@@ -472,7 +472,7 @@ export const level: LevelSpec = {
       Scene: LabSamples,
       beats: [
         {
-          say: 'El control guarda una muestra de cada valor de f: 0, 1 y 2. El informe las promedia sin corregir el generador.',
+          say: 'El control guarda una muestra de cada valor de $f$: 0, 1 y 2. El informe las promedia sin corregir el generador; revisemos qué cifra obtuvo.',
           ask: {
             prompt: '¿Qué número escribió el informe?',
             options: ['1', '2/3', '2'],
@@ -486,7 +486,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El objetivo del control es p = (1/2, 1/3, 1/6), con el mismo generador uniforme q. Aplica los pesos p/q.',
+          say: 'El objetivo del control es $p=(1/2,1/3,1/6)$ y el generador $q$ sigue siendo uniforme. Apliquemos los pesos $p/q$ para comparar el resultado con el informe.',
           ask: {
             prompt: '¿Qué promedio obtienes al corregir las muestras?',
             options: ['2/3', '1', '3/2'],
