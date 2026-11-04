@@ -23,7 +23,7 @@ import { rng } from '../shared/rng';
 // con una línea horizontal; máximo; dominio e imagen; creciente/decreciente.
 // ============================================================================
 
-const dec = (v: number, d = 1) => fmt(v, d).replace('.', ',');
+const dec = (v: number, d = 1) => fmt(v, d).replace('.', ',\u2060');
 const hhmm = (t: number) => {
   const h = Math.floor(t + 1e-9);
   const m = Math.round((t - h) * 60);
@@ -321,13 +321,22 @@ function Docking({ seed, round, api }: ChallengeProps) {
   const [tLow, setTLow] = useState(12);
   const [slot, setSlot] = useState(4);
   const painting = useRef<boolean | null>(null);
+  const [probe, setProbe] = useState<number | null>(null);
   const cellAt = (x: number) => clamp(Math.floor(P.inv(x, 0)[0] * 2), 0, 47);
+  const lastCell = useRef(0);
   const onPaint = useSvgDrag(svg, (x, _y, phase) => {
     const k = cellAt(x);
-    if (phase === 'start') painting.current = !cells[k];
-    if (painting.current === null) return;
+    if (phase === 'start') {
+      painting.current = !cells[k];
+      lastCell.current = k;
+    }
     const val = painting.current;
-    if (cells[k] !== val) setCells((cs) => cs.map((v, i) => (i === k ? val : v)));
+    if (val === null) return;
+    // a quick drag jumps over cells: fill everything between the last position and this one
+    const [lo, hi] = [Math.min(k, lastCell.current), Math.max(k, lastCell.current)];
+    setCells((cs) => cs.map((v, i) => (i >= lo && i <= hi ? val : v)));
+    lastCell.current = k;
+    setProbe(k / 2 + 0.25);
     if (phase === 'end') painting.current = null;
   });
   const onLow = useSvgDrag(svg, (x) => setTLow(Math.round(clamp(P.inv(x, 0)[0], 0, 24) * 4) / 4));
@@ -354,7 +363,6 @@ function Docking({ seed, round, api }: ChallengeProps) {
   const closest = lows.reduce((a, b) => (Math.abs(b - tLow) < Math.abs(a - tLow) ? b : a));
   const lowsText = lows.map(hhmm).join(' y a las ');
   // the half hour under the pointer, read off the curve
-  const [probe, setProbe] = useState<number | null>(null);
   const hover = (e: PointerEvent) => {
     const m = svg.current?.getScreenCTM();
     if (!m) return;
@@ -636,7 +644,8 @@ export const level: LevelSpec = {
         {
           say: 'El mareógrafo registra la altura del agua durante el día. Necesitamos la curva completa para buscar cuándo puede entrar el Altamar.',
           gate: 'Arrastra el reloj del eje horizontal desde las 00:00 hasta el final del día y observa cómo cambia la altura y se dibuja la curva.',
-          after: 'El recorrido de 0 a 24 horas trazó el registro del día: a cada instante le corresponde una sola altura. La curva permite consultar esa altura para decidir cuándo puede entrar el buque.',
+          after:
+            'El recorrido de 0 a 24 horas trazó el registro del día: a cada instante le corresponde una sola altura. La curva permite consultar esa altura para decidir cuándo puede entrar el buque.',
           note: {
             label: 'Función',
             tex: '\\begin{aligned}&h:[0,24]\\to\\mathbb R\\\\ &t\\mapsto h(t)\\end{aligned}',

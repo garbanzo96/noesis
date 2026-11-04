@@ -49,7 +49,8 @@ export function renderTex(tex: string, display = false): string {
   if (hit) return hit;
   let html: string;
   try {
-    html = katex.renderToString(tex, {
+    // a comma followed by a word joiner is a decimal comma: see `dec` in content/shared/ui
+    html = katex.renderToString(tex.replace(/,\u2060/g, '{,}').replace(/\u2060/g, ''), {
       displayMode: display,
       throwOnError: false,
       strict: 'ignore',

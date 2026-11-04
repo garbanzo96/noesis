@@ -16,7 +16,7 @@ export function fracTex(n: number, d: number, reduce = true) {
   return d / g === 1 ? `${base}=${n / g}` : `${base}=\\frac{${n / g}}{${d / g}}`;
 }
 /** Two fixed decimals with a comma: 0.2 → "0,20". */
-export const f2 = (v: number) => v.toFixed(2).replace('.', ',');
+export const f2 = (v: number) => v.toFixed(2).replace('.', ',\u2060');
 export const pct = (p: number, d = 1) => `${dec(p * 100, d)} %`;
 
 export type Cell = [number, number];

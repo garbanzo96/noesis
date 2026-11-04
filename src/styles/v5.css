@@ -901,54 +901,6 @@
 }
 
 /* ---------------------------------------------------------------- guía de primera vez */
-.coach {
-  position: fixed;
-  inset: 0;
-  z-index: 80;
-}
-.coach-spot {
-  position: fixed;
-  border-radius: 8px;
-  box-shadow:
-    0 0 0 3px var(--amber),
-    0 0 0 9999px #05040cc4;
-  transition: all 0.35s ease;
-  pointer-events: none;
-}
-.coach-card {
-  position: fixed;
-  width: min(340px, calc(100vw - 24px));
-  background: #100d22;
-  border: 1px solid var(--amber);
-  border-radius: 8px;
-  padding: 14px 16px 12px;
-  box-shadow: 0 20px 50px #000c;
-  transition:
-    top 0.35s ease,
-    left 0.35s ease;
-}
-.coach-step {
-  font-family: var(--mono);
-  font-size: 12px;
-  color: var(--amber);
-}
-.coach-card b {
-  display: block;
-  font-family: var(--display);
-  font-size: 17px;
-  margin: 2px 0 6px;
-}
-.coach-card p {
-  margin: 0 0 12px;
-  font-size: 15px;
-  line-height: 1.45;
-  color: #e4def6;
-}
-.coach-actions {
-  display: flex;
-  justify-content: space-between;
-  gap: 10px;
-}
 
 /* ---------------------------------------------------------------- legibilidad */
 /* las etiquetas del escenario llevan un halo del color del fondo: se leen aunque crucen líneas */
@@ -999,6 +951,11 @@
   background: #070613e6;
   padding: 0.04em 0.35em;
   border-radius: 3px;
+}
+.stage-html > span:not(:has(.katex)) {
+  display: inline-block;
+  max-width: calc(var(--su) * var(--room, 1600));
+  white-space: normal;
 }
 .stage-html .prop-tag.bare {
   background: none;
@@ -1301,52 +1258,6 @@
 .cm-station:hover .cm-disc,
 .cm-station.hl .cm-disc {
   filter: drop-shadow(0 0 10px var(--accent));
-}
-.cm-label {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  width: 8.2em;
-  line-height: 1.15;
-  font-family: var(--mono);
-  text-shadow:
-    0 0 4px #07051a,
-    0 0 8px #07051a,
-    0 0 2px #07051a;
-}
-.cm-label b {
-  font-family: var(--display);
-  font-size: 1em;
-  letter-spacing: 0.02em;
-  font-weight: 700;
-}
-.cm-label b em {
-  font-style: normal;
-  color: var(--accent);
-  font-family: var(--mono);
-  font-size: 0.85em;
-  margin-right: 2px;
-}
-.cm-label small {
-  font-size: 0.72em;
-  opacity: 0.7;
-  letter-spacing: 0.05em;
-  margin-top: 2px;
-}
-.cm-label i {
-  font-style: normal;
-  font-size: 0.66em;
-  letter-spacing: 0.2em;
-  margin-top: 4px;
-  padding: 1px 6px;
-  border-radius: 3px;
-  background: var(--accent);
-  color: #07051a;
-}
-.cm-label.above i {
-  order: -1;
-  margin: 0 0 4px;
 }
 .atlas.atlas-v2 {
   grid-template-columns: 1fr;

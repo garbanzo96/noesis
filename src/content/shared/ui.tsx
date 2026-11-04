@@ -7,7 +7,11 @@ import { Html } from '../../engine/Stage';
 // Small pieces shared by the cases: number formatting in Spanish and stage controls.
 
 /** Decimal comma, `d` digits at most (trailing zeros dropped by fmt). */
-export const dec = (v: number, d = 1) => fmt(v, d).replace('.', ',');
+/**
+ * Decimal with comma. The word joiner after it is invisible in text and tells renderTex that this
+ * comma is a decimal separator, so TeX does not set it as punctuation with a space after it.
+ */
+export const dec = (v: number, d = 1) => fmt(v, d).replace('.', ',\u2060');
 
 /** Hours as a 24 h clock: 1.5 → "01:30". */
 export const hhmm = (t: number) => {

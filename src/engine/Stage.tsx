@@ -53,7 +53,10 @@ export const Stage = forwardRef<
     grid?: boolean;
     vignette?: boolean;
   }
->(function Stage({ children, className, style, onPointerDown, grid = true, vignette = false }, ref) {
+>(function Stage(
+  { children, className, style, onPointerDown, grid = true, vignette = false },
+  ref,
+) {
   const [overlay, setOverlay] = useState<HTMLDivElement | null>(null);
   return (
     <div className={`stage-fit ${className ?? ''}`} style={style}>
@@ -120,7 +123,16 @@ function StageDefs() {
 }
 
 function BackdropGrid() {
-  return <rect className="stage-dots" width={W} height={H} fill="url(#dots)" opacity={0.55} pointerEvents="none" />;
+  return (
+    <rect
+      className="stage-dots"
+      width={W}
+      height={H}
+      fill="url(#dots)"
+      opacity={0.55}
+      pointerEvents="none"
+    />
+  );
 }
 
 /**
@@ -163,10 +175,18 @@ export function Html({
     'top-left': '0,0',
     'bottom-left': '0,-100%',
   }[anchor];
+  // room left inside the stage from this anchor: long captions wrap instead of leaving it
+  const room =
+    anchor === 'left' || anchor === 'top-left' || anchor === 'bottom-left'
+      ? W - x
+      : anchor === 'right'
+        ? x
+        : 2 * Math.min(x, W - x);
   return createPortal(
     <div
       className={`stage-html ${className ?? ''}`}
       style={{
+        ['--room' as string]: Math.max(120, room - 30),
         left: `${(x / W) * 100}%`,
         top: `${(y / H) * 100}%`,
         transform: `translate(${tx})`,

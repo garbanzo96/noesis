@@ -16,7 +16,7 @@ import { pick, rng, shuffle } from '../shared/rng';
 //   por comprensión; diagrama de Venn con contenedores reales → ∩, ∪; contar → |A∪R|.
 // ============================================================================
 
-const dec = (v: number) => fmt(v, 1).replace('.', ',');
+const dec = (v: number) => fmt(v, 1).replace('.', ',\u2060');
 const T_MIN = -2;
 const T_MAX = 14;
 const TOP = 150;

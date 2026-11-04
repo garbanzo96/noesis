@@ -302,12 +302,30 @@ export const lesson: LessonStep = {
   ],
 };
 
+/** how much better calming is than waiting during a rumor, if a rumor persists with probability p */
+function calmingEdge(p: number) {
+  const t = { esperar: [TRANS.esperar[0], p], calmar: TRANS.calmar };
+  const q = (a: Act, s: number, v: number[]) =>
+    REWARD[a][s] + GAMMA * ((1 - t[a][s]) * v[0] + t[a][s] * v[1]);
+  let v = [0, 0];
+  for (let k = 0; k < 300; k++) v = [0, 1].map((s) => Math.max(...actions.map((a) => q(a, s, v))));
+  return q('calmar', 1, v) - q('esperar', 1, v);
+}
+
 function Investigation({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
   const [pi, setPi] = useState<[Act, Act]>(['esperar', 'esperar']);
   const [visited, setVisited] = useState<string[]>([]);
+  const [persist, setPersist] = useState(0.9);
+  const onPersist = useSvgDrag(svg, (x) => {
+    if (beats.beat !== 2) return;
+    const value = Math.round(clamp((x - 220) / 850, 0, 1) * 18) / 20 + 0.05;
+    setPersist(value);
+    if (value <= 0.5) unlock();
+  });
   const v = policyValue(pi);
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Market />
       {beats.beat === 0 && (
         <>
@@ -335,7 +353,24 @@ function Investigation({ beats, unlock }: DemoProps) {
           </Cap>
         </>
       )}
-      {beats.beat > 0 &&
+      {beats.beat === 2 && (
+        <>
+          <Cap x={645} y={500} size={27}>
+            Persistencia del rumor al esperar: {fmt(persist)}
+          </Cap>
+          <Cap x={645} y={570} size={30} color={C.amber}>
+            Ventaja de calmar en rumor: {fmt(calmingEdge(persist))}
+          </Cap>
+          <line x1={220} x2={1070} y1={700} y2={700} stroke={C.line} strokeWidth={4} />
+          <Knob
+            x={220 + ((persist - 0.05) / 0.9) * 850}
+            y={700}
+            axis="x"
+            onPointerDown={onPersist}
+          />
+        </>
+      )}
+      {beats.beat === 1 &&
         policies.map((p, i) => (
           <Cap key={i} x={680} y={430 + i * 70} size={25}>
             {policyName(p)}: {fmt(policyValue(p)[0])}
@@ -563,14 +598,13 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Valentina mira la fila del rumor. Quiere saber qué pasaría con la comparación si los episodios de rumor duraran menos.',
-          ask: {
-            prompt:
-              'Si esperar hiciera que el rumor durara menos, ¿qué pasaría con la ventaja de calmar en rumor?',
-            options: ['Bajaría', 'Subiría', 'No podría cambiar'],
-            answer: 0,
-            explain:
-              'Si el rumor termina antes al esperar, la continuación de esperar mejora y la ventaja de pagar por calmar se reduce.',
+          say: 'Valentina mira la fila del rumor. Si el rumor se apagara antes por sí solo, quizá no valdría la pena publicar nada. Prueba esa objeción con los números.',
+          gate: 'Baja la persistencia del rumor hasta la mitad. ¿La ventaja de calmar desaparece o solo baja?',
+          after:
+            'La ventaja baja de 8,64 a 7,32: un rumor más breve vale menos, pero calmar sigue conviniendo. La política óptima resiste esa objeción.',
+          note: {
+            label: 'Sensibilidad de la política',
+            body: 'Aunque el rumor dure la mitad, calmar en rumor sigue siendo mejor que esperar.',
           },
         },
         {
