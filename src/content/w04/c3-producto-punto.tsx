@@ -254,65 +254,69 @@ const D: V2 = [4, 3];
 const VT: V2 = [8, 6];
 const MAIN: V2 = [-3, 4];
 
-function SensorDemo({ beats, answer }: DemoProps) {
-  const { at, beat } = beats;
+function SensorDemo({ beats, unlock }: DemoProps) {
+  const { beat } = beats;
+  const svg = useRef<SVGSVGElement>(null);
+  const [oldReading, setOldReading] = useState(3);
+  const [mainReading, setMainReading] = useState(5);
+  const [solved, setSolved] = useState([false, false]);
+  const drag = useSvgDrag(svg, (x) => {
+    const fraction = Math.max(0, Math.min(1, (x - 1080) / 500));
+    if (beat === 1) {
+      const value = fraction * 15;
+      setOldReading(value);
+      if (!solved[0] && Math.abs(value - 10) <= 0.4) {
+        setSolved([true, solved[1]]);
+        unlock();
+      }
+    } else if (beat === 2) {
+      const value = fraction * 20 - 10;
+      setMainReading(value);
+      if (!solved[1] && Math.abs(value) <= 0.5) {
+        setSolved([solved[0], true]);
+        unlock();
+      }
+    }
+  });
+  const reading = beat === 1 ? oldReading : mainReading;
+  const min = beat === 1 ? 0 : -10;
+  const range = beat === 1 ? 15 : 20;
   return (
-    <Stage>
+    <Stage ref={svg}>
       <Grid P={PV} opacity={0} />
       <Line a={PV.pt(-8, -6)} b={PV.pt(10, 7.5)} color="#9cff6e" width={8} opacity={0.25} />
-      <Cap x={PV.x(-6.5)} y={PV.y(-4)} size={16} color="#9cff6e">
+      <Cap x={PV.x(-6.5)} y={PV.y(-4)} size={24} color="#9cff6e">
         vía en desuso
       </Cap>
       {beat >= 2 && (
         <>
-          <Line
-            a={PV.pt(4.2, -5.6)}
-            b={PV.pt(-4.2, 5.6)}
-            color={C.amber}
-            width={8}
-            opacity={0.25 * at(2)}
-          />
-          <Cap x={PV.x(-3)} y={PV.y(5.8)} size={16} color={C.amber} opacity={at(2)}>
+          <Line a={PV.pt(4.2, -5.6)} b={PV.pt(-4.2, 5.6)} color={C.amber} width={8} opacity={0.25} />
+          <Cap x={PV.x(-3)} y={PV.y(5.8)} size={24} color={C.amber}>
             línea principal
           </Cap>
-          <Vec
-            P={PV}
-            v={MAIN}
-            color={C.amber}
-            width={4}
-            label="(-3,4)"
-            off={[-40, -10]}
-            size={18}
-          />
+          <Vec P={PV} v={MAIN} color={C.amber} width={4} label="(-3,4)" off={[-40, -10]} size={24} />
         </>
       )}
       <Vec P={PV} v={D} color={C.cyan} width={4} label="\vec d" off={[24, 18]} />
+      {beat >= 1 && <Vec P={PV} v={VT} color={C.magenta} width={6} label="\vec v" off={[-10, -28]} />}
+      <Cap x={1330} y={200} size={26} color={C.cyan} tex="\vec d=(4,3),\ \|\vec d\|=5" />
+      {beat >= 1 && <Cap x={1330} y={260} size={26} color={C.magenta} tex="\vec v=(8,6)\ \text{km/h}" />}
+      {beat === 1 && solved[0] && (
+        <Cap x={1330} y={340} size={26} color={C.green} tex="\tfrac{\vec v\cdot\vec d}{\|\vec d\|}=\tfrac{32+18}{5}=10" />
+      )}
+      {beat === 2 && solved[1] && (
+        <Cap x={1330} y={340} size={26} color={C.green} tex="(8,6)\cdot(-3,4)=-24+24=0" />
+      )}
       {beat >= 1 && (
-        <Vec
-          P={PV}
-          v={VT}
-          color={C.magenta}
-          width={6}
-          progress={beat === 1 ? at(1) : 1}
-          label="\vec v"
-          off={[-10, -28]}
-        />
-      )}
-      <Cap x={1370} y={230} size={22} color={C.cyan} tex="\vec d=(4,3),\ \|\vec d\|=5" />
-      {beat >= 1 && (
-        <Cap x={1370} y={290} size={22} color={C.magenta} tex="\vec v=(8,6)\ \text{km/h}" />
-      )}
-      {beat >= 1 && (beat > 1 || answer !== null) && (
-        <Cap
-          x={1370}
-          y={350}
-          size={22}
-          color={C.green}
-          tex="\tfrac{\vec v\cdot\vec d}{\|\vec d\|}=\tfrac{32+18}{5}=10"
-        />
-      )}
-      {beat === 2 && answer !== null && (
-        <Cap x={1370} y={410} size={22} color={C.green} tex="(8,6)\cdot(-3,4)=-24+24=0" />
+        <>
+          <Cap x={1330} y={440} size={26} color={C.text}>
+            {`Tu predicción: ${dec(reading, 1)} km/h`}
+          </Cap>
+          <line x1={1080} x2={1580} y1={540} y2={540} stroke={C.line} strokeWidth={4} />
+          <Cap x={1080} y={590} size={24} color={C.muted}>{`${min}`}</Cap>
+          <Cap x={1580} y={590} size={24} color={C.muted}>{`${min + range}`}</Cap>
+          <Knob x={1080 + ((reading - min) / range) * 500} y={540} color={C.amber} axis="x" onPointerDown={drag} />
+        </>
       )}
     </Stage>
   );
@@ -552,13 +556,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'A las 02:10, el GPS del M-7 daba una velocidad $\\vec v=(8,6)$ km/h.',
-          ask: {
-            prompt: '¿Qué habría marcado el sensor con el M-7 encima?',
-            options: ['10 km/h', '14 km/h', '50 km/h'],
-            answer: 0,
-            explain:
-              '$\\frac{(8,6)\\cdot(4,3)}{5}=\\frac{32+18}{5}=10$. Coincide con la lectura y con $\\|\\vec v\\|=10$: toda su velocidad iba a lo largo de la vía vieja.',
-          },
+          gate: '¿Qué habría marcado el sensor con el M-7 encima? Calcula la componente y mueve el marcador a tu predicción.',
+          after: 'El sensor marcaría 10 km/h: $(32+18)/5=10$. Toda la velocidad del M-7 iba a lo largo de la vía en desuso.',
           note: {
             label: 'Componente del M-7',
             tex: '\\tfrac{\\vec v\\cdot\\vec d}{\\|\\vec d\\|}=\\tfrac{50}{5}=10',
@@ -566,16 +565,8 @@ export const level: LevelSpec = {
         },
         {
           say: 'El sensor de la línea principal, cuya dirección es $(-3,4)$, marcó cero en ese momento.',
-          ask: {
-            prompt: '¿Es compatible con el M-7 en la vía vieja?',
-            options: [
-              'Sí: $(8,6)\\cdot(-3,4)=0$, iba perpendicular a la principal',
-              'No: debería marcar 10',
-              'No se puede saber',
-            ],
-            answer: 0,
-            explain: '$-24+24=0$: la velocidad del M-7 no tenía componente en la línea principal.',
-          },
+          gate: '¿Es compatible con el M-7 en la vía vieja? Calcula la componente en la línea principal y marca el resultado.',
+          after: 'La lectura es compatible: $(8,6)\cdot(-3,4)=-24+24=0$. La velocidad del M-7 es perpendicular a la línea principal.',
           note: { label: 'Perpendicular a la principal', tex: '(8,6)\\cdot(-3,4)=0' },
         },
       ],
