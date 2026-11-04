@@ -237,7 +237,7 @@ const lesson: LessonStep = {
   Scene: AccumLesson,
   beats: [
     {
-      say: 'Un **caudal** es un ritmo: cuántos metros cúbicos pasan por segundo. Si es constante, el **volumen** acumulado es caudal por tiempo.',
+      say: 'El **caudal** es el volumen de agua que pasa por unidad de tiempo. Aquí $Q$ se lee «cu» y se mide en metros cúbicos por segundo.\n\nSi el caudal de entrada es constante y partimos de cero, el **volumen acumulado** es $V=Q\\cdot t$, que se lee «ve igual cu por te». Con $Q=2$ y $t=5$ segundos, se acumulan $10$ metros cúbicos.',
       dur: 3,
       board: [
         {
@@ -253,8 +253,9 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'En la gráfica del caudal, un caudal constante es una recta horizontal. El volumen hasta $t$ es el **área del rectángulo** de alto $Q$ y ancho $t$.',
-      gate: 'Arrastra el tiempo hasta 10 s y mira cómo crecen el área y el estanque.',
+      say: 'En una gráfica de caudal constante, la línea es horizontal porque $Q$ mantiene el mismo valor. El volumen acumulado desde cero hasta $t$ corresponde al **área del rectángulo** bajo la línea: su altura es el caudal y su ancho es el tiempo. Multiplicar esas medidas permite calcular el volumen.',
+      gate: 'Arrastra el tiempo hasta 10 s y observa cómo cambian el área y el volumen del estanque.',
+      after: 'En 10 segundos, el caudal de 2 m³/s acumula 20 m³. El área del rectángulo representa ese mismo volumen.',
       board: {
         label: 'Volumen = área',
         tex: 'V=\\p{1}{\\underbrace{Q}_{\\text{alto}}}\\cdot\\p{2}{\\underbrace{t}_{\\text{ancho}}}',
@@ -262,7 +263,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si el caudal cambia por tramos, cada tramo aporta su propio rectángulo, y el total es la **suma** de las áreas.',
+      say: 'Si el caudal es constante en cada tramo, el volumen total se obtiene sumando el área de cada rectángulo. $\\sum_i Q_i\\,\\Delta t_i$ se lee «suma, para cada tramo, de cu sub i por delta te sub i»; $\\Delta t_i$ es la duración del tramo.\n\nAquí los aportes son $2\\cdot3=6$, $5\\cdot2=10$ y $1\\cdot4=4$ m³, para un total de 20 m³. Sumar solo los caudales omite la duración de cada tramo.',
       dur: 3.2,
       board: [
         { label: 'Por tramos', tex: 'V=\\sum_i Q_i\\,\\Delta t_i' },
@@ -278,7 +279,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'El área bajo una gráfica de ritmo tiene las unidades de lo acumulado: altura por ancho. Lo mismo sirve para velocidad y distancia, o potencia y energía.',
+      say: 'Las unidades del área se obtienen multiplicando las unidades de la altura por las del ancho. En una gráfica de caudal frente al tiempo, metros cúbicos por segundo por segundos da metros cúbicos: las unidades de volumen.\n\nDel mismo modo, kilómetros por hora por horas da kilómetros de distancia, y megavatios por horas da megavatios hora de energía. Esto permite comprobar que la cuenta expresa la cantidad buscada.',
       dur: 3,
       board: {
         label: 'Unidades del área',
@@ -287,7 +288,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si el caudal varía de forma continua, el volumen sigue siendo el **área bajo la curva** del caudal: cada instante aporta una franja delgadísima.',
+      say: 'Si el caudal varía de forma continua y es no negativo, el volumen acumulado desde cero hasta un tiempo dado es el **área bajo la curva** del caudal. $Q(t)$ se lee «cu de te» y representa el caudal en el instante $t$. Podemos entender el área como la suma de franjas cada vez más delgadas, cada una con el caudal de su intervalo como altura.',
       ask: {
         prompt: 'Si el caudal fuera el doble en cada instante, ¿qué le pasa al volumen acumulado?',
         options: ['Se duplica', 'Se cuadruplica', 'No cambia'],
@@ -301,7 +302,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Una forma simple de estimar esa área: contar cuadrados de la cuadrícula. Cada cuadrado vale $1\\ \\tfrac{\\text{m}^3}{\\text{s}}\\times1\\ \\text{s}=1\\ \\text{m}^3$.',
+      say: 'Para estimar el área bajo la curva, cuenta los cuadrados completos y agrega una estimación de las partes que quedan bajo la curva. Cada cuadrado representa $1\\ \\tfrac{\\text{m}^3}{\\text{s}}\\times1\\ \\text{s}=1\\ \\text{m}^3$. El resultado es aproximado porque la curva corta algunos cuadrados. En la próxima clase calcularemos el área con rectángulos cada vez más finos.',
       dur: 2.6,
       board: {
         label: 'Estimar contando',
@@ -636,8 +637,9 @@ export const level: LevelSpec = {
       Scene: FlowDemo,
       beats: [
         {
-          say: 'El caudal de la tubería 7 durante la noche, en miles de m³ por hora. El estanque muestra lo acumulado.',
-          gate: 'Arrastra la hora hasta las 06:00.',
+          say: 'Este es el caudal de la tubería 7 durante la noche, en miles de m³ por hora. El estanque muestra el volumen acumulado para compararlo con el informe.',
+          gate: 'Arrastra la hora hasta las 06:00 y observa cómo aumenta el volumen en cada tramo.',
+          after: 'A las 06:00 se acumulan 23 mil m³: los tres tramos aportan 4, 18 y 1 mil m³. Esa suma permite comparar el registro completo con el informe.',
           note: {
             label: 'Volumen de la noche',
             tex: '2\\cdot2+6\\cdot3+1\\cdot1=23',
@@ -645,7 +647,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Marta quiere saber cuánta agua salió en el tramo fuerte.',
+          say: 'Marta quiere saber cuánta agua salió en el tramo de mayor caudal. El registro permite calcularlo a partir de su duración.',
           ask: {
             prompt: '¿Cuánta agua salió entre las 02:00 y las 05:00?',
             options: ['18 mil m³', '6 mil m³', '9 mil m³'],
@@ -654,7 +656,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'El informe oficial declara 8 mil m³ para toda la noche.',
+          say: 'El informe oficial declara 8 mil m³ para toda la noche. El registro suma 23 mil m³: hay una diferencia de 15 mil m³.',
           dur: 1.6,
           note: {
             label: 'La diferencia',
