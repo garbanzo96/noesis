@@ -7,7 +7,7 @@ STR = r"""(?:'(?:[^'\\\n]|\\.)*'|"(?:[^"\\\n]|\\.)*"|`(?:[^`\\]|\\.)*`)"""
 PROP = re.compile(r"\b(say|gate|after):\s*(" + STR + r")\s*,?")
 BANNED = re.compile(
     r"—|active inference|inferencia activa|energía libre|free energy|\bAIF\b"
-    r"|\bclave\b|fundamental|crucial|poderos[oa]|fascinante|imagina que|\bvos\b|tenéis|sabés|podés"
+    r"|\bclave\b|(?<!teorema )fundamental|crucial|poderos[oa]|fascinante|imagina que|\bvos\b|tenéis|sabés|podés"
     r"|no (?:es|son|solo|sólo)\b[^.;:]{0,60}\bsino\b",
     re.I,
 )

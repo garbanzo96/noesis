@@ -152,7 +152,8 @@ while (guard++ < 200) {
       await page.waitForTimeout(1300);
       info.afterRight = await T('.console-text');
       rounds.push(info);
-      await page.waitForTimeout(3600); // solved rounds advance on their own
+      await page.keyboard.press('Space'); // solved rounds wait for the player
+      await page.waitForTimeout(700);
     }
     log.push({ step: 'challenge', rounds });
     flush();

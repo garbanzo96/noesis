@@ -149,8 +149,9 @@ const lesson: LessonStep = {
   Scene: AccLesson,
   beats: [
     {
-      say: 'Fija el comienzo en 0 y deja libre el final $x$. El área acumulada hasta $x$ es una **función** de $x$: la función de acumulación $A(x)$. Abajo se dibuja mientras avanzas.',
-      gate: 'Arrastra x hasta el final.',
+      say: 'La **función de acumulación** $A(x)=\\int_0^x f(t)\\,dt$ asigna a cada extremo $x$ la integral desde 0 hasta $x$. Se lee «integral de cero a equis de efe de te, diferencial de te»; $t$ recorre el intervalo y $x$ fija su final.\n\nEl área sobre el eje suma y la que está debajo resta. Así se obtiene el cambio neto acumulado, que aparece en el gráfico inferior.',
+      gate: 'Arrastra $x$ hasta el final y observa cómo cambia la curva inferior cuando el área pasa de sumar a restar.',
+      after: 'Al acercarte a $x=8$, las áreas positiva y negativa casi se compensan y $A(x)$ se acerca a 0. La curva inferior registra el saldo acumulado en cada extremo.',
       board: {
         label: 'Función de acumulación',
         tex: 'A(x)=\\int_{\\p{1}{0}}^{\\p{2}{\\cA{x}}}\\p{3}{f(t)}\\,dt',
@@ -159,7 +160,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Si $x$ avanza un poquito $dx$, el área crece en una franja de alto $f(x)$ y ancho $dx$. Por eso el ritmo al que crece $A$ es exactamente $f(x)$.',
+      say: 'Al avanzar $x$ una distancia pequeña $dx$, la franja añadida se aproxima a un rectángulo de altura $f(x)$ y ancho $dx$. Su área aproxima el cambio $dA$, por eso $dA\\approx f(x)\\,dx$.\n\nEl **teorema fundamental del cálculo** dice que, si $f$ es continua en $x$, $A\'(x)=f(x)$; se lee «a prima de equis es efe de equis». La derivada da el ritmo instantáneo de la acumulación, no el área total.',
       dur: 3.6,
       board: [
         {
@@ -175,7 +176,7 @@ const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Consecuencia: $A$ crece donde $f$ es positiva y decrece donde es negativa. Su máximo está donde $f$ pasa de positiva a negativa.',
+      say: 'Como $A\'(x)=f(x)$, $A$ crece donde $f$ es positiva y decrece donde es negativa. Si $f$ cambia de positiva a negativa, $A$ pasa de crecer a decrecer y alcanza un máximo local.\n\nPara encontrar el máximo en un intervalo completo también hay que comparar los valores en los extremos y en otros puntos candidatos. El máximo de $f$ indica dónde $A$ crece más rápido; no necesariamente dónde $A$ es máxima.',
       ask: {
         prompt: 'En $[0,8]$, ¿dónde alcanza $A$ su valor máximo?',
         options: [
@@ -193,7 +194,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Un ejemplo que se puede calcular a mano: si $f(t)=2t$, el área hasta $x$ es un triángulo de base $x$ y altura $2x$.',
+      say: 'Si $f(t)=2t$ y $x\\ge 0$, el área desde 0 hasta $x$ forma un triángulo de base $x$ y altura $2x$. Su área es $A(x)=\\frac12 x(2x)=x^2$. Por ejemplo, en $x=2$ el área acumulada es 4.\n\nAl derivar, $A\'(x)=2x=f(x)$: el ritmo de acumulación coincide con la altura de la recta en el extremo.',
       dur: 3.2,
       board: [
         {
@@ -497,7 +498,7 @@ export const level: LevelSpec = {
       Scene: LakeDemo,
       beats: [
         {
-          say: 'Arriba, el ritmo neto desde el mediodía hasta el mediodía siguiente. Abajo, el volumen acumulado.',
+          say: 'Arriba está el ritmo neto desde el mediodía hasta el mediodía siguiente; abajo, el cambio de volumen acumulado desde el mediodía. Buscamos cuándo el lago estuvo más lleno para saber cuándo empezó a perder agua.',
           ask: {
             prompt: '¿A qué hora estuvo más lleno el lago?',
             options: [
@@ -515,7 +516,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'A las 03:00 la pendiente de la curva de volumen es el ritmo neto de ese instante.',
+          say: 'A las 03:00 la pendiente de la curva de volumen es el ritmo neto de ese instante. Su valor negativo indica que a esa hora el lago pierde agua.',
           dur: 1.8,
           note: {
             label: 'Pendiente del volumen',
