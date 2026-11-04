@@ -256,25 +256,54 @@ const lesson: LessonStep = {
   ],
 };
 
-function DeskDemo({ beats, answer }: DemoProps) {
+function DeskDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const [probability, setProbability] = useState(0);
+  const [difference, setDifference] = useState(0);
   const { beat } = beats;
+  const drag = useSvgDrag(svg, (x) => {
+    const position = clamp((x - 1090) / 320, 0, 1);
+    if (beat === 0) {
+      const next = Math.round(position * 50) / 100;
+      setProbability(next);
+      if (Math.abs(next - 0.1) <= 0.010001) unlock();
+    } else if (beat === 1) {
+      const next = Math.round(position * 100);
+      setDifference(next);
+      if (Math.abs(next - 20) <= 2) unlock();
+    }
+  });
   return (
-    <Stage>
-      <Tables rates={beat === 1 ? [0.4, 0.6] : undefined} />
-      <Cap x={1250} y={200} size={24}>
-        Registro de la mesa
-      </Cap>
-      <Cap x={1250} y={290} tex={beat === 0 ? '\\varepsilon=0{,}2' : 'T=100'} />
-      <Cap x={1250} y={380} size={21}>
-        {beat === 0 ? 'A es la favorita observada.' : 'Las 100 jugadas fueron en A.'}
-      </Cap>
-      {answer !== null && (
-        <Cap
-          x={1250}
-          y={470}
-          tex={beat === 0 ? 'P(B)=0{,}2/2=0{,}1' : 'R=100(0{,}6-0{,}4)=20'}
-          color={C.green}
-        />
+    <Stage ref={svg}>
+      <Tables rates={beat >= 1 ? [0.4, 0.6] : undefined} />
+      <Cap x={1250} y={200} size={24}>Registro de la mesa</Cap>
+      {beat === 0 && (
+        <>
+          <Cap x={1250} y={290} tex="\varepsilon=0{,}2" />
+          <Cap x={1250} y={380} size={24}>A es la favorita observada.</Cap>
+          <Cap x={1250} y={470} size={24}>Marcador de P(B): {fmt(probability)}</Cap>
+          <line x1={1090} x2={1410} y1={610} y2={610} stroke={C.line} strokeWidth={4} />
+          <Knob x={1090 + probability * 640} y={610} axis="x" onPointerDown={drag} label="P(B)" color={C.amber} />
+          <Cap x={1090} y={700} size={24}>0</Cap>
+          <Cap x={1410} y={700} size={24}>0,5</Cap>
+        </>
+      )}
+      {beat === 1 && (
+        <>
+          <Cap x={1250} y={290} tex="T=100" />
+          <Cap x={1250} y={380} size={24}>100 jugadas en A</Cap>
+          <Cap x={1250} y={470} size={24}>Diferencia: {difference} aciertos</Cap>
+          <line x1={1090} x2={1410} y1={610} y2={610} stroke={C.line} strokeWidth={4} />
+          <Knob x={1090 + difference * 3.2} y={610} axis="x" onPointerDown={drag} label="Diferencia" color={C.amber} />
+          <Cap x={1090} y={700} size={24}>0</Cap>
+          <Cap x={1410} y={700} size={24}>100</Cap>
+        </>
+      )}
+      {beat === 2 && (
+        <>
+          <Cap x={1250} y={290} tex="R_{100}=20" color={C.green} />
+          <Cap x={1250} y={380} size={24}>Aciertos esperados</Cap>
+        </>
       )}
     </Stage>
   );
@@ -487,14 +516,9 @@ export const level: LevelSpec = {
       Scene: DeskDemo,
       beats: [
         {
-          say: 'A sigue siendo la favorita observada. Revisemos el protocolo: explora el 20 % de las veces y, al explorar, sortea entre ambas mesas. Queremos saber con qué probabilidad termina eligiendo B.',
-          ask: {
-            prompt: 'Con ε = 0,2, ¿qué probabilidad total tiene elegir B?',
-            options: ['0,1', '0,2', '0,5'],
-            answer: 0,
-            explain:
-              'B recibe la mitad de la rama de exploración: 0,2 · 1/2 = 0,1. La otra mitad vuelve a elegir A.',
-          },
+          say: 'A sigue siendo la favorita observada. El protocolo explora el 20 % de las veces y, al explorar, sortea entre ambas mesas. ¿Con qué probabilidad total termina eligiendo B?',
+          gate: 'Calcula esa probabilidad y ubícala con el marcador de P(B).',
+          after: 'B recibe la mitad de la exploración: $0{,}2\\cdot\\tfrac12=0{,}1$. La otra mitad vuelve a elegir A.',
           note: {
             label: 'Protocolo de prueba',
             tex: 'P(B)=0{,}2\\cdot\\tfrac12=0{,}1',
@@ -502,19 +526,17 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Para evaluar el criterio, ahora conocemos las tasas reales: A acierta con 0,4 y B con 0,6. El registro contiene cien jugadas en A; comparemos su rendimiento esperado con el de jugar siempre en B.',
-          ask: {
-            prompt: '¿Cuántos aciertos esperados se dejaron pasar respecto de jugar siempre B?',
-            options: ['20', '40', '60'],
-            answer: 0,
-            explain:
-              'La diferencia por jugada es 0,6 − 0,4 = 0,2. En cien jugadas suma 20; 40 es el rendimiento esperado de A y 60 el de B.',
-          },
+          say: 'Ahora conocemos las tasas reales: A acierta con 0,4 y B con 0,6. El registro contiene cien jugadas en A. ¿Cuántos aciertos esperados se dejaron pasar respecto de jugar siempre en B?',
+          gate: 'Calcula la diferencia para las 100 jugadas y ubícala con el marcador.',
+          after: 'En 100 jugadas se esperan 40 aciertos en A y 60 en B. La diferencia es de 20 aciertos esperados.',
           note: {
             label: 'Costo de quedarse con A',
             tex: 'R_{100}=100(0{,}6-0{,}4)=20',
             body: 'Es una comparación de promedios, no una pérdida observada de exactamente 20.',
           },
+        },
+        {
+          say: 'La muestra de cinco pruebas por mesa favorecía a A, aunque la tasa real de B era mayor. El costo calculado compara los rendimientos esperados de las 100 jugadas.',
         },
       ],
     },
