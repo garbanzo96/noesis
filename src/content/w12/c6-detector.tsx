@@ -176,7 +176,7 @@ const lesson: LessonStep = {
   Scene: DetectorLesson,
   beats: [
     {
-      say: 'Los registros reales siguen p = (0,2; 0,6; 0,2). La máquina usa q = (0,1; 0,8; 0,1): entrega más «medio» y menos extremos.',
+      say: 'Una **distribución de probabilidad** asigna a cada resultado posible una probabilidad; estas suman 1.\n\nAquí $p$ describe los registros reales y $q$ los de la máquina, en el orden bajo, medio y alto. Se leen «pe» y «cu»: $p=(0{,}2; 0{,}6; 0{,}2)$ y $q=(0{,}1; 0{,}8; 0{,}1)$. La máquina produce más registros medios y menos extremos.',
       board: {
         label: 'Dos recetas',
         tex: '\\p{1}{p}=\\p{2}{(0{,}2;0{,}6;0{,}2)},\\quad\\p{3}{ q}=\\p{4}{(0{,}1;0{,}8;0{,}1)}',
@@ -189,10 +189,10 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Arma el lote que quedó retenido en el turno. Arrastra la perilla hasta tener ocho «medio»; los otros dos registros quedan repartidos entre bajo y alto.',
-      gate: 'Arma el lote retenido: 8 registros «medio» de 10. ¿Se parece a lo que generaría el modelo?',
+      say: 'Un **lote** reúne los registros que se comparan bajo ambas recetas. La cinta contiene diez registros y la perilla cambia cuántos son medios; los restantes se reparten entre bajo y alto. Los conteos indican cuántas veces aparece cada categoría y se escriben $n_B$, $n_M$ y $n_A$: «ene sub be», «ene sub eme» y «ene sub a».',
+      gate: 'Reconstruye el lote retenido descrito antes: mueve la perilla y compara los conteos de la cinta con los del turno. ¿Cuántos registros medios necesita?',
       after:
-        'Quedó $n_B=1$, $n_M=8$, $n_A=1$. Comparar su verosimilitud bajo cada modelo dice cuál lo explica mejor.',
+        'El lote quedó con un bajo, ocho medios y un alto. Esos conteos permiten comparar la verosimilitud del mismo lote bajo las dos recetas.',
       board: {
         label: 'Lote retenido',
         tex: '\\p{1}{n_B}=\\p{2}{1},\\quad\\p{3}{ n_M}=\\p{4}{8},\\quad\\p{5}{ n_A}=\\p{6}{1}',
@@ -207,7 +207,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'La **razón de verosimilitudes** divide la probabilidad del mismo dato bajo p por su probabilidad bajo q. Cada «medio» aporta 0,75; cada extremo aporta 2.',
+      say: 'La **verosimilitud** de un dato bajo una receta es la probabilidad que esa receta asigna al dato observado. La **razón de verosimilitudes** divide la verosimilitud bajo $p$ por la de ese mismo dato bajo $q$, siempre que el denominador sea mayor que cero.\n\nPara un medio se lee «pe de medio sobre cu de medio» y vale $0{,}6/0{,}8=0{,}75$. Cada bajo o alto aporta un factor 2.',
       board: {
         label: 'Un factor por registro',
         tex: '\\p{1}{\\frac{p(M)}{q(M)}}=\\p{2}{\\frac{0{,}6}{0{,}8}}=\\p{3}{0{,}75},\\quad\\p{4}{ \\frac{p(B)}{q(B)}}=\\p{5}{\\frac{p(A)}{q(A)}}=\\p{6}{2}',
@@ -222,7 +222,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Con registros independientes dentro de cada receta, multiplica los factores. Un factor repetido ocho veces se escribe con exponente 8.',
+      say: 'Si los registros son independientes bajo cada receta, la verosimilitud del lote es el producto de las probabilidades de sus registros. La razón del lote, $\\Lambda$, se lee «lambda» y es el producto de las razones individuales, siempre que $q$ asigne probabilidad positiva a cada registro observado.\n\nUn factor repetido ocho veces se escribe con exponente 8. Multiplica los factores: sumarlos cambia el resultado.',
       ask: {
         prompt: '¿Cuánto vale la razón real/máquina del lote con ocho «medio» y dos extremos?',
         options: ['≈ 0,40', '10', '≈ 2,50'],
@@ -237,7 +237,7 @@ const lesson: LessonStep = {
       },
     },
     {
-      say: 'Λ < 1 favorece a la máquina; Λ > 1 favorece a la receta real. El valor 0,40 compara dos explicaciones: no es una probabilidad del origen del lote.',
+      say: 'Con $\\Lambda<1$, el lote tiene mayor verosimilitud bajo la máquina; con $\\Lambda>1$, bajo la receta real. Si $\\Lambda=1$, ambas le asignan la misma verosimilitud.\n\nAquí $\\Lambda\\approx0{,}4005$: la máquina da al lote una verosimilitud unas 2,5 veces mayor. Esta razón compara las recetas bajo el supuesto de independencia; no es la probabilidad del origen ni lo demuestra.',
       board: {
         label: 'Lectura del detector',
         tex: '\\p{1}{\\Lambda}\\approx\\p{2}{0{,}4005<1}',
@@ -461,7 +461,7 @@ export const level: LevelSpec = {
       Scene: RetainedDemo,
       beats: [
         {
-          say: 'Joaquín aparta la carpeta baja. Puede salir de cualquiera de las dos recetas.',
+          say: 'Joaquín aparta la carpeta baja. Puede salir de cualquiera de las dos recetas; compara sus probabilidades para saber qué aporta al cálculo del lote.',
           ask: {
             prompt: '¿Qué factor real/máquina aporta un registro bajo?',
             options: ['2', '0,5', '0,2'],
@@ -475,7 +475,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'La cinta conserva el lote completo: ocho medios, un bajo y un alto. Compara el producto con 1 antes de leer el sello.',
+          say: 'La cinta conserva el lote completo: ocho medios, un bajo y un alto. Compara el producto con 1 para decidir qué receta lo hace más probable antes de leer el sello.',
           ask: {
             prompt: '¿Qué receta hace más probable este lote?',
             options: ['La máquina', 'La real', 'Ambas por igual'],
