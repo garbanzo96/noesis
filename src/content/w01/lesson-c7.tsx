@@ -331,7 +331,7 @@ export const lesson: LessonStep = {
   Scene: ExpLesson,
   beats: [
     {
-      say: 'Una **potencia** abrevia una multiplicación repetida: la **base** se multiplica por sí misma tantas veces como indica el **exponente**.',
+      say: 'Una **potencia** abrevia una multiplicación repetida. En $b^n$, que se lee «b elevado a n», la **base** $b$ es el factor y el **exponente** $n$ indica cuántas veces aparece, si $n$ es entero positivo. Por ejemplo, $2^5$ reúne cinco factores iguales a 2; no significa $2$ multiplicado por $5$.',
       dur: 3,
       board: {
         label: 'Potencia',
@@ -340,8 +340,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Sumar lo mismo cada paso da crecimiento **lineal**. Multiplicar por lo mismo cada paso da crecimiento **exponencial**: al principio se parecen; después no hay comparación.',
-      gate: 'Avanza t hasta 6.',
+      say: 'El crecimiento **lineal** suma una cantidad constante en cada paso. El crecimiento **exponencial** multiplica por un factor constante: $N(t)=N_0b^t$ se lee «N de t igual a N sub cero por b elevado a t». Aquí $N_0$ es la cantidad inicial, $b$ el factor positivo y $t$ el número de pasos. Si $b>1$, la cantidad crece y sus aumentos también crecen.',
+      gate: 'Avanza $t$ hasta 6 y compara las barras que duplican con las que suman 2.',
+      after: 'Al paso 6, duplicar desde 1 da 64; sumar 2 desde 1 da 13. El factor constante produce aumentos cada vez mayores.',
       board: {
         label: 'Crecimiento exponencial',
         tex: 'N(t)=\\p{1}{\\cC{N_0}}\\cdot\\p{2}{\\cA{b}}^{\\,t}',
@@ -350,7 +351,7 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Las **leyes de potencias** salen de contar factores: al multiplicar se juntan los factores, así que los exponentes se suman.',
+      say: 'Las **leyes de potencias** permiten operar sin desarrollar cada producto. Para potencias de igual base, al multiplicar se suman los exponentes y al dividir se restan; para dividir, la base debe ser distinta de cero. Una potencia elevada a otra multiplica sus exponentes. Por ejemplo, $(2^3)^2=2^6$: no se suman 3 y 2.',
       dur: 3.2,
       board: [
         {
@@ -365,7 +366,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Bajar el exponente en 1 es dividir por la base. Siguiendo el patrón aparecen el exponente 0 y los negativos.',
+      say: 'Para una base distinta de cero, bajar el exponente en 1 equivale a dividir por la base. Así se define el **exponente cero**: $a^0=1$, leído «a elevado a cero». Un **exponente negativo** indica el inverso: $a^{-n}=1/a^n$, leído «a elevado a menos n». Por ejemplo, $2^{-2}=1/4$; el resultado no es negativo.',
       dur: 3.2,
       board: [
         {
@@ -381,7 +382,7 @@ export const lesson: LessonStep = {
       ],
     },
     {
-      say: 'Un exponente fraccionario es un «paso parcial»: $2^{1/2}$ es el número que, multiplicado dos veces, da 2. Es decir, $\\sqrt2$.',
+      say: 'Un **exponente fraccionario** representa una raíz: $a^{1/n}$ se lee «a elevado a uno sobre n» y equivale a la raíz n-ésima de $a$. Para bases positivas y $n$ entero positivo, $a^{m/n}=\\sqrt[n]{a^m}$. En particular, $2^{1/2}=\\sqrt2$: dos factores iguales a $\\sqrt2$ dan 2. No se obtiene dividiendo 2 por 2.',
       ask: {
         prompt: '¿Cuánto vale $9^{1/2}$?',
         options: ['3', '4,5', '81'],
@@ -396,8 +397,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'La función $y=b^x$: si la base es mayor que 1 crece; si está entre 0 y 1, decrece. Todas pasan por $(0,1)$.',
-      gate: 'Baja la base a menos de 1.',
+      say: 'La **función exponencial** $y=b^x$ se lee «y igual a b elevado a x», con base $b>0$. Si $b>1$, crece; si $0<b<1$, decrece; si $b=1$, es constante. Todas pasan por $(0,1)$ porque $b^0=1$. La base determina el factor por el que cambia $y$ cuando $x$ aumenta en 1.',
+      gate: 'Baja la base a menos de 1 y observa cómo cambia el sentido de la curva.',
+      after: 'Con una base entre 0 y 1, la curva baja al avanzar hacia la derecha y sigue pasando por $(0,1)$. Por ejemplo, con base $0{,}5$, cada paso reduce la cantidad a la mitad.',
       board: {
         label: 'Función exponencial',
         tex: '\\p{1}{b>1}:\\ \\text{crece},\\qquad \\p{2}{0<b<1}:\\ \\text{decrece}',
@@ -405,8 +407,9 @@ export const lesson: LessonStep = {
       },
     },
     {
-      say: 'Crecer un $r$ por uno en cada período es multiplicar por $1+r$. Si un 100 % se reparte en $n$ pasos iguales, el resultado se acerca a un número especial: $e$.',
-      gate: 'Arrastra n hasta 365 o más.',
+      say: 'En el **crecimiento porcentual**, una tasa $r$ por uno por período multiplica la cantidad por $1+r$; por ejemplo, 10 % corresponde a $r=0{,}1$. El mismo factor se aplica a la cantidad ya acumulada.\n\nEl **número e** se lee «e» y es el límite de $(1+1/n)^n$ cuando $n$ crece sin fin. Esta expresión reparte una tasa de 100 % en $n$ pasos y aplica cada aumento a lo acumulado.',
+      gate: 'Arrastra $n$ hasta 365 o más y observa a qué valor se acerca el factor acumulado.',
+      after: 'Con 365 pasos el factor es aproximadamente 2,7146; con 1 000 es 2,7169. Ambos se acercan a $e\\approx2{,}71828$ al aumentar $n$.',
       board: [
         { label: 'Crecimiento porcentual', tex: 'N(t)=N_0\\,(1+r)^t' },
         {

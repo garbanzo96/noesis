@@ -504,8 +504,9 @@ export const level: LevelSpec = {
       Scene: VirusDemo,
       beats: [
         {
-          say: 'Cada hora, cada equipo infectado infecta a otro: el total se duplica.',
-          gate: 'Arrastra el reloj hasta la hora 9.',
+          say: 'Cada hora, cada equipo infectado infecta a otro: el total se duplica. Necesito saber cuántos equipos estarán afectados para dimensionar el avance del virus.',
+          gate: 'Arrastra el reloj hasta la hora 9 y observa cómo aumenta el total de infectados.',
+          after: 'En 9 horas, los 3 equipos iniciales llegan a 1 536. Cada duplicación parte del total acumulado, por eso el aumento crece con el tiempo.',
           note: {
             label: 'Crecimiento exponencial',
             tex: 'N(t)=3\\cdot2^{t}',
@@ -513,7 +514,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'En rojo, el virus. En celeste, algo que suma 3 equipos por hora. Al principio van parejos.',
+          say: 'En rojo está el virus; en celeste, un proceso que suma 3 equipos por hora. Al principio van parejos, pero necesito comparar cuánto agrega el virus más adelante.',
           ask: {
             prompt:
               'En la primera hora el virus infectó 3 equipos nuevos. ¿Cuántos nuevos infecta entre la hora 8 y la 9?',
@@ -528,7 +529,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'En 3 horas el virus multiplica los infectados por $2^3=8$.',
+          say: 'En 3 horas el virus multiplica los infectados por $2^3=8$. Veamos qué pasa si ese mismo proceso se repite durante otras 3 horas.',
           ask: {
             prompt: '¿Por cuánto los multiplica en 6 horas?',
             options: ['Por 64', 'Por 16', 'Por 48'],
@@ -543,8 +544,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Teo lanza un antivirus: cada hora limpia la mitad de los equipos infectados.',
-          gate: 'Arrastra el reloj hasta que queden 6 infectados.',
+          say: 'Lanzo el antivirus: cada hora limpia la mitad de los equipos infectados. Necesito saber cuánto tarda en bajar la infección a 6 equipos.',
+          gate: 'Arrastra el reloj hasta que queden 6 infectados y observa cuántas horas tarda el antivirus.',
+          after: 'Tras 8 horas quedan 6 de los 1 536 equipos iniciales. Dividir por 2 en cada hora equivale a multiplicar por $2^{-8}$.',
           note: {
             label: 'Decaimiento',
             tex: 'N(t)=1536\\cdot\\left(\\tfrac12\\right)^t=1536\\cdot2^{-t}',
@@ -552,7 +554,7 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Otra cepa del virus, más lenta, cifra archivos: su número crece un 10 % cada hora.',
+          say: 'Otra cepa del virus, más lenta, cifra archivos: su número crece un 10 % cada hora. Necesito calcular cuánto crece al aplicar ese porcentaje dos veces.',
           ask: {
             prompt: 'Si crece 10 % por hora, ¿cuánto crece en 2 horas?',
             options: ['21 %', '20 %', '10 %'],
@@ -567,8 +569,9 @@ export const level: LevelSpec = {
           },
         },
         {
-          say: 'Si crecer 100 % en una hora se reparte en muchos saltos pequeños, ¿cuánto se crece?',
-          gate: 'Arrastra n hasta 1 000.',
+          say: 'Quiero comparar el crecimiento de 100 % en una hora cuando se reparte en saltos cada vez más pequeños. Cada salto se aplica sobre el resultado acumulado.',
+          gate: 'Arrastra $n$ hasta 1 000 y observa a qué valor se acerca el factor de crecimiento.',
+          after: 'Con 1 000 saltos, el factor es aproximadamente 2,7169 y se acerca a $e\\approx2{,}71828$. El límite describe el resultado cuando aumenta sin fin el número de saltos.',
           note: {
             label: 'El número e',
             tex: 'e=\\lim_{n\\to\\infty}\\left(1+\\tfrac1n\\right)^n\\approx2{,}718',
