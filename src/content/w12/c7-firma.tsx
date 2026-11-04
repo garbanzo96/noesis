@@ -13,7 +13,7 @@ import type {
 } from '../../game/level/types';
 import { Cap } from '../shared/lesson';
 import { pick, randInt, rng } from '../shared/rng';
-import { Confirm, Knob, NumberField, parseNum } from '../shared/ui';
+import { Choices, Confirm, Knob, NumberField, parseNum } from '../shared/ui';
 import { Bars, benford, fmt, tnum } from './kit';
 
 // ============================================================================
@@ -188,30 +188,73 @@ const lesson: LessonStep = {
   ],
 };
 
-function AmountsDemo({ beats, answer }: DemoProps) {
+function AmountsDemo({ beats, unlock }: DemoProps) {
+  const svg = useRef<SVGSVGElement>(null);
+  const unlocked = useRef(new Set<number>());
+  const [count, setCount] = useState(100);
+  const [marked, setMarked] = useState<number[]>([]);
   const { beat } = beats;
+  const finish = (step: number) => {
+    if (beat === step && !unlocked.current.has(step)) {
+      unlocked.current.add(step);
+      unlock();
+    }
+  };
+  const drag = useSvgDrag(svg, (x) => {
+    if (beat !== 0) return;
+    const next = Math.round(clamp((x - 200) / 720, 0, 1) * 500);
+    setCount(next);
+    if (Math.abs(next - 301) <= 10) finish(0);
+  });
+  const observed = [112, 109, 113, 110, 111, 112, 109, 112, 112];
   return (
-    <Stage>
-      <Bars
-        labels={DIGITS}
-        values={
-          beat === 1 && answer !== null
-            ? [0.112, 0.109, 0.113, 0.11, 0.111, 0.112, 0.109, 0.112, 0.112]
-            : BEN
-        }
-        color={beat === 1 && answer !== null ? C.magenta : C.amber}
-        x={BAR.x}
-        base={BAR.base}
-        w={BAR.w}
-        h={BAR.h}
-        max={BAR.max}
-        digits={3}
-      />
-      {beat === 0 && answer !== null && (
-        <Cap x={1270} y={260} tex="1000\cdot0{,}301\approx301" color={C.amber} />
-      )}
-      {beat === 1 && answer !== null && (
-        <Cap x={1270} y={260} tex="112\ \text{de}\ 1000\approx\tfrac19" color={C.magenta} />
+    <Stage ref={svg}>
+      {beat === 0 ? (
+        <>
+          <Cap x={560} y={220} size={28} color={C.text}>Montos que empiezan con 1</Cap>
+          <Cap x={560} y={310} size={32} color={C.amber}>{`${count} de 1000`}</Cap>
+          <line x1={200} x2={920} y1={480} y2={480} stroke={C.line} strokeWidth={4} />
+          {[0, 100, 200, 300, 400, 500].map((n) => (
+            <Cap key={n} x={200 + (n / 500) * 720} y={540} size={24} color={C.muted}>
+              {n}
+            </Cap>
+          ))}
+          <Knob x={200 + (count / 500) * 720} y={480} onPointerDown={drag} axis="x" color={C.amber} />
+          <Cap x={1260} y={300} size={26} tex="P(1)=\log_{10}2" color={C.amber} />
+        </>
+      ) : (
+        <>
+          <Cap x={560} y={150} size={26} color={C.text}>Primeros dígitos del lote: 1000 montos</Cap>
+          <line x1={190} x2={930} y1={600} y2={600} stroke={C.line} strokeWidth={2} />
+          {observed.map((n, i) => {
+            const x = 200 + i * 80;
+            const height = (n / 350) * 380;
+            return (
+              <g key={i}>
+                <rect x={x + 12} y={600 - height} width={56} height={height} rx={6} fill={C.magenta} fillOpacity={0.75} />
+                <Cap x={x + 40} y={600 - height - 24} size={24} color={C.text}>{n}</Cap>
+                <Cap x={x + 40} y={635} size={24} color={C.muted}>{DIGITS[i]}</Cap>
+                <Cap x={x + 40} y={680} size={24} color={C.amber}>{Math.round(BEN[i] * 1000)}</Cap>
+                {beat === 1 && (
+                  <Choices
+                    x={x + 40}
+                    y={735}
+                    options={[i + 1]}
+                    value={marked.includes(i + 1) ? i + 1 : null}
+                    onPick={(digit) => {
+                      const next = marked.includes(digit) ? marked.filter((d) => d !== digit) : [...marked, digit];
+                      setMarked(next);
+                      if (beat === 1 && next.length === 3 && [1, 2, 3].every((d) => next.includes(d))) finish(1);
+                    }}
+                  />
+                )}
+              </g>
+            );
+          })}
+          <Cap x={1260} y={240} size={26} color={C.text}>Arriba: conteos del lote</Cap>
+          <Cap x={1260} y={300} size={26} color={C.amber}>Abajo: esperados por Benford</Cap>
+          <Cap x={1260} y={360} size={24} color={C.muted}>Marca los dígitos bajo lo esperado</Cap>
+        </>
       )}
     </Stage>
   );
@@ -333,16 +376,22 @@ export const level: LevelSpec = {
       beats: [
         {
           say: 'Tenemos mil montos reales de compras de la Clínica, de otros años. Usemos Benford para estimar cuántos deberían empezar con 1 y tener una referencia para comparar el lote.',
-          ask: {
-            prompt: '¿Cuántos esperas que empiecen con 1?',
-            options: ['≈ 301', '≈ 111', '≈ 500'],
-            answer: 0,
-            explain: '1000 · log₁₀2 ≈ 301.',
-          },
+          gate: '¿Cuántos esperas que empiecen con 1? Calcula $1000\\cdot\\log_{10}2$ y ubica tu estimación en la escala.',
+          after: 'De 1000 montos se esperan cerca de 301 que empiecen con 1, porque $1000\\cdot0{,}301\\approx301$.',
           note: { label: 'Montos reales', tex: '1000\\cdot0{,}301\\approx301' },
         },
         {
-          say: 'Ahora revisemos mil montos del lote de la Fábrica. Comparemos sus primeros dígitos con la referencia de Benford para ver si el reparto merece una revisión.',
+          say: 'Ahora tenemos mil montos del lote de la Fábrica. El gráfico muestra cuántos empiezan con cada dígito.',
+          gate: 'Compara cada conteo del lote con el esperado por Benford. Marca los dígitos que aparecen menos veces de lo esperado.',
+          after: 'Los dígitos 1, 2 y 3 aparecen 112, 109 y 113 veces, frente a 301, 176 y 125 esperadas por Benford. Los conteos del lote van de 109 a 113, cerca de un reparto parejo.',
+          note: {
+            label: 'Lote de la Fábrica',
+            tex: '112\\ll301',
+            body: 'Los primeros dígitos del lote son casi parejos.',
+          },
+        },
+        {
+          say: 'El lote tiene 112 montos que empiezan con 1, frente a los 301 esperados según Benford.',
           ask: {
             prompt: 'En el lote de la Fábrica, 112 empiezan con 1. ¿Qué indica?',
             options: [
@@ -351,13 +400,7 @@ export const level: LevelSpec = {
               'Nada: es azar',
             ],
             answer: 0,
-            explain:
-              '112 de 1000 está en 1/9, muy lejos de 301. Con mil montos, el azar no mueve tanto el conteo.',
-          },
-          note: {
-            label: 'Lote de la Fábrica',
-            tex: '112\\ll301',
-            body: 'Los primeros dígitos del lote son casi parejos.',
+            explain: '112 de 1000 está cerca de 1/9 y lejos de 301. El reparto parejo justifica revisar el lote.',
           },
         },
       ],
